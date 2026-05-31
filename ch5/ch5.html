@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Yu-You Liou">
+  <meta name="dcterms.date" content="2026-05-31">
+  <title>Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Statistics</h1>
+  <p class="subtitle">Chapter 5: Discrete Probability Distributions</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Yu-You Liou 
+</div>
+        <p class="quarto-title-affiliation">
+            Shih Chien University
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-05-31</p>
+</section>
+<section id="chapter-5-discrete-probability-distributions" class="slide level2">
+<h2>Chapter 5: Discrete Probability Distributions</h2>
+<p><strong>Sections covered:</strong></p>
+<ul>
+<li><strong>5-1</strong> Probability Distributions</li>
+<li><strong>5-2</strong> Mean, Variance, Standard Deviation, and Expectation</li>
+<li><strong>5-3</strong> The Binomial Distribution</li>
+<li><strong>5-4</strong> Other Types of Distributions <em>(Optional)</em></li>
+</ul>
+<p><strong>Learning objectives:</strong></p>
+<ul>
+<li>Construct and interpret discrete probability distributions</li>
+<li>Compute the mean, variance, and expected value of a discrete variable</li>
+<li>Apply the binomial probability formula and identify binomial experiments</li>
+<li>Use the multinomial, Poisson, and hypergeometric distributions</li>
+</ul>
+</section>
+<section>
+<section id="section-5-1-probability-distributions" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 5-1: Probability Distributions</h1>
+
+</section>
+<section id="random-variables" class="slide level2">
+<h2>Random Variables</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key Definitions</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>random variable</strong> is a variable whose value is determined by the outcome of a probability experiment.</p>
+<p>A <strong>discrete random variable</strong> has a finite or countable number of possible values.</p>
+<p>A <strong>continuous random variable</strong> can take on any value in an interval on the number line.</p>
+</div>
+</div>
+</div>
+<p><strong>Examples of discrete random variables:</strong></p>
+<ul>
+<li>Number of heads in 3 coin tosses: 0, 1, 2, 3</li>
+<li>Number of children in a family: 0, 1, 2, 3, …</li>
+<li>Number of defects in a batch of products</li>
+</ul>
+<p><strong>Examples of continuous random variables:</strong></p>
+<ul>
+<li>Height, weight, temperature, time</li>
+</ul>
+</section>
+<section id="discrete-probability-distributions" class="slide level2">
+<h2>Discrete Probability Distributions</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>discrete probability distribution</strong> consists of all possible values a discrete random variable can take on, along with their corresponding probabilities.</p>
+</div>
+</div>
+</div>
+<p><strong>Two requirements for a valid probability distribution:</strong></p>
+<ol type="1">
+<li>The sum of all probabilities must equal 1: <span class="math inline">\(\sum P(X) = 1\)</span></li>
+<li>Each probability must be between 0 and 1: <span class="math inline">\(0 \leq P(X) \leq 1\)</span></li>
+</ol>
+<p>Probability distributions can be presented as tables, formulas, or graphs.</p>
+</section>
+<section id="example-5-1-rolling-a-die" class="slide level2">
+<h2>Example 5-1: Rolling a Die</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-1</strong></p>
+</div>
+<div class="callout-content">
+<p>Construct a probability distribution for the outcomes of rolling a single fair die.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb1-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb1-3"><a></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(PX, <span class="dv">4</span>), <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dist, <span class="at">caption =</span> <span class="st">"Probability Distribution: Rolling a Die"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Probability Distribution: Rolling a Die</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each outcome has an equal probability of <span class="math inline">\(\frac{1}{6} \approx 0.167\)</span>. Note that <span class="math inline">\(\sum P(X) = 1\)</span>.</p>
+</section>
+<section id="example-5-2-tossing-three-coins" class="slide level2">
+<h2>Example 5-2: Tossing Three Coins</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-2</strong></p>
+</div>
+<div class="callout-content">
+<p>Represent the probability distribution for the number of heads when 3 fair coins are tossed, and draw a graph.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb3-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>)</span>
+<span id="cb3-3"><a></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-4"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dist, <span class="at">caption =</span> <span class="st">"Three-Coin Toss: Number of Heads"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Three-Coin Toss: Number of Heads</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.125</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.125</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(X), <span class="at">y =</span> <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Probability Distribution: 3 Coin Tosses"</span>,</span>
+<span id="cb4-4"><a></a>       <span class="at">x =</span> <span class="st">"Number of Heads (X)"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch5_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<section id="example-5-3-baseball-world-series" class="slide level2">
+<h2>Example 5-3: Baseball World Series</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-3</strong></p>
+</div>
+<div class="callout-content">
+<p>The following data show the number of games played in 40 World Series. Construct a probability distribution and draw a graph.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Games played</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Frequency</td>
+<td>8</td>
+<td>7</td>
+<td>9</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb5-2"><a></a>freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">16</span>)</span>
+<span id="cb5-3"><a></a>PX <span class="ot">&lt;-</span> freq <span class="sc">/</span> <span class="dv">40</span></span>
+<span id="cb5-4"><a></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="at">Frequency =</span> freq, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dist, <span class="at">caption =</span> <span class="st">"World Series: Games Played in 40 Series"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>World Series: Games Played in 40 Series</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">Frequency</th>
+<th style="text-align: right;">P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.200</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.175</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.225</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0.400</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">ggplot</span>(dist, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(X), <span class="at">y =</span> <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb6-2"><a></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"darkorange"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"World Series Games Played"</span>,</span>
+<span id="cb6-4"><a></a>       <span class="at">x =</span> <span class="st">"Number of Games (X)"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch5_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="example-5-4-checking-valid-distributions" class="slide level2">
+<h2>Example 5-4: Checking Valid Distributions</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-4</strong></p>
+</div>
+<div class="callout-content">
+<p>Determine whether each of the following is a valid probability distribution.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co"># (a) Valid</span></span>
+<span id="cb7-2"><a></a>a_X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>; a_P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.15</span>, <span class="fl">0.04</span>, <span class="fl">0.01</span>)</span>
+<span id="cb7-3"><a></a><span class="fu">cat</span>(<span class="st">"(a) Sum ="</span>, <span class="fu">sum</span>(a_P), <span class="st">"| All in [0,1]:"</span>, <span class="fu">all</span>(a_P <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> a_P <span class="sc">&lt;=</span> <span class="dv">1</span>),</span>
+<span id="cb7-4"><a></a>    <span class="st">"→"</span>, <span class="fu">ifelse</span>(<span class="fu">sum</span>(a_P) <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">all</span>(a_P <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> a_P <span class="sc">&lt;=</span> <span class="dv">1</span>), <span class="st">"VALID"</span>, <span class="st">"INVALID"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(a) Sum = 1 | All in [0,1]: TRUE → VALID </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co"># (b) Not valid: sum ≠ 1</span></span>
+<span id="cb9-2"><a></a>b_X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>; b_P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span>
+<span id="cb9-3"><a></a><span class="fu">cat</span>(<span class="st">"(b) Sum ="</span>, <span class="fu">round</span>(<span class="fu">sum</span>(b_P), <span class="dv">4</span>), <span class="st">"→"</span>, <span class="fu">ifelse</span>(<span class="fu">abs</span>(<span class="fu">sum</span>(b_P)<span class="sc">-</span><span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fl">1e-9</span>, <span class="st">"VALID"</span>, <span class="st">"INVALID"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(b) Sum = 0.9167 → INVALID </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co"># (c) Valid</span></span>
+<span id="cb11-2"><a></a>c_X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>; c_P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb11-3"><a></a><span class="fu">cat</span>(<span class="st">"(c) Sum ="</span>, <span class="fu">sum</span>(c_P), <span class="st">"→"</span>, <span class="fu">ifelse</span>(<span class="fu">sum</span>(c_P) <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> <span class="fu">all</span>(c_P <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> c_P <span class="sc">&lt;=</span> <span class="dv">1</span>), <span class="st">"VALID"</span>, <span class="st">"INVALID"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(c) Sum = 1 → VALID </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="co"># (d) Not valid: negative probability</span></span>
+<span id="cb13-2"><a></a>d_X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>); d_P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">0.6</span>, <span class="fl">0.5</span>)</span>
+<span id="cb13-3"><a></a><span class="fu">cat</span>(<span class="st">"(d) Has negative P:"</span>, <span class="fu">any</span>(d_P <span class="sc">&lt;</span> <span class="dv">0</span>), <span class="st">"→ INVALID</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(d) Has negative P: TRUE → INVALID</code></pre>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>A distribution is valid only when <strong>both</strong> conditions hold: <span class="math inline">\(\sum P(X) = 1\)</span> <strong>and</strong> <span class="math inline">\(0 \leq P(X) \leq 1\)</span> for every value.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="section-5-2-mean-variance-standard-deviation-and-expectation" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 5-2: Mean, Variance, Standard Deviation, and Expectation</h1>
+
+</section>
+<section id="formulas-for-mean-variance-and-standard-deviation" class="slide level2">
+<h2>Formulas for Mean, Variance, and Standard Deviation</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formulas</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Mean (Expected Value):</strong> <span class="math display">\[\mu = E(X) = \sum X \cdot P(X)\]</span></p>
+<p><strong>Variance:</strong> <span class="math display">\[\sigma^2 = \sum \left[X^2 \cdot P(X)\right] - \mu^2\]</span></p>
+<p><strong>Standard Deviation:</strong> <span class="math display">\[\sigma = \sqrt{\sigma^2}\]</span></p>
+</div>
+</div>
+</div>
+<p>The mean describes the long-run average outcome of the experiment. The variance and standard deviation measure the spread of the distribution around the mean.</p>
+</section>
+<section id="example-5-5-rolling-a-die" class="slide level2">
+<h2>Example 5-5: Rolling a Die</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-5</strong></p>
+</div>
+<div class="callout-content">
+<p>Find the mean of the number of spots that appear when a fair die is rolled.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb15-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb15-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb15-4"><a></a><span class="fu">cat</span>(<span class="st">"Mean μ = Σ X·P(X) ="</span>, mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean μ = Σ X·P(X) = 3.5</code></pre>
+</div>
+</div>
+<p>When rolling a fair die repeatedly, the average outcome approaches <strong>3.5</strong> in the long run.</p>
+</section>
+<section id="example-5-6-number-of-girls-in-a-two-child-family" class="slide level2">
+<h2>Example 5-6: Number of Girls in a Two-Child Family</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-6</strong></p>
+</div>
+<div class="callout-content">
+<p>In a family of two children, find the mean number of girls.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">2</span></span>
+<span id="cb17-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>)</span>
+<span id="cb17-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb17-4"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X <span class="sc">*</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">caption =</span> <span class="st">"Number of Girls in Two-Child Family"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Number of Girls in Two-Child Family</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">cat</span>(<span class="st">"Mean μ ="</span>, mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean μ = 1</code></pre>
+</div>
+</div>
+<p>On average, a two-child family will have <strong>1 girl</strong>.</p>
+</section>
+<section id="example-5-7-tossing-three-coins" class="slide level2">
+<h2>Example 5-7: Tossing Three Coins</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-7</strong></p>
+</div>
+<div class="callout-content">
+<p>If 3 coins are tossed, find the mean of the number of heads.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb20-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>)</span>
+<span id="cb20-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb20-4"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X <span class="sc">*</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">caption =</span> <span class="st">"Three Coins: Number of Heads"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Three Coins: Number of Heads</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.375</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.375</td>
+<td style="text-align: right;">0.750</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">cat</span>(<span class="st">"Mean μ ="</span>, mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean μ = 1.5</code></pre>
+</div>
+</div>
+<p>When 3 coins are tossed many times, the average number of heads is <strong>1.5</strong>.</p>
+</section>
+<section id="example-5-8-number-of-overnight-trips" class="slide level2">
+<h2>Example 5-8: Number of Overnight Trips</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-8</strong></p>
+</div>
+<div class="callout-content">
+<p>The probability distribution below shows the number of trips of five or more nights that American adults take per year. Find the mean.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>X</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P(X)</td>
+<td>0.08</td>
+<td>0.60</td>
+<td>0.25</td>
+<td>0.04</td>
+<td>0.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb23-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.08</span>, <span class="fl">0.60</span>, <span class="fl">0.25</span>, <span class="fl">0.04</span>, <span class="fl">0.03</span>)</span>
+<span id="cb23-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb23-4"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X <span class="sc">*</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">0.60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">cat</span>(<span class="st">"Mean μ ="</span>, mu, <span class="st">"trips per year"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean μ = 1.34 trips per year</code></pre>
+</div>
+</div>
+<p>American adults take an average of approximately <strong>1.34</strong> overnight trips of 5+ nights per year.</p>
+</section>
+<section id="example-5-9-variance-rolling-a-die" class="slide level2">
+<h2>Example 5-9: Variance — Rolling a Die</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-9</strong></p>
+</div>
+<div class="callout-content">
+<p>Find the variance and standard deviation for the probability distribution of rolling a fair die (Example 5-5).</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb26-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb26-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb26-4"><a></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> PX) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb26-5"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb26-6"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X²·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X²·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">0.1666667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">0.6666667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">1.5000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">2.6666667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">4.1666667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.1666667</td>
+<td style="text-align: right;">6.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a></a><span class="fu">cat</span>(<span class="st">"μ ="</span>, mu, <span class="st">"</span><span class="sc">\n</span><span class="st">σ² = Σ[X²·P(X)] - μ² ="</span>, <span class="fu">round</span>(<span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>PX),<span class="dv">4</span>), <span class="st">"-"</span>, mu<span class="sc">^</span><span class="dv">2</span>, <span class="st">"="</span>, <span class="fu">round</span>(sigma2,<span class="dv">4</span>),</span>
+<span id="cb28-2"><a></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">σ ="</span>, <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = 3.5 
+σ² = Σ[X²·P(X)] - μ² = 15.1667 - 12.25 = 2.9167 
+σ = 1.71</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-10-selecting-numbered-balls" class="slide level2">
+<h2>Example 5-10: Selecting Numbered Balls</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-10</strong></p>
+</div>
+<div class="callout-content">
+<p>A bag contains 5 balls numbered 3, 3, 4, 5, and 5. A ball is selected at random. Find the mean, variance, and standard deviation.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb30-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb30-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb30-4"><a></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> PX) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb30-5"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb30-6"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">*</span>PX, <span class="st">`</span><span class="at">X²·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+<th style="text-align: right;">X²·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">3.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">3.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">10.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a><span class="fu">cat</span>(<span class="st">"μ ="</span>, mu, <span class="st">"| σ² ="</span>, <span class="fu">round</span>(sigma2, <span class="dv">4</span>), <span class="st">"| σ ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = 4 | σ² = 0.8 | σ = 0.8944</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-11-talk-radio-phone-lines" class="slide level2">
+<h2>Example 5-11: Talk Radio Phone Lines</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-11</strong></p>
+</div>
+<div class="callout-content">
+<p>The probability distribution below shows the number of callers on hold for a radio talk show. Find the mean, variance, and standard deviation.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>X</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P(X)</td>
+<td>0.1</td>
+<td>0.3</td>
+<td>0.3</td>
+<td>0.2</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb33-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>)</span>
+<span id="cb33-3"><a></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb33-4"><a></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> PX) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb33-5"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb33-6"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">*</span>PX, <span class="st">`</span><span class="at">X²·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-7"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+<th style="text-align: right;">X²·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">1.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">1.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">1.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a><span class="fu">cat</span>(<span class="st">"μ ="</span>, mu, <span class="st">"| σ² ="</span>, <span class="fu">round</span>(sigma2, <span class="dv">4</span>), <span class="st">"| σ ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = 1.9 | σ² = 1.29 | σ = 1.1358</code></pre>
+</div>
+</div>
+</section>
+<section id="expected-value" class="slide level2">
+<h2>Expected Value</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Expected Value</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>expected value</strong> <span class="math inline">\(E(X)\)</span> of a discrete random variable equals its mean: <span class="math display">\[E(X) = \mu = \sum X \cdot P(X)\]</span></p>
+<p>Expected value is used to evaluate the long-run average gain or loss in games of chance, investments, and insurance.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>If <span class="math inline">\(E(X) &lt; 0\)</span>, the player or investor expects a <strong>net loss</strong> in the long run.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-12-winning-lottery-tickets" class="slide level2">
+<h2>Example 5-12: Winning Lottery Tickets</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-12</strong></p>
+</div>
+<div class="callout-content">
+<p>A lottery offers one $1000 prize, two $500 prizes, and five $100 prizes. One thousand tickets are sold at $1 each. Find the expected value of a ticket.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1000-1</span>, <span class="dv">500-1</span>, <span class="dv">100-1</span>, <span class="sc">-</span><span class="dv">1</span>)   <span class="co"># net gain</span></span>
+<span id="cb36-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">1000</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">1000</span>, <span class="dv">5</span><span class="sc">/</span><span class="dv">1000</span>, <span class="dv">992</span><span class="sc">/</span><span class="dv">1000</span>)</span>
+<span id="cb36-3"><a></a>EX <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb36-4"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">`</span><span class="at">Net Gain X</span><span class="st">`</span> <span class="ot">=</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> PX, <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> X<span class="sc">*</span>PX, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Net Gain X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">999</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">499</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.998</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">99</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">0.495</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0.992</td>
+<td style="text-align: right;">-0.992</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a></a><span class="fu">cat</span>(<span class="st">"E(X) = $"</span>, <span class="fu">round</span>(EX, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>E(X) = $ 1.5</code></pre>
+</div>
+</div>
+<p>The expected value is <strong>negative</strong>, meaning a player can expect to lose about $0.35 per ticket on average.</p>
+</section>
+<section id="example-5-13-special-die" class="slide level2">
+<h2>Example 5-13: Special Die</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-13</strong></p>
+</div>
+<div class="callout-content">
+<p>A special die has faces labeled 1, 4, 4, 6, 6, 6. Find the expected value when rolling it.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb39-2"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">3</span><span class="sc">/</span><span class="dv">6</span>)</span>
+<span id="cb39-3"><a></a>EX <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb39-4"><a></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(PX, <span class="dv">4</span>), <span class="st">`</span><span class="at">X·P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(X<span class="sc">*</span>PX, <span class="dv">4</span>), <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-5"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+<th style="text-align: right;">X·P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1667</td>
+<td style="text-align: right;">0.1667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.3333</td>
+<td style="text-align: right;">1.3333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.5000</td>
+<td style="text-align: right;">3.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a></a><span class="fu">cat</span>(<span class="st">"E(X) ="</span>, <span class="fu">round</span>(EX, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>E(X) = 4.5</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-14-bond-investment" class="slide level2">
+<h2>Example 5-14: Bond Investment</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-14</strong></p>
+</div>
+<div class="callout-content">
+<p>An investor is considering two bonds. Bond X: 70% chance of earning $120, 30% chance of losing $40. Bond Y: 60% chance of earning $90, 40% chance of losing $30. Which bond has the better expected return?</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a></a><span class="co"># Bond X</span></span>
+<span id="cb42-2"><a></a>X_x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">120</span>, <span class="sc">-</span><span class="dv">40</span>); P_x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.70</span>, <span class="fl">0.30</span>)</span>
+<span id="cb42-3"><a></a>EX <span class="ot">&lt;-</span> <span class="fu">sum</span>(X_x <span class="sc">*</span> P_x)</span>
+<span id="cb42-4"><a></a></span>
+<span id="cb42-5"><a></a><span class="co"># Bond Y</span></span>
+<span id="cb42-6"><a></a>X_y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="sc">-</span><span class="dv">30</span>); P_y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.40</span>)</span>
+<span id="cb42-7"><a></a>EY <span class="ot">&lt;-</span> <span class="fu">sum</span>(X_y <span class="sc">*</span> P_y)</span>
+<span id="cb42-8"><a></a></span>
+<span id="cb42-9"><a></a><span class="fu">cat</span>(<span class="st">"E(Bond X) = $"</span>, EX, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>E(Bond X) = $ 72 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a></a><span class="fu">cat</span>(<span class="st">"E(Bond Y) = $"</span>, EY, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>E(Bond Y) = $ 42 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a></a><span class="fu">cat</span>(<span class="st">"Better investment:"</span>, <span class="fu">ifelse</span>(EX <span class="sc">&gt;</span> EY, <span class="st">"Bond X"</span>, <span class="st">"Bond Y"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Better investment: Bond X</code></pre>
+</div>
+</div>
+<p><strong>Bond X</strong> has the higher expected return ($72 vs $42).</p>
+</section></section>
+<section>
+<section id="section-5-3-the-binomial-distribution" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 5-3: The Binomial Distribution</h1>
+
+</section>
+<section id="binomial-experiments" class="slide level2">
+<h2>Binomial Experiments</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>binomial experiment</strong> satisfies all four of the following conditions:</p>
+<ol type="1">
+<li>There is a <strong>fixed number</strong> of trials <span class="math inline">\(n\)</span>.</li>
+<li>Each trial has only <strong>two possible outcomes</strong>: success or failure.</li>
+<li>The outcomes of each trial are <strong>independent</strong> of one another.</li>
+<li>The <strong>probability of success</strong> <span class="math inline">\(p\)</span> remains the same for every trial.</li>
+</ol>
+</div>
+</div>
+</div>
+<p><strong>Examples:</strong> Tossing a coin <span class="math inline">\(n\)</span> times; surveying <span class="math inline">\(n\)</span> people with a yes/no question; testing <span class="math inline">\(n\)</span> components with replacement.</p>
+</section>
+<section id="notation-for-the-binomial-distribution" class="slide level2">
+<h2>Notation for the Binomial Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Notation</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(P(S)\)</span></td>
+<td>Probability of success</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(P(F)\)</span></td>
+<td>Probability of failure</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p\)</span></td>
+<td>Numerical probability of success</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(q = 1 - p\)</span></td>
+<td>Numerical probability of failure</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(n\)</span></td>
+<td>Number of trials</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(X\)</span></td>
+<td>Number of successes in <span class="math inline">\(n\)</span> trials</td>
+</tr>
+</tbody>
+</table>
+<p>Note: <span class="math inline">\(0 \leq X \leq n\)</span> and <span class="math inline">\(X = 0, 1, 2, \ldots, n\)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="binomial-probability-formula" class="slide level2">
+<h2>Binomial Probability Formula</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formula</strong></p>
+</div>
+<div class="callout-content">
+<p>In a binomial experiment, the probability of exactly <span class="math inline">\(X\)</span> successes in <span class="math inline">\(n\)</span> trials is:</p>
+<p><span class="math display">\[P(X) = \frac{n!}{(n-X)!\,X!} \cdot p^X \cdot q^{n-X}\]</span></p>
+<p>where <span class="math inline">\(q = 1 - p\)</span>.</p>
+</div>
+</div>
+</div>
+<ul>
+<li><span class="math inline">\(\dfrac{n!}{(n-X)!\,X!} = {}_nC_X\)</span> counts the number of ways to arrange <span class="math inline">\(X\)</span> successes among <span class="math inline">\(n\)</span> trials</li>
+<li><span class="math inline">\(p^X\)</span> is the probability of <span class="math inline">\(X\)</span> successes</li>
+<li><span class="math inline">\(q^{n-X}\)</span> is the probability of <span class="math inline">\(n - X\)</span> failures</li>
+</ul>
+</section>
+<section id="example-5-15-tossing-coins" class="slide level2">
+<h2>Example 5-15: Tossing Coins</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-15</strong></p>
+</div>
+<div class="callout-content">
+<p>A coin is tossed 3 times. Find the probability of getting exactly 2 heads.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">3</span>; X <span class="ot">&lt;-</span> <span class="dv">2</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
+<span id="cb48-2"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">choose</span>(n, X) <span class="sc">*</span> p<span class="sc">^</span>X <span class="sc">*</span> q<span class="sc">^</span>(n <span class="sc">-</span> X)</span>
+<span id="cb48-3"><a></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">", X ="</span>, X, <span class="st">", p ="</span>, p, <span class="st">", q ="</span>, q, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n = 3 , X = 2 , p = 0.5 , q = 0.5 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a><span class="fu">cat</span>(<span class="st">"P(2 heads) = C(3,2) × (0.5)² × (0.5)¹ ="</span>,</span>
+<span id="cb50-2"><a></a>    <span class="fu">choose</span>(n,X), <span class="st">"×"</span>, p<span class="sc">^</span>X, <span class="st">"×"</span>, q<span class="sc">^</span>(n<span class="sc">-</span>X), <span class="st">"="</span>, prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(2 heads) = C(3,2) × (0.5)² × (0.5)¹ = 3 × 0.25 × 0.5 = 0.375</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a></a><span class="co"># Verification using dbinom</span></span>
+<span id="cb52-2"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Verification via dbinom:"</span>, <span class="fu">dbinom</span>(<span class="dv">2</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">prob =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Verification via dbinom: 0.375</code></pre>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The coin-toss problem meets all 4 binomial conditions: fixed <span class="math inline">\(n=3\)</span> trials, two outcomes (H/T), independent tosses, constant <span class="math inline">\(p=0.5\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-16-doctor-visits-survey" class="slide level2">
+<h2>Example 5-16: Doctor Visits Survey</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-16</strong></p>
+</div>
+<div class="callout-content">
+<p>A survey found that 1 out of 5 Americans has visited a doctor in any given month. If 10 people are selected at random, find the probability that exactly 3 visited a doctor last month.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; X <span class="ot">&lt;-</span> <span class="dv">3</span>; p <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
+<span id="cb54-2"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">choose</span>(n, X) <span class="sc">*</span> p<span class="sc">^</span>X <span class="sc">*</span> q<span class="sc">^</span>(n <span class="sc">-</span> X)</span>
+<span id="cb54-3"><a></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">", X ="</span>, X, <span class="st">", p ="</span>, <span class="fu">round</span>(p, <span class="dv">2</span>), <span class="st">", q ="</span>, <span class="fu">round</span>(q, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n = 10 , X = 3 , p = 0.2 , q = 0.8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a></a><span class="fu">cat</span>(<span class="st">"P(3) = C(10,3) × (1/5)³ × (4/5)⁷ ="</span>, <span class="fu">round</span>(prob, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(3) = C(10,3) × (1/5)³ × (4/5)⁷ = 0.201</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">dbinom check:"</span>, <span class="fu">round</span>(<span class="fu">dbinom</span>(X, n, p), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+dbinom check: 0.201</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-17-survey-on-part-time-employment" class="slide level2">
+<h2>Example 5-17: Survey on Part-Time Employment</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-17</strong></p>
+</div>
+<div class="callout-content">
+<p>A survey found that 30% of teenage consumers receive spending money from part-time jobs. If 5 teenagers are selected at random, find the probability that <strong>at least 3</strong> have part-time jobs.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">5</span>; p <span class="ot">&lt;-</span> <span class="fl">0.30</span>; q <span class="ot">&lt;-</span> <span class="fl">0.70</span></span>
+<span id="cb60-2"><a></a>P3 <span class="ot">&lt;-</span> <span class="fu">choose</span>(n,<span class="dv">3</span>) <span class="sc">*</span> p<span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> q<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb60-3"><a></a>P4 <span class="ot">&lt;-</span> <span class="fu">choose</span>(n,<span class="dv">4</span>) <span class="sc">*</span> p<span class="sc">^</span><span class="dv">4</span> <span class="sc">*</span> q<span class="sc">^</span><span class="dv">1</span></span>
+<span id="cb60-4"><a></a>P5 <span class="ot">&lt;-</span> <span class="fu">choose</span>(n,<span class="dv">5</span>) <span class="sc">*</span> p<span class="sc">^</span><span class="dv">5</span> <span class="sc">*</span> q<span class="sc">^</span><span class="dv">0</span></span>
+<span id="cb60-5"><a></a>total <span class="ot">&lt;-</span> P3 <span class="sc">+</span> P4 <span class="sc">+</span> P5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a></a><span class="fu">cat</span>(<span class="st">"P(3) ="</span>, <span class="fu">round</span>(P3, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(3) = 0.132 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a></a><span class="fu">cat</span>(<span class="st">"P(4) ="</span>, <span class="fu">round</span>(P4, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(4) = 0.028 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a></a><span class="fu">cat</span>(<span class="st">"P(5) ="</span>, <span class="fu">round</span>(P5, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(5) = 0.002 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a></a><span class="fu">cat</span>(<span class="st">"P(at least 3) = P(3)+P(4)+P(5) ="</span>, <span class="fu">round</span>(total, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(at least 3) = P(3)+P(4)+P(5) = 0.163</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a></a><span class="co"># Using pbinom complement</span></span>
+<span id="cb69-2"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Verification: 1 - P(X ≤ 2) ="</span>, <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">2</span>, n, p), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Verification: 1 - P(X ≤ 2) = 0.163</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-18-using-the-binomial-table" class="slide level2">
+<h2>Example 5-18: Using the Binomial Table</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-18</strong></p>
+</div>
+<div class="callout-content">
+<p>Solve Example 5-15 (3 coins, P(exactly 2 heads)) using the binomial probability table (Table B) or R.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a></a><span class="co"># Table B: look up n=3, X=2, p=0.5</span></span>
+<span id="cb71-2"><a></a>result <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">2</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb71-3"><a></a><span class="fu">cat</span>(<span class="st">"From binomial table (or dbinom): P(X=2 | n=3, p=0.5) ="</span>, result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>From binomial table (or dbinom): P(X=2 | n=3, p=0.5) = 0.375</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a></a><span class="co"># Full distribution for n=3, p=0.5</span></span>
+<span id="cb73-2"><a></a>dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb73-3"><a></a>  <span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb73-4"><a></a>  <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb73-5"><a></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb73-6"><a></a>)</span>
+<span id="cb73-7"><a></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dist, <span class="at">digits =</span> <span class="dv">4</span>, <span class="at">caption =</span> <span class="st">"Binomial Distribution: n=3, p=0.5"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Binomial Distribution: n=3, p=0.5</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">P(X)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.125</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.375</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.125</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="example-5-19-fear-of-being-home-alone-at-night" class="slide level2">
+<h2>Example 5-19: Fear of Being Home Alone at Night</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-19</strong></p>
+</div>
+<div class="callout-content">
+<p>A survey reported that 5% of Americans are afraid of being alone at night. If 20 Americans are randomly selected, find the probability that:</p>
+<ol type="a">
+<li><p>Exactly 5 are afraid</p></li>
+<li><p>At most 3 are afraid</p></li>
+<li><p>At least 3 are afraid</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>; p <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb74-2"><a></a></span>
+<span id="cb74-3"><a></a><span class="co"># (a) P(X = 5)</span></span>
+<span id="cb74-4"><a></a>a <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">5</span>, n, p)</span>
+<span id="cb74-5"><a></a><span class="fu">cat</span>(<span class="st">"(a) P(X = 5) ="</span>, <span class="fu">round</span>(a, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(a) P(X = 5) = 0.0022 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a></a><span class="co"># (b) P(X ≤ 3)</span></span>
+<span id="cb76-2"><a></a>b <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, n, p))</span>
+<span id="cb76-3"><a></a><span class="fu">cat</span>(<span class="st">"(b) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) ="</span>, <span class="fu">round</span>(b, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(b) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) = 0.9841 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a></a><span class="co"># (c) P(X ≥ 3) = 1 - P(X ≤ 2)</span></span>
+<span id="cb78-2"><a></a>c <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, n, p))</span>
+<span id="cb78-3"><a></a><span class="fu">cat</span>(<span class="st">"(c) P(X ≥ 3) = 1 - P(X ≤ 2) ="</span>, <span class="fu">round</span>(c, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(c) P(X ≥ 3) = 1 - P(X ≤ 2) = 0.0755</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-20-driving-while-intoxicated" class="slide level2">
+<h2>Example 5-20: Driving While Intoxicated</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-20</strong></p>
+</div>
+<div class="callout-content">
+<p>Reports indicate that 70% of single-vehicle traffic fatalities at night on weekends involve an intoxicated driver. If 15 such fatalities are selected, find the probability that exactly 12 involve an intoxicated driver.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">15</span>; p <span class="ot">&lt;-</span> <span class="fl">0.70</span>; X <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb80-2"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(X, n, p)</span>
+<span id="cb80-3"><a></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">", X ="</span>, X, <span class="st">", p ="</span>, p, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n = 15 , X = 12 , p = 0.7 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X = 12) ="</span>, <span class="fu">round</span>(prob, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X = 12) = 0.17</code></pre>
+</div>
+</div>
+</section>
+<section id="mean-variance-and-sd-for-the-binomial-distribution" class="slide level2">
+<h2>Mean, Variance, and SD for the Binomial Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Simplified Formulas for the Binomial Distribution</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[\mu = n \cdot p\]</span></p>
+<p><span class="math display">\[\sigma^2 = n \cdot p \cdot q\]</span></p>
+<p><span class="math display">\[\sigma = \sqrt{n \cdot p \cdot q}\]</span></p>
+<p>These are algebraically equivalent to the general formulas <span class="math inline">\(\mu = \sum X \cdot P(X)\)</span> and <span class="math inline">\(\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-21-tossing-a-coin-four-times" class="slide level2">
+<h2>Example 5-21: Tossing a Coin Four Times</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-21</strong></p>
+</div>
+<div class="callout-content">
+<p>A coin is tossed 4 times. Find the mean, variance, and standard deviation of the number of heads.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">4</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb84-2"><a></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p</span>
+<span id="cb84-3"><a></a>sigma2 <span class="ot">&lt;-</span> n <span class="sc">*</span> p <span class="sc">*</span> q</span>
+<span id="cb84-4"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb84-5"><a></a><span class="fu">cat</span>(<span class="st">"μ = n·p ="</span>, n, <span class="st">"×"</span>, p, <span class="st">"="</span>, mu, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = n·p = 4 × 0.5 = 2 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a></a><span class="fu">cat</span>(<span class="st">"σ² = n·p·q ="</span>, n, <span class="st">"×"</span>, p, <span class="st">"×"</span>, q, <span class="st">"="</span>, sigma2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ² = n·p·q = 4 × 0.5 × 0.5 = 1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a></a><span class="fu">cat</span>(<span class="st">"σ = √σ² = √"</span>, sigma2, <span class="st">"="</span>, sigma, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ = √σ² = √ 1 = 1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a></a><span class="co"># Verification using general formulas</span></span>
+<span id="cb90-2"><a></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb90-3"><a></a>PX <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(X, n, p)</span>
+<span id="cb90-4"><a></a>mu_check <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> PX)</span>
+<span id="cb90-5"><a></a>sigma2_check <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> PX) <span class="sc">-</span> mu_check<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb90-6"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Verification: μ ="</span>, mu_check, <span class="st">"| σ² ="</span>, sigma2_check)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Verification: μ = 2 | σ² = 1</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-22-rolling-a-die-480-times" class="slide level2">
+<h2>Example 5-22: Rolling a Die 480 Times</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-22</strong></p>
+</div>
+<div class="callout-content">
+<p>A die is rolled 480 times. Find the mean, variance, and standard deviation for the number of 3s rolled.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">480</span>; p <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>; q <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">6</span></span>
+<span id="cb92-2"><a></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p</span>
+<span id="cb92-3"><a></a>sigma2 <span class="ot">&lt;-</span> n <span class="sc">*</span> p <span class="sc">*</span> q</span>
+<span id="cb92-4"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb92-5"><a></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">", p = 1/6, q = 5/6</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n = 480 , p = 1/6, q = 5/6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a></a><span class="fu">cat</span>(<span class="st">"μ = n·p ="</span>, <span class="fu">round</span>(mu, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = n·p = 80 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a></a><span class="fu">cat</span>(<span class="st">"σ² = n·p·q ="</span>, <span class="fu">round</span>(sigma2, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ² = n·p·q = 66.67 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a></a><span class="fu">cat</span>(<span class="st">"σ = √σ² ="</span>, <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ = √σ² = 8.16</code></pre>
+</div>
+</div>
+<p>Rolling a die 480 times, we expect about <strong>80</strong> threes, with a standard deviation of roughly <strong>8.16</strong>.</p>
+</section>
+<section id="example-5-23-likelihood-of-twins" class="slide level2">
+<h2>Example 5-23: Likelihood of Twins</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-23</strong></p>
+</div>
+<div class="callout-content">
+<p>Approximately 2% of all American births result in twins. If a random sample of 8000 births is taken, find the mean, variance, and standard deviation of the number of twin births.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">8000</span>; p <span class="ot">&lt;-</span> <span class="fl">0.02</span>; q <span class="ot">&lt;-</span> <span class="fl">0.98</span></span>
+<span id="cb100-2"><a></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p</span>
+<span id="cb100-3"><a></a>sigma2 <span class="ot">&lt;-</span> n <span class="sc">*</span> p <span class="sc">*</span> q</span>
+<span id="cb100-4"><a></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma2)</span>
+<span id="cb100-5"><a></a><span class="fu">cat</span>(<span class="st">"μ = n·p ="</span>, mu, <span class="st">"births</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>μ = n·p = 160 births</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a></a><span class="fu">cat</span>(<span class="st">"σ² = n·p·q ="</span>, sigma2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ² = n·p·q = 156.8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a></a><span class="fu">cat</span>(<span class="st">"σ = √σ² ="</span>, <span class="fu">round</span>(sigma, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>σ = √σ² = 12.5</code></pre>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>In a sample of 8000 births, we expect on average <strong>160</strong> twin births, with σ ≈ 12.5.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="binomial-distribution-visualization" class="slide level2">
+<h2>Binomial Distribution: Visualization</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a></a><span class="co"># Plot binomial distributions for different p values</span></span>
+<span id="cb106-2"><a></a>params <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb106-3"><a></a>  <span class="fu">list</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">p=</span><span class="fl">0.3</span>, <span class="at">label=</span><span class="st">"n=10, p=0.3"</span>),</span>
+<span id="cb106-4"><a></a>  <span class="fu">list</span>(<span class="at">n=</span><span class="dv">10</span>, <span class="at">p=</span><span class="fl">0.5</span>, <span class="at">label=</span><span class="st">"n=10, p=0.5"</span>),</span>
+<span id="cb106-5"><a></a>  <span class="fu">list</span>(<span class="at">n=</span><span class="dv">20</span>, <span class="at">p=</span><span class="fl">0.3</span>, <span class="at">label=</span><span class="st">"n=20, p=0.3"</span>)</span>
+<span id="cb106-6"><a></a>)</span>
+<span id="cb106-7"><a></a></span>
+<span id="cb106-8"><a></a>df_all <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(params, <span class="cf">function</span>(par) {</span>
+<span id="cb106-9"><a></a>  x <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>par<span class="sc">$</span>n</span>
+<span id="cb106-10"><a></a>  <span class="fu">data.frame</span>(<span class="at">X =</span> x, <span class="at">PX =</span> <span class="fu">dbinom</span>(x, par<span class="sc">$</span>n, par<span class="sc">$</span>p), <span class="at">Label =</span> par<span class="sc">$</span>label)</span>
+<span id="cb106-11"><a></a>}))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a></a><span class="fu">ggplot</span>(df_all, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> PX, <span class="at">fill =</span> Label)) <span class="sc">+</span></span>
+<span id="cb107-2"><a></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb107-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Label, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb107-4"><a></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Binomial Distributions"</span>, <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>) <span class="sc">+</span></span>
+<span id="cb107-5"><a></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb107-6"><a></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch5_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="section-5-4-other-types-of-distributions-optional" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 5-4: Other Types of Distributions (Optional)</h1>
+
+</section>
+<section id="overview-of-other-discrete-distributions" class="slide level2">
+<h2>Overview of Other Discrete Distributions</h2>
+<p>When the binomial model does not apply, other discrete distributions are available:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Multinomial</strong></td>
+<td>More than two outcomes per trial</td>
+</tr>
+<tr class="even">
+<td><strong>Poisson</strong></td>
+<td>Events over time/area/volume; large <span class="math inline">\(n\)</span>, small <span class="math inline">\(p\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Hypergeometric</strong></td>
+<td>Sampling <strong>without</strong> replacement</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-multinomial-distribution" class="slide level2">
+<h2>The Multinomial Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formula</strong></p>
+</div>
+<div class="callout-content">
+<p>If an experiment has <span class="math inline">\(k\)</span> possible outcomes <span class="math inline">\(E_1, E_2, \ldots, E_k\)</span> with probabilities <span class="math inline">\(p_1, p_2, \ldots, p_k\)</span>, and <span class="math inline">\(X_i\)</span> is the number of times outcome <span class="math inline">\(E_i\)</span> occurs in <span class="math inline">\(n\)</span> independent trials, then:</p>
+<p><span class="math display">\[P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2^{X_2} \cdots p_k^{X_k}\]</span></p>
+<p>where <span class="math inline">\(X_1 + X_2 + \cdots + X_k = n\)</span> and <span class="math inline">\(p_1 + p_2 + \cdots + p_k = 1\)</span>.</p>
+</div>
+</div>
+</div>
+<p>The multinomial distribution generalizes the binomial — the binomial is a special case with <span class="math inline">\(k = 2\)</span>.</p>
+</section>
+<section id="example-5-24-leisure-activities" class="slide level2">
+<h2>Example 5-24: Leisure Activities</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-24</strong></p>
+</div>
+<div class="callout-content">
+<p>In a large city, 50% of residents choose a movie, 30% choose dinner and a play, and 20% choose shopping as a leisure activity. If 5 people are randomly selected, find the probability that 3 plan to see a movie, 1 to a play, and 1 to a shopping mall.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb108-2"><a></a>X1 <span class="ot">&lt;-</span> <span class="dv">3</span>; X2 <span class="ot">&lt;-</span> <span class="dv">1</span>; X3 <span class="ot">&lt;-</span> <span class="dv">1</span>   <span class="co"># movie, play, shopping</span></span>
+<span id="cb108-3"><a></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.50</span>; p2 <span class="ot">&lt;-</span> <span class="fl">0.30</span>; p3 <span class="ot">&lt;-</span> <span class="fl">0.20</span></span>
+<span id="cb108-4"><a></a></span>
+<span id="cb108-5"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">factorial</span>(n) <span class="sc">/</span> (<span class="fu">factorial</span>(X1)<span class="sc">*</span><span class="fu">factorial</span>(X2)<span class="sc">*</span><span class="fu">factorial</span>(X3)) <span class="sc">*</span></span>
+<span id="cb108-6"><a></a>        p1<span class="sc">^</span>X1 <span class="sc">*</span> p2<span class="sc">^</span>X2 <span class="sc">*</span> p3<span class="sc">^</span>X3</span>
+<span id="cb108-7"><a></a></span>
+<span id="cb108-8"><a></a><span class="fu">cat</span>(<span class="st">"P(X) = 5!/(3!·1!·1!) × (0.50)³ × (0.30)¹ × (0.20)¹</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X) = 5!/(3!·1!·1!) × (0.50)³ × (0.30)¹ × (0.20)¹</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a></a><span class="fu">cat</span>(<span class="st">"     ="</span>, <span class="fu">factorial</span>(n)<span class="sc">/</span>(<span class="fu">factorial</span>(X1)<span class="sc">*</span><span class="fu">factorial</span>(X2)<span class="sc">*</span><span class="fu">factorial</span>(X3)),</span>
+<span id="cb110-2"><a></a>    <span class="st">"×"</span>, p1<span class="sc">^</span>X1, <span class="st">"×"</span>, p2<span class="sc">^</span>X2, <span class="st">"×"</span>, p3<span class="sc">^</span>X3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     = 20 × 0.125 × 0.3 × 0.2 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a></a><span class="fu">cat</span>(<span class="st">"     ="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     = 0.15</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-25-coffee-shop-customers" class="slide level2">
+<h2>Example 5-25: Coffee Shop Customers</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-25</strong></p>
+</div>
+<div class="callout-content">
+<p>A coffee shop manager found that customers buy 0, 1, 2, or 3 cups of coffee with probabilities 0.3, 0.5, 0.15, and 0.05, respectively. If 8 customers enter, find the probability that 2 buy nothing, 4 buy 1 cup, 1 buys 2 cups, and 1 buys 3 cups.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb114-2"><a></a>X1 <span class="ot">&lt;-</span> <span class="dv">2</span>; X2 <span class="ot">&lt;-</span> <span class="dv">4</span>; X3 <span class="ot">&lt;-</span> <span class="dv">1</span>; X4 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb114-3"><a></a>p1 <span class="ot">&lt;-</span> <span class="fl">0.30</span>; p2 <span class="ot">&lt;-</span> <span class="fl">0.50</span>; p3 <span class="ot">&lt;-</span> <span class="fl">0.15</span>; p4 <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb114-4"><a></a></span>
+<span id="cb114-5"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">factorial</span>(n) <span class="sc">/</span> (<span class="fu">factorial</span>(X1)<span class="sc">*</span><span class="fu">factorial</span>(X2)<span class="sc">*</span><span class="fu">factorial</span>(X3)<span class="sc">*</span><span class="fu">factorial</span>(X4)) <span class="sc">*</span></span>
+<span id="cb114-6"><a></a>        p1<span class="sc">^</span>X1 <span class="sc">*</span> p2<span class="sc">^</span>X2 <span class="sc">*</span> p3<span class="sc">^</span>X3 <span class="sc">*</span> p4<span class="sc">^</span>X4</span>
+<span id="cb114-7"><a></a></span>
+<span id="cb114-8"><a></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n = 8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a></a><span class="fu">cat</span>(<span class="st">"X₁=2 (0 cups), X₂=4 (1 cup), X₃=1 (2 cups), X₄=1 (3 cups)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X₁=2 (0 cups), X₂=4 (1 cup), X₃=1 (2 cups), X₄=1 (3 cups)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X) ="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X) = 0.0354</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-26-selecting-colored-balls" class="slide level2">
+<h2>Example 5-26: Selecting Colored Balls</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-26</strong></p>
+</div>
+<div class="callout-content">
+<p>A box contains 4 white, 3 red, and 3 blue balls. A ball is selected, its color recorded, and replaced. If 5 balls are selected, find the probability that 2 are white, 2 are red, and 1 is blue.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb120-2"><a></a>X1 <span class="ot">&lt;-</span> <span class="dv">2</span>; X2 <span class="ot">&lt;-</span> <span class="dv">2</span>; X3 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb120-3"><a></a>p1 <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">10</span>; p2 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">10</span>; p3 <span class="ot">&lt;-</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">10</span></span>
+<span id="cb120-4"><a></a></span>
+<span id="cb120-5"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">factorial</span>(n) <span class="sc">/</span> (<span class="fu">factorial</span>(X1)<span class="sc">*</span><span class="fu">factorial</span>(X2)<span class="sc">*</span><span class="fu">factorial</span>(X3)) <span class="sc">*</span></span>
+<span id="cb120-6"><a></a>        p1<span class="sc">^</span>X1 <span class="sc">*</span> p2<span class="sc">^</span>X2 <span class="sc">*</span> p3<span class="sc">^</span>X3</span>
+<span id="cb120-7"><a></a></span>
+<span id="cb120-8"><a></a><span class="fu">cat</span>(<span class="st">"p₁ = 4/10 (white), p₂ = 3/10 (red), p₃ = 3/10 (blue)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p₁ = 4/10 (white), p₂ = 3/10 (red), p₃ = 3/10 (blue)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X) = 5!/(2!·2!·1!) × (4/10)² × (3/10)² × (3/10)¹</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X) = 5!/(2!·2!·1!) × (4/10)² × (3/10)² × (3/10)¹</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a></a><span class="fu">cat</span>(<span class="st">"     ="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>), <span class="st">"(= 81/625)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     = 0.1296 (= 81/625)</code></pre>
+</div>
+</div>
+</section>
+<section id="the-poisson-distribution" class="slide level2">
+<h2>The Poisson Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition &amp; Formula</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>Poisson distribution</strong> applies when events occur randomly over a continuous interval of time, area, or volume — especially when <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is small.</p>
+<p><span class="math display">\[P(X;\, \lambda) = \frac{e^{-\lambda}\, \lambda^X}{X!}, \quad X = 0, 1, 2, \ldots\]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda\)</span> (lambda) = mean number of occurrences per unit interval</li>
+<li><span class="math inline">\(e \approx 2.71828\)</span> (Euler’s number)</li>
+<li><span class="math inline">\(X\)</span> = number of occurrences in the interval</li>
+</ul>
+<p>Also used to <strong>approximate the binomial</strong> when <span class="math inline">\(\lambda = n \cdot p &lt; 5\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-5-27-typographical-errors" class="slide level2">
+<h2>Example 5-27: Typographical Errors</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-27</strong></p>
+</div>
+<div class="callout-content">
+<p>A 500-page manuscript contains 200 randomly distributed typographical errors. Find the probability that a given page contains exactly 3 errors.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a></a>lambda <span class="ot">&lt;-</span> <span class="dv">200</span> <span class="sc">/</span> <span class="dv">500</span>   <span class="co"># mean errors per page</span></span>
+<span id="cb126-2"><a></a>X <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb126-3"><a></a>prob <span class="ot">&lt;-</span> (<span class="fu">exp</span>(<span class="sc">-</span>lambda) <span class="sc">*</span> lambda<span class="sc">^</span>X) <span class="sc">/</span> <span class="fu">factorial</span>(X)</span>
+<span id="cb126-4"><a></a><span class="fu">cat</span>(<span class="st">"λ = 200/500 ="</span>, lambda, <span class="st">"errors per page</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>λ = 200/500 = 0.4 errors per page</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X=3; λ=0.4) = e^(-0.4) × (0.4)³ / 3!</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X=3; λ=0.4) = e^(-0.4) × (0.4)³ / 3!</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a></a><span class="fu">cat</span>(<span class="st">"              ="</span>, <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span>lambda), <span class="dv">6</span>), <span class="st">"×"</span>, lambda<span class="sc">^</span>X, <span class="st">"/"</span>, <span class="fu">factorial</span>(X),</span>
+<span id="cb130-2"><a></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">              ="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              = 0.67032 × 0.064 / 6 
+              = 0.0072</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a></a><span class="co"># Verification</span></span>
+<span id="cb132-2"><a></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Verification via dpois:"</span>, <span class="fu">round</span>(<span class="fu">dpois</span>(X, lambda), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Verification via dpois: 0.0072</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-28-toll-free-telephone-calls" class="slide level2">
+<h2>Example 5-28: Toll-Free Telephone Calls</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-28</strong></p>
+</div>
+<div class="callout-content">
+<p>A sales firm receives an average of 3 calls per hour on its toll-free number. For any given hour, find the probability of:</p>
+<ol type="a">
+<li><p>At most 3 calls</p></li>
+<li><p>At least 3 calls</p></li>
+<li><p>5 or more calls</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a></a>lambda <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb134-2"><a></a></span>
+<span id="cb134-3"><a></a><span class="co"># (a) P(X ≤ 3)</span></span>
+<span id="cb134-4"><a></a>a <span class="ot">&lt;-</span> <span class="fu">ppois</span>(<span class="dv">3</span>, lambda)</span>
+<span id="cb134-5"><a></a><span class="fu">cat</span>(<span class="st">"(a) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) ="</span>, <span class="fu">round</span>(a, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(a) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) = 0.6472 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a></a><span class="co"># (b) P(X ≥ 3) = 1 - P(X ≤ 2)</span></span>
+<span id="cb136-2"><a></a>b <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">2</span>, lambda)</span>
+<span id="cb136-3"><a></a><span class="fu">cat</span>(<span class="st">"(b) P(X ≥ 3) = 1 - P(X ≤ 2) ="</span>, <span class="fu">round</span>(b, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(b) P(X ≥ 3) = 1 - P(X ≤ 2) = 0.5768 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a></a><span class="co"># (c) P(X ≥ 5) = 1 - P(X ≤ 4)</span></span>
+<span id="cb138-2"><a></a>c <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">4</span>, lambda)</span>
+<span id="cb138-3"><a></a><span class="fu">cat</span>(<span class="st">"(c) P(X ≥ 5) = 1 - P(X ≤ 4) ="</span>, <span class="fu">round</span>(c, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(c) P(X ≥ 5) = 1 - P(X ≤ 4) = 0.1847</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-29-poisson-approximation-to-binomial" class="slide level2">
+<h2>Example 5-29: Poisson Approximation to Binomial</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-29</strong></p>
+</div>
+<div class="callout-content">
+<p>Approximately 2% of people in a room of 200 are left-handed. Find the probability that exactly 5 are left-handed, using the Poisson approximation.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a></a>n <span class="ot">&lt;-</span> <span class="dv">200</span>; p <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb140-2"><a></a>lambda <span class="ot">&lt;-</span> n <span class="sc">*</span> p   <span class="co"># = 4</span></span>
+<span id="cb140-3"><a></a>X <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb140-4"><a></a></span>
+<span id="cb140-5"><a></a><span class="co"># Poisson approximation</span></span>
+<span id="cb140-6"><a></a>prob_pois <span class="ot">&lt;-</span> <span class="fu">dpois</span>(X, lambda)</span>
+<span id="cb140-7"><a></a><span class="fu">cat</span>(<span class="st">"λ = n·p ="</span>, n, <span class="st">"×"</span>, p, <span class="st">"="</span>, lambda, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>λ = n·p = 200 × 0.02 = 4 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a></a><span class="fu">cat</span>(<span class="st">"Poisson approx: P(X=5; λ=4) ="</span>, <span class="fu">round</span>(prob_pois, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Poisson approx: P(X=5; λ=4) = 0.1563 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a></a><span class="co"># Exact binomial</span></span>
+<span id="cb144-2"><a></a>prob_binom <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(X, n, p)</span>
+<span id="cb144-3"><a></a><span class="fu">cat</span>(<span class="st">"Exact binomial: P(X=5)      ="</span>, <span class="fu">round</span>(prob_binom, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Exact binomial: P(X=5)      = 0.1579 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a></a><span class="fu">cat</span>(<span class="st">"Difference:"</span>, <span class="fu">round</span>(<span class="fu">abs</span>(prob_pois <span class="sc">-</span> prob_binom), <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Difference: 0.0016</code></pre>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The Poisson approximation is reliable when <span class="math inline">\(\lambda = n \cdot p &lt; 5\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-hypergeometric-distribution" class="slide level2">
+<h2>The Hypergeometric Distribution</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Definition &amp; Formula</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>hypergeometric distribution</strong> applies when sampling is done <strong>without replacement</strong> from a finite population containing two types of objects.</p>
+<p>Given a population with <span class="math inline">\(a\)</span> items of type 1 and <span class="math inline">\(b\)</span> items of type 2 (total <span class="math inline">\(a + b\)</span>), the probability of selecting exactly <span class="math inline">\(X\)</span> items of type 1 in a sample of size <span class="math inline">\(n\)</span> is:</p>
+<p><span class="math display">\[P(X) = \frac{{_a}C_X \cdot {_b}C_{n-X}}{{_{a+b}}C_n}\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>Key difference from binomial:</strong> trials are <strong>dependent</strong> (no replacement).</p>
+</section>
+<section id="example-5-30-assistant-manager-applicants" class="slide level2">
+<h2>Example 5-30: Assistant Manager Applicants</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-30</strong></p>
+</div>
+<div class="callout-content">
+<p>Ten people apply for a restaurant assistant manager position: 5 are college graduates and 5 are not. If the manager selects 3 at random, find the probability that all 3 are college graduates.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a></a>a <span class="ot">&lt;-</span> <span class="dv">5</span>   <span class="co"># college graduates</span></span>
+<span id="cb148-2"><a></a>b <span class="ot">&lt;-</span> <span class="dv">5</span>   <span class="co"># non-graduates</span></span>
+<span id="cb148-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">3</span>   <span class="co"># sample size</span></span>
+<span id="cb148-4"><a></a>X <span class="ot">&lt;-</span> <span class="dv">3</span>   <span class="co"># desired successes</span></span>
+<span id="cb148-5"><a></a></span>
+<span id="cb148-6"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">choose</span>(a, X) <span class="sc">*</span> <span class="fu">choose</span>(b, n <span class="sc">-</span> X) <span class="sc">/</span> <span class="fu">choose</span>(a <span class="sc">+</span> b, n)</span>
+<span id="cb148-7"><a></a><span class="fu">cat</span>(<span class="st">"a ="</span>, a, <span class="st">"(graduates), b ="</span>, b, <span class="st">"(non-grads), n ="</span>, n, <span class="st">", X ="</span>, X, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a = 5 (graduates), b = 5 (non-grads), n = 3 , X = 3 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X) = C(5,3)×C(5,0) / C(10,3)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X) = C(5,3)×C(5,0) / C(10,3)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a></a><span class="fu">cat</span>(<span class="st">"     ="</span>, <span class="fu">choose</span>(a,X), <span class="st">"×"</span>, <span class="fu">choose</span>(b, n<span class="sc">-</span>X), <span class="st">"/"</span>, <span class="fu">choose</span>(a<span class="sc">+</span>b, n),</span>
+<span id="cb152-2"><a></a>    <span class="st">"="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>), <span class="st">"(= 1/12)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     = 10 × 1 / 120 = 0.0833 (= 1/12)</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-31-house-insurance" class="slide level2">
+<h2>Example 5-31: House Insurance</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-31</strong></p>
+</div>
+<div class="callout-content">
+<p>A study found that 2 out of 10 houses in a neighborhood have no insurance. If 5 houses are selected from 10, find the probability that exactly 1 is uninsured.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a></a>a <span class="ot">&lt;-</span> <span class="dv">2</span>   <span class="co"># uninsured</span></span>
+<span id="cb154-2"><a></a>b <span class="ot">&lt;-</span> <span class="dv">8</span>   <span class="co"># insured</span></span>
+<span id="cb154-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">5</span>; X <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb154-4"><a></a></span>
+<span id="cb154-5"><a></a>prob <span class="ot">&lt;-</span> <span class="fu">choose</span>(a, X) <span class="sc">*</span> <span class="fu">choose</span>(b, n <span class="sc">-</span> X) <span class="sc">/</span> <span class="fu">choose</span>(a <span class="sc">+</span> b, n)</span>
+<span id="cb154-6"><a></a><span class="fu">cat</span>(<span class="st">"a = 2 (uninsured), b = 8 (insured), n = 5, X = 1</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a = 2 (uninsured), b = 8 (insured), n = 5, X = 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X=1) = C(2,1)×C(8,4) / C(10,5)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X=1) = C(2,1)×C(8,4) / C(10,5)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a></a><span class="fu">cat</span>(<span class="st">"       ="</span>, <span class="fu">choose</span>(a,X), <span class="st">"×"</span>, <span class="fu">choose</span>(b,n<span class="sc">-</span>X), <span class="st">"/"</span>, <span class="fu">choose</span>(a<span class="sc">+</span>b,n),</span>
+<span id="cb158-2"><a></a>    <span class="st">"="</span>, <span class="fu">round</span>(prob, <span class="dv">4</span>), <span class="st">"(= 5/9)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       = 2 × 70 / 252 = 0.5556 (= 5/9)</code></pre>
+</div>
+</div>
+</section>
+<section id="example-5-32-defective-compressor-tanks" class="slide level2">
+<h2>Example 5-32: Defective Compressor Tanks</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Example 5-32</strong></p>
+</div>
+<div class="callout-content">
+<p>A lot of 12 compressor tanks contains 3 defective ones. If 3 tanks are randomly selected for inspection and the lot is rejected when 1 or more defectives are found, what is the probability the lot will be rejected?</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a></a>a <span class="ot">&lt;-</span> <span class="dv">3</span>   <span class="co"># defective</span></span>
+<span id="cb160-2"><a></a>b <span class="ot">&lt;-</span> <span class="dv">9</span>   <span class="co"># non-defective</span></span>
+<span id="cb160-3"><a></a>n <span class="ot">&lt;-</span> <span class="dv">3</span>; X <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># find P(no defective)</span></span>
+<span id="cb160-4"><a></a></span>
+<span id="cb160-5"><a></a>p_none <span class="ot">&lt;-</span> <span class="fu">choose</span>(a, X) <span class="sc">*</span> <span class="fu">choose</span>(b, n <span class="sc">-</span> X) <span class="sc">/</span> <span class="fu">choose</span>(a <span class="sc">+</span> b, n)</span>
+<span id="cb160-6"><a></a>p_reject <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_none</span>
+<span id="cb160-7"><a></a></span>
+<span id="cb160-8"><a></a><span class="fu">cat</span>(<span class="st">"a = 3 (defective), b = 9 (good), n = 3</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a = 3 (defective), b = 9 (good), n = 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a></a><span class="fu">cat</span>(<span class="st">"P(X=0) = C(3,0)×C(9,3) / C(12,3) ="</span>, <span class="fu">choose</span>(a,<span class="dv">0</span>),<span class="st">"×"</span>,<span class="fu">choose</span>(b,<span class="dv">3</span>),<span class="st">"/"</span>,<span class="fu">choose</span>(a<span class="sc">+</span>b,n),</span>
+<span id="cb162-2"><a></a>    <span class="st">"="</span>, <span class="fu">round</span>(p_none, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X=0) = C(3,0)×C(9,3) / C(12,3) = 1 × 84 / 220 = 0.3818 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a></a><span class="fu">cat</span>(<span class="st">"P(at least 1 defective) = 1 - P(0) = 1 -"</span>, <span class="fu">round</span>(p_none, <span class="dv">4</span>),</span>
+<span id="cb164-2"><a></a>    <span class="st">"="</span>, <span class="fu">round</span>(p_reject, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(at least 1 defective) = 1 - P(0) = 1 - 0.3818 = 0.6182</code></pre>
+</div>
+</div>
+<p>There is a <strong>62%</strong> probability the lot will be rejected when 3 of the 12 tanks are defective.</p>
+</section>
+<section id="summary-of-discrete-distributions" class="slide level2">
+<h2>Summary of Discrete Distributions</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<caption>Table 5-1: Summary of Discrete Distributions</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 36%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Distribution</th>
+<th style="text-align: left;">Formula</th>
+<th style="text-align: left;">Use When</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Binomial</td>
+<td style="text-align: left;">P(X) = C(n,X)·pˣ·qⁿ⁻ˣ</td>
+<td style="text-align: left;">Fixed n trials; 2 outcomes; independent; constant p</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Multinomial</td>
+<td style="text-align: left;">P(X) = n!/(X₁!X₂!···Xₖ!)·p₁<sup>X₁···pₖ</sup>Xₖ</td>
+<td style="text-align: left;">Fixed n trials; &gt;2 outcomes; outcomes are independent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poisson</td>
+<td style="text-align: left;">P(X;λ) = e^(-λ)·λˣ/X!</td>
+<td style="text-align: left;">n large, p small; events over time/area/volume</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hypergeometric</td>
+<td style="text-align: left;">P(X) = aCX·bC(n-X) / (a+b)Cn</td>
+<td style="text-align: left;">Two outcomes; sampling WITHOUT replacement</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="chapter-5-summary" class="slide level2">
+<h2>Chapter 5 Summary</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key Takeaways</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>A <strong>discrete probability distribution</strong> lists all possible values and their probabilities; requires <span class="math inline">\(\sum P(X)=1\)</span> and <span class="math inline">\(0 \leq P(X) \leq 1\)</span>.</li>
+<li><strong>Mean:</strong> <span class="math inline">\(\mu = \sum X \cdot P(X)\)</span>; <strong>Variance:</strong> <span class="math inline">\(\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2\)</span></li>
+<li><strong>Expected value</strong> <span class="math inline">\(E(X) = \mu\)</span> — the long-run average outcome.</li>
+<li><strong>Binomial:</strong> <span class="math inline">\(n\)</span> fixed trials, 2 outcomes, independent, constant <span class="math inline">\(p\)</span>.
+<ul>
+<li><span class="math inline">\(P(X) = C(n,X) \cdot p^X \cdot q^{n-X}\)</span>; <span class="math inline">\(\mu = np\)</span>; <span class="math inline">\(\sigma = \sqrt{npq}\)</span></li>
+</ul></li>
+<li><strong>Multinomial:</strong> extension of binomial for <span class="math inline">\(k &gt; 2\)</span> outcomes.</li>
+<li><strong>Poisson:</strong> events over time/area; <span class="math inline">\(P(X;\lambda) = e^{-\lambda}\lambda^X / X!\)</span></li>
+<li><strong>Hypergeometric:</strong> two outcomes, sampling without replacement.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="acknowledgements" class="slide level2">
+<h2>Acknowledgements</h2>
+<ul>
+<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
+<li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
+</ul>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Elementary Statistics: A Step by Step Approach</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":false,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"hideMissingTitles":true,"titleSelector":"h1"},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

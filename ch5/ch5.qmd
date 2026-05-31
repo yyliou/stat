@@ -1,0 +1,1032 @@
+---
+title: "Statistics"
+subtitle: "Chapter 5: Discrete Probability Distributions"
+author: "Yu-You Liou"
+institute: "Shih Chien University"
+date: "`r Sys.Date()`"
+format: revealjs
+smaller: true
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+logo: "logo.svg"
+editor: source
+slide-number: true
+scrollable: false
+transition: "none"
+menu:
+  useTextContentForMissingTitles: false
+  hideMissingTitles: true
+  side: 'left'
+  titleSelector: 'h1'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+## Chapter 5: Discrete Probability Distributions
+
+**Sections covered:**
+
+- **5-1** Probability Distributions
+- **5-2** Mean, Variance, Standard Deviation, and Expectation
+- **5-3** The Binomial Distribution
+- **5-4** Other Types of Distributions *(Optional)*
+
+**Learning objectives:**
+
+- Construct and interpret discrete probability distributions
+- Compute the mean, variance, and expected value of a discrete variable
+- Apply the binomial probability formula and identify binomial experiments
+- Use the multinomial, Poisson, and hypergeometric distributions
+
+# Section 5-1: Probability Distributions {background-color="#2c4a6e"}
+
+## Random Variables
+
+::: {.callout-note}
+## Key Definitions
+
+A **random variable** is a variable whose value is determined by the outcome of a probability experiment.
+
+A **discrete random variable** has a finite or countable number of possible values.
+
+A **continuous random variable** can take on any value in an interval on the number line.
+:::
+
+**Examples of discrete random variables:**
+
+- Number of heads in 3 coin tosses: 0, 1, 2, 3
+- Number of children in a family: 0, 1, 2, 3, …
+- Number of defects in a batch of products
+
+**Examples of continuous random variables:**
+
+- Height, weight, temperature, time
+
+## Discrete Probability Distributions
+
+::: {.callout-note}
+## Definition
+
+A **discrete probability distribution** consists of all possible values a discrete random variable can take on, along with their corresponding probabilities.
+:::
+
+**Two requirements for a valid probability distribution:**
+
+1. The sum of all probabilities must equal 1: $\sum P(X) = 1$
+2. Each probability must be between 0 and 1: $0 \leq P(X) \leq 1$
+
+Probability distributions can be presented as tables, formulas, or graphs.
+
+## Example 5-1: Rolling a Die
+
+::: {.callout-tip}
+## Example 5-1
+Construct a probability distribution for the outcomes of rolling a single fair die.
+:::
+
+```{r ex5-1, echo=TRUE, warning=FALSE}
+X <- 1:6
+PX <- rep(1/6, 6)
+dist <- data.frame(X = X, `P(X)` = round(PX, 4), check.names = FALSE)
+```
+
+---
+
+```{r, echo=TRUE, warning=FALSE}
+knitr::kable(dist, caption = "Probability Distribution: Rolling a Die")
+```
+
+Each outcome has an equal probability of $\frac{1}{6} \approx 0.167$. Note that $\sum P(X) = 1$.
+
+## Example 5-2: Tossing Three Coins
+
+::: {.callout-tip}
+## Example 5-2
+Represent the probability distribution for the number of heads when 3 fair coins are tossed, and draw a graph.
+:::
+
+```{r ex5-2, echo=TRUE, warning=FALSE}
+X <- 0:3
+PX <- c(1/8, 3/8, 3/8, 1/8)
+dist <- data.frame(X = X, `P(X)` = PX, check.names = FALSE)
+knitr::kable(dist, caption = "Three-Coin Toss: Number of Heads")
+```
+
+---
+
+```{r, echo=TRUE, warning=FALSE}
+ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
+  geom_col(fill = "steelblue", width = 0.5) +
+  labs(title = "Probability Distribution: 3 Coin Tosses",
+       x = "Number of Heads (X)", y = "P(X)") +
+  theme_minimal()
+```
+
+## Example 5-3: Baseball World Series
+
+::: {.callout-tip}
+## Example 5-3
+The following data show the number of games played in 40 World Series. Construct a probability distribution and draw a graph.
+
+| Games played | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|
+| Frequency | 8 | 7 | 9 | 16 |
+:::
+
+---
+
+```{r ex5-3, echo=TRUE, warning=FALSE}
+X <- 4:7
+freq <- c(8, 7, 9, 16)
+PX <- freq / 40
+dist <- data.frame(X = X, Frequency = freq, `P(X)` = PX, check.names = FALSE)
+knitr::kable(dist, caption = "World Series: Games Played in 40 Series")
+```
+
+---
+  
+```{r, echo=TRUE, warning=FALSE}
+ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
+  geom_col(fill = "darkorange", width = 0.5) +
+  labs(title = "World Series Games Played",
+       x = "Number of Games (X)", y = "P(X)") +
+  theme_minimal()
+```
+
+## Example 5-4: Checking Valid Distributions
+
+::: {.callout-tip}
+## Example 5-4
+Determine whether each of the following is a valid probability distribution.
+:::
+
+```{r ex5-4, echo=TRUE, warning=FALSE}
+# (a) Valid
+a_X <- 0:4; a_P <- c(0.5, 0.3, 0.15, 0.04, 0.01)
+cat("(a) Sum =", sum(a_P), "| All in [0,1]:", all(a_P >= 0 & a_P <= 1),
+    "→", ifelse(sum(a_P) == 1 & all(a_P >= 0 & a_P <= 1), "VALID", "INVALID"), "\n")
+
+# (b) Not valid: sum ≠ 1
+b_X <- 1:3; b_P <- c(1/3, 1/3, 1/4)
+cat("(b) Sum =", round(sum(b_P), 4), "→", ifelse(abs(sum(b_P)-1) < 1e-9, "VALID", "INVALID"), "\n")
+```
+
+---
+
+```{r, echo=TRUE, warning=FALSE}
+# (c) Valid
+c_X <- 1:5; c_P <- c(0.1, 0.3, 0.4, 0.1, 0.1)
+cat("(c) Sum =", sum(c_P), "→", ifelse(sum(c_P) == 1 & all(c_P >= 0 & c_P <= 1), "VALID", "INVALID"), "\n")
+
+# (d) Not valid: negative probability
+d_X <- c(2, 4, 6); d_P <- c(-0.1, 0.6, 0.5)
+cat("(d) Has negative P:", any(d_P < 0), "→ INVALID\n")
+```
+
+::: {.callout-important}
+A distribution is valid only when **both** conditions hold: $\sum P(X) = 1$ **and** $0 \leq P(X) \leq 1$ for every value.
+:::
+
+# Section 5-2: Mean, Variance, Standard Deviation, and Expectation {background-color="#2c4a6e"}
+
+## Formulas for Mean, Variance, and Standard Deviation
+
+::: {.callout-note}
+## Formulas
+
+**Mean (Expected Value):**
+$$\mu = E(X) = \sum X \cdot P(X)$$
+
+**Variance:**
+$$\sigma^2 = \sum \left[X^2 \cdot P(X)\right] - \mu^2$$
+
+**Standard Deviation:**
+$$\sigma = \sqrt{\sigma^2}$$
+:::
+
+The mean describes the long-run average outcome of the experiment. The variance and standard deviation measure the spread of the distribution around the mean.
+
+## Example 5-5: Rolling a Die
+
+::: {.callout-tip}
+## Example 5-5
+Find the mean of the number of spots that appear when a fair die is rolled.
+:::
+
+```{r ex5-5, echo=TRUE, warning=FALSE}
+X <- 1:6
+PX <- rep(1/6, 6)
+mu <- sum(X * PX)
+cat("Mean μ = Σ X·P(X) =", mu)
+```
+
+When rolling a fair die repeatedly, the average outcome approaches **3.5** in the long run.
+
+## Example 5-6: Number of Girls in a Two-Child Family
+
+::: {.callout-tip}
+## Example 5-6
+In a family of two children, find the mean number of girls.
+:::
+
+```{r ex5-6, echo=TRUE, warning=FALSE}
+X <- 0:2
+PX <- c(1/4, 2/4, 1/4)
+mu <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = PX, `X·P(X)` = X * PX, check.names = FALSE)
+knitr::kable(df, caption = "Number of Girls in Two-Child Family")
+```
+
+----
+
+```{r, echo=TRUE, warning=FALSE}
+cat("Mean μ =", mu)
+```
+
+On average, a two-child family will have **1 girl**.
+
+## Example 5-7: Tossing Three Coins
+
+::: {.callout-tip}
+## Example 5-7
+If 3 coins are tossed, find the mean of the number of heads.
+:::
+
+```{r ex5-7, echo=TRUE, warning=FALSE}
+X <- 0:3
+PX <- c(1/8, 3/8, 3/8, 1/8)
+mu <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = PX, `X·P(X)` = X * PX, check.names = FALSE)
+knitr::kable(df, caption = "Three Coins: Number of Heads")
+```
+
+----
+
+```{r, echo=TRUE, warning=FALSE}
+cat("Mean μ =", mu)
+```
+
+When 3 coins are tossed many times, the average number of heads is **1.5**.
+
+## Example 5-8: Number of Overnight Trips
+
+::: {.callout-tip}
+## Example 5-8
+The probability distribution below shows the number of trips of five or more nights that American adults take per year. Find the mean.
+
+| X | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| P(X) | 0.08 | 0.60 | 0.25 | 0.04 | 0.03 |
+:::
+
+----
+
+```{r ex5-8, echo=TRUE, warning=FALSE}
+X <- 0:4
+PX <- c(0.08, 0.60, 0.25, 0.04, 0.03)
+mu <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = PX, `X·P(X)` = X * PX, check.names = FALSE)
+knitr::kable(df)
+cat("Mean μ =", mu, "trips per year")
+```
+
+American adults take an average of approximately **1.34** overnight trips of 5+ nights per year.
+
+## Example 5-9: Variance — Rolling a Die
+
+::: {.callout-tip}
+## Example 5-9
+Find the variance and standard deviation for the probability distribution of rolling a fair die (Example 5-5).
+:::
+
+```{r ex5-9, echo=TRUE, warning=FALSE}
+X <- 1:6
+PX <- rep(1/6, 6)
+mu <- sum(X * PX)
+sigma2 <- sum(X^2 * PX) - mu^2
+sigma <- sqrt(sigma2)
+df <- data.frame(X = X, `P(X)` = PX, `X²·P(X)` = X^2 * PX, check.names = FALSE)
+```
+
+----
+
+```{r, echo=TRUE, warning=FALSE}
+knitr::kable(df)
+cat("μ =", mu, "\nσ² = Σ[X²·P(X)] - μ² =", round(sum(X^2*PX),4), "-", mu^2, "=", round(sigma2,4),
+    "\nσ =", round(sigma, 2))
+```
+
+## Example 5-10: Selecting Numbered Balls
+
+::: {.callout-tip}
+## Example 5-10
+A bag contains 5 balls numbered 3, 3, 4, 5, and 5. A ball is selected at random. Find the mean, variance, and standard deviation.
+:::
+
+```{r ex5-10, echo=TRUE, warning=FALSE}
+X <- c(3, 4, 5)
+PX <- c(2/5, 1/5, 2/5)
+mu <- sum(X * PX)
+sigma2 <- sum(X^2 * PX) - mu^2
+sigma <- sqrt(sigma2)
+df <- data.frame(X = X, `P(X)` = PX, `X·P(X)` = X*PX, `X²·P(X)` = X^2*PX, check.names = FALSE)
+knitr::kable(df)
+cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
+```
+
+## Example 5-11: Talk Radio Phone Lines
+
+::: {.callout-tip}
+## Example 5-11
+The probability distribution below shows the number of callers on hold for a radio talk show. Find the mean, variance, and standard deviation.
+
+| X | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| P(X) | 0.1 | 0.3 | 0.3 | 0.2 | 0.1 |
+:::
+
+```{r ex5-11, echo=TRUE, warning=FALSE}
+X <- 0:4
+PX <- c(0.1, 0.3, 0.3, 0.2, 0.1)
+mu <- sum(X * PX)
+sigma2 <- sum(X^2 * PX) - mu^2
+sigma <- sqrt(sigma2)
+df <- data.frame(X = X, `P(X)` = PX, `X·P(X)` = X*PX, `X²·P(X)` = X^2*PX, check.names = FALSE)
+knitr::kable(df)
+cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
+```
+
+## Expected Value
+
+::: {.callout-note}
+## Expected Value
+
+The **expected value** $E(X)$ of a discrete random variable equals its mean:
+$$E(X) = \mu = \sum X \cdot P(X)$$
+
+Expected value is used to evaluate the long-run average gain or loss in games of chance, investments, and insurance.
+:::
+
+::: {.callout-warning}
+## Caution
+If $E(X) < 0$, the player or investor expects a **net loss** in the long run.
+:::
+
+## Example 5-12: Winning Lottery Tickets
+
+::: {.callout-tip}
+## Example 5-12
+A lottery offers one $1000 prize, two $500 prizes, and five $100 prizes. One thousand tickets are sold at $1 each. Find the expected value of a ticket.
+:::
+
+---
+
+```{r ex5-12, echo=TRUE, warning=FALSE}
+X <- c(1000-1, 500-1, 100-1, -1)   # net gain
+PX <- c(1/1000, 2/1000, 5/1000, 992/1000)
+EX <- sum(X * PX)
+df <- data.frame(`Net Gain X` = X, `P(X)` = PX, `X·P(X)` = X*PX, check.names = FALSE)
+knitr::kable(df)
+cat("E(X) = $", round(EX, 4))
+```
+
+The expected value is **negative**, meaning a player can expect to lose about $0.35 per ticket on average.
+
+## Example 5-13: Special Die
+
+::: {.callout-tip}
+## Example 5-13
+A special die has faces labeled 1, 4, 4, 6, 6, 6. Find the expected value when rolling it.
+:::
+
+```{r ex5-13, echo=TRUE, warning=FALSE}
+X <- c(1, 4, 6)
+PX <- c(1/6, 2/6, 3/6)
+EX <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = round(PX, 4), `X·P(X)` = round(X*PX, 4), check.names = FALSE)
+knitr::kable(df)
+cat("E(X) =", round(EX, 4))
+```
+
+## Example 5-14: Bond Investment
+
+::: {.callout-tip}
+## Example 5-14
+An investor is considering two bonds. Bond X: 70% chance of earning $120, 30% chance of losing $40. Bond Y: 60% chance of earning $90, 40% chance of losing $30. Which bond has the better expected return?
+:::
+
+```{r ex5-14, echo=TRUE, warning=FALSE}
+# Bond X
+X_x <- c(120, -40); P_x <- c(0.70, 0.30)
+EX <- sum(X_x * P_x)
+
+# Bond Y
+X_y <- c(90, -30); P_y <- c(0.60, 0.40)
+EY <- sum(X_y * P_y)
+
+cat("E(Bond X) = $", EX, "\n")
+cat("E(Bond Y) = $", EY, "\n")
+cat("Better investment:", ifelse(EX > EY, "Bond X", "Bond Y"))
+```
+
+**Bond X** has the higher expected return ($72 vs $42).
+
+# Section 5-3: The Binomial Distribution {background-color="#2c4a6e"}
+
+## Binomial Experiments
+
+::: {.callout-note}
+## Definition
+
+A **binomial experiment** satisfies all four of the following conditions:
+
+1. There is a **fixed number** of trials $n$.
+2. Each trial has only **two possible outcomes**: success or failure.
+3. The outcomes of each trial are **independent** of one another.
+4. The **probability of success** $p$ remains the same for every trial.
+:::
+
+**Examples:** Tossing a coin $n$ times; surveying $n$ people with a yes/no question; testing $n$ components with replacement.
+
+## Notation for the Binomial Distribution
+
+::: {.callout-note}
+## Notation
+
+| Symbol | Meaning |
+|---|---|
+| $P(S)$ | Probability of success |
+| $P(F)$ | Probability of failure |
+| $p$ | Numerical probability of success |
+| $q = 1 - p$ | Numerical probability of failure |
+| $n$ | Number of trials |
+| $X$ | Number of successes in $n$ trials |
+
+Note: $0 \leq X \leq n$ and $X = 0, 1, 2, \ldots, n$
+:::
+
+## Binomial Probability Formula
+
+::: {.callout-note}
+## Formula
+
+In a binomial experiment, the probability of exactly $X$ successes in $n$ trials is:
+
+$$P(X) = \frac{n!}{(n-X)!\,X!} \cdot p^X \cdot q^{n-X}$$
+
+where $q = 1 - p$.
+:::
+
+- $\dfrac{n!}{(n-X)!\,X!} = {}_nC_X$ counts the number of ways to arrange $X$ successes among $n$ trials
+- $p^X$ is the probability of $X$ successes
+- $q^{n-X}$ is the probability of $n - X$ failures
+
+## Example 5-15: Tossing Coins
+
+::: {.callout-tip}
+## Example 5-15
+A coin is tossed 3 times. Find the probability of getting exactly 2 heads.
+:::
+
+```{r ex5-15, echo=TRUE, warning=FALSE}
+n <- 3; X <- 2; p <- 0.5; q <- 1 - p
+prob <- choose(n, X) * p^X * q^(n - X)
+cat("n =", n, ", X =", X, ", p =", p, ", q =", q, "\n")
+cat("P(2 heads) = C(3,2) × (0.5)² × (0.5)¹ =",
+    choose(n,X), "×", p^X, "×", q^(n-X), "=", prob)
+
+# Verification using dbinom
+cat("\nVerification via dbinom:", dbinom(2, size = 3, prob = 0.5))
+```
+
+::: {.callout-important}
+The coin-toss problem meets all 4 binomial conditions: fixed $n=3$ trials, two outcomes (H/T), independent tosses, constant $p=0.5$.
+:::
+
+## Example 5-16: Doctor Visits Survey
+
+::: {.callout-tip}
+## Example 5-16
+A survey found that 1 out of 5 Americans has visited a doctor in any given month. If 10 people are selected at random, find the probability that exactly 3 visited a doctor last month.
+:::
+
+```{r ex5-16, echo=TRUE, warning=FALSE}
+n <- 10; X <- 3; p <- 1/5; q <- 1 - p
+prob <- choose(n, X) * p^X * q^(n - X)
+cat("n =", n, ", X =", X, ", p =", round(p, 2), ", q =", round(q, 2), "\n")
+cat("P(3) = C(10,3) × (1/5)³ × (4/5)⁷ =", round(prob, 3))
+cat("\ndbinom check:", round(dbinom(X, n, p), 3))
+```
+
+## Example 5-17: Survey on Part-Time Employment
+
+::: {.callout-tip}
+## Example 5-17
+A survey found that 30% of teenage consumers receive spending money from part-time jobs. If 5 teenagers are selected at random, find the probability that **at least 3** have part-time jobs.
+:::
+
+```{r ex5-17, echo=TRUE, warning=FALSE}
+n <- 5; p <- 0.30; q <- 0.70
+P3 <- choose(n,3) * p^3 * q^2
+P4 <- choose(n,4) * p^4 * q^1
+P5 <- choose(n,5) * p^5 * q^0
+total <- P3 + P4 + P5
+```
+
+---
+
+```{r, echo=TRUE, warning=FALSE}
+cat("P(3) =", round(P3, 3), "\n")
+cat("P(4) =", round(P4, 3), "\n")
+cat("P(5) =", round(P5, 3), "\n")
+cat("P(at least 3) = P(3)+P(4)+P(5) =", round(total, 3))
+
+# Using pbinom complement
+cat("\nVerification: 1 - P(X ≤ 2) =", round(1 - pbinom(2, n, p), 3))
+```
+
+## Example 5-18: Using the Binomial Table
+
+::: {.callout-tip}
+## Example 5-18
+Solve Example 5-15 (3 coins, P(exactly 2 heads)) using the binomial probability table (Table B) or R.
+:::
+
+```{r ex5-18, echo=TRUE, warning=FALSE}
+# Table B: look up n=3, X=2, p=0.5
+result <- dbinom(2, size = 3, prob = 0.5)
+cat("From binomial table (or dbinom): P(X=2 | n=3, p=0.5) =", result)
+```
+
+```{r, echo=TRUE, warning=FALSE}
+# Full distribution for n=3, p=0.5
+dist <- data.frame(
+  X = 0:3,
+  `P(X)` = dbinom(0:3, 3, 0.5),
+  check.names = FALSE
+)
+knitr::kable(dist, digits = 4, caption = "Binomial Distribution: n=3, p=0.5")
+```
+
+## Example 5-19: Fear of Being Home Alone at Night
+
+::: {.callout-tip}
+## Example 5-19
+A survey reported that 5% of Americans are afraid of being alone at night. If 20 Americans are randomly selected, find the probability that:
+
+a. Exactly 5 are afraid
+
+b. At most 3 are afraid
+
+c. At least 3 are afraid
+:::
+
+---
+
+```{r ex5-19, echo=TRUE, warning=FALSE}
+n <- 20; p <- 0.05
+
+# (a) P(X = 5)
+a <- dbinom(5, n, p)
+cat("(a) P(X = 5) =", round(a, 4), "\n")
+
+# (b) P(X ≤ 3)
+b <- sum(dbinom(0:3, n, p))
+cat("(b) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) =", round(b, 4), "\n")
+
+# (c) P(X ≥ 3) = 1 - P(X ≤ 2)
+c <- 1 - sum(dbinom(0:2, n, p))
+cat("(c) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(c, 4))
+```
+
+## Example 5-20: Driving While Intoxicated
+
+::: {.callout-tip}
+## Example 5-20
+Reports indicate that 70% of single-vehicle traffic fatalities at night on weekends involve an intoxicated driver. If 15 such fatalities are selected, find the probability that exactly 12 involve an intoxicated driver.
+:::
+
+```{r ex5-20, echo=TRUE, warning=FALSE}
+n <- 15; p <- 0.70; X <- 12
+prob <- dbinom(X, n, p)
+cat("n =", n, ", X =", X, ", p =", p, "\n")
+cat("P(X = 12) =", round(prob, 3))
+```
+
+## Mean, Variance, and SD for the Binomial Distribution
+
+::: {.callout-note}
+## Simplified Formulas for the Binomial Distribution
+
+$$\mu = n \cdot p$$
+
+$$\sigma^2 = n \cdot p \cdot q$$
+
+$$\sigma = \sqrt{n \cdot p \cdot q}$$
+
+These are algebraically equivalent to the general formulas $\mu = \sum X \cdot P(X)$ and $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$.
+:::
+
+## Example 5-21: Tossing a Coin Four Times
+
+::: {.callout-tip}
+## Example 5-21
+A coin is tossed 4 times. Find the mean, variance, and standard deviation of the number of heads.
+:::
+
+---
+
+```{r ex5-21, echo=TRUE, warning=FALSE}
+n <- 4; p <- 0.5; q <- 0.5
+mu <- n * p
+sigma2 <- n * p * q
+sigma <- sqrt(sigma2)
+cat("μ = n·p =", n, "×", p, "=", mu, "\n")
+cat("σ² = n·p·q =", n, "×", p, "×", q, "=", sigma2, "\n")
+cat("σ = √σ² = √", sigma2, "=", sigma, "\n")
+
+# Verification using general formulas
+X <- 0:4
+PX <- dbinom(X, n, p)
+mu_check <- sum(X * PX)
+sigma2_check <- sum(X^2 * PX) - mu_check^2
+cat("\nVerification: μ =", mu_check, "| σ² =", sigma2_check)
+```
+
+## Example 5-22: Rolling a Die 480 Times
+
+::: {.callout-tip}
+## Example 5-22
+A die is rolled 480 times. Find the mean, variance, and standard deviation for the number of 3s rolled.
+:::
+
+```{r ex5-22, echo=TRUE, warning=FALSE}
+n <- 480; p <- 1/6; q <- 5/6
+mu <- n * p
+sigma2 <- n * p * q
+sigma <- sqrt(sigma2)
+cat("n =", n, ", p = 1/6, q = 5/6\n")
+cat("μ = n·p =", round(mu, 2), "\n")
+cat("σ² = n·p·q =", round(sigma2, 2), "\n")
+cat("σ = √σ² =", round(sigma, 2))
+```
+
+Rolling a die 480 times, we expect about **80** threes, with a standard deviation of roughly **8.16**.
+
+## Example 5-23: Likelihood of Twins
+
+::: {.callout-tip}
+## Example 5-23
+Approximately 2% of all American births result in twins. If a random sample of 8000 births is taken, find the mean, variance, and standard deviation of the number of twin births.
+:::
+
+```{r ex5-23, echo=TRUE, warning=FALSE}
+n <- 8000; p <- 0.02; q <- 0.98
+mu <- n * p
+sigma2 <- n * p * q
+sigma <- sqrt(sigma2)
+cat("μ = n·p =", mu, "births\n")
+cat("σ² = n·p·q =", sigma2, "\n")
+cat("σ = √σ² =", round(sigma, 1))
+```
+
+::: {.callout-important}
+In a sample of 8000 births, we expect on average **160** twin births, with σ ≈ 12.5.
+:::
+
+## Binomial Distribution: Visualization
+
+```{r binom-viz, echo=TRUE, warning=FALSE}
+# Plot binomial distributions for different p values
+params <- list(
+  list(n=10, p=0.3, label="n=10, p=0.3"),
+  list(n=10, p=0.5, label="n=10, p=0.5"),
+  list(n=20, p=0.3, label="n=20, p=0.3")
+)
+
+df_all <- do.call(rbind, lapply(params, function(par) {
+  x <- 0:par$n
+  data.frame(X = x, PX = dbinom(x, par$n, par$p), Label = par$label)
+}))
+```
+
+---
+
+```{r, echo=TRUE, warning=FALSE}
+ggplot(df_all, aes(x = X, y = PX, fill = Label)) +
+  geom_col(position = "dodge", width = 0.7) +
+  facet_wrap(~Label, scales = "free_x") +
+  labs(title = "Binomial Distributions", x = "X", y = "P(X)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# Section 5-4: Other Types of Distributions (Optional) {background-color="#2c4a6e"}
+
+## Overview of Other Discrete Distributions
+
+When the binomial model does not apply, other discrete distributions are available:
+
+| Distribution | When to Use |
+|---|---|
+| **Multinomial** | More than two outcomes per trial |
+| **Poisson** | Events over time/area/volume; large $n$, small $p$ |
+| **Hypergeometric** | Sampling **without** replacement |
+
+## The Multinomial Distribution
+
+::: {.callout-note}
+## Formula
+
+If an experiment has $k$ possible outcomes $E_1, E_2, \ldots, E_k$ with probabilities $p_1, p_2, \ldots, p_k$, and $X_i$ is the number of times outcome $E_i$ occurs in $n$ independent trials, then:
+
+$$P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2^{X_2} \cdots p_k^{X_k}$$
+
+where $X_1 + X_2 + \cdots + X_k = n$ and $p_1 + p_2 + \cdots + p_k = 1$.
+:::
+
+The multinomial distribution generalizes the binomial — the binomial is a special case with $k = 2$.
+
+## Example 5-24: Leisure Activities
+
+::: {.callout-tip}
+## Example 5-24
+In a large city, 50% of residents choose a movie, 30% choose dinner and a play, and 20% choose shopping as a leisure activity. If 5 people are randomly selected, find the probability that 3 plan to see a movie, 1 to a play, and 1 to a shopping mall.
+:::
+
+```{r ex5-24, echo=TRUE, warning=FALSE}
+n <- 5
+X1 <- 3; X2 <- 1; X3 <- 1   # movie, play, shopping
+p1 <- 0.50; p2 <- 0.30; p3 <- 0.20
+
+prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)) *
+        p1^X1 * p2^X2 * p3^X3
+
+cat("P(X) = 5!/(3!·1!·1!) × (0.50)³ × (0.30)¹ × (0.20)¹\n")
+cat("     =", factorial(n)/(factorial(X1)*factorial(X2)*factorial(X3)),
+    "×", p1^X1, "×", p2^X2, "×", p3^X3, "\n")
+cat("     =", round(prob, 4))
+```
+
+## Example 5-25: Coffee Shop Customers
+
+::: {.callout-tip}
+## Example 5-25
+A coffee shop manager found that customers buy 0, 1, 2, or 3 cups of coffee with probabilities 0.3, 0.5, 0.15, and 0.05, respectively. If 8 customers enter, find the probability that 2 buy nothing, 4 buy 1 cup, 1 buys 2 cups, and 1 buys 3 cups.
+:::
+
+```{r ex5-25, echo=TRUE, warning=FALSE}
+n <- 8
+X1 <- 2; X2 <- 4; X3 <- 1; X4 <- 1
+p1 <- 0.30; p2 <- 0.50; p3 <- 0.15; p4 <- 0.05
+
+prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)*factorial(X4)) *
+        p1^X1 * p2^X2 * p3^X3 * p4^X4
+
+cat("n =", n, "\n")
+cat("X₁=2 (0 cups), X₂=4 (1 cup), X₃=1 (2 cups), X₄=1 (3 cups)\n")
+cat("P(X) =", round(prob, 4))
+```
+
+## Example 5-26: Selecting Colored Balls
+
+::: {.callout-tip}
+## Example 5-26
+A box contains 4 white, 3 red, and 3 blue balls. A ball is selected, its color recorded, and replaced. If 5 balls are selected, find the probability that 2 are white, 2 are red, and 1 is blue.
+:::
+
+```{r ex5-26, echo=TRUE, warning=FALSE}
+n <- 5
+X1 <- 2; X2 <- 2; X3 <- 1
+p1 <- 4/10; p2 <- 3/10; p3 <- 3/10
+
+prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)) *
+        p1^X1 * p2^X2 * p3^X3
+
+cat("p₁ = 4/10 (white), p₂ = 3/10 (red), p₃ = 3/10 (blue)\n")
+cat("P(X) = 5!/(2!·2!·1!) × (4/10)² × (3/10)² × (3/10)¹\n")
+cat("     =", round(prob, 4), "(= 81/625)")
+```
+
+## The Poisson Distribution
+
+::: {.callout-note}
+## Definition & Formula
+
+The **Poisson distribution** applies when events occur randomly over a continuous interval of time, area, or volume — especially when $n$ is large and $p$ is small.
+
+$$P(X;\, \lambda) = \frac{e^{-\lambda}\, \lambda^X}{X!}, \quad X = 0, 1, 2, \ldots$$
+
+- $\lambda$ (lambda) = mean number of occurrences per unit interval
+- $e \approx 2.71828$ (Euler's number)
+- $X$ = number of occurrences in the interval
+
+Also used to **approximate the binomial** when $\lambda = n \cdot p < 5$.
+:::
+
+## Example 5-27: Typographical Errors
+
+::: {.callout-tip}
+## Example 5-27
+A 500-page manuscript contains 200 randomly distributed typographical errors. Find the probability that a given page contains exactly 3 errors.
+:::
+
+```{r ex5-27, echo=TRUE, warning=FALSE}
+lambda <- 200 / 500   # mean errors per page
+X <- 3
+prob <- (exp(-lambda) * lambda^X) / factorial(X)
+cat("λ = 200/500 =", lambda, "errors per page\n")
+cat("P(X=3; λ=0.4) = e^(-0.4) × (0.4)³ / 3!\n")
+cat("              =", round(exp(-lambda), 6), "×", lambda^X, "/", factorial(X),
+    "\n              =", round(prob, 4))
+
+# Verification
+cat("\nVerification via dpois:", round(dpois(X, lambda), 4))
+```
+
+## Example 5-28: Toll-Free Telephone Calls
+
+::: {.callout-tip}
+## Example 5-28
+A sales firm receives an average of 3 calls per hour on its toll-free number. For any given hour, find the probability of:
+
+a. At most 3 calls
+
+b. At least 3 calls
+
+c. 5 or more calls
+:::
+
+---
+
+```{r ex5-28, echo=TRUE, warning=FALSE}
+lambda <- 3
+
+# (a) P(X ≤ 3)
+a <- ppois(3, lambda)
+cat("(a) P(X ≤ 3) = P(0)+P(1)+P(2)+P(3) =", round(a, 4), "\n")
+
+# (b) P(X ≥ 3) = 1 - P(X ≤ 2)
+b <- 1 - ppois(2, lambda)
+cat("(b) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(b, 4), "\n")
+
+# (c) P(X ≥ 5) = 1 - P(X ≤ 4)
+c <- 1 - ppois(4, lambda)
+cat("(c) P(X ≥ 5) = 1 - P(X ≤ 4) =", round(c, 4))
+```
+
+## Example 5-29: Poisson Approximation to Binomial
+
+::: {.callout-tip}
+## Example 5-29
+Approximately 2% of people in a room of 200 are left-handed. Find the probability that exactly 5 are left-handed, using the Poisson approximation.
+:::
+
+---
+
+```{r ex5-29, echo=TRUE, warning=FALSE}
+n <- 200; p <- 0.02
+lambda <- n * p   # = 4
+X <- 5
+
+# Poisson approximation
+prob_pois <- dpois(X, lambda)
+cat("λ = n·p =", n, "×", p, "=", lambda, "\n")
+cat("Poisson approx: P(X=5; λ=4) =", round(prob_pois, 4), "\n")
+
+# Exact binomial
+prob_binom <- dbinom(X, n, p)
+cat("Exact binomial: P(X=5)      =", round(prob_binom, 4), "\n")
+cat("Difference:", round(abs(prob_pois - prob_binom), 4))
+```
+
+::: {.callout-important}
+The Poisson approximation is reliable when $\lambda = n \cdot p < 5$.
+:::
+
+## The Hypergeometric Distribution
+
+::: {.callout-note}
+## Definition & Formula
+
+The **hypergeometric distribution** applies when sampling is done **without replacement** from a finite population containing two types of objects.
+
+Given a population with $a$ items of type 1 and $b$ items of type 2 (total $a + b$), the probability of selecting exactly $X$ items of type 1 in a sample of size $n$ is:
+
+$$P(X) = \frac{{_a}C_X \cdot {_b}C_{n-X}}{{_{a+b}}C_n}$$
+:::
+
+**Key difference from binomial:** trials are **dependent** (no replacement).
+
+## Example 5-30: Assistant Manager Applicants
+
+::: {.callout-tip}
+## Example 5-30
+Ten people apply for a restaurant assistant manager position: 5 are college graduates and 5 are not. If the manager selects 3 at random, find the probability that all 3 are college graduates.
+:::
+
+```{r ex5-30, echo=TRUE, warning=FALSE}
+a <- 5   # college graduates
+b <- 5   # non-graduates
+n <- 3   # sample size
+X <- 3   # desired successes
+
+prob <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
+cat("a =", a, "(graduates), b =", b, "(non-grads), n =", n, ", X =", X, "\n")
+cat("P(X) = C(5,3)×C(5,0) / C(10,3)\n")
+cat("     =", choose(a,X), "×", choose(b, n-X), "/", choose(a+b, n),
+    "=", round(prob, 4), "(= 1/12)")
+```
+
+## Example 5-31: House Insurance
+
+::: {.callout-tip}
+## Example 5-31
+A study found that 2 out of 10 houses in a neighborhood have no insurance. If 5 houses are selected from 10, find the probability that exactly 1 is uninsured.
+:::
+
+```{r ex5-31, echo=TRUE, warning=FALSE}
+a <- 2   # uninsured
+b <- 8   # insured
+n <- 5; X <- 1
+
+prob <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
+cat("a = 2 (uninsured), b = 8 (insured), n = 5, X = 1\n")
+cat("P(X=1) = C(2,1)×C(8,4) / C(10,5)\n")
+cat("       =", choose(a,X), "×", choose(b,n-X), "/", choose(a+b,n),
+    "=", round(prob, 4), "(= 5/9)")
+```
+
+## Example 5-32: Defective Compressor Tanks
+
+::: {.callout-tip}
+## Example 5-32
+A lot of 12 compressor tanks contains 3 defective ones. If 3 tanks are randomly selected for inspection and the lot is rejected when 1 or more defectives are found, what is the probability the lot will be rejected?
+:::
+
+---
+
+```{r ex5-32, echo=TRUE, warning=FALSE}
+a <- 3   # defective
+b <- 9   # non-defective
+n <- 3; X <- 0   # find P(no defective)
+
+p_none <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
+p_reject <- 1 - p_none
+
+cat("a = 3 (defective), b = 9 (good), n = 3\n")
+cat("P(X=0) = C(3,0)×C(9,3) / C(12,3) =", choose(a,0),"×",choose(b,3),"/",choose(a+b,n),
+    "=", round(p_none, 4), "\n")
+cat("P(at least 1 defective) = 1 - P(0) = 1 -", round(p_none, 4),
+    "=", round(p_reject, 4))
+```
+
+There is a **62%** probability the lot will be rejected when 3 of the 12 tanks are defective.
+
+## Summary of Discrete Distributions
+
+```{r summary-table, echo=FALSE, warning=FALSE}
+summary_df <- data.frame(
+  Distribution = c("Binomial", "Multinomial", "Poisson", "Hypergeometric"),
+  Formula = c(
+    "P(X) = C(n,X)·pˣ·qⁿ⁻ˣ",
+    "P(X) = n!/(X₁!X₂!···Xₖ!)·p₁^X₁···pₖ^Xₖ",
+    "P(X;λ) = e^(-λ)·λˣ/X!",
+    "P(X) = aCX·bC(n-X) / (a+b)Cn"
+  ),
+  `Use When` = c(
+    "Fixed n trials; 2 outcomes; independent; constant p",
+    "Fixed n trials; >2 outcomes; outcomes are independent",
+    "n large, p small; events over time/area/volume",
+    "Two outcomes; sampling WITHOUT replacement"
+  ),
+  check.names = FALSE
+)
+knitr::kable(summary_df, caption = "Table 5-1: Summary of Discrete Distributions")
+```
+
+## Chapter 5 Summary
+
+::: {.callout-note}
+## Key Takeaways
+
+- A **discrete probability distribution** lists all possible values and their probabilities; requires $\sum P(X)=1$ and $0 \leq P(X) \leq 1$.
+- **Mean:** $\mu = \sum X \cdot P(X)$; **Variance:** $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$
+- **Expected value** $E(X) = \mu$ — the long-run average outcome.
+- **Binomial:** $n$ fixed trials, 2 outcomes, independent, constant $p$.
+  - $P(X) = C(n,X) \cdot p^X \cdot q^{n-X}$; $\mu = np$; $\sigma = \sqrt{npq}$
+- **Multinomial:** extension of binomial for $k > 2$ outcomes.
+- **Poisson:** events over time/area; $P(X;\lambda) = e^{-\lambda}\lambda^X / X!$
+- **Hypergeometric:** two outcomes, sampling without replacement.
+:::
+
+## Acknowledgements
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
