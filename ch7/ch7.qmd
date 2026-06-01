@@ -26,8 +26,6 @@ library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Chapter 7: Confidence Intervals and Sample Size {background-color="#2c4a6e"}
-
 ## Chapter Overview
 
 **Sections covered:**
@@ -99,7 +97,21 @@ $$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z
 The term $E = z_{\alpha/2}(\sigma/\sqrt{n})$ is the **margin of error**.
 :::
 
-**Assumptions:** (1) Random sample; (2) n ≥ 30, OR population is normally distributed if n < 30.
+**Assumptions:** 
+
+(1) Random sample; 
+
+(2) n ≥ 30, OR population is normally distributed if n < 30.
+
+----
+
+**Find the z value in R**
+
+```{r, echo=TRUE}
+round(qnorm((1-.9) / 2), 2)
+round(qnorm((1-.95) / 2), 2)
+round(qnorm((1-.99) / 2), 2)
+```
 
 ## Example 7-1: Days It Takes to Sell an Aveo {.smaller}
 
@@ -115,6 +127,8 @@ Point estimate: $\bar{X} = 54$ days
 $$54 - 1.96\left(\frac{6.0}{\sqrt{50}}\right) < \mu < 54 + 1.96\left(\frac{6.0}{\sqrt{50}}\right)$$
 $$54 - 1.7 < \mu < 54 + 1.7$$
 $$\mathbf{52.3 < \mu < 55.7}$$
+
+----
 
 ```{r ex7-1, echo=T, warning=FALSE}
 xbar <- 54; sigma <- 6.0; n <- 50; z <- 1.96
@@ -134,6 +148,7 @@ A survey of 30 emergency room patients found an average waiting time of 174.3 mi
 $$174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) < \mu < 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)$$
 $$174.3 - 21.9 < \mu < 174.3 + 21.9$$
 $$\mathbf{152.4 < \mu < 196.2}$$
+---
 
 ```{r ex7-2, echo=T, warning=FALSE}
 xbar <- 174.3; sigma <- 46.5; n <- 30; z <- 2.58
@@ -241,7 +256,7 @@ When σ is unknown, the sample standard deviation s is used as a substitute. How
 
 ---
 
-```{r t-dist-plot, echo=T, warning=FALSE}
+```{r t-dist-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df_plot <- data.frame(
   x = rep(x, 3),
@@ -328,6 +343,8 @@ $$7.1 - 2.262\left(\frac{0.78}{\sqrt{10}}\right) < \mu < 7.1 + 2.262\left(\frac{
 $$7.1 - 0.56 < \mu < 7.1 + 0.56$$
 $$\mathbf{6.54 < \mu < 7.66}$$
 
+---
+
 ```{r ex7-6, echo=T, warning=FALSE}
 xbar <- 7.1; s <- 0.78; n <- 10
 t_crit <- qt(0.975, df = n - 1)
@@ -344,6 +361,8 @@ The data below represent the number of home fires started by candles each year o
 
 5460, 5900, 6090, 6310, 7160, 8440, 9930
 :::
+
+---
 
 ```{r ex7-7, echo=T, warning=FALSE}
 fires <- c(5460, 5900, 6090, 6310, 7160, 8440, 9930)
@@ -391,6 +410,8 @@ In a recent survey of 150 households, 54 had central air conditioning. Find $\ha
 $$\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%$$
 $$\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%$$
 
+---
+
 ```{r ex7-8, echo=T, warning=FALSE}
 X <- 54; n <- 150
 p_hat <- X / n
@@ -413,6 +434,8 @@ $\hat{p} = 323/1404 = 0.230$, $\hat{q} = 0.770$, $z_{\alpha/2} = 1.65$
 
 $$0.230 \pm 1.65\sqrt{\frac{(0.230)(0.770)}{1404}} = 0.230 \pm 0.019$$
 $$\mathbf{0.211 < p < 0.249}$$
+
+---
 
 ```{r ex7-9, echo=T, warning=FALSE}
 X <- 323; n <- 1404
@@ -493,6 +516,9 @@ Since no prior $\hat{p}$ is known, use $\hat{p} = \hat{q} = 0.5$
 
 $$n = (0.5)(0.5)\left(\frac{1.96}{0.03}\right)^2 = (0.25)(4268.4) = 1067.1 \rightarrow \mathbf{n = 1068}$$
 
+
+---
+
 ```{r ex7-12, echo=T, warning=FALSE}
 p_hat <- 0.5; q_hat <- 0.5; z <- 1.96; E <- 0.03
 n_raw <- p_hat * q_hat * (z / E)^2
@@ -524,7 +550,7 @@ Confidence intervals for variances and standard deviations require a different d
 
 ---
 
-```{r chisq-plot, echo=T, warning=FALSE}
+```{r chisq-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(0, 40, length.out = 300)
 df_plot <- data.frame(
   x = rep(x, 4),
@@ -573,6 +599,8 @@ d.f. = 25 − 1 = 24
 - $\chi^2_{\text{right}}$: area to right = 0.05 → column 0.05 → **36.415**
 - $\chi^2_{\text{left}}$: area to right = 0.95 → column 0.95 → **13.848**
 
+---
+
 ```{r ex7-13, echo=T, warning=FALSE}
 n <- 25; df <- n - 1
 chi_right <- qchisq(0.95, df = df)   # upper critical value
@@ -602,6 +630,8 @@ $$\frac{48.64}{32.852} < \sigma^2 < \frac{48.64}{8.907} \implies \mathbf{1.5 < \
 
 $$\sqrt{1.5} < \sigma < \sqrt{5.5} \implies \mathbf{1.2 < \sigma < 2.3}$$
 
+---
+
 ```{r ex7-14, echo=T, warning=FALSE}
 n <- 20; s <- 1.6; df <- n - 1
 chi_right <- qchisq(0.975, df = df)
@@ -624,6 +654,8 @@ The data below represent the prices (in dollars) of adult single-day ski lift ti
 
 59, 54, 53, 52, 51, 39, 49, 46, 49, 48
 :::
+
+----
 
 ```{r ex7-15, echo=T, warning=FALSE}
 tickets <- c(59, 54, 53, 52, 51, 39, 49, 46, 49, 48)
@@ -657,6 +689,8 @@ cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
 | Sample size (proportion) | $n = \hat{p}\hat{q}(z_{\alpha/2}/E)^2$ | `ceiling(...)` |
 | Variance | $(n-1)s^2/\chi^2_R < \sigma^2 < (n-1)s^2/\chi^2_L$ | `qchisq(...)` |
 
+----
+
 ::: {.callout-important}
 ## Key Takeaways
 1. Use z when σ is known; use t when σ is unknown
@@ -667,7 +701,10 @@ cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
 6. Always round sample size calculations **up** to the nearest whole number
 :::
 
-## References
+## Acknowledgements
 
-::: {#refs}
-:::
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

@@ -26,8 +26,6 @@ library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Chapter 6: The Normal Distribution {background-color="#2c4a6e"}
-
 ## Chapter Overview
 
 **Sections covered:**
@@ -36,8 +34,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 - **6-2** Applications of the Normal Distribution
 - **6-3** The Central Limit Theorem
 - **6-4** The Normal Approximation to the Binomial Distribution
-
----
 
 The **normal distribution** is the most important and widely used continuous probability distribution in statistics. Its familiar **bell-shaped curve** appears throughout natural phenomena, measurement errors, and statistical inference.
 
@@ -60,7 +56,7 @@ A **normal distribution** is a continuous, symmetric, bell-shaped distribution o
 
 ---
 
-```{r normal-shape, echo=T, warning=FALSE}
+```{r normal-shape,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -120,7 +116,7 @@ pnorm(2.06)
 
 ---
 
-```{r ex6-1-plot, echo=T, warning=FALSE}
+```{r ex6-1-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -154,7 +150,7 @@ pnorm(-1.19, lower.tail = FALSE)
 
 ---
 
-```{r ex6-2-plot, echo=T, warning=FALSE}
+```{r ex6-2-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -187,7 +183,7 @@ pnorm(1.68) - pnorm(-1.37)
 
 ---
 
-```{r ex6-3-plot, echo=T, warning=FALSE}
+```{r ex6-3-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -287,7 +283,7 @@ pnorm(160, mean = mu, sd = sigma)
 
 ---
 
-```{r ex6-6-plot, echo=T, warning=FALSE}
+```{r ex6-6-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x, mu, sigma))
 ggplot(df, aes(x, y)) +
@@ -325,7 +321,7 @@ pnorm(30.2, mu, sigma, lower.tail = FALSE)
 
 ---
 
-```{r ex6-7-plot, echo=T, warning=FALSE}
+```{r ex6-7-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x, mu, sigma))
 p1 <- ggplot(df, aes(x, y)) +
@@ -479,7 +475,7 @@ The CLT explains why the normal distribution is so central to statistics:
 
 ---
 
-```{r clt-demo, echo=T, warning=FALSE}
+```{r clt-demo,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
 # CLT demonstration: sampling from a skewed distribution
 set.seed(42)
 pop <- rexp(10000, rate = 0.5)  # skewed population
@@ -599,8 +595,12 @@ Since we are approximating a **discrete** distribution with a **continuous** one
 A survey found that 6% of American drivers read while driving. If 300 drivers are selected at random, find the approximate probability that **exactly 25** read while driving.
 :::
 
+---
+
 **Check:** n = 300, p = 0.06, q = 0.94
+
 - np = 300(0.06) = 18 ≥ 5 ✓
+
 - nq = 300(0.94) = 282 ≥ 5 ✓
 
 **Parameters:** μ = np = 18, σ = √(npq) = √(300 × 0.06 × 0.94)
@@ -676,6 +676,7 @@ pbinom(26, n, p)
 A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** using:
 
 **(a)** The binomial distribution
+
 **(b)** The normal approximation
 :::
 
@@ -683,6 +684,8 @@ A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** 
 ## Caution
 Here np = 5, nq = 5 — these are exactly at the minimum threshold. The normal approximation may be less accurate for small n.
 :::
+
+---
 
 ```{r ex6-19, echo=T, warning=FALSE}
 n <- 10; p <- 0.5; q <- 0.5
@@ -711,6 +714,8 @@ The approximation is quite close even for this borderline case.
 | Sample mean probability | z = (X̄ − μ)/(σ/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
 | Normal approx. to binomial | μ=np, σ=√(npq) | ±0.5 correction |
 
+---
+
 ::: {.callout-important}
 ## Key Takeaways
 1. The normal distribution is fully described by μ and σ
@@ -720,7 +725,11 @@ The approximation is quite close even for this borderline case.
 5. Always apply the **correction for continuity** in the normal approximation
 :::
 
-## References
 
-::: {#refs}
-:::
+## Acknowledgements
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
