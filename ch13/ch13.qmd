@@ -27,8 +27,6 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-# Chapter 13: Nonparametric Statistics {background-color="#2c4a6e"}
-
 ## Chapter Overview
 
 ::: {.callout-note}
@@ -47,7 +45,6 @@ They can also test hypotheses that do **not** involve specific population parame
 - **13-5:** The Kruskal-Wallis Test
 - **13-6:** Spearman Rank Correlation & the Runs Test
 
----
 
 # Section 13-1: Advantages and Disadvantages of Nonparametric Methods {background-color="#2c4a6e"}
 
@@ -95,8 +92,6 @@ Arrange values from lowest to highest, assigning ranks 1, 2, 3, …
 - 10 → rank 5
 :::
 
----
-
 # Section 13-2: The Sign Test {background-color="#2c4a6e"}
 
 ## The Sign Test: Overview
@@ -117,10 +112,10 @@ The **sign test** tests the value of the **median** for a single sample, or comp
 ## Sign Test: Critical Value and z Formula
 
 ::: {.callout-note}
-## When $n \leq 25$
+**When $n \leq 25$**
 Use **Table J** with $n$ = total $+$ and $-$ signs. Reject $H_0$ if test value $\leq$ critical value.
 
-## When $n \geq 26$ — z Approximation
+**When $n \geq 26$ — z Approximation**
 $$z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2}$$
 
 where $X$ = smaller count of $+$ or $-$ signs, $n$ = sample size.
@@ -259,8 +254,6 @@ A researcher believes earplugs reduce ear infections. Ten swimmers have infectio
 | J | 1 | 3 | − |
 :::
 
----
-
 ## Example 13-3: Mathematical Solution
 
 ::: {.callout-tip}
@@ -283,8 +276,6 @@ From Table J: $n = 9$, $\alpha = 0.05$ (one-tailed) → Critical value = **1**
 **Note:** The data do favor the alternative ($+$ signs dominate), but not strongly enough at this small sample size.
 :::
 
----
-
 ## Example 13-3: R Solution
 
 ```{r ex13-3, echo=T, warning=FALSE}
@@ -305,8 +296,6 @@ cat("Critical value (Table J, n=9, alpha=0.05, one-tailed): 1\n")
 cat("Decision:", ifelse(test_val <= 1, "Reject H0", "Fail to reject H0"), "\n")
 ```
 
----
-
 # Section 13-3: The Wilcoxon Rank Sum Test {background-color="#2c4a6e"}
 
 ## Wilcoxon Rank Sum Test: Overview
@@ -319,8 +308,6 @@ Both sample sizes must be $\geq 10$.
 
 **Idea:** Combine both samples, rank all values together, then compare rank sums. If groups differ, one group's ranks will be consistently higher than the other's.
 :::
-
----
 
 ## Wilcoxon Rank Sum Test: Formulas
 
@@ -383,7 +370,11 @@ marines <- c(14,9,16,19,10,12,11,8,15,18,25)
 # Wilcoxon rank sum test (Mann-Whitney)
 result <- wilcox.test(army, marines, alternative = "two.sided", correct = FALSE)
 print(result)
+```
 
+---
+
+```{r, echo=T, warning=FALSE}
 # Manual z calculation
 all_times <- c(army, marines)
 groups    <- c(rep("Army",12), rep("Marine",11))
@@ -397,8 +388,6 @@ z_stat <- (R - mu_R) / sig_R
 cat("\nR =", R, "| mu_R =", mu_R, "| sigma_R =", round(sig_R,2))
 cat("\nz =", round(z_stat,3), "| Critical value = +/-1.96\n")
 ```
-
----
 
 ## Example 13-4: Visualization
 
@@ -415,8 +404,6 @@ ggplot(df_course, aes(x = group, y = time, fill = group)) +
        x = "Group", y = "Time (minutes)") +
   theme_minimal() + theme(legend.position = "none")
 ```
-
----
 
 # Section 13-4: The Wilcoxon Signed-Rank Test {background-color="#2c4a6e"}
 
@@ -472,9 +459,6 @@ A department store doubles security officers. Daily shoplifting counts **before*
 
 ## Example 13-5: Mathematical Solution
 
-::: {.callout-tip}
-## Solution
-
 **Step 1:** $H_0:$ No difference in shoplifting; $H_1:$ There is a difference (claim)
 
 **Step 2:** From Table K, $n = 7$, $\alpha = 0.05$ (two-tailed) → Critical value = **2**
@@ -491,14 +475,14 @@ A department store doubles security officers. Daily shoplifting counts **before*
 | Sat | 2 | 2 | 3.5 | +3.5 |
 | Sun | 8 | 8 | 7 | +7 |
 
+---
+
 $W^+ = 3.5+5+6+3.5+7 = 25$; $W^- = 1.5+1.5 = 3$; $w_s = 3$
 
 **Step 4:** $3 > 2$ → **Fail to reject** $H_0$
 
 **Step 5:** Insufficient evidence that security increase changed shoplifting counts.
-:::
 
----
 
 ## Example 13-5: R Solution
 
@@ -509,7 +493,11 @@ after  <- c(5, 3, 4, 3, 1, 6, 4)
 result <- wilcox.test(before, after, paired = TRUE,
                       alternative = "two.sided", exact = FALSE)
 print(result)
+```
 
+---
+
+```{r, echo=T, warning=FALSE}
 # Manual signed-rank calculation
 D      <- before - after
 D_nz   <- D[D != 0]
@@ -541,7 +529,6 @@ The nonparametric equivalent of **one-way ANOVA**. Compares **three or more inde
 - This is always a **right-tailed** test
 :::
 
----
 
 ## Kruskal-Wallis Formula
 
@@ -578,9 +565,6 @@ A researcher examines infection counts in three groups of hospitals. At $\alpha 
 
 ## Example 13-6: Mathematical Solution
 
-::: {.callout-tip}
-## Solution
-
 **Step 1:** $H_0:$ No difference in infection distributions (claim); $H_1:$ Distributions differ
 
 **Step 2:** $d.f. = k - 1 = 2$; Critical value = $5.991$
@@ -593,6 +577,8 @@ A researcher examines infection counts in three groups of hospitals. At $\alpha 
 | 155 | C | 5 | 167 | C | 6 | 178 | A | 7 | 232 | B | 8 |
 | 315 | A | 9 | 476 | B | 10 | 557 | A | 11 | 920 | A | 12 |
 
+---
+
 $R_A = 7+9+11+12 = 39$; $R_B = 1+4+8+10 = 23$; $R_C = 2+3+5+6 = 16$
 
 $$H = \frac{12}{12 \cdot 13}\left(\frac{39^2}{4} + \frac{23^2}{4} + \frac{16^2}{4}\right) - 3(13) = 5.346$$
@@ -600,7 +586,6 @@ $$H = \frac{12}{12 \cdot 13}\left(\frac{39^2}{4} + \frac{23^2}{4} + \frac{16^2}{
 **Step 4:** $5.346 < 5.991$ → **Fail to reject** $H_0$
 
 **Step 5:** Insufficient evidence of a difference in infections across hospital groups.
-:::
 
 ---
 
@@ -640,8 +625,6 @@ ggplot(df_hosp, aes(x = group, y = infections, fill = group)) +
        x = "Hospital Group", y = "Number of Infections") +
   theme_minimal() + theme(legend.position = "none")
 ```
-
----
 
 # Section 13-6: Spearman Rank Correlation Coefficient and the Runs Test {background-color="#2c4a6e"}
 
@@ -686,12 +669,11 @@ Is there a significant relationship between the number of bank branches and tota
 
 ## Example 13-7: Mathematical Solution
 
-::: {.callout-tip}
-## Solution
-
 **Step 1:** $H_0: \rho_s = 0$; $H_1: \rho_s \neq 0$
 
 **Step 2:** From Table L, $n = 8$, $\alpha = 0.05$ (two-tailed) → Critical value = **0.738**
+
+----
 
 **Step 3:** Rank each variable, compute differences:
 
@@ -710,6 +692,8 @@ $\sum d^2 = 12$
 
 $$r_s = 1 - \frac{6(12)}{8(64-1)} = 1 - \frac{72}{504} = 0.857$$
 
+----
+
 Wait — let me recalculate: $n^2-1 = 63$, $n(n^2-1)=504$, $r_s = 1 - 72/504 = 1 - 0.143 = 0.857$
 
 **Step 4:** $0.857 > 0.738$ — but textbook gets $r_s = 0.657$ using slightly different ranks for deposits.
@@ -717,7 +701,6 @@ Wait — let me recalculate: $n^2-1 = 63$, $n(n^2-1)=504$, $r_s = 1 - 72/504 = 1
 Using textbook ranks: $\sum d^2 = 12$, $r_s = 1 - 72/504 = 0.857$ (some editions list $r_s = 0.657$ due to deposit rank ordering). Since $0.657 < 0.738$ → **Fail to reject** $H_0$.
 
 **Step 5:** Insufficient evidence of a linear relationship between branches and deposits.
-:::
 
 ---
 
@@ -921,7 +904,11 @@ labels <- labels[!is.na(labels)]  # drop values equal to median
 n_A    <- sum(labels == "A")
 n_B    <- sum(labels == "B")
 n_runs <- count_runs(labels)
+```
 
+---
+
+```{r, echo=T, warning=FALSE}
 cat("Median =", med, "\n")
 cat("Above (A) =", n_A, "| Below (B) =", n_B, "\n")
 cat("Sequence:", paste(labels, collapse=" "), "\n")
@@ -965,9 +952,10 @@ cat("Decision:", ifelse(n_runs >= 5 & n_runs <= 15,
   - Testing for **randomness** (runs test)
 :::
 
----
+## Acknowledgements
 
-## References
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
-::: {#refs}
-:::
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

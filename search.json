@@ -3855,5 +3855,663 @@
     "title": "Statistics",
     "section": "References",
     "text": "References"
+  },
+  {
+    "objectID": "ch13/ch13.html#chapter-overview",
+    "href": "ch13/ch13.html#chapter-overview",
+    "title": "Statistics",
+    "section": "Chapter Overview",
+    "text": "Chapter Overview\n\n\n\n\n\n\nWhat Are Nonparametric Methods?\n\n\nStandard parametric tests (z, t, F) require populations to be normally distributed. When this assumption cannot be met, nonparametric (distribution-free) methods provide valid alternatives.\nThey can also test hypotheses that do not involve specific population parameters like \\mu, \\sigma, or p.\n\n\n\nTopics covered:\n\n13-1: Advantages and Disadvantages of Nonparametric Methods\n13-2: The Sign Test\n13-3: The Wilcoxon Rank Sum Test\n13-4: The Wilcoxon Signed-Rank Test\n13-5: The Kruskal-Wallis Test\n13-6: Spearman Rank Correlation & the Runs Test"
+  },
+  {
+    "objectID": "ch13/ch13.html#advantages-of-nonparametric-methods",
+    "href": "ch13/ch13.html#advantages-of-nonparametric-methods",
+    "title": "Statistics",
+    "section": "Advantages of Nonparametric Methods",
+    "text": "Advantages of Nonparametric Methods\n\n\n\n\n\n\nFive Key Advantages\n\n\n\nUsable when the population is not normally distributed\nApplicable with nominal or ordinal data\nCan test hypotheses without specific population parameters\nComputations are often simpler than parametric alternatives\nGenerally easy to understand and interpret"
+  },
+  {
+    "objectID": "ch13/ch13.html#disadvantages-of-nonparametric-methods",
+    "href": "ch13/ch13.html#disadvantages-of-nonparametric-methods",
+    "title": "Statistics",
+    "section": "Disadvantages of Nonparametric Methods",
+    "text": "Disadvantages of Nonparametric Methods\n\n\n\n\n\n\nThree Key Disadvantages\n\n\n\nLess sensitive than parametric counterparts when normality holds — larger differences are needed to reject H_0\nUse less information — e.g., the sign test only records whether values are above or below the median, not by how much\nLess efficient — larger sample sizes are needed; for example, the sign test is only ~60% as efficient as the z test\n\n\n\n\n\n\n\n\n\n\nBasic Assumption\n\n\nThe sample(s) must be randomly selected. When two or more samples are used, they must be independent of each other (unless otherwise stated)."
+  },
+  {
+    "objectID": "ch13/ch13.html#ranking-data",
+    "href": "ch13/ch13.html#ranking-data",
+    "title": "Statistics",
+    "section": "Ranking Data",
+    "text": "Ranking Data\n\n\n\n\n\n\nHow to Rank Data\n\n\nArrange values from lowest to highest, assigning ranks 1, 2, 3, …\nTies: When two or more values are equal, assign the average of the ranks they would have occupied.\nExample: Values 3, 6, 6, 8, 10 - 3 → rank 1 - 6, 6 → tie for ranks 2 and 3 → each gets rank 2.5 - 8 → rank 4 - 10 → rank 5"
+  },
+  {
+    "objectID": "ch13/ch13.html#the-sign-test-overview",
+    "href": "ch13/ch13.html#the-sign-test-overview",
+    "title": "Statistics",
+    "section": "The Sign Test: Overview",
+    "text": "The Sign Test: Overview\n\n\n\n\n\n\nWhat Does the Sign Test Do?\n\n\nThe sign test tests the value of the median for a single sample, or compares two dependent samples (before vs. after).\nProcedure for a single-sample test: - Compare each observation to the hypothesized median - Assign: + if above, - if below, 0 if equal - Test value = the smaller count of + or - signs - Use Table J (for n \\leq 25) or the z approximation (for n \\geq 26)"
+  },
+  {
+    "objectID": "ch13/ch13.html#sign-test-critical-value-and-z-formula",
+    "href": "ch13/ch13.html#sign-test-critical-value-and-z-formula",
+    "title": "Statistics",
+    "section": "Sign Test: Critical Value and z Formula",
+    "text": "Sign Test: Critical Value and z Formula\n\n\n\n\n\n\nNote\n\n\nWhen n \\leq 25 Use Table J with n = total + and - signs. Reject H_0 if test value \\leq critical value.\nWhen n \\geq 26 — z Approximation z = \\frac{(X + 0.5) - n/2}{\\sqrt{n}/2}\nwhere X = smaller count of + or - signs, n = sample size. Use Table E for critical values."
+  },
+  {
+    "objectID": "ch13/ch13.html#when-n-geq-26-z-approximation",
+    "href": "ch13/ch13.html#when-n-geq-26-z-approximation",
+    "title": "Statistics",
+    "section": "When n \\geq 26 — z Approximation",
+    "text": "When n \\geq 26 — z Approximation\nz = \\frac{(X + 0.5) - n/2}{\\sqrt{n}/2}\nwhere X = smaller count of + or - signs, n = sample size. Use Table E for critical values."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-1-snow-cone-sales",
+    "href": "ch13/ch13.html#example-13-1-snow-cone-sales",
+    "title": "Statistics",
+    "section": "Example 13-1: Snow Cone Sales",
+    "text": "Example 13-1: Snow Cone Sales\n\n\n\n\n\n\nProblem\n\n\nA store owner hypothesizes that the median number of snow cones sold per day is 40. A sample of 20 days yields:\n18, 43, 40, 16, 22, 30, 29, 32, 37, 36, 39, 34, 39, 45, 28, 36, 40, 34, 39, 52\nAt \\alpha = 0.05, test the owner’s claim."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-1-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-1-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-1: Mathematical Solution",
+    "text": "Example 13-1: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: H_0: MD = 40 (claim); H_1: MD \\neq 40\nStep 2: Compare each value to 40 and assign signs: -, +, 0, -, -, -, -, -, -, -, -, -, -, +, -, -, 0, -, -, +\nDrop the two 0s → n = 18; plus signs: 3, minus signs: 15\nFrom Table J: n = 18, \\alpha = 0.05 (two-tailed) → Critical value = 4\nStep 3: Test value = smaller of (3, 15) = 3\nStep 4: 3 \\leq 4 → Reject H_0\nStep 5: Sufficient evidence to reject the claim that the median is 40."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-1-r-solution",
+    "href": "ch13/ch13.html#example-13-1-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-1: R Solution",
+    "text": "Example 13-1: R Solution\n\nsnow &lt;- c(18,43,40,16,22,30,29,32,37,36,39,34,39,45,28,36,40,34,39,52)\nmedian_hyp &lt;- 40\n\nsigns &lt;- sign(snow - median_hyp)\nsigns &lt;- signs[signs != 0]  # drop zeros\n\nn_pos &lt;- sum(signs &gt; 0)\nn_neg &lt;- sum(signs &lt; 0)\nn     &lt;- length(signs)\ntest_val &lt;- min(n_pos, n_neg)\n\ncat(\"Plus signs:\", n_pos, \"| Minus signs:\", n_neg, \"\\n\")\n\nPlus signs: 3 | Minus signs: 15 \n\ncat(\"n =\", n, \"| Test value =\", test_val, \"\\n\")\n\nn = 18 | Test value = 3 \n\ncat(\"Critical value (Table J, n=18, alpha=0.05, two-tailed): 4\\n\")\n\nCritical value (Table J, n=18, alpha=0.05, two-tailed): 4\n\ncat(\"Decision:\", ifelse(test_val &lt;= 4, \"Reject H0\", \"Fail to reject H0\"), \"\\n\")\n\nDecision: Reject H0"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-2-age-of-foreign-born-residents-large-sample",
+    "href": "ch13/ch13.html#example-13-2-age-of-foreign-born-residents-large-sample",
+    "title": "Statistics",
+    "section": "Example 13-2: Age of Foreign-Born Residents (Large Sample)",
+    "text": "Example 13-2: Age of Foreign-Born Residents (Large Sample)\n\n\n\n\n\n\nProblem\n\n\nThe median age of foreign-born U.S. residents is claimed to be at least 36.4 years. In a sample of n = 50 residents, 21 are older than 36.4. At \\alpha = 0.05, test the claim.\nH_0: MD \\geq 36.4 \\text{ (claim)} \\qquad H_1: MD &lt; 36.4"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-2-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-2-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-2: Mathematical Solution",
+    "text": "Example 13-2: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nSince n = 50 \\geq 26, use the z approximation.\nPlus signs (older than 36.4): 21; Minus signs (younger): 29\nX = smaller count = 21 (we use 21 because the test is left-tailed — checking if fewer people are above 36.4)\nz = \\frac{(X + 0.5) - n/2}{\\sqrt{n}/2} = \\frac{(21 + 0.5) - 25}{\\sqrt{50}/2} = \\frac{-3.5}{3.536} = -0.99\nStep 4: Critical value (left-tailed, \\alpha = 0.05): -1.65\nSince -0.99 &gt; -1.65 → Fail to reject H_0\nStep 5: Not enough evidence to reject the claim that the median age is at least 36.4 years."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-2-r-solution",
+    "href": "ch13/ch13.html#example-13-2-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-2: R Solution",
+    "text": "Example 13-2: R Solution\n\nn       &lt;- 50\nn_above &lt;- 21\nn_below &lt;- n - n_above  # 29\nX       &lt;- min(n_above, n_below)  # 21\n\nz_stat &lt;- ((X + 0.5) - n/2) / (sqrt(n)/2)\nz_crit &lt;- qnorm(0.05)  # left-tailed\n\ncat(\"X (smaller count) =\", X, \"\\n\")\n\nX (smaller count) = 21 \n\ncat(\"z test value =\", round(z_stat, 3), \"\\n\")\n\nz test value = -0.99 \n\ncat(\"z critical value =\", round(z_crit, 3), \"\\n\")\n\nz critical value = -1.645 \n\ncat(\"Decision:\", ifelse(z_stat &lt; z_crit, \"Reject H0\", \"Fail to reject H0\"), \"\\n\")\n\nDecision: Fail to reject H0"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-3-ear-infections-in-swimmers-paired-sign-test",
+    "href": "ch13/ch13.html#example-13-3-ear-infections-in-swimmers-paired-sign-test",
+    "title": "Statistics",
+    "section": "Example 13-3: Ear Infections in Swimmers (Paired Sign Test)",
+    "text": "Example 13-3: Ear Infections in Swimmers (Paired Sign Test)\n\n\n\n\n\n\nProblem\n\n\nA researcher believes earplugs reduce ear infections. Ten swimmers have infection counts before and after using earplugs. At \\alpha = 0.05, test whether earplugs reduced infections.\n\n\n\nSwimmer\nBefore\nAfter\nSign (Before − After)\n\n\n\n\nA\n3\n2\n+\n\n\nB\n0\n1\n−\n\n\nC\n5\n4\n+\n\n\nD\n4\n0\n+\n\n\nE\n2\n1\n+\n\n\nF\n4\n3\n+\n\n\nG\n3\n1\n+\n\n\nH\n5\n3\n+\n\n\nI\n2\n2\n0\n\n\nJ\n1\n3\n−"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-3-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-3-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-3: Mathematical Solution",
+    "text": "Example 13-3: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: H_0: Earplugs do not reduce infections; H_1: Earplugs reduce infections (claim)\nStep 2: Signs of differences (Before − After): +, −, +, +, +, +, +, +, 0, −\nDrop the 0 → n = 9; Plus signs: 7, Minus signs: 2\nFrom Table J: n = 9, \\alpha = 0.05 (one-tailed) → Critical value = 1\nStep 3: Test value = smaller = 2\nStep 4: 2 &gt; 1 → Fail to reject H_0\nStep 5: Not enough evidence that earplugs reduced infections.\nNote: The data do favor the alternative (+ signs dominate), but not strongly enough at this small sample size."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-3-r-solution",
+    "href": "ch13/ch13.html#example-13-3-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-3: R Solution",
+    "text": "Example 13-3: R Solution\n\nbefore &lt;- c(3, 0, 5, 4, 2, 4, 3, 5, 2, 1)\nafter  &lt;- c(2, 1, 4, 0, 1, 3, 1, 3, 2, 3)\n\ndiff_signs &lt;- sign(before - after)\ndiff_signs &lt;- diff_signs[diff_signs != 0]\n\nn_pos &lt;- sum(diff_signs &gt; 0)\nn_neg &lt;- sum(diff_signs &lt; 0)\nn     &lt;- length(diff_signs)\ntest_val &lt;- min(n_pos, n_neg)\n\ncat(\"Plus signs:\", n_pos, \"| Minus signs:\", n_neg, \"\\n\")\n\nPlus signs: 7 | Minus signs: 2 \n\ncat(\"n =\", n, \"| Test value =\", test_val, \"\\n\")\n\nn = 9 | Test value = 2 \n\ncat(\"Critical value (Table J, n=9, alpha=0.05, one-tailed): 1\\n\")\n\nCritical value (Table J, n=9, alpha=0.05, one-tailed): 1\n\ncat(\"Decision:\", ifelse(test_val &lt;= 1, \"Reject H0\", \"Fail to reject H0\"), \"\\n\")\n\nDecision: Fail to reject H0"
+  },
+  {
+    "objectID": "ch13/ch13.html#wilcoxon-rank-sum-test-overview",
+    "href": "ch13/ch13.html#wilcoxon-rank-sum-test-overview",
+    "title": "Statistics",
+    "section": "Wilcoxon Rank Sum Test: Overview",
+    "text": "Wilcoxon Rank Sum Test: Overview\n\n\n\n\n\n\nPurpose\n\n\nUsed for two independent samples when normality cannot be assumed. It is the nonparametric counterpart of the independent-samples t test.\nBoth sample sizes must be \\geq 10.\nIdea: Combine both samples, rank all values together, then compare rank sums. If groups differ, one group’s ranks will be consistently higher than the other’s."
+  },
+  {
+    "objectID": "ch13/ch13.html#wilcoxon-rank-sum-test-formulas",
+    "href": "ch13/ch13.html#wilcoxon-rank-sum-test-formulas",
+    "title": "Statistics",
+    "section": "Wilcoxon Rank Sum Test: Formulas",
+    "text": "Wilcoxon Rank Sum Test: Formulas\n\n\n\n\n\n\nFormulas\n\n\nLet n_1 = smaller sample size, n_2 = larger sample size, R = sum of ranks for the smaller group.\n\\mu_R = \\frac{n_1(n_1 + n_2 + 1)}{2} \\qquad \\sigma_R = \\sqrt{\\frac{n_1 n_2 (n_1 + n_2 + 1)}{12}}\nz = \\frac{R - \\mu_R}{\\sigma_R}\nUse Table E for critical values (standard normal)."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-4-obstacle-course-times",
+    "href": "ch13/ch13.html#example-13-4-obstacle-course-times",
+    "title": "Statistics",
+    "section": "Example 13-4: Obstacle Course Times",
+    "text": "Example 13-4: Obstacle Course Times\n\n\n\n\n\n\nProblem\n\n\nTwo independent groups (Army: n=12, Marines: n=11) complete an obstacle course. At \\alpha = 0.05, test whether there is a difference in completion times.\n\n\n\nArmy\n15 18 16 17 13 22 24 17 19 21 26 28\n\n\n\n\nMarines\n14 9 16 19 10 12 11 8 15 18 25"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-4-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-4-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-4: Mathematical Solution",
+    "text": "Example 13-4: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: H_0: No difference in times; H_1: There is a difference (claim)\nStep 2: Two-tailed, \\alpha = 0.05 → z_{crit} = \\pm 1.96\nStep 3: Combine and rank all 23 values, then sum ranks for Marines (n_1 = 11):\nR = 1+2+3+4+5+7+8.5+10.5+14.5+16.5+21 = 93\n\\mu_R = \\frac{11(11+12+1)}{2} = 132 \\qquad \\sigma_R = \\sqrt{\\frac{11 \\cdot 12 \\cdot 24}{12}} = 16.2\nz = \\frac{93 - 132}{16.2} = -2.41\nStep 4: |-2.41| &gt; 1.96 → Reject H_0\nStep 5: Sufficient evidence that times differ between the two groups."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-4-r-solution",
+    "href": "ch13/ch13.html#example-13-4-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-4: R Solution",
+    "text": "Example 13-4: R Solution\n\narmy    &lt;- c(15,18,16,17,13,22,24,17,19,21,26,28)\nmarines &lt;- c(14,9,16,19,10,12,11,8,15,18,25)\n\n# Wilcoxon rank sum test (Mann-Whitney)\nresult &lt;- wilcox.test(army, marines, alternative = \"two.sided\", correct = FALSE)\nprint(result)\n\n\n    Wilcoxon rank sum test\n\ndata:  army and marines\nW = 105, p-value = 0.01625\nalternative hypothesis: true location shift is not equal to 0"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-4-visualization",
+    "href": "ch13/ch13.html#example-13-4-visualization",
+    "title": "Statistics",
+    "section": "Example 13-4: Visualization",
+    "text": "Example 13-4: Visualization\n\ndf_course &lt;- data.frame(\n  time  = c(army, marines),\n  group = c(rep(\"Army\",12), rep(\"Marine\",11))\n)\n\nggplot(df_course, aes(x = group, y = time, fill = group)) +\n  geom_boxplot(alpha = 0.7) +\n  geom_jitter(width = 0.1, size = 2) +\n  labs(title = \"Obstacle Course Completion Times\",\n       x = \"Group\", y = \"Time (minutes)\") +\n  theme_minimal() + theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "ch13/ch13.html#wilcoxon-signed-rank-test-overview",
+    "href": "ch13/ch13.html#wilcoxon-signed-rank-test-overview",
+    "title": "Statistics",
+    "section": "Wilcoxon Signed-Rank Test: Overview",
+    "text": "Wilcoxon Signed-Rank Test: Overview\n\n\n\n\n\n\nPurpose\n\n\nUsed for two dependent (paired) samples when normality cannot be assumed. It is the nonparametric counterpart of the paired t test.\nUnlike the sign test, this method incorporates the magnitude of each difference, not just its direction.\nFor n \\leq 30: use Table K for critical values.\nFor n &gt; 30: use the z approximation: z = \\frac{w_s - \\dfrac{n(n+1)}{4}}{\\sqrt{\\dfrac{n(n+1)(2n+1)}{24}}} where w_s = smaller absolute rank sum."
+  },
+  {
+    "objectID": "ch13/ch13.html#signed-rank-procedure",
+    "href": "ch13/ch13.html#signed-rank-procedure",
+    "title": "Statistics",
+    "section": "Signed-Rank Procedure",
+    "text": "Signed-Rank Procedure\n\n\n\n\n\n\nStep-by-Step Procedure\n\n\n\nCompute differences D = X_B - X_A; discard any D = 0\nRank the absolute values |D| from smallest to largest (average ties)\nRestore the sign of each rank (+ or -) based on the sign of D\nSum the positive ranks (W^+) and the negative ranks (W^-) separately\nTest value w_s = smaller of |W^+| and |W^-|\nReject H_0 if w_s \\leq critical value from Table K"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-5-shoplifting-incidents",
+    "href": "ch13/ch13.html#example-13-5-shoplifting-incidents",
+    "title": "Statistics",
+    "section": "Example 13-5: Shoplifting Incidents",
+    "text": "Example 13-5: Shoplifting Incidents\n\n\n\n\n\n\nProblem\n\n\nA department store doubles security officers. Daily shoplifting counts before and after the increase are recorded for 7 days. At \\alpha = 0.05, is there sufficient evidence that the number of incidents changed?\n\n\n\nDay\nBefore\nAfter\n\n\n\n\nMon\n7\n5\n\n\nTue\n2\n3\n\n\nWed\n3\n4\n\n\nThu\n6\n3\n\n\nFri\n5\n1\n\n\nSat\n8\n6\n\n\nSun\n12\n4"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-5-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-5-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-5: Mathematical Solution",
+    "text": "Example 13-5: Mathematical Solution\nStep 1: H_0: No difference in shoplifting; H_1: There is a difference (claim)\nStep 2: From Table K, n = 7, \\alpha = 0.05 (two-tailed) → Critical value = 2\nStep 3: Compute differences, absolute values, ranks, and signed ranks:\n\n\n\nDay\nD\n\nD\n\n\n\n\n\nMon\n2\n2\n3.5\n+3.5\n\n\nTue\n−1\n1\n1.5\n−1.5\n\n\nWed\n−1\n1\n1.5\n−1.5\n\n\nThu\n3\n3\n5\n+5\n\n\nFri\n4\n4\n6\n+6\n\n\nSat\n2\n2\n3.5\n+3.5\n\n\nSun\n8\n8\n7\n+7"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-5-r-solution",
+    "href": "ch13/ch13.html#example-13-5-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-5: R Solution",
+    "text": "Example 13-5: R Solution\n\nbefore &lt;- c(7, 2, 3, 6, 5, 8, 12)\nafter  &lt;- c(5, 3, 4, 3, 1, 6, 4)\n\nresult &lt;- wilcox.test(before, after, paired = TRUE,\n                      alternative = \"two.sided\", exact = FALSE)\nprint(result)\n\n\n    Wilcoxon signed rank test with continuity correction\n\ndata:  before and after\nV = 25, p-value = 0.07488\nalternative hypothesis: true location shift is not equal to 0"
+  },
+  {
+    "objectID": "ch13/ch13.html#kruskal-wallis-test-overview",
+    "href": "ch13/ch13.html#kruskal-wallis-test-overview",
+    "title": "Statistics",
+    "section": "Kruskal-Wallis Test: Overview",
+    "text": "Kruskal-Wallis Test: Overview\n\n\n\n\n\n\nPurpose\n\n\nThe nonparametric equivalent of one-way ANOVA. Compares three or more independent groups without requiring normality.\n\nEach group must have at least 5 observations\nThe test statistic H follows a chi-square distribution with d.f. = k - 1\nThis is always a right-tailed test"
+  },
+  {
+    "objectID": "ch13/ch13.html#kruskal-wallis-formula",
+    "href": "ch13/ch13.html#kruskal-wallis-formula",
+    "title": "Statistics",
+    "section": "Kruskal-Wallis Formula",
+    "text": "Kruskal-Wallis Formula\n\n\n\n\n\n\nH Statistic\n\n\nH = \\frac{12}{N(N+1)}\\left(\\frac{R_1^2}{n_1} + \\frac{R_2^2}{n_2} + \\cdots + \\frac{R_k^2}{n_k}\\right) - 3(N+1)\nwhere: - R_i = sum of ranks for group i - n_i = sample size of group i - N = n_1 + n_2 + \\cdots + n_k - k = number of groups\nCritical value: \\chi^2 with d.f. = k - 1 from Table G. Reject H_0 if H &gt; \\chi^2_{crit}."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-6-hospital-infections",
+    "href": "ch13/ch13.html#example-13-6-hospital-infections",
+    "title": "Statistics",
+    "section": "Example 13-6: Hospital Infections",
+    "text": "Example 13-6: Hospital Infections\n\n\n\n\n\n\nProblem\n\n\nA researcher examines infection counts in three groups of hospitals. At \\alpha = 0.05, test whether the infection distributions are the same.\n\n\n\nGroup A\nGroup B\nGroup C\n\n\n\n\n557\n476\n105\n\n\n315\n232\n110\n\n\n920\n80\n167\n\n\n178\n116\n155"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-6-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-6-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-6: Mathematical Solution",
+    "text": "Example 13-6: Mathematical Solution\nStep 1: H_0: No difference in infection distributions (claim); H_1: Distributions differ\nStep 2: d.f. = k - 1 = 2; Critical value = 5.991\nStep 3: Rank all 12 values combined:\n\n\n\nValue\nGroup\nRank\n\n\n\n\n80\nB\n1\n\n\n155\nC\n5\n\n\n315\nA\n9"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-6-r-solution",
+    "href": "ch13/ch13.html#example-13-6-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-6: R Solution",
+    "text": "Example 13-6: R Solution\n\ninfect &lt;- c(557,315,920,178, 476,232,80,116, 105,110,167,155)\ngroup  &lt;- factor(rep(c(\"A\",\"B\",\"C\"), each = 4))\n\nresult &lt;- kruskal.test(infect ~ group)\nprint(result)\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  infect by group\nKruskal-Wallis chi-squared = 5.3462, df = 2, p-value = 0.06904\n\n# Manual H\nN      &lt;- length(infect)\nranks  &lt;- rank(infect)\nR_A    &lt;- sum(ranks[group == \"A\"])\nR_B    &lt;- sum(ranks[group == \"B\"])\nR_C    &lt;- sum(ranks[group == \"C\"])\nn_each &lt;- 4\n\nH &lt;- (12/(N*(N+1))) * (R_A^2/n_each + R_B^2/n_each + R_C^2/n_each) - 3*(N+1)\ncat(\"\\nRank sums: A =\", R_A, \"B =\", R_B, \"C =\", R_C)\n\n\nRank sums: A = 39 B = 23 C = 16\n\ncat(\"\\nH =\", round(H, 3), \"| Chi-sq critical (df=2) =\", round(qchisq(0.95, 2), 3), \"\\n\")\n\n\nH = 5.346 | Chi-sq critical (df=2) = 5.991"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-6-visualization",
+    "href": "ch13/ch13.html#example-13-6-visualization",
+    "title": "Statistics",
+    "section": "Example 13-6: Visualization",
+    "text": "Example 13-6: Visualization\n\ndf_hosp &lt;- data.frame(infections = infect, group = group)\n\nggplot(df_hosp, aes(x = group, y = infections, fill = group)) +\n  geom_boxplot(alpha = 0.7) +\n  geom_jitter(width = 0.1, size = 2) +\n  labs(title = \"Hospital Infections by Group\",\n       x = \"Hospital Group\", y = \"Number of Infections\") +\n  theme_minimal() + theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "ch13/ch13.html#spearman-rank-correlation-overview",
+    "href": "ch13/ch13.html#spearman-rank-correlation-overview",
+    "title": "Statistics",
+    "section": "Spearman Rank Correlation: Overview",
+    "text": "Spearman Rank Correlation: Overview\n\n\n\n\n\n\nPurpose\n\n\nThe nonparametric equivalent of Pearson’s r. Used when data are ranked or when normality cannot be assumed.\nr_s = 1 - \\frac{6\\sum d^2}{n(n^2 - 1)}\nwhere d = difference between paired ranks, n = number of data pairs.\n\nr_s = +1: perfect positive rank agreement\nr_s = -1: perfect inverse rank agreement\nr_s \\approx 0: no rank relationship\n\nUse Table L for critical values when n \\leq 30."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-7-bank-branches-and-deposits",
+    "href": "ch13/ch13.html#example-13-7-bank-branches-and-deposits",
+    "title": "Statistics",
+    "section": "Example 13-7: Bank Branches and Deposits",
+    "text": "Example 13-7: Bank Branches and Deposits\n\n\n\n\n\n\nProblem\n\n\nIs there a significant relationship between the number of bank branches and total deposits (in billions) for a sample of 8 regional banks? At \\alpha = 0.05.\n\n\n\nBank\nBranches\nDeposits ($B)\n\n\n\n\nA\n209\n23\n\n\nB\n353\n31\n\n\nC\n19\n7\n\n\nD\n201\n12\n\n\nE\n344\n26\n\n\nF\n132\n5\n\n\nG\n401\n24\n\n\nH\n126\n4"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-7-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-7-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-7: Mathematical Solution",
+    "text": "Example 13-7: Mathematical Solution\nStep 1: H_0: \\rho_s = 0; H_1: \\rho_s \\neq 0\nStep 2: From Table L, n = 8, \\alpha = 0.05 (two-tailed) → Critical value = 0.738"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-7-r-solution",
+    "href": "ch13/ch13.html#example-13-7-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-7: R Solution",
+    "text": "Example 13-7: R Solution\n\nbranches &lt;- c(209, 353, 19, 201, 344, 132, 401, 126)\ndeposits &lt;- c(23, 31, 7, 12, 26, 5, 24, 4)  # Note: 4 not 5 for bank H\n\nresult &lt;- cor.test(branches, deposits, method = \"spearman\",\n                   alternative = \"two.sided\", exact = FALSE)\nprint(result)\n\n\n    Spearman's rank correlation rho\n\ndata:  branches and deposits\nS = 12, p-value = 0.00653\nalternative hypothesis: true rho is not equal to 0\nsample estimates:\n      rho \n0.8571429 \n\n# Manual calculation\nd2 &lt;- (rank(branches) - rank(deposits))^2\nn  &lt;- length(branches)\nrs &lt;- 1 - 6*sum(d2) / (n*(n^2 - 1))\ncat(\"\\nSum of d^2 =\", sum(d2))\n\n\nSum of d^2 = 12\n\ncat(\"\\nSpearman rs =\", round(rs, 3), \"\\n\")\n\n\nSpearman rs = 0.857"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-7-visualization",
+    "href": "ch13/ch13.html#example-13-7-visualization",
+    "title": "Statistics",
+    "section": "Example 13-7: Visualization",
+    "text": "Example 13-7: Visualization\n\ndf_bank &lt;- data.frame(branches = branches, deposits = deposits)\n\nggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +\n  geom_point(size = 3, color = \"steelblue\") +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"darkred\", linetype = \"dashed\") +\n  labs(title = \"Spearman Rank Correlation: Branches vs. Deposits\",\n       x = \"Rank of Branches\", y = \"Rank of Deposits\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "ch13/ch13.html#the-runs-test-overview",
+    "href": "ch13/ch13.html#the-runs-test-overview",
+    "title": "Statistics",
+    "section": "The Runs Test: Overview",
+    "text": "The Runs Test: Overview\n\n\n\n\n\n\nWhat Is a Run?\n\n\nA run is a maximal sequence of identical symbols (letters or labels) — preceded or followed by a different symbol or by the beginning/end of the sequence.\nPurpose: Test whether a sequence of observations is random.\n\nToo few runs → data are clustered (not random)\nToo many runs → data alternate too regularly (not random)\n\nUse Table M (two-tailed, \\alpha = 0.05) to find the acceptable range of runs."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-8-counting-runs",
+    "href": "ch13/ch13.html#example-13-8-counting-runs",
+    "title": "Statistics",
+    "section": "Example 13-8: Counting Runs",
+    "text": "Example 13-8: Counting Runs\n\n\n\n\n\n\nProblem\n\n\nCount the number of runs in each sequence.\na. M M F F F M F F\nb. H T H H H\nc. A B A A A B B A B B B"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-8-solution",
+    "href": "ch13/ch13.html#example-13-8-solution",
+    "title": "Statistics",
+    "section": "Example 13-8: Solution",
+    "text": "Example 13-8: Solution\n\n\n\n\n\n\nSolutions\n\n\na. MM | FFF | M | FF → 4 runs\nb. H | T | HHH → 3 runs\nc. A | B | AAA | BB | A | BBB → 6 runs\n\n\n\n\ncount_runs &lt;- function(seq) {\n  n &lt;- length(seq)\n  if (n == 0) return(0)\n  sum(seq[-1] != seq[-n]) + 1\n}\n\na &lt;- c(\"M\",\"M\",\"F\",\"F\",\"F\",\"M\",\"F\",\"F\")\nb &lt;- c(\"H\",\"T\",\"H\",\"H\",\"H\")\nd &lt;- c(\"A\",\"B\",\"A\",\"A\",\"A\",\"B\",\"B\",\"A\",\"B\",\"B\",\"B\")\n\ncat(\"Runs in a:\", count_runs(a), \"\\n\")\n\nRuns in a: 4 \n\ncat(\"Runs in b:\", count_runs(b), \"\\n\")\n\nRuns in b: 3 \n\ncat(\"Runs in c:\", count_runs(d), \"\\n\")\n\nRuns in c: 6"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-9-gender-of-train-passengers",
+    "href": "ch13/ch13.html#example-13-9-gender-of-train-passengers",
+    "title": "Statistics",
+    "section": "Example 13-9: Gender of Train Passengers",
+    "text": "Example 13-9: Gender of Train Passengers\n\n\n\n\n\n\nProblem\n\n\nA conductor observes 25 boarding passengers: FFFMMFFFFMFMMMFFFFMMFFFMM\nAt \\alpha = 0.05, test whether passengers board at random."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-9-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-9-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-9: Mathematical Solution",
+    "text": "Example 13-9: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: H_0: Passengers board at random (claim); H_1: Not random\nStep 2: Identify runs:\nFFF | MM | FFFF | M | F | MMM | FFFF | MM | FFF | MM → 10 runs\nn_1 (females) = 15; n_2 (males) = 10\nStep 3: From Table M, n_1 = 15, n_2 = 10 → acceptable range: 7 to 18\nStep 4: 10 falls within [7, 18] → Fail to reject H_0\nStep 5: Insufficient evidence that boarding order is non-random."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-9-r-solution",
+    "href": "ch13/ch13.html#example-13-9-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-9: R Solution",
+    "text": "Example 13-9: R Solution\n\npassengers &lt;- strsplit(\"FFFMMFFFFMFMMMFFFFMMFFFMM\", \"\")[[1]]\n\nn_F    &lt;- sum(passengers == \"F\")\nn_M    &lt;- sum(passengers == \"M\")\nn_runs &lt;- count_runs(passengers)\n\ncat(\"Females (n1) =\", n_F, \"| Males (n2) =\", n_M, \"\\n\")\n\nFemales (n1) = 15 | Males (n2) = 10 \n\ncat(\"Number of runs =\", n_runs, \"\\n\")\n\nNumber of runs = 10 \n\ncat(\"Critical range (Table M, n1=15, n2=10, alpha=0.05): [7, 18]\\n\")\n\nCritical range (Table M, n1=15, n2=10, alpha=0.05): [7, 18]\n\ncat(\"Decision:\", ifelse(n_runs &gt;= 7 & n_runs &lt;= 18,\n                        \"Fail to reject H0 — data appear random\",\n                        \"Reject H0 — data are NOT random\"), \"\\n\")\n\nDecision: Fail to reject H0 — data appear random"
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-10-ages-of-drug-program-participants",
+    "href": "ch13/ch13.html#example-13-10-ages-of-drug-program-participants",
+    "title": "Statistics",
+    "section": "Example 13-10: Ages of Drug Program Participants",
+    "text": "Example 13-10: Ages of Drug Program Participants\n\n\n\n\n\n\nProblem\n\n\nTwenty people enroll in a drug program in this order of ages: 18, 36, 19, 22, 25, 44, 23, 27, 27, 35, 19, 43, 37, 32, 28, 43, 46, 19, 20, 22\nAt \\alpha = 0.05, test whether ages occur at random."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-10-mathematical-solution",
+    "href": "ch13/ch13.html#example-13-10-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 13-10: Mathematical Solution",
+    "text": "Example 13-10: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: H_0: Ages occur at random (claim); H_1: Not random\nStep 2: - Sorted ages: 18 19 19 19 20 22 22 23 25 27 27 28 32 35 36 37 43 43 44 46 - Median = 27 (average of 10th and 11th values) - Replace each age: A (above 27), B (below 27); discard values = 27\nSequence after replacement (dropping 27s): B A B B B A B A B | A A A A A A | B B B\nStep 3: Runs: B | A | BBB | A | B | A | B | AAAAAA | BBB → 9 runs\nn_1 = n_2 = 9 (9 above, 9 below median, after dropping 27s)\nStep 4: Table M, n_1 = n_2 = 9 → acceptable range: [5, 15]\nSince 9 falls within [5, 15] → Fail to reject H_0\nStep 5: Insufficient evidence that ages are non-random."
+  },
+  {
+    "objectID": "ch13/ch13.html#example-13-10-r-solution",
+    "href": "ch13/ch13.html#example-13-10-r-solution",
+    "title": "Statistics",
+    "section": "Example 13-10: R Solution",
+    "text": "Example 13-10: R Solution\n\nages &lt;- c(18,36,19,22,25,44,23,27,27,35,19,43,37,32,28,43,46,19,20,22)\nmed  &lt;- median(ages)\n\nlabels &lt;- ifelse(ages &gt; med, \"A\", ifelse(ages &lt; med, \"B\", NA))\nlabels &lt;- labels[!is.na(labels)]  # drop values equal to median\n\nn_A    &lt;- sum(labels == \"A\")\nn_B    &lt;- sum(labels == \"B\")\nn_runs &lt;- count_runs(labels)"
+  },
+  {
+    "objectID": "ch13/ch13.html#chapter-13-summary",
+    "href": "ch13/ch13.html#chapter-13-summary",
+    "title": "Statistics",
+    "section": "Chapter 13 Summary",
+    "text": "Chapter 13 Summary\n\n\n\n\n\n\nNonparametric Tests Quick Reference\n\n\n\n\n\n\n\n\n\n\n\nTest\nSection\nUse For\nParametric Equivalent\n\n\n\n\nSign test\n13-2\nMedian; before-after\nz or t test\n\n\nWilcoxon rank sum\n13-3\nTwo independent samples\nIndependent t test\n\n\nWilcoxon signed-rank\n13-4\nTwo dependent samples\nPaired t test\n\n\nKruskal-Wallis\n13-5\nThree or more groups\nOne-way ANOVA\n\n\nSpearman r_s\n13-6\nCorrelation between ranks\nPearson r\n\n\nRuns test\n13-6\nTest for randomness\nNone"
+  },
+  {
+    "objectID": "ch13/ch13.html#when-to-use-nonparametric-tests",
+    "href": "ch13/ch13.html#when-to-use-nonparametric-tests",
+    "title": "Statistics",
+    "section": "When to Use Nonparametric Tests",
+    "text": "When to Use Nonparametric Tests\n\n\n\n\n\n\nDecision Guidelines\n\n\n\nUse parametric tests when their assumptions (normality, equal variance) are met — they are more powerful\nUse nonparametric tests when:\n\nPopulation is clearly non-normal\nData are ordinal or nominal\nSmall samples with no normality guarantee\nHypothesis involves the median rather than the mean\nTesting for randomness (runs test)"
+  },
+  {
+    "objectID": "ch13/ch13.html#references",
+    "href": "ch13/ch13.html#references",
+    "title": "Statistics",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "ch12/ch12.html#acknowledgements",
+    "href": "ch12/ch12.html#acknowledgements",
+    "title": "Statistics",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\nCopyright notice. These teaching materials have been adapted from Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill. All rights are reserved by the original authors and publishers.\nNon-commercial use only. These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.\nProper attribution. Any reproduction, distribution, or use of these materials must provide proper attribution to the original source."
+  },
+  {
+    "objectID": "ch14/ch14.html#chapter-overview",
+    "href": "ch14/ch14.html#chapter-overview",
+    "title": "Statistics",
+    "section": "Chapter Overview",
+    "text": "Chapter Overview\n\n\n\n\n\n\nWhy Sampling and Simulation?\n\n\nWhen populations are too large to study completely, researchers rely on samples to draw valid inferences. And when real-world experiments are too dangerous, expensive, or time-consuming, simulation provides a safe, cost-effective alternative.\nRandom numbers are the engine behind both techniques.\n\n\n\nTopics covered:\n\n14-1: Common Sampling Techniques\n14-2: Surveys and Questionnaire Design\n14-3: Simulation Techniques and the Monte Carlo Method"
+  },
+  {
+    "objectID": "ch14/ch14.html#why-use-samples",
+    "href": "ch14/ch14.html#why-use-samples",
+    "title": "Statistics",
+    "section": "Why Use Samples?",
+    "text": "Why Use Samples?\n\n\n\n\n\n\nThree Reasons to Sample\n\n\n\nSaves time and money — studying an entire population is often impractical\nEnables otherwise impossible research — e.g., testing cable strength to destruction would leave nothing to sell; blood cholesterol analysis cannot use every drop\nAllows more depth — smaller samples enable more detailed interviews and richer data collection\n\nKey requirement: A sample must be random — every member of the population must have an equal chance of selection. Random samples are unbiased; non-random samples are biased."
+  },
+  {
+    "objectID": "ch14/ch14.html#four-basic-sampling-methods",
+    "href": "ch14/ch14.html#four-basic-sampling-methods",
+    "title": "Statistics",
+    "section": "Four Basic Sampling Methods",
+    "text": "Four Basic Sampling Methods\n\n\n\n\n\n\nOverview\n\n\n\n\n\nMethod\nCore Idea\n\n\n\n\nRandom\nUse random numbers to select subjects\n\n\nSystematic\nSelect every kth element after a random start\n\n\nStratified\nDivide into homogeneous subgroups; sample each\n\n\nCluster\nSelect an intact, pre-existing group as the sample"
+  },
+  {
+    "objectID": "ch14/ch14.html#random-sampling",
+    "href": "ch14/ch14.html#random-sampling",
+    "title": "Statistics",
+    "section": "Random Sampling",
+    "text": "Random Sampling\n\n\n\n\n\n\nRandom Sampling\n\n\nEach element of the population is numbered, and random numbers are used to select the sample.\nCommon mistakes to avoid: - Interviewing “people on the street” (coverage bias) - Phone-in polls (self-selection bias) - Mail surveys (non-response bias)\nCorrect method: Use a random number table or computer-generated random numbers."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-1-tv-show-interviews-random-sample",
+    "href": "ch14/ch14.html#example-14-1-tv-show-interviews-random-sample",
+    "title": "Statistics",
+    "section": "Example 14-1: TV Show Interviews — Random Sample",
+    "text": "Example 14-1: TV Show Interviews — Random Sample\n\n\n\n\n\n\nProblem\n\n\nA researcher producing a TV show can interview only 10 governors from the 50 states. Select a random sample of 10 states using a random number table."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-1-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-1-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-1: Mathematical Solution",
+    "text": "Example 14-1: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: Number the states 01–50 alphabetically (01 = Alabama, 02 = Alaska, …, 50 = Wyoming)\nStep 2: Use the random number table. Start at a chosen point and read two-digit numbers:\nSelected numbers: 27, 43, 34, 06, 13, 29, 01, 39, 23, 35\n(Discard numbers &gt; 50 and duplicates; sample without replacement)\nStep 3: Match to states:\n\n\n\n#\nState\n\n#\nState\n\n\n\n\n27\nNebraska\n\n29\nNew Hampshire\n\n\n43\nTexas\n\n01\nAlabama\n\n\n34\nNorth Dakota\n\n39\nRhode Island\n\n\n06\nColorado\n\n23\nMinnesota\n\n\n13\nIllinois\n\n35\nOhio"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-1-r-solution",
+    "href": "ch14/ch14.html#example-14-1-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-1: R Solution",
+    "text": "Example 14-1: R Solution\n\nstates &lt;- c(\"Alabama\",\"Alaska\",\"Arizona\",\"Arkansas\",\"California\",\n            \"Colorado\",\"Connecticut\",\"Delaware\",\"Florida\",\"Georgia\",\n            \"Hawaii\",\"Idaho\",\"Illinois\",\"Indiana\",\"Iowa\",\n            \"Kansas\",\"Kentucky\",\"Louisiana\",\"Maine\",\"Maryland\",\n            \"Massachusetts\",\"Michigan\",\"Minnesota\",\"Mississippi\",\"Missouri\",\n            \"Montana\",\"Nebraska\",\"Nevada\",\"New Hampshire\",\"New Jersey\",\n            \"New Mexico\",\"New York\",\"North Carolina\",\"North Dakota\",\"Ohio\",\n            \"Oklahoma\",\"Oregon\",\"Pennsylvania\",\"Rhode Island\",\"South Carolina\",\n            \"South Dakota\",\"Tennessee\",\"Texas\",\"Utah\",\"Vermont\",\n            \"Virginia\",\"Washington\",\"West Virginia\",\"Wisconsin\",\"Wyoming\")"
+  },
+  {
+    "objectID": "ch14/ch14.html#systematic-sampling",
+    "href": "ch14/ch14.html#systematic-sampling",
+    "title": "Statistics",
+    "section": "Systematic Sampling",
+    "text": "Systematic Sampling\n\n\n\n\n\n\nSystematic Sampling\n\n\n\nNumber all population elements\nDetermine interval k = N/n (population size ÷ sample size)\nSelect a random starting point from 1 to k\nSelect every kth element thereafter\n\nAdvantage: Simple to execute; no full list of random numbers needed.\nCaution: Avoid using systematic sampling on lists with a periodic pattern (e.g., alternating male/female) that matches the interval k."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-2-tv-show-interviews-systematic-sample",
+    "href": "ch14/ch14.html#example-14-2-tv-show-interviews-systematic-sample",
+    "title": "Statistics",
+    "section": "Example 14-2: TV Show Interviews — Systematic Sample",
+    "text": "Example 14-2: TV Show Interviews — Systematic Sample\n\n\n\n\n\n\nProblem\n\n\nUsing the same 50-state population, select a systematic sample of 10 states."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-2-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-2-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-2: Mathematical Solution",
+    "text": "Example 14-2: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: Number states 01–50\nStep 2: k = 50 / 10 = 5 → select every 5th state\nStep 3: Random start: 4 (selected from digits 1–5)\nStep 4: Selected every 5th from 4: 4, 9, 14, 19, 24, 29, 34, 39, 44, 49\n\n\n\n#\nState\n\n#\nState\n\n\n\n\n04\nArkansas\n\n29\nNew Hampshire\n\n\n09\nFlorida\n\n34\nNorth Dakota\n\n\n14\nIndiana\n\n39\nRhode Island\n\n\n19\nMaine\n\n44\nUtah\n\n\n24\nMississippi\n\n49\nWisconsin"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-2-r-solution",
+    "href": "ch14/ch14.html#example-14-2-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-2: R Solution",
+    "text": "Example 14-2: R Solution\n\nN &lt;- 50; n &lt;- 10\nk &lt;- N / n  # interval = 5\n\nset.seed(7)\nstart &lt;- sample(1:k, 1)\ncat(\"Random start:\", start, \"\\n\")\n\nRandom start: 2 \n\nsys_indices &lt;- seq(start, N, by = k)\ncat(\"Selected state numbers:\", sys_indices, \"\\n\\n\")\n\nSelected state numbers: 2 7 12 17 22 27 32 37 42 47 \n\ncat(\"Selected states:\\n\")\n\nSelected states:\n\nfor (i in sys_indices) {\n  cat(sprintf(\"  %02d. %s\\n\", i, states[i]))\n}\n\n  02. Alaska\n  07. Connecticut\n  12. Idaho\n  17. Kentucky\n  22. Michigan\n  27. Nebraska\n  32. New York\n  37. Oregon\n  42. Tennessee\n  47. Washington"
+  },
+  {
+    "objectID": "ch14/ch14.html#stratified-sampling",
+    "href": "ch14/ch14.html#stratified-sampling",
+    "title": "Statistics",
+    "section": "Stratified Sampling",
+    "text": "Stratified Sampling\n\n\n\n\n\n\nStratified Sampling\n\n\nThe population is divided into strata (subgroups) based on shared characteristics (e.g., gender, grade level, region). A random sample is then drawn from each stratum.\nAdvantage: Guarantees representation of every important subgroup.\nDisadvantages: - Requires extensive effort when many strata exist - Difficult if grouping criteria are complex or ambiguous\nProportional stratification: Sample size from each stratum is proportional to that stratum’s share of the total population."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-3-stratified-sample-of-students",
+    "href": "ch14/ch14.html#example-14-3-stratified-sample-of-students",
+    "title": "Statistics",
+    "section": "Example 14-3: Stratified Sample of Students",
+    "text": "Example 14-3: Stratified Sample of Students\n\n\n\n\n\n\nProblem\n\n\nFrom a class of 20 students (10 male, 10 female; mixed freshmen/sophomores), select a stratified sample of 8 based on gender and grade level.\nFour strata:\n\n\n\nGroup 1\nMale Freshmen (5)\nGroup 3\nFemale Freshmen (5)\n\n\n\n\nGroup 2\nMale Sophomores (5)\nGroup 4\nFemale Sophomores (5)"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-3-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-3-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-3: Mathematical Solution",
+    "text": "Example 14-3: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nStep 1: Divide into 4 strata (Male/Female × Freshman/Sophomore)\nStep 2: Each stratum has 5 members. Select 8/4 = 2 from each.\nStep 3: Using random numbers, select 2 from each group:\n\n\n\nGroup\nSelected\n\n\n\n\nMale Freshmen\nPeterson, John; Meloski, Gary\n\n\nMale Sophomores\nBrown, Danny; Lyons, Larry\n\n\nFemale Freshmen\nBear, Theresa; Collins, Carolyn\n\n\nFemale Sophomores\nToms, Debbie; Unger, Roberta"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-3-r-solution",
+    "href": "ch14/ch14.html#example-14-3-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-3: R Solution",
+    "text": "Example 14-3: R Solution\n\nstudents &lt;- data.frame(\n  name   = c(\"Ald P\",\"Brown D\",\"Bear T\",\"Carson S\",\"Collins C\",\n             \"Davis W\",\"Hogan M\",\"Jones L\",\"Lutz H\",\"Lyons L\",\n             \"Martin J\",\"Meloski G\",\"Oeler G\",\"Peters M\",\"Peterson J\",\n             \"Smith N\",\"Thomas J\",\"Toms D\",\"Unger R\",\"Zibert M\"),\n  gender = c(\"M\",\"M\",\"F\",\"F\",\"F\",\"M\",\"M\",\"F\",\"M\",\"M\",\n             \"F\",\"M\",\"M\",\"F\",\"M\",\"F\",\"M\",\"F\",\"F\",\"F\"),\n  grade  = c(\"Fr\",\"So\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\n             \"Fr\",\"Fr\",\"So\",\"So\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\"So\")\n)"
+  },
+  {
+    "objectID": "ch14/ch14.html#cluster-sampling",
+    "href": "ch14/ch14.html#cluster-sampling",
+    "title": "Statistics",
+    "section": "Cluster Sampling",
+    "text": "Cluster Sampling\n\n\n\n\n\n\nCluster Sampling\n\n\nA naturally occurring group (cluster) is selected as the sample. All members of the cluster may be used, or a random subset is taken.\nExamples: An entire school classroom, all residents of a city block, all voters in an electoral district.\nAdvantages: Reduces cost; simplifies fieldwork; convenient.\nDisadvantage: Members within a cluster tend to be more homogeneous than the general population — the sample may lack diversity."
+  },
+  {
+    "objectID": "ch14/ch14.html#sampling-methods-summary-comparison",
+    "href": "ch14/ch14.html#sampling-methods-summary-comparison",
+    "title": "Statistics",
+    "section": "Sampling Methods: Summary Comparison",
+    "text": "Sampling Methods: Summary Comparison\n\n\n\n\n\n\nAt a Glance\n\n\n\n\n\n\n\n\n\n\nMethod\nBest When\nWatch Out For\n\n\n\n\nRandom\nGeneral purpose\nTime-consuming with large N\n\n\nSystematic\nPre-numbered list exists\nPeriodic patterns in list\n\n\nStratified\nSubgroup representation matters\nMany strata = lots of effort\n\n\nCluster\nCost/logistics drive decisions\nWithin-cluster homogeneity\n\n\n\nOther methods: sequence sampling (quality control), double sampling (two-stage eligibility), multistage sampling (combination approach for very large populations)."
+  },
+  {
+    "objectID": "ch14/ch14.html#types-of-surveys",
+    "href": "ch14/ch14.html#types-of-surveys",
+    "title": "Statistics",
+    "section": "Types of Surveys",
+    "text": "Types of Surveys\n\n\n\n\n\n\nTwo Survey Formats\n\n\nInterviewer-administered: A person poses questions face-to-face, by phone, or in a mall.\nSelf-administered: Respondents complete the survey independently — by mail, email, or in a group setting.\nImportant: How a question is worded can dramatically change the responses. Researchers must design questions carefully to avoid leading respondents toward a predetermined answer."
+  },
+  {
+    "objectID": "ch14/ch14.html#five-common-questionnaire-flaws",
+    "href": "ch14/ch14.html#five-common-questionnaire-flaws",
+    "title": "Statistics",
+    "section": "Five Common Questionnaire Flaws",
+    "text": "Five Common Questionnaire Flaws\n\n\n\n\n\n\nAvoid These Mistakes\n\n\n\nBiased questions — Wording steers the respondent toward a specific answer e.g., “Are you going to vote for Jones even though polls show he will lose?”\nConfusing words — Ambiguous terms lead to misinterpretation e.g., “Do you think people live longer on a diet?” (which diet?)\nDouble-barreled questions — One question asks two things at once e.g., “Do you favor a special tax to fund national health care?”\nDouble negatives — Two negatives create confusion e.g., “Do you feel it is not appropriate to have areas where people cannot smoke?”\nImproper question order — Earlier questions prime responses to later ones"
+  },
+  {
+    "objectID": "ch14/ch14.html#additional-survey-biases",
+    "href": "ch14/ch14.html#additional-survey-biases",
+    "title": "Statistics",
+    "section": "Additional Survey Biases",
+    "text": "Additional Survey Biases\n\n\n\n\n\n\nOther Sources of Bias\n\n\n\nSocial desirability bias: Respondents answer what they think the interviewer wants to hear\nAcquiescence bias: Some people agree with any statement to avoid conflict\nConfidentiality vs. anonymity: Respondents behave differently when they believe their identity is known\nTiming and location: Surveys about airline safety yield different results right after a crash\nOpen vs. closed questions:\n\nOpen-ended: “List three retirement activities” — rich but hard to summarize\nClosed-ended: Choose from given options — easy to tally but limits response"
+  },
+  {
+    "objectID": "ch14/ch14.html#what-is-simulation",
+    "href": "ch14/ch14.html#what-is-simulation",
+    "title": "Statistics",
+    "section": "What Is Simulation?",
+    "text": "What Is Simulation?\n\n\n\n\n\n\nSimulation Defined\n\n\nA simulation technique uses a probability experiment to replicate a real-life situation that is too costly, dangerous, or time-consuming to study directly.\nHistorical roots: Chess was invented as a simulation of warfare. Modern mathematical simulation dates to the 1940s when physicists John Von Neumann and Stanislaw Ulam used it to study neutron behavior in nuclear reactor design.\nModern tools: Computers generate random numbers, tally outcomes, and compute probabilities millions of times per second."
+  },
+  {
+    "objectID": "ch14/ch14.html#the-monte-carlo-method",
+    "href": "ch14/ch14.html#the-monte-carlo-method",
+    "title": "Statistics",
+    "section": "The Monte Carlo Method",
+    "text": "The Monte Carlo Method\n\n\n\n\n\n\nSix Steps of the Monte Carlo Method\n\n\n\nList all possible outcomes of the experiment\nAssign probabilities to each outcome\nMap outcomes to random number ranges\nDraw random numbers and run the experiment\nRepeat and tally results\nCompute statistics and draw conclusions\n\nKey insight: Results approach the theoretical values as the number of repetitions increases (Law of Large Numbers)."
+  },
+  {
+    "objectID": "ch14/ch14.html#setting-up-random-number-correspondences",
+    "href": "ch14/ch14.html#setting-up-random-number-correspondences",
+    "title": "Statistics",
+    "section": "Setting Up Random Number Correspondences",
+    "text": "Setting Up Random Number Correspondences\n\n\n\n\n\n\nExamples of Outcome-to-Number Mapping\n\n\n\n\n\n\n\n\n\n\nExperiment\nOutcome\nRandom Digits\n\n\n\n\nCoin toss (50/50)\nHeads\n1,3,5,7,9\n\n\nCoin toss\nTails\n0,2,4,6,8\n\n\nDie roll (1/6 each)\n1–6\n1,2,3,4,5,6 (ignore 7,8,9,0)\n\n\nSpinner (4 values, 1/4 each)\n1\n1–2; 2→3–4; 3→5–6; 4→7–8 (ignore 9,0)\n\n\nSnoring (20% chance)\nSnores\n1,2; Non-snore→3–9,0"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-4-snoring-simulation",
+    "href": "ch14/ch14.html#example-14-4-snoring-simulation",
+    "title": "Statistics",
+    "section": "Example 14-4: Snoring Simulation",
+    "text": "Example 14-4: Snoring Simulation\n\n\n\n\n\n\nProblem\n\n\nAccording to the CDC, approximately 20% of people snore while sleeping. Simulate a sample of 20 people and identify how many snore."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-4-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-4-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-4: Mathematical Solution",
+    "text": "Example 14-4: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nSince 20\\% = 1/5, one in five people snores.\nMapping: Digits 1, 2 → snores; digits 0, 3–9 → does not snore\nSample random digits: 7\\ 2\\ 7\\ 4\\ 8\\ 2\\ 2\\ 3\\ 6\\ 1\\ 6\\ 0\\ 4\\ 6\\ 1\\ 5\\ 5\\ 3\\ 8\\ 9\nSnorers (digits 1 or 2): positions 2, 6, 7, 10, 15 → 5 snorers out of 20\nProportion: 5/20 = 0.25, close to the theoretical 20%."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-4-r-solution",
+    "href": "ch14/ch14.html#example-14-4-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-4: R Solution",
+    "text": "Example 14-4: R Solution\n\nset.seed(101)\nn_people &lt;- 20\np_snore  &lt;- 0.20\n\n# Simulate with R's built-in Bernoulli sampler\nsnores &lt;- rbinom(n_people, size = 1, prob = p_snore)\n\ncat(\"Simulation results (1 = snores, 0 = does not):\\n\")\n\nSimulation results (1 = snores, 0 = does not):\n\ncat(snores, \"\\n\\n\")\n\n0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 \n\ncat(\"Number who snore:\", sum(snores), \"out of\", n_people, \"\\n\")\n\nNumber who snore: 3 out of 20 \n\ncat(\"Proportion:\", round(mean(snores), 3),\n    \"  (Theoretical: 0.20)\\n\")\n\nProportion: 0.15   (Theoretical: 0.20)"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-5-tennis-game-simulation",
+    "href": "ch14/ch14.html#example-14-5-tennis-game-simulation",
+    "title": "Statistics",
+    "section": "Example 14-5: Tennis Game Simulation",
+    "text": "Example 14-5: Tennis Game Simulation\n\n\n\n\n\n\nProblem\n\n\nBill is twice as good as Mike at tennis. Simulate a 5-game match between them.\nSince P(\\text{Bill wins}) = 2/3 and P(\\text{Mike wins}) = 1/3:\nMapping: Digits 1–6 → Bill wins; digits 7–9 → Mike wins; digit 0 → ignore\nRandom number used: 86314\n\n\n\nDigit\n8\n6\n3\n1\n4\n\n\n\n\nWinner\nMike\nBill\nBill\nBill\nBill\n\n\n\nResult: Bill wins 4 games, Mike wins 1."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-5-r-solution",
+    "href": "ch14/ch14.html#example-14-5-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-5: R Solution",
+    "text": "Example 14-5: R Solution\n\nset.seed(99)\nn_games  &lt;- 5\np_bill   &lt;- 2/3\n\nwinners &lt;- sample(c(\"Bill\",\"Mike\"),\n                  size = n_games,\n                  replace = TRUE,\n                  prob = c(p_bill, 1 - p_bill))\n\ncat(\"Game-by-game results:\\n\")\n\nGame-by-game results:\n\nfor (i in seq_along(winners)) cat(\"  Game\", i, \":\", winners[i], \"\\n\")\n\n  Game 1 : Bill \n  Game 2 : Bill \n  Game 3 : Mike \n  Game 4 : Mike \n  Game 5 : Bill \n\ncat(\"\\nBill wins:\", sum(winners == \"Bill\"), \"games\\n\")\n\n\nBill wins: 3 games\n\ncat(\"Mike wins:\", sum(winners == \"Mike\"), \"games\\n\")\n\nMike wins: 2 games"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-6-rolling-a-die-until-a-6-appears",
+    "href": "ch14/ch14.html#example-14-6-rolling-a-die-until-a-6-appears",
+    "title": "Statistics",
+    "section": "Example 14-6: Rolling a Die Until a 6 Appears",
+    "text": "Example 14-6: Rolling a Die Until a 6 Appears\n\n\n\n\n\n\nProblem\n\n\nA die is rolled until a 6 appears. Using simulation, find the average number of rolls needed. Repeat the experiment 20 times."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-6-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-6-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-6: Mathematical Solution",
+    "text": "Example 14-6: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nMapping: Digits 1–6 → die face; digits 7, 8, 9, 0 → ignore\nExample: Random block 857236 → ignore 8, ignore 5, ignore 7, roll 2, roll 3, roll 6 → 4 rolls\nAfter 20 simulated trials, total rolls = 96: \\bar{X} = \\frac{96}{20} = 4.8 \\text{ rolls}\nTheoretical value (expected value of geometric distribution): E(X) = \\frac{1}{p} = \\frac{1}{1/6} = 6\nMore repetitions would push the simulation closer to 6."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-6-r-solution",
+    "href": "ch14/ch14.html#example-14-6-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-6: R Solution",
+    "text": "Example 14-6: R Solution\n\nset.seed(55)\nn_trials &lt;- 20\n\nrolls_needed &lt;- replicate(n_trials, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})\n\ncat(\"Rolls per trial:\", rolls_needed, \"\\n\")\n\nRolls per trial: 1 11 2 5 1 1 2 2 7 1 3 1 1 22 5 3 6 1 1 2 \n\ncat(\"Total rolls:\", sum(rolls_needed), \"\\n\")\n\nTotal rolls: 78 \n\ncat(\"Simulated average:\", round(mean(rolls_needed), 2), \"\\n\")\n\nSimulated average: 3.9 \n\ncat(\"Theoretical average (1/p = 6):\", 6, \"\\n\")\n\nTheoretical average (1/p = 6): 6"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-6-visualization",
+    "href": "ch14/ch14.html#example-14-6-visualization",
+    "title": "Statistics",
+    "section": "Example 14-6: Visualization",
+    "text": "Example 14-6: Visualization\n\nset.seed(55)\nmany_trials &lt;- replicate(1000, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-7-selecting-a-key",
+    "href": "ch14/ch14.html#example-14-7-selecting-a-key",
+    "title": "Statistics",
+    "section": "Example 14-7: Selecting a Key",
+    "text": "Example 14-7: Selecting a Key\n\n\n\n\n\n\nProblem\n\n\nA person has 4 keys, only one of which opens a lock. She tries them at random (without replacement) until the correct one is found. Find the average number of tries needed. Repeat 25 times."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-7-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-7-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-7: Mathematical Solution",
+    "text": "Example 14-7: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nSetup: Keys numbered 1–4; key 2 is the correct one.\nMapping: Use digits 1–4 only (ignore 5–9, 0). Count digits until 2 appears.\nExample: 1432 → tries key 1, then 4, then 3, then 2 → 4 tries\nAfter 25 trials: \\sum X = 54\n\\bar{X} = \\frac{54}{25} = 2.16 \\text{ tries}\nTheoretical average: E(X) = \\frac{n+1}{2} = \\frac{4+1}{2} = 2.5"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-7-r-solution",
+    "href": "ch14/ch14.html#example-14-7-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-7: R Solution",
+    "text": "Example 14-7: R Solution\n\nset.seed(77)\nn_trials   &lt;- 25\ncorrect_key &lt;- 2\n\ntries_needed &lt;- replicate(n_trials, {\n  keys &lt;- sample(1:4, 4, replace = FALSE)  # random order\n  which(keys == correct_key)               # position of correct key\n})\n\ncat(\"Tries per trial:\", tries_needed, \"\\n\")\n\nTries per trial: 1 3 2 1 1 4 3 4 2 4 3 2 3 2 2 3 3 4 1 2 2 1 1 4 2 \n\ncat(\"Total tries:\", sum(tries_needed), \"\\n\")\n\nTotal tries: 60 \n\ncat(\"Simulated average:\", round(mean(tries_needed), 3), \"\\n\")\n\nSimulated average: 2.4 \n\ncat(\"Theoretical average ((n+1)/2 = 2.5):\", 2.5, \"\\n\")\n\nTheoretical average ((n+1)/2 = 2.5): 2.5"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-8-selecting-a-monetary-bill",
+    "href": "ch14/ch14.html#example-14-8-selecting-a-monetary-bill",
+    "title": "Statistics",
+    "section": "Example 14-8: Selecting a Monetary Bill",
+    "text": "Example 14-8: Selecting a Monetary Bill\n\n\n\n\n\n\nProblem\n\n\nA box contains 5 one-dollar bills, 3 five-dollar bills, and 2 ten-dollar bills. A person randomly selects one bill. Find the expected value of the selected bill. Perform the experiment 25 times."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-8-mathematical-solution",
+    "href": "ch14/ch14.html#example-14-8-mathematical-solution",
+    "title": "Statistics",
+    "section": "Example 14-8: Mathematical Solution",
+    "text": "Example 14-8: Mathematical Solution\n\n\n\n\n\n\nSolution\n\n\nProbabilities: P(\\$1) = 5/10 = 0.5, P(\\$5) = 3/10 = 0.3, P(\\$10) = 2/10 = 0.2\nMapping: Digits 1–5 → \\$1; digits 6–8 → \\$5; digits 9, 0 → \\$10\n25 simulated draws: Total = \\$116\n\\bar{X} = \\frac{116}{25} = \\$4.64\nTheoretical expected value: E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \\$4.00\nThe simulation is close to the theoretical value; more repetitions bring the results even closer."
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-8-r-solution",
+    "href": "ch14/ch14.html#example-14-8-r-solution",
+    "title": "Statistics",
+    "section": "Example 14-8: R Solution",
+    "text": "Example 14-8: R Solution\n\nset.seed(33)\nn_trials &lt;- 25\n\nbills    &lt;- c(1, 5, 10)\nprobs    &lt;- c(0.5, 0.3, 0.2)\n\ndraws &lt;- sample(bills, size = n_trials, replace = TRUE, prob = probs)\n\ncat(\"Bill values drawn:\\n\")\n\nBill values drawn:\n\ncat(draws, \"\\n\\n\")\n\n1 1 1 10 10 5 1 1 1 1 5 1 1 1 5 10 5 1 1 10 5 1 1 1 10 \n\ncat(\"Total:\", sum(draws), \"\\n\")\n\nTotal: 90 \n\ncat(\"Simulated average: $\", round(mean(draws), 2), \"\\n\")\n\nSimulated average: $ 3.6 \n\ncat(\"Theoretical E(X): $\", sum(bills * probs), \"\\n\")\n\nTheoretical E(X): $ 4"
+  },
+  {
+    "objectID": "ch14/ch14.html#example-14-8-visualization",
+    "href": "ch14/ch14.html#example-14-8-visualization",
+    "title": "Statistics",
+    "section": "Example 14-8: Visualization",
+    "text": "Example 14-8: Visualization\n\nset.seed(33)\nmany_draws &lt;- sample(bills, size = 1000, replace = TRUE, prob = probs)\n\nggplot(data.frame(value = many_draws), aes(x = factor(value))) +\n  geom_bar(fill = c(\"gold\",\"steelblue\",\"darkgreen\"), alpha = 0.85) +\n  geom_hline(yintercept = 1000 * probs, linetype = \"dashed\",\n             color = c(\"gold3\",\"steelblue4\",\"darkgreen\"), linewidth = 0.8) +\n  labs(title = \"Bill Selection Simulation (1000 trials)\",\n       x = \"Bill Value ($)\", y = \"Frequency\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "ch14/ch14.html#monte-carlo-method-summary",
+    "href": "ch14/ch14.html#monte-carlo-method-summary",
+    "title": "Statistics",
+    "section": "Monte Carlo Method: Summary",
+    "text": "Monte Carlo Method: Summary\n\n\n\n\n\n\nKey Takeaways\n\n\n\n\n\nStep\nAction\n\n\n\n\n1\nList all possible outcomes\n\n\n2\nAssign probabilities\n\n\n3\nMap outcomes to random number ranges\n\n\n4\nDraw random numbers, run experiment\n\n\n5\nRepeat and tally\n\n\n6\nCompute statistics, draw conclusions\n\n\n\nRemember: Simulation approximates — it does not replace — exact probability calculations. The Law of Large Numbers guarantees convergence with enough repetitions.\nModern use: NASA flight simulators, video game physics, financial risk modeling, drug trial design, climate modeling."
+  },
+  {
+    "objectID": "ch14/ch14.html#chapter-14-summary",
+    "href": "ch14/ch14.html#chapter-14-summary",
+    "title": "Statistics",
+    "section": "Chapter 14 Summary",
+    "text": "Chapter 14 Summary\n\n\n\n\n\n\nCore Concepts\n\n\nSection 14-1 — Sampling: - Samples save time, money, and enable otherwise impossible research - Four methods: Random, Systematic, Stratified, Cluster - Unbiased samples require every subject to have an equal selection probability\nSection 14-2 — Surveys: - Question wording, order, and format all affect results - Avoid: biased questions, confusing words, double-barreled questions, double negatives, improper ordering\nSection 14-3 — Simulation: - Monte Carlo method: map outcomes to random number ranges, repeat, tally - Simulated averages approach theoretical values as n \\to \\infty - R’s sample(), rbinom(), and replicate() make simulation straightforward"
+  },
+  {
+    "objectID": "ch14/ch14.html#references",
+    "href": "ch14/ch14.html#references",
+    "title": "Statistics",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "ch14/ch14.html#acknowledgements",
+    "href": "ch14/ch14.html#acknowledgements",
+    "title": "Statistics",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\nCopyright notice. These teaching materials have been adapted from Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill. All rights are reserved by the original authors and publishers.\nNon-commercial use only. These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.\nProper attribution. Any reproduction, distribution, or use of these materials must provide proper attribution to the original source."
   }
 ]
