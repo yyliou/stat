@@ -3008,5 +3008,551 @@
     "title": "Statistics",
     "section": "Acknowledgements",
     "text": "Acknowledgements\n\nCopyright notice. These teaching materials have been adapted from Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill. All rights are reserved by the original authors and publishers.\nNon-commercial use only. These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.\nProper attribution. Any reproduction, distribution, or use of these materials must provide proper attribution to the original source."
+  },
+  {
+    "objectID": "ch10/ch10.html#chapter-10-overview",
+    "href": "ch10/ch10.html#chapter-10-overview",
+    "title": "Statistics",
+    "section": "Chapter 10 Overview",
+    "text": "Chapter 10 Overview\nResearchers often ask: Is there a relationship between two variables, and if so, how strong is it?\nThis chapter addresses four key questions:\n\nAre two variables linearly related?\nIf so, how strong is that relationship?\nWhat type of relationship exists (positive, negative, linear, curvilinear)?\nWhat predictions can be made from the relationship?\n\nTools: Scatter plots, correlation coefficients, regression lines, and prediction intervals."
+  },
+  {
+    "objectID": "ch10/ch10.html#key-terms",
+    "href": "ch10/ch10.html#key-terms",
+    "title": "Statistics",
+    "section": "Key Terms",
+    "text": "Key Terms\n\n\n\n\n\n\nNote\n\n\n\nIndependent variable (x): The predictor variable — can be controlled or manipulated.\nDependent variable (y): The response variable — its value depends on x.\nScatter plot: A graph of ordered pairs (x, y) used to visually assess the relationship between two variables.\nPositive relationship: Both variables move in the same direction.\nNegative relationship: Variables move in opposite directions."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-1-car-rental-companies-scatter-plot",
+    "href": "ch10/ch10.html#example-10-1-car-rental-companies-scatter-plot",
+    "title": "Statistics",
+    "section": "Example 10-1: Car Rental Companies — Scatter Plot",
+    "text": "Example 10-1: Car Rental Companies — Scatter Plot\n\n\n\n\n\n\nTip\n\n\nConstruct a scatter plot for the following car rental company data:\n\n\n\nCompany\nCars (×10,000)\nRevenue ($ billions)\n\n\n\n\nA\n63.0\n7.0\n\n\nB\n29.0\n3.9\n\n\nC\n20.8\n2.1\n\n\nD\n19.1\n2.8\n\n\nE\n13.4\n1.4\n\n\nF\n8.5\n1.5"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-1-solution-r",
+    "href": "ch10/ch10.html#example-10-1-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-1: Solution (R)",
+    "text": "Example 10-1: Solution (R)\n\ncars    &lt;- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)\nrevenue &lt;- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)\ndf &lt;- data.frame(cars, revenue)\n\nggplot(df, aes(x = cars, y = revenue)) +\n  geom_point(size = 3, color = \"steelblue\") +\n  labs(x = \"Cars (in 10,000s)\", y = \"Revenue ($ billions)\",\n       title = \"Car Rental Companies\") +\n  theme_minimal()\n\n\nThe scatter plot suggests a positive linear relationship — as fleet size increases, so does revenue."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-2-absences-and-final-grades-scatter-plot",
+    "href": "ch10/ch10.html#example-10-2-absences-and-final-grades-scatter-plot",
+    "title": "Statistics",
+    "section": "Example 10-2: Absences and Final Grades — Scatter Plot",
+    "text": "Example 10-2: Absences and Final Grades — Scatter Plot\n\n\n\n\n\n\nTip\n\n\nConstruct a scatter plot for the number of absences and final grades for seven statistics students:\n\n\n\nStudent\nAbsences x\nFinal Grade y (%)\n\n\n\n\nA\n6\n82\n\n\nB\n2\n86\n\n\nC\n15\n43\n\n\nD\n9\n74\n\n\nE\n12\n58\n\n\nF\n5\n90\n\n\nG\n8\n78"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-2-solution-r",
+    "href": "ch10/ch10.html#example-10-2-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-2: Solution (R)",
+    "text": "Example 10-2: Solution (R)\n\nabsences &lt;- c(6, 2, 15, 9, 12, 5, 8)\ngrade    &lt;- c(82, 86, 43, 74, 58, 90, 78)\ndf2 &lt;- data.frame(absences, grade)\n\nggplot(df2, aes(x = absences, y = grade)) +\n  geom_point(size = 3, color = \"tomato\") +\n  labs(x = \"Number of Absences\", y = \"Final Grade (%)\",\n       title = \"Absences vs. Final Grade\") +\n  theme_minimal()\n\n\nThe plot suggests a negative linear relationship — more absences correspond to lower grades."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-3-age-and-wealth-scatter-plot",
+    "href": "ch10/ch10.html#example-10-3-age-and-wealth-scatter-plot",
+    "title": "Statistics",
+    "section": "Example 10-3: Age and Wealth — Scatter Plot",
+    "text": "Example 10-3: Age and Wealth — Scatter Plot\n\n\n\n\n\n\nTip\n\n\nA researcher examines the relationship between age and net worth (in $ billions) for the wealthiest people in the U.S.:\n\n\n\nPerson\nAge x\nWealth y ($ billions)\n\n\n\n\nA\n73\n16\n\n\nB\n65\n26\n\n\nC\n53\n50\n\n\nD\n54\n21.5\n\n\nE\n79\n40\n\n\nF\n69\n16\n\n\nG\n61\n19.6\n\n\nH\n65\n19"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-3-solution-r",
+    "href": "ch10/ch10.html#example-10-3-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-3: Solution (R)",
+    "text": "Example 10-3: Solution (R)\n\nage   &lt;- c(73, 65, 53, 54, 79, 69, 61, 65)\nwealth &lt;- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)\ndf3 &lt;- data.frame(age, wealth)\n\nggplot(df3, aes(x = age, y = wealth)) +\n  geom_point(size = 3, color = \"purple\") +\n  labs(x = \"Age\", y = \"Wealth ($ billions)\",\n       title = \"Age vs. Net Wealth\") +\n  theme_minimal()\n\n\nNo clear pattern is visible — this suggests little or no linear relationship between age and wealth."
+  },
+  {
+    "objectID": "ch10/ch10.html#the-pearson-correlation-coefficient",
+    "href": "ch10/ch10.html#the-pearson-correlation-coefficient",
+    "title": "Statistics",
+    "section": "The Pearson Correlation Coefficient",
+    "text": "The Pearson Correlation Coefficient\n\n\n\n\n\n\nNote\n\n\nThe Pearson product moment correlation coefficient (r) measures the strength and direction of the linear relationship between two variables.\n\\[r = \\frac{n\\sum xy - (\\sum x)(\\sum y)}{\\sqrt{[n\\sum x^2 - (\\sum x)^2][n\\sum y^2 - (\\sum y)^2]}}\\]\n\nRange: \\(-1 \\leq r \\leq +1\\)\nClose to +1: strong positive relationship\nClose to −1: strong negative relationship\nClose to 0: weak or no linear relationship\n\nAssumptions: Random sample; approximately linear relationship; interval/ratio data; bivariate normal distribution."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-4-correlation-for-car-rental-companies",
+    "href": "ch10/ch10.html#example-10-4-correlation-for-car-rental-companies",
+    "title": "Statistics",
+    "section": "Example 10-4: Correlation for Car Rental Companies",
+    "text": "Example 10-4: Correlation for Car Rental Companies\n\n\n\n\n\n\nTip\n\n\nCompute the correlation coefficient for the car rental data from Example 10-1."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-4-solution-math",
+    "href": "ch10/ch10.html#example-10-4-solution-math",
+    "title": "Statistics",
+    "section": "Example 10-4: Solution (Math)",
+    "text": "Example 10-4: Solution (Math)\nBuild the calculation table:\n\n\n\nCompany\nx\ny\nxy\nx²\ny²\n\n\n\n\nA\n63.0\n7.0\n441.00\n3969.00\n49.00\n\n\nB\n29.0\n3.9\n113.10\n841.00\n15.21\n\n\nC\n20.8\n2.1\n43.68\n432.64\n4.41\n\n\nD\n19.1\n2.8\n53.48\n364.81\n7.84\n\n\nE\n13.4\n1.4\n18.76\n179.56\n1.96\n\n\nF\n8.5\n1.5\n12.75\n72.25\n2.25\n\n\nΣ\n153.8\n18.7\n682.77\n5859.26\n80.67\n\n\n\n\\[r = \\frac{6(682.77) - (153.8)(18.7)}{\\sqrt{[6(5859.26) - 153.8^2][6(80.67) - 18.7^2]}} \\approx \\boxed{0.982}\\]"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-4-solution-r",
+    "href": "ch10/ch10.html#example-10-4-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-4: Solution (R)",
+    "text": "Example 10-4: Solution (R)\n\nx &lt;- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)\ny &lt;- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)\n\nr &lt;- cor(x, y)\ncat(\"Correlation coefficient r =\", round(r, 4), \"\\n\")\n\nCorrelation coefficient r = 0.982 \n\ncat(\"Strong positive relationship — r is close to 1.\\n\")\n\nStrong positive relationship — r is close to 1."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-5-correlation-for-absences-and-final-grades",
+    "href": "ch10/ch10.html#example-10-5-correlation-for-absences-and-final-grades",
+    "title": "Statistics",
+    "section": "Example 10-5: Correlation for Absences and Final Grades",
+    "text": "Example 10-5: Correlation for Absences and Final Grades\n\n\n\n\n\n\nTip\n\n\nCompute the correlation coefficient for the absences and final grade data from Example 10-2.\n\n\n\n\nx &lt;- c(6, 2, 15, 9, 12, 5, 8)\ny &lt;- c(82, 86, 43, 74, 58, 90, 78)\n\nr &lt;- cor(x, y)\ncat(\"r =\", round(r, 4), \"\\n\")\n\nr = -0.9442 \n\ncat(\"Strong negative relationship — more absences, lower grade.\\n\")\n\nStrong negative relationship — more absences, lower grade.\n\n\nResult: r ≈ −0.944 → strong negative linear relationship."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-6-correlation-for-age-and-wealth",
+    "href": "ch10/ch10.html#example-10-6-correlation-for-age-and-wealth",
+    "title": "Statistics",
+    "section": "Example 10-6: Correlation for Age and Wealth",
+    "text": "Example 10-6: Correlation for Age and Wealth\n\n\n\n\n\n\nTip\n\n\nCompute the correlation coefficient for the age and wealth data from Example 10-3.\n\n\n\n\nx &lt;- c(73, 65, 53, 54, 79, 69, 61, 65)\ny &lt;- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)\n\nr &lt;- cor(x, y)\ncat(\"r =\", round(r, 4), \"\\n\")\n\nr = -0.1763 \n\ncat(\"Very weak negative relationship — r is close to 0.\\n\")\n\nVery weak negative relationship — r is close to 0.\n\n\nResult: r ≈ −0.176 → very weak relationship, likely due to chance."
+  },
+  {
+    "objectID": "ch10/ch10.html#testing-the-significance-of-r",
+    "href": "ch10/ch10.html#testing-the-significance-of-r",
+    "title": "Statistics",
+    "section": "Testing the Significance of r",
+    "text": "Testing the Significance of r\n\n\n\n\n\n\nNote\n\n\nTo determine whether r reflects a true linear relationship (and not just sampling error), we test:\n\\[H_0: \\rho = 0 \\quad H_1: \\rho \\neq 0\\]\nt test for the correlation coefficient: \\[t = r\\sqrt{\\frac{n-2}{1-r^2}}, \\quad d.f. = n-2\\]\nAlternatively, use Table I (critical values of r) directly — no need to compute t."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-7-test-significance-of-r-0.982",
+    "href": "ch10/ch10.html#example-10-7-test-significance-of-r-0.982",
+    "title": "Statistics",
+    "section": "Example 10-7: Test Significance of r = 0.982",
+    "text": "Example 10-7: Test Significance of r = 0.982\n\n\n\n\n\n\nTip\n\n\nTest whether the correlation r = 0.982 from Example 10-4 is significant at α = 0.05.\n\n\n\nStep 1: H₀: ρ = 0   H₁: ρ ≠ 0\nStep 2: d.f. = 6 − 2 = 4; CV = ±2.776 (from t-table)\nStep 3: \\[t = 0.982\\sqrt{\\frac{6-2}{1-0.982^2}} = 0.982\\sqrt{\\frac{4}{0.0356}} \\approx 10.4\\]\nStep 4: |10.4| &gt; 2.776 → Reject H₀\nStep 5: There is a significant linear relationship between fleet size and revenue."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-7-solution-r",
+    "href": "ch10/ch10.html#example-10-7-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-7: Solution (R)",
+    "text": "Example 10-7: Solution (R)\n\nx &lt;- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)\ny &lt;- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)\n\ntest &lt;- cor.test(x, y, alternative = \"two.sided\")\ncat(\"r =\", round(test$estimate, 4), \"\\n\")\n\nr = 0.982 \n\ncat(\"t =\", round(test$statistic, 4), \"\\n\")\n\nt = 10.3921 \n\ncat(\"P-value =\", round(test$p.value, 6), \"\\n\")\n\nP-value = 0.000484 \n\ncat(\"Decision:\", ifelse(test$p.value &lt; 0.05, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-8-test-significance-using-table-i-r-0.176",
+    "href": "ch10/ch10.html#example-10-8-test-significance-using-table-i-r-0.176",
+    "title": "Statistics",
+    "section": "Example 10-8: Test Significance Using Table I (r = −0.176)",
+    "text": "Example 10-8: Test Significance Using Table I (r = −0.176)\n\n\n\n\n\n\nTip\n\n\nUsing Table I, test the significance of r = −0.176 from Example 10-6 at α = 0.01.\n\n\n\nH₀: ρ = 0    H₁: ρ ≠ 0\nd.f. = 8 − 2 = 6; From Table I at α = 0.01, d.f. = 6: critical value = 0.834\n|r| = 0.176 &lt; 0.834 → Do not reject H₀\nThere is not enough evidence to conclude a significant linear relationship between age and wealth.\n\nx &lt;- c(73, 65, 53, 54, 79, 69, 61, 65)\ny &lt;- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)\ntest &lt;- cor.test(x, y)\ncat(\"r =\", round(test$estimate, 4), \"  P-value =\", round(test$p.value, 4), \"\\n\")\n\nr = -0.1763   P-value = 0.6762 \n\ncat(\"Decision:\", ifelse(test$p.value &lt; 0.01, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Do not reject H0"
+  },
+  {
+    "objectID": "ch10/ch10.html#correlation-causation",
+    "href": "ch10/ch10.html#correlation-causation",
+    "title": "Statistics",
+    "section": "Correlation ≠ Causation",
+    "text": "Correlation ≠ Causation\n\n\n\n\n\n\nImportant\n\n\nA significant correlation between two variables does not prove causation. Possible explanations include:\n\nDirect cause-and-effect (x causes y)\nReverse causation (y causes x)\nLurking variable — a third variable causes both x and y\nComplex interrelationships among many variables\nCoincidence — the relationship is due to chance\n\n\n\n\nAlways interpret a significant r cautiously and consider alternative explanations."
+  },
+  {
+    "objectID": "ch10/ch10.html#the-regression-line-line-of-best-fit",
+    "href": "ch10/ch10.html#the-regression-line-line-of-best-fit",
+    "title": "Statistics",
+    "section": "The Regression Line (Line of Best Fit)",
+    "text": "The Regression Line (Line of Best Fit)\n\n\n\n\n\n\nNote\n\n\nWhen r is significant, we can describe the linear relationship with the regression line:\n\\[\\hat{y} = a + bx\\]\nwhere: \\[b = \\frac{n\\sum xy - (\\sum x)(\\sum y)}{n\\sum x^2 - (\\sum x)^2}\\]\n\\[a = \\frac{(\\sum y)(\\sum x^2) - (\\sum x)(\\sum xy)}{n\\sum x^2 - (\\sum x)^2}\\]\n\n\\(b\\) = slope (marginal change in y per one-unit increase in x)\n\\(a\\) = y-intercept\nRound a and b to three decimal places"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-9-regression-line-for-car-rental-data",
+    "href": "ch10/ch10.html#example-10-9-regression-line-for-car-rental-data",
+    "title": "Statistics",
+    "section": "Example 10-9: Regression Line for Car Rental Data",
+    "text": "Example 10-9: Regression Line for Car Rental Data\n\n\n\n\n\n\nTip\n\n\nFind the equation of the regression line for the car rental data from Example 10-4.\nKnown values: n = 6, Σx = 153.8, Σy = 18.7, Σxy = 682.77, Σx² = 5859.26\n\n\n\nSolution:\n\\[b = \\frac{6(682.77) - (153.8)(18.7)}{6(5859.26) - 153.8^2} = \\frac{4096.62 - 2876.06}{35155.56 - 23653.44} = \\frac{1220.56}{11502.12} \\approx 0.106\\]\n\\[a = \\frac{(18.7)(5859.26) - (153.8)(682.77)}{6(5859.26) - 153.8^2} \\approx 0.396\\]\n\\[\\boxed{\\hat{y} = 0.396 + 0.106x}\\]"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-9-solution-r",
+    "href": "ch10/ch10.html#example-10-9-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-9: Solution (R)",
+    "text": "Example 10-9: Solution (R)\n\nx &lt;- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)\ny &lt;- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)\n\nmodel &lt;- lm(y ~ x)\ncat(\"Intercept a =\", round(coef(model)[1], 3), \"\\n\")\n\nIntercept a = 0.396 \n\ncat(\"Slope b =\",     round(coef(model)[2], 3), \"\\n\")\n\nSlope b = 0.106 \n\nggplot(data.frame(x, y), aes(x, y)) +\n  geom_point(size = 3, color = \"steelblue\") +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"red\") +\n  labs(title = \"Car Rental: Revenue vs Fleet Size\",\n       x = \"Cars (×10,000)\", y = \"Revenue ($ billions)\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-10-regression-line-for-absences-and-grades",
+    "href": "ch10/ch10.html#example-10-10-regression-line-for-absences-and-grades",
+    "title": "Statistics",
+    "section": "Example 10-10: Regression Line for Absences and Grades",
+    "text": "Example 10-10: Regression Line for Absences and Grades\n\n\n\n\n\n\nTip\n\n\nFind the equation of the regression line for the absences/grade data from Example 10-2.\nn = 7, Σx = 57, Σy = 511, Σxy = 3745, Σx² = 579\n\n\n\n\\[b = \\frac{7(3745) - (57)(511)}{7(579) - 57^2} = \\frac{26215 - 29127}{4053 - 3249} = \\frac{-2912}{804} \\approx -3.622\\]\n\\[a = \\frac{(511)(579) - (57)(3745)}{7(579) - 57^2} = \\frac{295869 - 213465}{804} \\approx 102.493\\]\n\\[\\boxed{\\hat{y} = 102.493 - 3.622x}\\]"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-10-solution-r",
+    "href": "ch10/ch10.html#example-10-10-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-10: Solution (R)",
+    "text": "Example 10-10: Solution (R)\n\nx &lt;- c(6, 2, 15, 9, 12, 5, 8)\ny &lt;- c(82, 86, 43, 74, 58, 90, 78)\n\nmodel2 &lt;- lm(y ~ x)\ncat(\"Intercept a =\", round(coef(model2)[1], 3), \"\\n\")\n\nIntercept a = 102.493 \n\ncat(\"Slope b =\",     round(coef(model2)[2], 3), \"\\n\")\n\nSlope b = -3.622 \n\nggplot(data.frame(x, y), aes(x, y)) +\n  geom_point(size = 3, color = \"tomato\") +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"darkred\") +\n  labs(title = \"Absences vs. Final Grade\",\n       x = \"Absences\", y = \"Grade (%)\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-11-making-a-prediction",
+    "href": "ch10/ch10.html#example-10-11-making-a-prediction",
+    "title": "Statistics",
+    "section": "Example 10-11: Making a Prediction",
+    "text": "Example 10-11: Making a Prediction\n\n\n\n\n\n\nTip\n\n\nUsing the regression equation from Example 10-9, predict the revenue of a car rental agency with 200,000 automobiles.\n\n\n\nSince x values are in 10,000s: x = 200,000 ÷ 10,000 = 20\n\\[\\hat{y} = 0.396 + 0.106(20) = 0.396 + 2.120 = \\boxed{2.516 \\text{ billion dollars}}\\]\n\nx &lt;- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)\ny &lt;- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)\nmodel &lt;- lm(y ~ x)\n\npred &lt;- predict(model, newdata = data.frame(x = 20))\ncat(\"Predicted revenue for 200,000 cars: $\", round(pred, 3), \"billion\\n\")\n\nPredicted revenue for 200,000 cars: $ 2.519 billion\n\n\n\n\n\n\n\n\nImportant\n\n\nCaution: Only predict within the range of observed x values. Extrapolation beyond the data is unreliable."
+  },
+  {
+    "objectID": "ch10/ch10.html#types-of-variation",
+    "href": "ch10/ch10.html#types-of-variation",
+    "title": "Statistics",
+    "section": "Types of Variation",
+    "text": "Types of Variation\n\n\n\n\n\n\nNote\n\n\nThe total variation in y can be decomposed:\n\\[\\underbrace{\\sum(y - \\bar{y})^2}_{\\text{Total variation}} = \\underbrace{\\sum(\\hat{y} - \\bar{y})^2}_{\\text{Explained variation}} + \\underbrace{\\sum(y - \\hat{y})^2}_{\\text{Unexplained variation}}\\]\n\nExplained variation: attributed to the linear relationship with x\nUnexplained variation: due to chance or other factors (also called residual variation)"
+  },
+  {
+    "objectID": "ch10/ch10.html#coefficient-of-determination",
+    "href": "ch10/ch10.html#coefficient-of-determination",
+    "title": "Statistics",
+    "section": "Coefficient of Determination",
+    "text": "Coefficient of Determination\n\n\n\n\n\n\nNote\n\n\n\\[r^2 = \\frac{\\text{Explained variation}}{\\text{Total variation}}\\]\nEquivalently, \\(r^2\\) is obtained by squaring the correlation coefficient.\n\n\\(r^2\\) expressed as a percentage tells us what proportion of variation in y is explained by x.\nCoefficient of nondetermination: \\(1 - r^2\\) (unexplained proportion)\n\nExample: If r = 0.982, then r² = 0.964, meaning 96.4% of the variation in revenue is explained by fleet size."
+  },
+  {
+    "objectID": "ch10/ch10.html#coefficient-of-determination-r-examples",
+    "href": "ch10/ch10.html#coefficient-of-determination-r-examples",
+    "title": "Statistics",
+    "section": "Coefficient of Determination — R Examples",
+    "text": "Coefficient of Determination — R Examples\n\nr_vals &lt;- c(0.982, -0.944, -0.176, 0.90, 0.60)\nfor (r in r_vals) {\n  cat(sprintf(\"r = %6.3f  →  r² = %.4f  (%.1f%% explained)\\n\",\n              r, r^2, r^2 * 100))\n}\n\nr =  0.982  →  r² = 0.9643  (96.4% explained)\nr = -0.944  →  r² = 0.8911  (89.1% explained)\nr = -0.176  →  r² = 0.0310  (3.1% explained)\nr =  0.900  →  r² = 0.8100  (81.0% explained)\nr =  0.600  →  r² = 0.3600  (36.0% explained)"
+  },
+  {
+    "objectID": "ch10/ch10.html#standard-error-of-the-estimate",
+    "href": "ch10/ch10.html#standard-error-of-the-estimate",
+    "title": "Statistics",
+    "section": "Standard Error of the Estimate",
+    "text": "Standard Error of the Estimate\n\n\n\n\n\n\nNote\n\n\nThe standard error of the estimate (\\(s_{est}\\)) measures the spread of observed y values around the regression line:\n\\[s_{est} = \\sqrt{\\frac{\\sum(y - \\hat{y})^2}{n-2}}\\]\nComputational shortcut:\n\\[s_{est} = \\sqrt{\\frac{\\sum y^2 - a\\sum y - b\\sum xy}{n-2}}\\]\nThe smaller \\(s_{est}\\), the better the regression line fits the data."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-12-copy-machine-maintenance-costs",
+    "href": "ch10/ch10.html#example-10-12-copy-machine-maintenance-costs",
+    "title": "Statistics",
+    "section": "Example 10-12: Copy Machine Maintenance Costs",
+    "text": "Example 10-12: Copy Machine Maintenance Costs\n\n\n\n\n\n\nTip\n\n\nA researcher finds a significant relationship between the age of a copy machine (years) and its monthly maintenance cost (dollars). The regression equation is \\(\\hat{y} = 55.57 + 8.13x\\). Find the standard error of the estimate.\n\n\n\nMachine\nAge x\nCost y\n\n\n\n\nA\n1\n$62\n\n\nB\n2\n$78\n\n\nC\n3\n$70\n\n\nD\n4\n$90\n\n\nE\n4\n$93\n\n\nF\n6\n$103"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-12-solution-math",
+    "href": "ch10/ch10.html#example-10-12-solution-math",
+    "title": "Statistics",
+    "section": "Example 10-12: Solution (Math)",
+    "text": "Example 10-12: Solution (Math)\nCompute \\(\\hat{y}\\) and residuals for each observation:\n\n\n\nx\ny\n\\(\\hat{y}\\)\n\\(y - \\hat{y}\\)\n\\((y - \\hat{y})^2\\)\n\n\n\n\n1\n62\n63.70\n−1.70\n2.89\n\n\n2\n78\n71.83\n6.17\n38.07\n\n\n3\n70\n79.96\n−9.96\n99.20\n\n\n4\n90\n88.09\n1.91\n3.65\n\n\n4\n93\n88.09\n4.91\n24.11\n\n\n6\n103\n104.35\n−1.35\n1.82\n\n\n\n\n\nΣ\n169.74\n\n\n\n\\[s_{est} = \\sqrt{\\frac{169.74}{6-2}} = \\sqrt{42.44} \\approx \\boxed{6.51}\\]"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-12-solution-r",
+    "href": "ch10/ch10.html#example-10-12-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-12: Solution (R)",
+    "text": "Example 10-12: Solution (R)\n\nx &lt;- c(1, 2, 3, 4, 4, 6)\ny &lt;- c(62, 78, 70, 90, 93, 103)\n\nmodel3 &lt;- lm(y ~ x)\ncat(\"Intercept a =\", round(coef(model3)[1], 3), \"\\n\")\n\nIntercept a = 55.565 \n\ncat(\"Slope b =\",     round(coef(model3)[2], 3), \"\\n\")\n\nSlope b = 8.13 \n\nsest &lt;- summary(model3)$sigma\ncat(\"Standard error of estimate s_est =\", round(sest, 4), \"\\n\")\n\nStandard error of estimate s_est = 6.5142 \n\ncat(\"r² =\", round(summary(model3)$r.squared, 4), \"\\n\")\n\nr² = 0.8566"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-13-standard-error-via-computational-formula",
+    "href": "ch10/ch10.html#example-10-13-standard-error-via-computational-formula",
+    "title": "Statistics",
+    "section": "Example 10-13: Standard Error via Computational Formula",
+    "text": "Example 10-13: Standard Error via Computational Formula\n\n\n\n\n\n\nTip\n\n\nUsing the shortcut formula and the data from Example 10-12 (where Σy² = 42,186, Σy = 496, Σxy = 1778, a = 55.57, b = 8.13):\n\n\n\n\\[s_{est} = \\sqrt{\\frac{42186 - 55.57(496) - 8.13(1778)}{6-2}} = \\sqrt{\\frac{42186 - 27562.72 - 14455.14}{4}} \\approx \\boxed{6.48}\\]\n\nx &lt;- c(1, 2, 3, 4, 4, 6)\ny &lt;- c(62, 78, 70, 90, 93, 103)\nmodel3 &lt;- lm(y ~ x)\na &lt;- coef(model3)[1]; b &lt;- coef(model3)[2]\nsest_shortcut &lt;- sqrt((sum(y^2) - a*sum(y) - b*sum(x*y)) / (length(y) - 2))\ncat(\"s_est (shortcut formula) =\", round(sest_shortcut, 4), \"\\n\")\n\ns_est (shortcut formula) = 6.5142 \n\n\n(Small discrepancy due to rounding in a and b.)"
+  },
+  {
+    "objectID": "ch10/ch10.html#prediction-interval",
+    "href": "ch10/ch10.html#prediction-interval",
+    "title": "Statistics",
+    "section": "Prediction Interval",
+    "text": "Prediction Interval\n\n\n\n\n\n\nNote\n\n\nA prediction interval provides a range within which a future individual y value is expected to fall for a given x:\n\\[\\hat{y} \\pm t_{\\alpha/2} \\cdot s_{est} \\sqrt{1 + \\frac{1}{n} + \\frac{n(x - \\bar{X})^2}{n\\sum x^2 - (\\sum x)^2}}\\]\nwith \\(d.f. = n - 2\\)"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-14-95-prediction-interval",
+    "href": "ch10/ch10.html#example-10-14-95-prediction-interval",
+    "title": "Statistics",
+    "section": "Example 10-14: 95% Prediction Interval",
+    "text": "Example 10-14: 95% Prediction Interval\n\n\n\n\n\n\nTip\n\n\nFor the copy machine data, find the 95% prediction interval for the monthly maintenance cost when the machine is 3 years old.\n\n\n\nKnown: \\(\\sum x = 20\\), \\(\\sum x^2 = 82\\), \\(\\bar{X} = 20/6 = 3.3\\), \\(\\hat{y}(3) = 79.96\\), \\(s_{est} = 6.48\\), \\(t_{0.025, 4} = 2.776\\)\n\\[\\text{SE factor} = \\sqrt{1 + \\frac{1}{6} + \\frac{6(3-3.3)^2}{6(82)-20^2}} = \\sqrt{1 + 0.167 + \\frac{0.54}{92}} \\approx 1.08\\]\n\\[79.96 \\pm 2.776(6.48)(1.08) = 79.96 \\pm 19.43\\]\n\\[\\boxed{60.53 &lt; y &lt; 99.39}\\]"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-14-solution-r",
+    "href": "ch10/ch10.html#example-10-14-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-14: Solution (R)",
+    "text": "Example 10-14: Solution (R)\n\nx &lt;- c(1, 2, 3, 4, 4, 6)\ny &lt;- c(62, 78, 70, 90, 93, 103)\nmodel3 &lt;- lm(y ~ x)\n\npred_int &lt;- predict(model3, newdata = data.frame(x = 3),\n                    interval = \"prediction\", level = 0.95)\ncat(\"Predicted y at x=3:\", round(pred_int[1], 2), \"\\n\")\n\nPredicted y at x=3: 79.96 \n\ncat(\"95% Prediction Interval: (\",\n    round(pred_int[2], 2), \",\", round(pred_int[3], 2), \")\\n\")\n\n95% Prediction Interval: ( 60.36 , 99.55 )\n\n\nWe are 95% confident the actual maintenance cost for a 3-year-old machine falls between $60.53 and $99.39."
+  },
+  {
+    "objectID": "ch10/ch10.html#residual-plot",
+    "href": "ch10/ch10.html#residual-plot",
+    "title": "Statistics",
+    "section": "Residual Plot",
+    "text": "Residual Plot\n\nx &lt;- c(1, 2, 3, 4, 4, 6)\ny &lt;- c(62, 78, 70, 90, 93, 103)\nmodel3 &lt;- lm(y ~ x)\n\ndf_resid &lt;- data.frame(x, residuals = resid(model3))\nggplot(df_resid, aes(x = x, y = residuals)) +\n  geom_point(size = 3) +\n  geom_hline(yintercept = 0, linetype = \"dashed\", color = \"red\") +\n  labs(title = \"Residual Plot\", x = \"Age (years)\", y = \"Residual\") +\n  theme_minimal()\n\n\nIf residuals are randomly scattered around 0, the linear model is appropriate."
+  },
+  {
+    "objectID": "ch10/ch10.html#multiple-regression-overview",
+    "href": "ch10/ch10.html#multiple-regression-overview",
+    "title": "Statistics",
+    "section": "Multiple Regression Overview",
+    "text": "Multiple Regression Overview\n\n\n\n\n\n\nNote\n\n\nMultiple regression uses two or more independent variables to predict a single dependent variable:\n\\[\\hat{y} = a + b_1 x_1 + b_2 x_2 + \\cdots + b_k x_k\\]\n\nEach \\(b_i\\) is a partial regression coefficient: the change in y for a one-unit increase in \\(x_i\\), holding all other x’s constant.\n\nAssumptions: 1. Normality of y values for each x 2. Equal variances (homoscedasticity) 3. Linearity 4. Non-multicollinearity (independent variables not highly correlated) 5. Independence of observations"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-13-state-board-scores-multiple-regression",
+    "href": "ch10/ch10.html#example-10-13-state-board-scores-multiple-regression",
+    "title": "Statistics",
+    "section": "Example 10-13: State Board Scores — Multiple Regression",
+    "text": "Example 10-13: State Board Scores — Multiple Regression\n\n\n\n\n\n\nTip\n\n\nA nursing instructor wants to predict a student’s state board score (y) from GPA (x₁) and age (x₂). Data for 5 students:\n\n\n\nStudent\nGPA x₁\nAge x₂\nScore y\n\n\n\n\nA\n3.2\n22\n550\n\n\nB\n2.7\n27\n570\n\n\nC\n2.5\n24\n525\n\n\nD\n3.4\n28\n670\n\n\nE\n2.2\n23\n490\n\n\n\nFind the multiple regression equation."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-13-solution-r",
+    "href": "ch10/ch10.html#example-10-13-solution-r",
+    "title": "Statistics",
+    "section": "Example 10-13: Solution (R)",
+    "text": "Example 10-13: Solution (R)\n\ngpa   &lt;- c(3.2, 2.7, 2.5, 3.4, 2.2)\nage   &lt;- c(22, 27, 24, 28, 23)\nscore &lt;- c(550, 570, 525, 670, 490)\n\nmodel_mr &lt;- lm(score ~ gpa + age)\nsummary(model_mr)\n\n\nCall:\nlm(formula = score ~ gpa + age)\n\nResiduals:\n      1       2       3       4       5 \n -5.364 -14.209   1.918   9.910   7.743 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)  \n(Intercept)  -44.810     69.247  -0.647   0.5839  \ngpa           87.640     15.237   5.752   0.0289 *\nage           14.533      2.914   4.988   0.0379 *\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 14.01 on 2 degrees of freedom\nMultiple R-squared:  0.9787,    Adjusted R-squared:  0.9574 \nF-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131"
+  },
+  {
+    "objectID": "ch10/ch10.html#predicting-with-the-multiple-regression-equation",
+    "href": "ch10/ch10.html#predicting-with-the-multiple-regression-equation",
+    "title": "Statistics",
+    "section": "Predicting with the Multiple Regression Equation",
+    "text": "Predicting with the Multiple Regression Equation\n\nnew_student &lt;- data.frame(gpa = 3.0, age = 25)\npred_score  &lt;- predict(model_mr, newdata = new_student)\ncat(\"Predicted state board score:\", round(pred_score, 1), \"\\n\")\n\nPredicted state board score: 581.4 \n\n\nInterpretation of coefficients: - For each 1-point increase in GPA (holding age constant), the score increases by about 87.64 points - For each 1-year increase in age (holding GPA constant), the score increases by about 14.53 points"
+  },
+  {
+    "objectID": "ch10/ch10.html#multiple-correlation-coefficient-r",
+    "href": "ch10/ch10.html#multiple-correlation-coefficient-r",
+    "title": "Statistics",
+    "section": "Multiple Correlation Coefficient R",
+    "text": "Multiple Correlation Coefficient R\n\n\n\n\n\n\nNote\n\n\nThe multiple correlation coefficient R measures the strength of the relationship between all predictors and the dependent variable:\n\\[R = \\sqrt{\\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}\\]\n\nRange: 0 to 1 (never negative)\n\\(R^2\\) = coefficient of multiple determination (proportion of variation explained)\n\\(1 - R^2\\) = residual/error variation"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-15-multiple-correlation-coefficient",
+    "href": "ch10/ch10.html#example-10-15-multiple-correlation-coefficient",
+    "title": "Statistics",
+    "section": "Example 10-15: Multiple Correlation Coefficient",
+    "text": "Example 10-15: Multiple Correlation Coefficient\n\n\n\n\n\n\nTip\n\n\nFor the state board score data, find R given: \\(r_{yx_1} = 0.845\\), \\(r_{yx_2} = 0.791\\), \\(r_{x_1x_2} = 0.371\\)\n\n\n\n\\[R = \\sqrt{\\frac{0.845^2 + 0.791^2 - 2(0.845)(0.791)(0.371)}{1 - 0.371^2}} = \\sqrt{\\frac{0.8428}{0.8623}} \\approx \\boxed{0.989}\\]\n\nryx1 &lt;- 0.845; ryx2 &lt;- 0.791; rx1x2 &lt;- 0.371\nR &lt;- sqrt((ryx1^2 + ryx2^2 - 2*ryx1*ryx2*rx1x2) / (1 - rx1x2^2))\ncat(\"Multiple correlation coefficient R =\", round(R, 4), \"\\n\")\n\nMultiple correlation coefficient R = 0.9892 \n\ncat(\"Coefficient of multiple determination R² =\", round(R^2, 4), \"\\n\")\n\nCoefficient of multiple determination R² = 0.9784"
+  },
+  {
+    "objectID": "ch10/ch10.html#f-test-for-significance-of-r",
+    "href": "ch10/ch10.html#f-test-for-significance-of-r",
+    "title": "Statistics",
+    "section": "F Test for Significance of R",
+    "text": "F Test for Significance of R\n\n\n\n\n\n\nNote\n\n\nTest \\(H_0: \\rho = 0\\) vs \\(H_1: \\rho \\neq 0\\) using:\n\\[F = \\frac{R^2/k}{(1-R^2)/(n-k-1)}\\]\n\nd.f.N. = k    d.f.D. = n − k − 1\n\nwhere k = number of independent variables, n = number of data groups."
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-16-f-test-for-multiple-correlation",
+    "href": "ch10/ch10.html#example-10-16-f-test-for-multiple-correlation",
+    "title": "Statistics",
+    "section": "Example 10-16: F Test for Multiple Correlation",
+    "text": "Example 10-16: F Test for Multiple Correlation\n\n\n\n\n\n\nTip\n\n\nTest the significance of R = 0.989 at α = 0.05 for the state board data (n = 5, k = 2).\n\n\n\n\\[F = \\frac{0.989^2/2}{(1-0.989^2)/(5-2-1)} = \\frac{0.978/2}{0.022/2} = \\frac{0.489}{0.011} \\approx 44.45\\]\nCritical value (Table H, d.f.N. = 2, d.f.D. = 2, α = 0.05): 19.16\n44.45 &gt; 19.16 → Reject H₀ — significant relationship exists.\n\nR2 &lt;- 0.989^2; n &lt;- 5; k &lt;- 2\nF_stat &lt;- (R2/k) / ((1-R2)/(n-k-1))\ncv &lt;- qf(0.95, df1 = k, df2 = n-k-1)\ncat(\"F =\", round(F_stat, 2), \"  Critical value =\", round(cv, 2), \"\\n\")\n\nF = 44.71   Critical value = 19 \n\ncat(\"Decision:\", ifelse(F_stat &gt; cv, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0"
+  },
+  {
+    "objectID": "ch10/ch10.html#example-10-17-adjusted-r²",
+    "href": "ch10/ch10.html#example-10-17-adjusted-r²",
+    "title": "Statistics",
+    "section": "Example 10-17: Adjusted R²",
+    "text": "Example 10-17: Adjusted R²\n\n\n\n\n\n\nNote\n\n\nThe adjusted R² corrects for the number of predictors and sample size:\n\\[R^2_{adj} = 1 - \\frac{(1-R^2)(n-1)}{n-k-1}\\]\nIt is always ≤ R² and penalizes for adding unnecessary predictors.\n\n\n\n\n\n\n\n\n\nTip\n\n\nCalculate the adjusted R² for R = 0.989, n = 5, k = 2.\n\n\n\n\\[R^2_{adj} = 1 - \\frac{(1-0.989^2)(5-1)}{5-2-1} = 1 - \\frac{(0.022)(4)}{2} = 1 - 0.044 = \\boxed{0.956}\\]\n\nR2 &lt;- 0.989^2; n &lt;- 5; k &lt;- 2\nR2_adj &lt;- 1 - (1-R2)*(n-1)/(n-k-1)\ncat(\"R² =\", round(R2, 4), \"\\n\")\n\nR² = 0.9781 \n\ncat(\"Adjusted R² =\", round(R2_adj, 4), \"\\n\")\n\nAdjusted R² = 0.9562"
+  },
+  {
+    "objectID": "ch10/ch10.html#chapter-10-summary",
+    "href": "ch10/ch10.html#chapter-10-summary",
+    "title": "Statistics",
+    "section": "Chapter 10 Summary",
+    "text": "Chapter 10 Summary\n\n\n\n\n\n\n\n\nConcept\nFormula\nPurpose\n\n\n\n\nCorrelation coefficient\n\\(r = \\frac{n\\sum xy - \\sum x \\sum y}{\\sqrt{[n\\sum x^2 - (\\sum x)^2][n\\sum y^2 - (\\sum y)^2]}}\\)\nStrength & direction of linear relationship\n\n\nt test for r\n\\(t = r\\sqrt{\\frac{n-2}{1-r^2}}\\), d.f. = n−2\nTest if r is significant\n\n\nRegression line\n\\(\\hat{y} = a + bx\\)\nPredict y from x\n\n\nCoefficient of determination\n\\(r^2\\)\n% of variation in y explained by x\n\n\nStandard error of estimate\n\\(s_{est} = \\sqrt{\\frac{\\sum(y-\\hat{y})^2}{n-2}}\\)\nAccuracy of predictions\n\n\nPrediction interval\n\\(\\hat{y} \\pm t_{\\alpha/2} \\cdot s_{est} \\cdot \\text{SE factor}\\)\nRange for individual y\n\n\nMultiple R\n\\(R = \\sqrt{\\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1-r_{x_1x_2}^2}}\\)\nMultiple predictors"
+  },
+  {
+    "objectID": "ch10/ch10.html#references",
+    "href": "ch10/ch10.html#references",
+    "title": "Statistics",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "ch10/ch10.html#acknowledgements",
+    "href": "ch10/ch10.html#acknowledgements",
+    "title": "Statistics",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\nCopyright notice. These teaching materials have been adapted from Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill. All rights are reserved by the original authors and publishers.\nNon-commercial use only. These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.\nProper attribution. Any reproduction, distribution, or use of these materials must provide proper attribution to the original source."
+  },
+  {
+    "objectID": "ch11/ch11.html#chapter-11-overview",
+    "href": "ch11/ch11.html#chapter-11-overview",
+    "title": "Statistics",
+    "section": "Chapter 11 Overview",
+    "text": "Chapter 11 Overview\nThe chi-square distribution has several important applications beyond testing a single variance:\n\nGoodness-of-fit test — Does a distribution follow a hypothesized pattern?\nTest of independence — Are two categorical variables related?\nTest of homogeneity — Are proportions equal across several populations?\n\nAll three tests use the same chi-square statistic and are always right-tailed."
+  },
+  {
+    "objectID": "ch11/ch11.html#the-goodness-of-fit-test",
+    "href": "ch11/ch11.html#the-goodness-of-fit-test",
+    "title": "Statistics",
+    "section": "The Goodness-of-Fit Test",
+    "text": "The Goodness-of-Fit Test\n\n\n\n\n\n\nNote\n\n\nThe chi-square goodness-of-fit test compares observed frequencies with expected frequencies to determine whether a distribution follows a specific pattern.\n\\[\\chi^2 = \\sum \\frac{(O - E)^2}{E}\\]\n\n\\(O\\) = observed frequency\n\\(E\\) = expected frequency\nd.f. = number of categories − 1\n\nAssumptions: 1. Data are from a random sample 2. Expected frequency for each category ≥ 5\nThe test is always right-tailed (small χ² → good fit; large χ² → poor fit)."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-1-fruit-soda-flavor-preference",
+    "href": "ch11/ch11.html#example-11-1-fruit-soda-flavor-preference",
+    "title": "Statistics",
+    "section": "Example 11-1: Fruit Soda Flavor Preference",
+    "text": "Example 11-1: Fruit Soda Flavor Preference\n\n\n\n\n\n\nTip\n\n\nA market analyst surveys 100 people about their preference among five flavors of a new fruit soda. If there is no preference, each flavor should be equally popular. The results are:\n\n\n\nFlavor\nCherry\nStrawberry\nOrange\nLime\nGrape\n\n\n\n\nObserved\n32\n28\n16\n14\n10\n\n\nExpected\n20\n20\n20\n20\n20\n\n\n\nAt α = 0.05, is there enough evidence to reject the claim that consumers show no preference?"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-1-solution-math",
+    "href": "ch11/ch11.html#example-11-1-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-1: Solution (Math)",
+    "text": "Example 11-1: Solution (Math)\nStep 1: H₀: Consumers show no preference (claim)    H₁: Consumers show a preference\nStep 2: d.f. = 5 − 1 = 4; CV = 9.488\nStep 3: \\[\\chi^2 = \\frac{(32-20)^2}{20} + \\frac{(28-20)^2}{20} + \\frac{(16-20)^2}{20} + \\frac{(14-20)^2}{20} + \\frac{(10-20)^2}{20}\\] \\[= \\frac{144}{20} + \\frac{64}{20} + \\frac{16}{20} + \\frac{36}{20} + \\frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \\boxed{18.0}\\]\nStep 4: 18.0 &gt; 9.488 → Reject H₀\nStep 5: There is sufficient evidence to conclude that consumers show a preference for certain flavors."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-1-solution-r",
+    "href": "ch11/ch11.html#example-11-1-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-1: Solution (R)",
+    "text": "Example 11-1: Solution (R)\n\nobserved &lt;- c(32, 28, 16, 14, 10)\nexpected &lt;- c(20, 20, 20, 20, 20)\n\nchi2 &lt;- sum((observed - expected)^2 / expected)\ndf   &lt;- length(observed) - 1\ncv   &lt;- qchisq(0.95, df)\np_val &lt;- pchisq(chi2, df, lower.tail = FALSE)\n\ncat(\"chi-square =\", round(chi2, 4), \"\\n\")\n\nchi-square = 18 \n\ncat(\"Critical value =\", round(cv, 3), \"\\n\")\n\nCritical value = 9.488 \n\ncat(\"P-value =\", round(p_val, 6), \"\\n\")\n\nP-value = 0.001234 \n\ncat(\"Decision:\", ifelse(chi2 &gt; cv, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-2-retired-senior-executives-return-to-work",
+    "href": "ch11/ch11.html#example-11-2-retired-senior-executives-return-to-work",
+    "title": "Statistics",
+    "section": "Example 11-2: Retired Senior Executives Return to Work",
+    "text": "Example 11-2: Retired Senior Executives Return to Work\n\n\n\n\n\n\nTip\n\n\nA survey found that after returning to work, retired executives were distributed as: 38% employed by another organization, 32% self-employed, 23% freelancing/consulting, 7% formed their own companies. A local researcher surveyed 300 executives and found: 122 working for another company, 85 self-employed, 76 freelancing/consulting, and 17 formed their own companies. At α = 0.10, test the claim that these proportions are the same."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-2-solution-math",
+    "href": "ch11/ch11.html#example-11-2-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-2: Solution (Math)",
+    "text": "Example 11-2: Solution (Math)\nStep 1: H₀: Distribution is 38%/32%/23%/7% (claim)    H₁: Distribution differs\nStep 2: d.f. = 4 − 1 = 3; CV = 6.251\nStep 3: Expected frequencies: 0.38×300 = 114; 0.32×300 = 96; 0.23×300 = 69; 0.07×300 = 21\n\\[\\chi^2 = \\frac{(122-114)^2}{114} + \\frac{(85-96)^2}{96} + \\frac{(76-69)^2}{69} + \\frac{(17-21)^2}{21}\\] \\[= 0.561 + 1.260 + 0.710 + 0.762 = \\boxed{3.293}\\]\nStep 4: 3.293 &lt; 6.251 → Do not reject H₀\nStep 5: There is not enough evidence to conclude that the local distribution differs from the national survey."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-2-solution-r",
+    "href": "ch11/ch11.html#example-11-2-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-2: Solution (R)",
+    "text": "Example 11-2: Solution (R)\n\nobserved &lt;- c(122, 85, 76, 17)\nprops    &lt;- c(0.38, 0.32, 0.23, 0.07)\nexpected &lt;- props * 300\n\nchi2  &lt;- sum((observed - expected)^2 / expected)\ndf    &lt;- length(observed) - 1\ncv    &lt;- qchisq(0.90, df)\np_val &lt;- pchisq(chi2, df, lower.tail = FALSE)\n\ncat(\"Expected:\", expected, \"\\n\")\n\nExpected: 114 96 69 21 \n\ncat(\"chi-square =\", round(chi2, 4), \"\\n\")\n\nchi-square = 3.2939 \n\ncat(\"Critical value =\", round(cv, 3), \"\\n\")\n\nCritical value = 6.251 \n\ncat(\"P-value =\", round(p_val, 4), \"\\n\")\n\nP-value = 0.3485 \n\ncat(\"Decision:\", ifelse(chi2 &gt; cv, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Do not reject H0"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-3-firearm-deaths",
+    "href": "ch11/ch11.html#example-11-3-firearm-deaths",
+    "title": "Statistics",
+    "section": "Example 11-3: Firearm Deaths",
+    "text": "Example 11-3: Firearm Deaths\n\n\n\n\n\n\nTip\n\n\nA researcher read that firearm-related deaths for people aged 1–18 are distributed as: 74% accidental, 16% homicides, 10% suicides. In her district, there were 68 accidental deaths, 27 homicides, and 5 suicides (total = 100) during the past year. At α = 0.10, test the claim."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-3-solution-math",
+    "href": "ch11/ch11.html#example-11-3-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-3: Solution (Math)",
+    "text": "Example 11-3: Solution (Math)\nStep 1: H₀: Deaths are 74% accidental, 16% homicides, 10% suicides (claim)    H₁: Distribution differs\nStep 2: d.f. = 3 − 1 = 2; CV = 4.605\nStep 3: Expected: 74, 16, 10\n\\[\\chi^2 = \\frac{(68-74)^2}{74} + \\frac{(27-16)^2}{16} + \\frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \\boxed{10.549}\\]\nStep 4: 10.549 &gt; 4.605 → Reject H₀\nStep 5: There is enough evidence to reject the claim that the distribution in this district matches the national pattern."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-3-solution-r",
+    "href": "ch11/ch11.html#example-11-3-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-3: Solution (R)",
+    "text": "Example 11-3: Solution (R)\n\nobserved &lt;- c(68, 27, 5)\nexpected &lt;- c(74, 16, 10)\n\nchi2  &lt;- sum((observed - expected)^2 / expected)\ndf    &lt;- length(observed) - 1\ncv    &lt;- qchisq(0.90, df)\np_val &lt;- pchisq(chi2, df, lower.tail = FALSE)\n\ncat(\"chi-square =\", round(chi2, 4), \"\\n\")\n\nchi-square = 10.549 \n\ncat(\"Critical value =\", round(cv, 3), \"\\n\")\n\nCritical value = 4.605 \n\ncat(\"P-value =\", round(p_val, 4), \"\\n\")\n\nP-value = 0.0051 \n\ncat(\"Decision:\", ifelse(chi2 &gt; cv, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-4-test-of-normality-optional",
+    "href": "ch11/ch11.html#example-11-4-test-of-normality-optional",
+    "title": "Statistics",
+    "section": "Example 11-4: Test of Normality (Optional)",
+    "text": "Example 11-4: Test of Normality (Optional)\n\n\n\n\n\n\nTip\n\n\nUse the chi-square goodness-of-fit test to determine if the following frequency distribution is normally distributed. Use α = 0.05.\n\n\n\nBoundaries\nFrequency\n\n\n\n\n89.5–104.5\n24\n\n\n104.5–119.5\n62\n\n\n119.5–134.5\n72\n\n\n134.5–149.5\n26\n\n\n149.5–164.5\n12\n\n\n164.5–179.5\n4\n\n\nTotal\n200"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-4-solution-math",
+    "href": "ch11/ch11.html#example-11-4-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-4: Solution (Math)",
+    "text": "Example 11-4: Solution (Math)\nCompute \\(\\bar{X} = 24680/200 = 123.4\\) and \\(s = 17.03\\)\nCompute z-scores and areas for each boundary, then multiply by n = 200:\n\n\n\nInterval\nArea\nE\nO\n\n\n\n\nBelow 104.5\n0.1335\n26.7\n24\n\n\n104.5–119.5\n0.2755\n55.1\n62\n\n\n119.5–134.5\n0.3332\n66.64\n72\n\n\n134.5–149.5\n0.1948\n38.96\n26\n\n\nAbove 149.5\n0.0630\n12.6\n16 (combined last two)\n\n\n\n\\[\\chi^2 = \\frac{(24-26.7)^2}{26.7} + \\frac{(62-55.1)^2}{55.1} + \\frac{(72-66.64)^2}{66.64} + \\frac{(26-38.96)^2}{38.96} + \\frac{(16-12.6)^2}{12.6} \\approx \\boxed{6.797}\\]\nd.f. = 5 − 1 − 2 = 2 (−2 for estimating μ and σ); CV = 5.991\nReject H₀ — the variable is not normally distributed at α = 0.05."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-4-solution-r",
+    "href": "ch11/ch11.html#example-11-4-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-4: Solution (R)",
+    "text": "Example 11-4: Solution (R)\n\n# Data\nboundaries &lt;- c(89.5, 104.5, 119.5, 134.5, 149.5, 164.5, 179.5)\nobserved   &lt;- c(24, 62, 72, 26, 12, 4)\nn &lt;- 200\nxbar &lt;- 123.4; s &lt;- 17.03\n\n# Compute expected frequencies via normal distribution\nz_vals &lt;- (boundaries - xbar) / s\nareas  &lt;- diff(pnorm(z_vals))\n# Combine last two categories (E &lt; 5)\nobs_comb  &lt;- c(observed[1:4], sum(observed[5:6]))\nexp_comb  &lt;- c(areas[1:4] * n, sum(areas[5:6]) * n)\n\nchi2 &lt;- sum((obs_comb - exp_comb)^2 / exp_comb)\ndf   &lt;- length(obs_comb) - 1 - 2  # -2 for estimated mu and sigma\ncv   &lt;- qchisq(0.95, df)\n\ncat(\"Expected:\", round(exp_comb, 2), \"\\n\")\n\nExpected: 22.06 55.18 66.66 38.92 12.44 \n\ncat(\"chi-square =\", round(chi2, 4), \"\\n\")\n\nchi-square = 6.7487 \n\ncat(\"d.f. =\", df, \"  Critical value =\", round(cv, 3), \"\\n\")\n\nd.f. = 2   Critical value = 5.991 \n\ncat(\"Decision:\", ifelse(chi2 &gt; cv, \"Reject H0 — NOT normally distributed\",\n                        \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0 — NOT normally distributed"
+  },
+  {
+    "objectID": "ch11/ch11.html#contingency-tables",
+    "href": "ch11/ch11.html#contingency-tables",
+    "title": "Statistics",
+    "section": "Contingency Tables",
+    "text": "Contingency Tables\n\n\n\n\n\n\nNote\n\n\nA contingency table (R × C table) cross-classifies data from two categorical variables.\nTwo chi-square tests use contingency tables:\n\nTest of independence — Are two variables related? (single sample, observe both variables)\nTest of homogeneity — Are proportions equal across populations? (multiple samples, sample sizes set in advance)\n\nBoth use the same formulas:\n\\[E = \\frac{\\text{(row sum)} \\times \\text{(column sum)}}{\\text{grand total}}, \\quad \\chi^2 = \\sum \\frac{(O-E)^2}{E}\\]\n\\[d.f. = (R-1)(C-1)\\]\nAssumption: All expected cell frequencies ≥ 5."
+  },
+  {
+    "objectID": "ch11/ch11.html#test-of-independence-overview",
+    "href": "ch11/ch11.html#test-of-independence-overview",
+    "title": "Statistics",
+    "section": "Test of Independence — Overview",
+    "text": "Test of Independence — Overview\nWhen testing whether two variables are independent:\n\nH₀: Variable A is independent of Variable B\nH₁: Variable A is dependent on Variable B (claim)\n\nRejecting H₀ means the variables are related — but it does not specify the direction of the relationship.\nThe test is always right-tailed."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-5-hospitals-and-infections",
+    "href": "ch11/ch11.html#example-11-5-hospitals-and-infections",
+    "title": "Statistics",
+    "section": "Example 11-5: Hospitals and Infections",
+    "text": "Example 11-5: Hospitals and Infections\n\n\n\n\n\n\nTip\n\n\nA researcher examines whether the type of hospital infection is related to which hospital it occurred in. Data for 582 total infections across 3 hospitals:\n\n\n\nHospital\nSurgical Site\nPneumonia\nBloodstream\nTotal\n\n\n\n\nA\n41\n27\n51\n119\n\n\nB\n36\n3\n40\n79\n\n\nC\n169\n106\n109\n384\n\n\nTotal\n246\n136\n200\n582\n\n\n\nAt α = 0.05, test the claim that infection type depends on hospital."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-5-solution-math",
+    "href": "ch11/ch11.html#example-11-5-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-5: Solution (Math)",
+    "text": "Example 11-5: Solution (Math)\nStep 1: H₀: Infection type is independent of hospital    H₁: Infection type depends on hospital (claim)\nStep 2: d.f. = (3−1)(3−1) = 4; CV = 9.488\nStep 3: Expected values (E = row×col/grand): \\[E_{A,\\text{Surg}} = \\frac{119 \\times 246}{582} = 50.30, \\quad E_{B,\\text{Pneu}} = \\frac{79 \\times 136}{582} = 18.46, \\quad \\ldots\\]\n\\[\\chi^2 = \\frac{(41-50.30)^2}{50.30} + \\frac{(27-27.81)^2}{27.81} + \\frac{(51-40.89)^2}{40.89} + \\cdots \\approx \\boxed{30.698}\\]\nStep 4: 30.698 &gt; 9.488 → Reject H₀\nStep 5: There is sufficient evidence that infection type is related to the hospital where it occurred."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-5-solution-r",
+    "href": "ch11/ch11.html#example-11-5-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-5: Solution (R)",
+    "text": "Example 11-5: Solution (R)\n\nM &lt;- matrix(c(41, 27, 51,\n              36,  3, 40,\n             169, 106, 109),\n            nrow = 3, byrow = TRUE,\n            dimnames = list(c(\"A\",\"B\",\"C\"),\n                            c(\"Surgical\",\"Pneumonia\",\"Bloodstream\")))\n\nresult &lt;- chisq.test(M)\ncat(\"chi-square =\", round(result$statistic, 4), \"\\n\")\n\nchi-square = 30.6962 \n\ncat(\"d.f. =\", result$parameter, \"\\n\")\n\nd.f. = 4 \n\ncat(\"P-value =\", round(result$p.value, 6), \"\\n\")\n\nP-value = 4e-06 \n\ncat(\"Decision:\", ifelse(result$p.value &lt; 0.05, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0 \n\ncat(\"\\nExpected frequencies:\\n\")\n\n\nExpected frequencies:\n\nround(result$expected, 2)\n\n  Surgical Pneumonia Bloodstream\nA    50.30     27.81       40.89\nB    33.39     18.46       27.15\nC   162.31     89.73      131.96"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-6-alcohol-consumption-and-gender",
+    "href": "ch11/ch11.html#example-11-6-alcohol-consumption-and-gender",
+    "title": "Statistics",
+    "section": "Example 11-6: Alcohol Consumption and Gender",
+    "text": "Example 11-6: Alcohol Consumption and Gender\n\n\n\n\n\n\nTip\n\n\nA researcher examines whether alcohol consumption level is related to gender. A sample of 68 people yielded:\n\n\n\nGender\nLow\nModerate\nHigh\nTotal\n\n\n\n\nMale\n10\n9\n8\n27\n\n\nFemale\n13\n16\n12\n41\n\n\nTotal\n23\n25\n20\n68\n\n\n\nAt α = 0.10, test whether alcohol consumption depends on gender."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-6-solution-math",
+    "href": "ch11/ch11.html#example-11-6-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-6: Solution (Math)",
+    "text": "Example 11-6: Solution (Math)\nStep 1: H₀: Alcohol consumption is independent of gender    H₁: Consumption depends on gender (claim)\nStep 2: d.f. = (2−1)(3−1) = 2; CV = 4.605\nStep 3: Expected values: \\[E_{\\text{Male, Low}} = \\frac{27 \\times 23}{68} = 9.13, \\quad E_{\\text{Male, Mod}} = \\frac{27 \\times 25}{68} = 9.93, \\quad \\ldots\\]\n\\[\\chi^2 = \\frac{(10-9.13)^2}{9.13} + \\frac{(9-9.93)^2}{9.93} + \\frac{(8-7.94)^2}{7.94} + \\frac{(13-13.87)^2}{13.87} + \\cdots \\approx \\boxed{0.283}\\]\nStep 4: 0.283 &lt; 4.605 → Do not reject H₀\nStep 5: There is not enough evidence to conclude that alcohol consumption is related to gender."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-6-solution-r",
+    "href": "ch11/ch11.html#example-11-6-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-6: Solution (R)",
+    "text": "Example 11-6: Solution (R)\n\nM2 &lt;- matrix(c(10, 9, 8,\n               13, 16, 12),\n             nrow = 2, byrow = TRUE,\n             dimnames = list(c(\"Male\",\"Female\"),\n                             c(\"Low\",\"Moderate\",\"High\")))\n\nresult2 &lt;- chisq.test(M2)\ncat(\"chi-square =\", round(result2$statistic, 4), \"\\n\")\n\nchi-square = 0.2809 \n\ncat(\"d.f. =\", result2$parameter, \"\\n\")\n\nd.f. = 2 \n\ncat(\"P-value =\", round(result2$p.value, 4), \"\\n\")\n\nP-value = 0.869 \n\ncat(\"Decision:\", ifelse(result2$p.value &lt; 0.10, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Do not reject H0 \n\ncat(\"\\nExpected frequencies:\\n\")\n\n\nExpected frequencies:\n\nround(result2$expected, 2)\n\n         Low Moderate  High\nMale    9.13     9.93  7.94\nFemale 13.87    15.07 12.06"
+  },
+  {
+    "objectID": "ch11/ch11.html#test-of-homogeneity-of-proportions",
+    "href": "ch11/ch11.html#test-of-homogeneity-of-proportions",
+    "title": "Statistics",
+    "section": "Test of Homogeneity of Proportions",
+    "text": "Test of Homogeneity of Proportions\n\n\n\n\n\n\nNote\n\n\nThe homogeneity test determines whether proportions are equal across multiple independently sampled populations.\n\nSample sizes are fixed in advance (by the researcher)\nH₀: p₁ = p₂ = … = pₖ\nH₁: At least one proportion differs\n\nComputational procedure is identical to the independence test — same formula for E and χ².\nKey distinction: Independence test → one sample, two variables; Homogeneity test → multiple samples, one variable."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-7-money-and-happiness",
+    "href": "ch11/ch11.html#example-11-7-money-and-happiness",
+    "title": "Statistics",
+    "section": "Example 11-7: Money and Happiness",
+    "text": "Example 11-7: Money and Happiness\n\n\n\n\n\n\nTip\n\n\nA psychologist selects 100 people from each of four income groups and asks whether they are “very happy.” Results:\n\n\n\n\n&lt;$30K\n$30K–$74.9K\n$75K–$99.9K\n≥$100K\nTotal\n\n\n\n\nYes\n24\n33\n38\n49\n144\n\n\nNo\n76\n67\n62\n51\n256\n\n\nTotal\n100\n100\n100\n100\n400\n\n\n\nAt α = 0.05, test the claim that happiness proportions are the same across income groups."
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-7-solution-math",
+    "href": "ch11/ch11.html#example-11-7-solution-math",
+    "title": "Statistics",
+    "section": "Example 11-7: Solution (Math)",
+    "text": "Example 11-7: Solution (Math)\nStep 1: H₀: p₁ = p₂ = p₃ = p₄ (claim)    H₁: At least one proportion differs\nStep 2: d.f. = (2−1)(4−1) = 3; CV = 7.815\nStep 3: Since each column total = 100 and “Yes” total = 144: \\[E_{\\text{Yes, col}} = \\frac{144 \\times 100}{400} = 36, \\quad E_{\\text{No, col}} = \\frac{256 \\times 100}{400} = 64 \\quad \\text{(for each column)}\\]\n\\[\\chi^2 = \\frac{(24-36)^2}{36} + \\frac{(33-36)^2}{36} + \\frac{(38-36)^2}{36} + \\frac{(49-36)^2}{36}\\] \\[+ \\frac{(76-64)^2}{64} + \\frac{(67-64)^2}{64} + \\frac{(62-64)^2}{64} + \\frac{(51-64)^2}{64}\\] \\[= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \\boxed{14.149}\\]"
+  },
+  {
+    "objectID": "ch11/ch11.html#example-11-7-solution-r",
+    "href": "ch11/ch11.html#example-11-7-solution-r",
+    "title": "Statistics",
+    "section": "Example 11-7: Solution (R)",
+    "text": "Example 11-7: Solution (R)\n\nM3 &lt;- matrix(c(24, 33, 38, 49,\n               76, 67, 62, 51),\n             nrow = 2, byrow = TRUE,\n             dimnames = list(c(\"Yes\",\"No\"),\n                             c(\"&lt;30K\",\"30-74.9K\",\"75-99.9K\",\"&gt;=100K\")))\n\nresult3 &lt;- chisq.test(M3)\ncat(\"chi-square =\", round(result3$statistic, 4), \"\\n\")\n\nchi-square = 14.1493 \n\ncat(\"d.f. =\", result3$parameter, \"\\n\")\n\nd.f. = 3 \n\ncat(\"P-value =\", round(result3$p.value, 6), \"\\n\")\n\nP-value = 0.002709 \n\ncat(\"Decision:\", ifelse(result3$p.value &lt; 0.05, \"Reject H0\", \"Do not reject H0\"), \"\\n\")\n\nDecision: Reject H0 \n\ncat(\"\\nExpected frequencies:\\n\")\n\n\nExpected frequencies:\n\nround(result3$expected, 2)\n\n    &lt;30K 30-74.9K 75-99.9K &gt;=100K\nYes   36       36       36     36\nNo    64       64       64     64"
+  },
+  {
+    "objectID": "ch11/ch11.html#chapter-11-summary",
+    "href": "ch11/ch11.html#chapter-11-summary",
+    "title": "Statistics",
+    "section": "Chapter 11 Summary",
+    "text": "Chapter 11 Summary\n\n\n\n\n\n\n\n\n\nTest\nWhen to Use\nd.f.\nFormula\n\n\n\n\nGoodness of Fit\nSingle sample vs. hypothesized distribution\nk − 1\n\\(\\chi^2 = \\sum\\frac{(O-E)^2}{E}\\), \\(E\\) given by proportions\n\n\nIndependence\nSingle sample; two categorical variables\n(R−1)(C−1)\n\\(E = \\frac{\\text{row} \\times \\text{col}}{\\text{total}}\\)\n\n\nHomogeneity\nMultiple samples; one categorical variable\n(R−1)(C−1)\nSame as independence\n\n\n\n\n\n\n\n\n\nImportant\n\n\nAll chi-square tests in this chapter are right-tailed. Expected frequencies in each cell must be ≥ 5. If not, combine categories."
+  },
+  {
+    "objectID": "ch11/ch11.html#references",
+    "href": "ch11/ch11.html#references",
+    "title": "Statistics",
+    "section": "References",
+    "text": "References"
+  },
+  {
+    "objectID": "ch11/ch11.html#acknowledgements",
+    "href": "ch11/ch11.html#acknowledgements",
+    "title": "Statistics",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\nCopyright notice. These teaching materials have been adapted from Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill. All rights are reserved by the original authors and publishers.\nNon-commercial use only. These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.\nProper attribution. Any reproduction, distribution, or use of these materials must provide proper attribution to the original source."
   }
 ]
