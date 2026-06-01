@@ -226,6 +226,36 @@ Yu-You Liou
 
   <p class="date">2026-06-01</p>
 </section>
+<section id="chapter-2-overview" class="slide level2">
+<h2>Chapter 2 Overview</h2>
+<p>Chapter 2 introduces methods for <strong>organizing and visualizing data</strong> — moving from raw, unordered observations to structured summaries that reveal patterns.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2-1</td>
+<td>Frequency distributions: categorical, grouped, ungrouped, cumulative</td>
+</tr>
+<tr class="even">
+<td>2-2</td>
+<td>Histograms, frequency polygons, and ogives</td>
+</tr>
+<tr class="odd">
+<td>2-3</td>
+<td>Bar graphs, Pareto charts, time series, pie graphs, stem and leaf plots</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section>
 <section id="section-2-1-organizing-data" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 2-1: Organizing Data</h1>
@@ -259,7 +289,7 @@ Yu-You Liou
 <li>Record the frequency and compute the percentage: <span class="math inline">\% = \frac{f}{n} \times 100</span></li>
 </ol>
 </section>
-<section id="example-2-1-blood-types-of-army-inductees" class="slide level2">
+<section id="example-2-1" class="slide level2">
 <h2>Example 2-1: Blood Types of Army Inductees</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -376,7 +406,7 @@ AB A  O  B   A</code></pre>
 </div>
 </div>
 </section>
-<section id="example-2-2-record-high-temperatures" class="slide level2">
+<section id="example-2-2" class="slide level2">
 <h2>Example 2-2: Record High Temperatures</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -713,13 +743,14 @@ AB A  O  B   A</code></pre>
 <p><strong>Example 2-4</strong></p>
 </div>
 <div class="callout-content">
-<p>Using the frequency distribution from Example 2-2, draw a histogram for the record high temperatures of the 50 U.S. states.</p>
+<p>Using the frequency distribution from <a href="#/example-2-2">Example 2-2</a>, draw a histogram for the record high temperatures of the 50 U.S. states.</p>
 </div>
 </div>
 </div>
 </section>
 <section class="slide level2">
 
+<p><strong>Solution</strong> (R)</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(temps), <span class="fu">aes</span>(<span class="at">x =</span> temps)) <span class="sc">+</span></span>
 <span id="cb14-2"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> breaks, <span class="at">fill =</span> <span class="st">"#4a90d9"</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -757,10 +788,14 @@ AB A  O  B   A</code></pre>
 <p><strong>Example 2-5</strong></p>
 </div>
 <div class="callout-content">
-<p>Draw a frequency polygon for the record high temperatures data from Example 2-2.</p>
+<p>Draw a frequency polygon for the record high temperatures data from <a href="#/example-2-2">Example 2-2</a>.</p>
 </div>
 </div>
 </div>
+</section>
+<section class="slide level2">
+
+<p><strong>Solution</strong> (R)</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>midpoints <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">102</span>, <span class="dv">132</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
 <span id="cb15-2"><a></a>freqs     <span class="ot">&lt;-</span> freq_table<span class="sc">$</span>Frequency</span>
@@ -811,10 +846,14 @@ AB A  O  B   A</code></pre>
 <p><strong>Example 2-6</strong></p>
 </div>
 <div class="callout-content">
-<p>Draw an ogive for the record high temperatures distribution from Example 2-2.</p>
+<p>Draw an ogive for the record high temperatures distribution from <a href="#/example-2-2">Example 2-2</a>.</p>
 </div>
 </div>
 </div>
+</section>
+<section class="slide level2">
+
+<p><strong>Solution</strong> (R)</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>upper_bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">99.5</span>, <span class="fl">104.5</span>, <span class="fl">109.5</span>, <span class="fl">114.5</span>, <span class="fl">119.5</span>, <span class="fl">124.5</span>, <span class="fl">129.5</span>, <span class="fl">134.5</span>)</span>
 <span id="cb17-2"><a></a>cum_freqs    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, freq_table<span class="sc">$</span>Cumulative)</span>
@@ -1400,7 +1439,7 @@ AB A  O  B   A</code></pre>
 <p><strong>Example 2-12</strong></p>
 </div>
 <div class="callout-content">
-<p>Using the blood type data from Example 2-1, construct a pie graph.</p>
+<p>Using the blood type data from <a href="#/example-2-1">Example 2-1</a>, construct a pie graph.</p>
 </div>
 </div>
 </div>
