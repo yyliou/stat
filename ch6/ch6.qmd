@@ -1,0 +1,726 @@
+---
+title: "Statistics"
+subtitle: "Chapter 6: The Normal Distribution"
+author: "Yu-You Liou"
+institute: "Shih Chien University"
+date: "`r Sys.Date()`"
+format: revealjs
+smaller: true
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+logo: "logo.svg"
+editor: source
+slide-number: true
+scrollable: false
+transition: "none"
+menu:
+  useTextContentForMissingTitles: false
+  hideMissingTitles: true
+  side: 'left'
+  titleSelector: 'h1'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Chapter 6: The Normal Distribution {background-color="#2c4a6e"}
+
+## Chapter Overview
+
+**Sections covered:**
+
+- **6-1** Normal Distributions
+- **6-2** Applications of the Normal Distribution
+- **6-3** The Central Limit Theorem
+- **6-4** The Normal Approximation to the Binomial Distribution
+
+---
+
+The **normal distribution** is the most important and widely used continuous probability distribution in statistics. Its familiar **bell-shaped curve** appears throughout natural phenomena, measurement errors, and statistical inference.
+
+# Section 6-1: Normal Distributions {background-color="#2c4a6e"}
+
+## Properties of the Normal Distribution
+
+::: {.callout-note}
+## Definition
+A **normal distribution** is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the **mean** μ and **standard deviation** σ.
+:::
+
+**Key properties:**
+
+1. The distribution is **bell-shaped** and symmetric about the mean
+2. The mean, median, and mode are all **equal**
+3. The curve is continuous — it never touches the x-axis
+4. The total area under the curve equals **1**
+5. Approximately **68%** of values lie within 1σ of μ; **95%** within 2σ; **99.7%** within 3σ
+
+---
+
+```{r normal-shape, echo=T, warning=FALSE}
+x <- seq(-4, 4, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x))
+ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1.2) +
+  geom_area(fill = "#2c4a6e", alpha = 0.15) +
+  labs(title = "Standard Normal Distribution",
+       x = "z", y = "Density") +
+  theme_minimal()
+```
+
+## The Standard Normal Distribution
+
+::: {.callout-note}
+## Definition
+The **standard normal distribution** is a normal distribution with mean **μ = 0** and standard deviation **σ = 1**. Values on this distribution are called **z values** or **z scores**.
+:::
+
+The **z score** converts any normal variable X to the standard normal:
+
+$$z = \frac{X - \mu}{\sigma}$$
+
+- The z score represents the number of standard deviations X is from the mean
+- Area under the curve = probability
+
+## Finding Areas Under the Standard Normal Curve
+
+Areas are found using:
+
+- **Table E** (standard normal table) in textbook appendix
+- **R**: `pnorm(z)` gives P(Z < z)
+
+::: {.callout-important}
+## Key R Functions
+- `pnorm(z)` — area to the **left** of z
+- `1 - pnorm(z)` — area to the **right** of z
+- `pnorm(z2) - pnorm(z1)` — area **between** z1 and z2
+- `qnorm(p)` — find z given left-tail area p
+:::
+
+## Example 6-1: Area to the Left of z {.smaller}
+
+::: {.callout-tip}
+## Example 6-1
+Find the area to the left of z = 2.06.
+:::
+
+**Solution (Mathematical):**
+
+- Look up z = 2.06 in Table E
+- Area = **0.9803**
+- Interpretation: 98.03% of values fall below z = 2.06
+
+```{r ex6-1, echo=T, warning=FALSE}
+# Area to the LEFT of z = 2.06
+pnorm(2.06)
+```
+
+---
+
+```{r ex6-1-plot, echo=T, warning=FALSE}
+x <- seq(-4, 4, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x))
+ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x <= 2.06),
+            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
+  annotate("text", x = 0, y = 0.15, label = "0.9803", size = 5) +
+  geom_vline(xintercept = 2.06, linetype = "dashed", color = "red") +
+  labs(title = "P(Z < 2.06) = 0.9803", x = "z", y = "Density") +
+  theme_minimal()
+```
+
+## Example 6-2: Area to the Right of z {.smaller}
+
+::: {.callout-tip}
+## Example 6-2
+Find the area to the right of z = −1.19.
+:::
+
+**Solution (Mathematical):**
+
+- Area to the left of z = −1.19: Table E gives 0.1170
+- Area to the right = 1 − 0.1170 = **0.8830**
+
+```{r ex6-2, echo=T, warning=FALSE}
+# Area to the RIGHT of z = -1.19
+1 - pnorm(-1.19)
+# Equivalently:
+pnorm(-1.19, lower.tail = FALSE)
+```
+
+---
+
+```{r ex6-2-plot, echo=T, warning=FALSE}
+x <- seq(-4, 4, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x))
+ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x >= -1.19),
+            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
+  annotate("text", x = 1, y = 0.15, label = "0.8830", size = 5) +
+  geom_vline(xintercept = -1.19, linetype = "dashed", color = "red") +
+  labs(title = "P(Z > -1.19) = 0.8830", x = "z", y = "Density") +
+  theme_minimal()
+```
+
+## Example 6-3: Area Between Two z Values {.smaller}
+
+::: {.callout-tip}
+## Example 6-3
+Find the area between z = −1.37 and z = +1.68.
+:::
+
+**Solution (Mathematical):**
+
+- Area left of z = 1.68: 0.9535
+- Area left of z = −1.37: 0.0853
+- Area between = 0.9535 − 0.0853 = **0.8682**
+
+```{r ex6-3, echo=T, warning=FALSE}
+# Area BETWEEN z = -1.37 and z = 1.68
+pnorm(1.68) - pnorm(-1.37)
+```
+
+---
+
+```{r ex6-3-plot, echo=T, warning=FALSE}
+x <- seq(-4, 4, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x))
+ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x >= -1.37 & x <= 1.68),
+            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
+  annotate("text", x = 0, y = 0.15, label = "0.8682", size = 5) +
+  geom_vline(xintercept = c(-1.37, 1.68), linetype = "dashed", color = "red") +
+  labs(title = "P(-1.37 < Z < 1.68) = 0.8682", x = "z", y = "Density") +
+  theme_minimal()
+```
+
+## Example 6-4: Multiple Probability Calculations {.smaller}
+
+::: {.callout-tip}
+## Example 6-4
+Find the following probabilities for the standard normal distribution:
+
+**(a)** P(0 < Z < 2.32)   **(b)** P(Z < 1.65)   **(c)** P(Z > 1.91)
+:::
+
+```{r ex6-4, echo=T, warning=FALSE}
+# (a) P(0 < Z < 2.32)
+pnorm(2.32) - pnorm(0)
+
+# (b) P(Z < 1.65)
+pnorm(1.65)
+
+# (c) P(Z > 1.91)
+1 - pnorm(1.91)
+```
+
+**Interpretation:** (a) 48.98% of values fall between the mean and z = 2.32; (b) 95.05% fall below z = 1.65; (c) 2.81% fall above z = 1.91.
+
+## Example 6-5: Finding a z Value Given an Area {.smaller}
+
+::: {.callout-tip}
+## Example 6-5
+Find the z value such that the area to the left is 0.7123.
+:::
+
+**Solution (Mathematical):**
+
+- Search Table E for the area closest to 0.7123
+- The corresponding z value is **z = 0.56**
+
+```{r ex6-5, echo=T, warning=FALSE}
+# Find z given left-tail area = 0.7123
+qnorm(0.7123)
+```
+
+::: {.callout-important}
+## Key Rule
+`qnorm(p)` is the **inverse** of `pnorm(z)`. Use it whenever you need the z value for a given probability.
+:::
+
+# Section 6-2: Applications of the Normal Distribution {background-color="#2c4a6e"}
+
+## Applying the Normal Distribution
+
+To find probabilities for a **non-standard** normal variable X (with mean μ and standard deviation σ):
+
+::: {.callout-note}
+## Formula
+$$z = \frac{X - \mu}{\sigma}$$
+
+Convert X to a z score, then find the area using the standard normal.
+:::
+
+In R, use `pnorm(x, mean = μ, sd = σ)` directly — no conversion needed.
+
+::: {.callout-important}
+## Key Steps
+1. Identify μ and σ
+2. Draw a diagram and shade the desired region
+3. Convert X to z (or use R directly)
+4. Find the probability
+:::
+
+## Example 6-6: Summer Spending {.smaller}
+
+::: {.callout-tip}
+## Example 6-6
+The average amount of money that Americans spend on summer travel is normally distributed with μ = $146.21 and σ = $29.44. Find the probability that a randomly selected American spends less than $160 on summer travel.
+:::
+
+**Solution:**
+
+$$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
+
+Area to the left of z = 0.47 → **0.6808** (68.08%)
+
+```{r ex6-6, echo=T, warning=FALSE}
+mu <- 146.21; sigma <- 29.44
+pnorm(160, mean = mu, sd = sigma)
+```
+
+---
+
+```{r ex6-6-plot, echo=T, warning=FALSE}
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x, mu, sigma))
+ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x <= 160), aes(x, y),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_vline(xintercept = 160, linetype = "dashed", color = "red") +
+  annotate("text", x = 140, y = 0.008, label = "68.08%", size = 5) +
+  labs(title = "P(X < 160): Summer Spending",
+       subtitle = paste0("μ = ", mu, ", σ = ", sigma),
+       x = "Amount ($)", y = "Density") +
+  theme_minimal()
+```
+
+## Example 6-7: Newspaper Recycling {.smaller}
+
+::: {.callout-tip}
+## Example 6-7
+Each month, an American household generates an average of 28 pounds of newspaper for recycling, with σ = 2 pounds. Assume a normal distribution.
+
+**(a)** P(27 < X < 31)   **(b)** P(X > 30.2)
+:::
+
+```{r ex6-7, echo=T, warning=FALSE}
+mu <- 28; sigma <- 2
+
+# (a) P(27 < X < 31)
+pnorm(31, mu, sigma) - pnorm(27, mu, sigma)
+
+# (b) P(X > 30.2)
+pnorm(30.2, mu, sigma, lower.tail = FALSE)
+```
+
+**Answers:** (a) ≈ **62.47%**; (b) ≈ **13.57%**
+
+---
+
+```{r ex6-7-plot, echo=T, warning=FALSE}
+x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
+df <- data.frame(x = x, y = dnorm(x, mu, sigma))
+p1 <- ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x >= 27 & x <= 31),
+            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
+  labs(title = "(a) P(27 < X < 31)", x = "Pounds", y = "") +
+  theme_minimal()
+p2 <- ggplot(df, aes(x, y)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_area(data = filter(df, x >= 30.2),
+            aes(x, y), fill = "#c0392b", alpha = 0.4) +
+  labs(title = "(b) P(X > 30.2)", x = "Pounds", y = "") +
+  theme_minimal()
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+## Example 6-8: Coffee Consumption {.smaller}
+
+::: {.callout-tip}
+## Example 6-8
+The per-capita consumption of coffee is normally distributed with μ = 1.64 gallons per year and σ = 0.24 gallons. In a sample of 500 people, how many consume **less than 1 gallon** per year?
+:::
+
+```{r ex6-8, echo=T, warning=FALSE}
+mu <- 1.64; sigma <- 0.24
+
+# Probability of consuming less than 1 gallon
+p <- pnorm(1, mean = mu, sd = sigma)
+p
+
+# Expected number in sample of 500
+round(p * 500)
+```
+
+**Interpretation:** Only about **0.4%** of people drink less than 1 gallon — approximately **2 people** in a sample of 500.
+
+## Example 6-9: Police Academy {.smaller}
+
+::: {.callout-tip}
+## Example 6-9
+To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with μ = 200 and σ = 20. The top **10%** of applicants will be accepted. Find the minimum score needed.
+:::
+
+**Solution (Mathematical):**
+
+- Need the 90th percentile → find z such that P(Z < z) = 0.90
+- z ≈ 1.28
+- X = μ + z·σ = 200 + 1.28(20) = **225.6 ≈ 226**
+
+```{r ex6-9, echo=T, warning=FALSE}
+mu <- 200; sigma <- 20
+# Find the value X such that P(X > x) = 0.10
+qnorm(0.90, mean = mu, sd = sigma)
+```
+
+**Answer:** An applicant needs a score of at least **226** to be in the top 10%.
+
+## Example 6-10: Blood Pressure {.smaller}
+
+::: {.callout-tip}
+## Example 6-10
+For a certain group, systolic blood pressure is normally distributed with μ = 120 and σ = 8. Find the range of pressures that includes the **middle 60%** of readings.
+:::
+
+**Solution:**
+
+- Middle 60% → 20% in each tail → find z for P(Z < z) = 0.20 and P(Z < z) = 0.80
+- z₁ ≈ −0.84, z₂ ≈ +0.84
+- X₁ = 120 + (−0.84)(8) = **113.28**
+- X₂ = 120 + (0.84)(8) = **126.72**
+
+```{r ex6-10, echo=T, warning=FALSE}
+mu <- 120; sigma <- 8
+# Lower and upper bounds for middle 60%
+qnorm(0.20, mean = mu, sd = sigma)
+qnorm(0.80, mean = mu, sd = sigma)
+```
+
+**Answer:** The middle 60% of readings fall between **113.28** and **126.72** mmHg.
+
+## Example 6-11: Technology Inventories {.smaller}
+
+::: {.callout-tip}
+## Example 6-11
+A researcher claims that the distribution of technology inventories at warehouses is approximately normal with μ = 110,000 and σ = 15,000 units. A warehouse is selected at random. Find the probability that it has **more than 132,500 units**.
+:::
+
+```{r ex6-11, echo=T, warning=FALSE}
+mu <- 110000; sigma <- 15000
+
+# P(X > 132500)
+pnorm(132500, mean = mu, sd = sigma, lower.tail = FALSE)
+
+# Equivalent z-score
+z <- (132500 - mu) / sigma
+z
+pnorm(z, lower.tail = FALSE)
+```
+
+**Answer:** z = 1.50, P(X > 132,500) ≈ **0.0668** (about 6.68%).
+
+## Example 6-12: Baseball Game Duration {.smaller}
+
+::: {.callout-tip}
+## Example 6-12
+The distribution of the duration of professional baseball games is **negatively skewed** with μ = 166 minutes and σ = 26 minutes. If a game is selected at random, find the probability that it lasts **less than 145 minutes**.
+:::
+
+::: {.callout-warning}
+## Caution
+This distribution is **not** normal — it is negatively skewed. Applying normal distribution methods is only appropriate when the distribution is approximately normal. Here the answer is an approximation.
+:::
+
+```{r ex6-12, echo=T, warning=FALSE}
+mu <- 166; sigma <- 26
+# Approximate probability (treating as normal)
+z <- (145 - mu) / sigma
+z
+pnorm(145, mean = mu, sd = sigma)
+```
+
+**Note:** z ≈ −0.81; P(X < 145) ≈ **0.2090** (approximately 20.9%). Since the data is skewed, this is only a rough estimate.
+
+# Section 6-3: The Central Limit Theorem {background-color="#2c4a6e"}
+
+## The Central Limit Theorem
+
+::: {.callout-note}
+## The Central Limit Theorem (CLT)
+As sample size **n** increases, the sampling distribution of the sample mean $\bar{X}$ approaches a **normal distribution**, regardless of the shape of the population distribution, provided n is sufficiently large (typically **n ≥ 30**).
+
+$$\mu_{\bar{X}} = \mu \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
+:::
+
+The **standard error** $\sigma_{\bar{X}} = \sigma/\sqrt{n}$ measures how much sample means vary from sample to sample.
+
+## Applying the CLT
+
+::: {.callout-important}
+## z Score for Sample Means
+$$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
+:::
+
+**In R:** Use `pnorm(xbar, mean = μ, sd = σ/sqrt(n))`
+
+The CLT explains why the normal distribution is so central to statistics:
+
+- Survey results, poll averages, sample statistics all tend toward normality
+- Enables inference even when the population shape is unknown
+
+---
+
+```{r clt-demo, echo=T, warning=FALSE}
+# CLT demonstration: sampling from a skewed distribution
+set.seed(42)
+pop <- rexp(10000, rate = 0.5)  # skewed population
+sample_means <- replicate(1000, mean(sample(pop, 30)))
+hist(sample_means, breaks = 30, col = "#2c4a6e",
+     main = "Sampling Distribution of X-bar (n=30)",
+     xlab = "Sample Mean", freq = FALSE)
+curve(dnorm(x, mean(pop), sd(pop)/sqrt(30)), add = TRUE,
+      col = "red", lwd = 2)
+```
+
+## Example 6-13: Children's TV Viewing {.smaller}
+
+::: {.callout-tip}
+## Example 6-13
+Children in the United States watch an average of μ = 25 hours of TV per week, with σ = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.
+:::
+
+**Solution:**
+
+$$z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94$$
+
+P($\bar{X}$ > 26.3) = P(Z > 1.94) ≈ **0.0262** (2.62%)
+
+```{r ex6-13, echo=T, warning=FALSE}
+mu <- 25; sigma <- 3; n <- 20
+se <- sigma / sqrt(n)
+se
+
+# P(X-bar > 26.3)
+pnorm(26.3, mean = mu, sd = se, lower.tail = FALSE)
+```
+
+## Example 6-14: Vehicle Age {.smaller}
+
+::: {.callout-tip}
+## Example 6-14
+The average age of vehicles registered in the United States is μ = 96 months, with σ = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 < $\bar{X}$ < 100).
+:::
+
+```{r ex6-14, echo=T, warning=FALSE}
+mu <- 96; sigma <- 16; n <- 36
+se <- sigma / sqrt(n)
+se
+
+# P(90 < X-bar < 100)
+pnorm(100, mean = mu, sd = se) - pnorm(90, mean = mu, sd = se)
+```
+
+**Answer:** P(90 < $\bar{X}$ < 100) ≈ **0.9211** (92.11%)
+
+The sample mean is very likely to fall in this range because the standard error is only `r round(16/sqrt(36), 2)` months.
+
+## Example 6-15: Meat Consumption {.smaller}
+
+::: {.callout-tip}
+## Example 6-15
+The average annual meat consumption per person is μ = 218.4 pounds, σ = 25 pounds.
+
+**(a)** Find P(X < 224) for a **single individual**.
+**(b)** Find P($\bar{X}$ < 224) for a **sample of n = 40** individuals.
+:::
+
+```{r ex6-15, echo=T, warning=FALSE}
+mu <- 218.4; sigma <- 25; n <- 40
+
+# (a) Individual: P(X < 224)
+pnorm(224, mean = mu, sd = sigma)
+
+# (b) Sample mean: P(X-bar < 224), n = 40
+se <- sigma / sqrt(n)
+pnorm(224, mean = mu, sd = se)
+```
+
+**Answers:** (a) ≈ **58.71%**; (b) ≈ **92.22%**
+
+::: {.callout-important}
+## Key Insight
+The probability is much higher for the sample mean because the standard error (σ/√n) is smaller than σ — sample means are less variable than individual values.
+:::
+
+# Section 6-4: The Normal Approximation to the Binomial Distribution {background-color="#2c4a6e"}
+
+## Why Use the Normal Approximation?
+
+The binomial distribution is exact but computationally intensive for large n. The normal distribution provides a convenient approximation.
+
+::: {.callout-note}
+## When to Use the Normal Approximation
+Use the normal approximation to the binomial when:
+$$np \geq 5 \quad \text{and} \quad nq \geq 5$$
+where q = 1 − p.
+
+The approximating normal distribution has:
+$$\mu = np \qquad \sigma = \sqrt{npq}$$
+:::
+
+## Correction for Continuity
+
+::: {.callout-important}
+## Correction for Continuity
+Since we are approximating a **discrete** distribution with a **continuous** one, add or subtract **0.5** from X:
+
+| Binomial Expression | Normal Approximation |
+|---------------------|----------------------|
+| P(X = a) | P(a − 0.5 < X < a + 0.5) |
+| P(X ≥ a) | P(X > a − 0.5) |
+| P(X > a) | P(X > a + 0.5) |
+| P(X ≤ a) | P(X < a + 0.5) |
+| P(X < a) | P(X < a − 0.5) |
+:::
+
+## Example 6-16: Reading While Driving {.smaller}
+
+::: {.callout-tip}
+## Example 6-16
+A survey found that 6% of American drivers read while driving. If 300 drivers are selected at random, find the approximate probability that **exactly 25** read while driving.
+:::
+
+**Check:** n = 300, p = 0.06, q = 0.94
+- np = 300(0.06) = 18 ≥ 5 ✓
+- nq = 300(0.94) = 282 ≥ 5 ✓
+
+**Parameters:** μ = np = 18, σ = √(npq) = √(300 × 0.06 × 0.94)
+
+```{r ex6-16, echo=T, warning=FALSE}
+n <- 300; p <- 0.06; q <- 1 - p
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+
+# Normal approximation: P(X = 25) ≈ P(24.5 < X < 25.5)
+pnorm(25.5, mean = mu, sd = sigma) - pnorm(24.5, mean = mu, sd = sigma)
+
+# Exact binomial
+dbinom(25, n, p)
+```
+
+**Answer (normal approx.):** ≈ **0.0227** (2.27%); Exact binomial: ≈ 0.0220.
+
+## Example 6-17: Widowed Bowlers {.smaller}
+
+::: {.callout-tip}
+## Example 6-17
+Researchers found that 10% of people who bowl are widowed. If 200 bowlers are selected, find the probability that **10 or more** are widowed.
+:::
+
+**Check:** np = 20 ≥ 5, nq = 180 ≥ 5 ✓
+
+**Parameters:** μ = 20, σ = √(200 × 0.10 × 0.90) = √18
+
+```{r ex6-17, echo=T, warning=FALSE}
+n <- 200; p <- 0.10; q <- 0.90
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+
+# P(X >= 10) with continuity correction: P(X > 9.5)
+pnorm(9.5, mean = mu, sd = sigma, lower.tail = FALSE)
+
+# Exact binomial for comparison
+pbinom(9, n, p, lower.tail = FALSE)
+```
+
+**Answer:** ≈ **0.9934** (99.34%) — it is extremely likely that 10 or more widowed bowlers appear in such a sample.
+
+## Example 6-18: Batting Averages {.smaller}
+
+::: {.callout-tip}
+## Example 6-18
+In baseball, a .320 batting average means a player gets a hit 32% of the time. In 100 at-bats, find the probability of getting **26 or fewer** hits.
+:::
+
+**Check:** np = 32 ≥ 5, nq = 68 ≥ 5 ✓
+
+**Parameters:** μ = 32, σ = √(100 × 0.32 × 0.68)
+
+```{r ex6-18, echo=T, warning=FALSE}
+n <- 100; p <- 0.32; q <- 0.68
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+
+# P(X <= 26) with continuity correction: P(X < 26.5)
+pnorm(26.5, mean = mu, sd = sigma)
+
+# Exact binomial
+pbinom(26, n, p)
+```
+
+**Answer (normal approx.):** ≈ **0.119** (11.9%); Exact: ≈ 0.116.
+
+## Example 6-19: Comparing Binomial and Normal Approximation {.smaller}
+
+::: {.callout-tip}
+## Example 6-19
+A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** using:
+
+**(a)** The binomial distribution
+**(b)** The normal approximation
+:::
+
+::: {.callout-warning}
+## Caution
+Here np = 5, nq = 5 — these are exactly at the minimum threshold. The normal approximation may be less accurate for small n.
+:::
+
+```{r ex6-19, echo=T, warning=FALSE}
+n <- 10; p <- 0.5; q <- 0.5
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", sigma, "\n")
+
+# (a) Exact binomial
+dbinom(6, n, p)
+
+# (b) Normal approximation with continuity correction
+pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
+```
+
+**Comparison:** Exact = **0.2051**; Normal approx. = **0.2034**
+
+The approximation is quite close even for this borderline case.
+
+## Chapter 6 Summary {.smaller}
+
+| Topic | Formula | R Function |
+|-------|---------|------------|
+| Standard normal area (left) | P(Z < z) | `pnorm(z)` |
+| Standard normal area (right) | 1 − P(Z < z) | `pnorm(z, lower.tail=FALSE)` |
+| Find z from area | — | `qnorm(p)` |
+| Non-standard normal | z = (X − μ)/σ | `pnorm(x, mean, sd)` |
+| Sample mean probability | z = (X̄ − μ)/(σ/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
+| Normal approx. to binomial | μ=np, σ=√(npq) | ±0.5 correction |
+
+::: {.callout-important}
+## Key Takeaways
+1. The normal distribution is fully described by μ and σ
+2. Convert to z scores to use the standard normal table
+3. The CLT guarantees that sample means are approximately normal for n ≥ 30
+4. Use normal approximation to binomial when np ≥ 5 **and** nq ≥ 5
+5. Always apply the **correction for continuity** in the normal approximation
+:::
+
+## References
+
+::: {#refs}
+:::
