@@ -97,6 +97,22 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -495,9 +511,9 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p>The <strong>Pearson product moment correlation coefficient</strong> (r) measures the strength and direction of the linear relationship between two variables.</p>
-<p><span class="math display">\[r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}\]</span></p>
+<p><span class="math display">r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}</span></p>
 <ul>
-<li>Range: <span class="math inline">\(-1 \leq r \leq +1\)</span></li>
+<li>Range: <span class="math inline">-1 \leq r \leq +1</span></li>
 <li>Close to +1: strong positive relationship</li>
 <li>Close to −1: strong negative relationship</li>
 <li>Close to 0: weak or no linear relationship</li>
@@ -596,7 +612,7 @@ Yu-You Liou
 </tr>
 </tbody>
 </table>
-<p><span class="math display">\[r = \frac{6(682.77) - (153.8)(18.7)}{\sqrt{[6(5859.26) - 153.8^2][6(80.67) - 18.7^2]}} \approx \boxed{0.982}\]</span></p>
+<p><span class="math display">r = \frac{6(682.77) - (153.8)(18.7)}{\sqrt{[6(5859.26) - 153.8^2][6(80.67) - 18.7^2]}} \approx \boxed{0.982}</span></p>
 </section>
 <section id="example-10-4-solution-r" class="slide level2">
 <h2>Example 10-4: Solution (R)</h2>
@@ -689,8 +705,8 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p>To determine whether r reflects a true linear relationship (and not just sampling error), we test:</p>
-<p><span class="math display">\[H_0: \rho = 0 \quad H_1: \rho \neq 0\]</span></p>
-<p><strong>t test for the correlation coefficient:</strong> <span class="math display">\[t = r\sqrt{\frac{n-2}{1-r^2}}, \quad d.f. = n-2\]</span></p>
+<p><span class="math display">H_0: \rho = 0 \quad H_1: \rho \neq 0</span></p>
+<p><strong>t test for the correlation coefficient:</strong> <span class="math display">t = r\sqrt{\frac{n-2}{1-r^2}}, \quad d.f. = n-2</span></p>
 <p>Alternatively, use <strong>Table I</strong> (critical values of r) directly — no need to compute t.</p>
 </div>
 </div>
@@ -713,7 +729,7 @@ Yu-You Liou
 </div>
 <p><strong>Step 1:</strong> H₀: ρ = 0 &nbsp; H₁: ρ ≠ 0</p>
 <p><strong>Step 2:</strong> d.f. = 6 − 2 = 4; CV = ±2.776 (from t-table)</p>
-<p><strong>Step 3:</strong> <span class="math display">\[t = 0.982\sqrt{\frac{6-2}{1-0.982^2}} = 0.982\sqrt{\frac{4}{0.0356}} \approx 10.4\]</span></p>
+<p><strong>Step 3:</strong> <span class="math display">t = 0.982\sqrt{\frac{6-2}{1-0.982^2}} = 0.982\sqrt{\frac{4}{0.0356}} \approx 10.4</span></p>
 <p><strong>Step 4:</strong> |10.4| &gt; 2.776 → <strong>Reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is a significant linear relationship between fleet size and revenue.</p>
 </section>
@@ -819,12 +835,12 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p>When r is significant, we can describe the linear relationship with the <strong>regression line</strong>:</p>
-<p><span class="math display">\[\hat{y} = a + bx\]</span></p>
-<p>where: <span class="math display">\[b = \frac{n\sum xy - (\sum x)(\sum y)}{n\sum x^2 - (\sum x)^2}\]</span></p>
-<p><span class="math display">\[a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n\sum x^2 - (\sum x)^2}\]</span></p>
+<p><span class="math display">\hat{y} = a + bx</span></p>
+<p>where: <span class="math display">b = \frac{n\sum xy - (\sum x)(\sum y)}{n\sum x^2 - (\sum x)^2}</span></p>
+<p><span class="math display">a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n\sum x^2 - (\sum x)^2}</span></p>
 <ul>
-<li><span class="math inline">\(b\)</span> = slope (marginal change in y per one-unit increase in x)</li>
-<li><span class="math inline">\(a\)</span> = y-intercept</li>
+<li><span class="math inline">b</span> = slope (marginal change in y per one-unit increase in x)</li>
+<li><span class="math inline">a</span> = y-intercept</li>
 <li><strong>Round a and b to three decimal places</strong></li>
 </ul>
 </div>
@@ -848,9 +864,9 @@ Yu-You Liou
 </div>
 </div>
 <p><strong>Solution:</strong></p>
-<p><span class="math display">\[b = \frac{6(682.77) - (153.8)(18.7)}{6(5859.26) - 153.8^2} = \frac{4096.62 - 2876.06}{35155.56 - 23653.44} = \frac{1220.56}{11502.12} \approx 0.106\]</span></p>
-<p><span class="math display">\[a = \frac{(18.7)(5859.26) - (153.8)(682.77)}{6(5859.26) - 153.8^2} \approx 0.396\]</span></p>
-<p><span class="math display">\[\boxed{\hat{y} = 0.396 + 0.106x}\]</span></p>
+<p><span class="math display">b = \frac{6(682.77) - (153.8)(18.7)}{6(5859.26) - 153.8^2} = \frac{4096.62 - 2876.06}{35155.56 - 23653.44} = \frac{1220.56}{11502.12} \approx 0.106</span></p>
+<p><span class="math display">a = \frac{(18.7)(5859.26) - (153.8)(682.77)}{6(5859.26) - 153.8^2} \approx 0.396</span></p>
+<p><span class="math display">\boxed{\hat{y} = 0.396 + 0.106x}</span></p>
 </section>
 <section id="example-10-9-solution-r" class="slide level2">
 <h2>Example 10-9: Solution (R)</h2>
@@ -892,9 +908,9 @@ Yu-You Liou
 </div>
 </div>
 </div>
-<p><span class="math display">\[b = \frac{7(3745) - (57)(511)}{7(579) - 57^2} = \frac{26215 - 29127}{4053 - 3249} = \frac{-2912}{804} \approx -3.622\]</span></p>
-<p><span class="math display">\[a = \frac{(511)(579) - (57)(3745)}{7(579) - 57^2} = \frac{295869 - 213465}{804} \approx 102.493\]</span></p>
-<p><span class="math display">\[\boxed{\hat{y} = 102.493 - 3.622x}\]</span></p>
+<p><span class="math display">b = \frac{7(3745) - (57)(511)}{7(579) - 57^2} = \frac{26215 - 29127}{4053 - 3249} = \frac{-2912}{804} \approx -3.622</span></p>
+<p><span class="math display">a = \frac{(511)(579) - (57)(3745)}{7(579) - 57^2} = \frac{295869 - 213465}{804} \approx 102.493</span></p>
+<p><span class="math display">\boxed{\hat{y} = 102.493 - 3.622x}</span></p>
 </section>
 <section id="example-10-10-solution-r" class="slide level2">
 <h2>Example 10-10: Solution (R)</h2>
@@ -936,7 +952,7 @@ Yu-You Liou
 </div>
 </div>
 <p>Since x values are in 10,000s: x = 200,000 ÷ 10,000 = <strong>20</strong></p>
-<p><span class="math display">\[\hat{y} = 0.396 + 0.106(20) = 0.396 + 2.120 = \boxed{2.516 \text{ billion dollars}}\]</span></p>
+<p><span class="math display">\hat{y} = 0.396 + 0.106(20) = 0.396 + 2.120 = \boxed{2.516 \text{ billion dollars}}</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">63.0</span>, <span class="fl">29.0</span>, <span class="fl">20.8</span>, <span class="fl">19.1</span>, <span class="fl">13.4</span>, <span class="fl">8.5</span>)</span>
 <span id="cb38-2"><a></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">7.0</span>, <span class="fl">3.9</span>, <span class="fl">2.1</span>, <span class="fl">2.8</span>, <span class="fl">1.4</span>, <span class="fl">1.5</span>)</span>
@@ -979,7 +995,7 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p>The <strong>total variation</strong> in y can be decomposed:</p>
-<p><span class="math display">\[\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\hat{y} - \bar{y})^2}_{\text{Explained variation}} + \underbrace{\sum(y - \hat{y})^2}_{\text{Unexplained variation}}\]</span></p>
+<p><span class="math display">\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\hat{y} - \bar{y})^2}_{\text{Explained variation}} + \underbrace{\sum(y - \hat{y})^2}_{\text{Unexplained variation}}</span></p>
 <ul>
 <li><strong>Explained variation:</strong> attributed to the linear relationship with x</li>
 <li><strong>Unexplained variation:</strong> due to chance or other factors (also called <strong>residual</strong> variation)</li>
@@ -999,11 +1015,11 @@ Yu-You Liou
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">\[r^2 = \frac{\text{Explained variation}}{\text{Total variation}}\]</span></p>
-<p>Equivalently, <span class="math inline">\(r^2\)</span> is obtained by <strong>squaring the correlation coefficient</strong>.</p>
+<p><span class="math display">r^2 = \frac{\text{Explained variation}}{\text{Total variation}}</span></p>
+<p>Equivalently, <span class="math inline">r^2</span> is obtained by <strong>squaring the correlation coefficient</strong>.</p>
 <ul>
-<li><span class="math inline">\(r^2\)</span> expressed as a percentage tells us what proportion of variation in y is explained by x.</li>
-<li><strong>Coefficient of nondetermination:</strong> <span class="math inline">\(1 - r^2\)</span> (unexplained proportion)</li>
+<li><span class="math inline">r^2</span> expressed as a percentage tells us what proportion of variation in y is explained by x.</li>
+<li><strong>Coefficient of nondetermination:</strong> <span class="math inline">1 - r^2</span> (unexplained proportion)</li>
 </ul>
 <p><strong>Example:</strong> If r = 0.982, then r² = 0.964, meaning <strong>96.4%</strong> of the variation in revenue is explained by fleet size.</p>
 </div>
@@ -1038,11 +1054,11 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>The <strong>standard error of the estimate</strong> (<span class="math inline">\(s_{est}\)</span>) measures the spread of observed y values around the regression line:</p>
-<p><span class="math display">\[s_{est} = \sqrt{\frac{\sum(y - \hat{y})^2}{n-2}}\]</span></p>
+<p>The <strong>standard error of the estimate</strong> (<span class="math inline">s_{est}</span>) measures the spread of observed y values around the regression line:</p>
+<p><span class="math display">s_{est} = \sqrt{\frac{\sum(y - \hat{y})^2}{n-2}}</span></p>
 <p>Computational shortcut:</p>
-<p><span class="math display">\[s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}\]</span></p>
-<p>The smaller <span class="math inline">\(s_{est}\)</span>, the better the regression line fits the data.</p>
+<p><span class="math display">s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}</span></p>
+<p>The smaller <span class="math inline">s_{est}</span>, the better the regression line fits the data.</p>
 </div>
 </div>
 </div>
@@ -1058,7 +1074,7 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher finds a significant relationship between the age of a copy machine (years) and its monthly maintenance cost (dollars). The regression equation is <span class="math inline">\(\hat{y} = 55.57 + 8.13x\)</span>. Find the standard error of the estimate.</p>
+<p>A researcher finds a significant relationship between the age of a copy machine (years) and its monthly maintenance cost (dollars). The regression equation is <span class="math inline">\hat{y} = 55.57 + 8.13x</span>. Find the standard error of the estimate.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -1106,15 +1122,15 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </section>
 <section id="example-10-12-solution-math" class="slide level2">
 <h2>Example 10-12: Solution (Math)</h2>
-<p>Compute <span class="math inline">\(\hat{y}\)</span> and residuals for each observation:</p>
+<p>Compute <span class="math inline">\hat{y}</span> and residuals for each observation:</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>x</th>
 <th>y</th>
-<th><span class="math inline">\(\hat{y}\)</span></th>
-<th><span class="math inline">\(y - \hat{y}\)</span></th>
-<th><span class="math inline">\((y - \hat{y})^2\)</span></th>
+<th><span class="math inline">\hat{y}</span></th>
+<th><span class="math inline">y - \hat{y}</span></th>
+<th><span class="math inline">(y - \hat{y})^2</span></th>
 </tr>
 </thead>
 <tbody>
@@ -1169,7 +1185,7 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </tr>
 </tbody>
 </table>
-<p><span class="math display">\[s_{est} = \sqrt{\frac{169.74}{6-2}} = \sqrt{42.44} \approx \boxed{6.51}\]</span></p>
+<p><span class="math display">s_{est} = \sqrt{\frac{169.74}{6-2}} = \sqrt{42.44} \approx \boxed{6.51}</span></p>
 </section>
 <section id="example-10-12-solution-r" class="slide level2">
 <h2>Example 10-12: Solution (R)</h2>
@@ -1212,7 +1228,7 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </div>
 </div>
 </div>
-<p><span class="math display">\[s_{est} = \sqrt{\frac{42186 - 55.57(496) - 8.13(1778)}{6-2}} = \sqrt{\frac{42186 - 27562.72 - 14455.14}{4}} \approx \boxed{6.48}\]</span></p>
+<p><span class="math display">s_{est} = \sqrt{\frac{42186 - 55.57(496) - 8.13(1778)}{6-2}} = \sqrt{\frac{42186 - 27562.72 - 14455.14}{4}} \approx \boxed{6.48}</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
 <span id="cb50-2"><a></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">78</span>, <span class="dv">70</span>, <span class="dv">90</span>, <span class="dv">93</span>, <span class="dv">103</span>)</span>
@@ -1238,8 +1254,8 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </div>
 <div class="callout-content">
 <p>A <strong>prediction interval</strong> provides a range within which a future individual y value is expected to fall for a given x:</p>
-<p><span class="math display">\[\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{X})^2}{n\sum x^2 - (\sum x)^2}}\]</span></p>
-<p>with <span class="math inline">\(d.f. = n - 2\)</span></p>
+<p><span class="math display">\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{X})^2}{n\sum x^2 - (\sum x)^2}}</span></p>
+<p>with <span class="math inline">d.f. = n - 2</span></p>
 </div>
 </div>
 </div>
@@ -1259,10 +1275,10 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </div>
 </div>
 </div>
-<p>Known: <span class="math inline">\(\sum x = 20\)</span>, <span class="math inline">\(\sum x^2 = 82\)</span>, <span class="math inline">\(\bar{X} = 20/6 = 3.3\)</span>, <span class="math inline">\(\hat{y}(3) = 79.96\)</span>, <span class="math inline">\(s_{est} = 6.48\)</span>, <span class="math inline">\(t_{0.025, 4} = 2.776\)</span></p>
-<p><span class="math display">\[\text{SE factor} = \sqrt{1 + \frac{1}{6} + \frac{6(3-3.3)^2}{6(82)-20^2}} = \sqrt{1 + 0.167 + \frac{0.54}{92}} \approx 1.08\]</span></p>
-<p><span class="math display">\[79.96 \pm 2.776(6.48)(1.08) = 79.96 \pm 19.43\]</span></p>
-<p><span class="math display">\[\boxed{60.53 &lt; y &lt; 99.39}\]</span></p>
+<p>Known: <span class="math inline">\sum x = 20</span>, <span class="math inline">\sum x^2 = 82</span>, <span class="math inline">\bar{X} = 20/6 = 3.3</span>, <span class="math inline">\hat{y}(3) = 79.96</span>, <span class="math inline">s_{est} = 6.48</span>, <span class="math inline">t_{0.025, 4} = 2.776</span></p>
+<p><span class="math display">\text{SE factor} = \sqrt{1 + \frac{1}{6} + \frac{6(3-3.3)^2}{6(82)-20^2}} = \sqrt{1 + 0.167 + \frac{0.54}{92}} \approx 1.08</span></p>
+<p><span class="math display">79.96 \pm 2.776(6.48)(1.08) = 79.96 \pm 19.43</span></p>
+<p><span class="math display">\boxed{60.53 &lt; y &lt; 99.39}</span></p>
 </section>
 <section id="example-10-14-solution-r" class="slide level2">
 <h2>Example 10-14: Solution (R)</h2>
@@ -1319,9 +1335,9 @@ r =  0.600  →  r² = 0.3600  (36.0% explained)</code></pre>
 </div>
 <div class="callout-content">
 <p><strong>Multiple regression</strong> uses two or more independent variables to predict a single dependent variable:</p>
-<p><span class="math display">\[\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k\]</span></p>
+<p><span class="math display">\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k</span></p>
 <ul>
-<li>Each <span class="math inline">\(b_i\)</span> is a <strong>partial regression coefficient</strong>: the change in y for a one-unit increase in <span class="math inline">\(x_i\)</span>, holding all other x’s constant.</li>
+<li>Each <span class="math inline">b_i</span> is a <strong>partial regression coefficient</strong>: the change in y for a one-unit increase in <span class="math inline">x_i</span>, holding all other x’s constant.</li>
 </ul>
 <p><strong>Assumptions:</strong> 1. Normality of y values for each x 2. Equal variances (homoscedasticity) 3. Linearity 4. Non-multicollinearity (independent variables not highly correlated) 5. Independence of observations</p>
 </div>
@@ -1421,8 +1437,8 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 </section>
 <section class="slide level2">
 
-<p><span class="math display">\[\boxed{\hat{y} = -44.81 + 87.64 \cdot \text{GPA} + 14.533 \cdot \text{Age}}\]</span></p>
-<p>For a student with GPA = 3.0 and age = 25: <span class="math inline">\(\hat{y} = -44.81 + 87.64(3.0) + 14.533(25) \approx \mathbf{581}\)</span></p>
+<p><span class="math display">\boxed{\hat{y} = -44.81 + 87.64 \cdot \text{GPA} + 14.533 \cdot \text{Age}}</span></p>
+<p>For a student with GPA = 3.0 and age = 25: <span class="math inline">\hat{y} = -44.81 + 87.64(3.0) + 14.533(25) \approx \mathbf{581}</span></p>
 </section>
 <section id="predicting-with-the-multiple-regression-equation" class="slide level2">
 <h2>Predicting with the Multiple Regression Equation</h2>
@@ -1448,11 +1464,11 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 </div>
 <div class="callout-content">
 <p>The <strong>multiple correlation coefficient R</strong> measures the strength of the relationship between all predictors and the dependent variable:</p>
-<p><span class="math display">\[R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}\]</span></p>
+<p><span class="math display">R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}</span></p>
 <ul>
 <li>Range: 0 to 1 (never negative)</li>
-<li><span class="math inline">\(R^2\)</span> = <strong>coefficient of multiple determination</strong> (proportion of variation explained)</li>
-<li><span class="math inline">\(1 - R^2\)</span> = residual/error variation</li>
+<li><span class="math inline">R^2</span> = <strong>coefficient of multiple determination</strong> (proportion of variation explained)</li>
+<li><span class="math inline">1 - R^2</span> = residual/error variation</li>
 </ul>
 </div>
 </div>
@@ -1469,11 +1485,11 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p>For the state board score data, find R given: <span class="math inline">\(r_{yx_1} = 0.845\)</span>, <span class="math inline">\(r_{yx_2} = 0.791\)</span>, <span class="math inline">\(r_{x_1x_2} = 0.371\)</span></p>
+<p>For the state board score data, find R given: <span class="math inline">r_{yx_1} = 0.845</span>, <span class="math inline">r_{yx_2} = 0.791</span>, <span class="math inline">r_{x_1x_2} = 0.371</span></p>
 </div>
 </div>
 </div>
-<p><span class="math display">\[R = \sqrt{\frac{0.845^2 + 0.791^2 - 2(0.845)(0.791)(0.371)}{1 - 0.371^2}} = \sqrt{\frac{0.8428}{0.8623}} \approx \boxed{0.989}\]</span></p>
+<p><span class="math display">R = \sqrt{\frac{0.845^2 + 0.791^2 - 2(0.845)(0.791)(0.371)}{1 - 0.371^2}} = \sqrt{\frac{0.8428}{0.8623}} \approx \boxed{0.989}</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a></a>ryx1 <span class="ot">&lt;-</span> <span class="fl">0.845</span>; ryx2 <span class="ot">&lt;-</span> <span class="fl">0.791</span>; rx1x2 <span class="ot">&lt;-</span> <span class="fl">0.371</span></span>
 <span id="cb61-2"><a></a>R <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((ryx1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> ryx2<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>ryx1<span class="sc">*</span>ryx2<span class="sc">*</span>rx1x2) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> rx1x2<span class="sc">^</span><span class="dv">2</span>))</span>
@@ -1498,8 +1514,8 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>Test <span class="math inline">\(H_0: \rho = 0\)</span> vs <span class="math inline">\(H_1: \rho \neq 0\)</span> using:</p>
-<p><span class="math display">\[F = \frac{R^2/k}{(1-R^2)/(n-k-1)}\]</span></p>
+<p>Test <span class="math inline">H_0: \rho = 0</span> vs <span class="math inline">H_1: \rho \neq 0</span> using:</p>
+<p><span class="math display">F = \frac{R^2/k}{(1-R^2)/(n-k-1)}</span></p>
 <ul>
 <li>d.f.N. = k &nbsp;&nbsp; d.f.D. = n − k − 1</li>
 </ul>
@@ -1523,7 +1539,7 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 </div>
 </div>
 </div>
-<p><span class="math display">\[F = \frac{0.989^2/2}{(1-0.989^2)/(5-2-1)} = \frac{0.978/2}{0.022/2} = \frac{0.489}{0.011} \approx 44.45\]</span></p>
+<p><span class="math display">F = \frac{0.989^2/2}{(1-0.989^2)/(5-2-1)} = \frac{0.978/2}{0.022/2} = \frac{0.489}{0.011} \approx 44.45</span></p>
 <p>Critical value (Table H, d.f.N. = 2, d.f.D. = 2, α = 0.05): <strong>19.16</strong></p>
 <p>44.45 &gt; 19.16 → <strong>Reject H₀</strong> — significant relationship exists.</p>
 <div class="cell">
@@ -1552,7 +1568,7 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 </div>
 <div class="callout-content">
 <p>The <strong>adjusted R²</strong> corrects for the number of predictors and sample size:</p>
-<p><span class="math display">\[R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}\]</span></p>
+<p><span class="math display">R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}</span></p>
 <p>It is always ≤ R² and penalizes for adding unnecessary predictors.</p>
 </div>
 </div>
@@ -1570,7 +1586,7 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 </div>
 </div>
 </div>
-<p><span class="math display">\[R^2_{adj} = 1 - \frac{(1-0.989^2)(5-1)}{5-2-1} = 1 - \frac{(0.022)(4)}{2} = 1 - 0.044 = \boxed{0.956}\]</span></p>
+<p><span class="math display">R^2_{adj} = 1 - \frac{(1-0.989^2)(5-1)}{5-2-1} = 1 - \frac{(0.022)(4)}{2} = 1 - 0.044 = \boxed{0.956}</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a></a>R2 <span class="ot">&lt;-</span> <span class="fl">0.989</span><span class="sc">^</span><span class="dv">2</span>; n <span class="ot">&lt;-</span> <span class="dv">5</span>; k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb69-2"><a></a>R2_adj <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span><span class="sc">-</span>R2)<span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">/</span>(n<span class="sc">-</span>k<span class="dv">-1</span>)</span>
@@ -1602,37 +1618,37 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
 <tbody>
 <tr class="odd">
 <td>Correlation coefficient</td>
-<td><span class="math inline">\(r = \frac{n\sum xy - \sum x \sum y}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}\)</span></td>
+<td><span class="math inline">r = \frac{n\sum xy - \sum x \sum y}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}</span></td>
 <td>Strength &amp; direction of linear relationship</td>
 </tr>
 <tr class="even">
 <td>t test for r</td>
-<td><span class="math inline">\(t = r\sqrt{\frac{n-2}{1-r^2}}\)</span>, d.f. = n−2</td>
+<td><span class="math inline">t = r\sqrt{\frac{n-2}{1-r^2}}</span>, d.f. = n−2</td>
 <td>Test if r is significant</td>
 </tr>
 <tr class="odd">
 <td>Regression line</td>
-<td><span class="math inline">\(\hat{y} = a + bx\)</span></td>
+<td><span class="math inline">\hat{y} = a + bx</span></td>
 <td>Predict y from x</td>
 </tr>
 <tr class="even">
 <td>Coefficient of determination</td>
-<td><span class="math inline">\(r^2\)</span></td>
+<td><span class="math inline">r^2</span></td>
 <td>% of variation in y explained by x</td>
 </tr>
 <tr class="odd">
 <td>Standard error of estimate</td>
-<td><span class="math inline">\(s_{est} = \sqrt{\frac{\sum(y-\hat{y})^2}{n-2}}\)</span></td>
+<td><span class="math inline">s_{est} = \sqrt{\frac{\sum(y-\hat{y})^2}{n-2}}</span></td>
 <td>Accuracy of predictions</td>
 </tr>
 <tr class="even">
 <td>Prediction interval</td>
-<td><span class="math inline">\(\hat{y} \pm t_{\alpha/2} \cdot s_{est} \cdot \text{SE factor}\)</span></td>
+<td><span class="math inline">\hat{y} \pm t_{\alpha/2} \cdot s_{est} \cdot \text{SE factor}</span></td>
 <td>Range for individual y</td>
 </tr>
 <tr class="odd">
 <td>Multiple R</td>
-<td><span class="math inline">\(R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1-r_{x_1x_2}^2}}\)</span></td>
+<td><span class="math inline">R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1-r_{x_1x_2}^2}}</span></td>
 <td>Multiple predictors</td>
 </tr>
 </tbody>
@@ -1669,7 +1685,6 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1837,27 +1852,9 @@ F-statistic: 45.93 on 2 and 2 DF,  p-value: 0.02131</code></pre>
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom

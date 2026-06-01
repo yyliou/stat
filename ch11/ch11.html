@@ -97,6 +97,22 @@
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-99eeafcedac04850354b682963cedae3.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -237,10 +253,10 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p>The <strong>chi-square goodness-of-fit test</strong> compares observed frequencies with expected frequencies to determine whether a distribution follows a specific pattern.</p>
-<p><span class="math display">\[\chi^2 = \sum \frac{(O - E)^2}{E}\]</span></p>
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
 <ul>
-<li><span class="math inline">\(O\)</span> = observed frequency</li>
-<li><span class="math inline">\(E\)</span> = expected frequency</li>
+<li><span class="math inline">O</span> = observed frequency</li>
+<li><span class="math inline">E</span> = expected frequency</li>
 <li><strong>d.f.</strong> = number of categories − 1</li>
 </ul>
 <p><strong>Assumptions:</strong> 1. Data are from a random sample 2. Expected frequency for each category ≥ 5</p>
@@ -300,7 +316,7 @@ Yu-You Liou
 <h2>Example 11-1: Solution (Math)</h2>
 <p><strong>Step 1:</strong> H₀: Consumers show no preference (claim) &nbsp;&nbsp; H₁: Consumers show a preference</p>
 <p><strong>Step 2:</strong> d.f. = 5 − 1 = 4; CV = 9.488</p>
-<p><strong>Step 3:</strong> <span class="math display">\[\chi^2 = \frac{(32-20)^2}{20} + \frac{(28-20)^2}{20} + \frac{(16-20)^2}{20} + \frac{(14-20)^2}{20} + \frac{(10-20)^2}{20}\]</span> <span class="math display">\[= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \boxed{18.0}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math display">\chi^2 = \frac{(32-20)^2}{20} + \frac{(28-20)^2}{20} + \frac{(16-20)^2}{20} + \frac{(14-20)^2}{20} + \frac{(10-20)^2}{20}</span> <span class="math display">= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \boxed{18.0}</span></p>
 <p><strong>Step 4:</strong> 18.0 &gt; 9.488 → <strong>Reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is sufficient evidence to conclude that consumers show a preference for certain flavors.</p>
 </section>
@@ -368,7 +384,7 @@ Yu-You Liou
 <p><strong>Step 1:</strong> H₀: Distribution is 38%/32%/23%/7% (claim) &nbsp;&nbsp; H₁: Distribution differs</p>
 <p><strong>Step 2:</strong> d.f. = 4 − 1 = 3; CV = 6.251</p>
 <p><strong>Step 3:</strong> Expected frequencies: 0.38×300 = 114; 0.32×300 = 96; 0.23×300 = 69; 0.07×300 = 21</p>
-<p><span class="math display">\[\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}\]</span> <span class="math display">\[= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}\]</span></p>
+<p><span class="math display">\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}</span> <span class="math display">= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}</span></p>
 <p><strong>Step 4:</strong> 3.293 &lt; 6.251 → <strong>Do not reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is not enough evidence to conclude that the local distribution differs from the national survey.</p>
 </section>
@@ -427,7 +443,7 @@ Yu-You Liou
 <p><strong>Step 1:</strong> H₀: Deaths are 74% accidental, 16% homicides, 10% suicides (claim) &nbsp;&nbsp; H₁: Distribution differs</p>
 <p><strong>Step 2:</strong> d.f. = 3 − 1 = 2; CV = 4.605</p>
 <p><strong>Step 3:</strong> Expected: 74, 16, 10</p>
-<p><span class="math display">\[\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \boxed{10.549}\]</span></p>
+<p><span class="math display">\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \boxed{10.549}</span></p>
 <p><strong>Step 4:</strong> 10.549 &gt; 4.605 → <strong>Reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is enough evidence to reject the claim that the distribution in this district matches the national pattern.</p>
 </section>
@@ -516,7 +532,7 @@ Yu-You Liou
 </section>
 <section id="example-11-4-solution-math" class="slide level2">
 <h2>Example 11-4: Solution (Math)</h2>
-<p>Compute <span class="math inline">\(\bar{X} = 24680/200 = 123.4\)</span> and <span class="math inline">\(s = 17.03\)</span></p>
+<p>Compute <span class="math inline">\bar{X} = 24680/200 = 123.4</span> and <span class="math inline">s = 17.03</span></p>
 <p>Compute z-scores and areas for each boundary, then multiply by n = 200:</p>
 <table class="caption-top">
 <thead>
@@ -560,7 +576,7 @@ Yu-You Liou
 </tr>
 </tbody>
 </table>
-<p><span class="math display">\[\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}\]</span></p>
+<p><span class="math display">\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}</span></p>
 <p>d.f. = 5 − 1 − 2 = 2 (−2 for estimating μ and σ); CV = 5.991</p>
 <p><strong>Reject H₀</strong> — the variable is not normally distributed at α = 0.05.</p>
 </section>
@@ -626,8 +642,8 @@ Yu-You Liou
 <li><strong>Test of homogeneity</strong> — Are proportions equal across populations? (multiple samples, sample sizes set in advance)</li>
 </ol>
 <p><strong>Both use the same formulas:</strong></p>
-<p><span class="math display">\[E = \frac{\text{(row sum)} \times \text{(column sum)}}{\text{grand total}}, \quad \chi^2 = \sum \frac{(O-E)^2}{E}\]</span></p>
-<p><span class="math display">\[d.f. = (R-1)(C-1)\]</span></p>
+<p><span class="math display">E = \frac{\text{(row sum)} \times \text{(column sum)}}{\text{grand total}}, \quad \chi^2 = \sum \frac{(O-E)^2}{E}</span></p>
+<p><span class="math display">d.f. = (R-1)(C-1)</span></p>
 <p><strong>Assumption:</strong> All expected cell frequencies ≥ 5.</p>
 </div>
 </div>
@@ -705,8 +721,8 @@ Yu-You Liou
 <h2>Example 11-5: Solution (Math)</h2>
 <p><strong>Step 1:</strong> H₀: Infection type is independent of hospital &nbsp;&nbsp; H₁: Infection type depends on hospital (claim)</p>
 <p><strong>Step 2:</strong> d.f. = (3−1)(3−1) = 4; CV = 9.488</p>
-<p><strong>Step 3:</strong> Expected values (E = row×col/grand): <span class="math display">\[E_{A,\text{Surg}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{Pneu}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots\]</span></p>
-<p><span class="math display">\[\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}\]</span></p>
+<p><strong>Step 3:</strong> Expected values (E = row×col/grand): <span class="math display">E_{A,\text{Surg}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{Pneu}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots</span></p>
+<p><span class="math display">\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}</span></p>
 <p><strong>Step 4:</strong> 30.698 &gt; 9.488 → <strong>Reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is sufficient evidence that infection type is related to the hospital where it occurred.</p>
 </section>
@@ -806,8 +822,8 @@ C   162.31     89.73      131.96</code></pre>
 <h2>Example 11-6: Solution (Math)</h2>
 <p><strong>Step 1:</strong> H₀: Alcohol consumption is independent of gender &nbsp;&nbsp; H₁: Consumption depends on gender (claim)</p>
 <p><strong>Step 2:</strong> d.f. = (2−1)(3−1) = 2; CV = 4.605</p>
-<p><strong>Step 3:</strong> Expected values: <span class="math display">\[E_{\text{Male, Low}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{Male, Mod}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots\]</span></p>
-<p><span class="math display">\[\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}\]</span></p>
+<p><strong>Step 3:</strong> Expected values: <span class="math display">E_{\text{Male, Low}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{Male, Mod}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots</span></p>
+<p><span class="math display">\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}</span></p>
 <p><strong>Step 4:</strong> 0.283 &lt; 4.605 → <strong>Do not reject H₀</strong></p>
 <p><strong>Step 5:</strong> There is not enough evidence to conclude that alcohol consumption is related to gender.</p>
 </section>
@@ -932,8 +948,8 @@ Female 13.87    15.07 12.06</code></pre>
 <h2>Example 11-7: Solution (Math)</h2>
 <p><strong>Step 1:</strong> H₀: p₁ = p₂ = p₃ = p₄ (claim) &nbsp;&nbsp; H₁: At least one proportion differs</p>
 <p><strong>Step 2:</strong> d.f. = (2−1)(4−1) = 3; CV = 7.815</p>
-<p><strong>Step 3:</strong> Since each column total = 100 and “Yes” total = 144: <span class="math display">\[E_{\text{Yes, col}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{No, col}} = \frac{256 \times 100}{400} = 64 \quad \text{(for each column)}\]</span></p>
-<p><span class="math display">\[\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}\]</span> <span class="math display">\[+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}\]</span> <span class="math display">\[= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}\]</span></p>
+<p><strong>Step 3:</strong> Since each column total = 100 and “Yes” total = 144: <span class="math display">E_{\text{Yes, col}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{No, col}} = \frac{256 \times 100}{400} = 64 \quad \text{(for each column)}</span></p>
+<p><span class="math display">\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}</span> <span class="math display">+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}</span> <span class="math display">= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}</span></p>
 </section>
 <section class="slide level2">
 
@@ -1001,13 +1017,13 @@ No    64       64       64     64</code></pre>
 <td>Goodness of Fit</td>
 <td>Single sample vs.&nbsp;hypothesized distribution</td>
 <td>k − 1</td>
-<td><span class="math inline">\(\chi^2 = \sum\frac{(O-E)^2}{E}\)</span>, <span class="math inline">\(E\)</span> given by proportions</td>
+<td><span class="math inline">\chi^2 = \sum\frac{(O-E)^2}{E}</span>, <span class="math inline">E</span> given by proportions</td>
 </tr>
 <tr class="even">
 <td>Independence</td>
 <td>Single sample; two categorical variables</td>
 <td>(R−1)(C−1)</td>
-<td><span class="math inline">\(E = \frac{\text{row} \times \text{col}}{\text{total}}\)</span></td>
+<td><span class="math inline">E = \frac{\text{row} \times \text{col}}{\text{total}}</span></td>
 </tr>
 <tr class="odd">
 <td>Homogeneity</td>
@@ -1062,7 +1078,6 @@ No    64       64       64     64</code></pre>
   <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
   <script src="../site_libs/revealjs/plugin/search/search.js"></script>
   <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1230,27 +1245,9 @@ No    64       64       64     64</code></pre>
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom
