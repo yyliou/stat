@@ -1,0 +1,681 @@
+---
+title: "**Statistics Teaching System: Architecture and Operations Guide**"
+author: "Yu-You Liou"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    fig_caption: true
+header-includes:
+  - \usepackage{geometry}
+  - \geometry{a4paper, margin=2.5cm}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhead[L]{Statistics Teaching System}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{hyperref}
+  - \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+  - \usepackage{xcolor}
+  - \definecolor{codebg}{gray}{0.95}
+  - \usepackage{listings}
+  - \lstset{basicstyle=\ttfamily\small, breaklines=true,
+            frame=single, backgroundcolor=\color{codebg}}
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+\newpage
+
+# System Overview
+
+This document describes the complete architecture and operational procedures of the **Statistics Teaching System** (`stat`), designed for the English Taught Program in International Business (ETP) at Shih Chien University. The system supports two sequential courses---*Statistics (1)* and *Statistics (2)*---and is built on a core technology stack of R, Quarto, and R Markdown, integrating website publication, in-class exercises, and automated grading into a unified workflow.
+
+> **Course website:** <https://yyliou.github.io/stat>
+> **Instructor:** Yu-You Liou (`d10627008@ntu.edu.tw`)
+
+## Course Structure
+
+```{r course-structure}
+df <- data.frame(
+  Course = c("Statistics (1)", "Statistics (2)"),
+  Code   = c("EIB-21E-01-A1", "EIB-21F-01-A1"),
+  Schedule = c("Tuesday, Periods 8-9 (15:10-17:00)",
+               "Thursday, Periods 6-7 (13:10-15:00)"),
+  Room = c("L309", "L309"),
+  Chapters = c("Ch. 1-7", "Ch. 8-14")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Course Identification and Scheduling")
+```
+
+Each session is structured as two consecutive hours: the first hour is a **Lecture** covering theoretical foundations, and the second hour is a **Lab** in which students apply concepts through in-class exercises using the R programming language.
+
+## Assessment Structure
+
+```{r assessment}
+df <- data.frame(
+  Component = c("In-Class Exercises", "Midterm Examination", "Final Examination"),
+  Weight    = c("36%", "32%", "32%"),
+  Details   = c("12 exercises x 3% each", "", "")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Assessment Weighting and Components")
+```
+
+\newpage
+
+# Directory Architecture
+
+## Root Directory Structure
+
+The system root (`stat/`) is organized as follows:
+
+```
+stat/
+|-- _quarto.yml          # Quarto website global configuration
+|-- web.Rproj            # RStudio project file
+|-- styles.css           # Custom CSS stylesheet
+|-- index.qmd            # Homepage (course overview, examination regulations)
+|-- sylla.qmd            # Syllabus landing page (links to PDF syllabi)
+|-- slide.qmd            # Slide index page
+|-- prob.qmd             # Problem set page (submission requirements)
+|-- r.qmd                # R installation and usage guide
+|
+|-- ch2/ ... ch14/       # Per-chapter lecture slide directories
+|   `-- chN.qmd          # Quarto Reveal.js slide source for chapter N
+|
+|-- stat1-ps/            # Statistics (1) problem sets
+|   |-- ex1.qmd          # Exercise 1 source (Reveal.js format)
+|   `-- ex1.html         # Compiled HTML for publication
+|
+|-- stat2-ps/            # Statistics (2) problem sets (same structure)
+|
+|-- stat1-ex/            # Statistics (1) student submissions
+|   |-- ex1/
+|   |   `-- ex1-[StudentID].pdf
+|   `-- ex2/ ... ex12/
+|
+|-- stat2-ex/            # Statistics (2) student submissions (same structure)
+|
+|-- stu1/                # Statistics (1) roster and grading outputs
+|   |-- [timestamp].xls  # Official roster exported from university system
+|   `-- ex[N]/
+|       |-- ex-score.xlsx
+|       |-- stat.Rmd
+|       `-- stat.pdf
+|
+|-- stu2/                # Statistics (2) roster and grading outputs (same structure)
+|
+|-- sylla/               # Syllabus source files
+|   |-- stat1.Rmd / stat1.html
+|   `-- stat2.Rmd / stat2.html
+|
+`-- prompt/              # AI-assisted prompt documents
+    |-- prompt.Rmd       # Slide generation prompt (instructor use)
+    |-- ex-review1.Rmd   # Grading prompt for Statistics (1)
+    |-- ex-review2.Rmd   # Grading prompt for Statistics (2)
+    `-- stat-system-guide.Rmd   # This document
+```
+
+## Design Principles
+
+The directory structure adheres to four organizational principles:
+
+1. **One directory per chapter.** Directories `ch2/` through `ch14/` are self-contained units, facilitating independent version control and selective rendering.
+2. **Separation of problem sets and submissions.** `stat1-ps/` (instructor-authored questions) and `stat1-ex/` (student submissions) maintain distinct responsibilities and access patterns.
+3. **Co-location of rosters and grading outputs.** Each `stu2/` or `stu1/` directory holds both the official class roster and all automated grading artifacts, enabling single-location lookup.
+4. **Centralized prompt management.** All AI-assisted documents are isolated within `prompt/`, decoupled from pedagogical content.
+
+\newpage
+
+# Technology Stack
+
+## Core Tools
+
+```{r tech-stack}
+df <- data.frame(
+  Tool = c("R", "RStudio Desktop", "Quarto", "R Markdown", "TinyTeX"),
+  `Minimum Version` = c(">= 4.2", "Latest stable", ">= 1.3",
+                        ">= 2.20", "Current"),
+  Purpose = c("Statistical computation and document generation",
+              "Integrated development environment",
+              "Website and slide publication",
+              "Assignment templates and grading reports",
+              "LaTeX engine for PDF output"),
+  check.names = FALSE
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Core Software Components")
+```
+
+## Required R Packages
+
+The following packages must be installed prior to system operation:
+
+```r
+# Document generation
+install.packages(c("rmarkdown", "knitr", "tinytex"))
+tinytex::install_tinytex()
+
+# Data manipulation and visualization
+install.packages(c("tidyverse", "ggplot2", "patchwork"))
+
+# Spreadsheet I/O for grading reports
+install.packages(c("readxl", "openxlsx"))
+
+# Academic integrity (UUID generation)
+install.packages("uuid")
+```
+
+## Website Publication Architecture
+
+The course website is built as a **Quarto Website** project, governed by `_quarto.yml`. Key configuration decisions are summarized below.
+
+```{r quarto-config}
+df <- data.frame(
+  Setting = c("output-dir", "Theme", "Navigation bar", "Slide format",
+              "Math rendering"),
+  Value = c(". (HTML output at repository root for GitHub Pages)",
+            "Minty + custom brand CSS",
+            "Syllabus -> Slides -> Problem Sets -> R",
+            "Reveal.js",
+            "KaTeX")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Quarto Website Configuration Summary")
+```
+
+\newpage
+
+# Lecture Slide Authoring Workflow
+
+## File Format
+
+Each chapter's slides reside in `chN/chN.qmd` with the following YAML header:
+
+```yaml
+---
+title: "Statistics 1"
+subtitle: "Chapter N: [Title]"
+author: "Yu-You Liou"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+editor: visual
+---
+```
+
+## Authoring Standards
+
+All slide content must conform to the following conventions:
+
+- Each slide begins with a level-2 heading (`##`).
+- Mathematical expressions use standard LaTeX syntax, e.g., `$\bar{x} = \frac{\sum x}{n}$`.
+- Definitions and key formulae are enclosed in Quarto callout blocks:
+
+```markdown
+::: {.callout-note}
+**Definition** ...
+:::
+```
+
+- Every textbook example provides two parallel solutions: (1) a complete algebraic derivation in LaTeX, and (2) an executable R implementation with displayed output.
+- All prose must be original; verbatim reproduction of textbook text is prohibited.
+
+## Generating a New Chapter
+
+```
+Step 1. Duplicate the previous chapter directory:
+        cp -r ch2/ ch3/
+
+Step 2. Use the prompt in prompt/prompt.Rmd with an AI assistant
+        to generate content from the corresponding textbook chapter.
+
+Step 3. Render in RStudio:
+        quarto render ch3/ch3.qmd
+
+Step 4. Update the chapter index in slide.qmd.
+```
+
+\newpage
+
+# Problem Set Management
+
+## Directory Mapping
+
+```{r ps-mapping}
+df <- data.frame(
+  Course = c("Statistics (1)", "Statistics (2)"),
+  `Problem Set Directory` = c("stat1-ps/", "stat2-ps/"),
+  `Submission Directory`  = c("stat1-ex/", "stat2-ex/"),
+  check.names = FALSE
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Problem Set and Submission Directory Mapping")
+```
+
+## Problem Set Format
+
+Problem sets are authored as Reveal.js presentations (`stat1-ps/exN.qmd`), with one question per slide. A representative header:
+
+```yaml
+---
+title: "Statistics 1"
+subtitle: "In-Class Exercise N"
+format:
+  revealjs:
+    html-math-method: katex
+---
+```
+
+## Submission Requirements
+
+Students must use the official template below and submit to `stat1-ex/exN/` using the exact naming convention `exN-[StudentID].pdf`.
+
+```r
+---
+title: "Ex. N"
+author: "StudentID"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+` ` `{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+` ` `
+
+` ` `{r}
+print(uuid::UUIDgenerate())
+` ` `
+```
+
+> **Every submission must include the UUID generation code block. This serves as the primary mechanism for academic integrity verification.**
+
+\newpage
+
+# Automated Grading System
+
+## Process Overview
+
+The grading pipeline consists of four sequential stages:
+
+```
+STAGE 1 | Initialization and Roster Reconciliation
+         Read stu[N]/[timestamp].xls -> construct student roster
+         Cross-reference stat[N]-ex/exN/ -> flag absent students
+         as Missing (Score = 0)
+
+STAGE 2 | Compliance Filtering (sequential; stops at first violation)
+         (i)  Submission timestamp > deadline (UTC+8)
+              -> Late Submission (Score = 0)
+         (ii) File is not PDF or does not match exN-[StudentID].pdf
+              -> Incorrect File Name/Format (Score = 0)
+         (iii) YAML missing title/author/date, or UUID chunk absent,
+               or author field does not match submitting student ID
+              -> Incorrect Internal Format (Score = 0)
+         (iv) UUID value identical to another submission
+              -> Plagiarism (Score = 0; all implicated students)
+
+STAGE 3 | Academic Content Grading
+         Total: 100 points, allocated equally across N questions
+         Each question scored against stat[N]-ps/exN.qmd answer key
+         Incorrect items noted as: [QN] is incorrect
+
+STAGE 4 | Output Generation
+         stu[N]/exN/ex-score.xlsx  <- Scoreboard (4 columns)
+         stu[N]/exN/stat.Rmd       <- Analytics report source
+         stu[N]/exN/stat.pdf       <- Compiled analytics report
+```
+
+## Scoreboard Format (`ex-score.xlsx`)
+
+```{r scoreboard-fmt}
+df <- data.frame(
+  Column = c("StudentID", "Name", "Score", "Note"),
+  Type   = c("Character", "Character", "Integer (0-100)", "Character"),
+  Description = c("University student identification number",
+                  "Student full name as listed in official roster",
+                  "Final score awarded for the submission",
+                  "Compliance violation code or incorrect question numbers")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Scoreboard Column Specification")
+```
+
+## Analytics Report (`stat.Rmd`)
+
+The analytics report reads `ex-score.xlsx` and produces three outputs:
+
+1. **Descriptive statistics table:** minimum, $Q_1$, median, $Q_3$, maximum, and mean of the score distribution.
+2. **Boxplot:** a publication-quality visualization of the score distribution rendered via `ggplot2`.
+3. **Submission summary table:** counts for Total, Missing, Late Submission, Incorrect Format, and Plagiarism.
+
+## Grading Note Codes
+
+```{r note-codes}
+df <- data.frame(
+  Code = c("Missing", "Late Submission",
+           "Incorrect File Name/Format", "Incorrect Internal Format",
+           "Plagiarism", "[QN] is incorrect"),
+  Description = c(
+    "No file submitted by the deadline",
+    "File submitted after the official deadline",
+    "File is not PDF or does not follow naming convention exN-[ID].pdf",
+    "YAML header incomplete, author ID mismatch, or UUID chunk absent",
+    "UUID value matches that of one or more other submissions",
+    "Question N answer is incorrect or methodology is flawed"
+  ),
+  Score = c("0", "0", "0", "0", "0", "Partial deduction")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Grading Note Code Reference")
+```
+
+\newpage
+
+# Academic Integrity Mechanisms
+
+## UUID Verification
+
+Every submission must execute and display output from the following R code block:
+
+```r
+print(uuid::UUIDgenerate())
+```
+
+`uuid::UUIDgenerate()` produces a Version 4 UUID (Universally Unique Identifier) on each invocation, e.g., `6d2b9fda-2d9b-48f3-84bc-f82eabc39b4d`. The grading system compares this value across all submissions for a given exercise. If two or more files share an identical UUID, all implicated students receive a score of zero with the note `Plagiarism`.
+
+**Important implementation notes:**
+
+- The compliance filter is applied sequentially per file. A file that fails Stage 2 check (iii) (Incorrect Internal Format) is not evaluated for plagiarism within its own record; however, its UUID remains in the comparison pool and may trigger a Plagiarism flag in other students' records.
+- The `author` field in the YAML header must contain the submitting student's own ID. Use of another student's ID constitutes a format violation independent of the plagiarism check.
+
+## Examination Regulations
+
+```{r exam-regs}
+df <- data.frame(
+  Regulation = c("Mandatory attendance", "Network restriction",
+                 "Authorized resources", "Media prohibition",
+                 "Communication prohibition", "Copy-paste disabled"),
+  Policy = c(
+    "Roll call 5 minutes before start; late arrival or absence results in score = 0",
+    "System tracks IP addresses; campus Wi-Fi required; non-campus IP results in score = 0",
+    "Open-book; reference materials and AI tools are permitted as auxiliary aids",
+    "Photography, video/audio recording, and screenshotting result in score = 0",
+    "Interpersonal communication and disruptive behavior result in score = 0",
+    "Copy-paste functionality is disabled by the examination system"
+  )
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Examination Conduct Regulations")
+```
+
+## AI Use Policy
+
+Students may use AI tools (e.g., ChatGPT, Gemini) as learning aids. However, students must be capable of explaining and defending any code or analysis they submit. Uncritical submission of AI-generated content without demonstrated understanding constitutes academic dishonesty and is subject to the same consequences as plagiarism.
+
+\newpage
+
+# AI Prompt Management
+
+The `prompt/` directory contains structured prompt documents for AI-assisted course material generation and grading.
+
+```{r prompt-files}
+df <- data.frame(
+  File = c("prompt.Rmd", "ex-review1.Rmd",
+           "ex-review2.Rmd", "stat-system-guide.Rmd"),
+  Purpose = c(
+    "Slide generation prompt: instructs AI to extract all textbook examples from a given chapter and render them with dual mathematical/R solutions",
+    "Automated grading prompt for Statistics (1) exercises",
+    "Automated grading prompt for Statistics (2) exercises",
+    "This technical document"
+  )
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Prompt Directory File Inventory")
+```
+
+## Slide Generation Prompt (`prompt.Rmd`)
+
+Key directives encoded in the slide generation prompt:
+
+- **Role:** University-level statistics instructor.
+- **Exhaustive extraction:** Every example in the target chapter must be incorporated; summarization or omission is not permitted.
+- **Dual-solution requirement:** Each example must present (1) a full algebraic derivation in LaTeX and (2) executable R code with displayed output.
+- **Paraphrasing mandate:** All prose must be rewritten in original language; verbatim textbook reproduction is prohibited.
+- **Callout block usage:** Definitions, key formulae, and example prompts must be enclosed in appropriate callout blocks.
+- **Directory replication:** Output must mirror the established file structure (e.g., `ch3/ch3.qmd`).
+
+## Grading Prompts (`ex-review1.Rmd`, `ex-review2.Rmd`)
+
+Key components of the grading prompts:
+
+- Definition of environment variables: `[no]`, timezone (UTC+8), and root directory structure.
+- Specification of all four grading stages with precise conditional logic.
+- Output format requirements: scoreboard column names, Rmd content sections, and PDF compilation.
+
+\newpage
+
+# Operations Guide
+
+## New Semester Initialization
+
+```
+1. Export official class roster from the university administrative system.
+   Save to stu1/ (Statistics 1) or stu/ (Statistics 2).
+
+2. Update sylla/stat1.Rmd and sylla/stat2.Rmd with the current
+   semester's schedule and policies. Knit to PDF.
+
+3. Verify _quarto.yml navigation links and semester metadata.
+
+4. Rebuild the full website:
+   quarto render
+```
+
+## Weekly Problem Set Publication
+
+```
+1. Create stat1-ps/exN.qmd (or stat2-ps/exN.qmd) in Reveal.js format.
+   Each slide corresponds to one question.
+
+2. Render the problem set:
+   quarto render stat1-ps/exN.qmd
+
+3. Update the problem set index in prob.qmd.
+```
+
+## Weekly Submission Collection and Grading
+
+```
+1. Students submit to: stat1-ex/exN/exN-[StudentID].pdf
+
+2. Execute the AI grading prompt (prompt/ex-review1.Rmd) with
+   environment variable [no] set to the exercise number.
+
+3. Verify generated scoreboard: stu1/exN/ex-score.xlsx
+
+4. Verify analytics report: stu1/exN/stat.pdf
+```
+
+## Generating a New Lecture Chapter
+
+```
+1. Duplicate the previous chapter directory:
+   cp -r ch2/ ch3/
+
+2. Generate content using prompt/prompt.Rmd with an AI assistant,
+   referencing the corresponding textbook chapter.
+
+3. Review, edit, and finalize ch3/ch3.qmd in RStudio.
+
+4. Render:
+   quarto render ch3/ch3.qmd
+
+5. Add the chapter link to slide.qmd.
+```
+
+## Full-Site Publication (GitHub Pages)
+
+```bash
+# From the stat/ root directory
+quarto render
+
+# Commit and push to trigger GitHub Pages deployment
+git add .
+git commit -m "Update: Week N — [brief description]"
+git push origin main
+```
+
+## Troubleshooting Reference
+
+```{r troubleshooting}
+df <- data.frame(
+  Symptom = c("PDF output fails",
+              "UUID package not found",
+              "Quarto render error",
+              "Roster file read error",
+              "Slide math not rendering"),
+  `Probable Cause` = c("TinyTeX not installed or incomplete",
+                       "uuid package not installed",
+                       "Quarto version outdated",
+                       "Legacy .xls format compatibility",
+                       "KaTeX configuration missing"),
+  Resolution = c("Run: tinytex::install_tinytex()",
+                 "Run: install.packages('uuid')",
+                 "Update Quarto to latest stable release",
+                 "Use readxl package or resave as .xlsx",
+                 "Set html-math-method: katex in YAML"),
+  check.names = FALSE
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Common Issues and Resolutions")
+```
+
+\newpage
+
+# Course Chapter Reference
+
+## Statistics (1): Chapter Schedule
+
+```{r sched1}
+df <- data.frame(
+  Week = c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16),
+  Chapter = c("Ch. 1","Ch. 2","Ch. 3","Ch. 3","Ch. 4","Ch. 4",
+              "—","—","Ch. 5","Ch. 5","Ch. 6","Ch. 6",
+              "Ch. 7","Ch. 7","—"),
+  Topic = c(
+    "The Nature of Probability and Statistics",
+    "Frequency Distributions and Graphs",
+    "Data Description",
+    "Data Description (continued)",
+    "Probability and Counting Rules",
+    "Probability and Counting Rules (continued)",
+    "Midterm Review",
+    "Midterm Examination",
+    "Discrete Probability Distributions",
+    "Discrete Probability Distributions (continued)",
+    "The Normal Distribution",
+    "The Normal Distribution (continued)",
+    "Confidence Intervals and Sample Size",
+    "Confidence Intervals and Sample Size (continued)",
+    "Final Examination"
+  ),
+  Exercise = c("ex1","ex2","ex3","ex4","ex5","ex6",
+               "—","—","ex7","ex8","ex9","ex10",
+               "ex11","ex12","—")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Statistics (1) Weekly Schedule and Exercise Mapping")
+```
+
+## Statistics (2): Chapter Schedule
+
+```{r sched2}
+df <- data.frame(
+  Week = c("2-4","5-6","7","8","9","10-11","12-13","14-15","16"),
+  Chapter = c("Ch. 8","Ch. 9","Ch. 10","—","—",
+              "Ch. 10","Ch. 11","Ch. 12","—"),
+  Topic = c(
+    "Hypothesis Testing",
+    "Testing the Difference Between Two Means, Two Proportions, and Two Variances",
+    "Correlation and Regression",
+    "Midterm Review",
+    "Midterm Examination",
+    "Correlation and Regression (continued)",
+    "Other Chi-Square Tests",
+    "Analysis of Variance",
+    "Final Examination"
+  ),
+  Exercises = c("ex1-3","ex4-5","ex6","—","—",
+                "ex7-8","ex9-10","ex11-12","—")
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Statistics (2) Weekly Schedule and Exercise Mapping")
+```
+
+\newpage
+
+# Appendix
+
+## A. Official Submission Template
+
+```yaml
+---
+title: "Ex. 1"
+author: "A113290001"
+date: "2026-03-04"
+output: pdf_document
+---
+```
+
+```r
+# This chunk is mandatory in every submission.
+print(uuid::UUIDgenerate())
+
+# Exercise solutions follow below.
+```
+
+## B. Directory Quick Reference
+
+```{r dir-ref}
+df <- data.frame(
+  Directory = c("ch2/-ch14/", "stat1-ps/", "stat2-ps/",
+                "stat1-ex/exN/", "stat2-ex/exN/",
+                "stu1/exN/", "stu/exN/",
+                "sylla/", "prompt/"),
+  Purpose = c(
+    "Reveal.js lecture slide sources, one subdirectory per chapter",
+    "Statistics (1) in-class exercise problem sets",
+    "Statistics (2) in-class exercise problem sets",
+    "Statistics (1) student PDF submissions for exercise N",
+    "Statistics (2) student PDF submissions for exercise N",
+    "Statistics (1) grading outputs (scoreboard, analytics report)",
+    "Statistics (2) grading outputs (scoreboard, analytics report)",
+    "Syllabus R Markdown source files",
+    "AI-assisted prompt documents for slide generation and grading"
+  )
+)
+knitr::kable(df, booktabs = TRUE,
+             caption = "Directory Purpose Quick Reference")
+```
+
+## C. References
+
+- Bluman, A. G. (2012). *Elementary Statistics: A Step-by-Step Approach* (8th ed.). McGraw-Hill.
+- R Core Team. (2024). *R: A language and environment for statistical computing*. R Foundation for Statistical Computing. <https://www.R-project.org>
+- Posit, PBC. (2024). *RStudio Desktop*. <https://posit.co/download/rstudio-desktop>
+- Allaire, J. J., et al. (2024). *Quarto*. <https://quarto.org>
+- Course website: <https://yyliou.github.io/stat>
