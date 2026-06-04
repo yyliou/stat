@@ -4681,5 +4681,593 @@
     "title": "Statistics",
     "section": "Check your grade",
     "text": "Check your grade\n\nStatistics (1)\nStatistics (2)"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#本章概述",
+    "href": "ch14/ch14-zh.html#本章概述",
+    "title": "統計學",
+    "section": "本章概述",
+    "text": "本章概述\n\n\n\n\n\n\n為何研究抽樣與模擬？\n\n\n當母體規模過大無法完整研究時，研究者依賴樣本來推論母體。當真實實驗過於危險、昂貴或耗時時，模擬提供了安全且具成本效益的替代方案。\n隨機數字是兩種技術的核心引擎。\n\n\n\n本章主題：\n\n14-1： 常見抽樣技術\n14-2： 調查與問卷設計\n14-3： 模擬技術與蒙地卡羅法"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#為何使用樣本",
+    "href": "ch14/ch14-zh.html#為何使用樣本",
+    "title": "統計學",
+    "section": "為何使用樣本？",
+    "text": "為何使用樣本？\n\n\n\n\n\n\n使用樣本的三個理由\n\n\n\n節省時間與金錢 — 研究整個母體通常不切實際\n使原本不可能的研究成為可能 — 例如：破壞性測試纜線強度後就沒東西可賣；血液膽固醇分析無法用盡所有血液\n允許更深入的研究 — 較小的樣本可進行更詳細的訪談，收集更豐富的資料\n\n關鍵要求： 樣本必須是隨機的 — 母體中的每個成員都必須有相同的被選機率。隨機樣本是無偏的；非隨機樣本是有偏的。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#四種基本抽樣方法",
+    "href": "ch14/ch14-zh.html#四種基本抽樣方法",
+    "title": "統計學",
+    "section": "四種基本抽樣方法",
+    "text": "四種基本抽樣方法\n\n\n\n\n\n\n概覽\n\n\n\n\n\n方法\n核心概念\n\n\n\n\n隨機抽樣\n使用隨機數字選取研究對象\n\n\n系統抽樣\n隨機起點後，每隔 k 個元素選取一個\n\n\n分層抽樣\n分成同質子群體；各層分別抽樣\n\n\n集群抽樣\n選取一個已存在的完整群體作為樣本"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#隨機抽樣",
+    "href": "ch14/ch14-zh.html#隨機抽樣",
+    "title": "統計學",
+    "section": "隨機抽樣",
+    "text": "隨機抽樣\n\n\n\n\n\n\n隨機抽樣\n\n\n母體的每個元素均編號，並使用隨機數字選取樣本。\n常見錯誤：\n\n訪問「街頭路人」（涵蓋偏誤）\n電話投票（自我選擇偏誤）\n郵件調查（無回應偏誤）\n\n正確方法： 使用隨機數字表或電腦產生的隨機數字。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-1電視節目採訪-隨機樣本",
+    "href": "ch14/ch14-zh.html#例-14-1電視節目採訪-隨機樣本",
+    "title": "統計學",
+    "section": "例 14-1：電視節目採訪 — 隨機樣本",
+    "text": "例 14-1：電視節目採訪 — 隨機樣本\n\n\n\n\n\n\n問題\n\n\n一位電視節目製作人只能採訪 50 州中的 10 位州長。請使用隨機數字表，從 50 個州中選取隨機樣本 10 個州。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-1數學解法",
+    "href": "ch14/ch14-zh.html#例-14-1數學解法",
+    "title": "統計學",
+    "section": "例 14-1：數學解法",
+    "text": "例 14-1：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n步驟 1： 依字母順序將各州編號為 01–50（01 = Alabama，02 = Alaska，…，50 = Wyoming）\n步驟 2： 使用隨機數字表，從選定位置讀取兩位數字：\n選取的數字：27, 43, 34, 06, 13, 29, 01, 39, 23, 35\n（捨棄大於 50 的數字及重複數字；不放回抽樣）\n步驟 3： 對應各州：\n\n\n\n編號\n州名\n\n編號\n州名\n\n\n\n\n27\n內布拉斯加州\n\n29\n新罕布夏州\n\n\n43\n德克薩斯州\n\n01\n阿拉巴馬州\n\n\n34\n北達科塔州\n\n39\n羅德島州\n\n\n06\n科羅拉多州\n\n23\n明尼蘇達州\n\n\n13\n伊利諾州\n\n35\n俄亥俄州"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-1r-解法",
+    "href": "ch14/ch14-zh.html#例-14-1r-解法",
+    "title": "統計學",
+    "section": "例 14-1：R 解法",
+    "text": "例 14-1：R 解法\n\nstates &lt;- c(\"Alabama\",\"Alaska\",\"Arizona\",\"Arkansas\",\"California\",\n            \"Colorado\",\"Connecticut\",\"Delaware\",\"Florida\",\"Georgia\",\n            \"Hawaii\",\"Idaho\",\"Illinois\",\"Indiana\",\"Iowa\",\n            \"Kansas\",\"Kentucky\",\"Louisiana\",\"Maine\",\"Maryland\",\n            \"Massachusetts\",\"Michigan\",\"Minnesota\",\"Mississippi\",\"Missouri\",\n            \"Montana\",\"Nebraska\",\"Nevada\",\"New Hampshire\",\"New Jersey\",\n            \"New Mexico\",\"New York\",\"North Carolina\",\"North Dakota\",\"Ohio\",\n            \"Oklahoma\",\"Oregon\",\"Pennsylvania\",\"Rhode Island\",\"South Carolina\",\n            \"South Dakota\",\"Tennessee\",\"Texas\",\"Utah\",\"Vermont\",\n            \"Virginia\",\"Washington\",\"West Virginia\",\"Wisconsin\",\"Wyoming\")"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#系統抽樣",
+    "href": "ch14/ch14-zh.html#系統抽樣",
+    "title": "統計學",
+    "section": "系統抽樣",
+    "text": "系統抽樣\n\n\n\n\n\n\n系統抽樣\n\n\n\n將母體所有元素編號\n計算間隔 k = N/n（母體大小 ÷ 樣本大小）\n從 1 到 k 中隨機選取起始點\n之後每隔 k 個元素選取一個\n\n優點： 操作簡便；不需要完整的隨機數字列表。\n注意： 避免對具有與間隔 k 相符週期性規律（例如男女交替）的列表使用系統抽樣。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-2電視節目採訪-系統抽樣",
+    "href": "ch14/ch14-zh.html#例-14-2電視節目採訪-系統抽樣",
+    "title": "統計學",
+    "section": "例 14-2：電視節目採訪 — 系統抽樣",
+    "text": "例 14-2：電視節目採訪 — 系統抽樣\n\n\n\n\n\n\n問題\n\n\n使用相同的 50 州母體，選取 10 個州的系統樣本。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-2數學解法",
+    "href": "ch14/ch14-zh.html#例-14-2數學解法",
+    "title": "統計學",
+    "section": "例 14-2：數學解法",
+    "text": "例 14-2：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n步驟 1： 將各州編號 01–50\n步驟 2： k = 50 / 10 = 5 → 每 5 個州選取一個\n步驟 3： 隨機起點：4（從 1–5 中選取）\n步驟 4： 從 4 開始每隔 5 個選取： 4, 9, 14, 19, 24, 29, 34, 39, 44, 49\n\n\n\n編號\n州名\n\n編號\n州名\n\n\n\n\n04\n阿肯色州\n\n29\n新罕布夏州\n\n\n09\n佛羅里達州\n\n34\n北達科塔州\n\n\n14\n印地安納州\n\n39\n羅德島州\n\n\n19\n緬因州\n\n44\n猶他州\n\n\n24\n密西西比州\n\n49\n威斯康辛州"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-2r-解法",
+    "href": "ch14/ch14-zh.html#例-14-2r-解法",
+    "title": "統計學",
+    "section": "例 14-2：R 解法",
+    "text": "例 14-2：R 解法\n\nN &lt;- 50; n &lt;- 10\nk &lt;- N / n  # 間隔 = 5\n\nset.seed(7)\nstart &lt;- sample(1:k, 1)\ncat(\"隨機起點：\", start, \"\\n\")\n\n隨機起點： 2 \n\nsys_indices &lt;- seq(start, N, by = k)\ncat(\"選取的州編號：\", sys_indices, \"\\n\\n\")\n\n選取的州編號： 2 7 12 17 22 27 32 37 42 47 \n\ncat(\"選取的州：\\n\")\n\n選取的州：\n\nfor (i in sys_indices) {\n  cat(sprintf(\"  %02d. %s\\n\", i, states[i]))\n}\n\n  02. Alaska\n  07. Connecticut\n  12. Idaho\n  17. Kentucky\n  22. Michigan\n  27. Nebraska\n  32. New York\n  37. Oregon\n  42. Tennessee\n  47. Washington"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#分層抽樣",
+    "href": "ch14/ch14-zh.html#分層抽樣",
+    "title": "統計學",
+    "section": "分層抽樣",
+    "text": "分層抽樣\n\n\n\n\n\n\n分層抽樣\n\n\n母體依共同特徵（如性別、年級、地區）劃分為層（子群體）。再從每個層中分別抽取隨機樣本。\n優點： 確保每個重要子群體都有代表性。\n缺點： - 層數眾多時需耗費大量心力 - 當分組標準複雜或模糊時操作困難\n比例分層： 各層的樣本大小與該層佔總母體的比例成正比。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-3學生的分層樣本",
+    "href": "ch14/ch14-zh.html#例-14-3學生的分層樣本",
+    "title": "統計學",
+    "section": "例 14-3：學生的分層樣本",
+    "text": "例 14-3：學生的分層樣本\n\n\n\n\n\n\n問題\n\n\n從一個由 20 名學生組成的班級（10 男 10 女；含大一及大二生）中，依性別與年級選取 8 人的分層樣本。\n四個層：\n\n\n\n第 1 組\n男性大一生（5 人）\n第 3 組\n女性大一生（5 人）\n\n\n\n\n第 2 組\n男性大二生（5 人）\n第 4 組\n女性大二生（5 人）"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-3數學解法",
+    "href": "ch14/ch14-zh.html#例-14-3數學解法",
+    "title": "統計學",
+    "section": "例 14-3：數學解法",
+    "text": "例 14-3：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n步驟 1： 劃分為 4 層（男/女 × 大一/大二）\n步驟 2： 每層有 5 名成員，各選取 8/4 = 2 人\n步驟 3： 使用隨機數字，從各組各選 2 人：\n\n\n\n組別\n選取者\n\n\n\n\n男性大一生\nPeterson, John；Meloski, Gary\n\n\n男性大二生\nBrown, Danny；Lyons, Larry\n\n\n女性大一生\nBear, Theresa；Collins, Carolyn\n\n\n女性大二生\nToms, Debbie；Unger, Roberta"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-3r-解法",
+    "href": "ch14/ch14-zh.html#例-14-3r-解法",
+    "title": "統計學",
+    "section": "例 14-3：R 解法",
+    "text": "例 14-3：R 解法\n\nstudents &lt;- data.frame(\n  name   = c(\"Ald P\",\"Brown D\",\"Bear T\",\"Carson S\",\"Collins C\",\n             \"Davis W\",\"Hogan M\",\"Jones L\",\"Lutz H\",\"Lyons L\",\n             \"Martin J\",\"Meloski G\",\"Oeler G\",\"Peters M\",\"Peterson J\",\n             \"Smith N\",\"Thomas J\",\"Toms D\",\"Unger R\",\"Zibert M\"),\n  gender = c(\"M\",\"M\",\"F\",\"F\",\"F\",\"M\",\"M\",\"F\",\"M\",\"M\",\n             \"F\",\"M\",\"M\",\"F\",\"M\",\"F\",\"M\",\"F\",\"F\",\"F\"),\n  grade  = c(\"Fr\",\"So\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\n             \"Fr\",\"Fr\",\"So\",\"So\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\"So\")\n)"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#集群抽樣",
+    "href": "ch14/ch14-zh.html#集群抽樣",
+    "title": "統計學",
+    "section": "集群抽樣",
+    "text": "集群抽樣\n\n\n\n\n\n\n集群抽樣\n\n\n選取一個自然存在的群體（集群）作為樣本。可使用集群的全部成員，或從中抽取隨機子集。\n範例： 整個學校班級、某城市街區的所有居民、某選區的所有選民。\n優點： 降低成本；簡化田野工作；操作方便。\n缺點： 同一集群內的成員往往比整體母體更具同質性 — 樣本可能缺乏多樣性。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#抽樣方法綜合比較",
+    "href": "ch14/ch14-zh.html#抽樣方法綜合比較",
+    "title": "統計學",
+    "section": "抽樣方法：綜合比較",
+    "text": "抽樣方法：綜合比較\n\n\n\n\n\n\n一覽表\n\n\n\n\n\n方法\n最適用情境\n注意事項\n\n\n\n\n隨機抽樣\n一般用途\nN 很大時耗時\n\n\n系統抽樣\n已有編號列表\n注意列表中的週期性規律\n\n\n分層抽樣\n子群體代表性很重要\n層數多 = 工作量大\n\n\n集群抽樣\n成本/後勤是主要考量\n集群內同質性\n\n\n\n其他方法： 序列抽樣（品質管制）、雙重抽樣（兩階段資格篩選）、多階段抽樣（適用於超大母體的組合方法）。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#調查類型",
+    "href": "ch14/ch14-zh.html#調查類型",
+    "title": "統計學",
+    "section": "調查類型",
+    "text": "調查類型\n\n\n\n\n\n\n兩種調查形式\n\n\n訪員施測： 由調查員以面對面、電話或在購物中心進行訪問。\n自填問卷： 受訪者獨立完成問卷 — 郵件、電子郵件或團體施測。\n重要提示： 問題的措辭可能大幅改變受訪結果。研究者必須謹慎設計問題，避免引導受訪者趨向預定答案。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#五種常見問卷缺失",
+    "href": "ch14/ch14-zh.html#五種常見問卷缺失",
+    "title": "統計學",
+    "section": "五種常見問卷缺失",
+    "text": "五種常見問卷缺失\n\n\n\n\n\n\n請避免以下錯誤\n\n\n\n偏頗問題 — 措辭引導受訪者朝特定方向回答 例：「即使民調顯示瓊斯會輸，你還是會投票給他嗎？」\n混淆用詞 — 模糊用語導致誤解 例：「你覺得節食的人活得比較久嗎？」（哪種節食？）\n雙管問題 — 一個問題同時詢問兩件事 例：「你贊成用特別稅來資助全民健保嗎？」\n雙重否定 — 兩個否定製造混亂 例：「你認為設置禁菸區是不恰當的嗎？」\n問題順序不當 — 前面的問題影響後面問題的回答"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#其他調查偏誤",
+    "href": "ch14/ch14-zh.html#其他調查偏誤",
+    "title": "統計學",
+    "section": "其他調查偏誤",
+    "text": "其他調查偏誤\n\n\n\n\n\n\n其他偏誤來源\n\n\n\n社會期許偏誤： 受訪者回答他們認為訪員想聽的答案\n順從偏誤： 部分人為避免衝突而同意任何陳述\n保密性與匿名性： 受訪者認為身分被知曉時行為不同\n時間與地點： 空難後進行的航空安全調查結果會有差異\n開放式 vs. 封閉式問題：\n\n開放式：「列出三項退休活動」— 豐富但難以彙整\n封閉式： 從給定選項中選擇 — 易於統計但限制了回答範圍"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#什麼是模擬",
+    "href": "ch14/ch14-zh.html#什麼是模擬",
+    "title": "統計學",
+    "section": "什麼是模擬？",
+    "text": "什麼是模擬？\n\n\n\n\n\n\n模擬的定義\n\n\n模擬技術使用機率實驗，重現現實生活中過於昂貴、危險或耗時而無法直接研究的情境。\n歷史起源： 西洋棋是戰爭的模擬發明。現代數學模擬源於 1940 年代，物理學家 John Von Neumann 與 Stanislaw Ulam 將其用於研究核反應爐設計中的中子行為。\n現代工具： 電腦每秒可產生隨機數字、統計結果並計算機率數百萬次。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#蒙地卡羅法",
+    "href": "ch14/ch14-zh.html#蒙地卡羅法",
+    "title": "統計學",
+    "section": "蒙地卡羅法",
+    "text": "蒙地卡羅法\n\n\n\n\n\n\n蒙地卡羅法的六個步驟\n\n\n\n列出 實驗所有可能結果\n分配機率 給每個結果\n對應 結果至隨機數字範圍\n抽取 隨機數字並執行實驗\n重複 並統計結果\n計算統計量 並得出結論\n\n關鍵洞見： 隨著重複次數增加，結果會趨近理論值（大數法則）。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#建立隨機數字對應關係",
+    "href": "ch14/ch14-zh.html#建立隨機數字對應關係",
+    "title": "統計學",
+    "section": "建立隨機數字對應關係",
+    "text": "建立隨機數字對應關係\n\n\n\n\n\n\n結果與數字對應範例\n\n\n\n\n\n實驗\n結果\n隨機數字\n\n\n\n\n擲硬幣（50/50）\n正面\n1,3,5,7,9\n\n\n擲硬幣\n反面\n0,2,4,6,8\n\n\n擲骰子（各 1/6）\n1–6\n1,2,3,4,5,6（忽略 7,8,9,0）\n\n\n轉盤（4 值，各 1/4）\n1\n1–2；2→3–4；3→5–6；4→7–8（忽略 9,0）\n\n\n打鼾（20% 機率）\n打鼾\n1,2；不打鼾→3–9,0"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-4打鼾模擬",
+    "href": "ch14/ch14-zh.html#例-14-4打鼾模擬",
+    "title": "統計學",
+    "section": "例 14-4：打鼾模擬",
+    "text": "例 14-4：打鼾模擬\n\n\n\n\n\n\n問題\n\n\n根據美國疾管署資料，約 20% 的人在睡眠中打鼾。模擬 20 人的樣本，並確認有多少人打鼾。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-4數學解法",
+    "href": "ch14/ch14-zh.html#例-14-4數學解法",
+    "title": "統計學",
+    "section": "例 14-4：數學解法",
+    "text": "例 14-4：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n由於 20\\% = 1/5，每五人中有一人打鼾。\n對應： 數字 1、2 → 打鼾；數字 0、3–9 → 不打鼾\n隨機數字樣本： 7\\ 2\\ 7\\ 4\\ 8\\ 2\\ 2\\ 3\\ 6\\ 1\\ 6\\ 0\\ 4\\ 6\\ 1\\ 5\\ 5\\ 3\\ 8\\ 9\n打鼾者（數字 1 或 2）：位置 2、6、7、10、15 → 20 人中有 5 人打鼾\n比例：5/20 = 0.25，接近理論值 20%。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-4r-解法",
+    "href": "ch14/ch14-zh.html#例-14-4r-解法",
+    "title": "統計學",
+    "section": "例 14-4：R 解法",
+    "text": "例 14-4：R 解法\n\nset.seed(101)\nn_people &lt;- 20\np_snore  &lt;- 0.20\n\n# 使用 R 內建的白努利抽樣器進行模擬\nsnores &lt;- rbinom(n_people, size = 1, prob = p_snore)\n\ncat(\"模擬結果（1 = 打鼾，0 = 不打鼾）：\\n\")\n\n模擬結果（1 = 打鼾，0 = 不打鼾）：\n\ncat(snores, \"\\n\\n\")\n\n0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 \n\ncat(\"打鼾人數：\", sum(snores), \"（共\", n_people, \"人）\\n\")\n\n打鼾人數： 3 （共 20 人）\n\ncat(\"比例：\", round(mean(snores), 3),\n    \"  （理論值：0.20）\\n\")\n\n比例： 0.15   （理論值：0.20）"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-5網球賽模擬",
+    "href": "ch14/ch14-zh.html#例-14-5網球賽模擬",
+    "title": "統計學",
+    "section": "例 14-5：網球賽模擬",
+    "text": "例 14-5：網球賽模擬\n\n\n\n\n\n\n問題\n\n\nBill 的網球實力是 Mike 的兩倍。模擬他們之間的 5 場比賽。\n由於 P(\\text{Bill 獲勝}) = 2/3，P(\\text{Mike 獲勝}) = 1/3：\n對應： 數字 1–6 → Bill 獲勝；數字 7–9 → Mike 獲勝；數字 0 → 忽略\n使用的隨機數字： 86314\n\n\n\n數字\n8\n6\n3\n1\n4\n\n\n\n\n勝者\nMike\nBill\nBill\nBill\nBill\n\n\n\n結果： Bill 贏 4 場，Mike 贏 1 場。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-5r-解法",
+    "href": "ch14/ch14-zh.html#例-14-5r-解法",
+    "title": "統計學",
+    "section": "例 14-5：R 解法",
+    "text": "例 14-5：R 解法\n\nset.seed(99)\nn_games  &lt;- 5\np_bill   &lt;- 2/3\n\nwinners &lt;- sample(c(\"Bill\",\"Mike\"),\n                  size = n_games,\n                  replace = TRUE,\n                  prob = c(p_bill, 1 - p_bill))\n\ncat(\"逐場結果：\\n\")\n\n逐場結果：\n\nfor (i in seq_along(winners)) cat(\"  第\", i, \"場：\", winners[i], \"\\n\")\n\n  第 1 場： Bill \n  第 2 場： Bill \n  第 3 場： Mike \n  第 4 場： Mike \n  第 5 場： Bill \n\ncat(\"\\nBill 獲勝：\", sum(winners == \"Bill\"), \"場\\n\")\n\n\nBill 獲勝： 3 場\n\ncat(\"Mike 獲勝：\", sum(winners == \"Mike\"), \"場\\n\")\n\nMike 獲勝： 2 場"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-6擲骰子直到出現-6",
+    "href": "ch14/ch14-zh.html#例-14-6擲骰子直到出現-6",
+    "title": "統計學",
+    "section": "例 14-6：擲骰子直到出現 6",
+    "text": "例 14-6：擲骰子直到出現 6\n\n\n\n\n\n\n問題\n\n\n反覆擲骰子直到出現 6 為止。利用模擬，找出所需的平均擲骰次數。重複實驗 20 次。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-6數學解法",
+    "href": "ch14/ch14-zh.html#例-14-6數學解法",
+    "title": "統計學",
+    "section": "例 14-6：數學解法",
+    "text": "例 14-6：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n對應： 數字 1–6 → 骰子點數；數字 7、8、9、0 → 忽略\n範例： 隨機區塊 857236 → 忽略 8、忽略 5、忽略 7、擲出 2、擲出 3、擲出 6 → 4 次\n經過 20 次模擬試驗，總擲骰次數 = 96： \\bar{X} = \\frac{96}{20} = 4.8 \\text{ 次}\n理論值（幾何分配的期望值）： E(X) = \\frac{1}{p} = \\frac{1}{1/6} = 6\n重複次數越多，模擬結果越接近 6。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-6r-解法",
+    "href": "ch14/ch14-zh.html#例-14-6r-解法",
+    "title": "統計學",
+    "section": "例 14-6：R 解法",
+    "text": "例 14-6：R 解法\n\nset.seed(55)\nn_trials &lt;- 20\n\nrolls_needed &lt;- replicate(n_trials, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})\n\ncat(\"各次試驗擲骰次數：\", rolls_needed, \"\\n\")\n\n各次試驗擲骰次數： 1 11 2 5 1 1 2 2 7 1 3 1 1 22 5 3 6 1 1 2 \n\ncat(\"總擲骰次數：\", sum(rolls_needed), \"\\n\")\n\n總擲骰次數： 78 \n\ncat(\"模擬平均值：\", round(mean(rolls_needed), 2), \"\\n\")\n\n模擬平均值： 3.9 \n\ncat(\"理論平均值（1/p = 6）：\", 6, \"\\n\")\n\n理論平均值（1/p = 6）： 6"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-6視覺化",
+    "href": "ch14/ch14-zh.html#例-14-6視覺化",
+    "title": "統計學",
+    "section": "例 14-6：視覺化",
+    "text": "例 14-6：視覺化\n\nset.seed(55)\nmany_trials &lt;- replicate(1000, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-7選取鑰匙",
+    "href": "ch14/ch14-zh.html#例-14-7選取鑰匙",
+    "title": "統計學",
+    "section": "例 14-7：選取鑰匙",
+    "text": "例 14-7：選取鑰匙\n\n\n\n\n\n\n問題\n\n\n某人有 4 把鑰匙，其中只有一把能開鎖。她隨機逐一嘗試（不放回）直到找到正確鑰匙。求所需的平均嘗試次數。重複 25 次。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-7數學解法",
+    "href": "ch14/ch14-zh.html#例-14-7數學解法",
+    "title": "統計學",
+    "section": "例 14-7：數學解法",
+    "text": "例 14-7：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n設定： 鑰匙編號 1–4；第 2 把是正確的。\n對應： 只使用數字 1–4（忽略 5–9、0）。計算數字直到出現 2 為止。\n範例： 1432 → 嘗試鑰匙 1、再試 4、再試 3、試 2 → 4 次\n經 25 次試驗：\\sum X = 54\n\\bar{X} = \\frac{54}{25} = 2.16 \\text{ 次}\n理論平均值： E(X) = \\frac{n+1}{2} = \\frac{4+1}{2} = 2.5"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-7r-解法",
+    "href": "ch14/ch14-zh.html#例-14-7r-解法",
+    "title": "統計學",
+    "section": "例 14-7：R 解法",
+    "text": "例 14-7：R 解法\n\nset.seed(77)\nn_trials   &lt;- 25\ncorrect_key &lt;- 2\n\ntries_needed &lt;- replicate(n_trials, {\n  keys &lt;- sample(1:4, 4, replace = FALSE)  # 隨機順序\n  which(keys == correct_key)               # 正確鑰匙的位置\n})\n\ncat(\"各次試驗嘗試次數：\", tries_needed, \"\\n\")\n\n各次試驗嘗試次數： 1 3 2 1 1 4 3 4 2 4 3 2 3 2 2 3 3 4 1 2 2 1 1 4 2 \n\ncat(\"總嘗試次數：\", sum(tries_needed), \"\\n\")\n\n總嘗試次數： 60 \n\ncat(\"模擬平均值：\", round(mean(tries_needed), 3), \"\\n\")\n\n模擬平均值： 2.4 \n\ncat(\"理論平均值（(n+1)/2 = 2.5）：\", 2.5, \"\\n\")\n\n理論平均值（(n+1)/2 = 2.5）： 2.5"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-8選取鈔票",
+    "href": "ch14/ch14-zh.html#例-14-8選取鈔票",
+    "title": "統計學",
+    "section": "例 14-8：選取鈔票",
+    "text": "例 14-8：選取鈔票\n\n\n\n\n\n\n問題\n\n\n一個箱子裡有 5 張一美元、3 張五美元 和 2 張十美元。某人隨機取出一張鈔票。求所取鈔票的期望值。重複實驗 25 次。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-8數學解法",
+    "href": "ch14/ch14-zh.html#例-14-8數學解法",
+    "title": "統計學",
+    "section": "例 14-8：數學解法",
+    "text": "例 14-8：數學解法\n\n\n\n\n\n\n解題步驟\n\n\n機率： P(\\$1) = 5/10 = 0.5，P(\\$5) = 3/10 = 0.3，P(\\$10) = 2/10 = 0.2\n對應： 數字 1–5 → \\$1；數字 6–8 → \\$5；數字 9、0 → \\$10\n25 次模擬抽取： 總計 = \\$116\n\\bar{X} = \\frac{116}{25} = \\$4.64\n理論期望值： E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \\$4.00\n模擬值接近理論值；重複次數越多，結果越接近。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-8r-解法",
+    "href": "ch14/ch14-zh.html#例-14-8r-解法",
+    "title": "統計學",
+    "section": "例 14-8：R 解法",
+    "text": "例 14-8：R 解法\n\nset.seed(33)\nn_trials &lt;- 25\n\nbills    &lt;- c(1, 5, 10)\nprobs    &lt;- c(0.5, 0.3, 0.2)\n\ndraws &lt;- sample(bills, size = n_trials, replace = TRUE, prob = probs)\n\ncat(\"抽取的鈔票面額：\\n\")\n\n抽取的鈔票面額：\n\ncat(draws, \"\\n\\n\")\n\n1 1 1 10 10 5 1 1 1 1 5 1 1 1 5 10 5 1 1 10 5 1 1 1 10 \n\ncat(\"總計：\", sum(draws), \"\\n\")\n\n總計： 90 \n\ncat(\"模擬平均值：$\", round(mean(draws), 2), \"\\n\")\n\n模擬平均值：$ 3.6 \n\ncat(\"理論 E(X)：$\", sum(bills * probs), \"\\n\")\n\n理論 E(X)：$ 4"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#例-14-8視覺化",
+    "href": "ch14/ch14-zh.html#例-14-8視覺化",
+    "title": "統計學",
+    "section": "例 14-8：視覺化",
+    "text": "例 14-8：視覺化\n\nset.seed(33)\nmany_draws &lt;- sample(bills, size = 1000,\n                     replace = TRUE, prob = probs)\n\nggplot(data.frame(value = many_draws), aes(x = factor(value))) +\n  geom_bar(fill = c(\"gold\",\"steelblue\",\"darkgreen\"), alpha = 0.85) +\n  geom_hline(yintercept = 1000 * probs, linetype = \"dashed\",\n             color = c(\"gold3\",\"steelblue4\",\"darkgreen\"),\n             linewidth = 0.8) +\n  labs(title = \"鈔票抽取模擬（1000 次試驗）\",\n       x = \"鈔票面額（$）\", y = \"頻率\")"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#蒙地卡羅法總結",
+    "href": "ch14/ch14-zh.html#蒙地卡羅法總結",
+    "title": "統計學",
+    "section": "蒙地卡羅法：總結",
+    "text": "蒙地卡羅法：總結\n\n\n\n\n\n\n關鍵重點\n\n\n\n\n\n步驟\n動作\n\n\n\n\n1\n列出所有可能結果\n\n\n2\n分配機率\n\n\n3\n對應結果至隨機數字範圍\n\n\n4\n抽取隨機數字，執行實驗\n\n\n5\n重複並統計\n\n\n6\n計算統計量，得出結論\n\n\n\n請記住： 模擬是對精確機率計算的近似 — 而非替代。大數法則保證隨著重複次數足夠多時會收斂。\n現代應用： NASA 飛行模擬器、電玩物理引擎、金融風險建模、藥物試驗設計、氣候建模。"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#第十四章總結",
+    "href": "ch14/ch14-zh.html#第十四章總結",
+    "title": "統計學",
+    "section": "第十四章總結",
+    "text": "第十四章總結\n\n\n\n\n\n\n核心概念\n\n\n第 14-1 節 — 抽樣： - 樣本節省時間、金錢，並使原本不可能的研究成為可能 - 四種方法：隨機、系統、分層、集群 - 無偏樣本要求每位研究對象都有相同的被選機率\n第 14-2 節 — 調查： - 問題措辭、順序與形式均影響調查結果 - 避免：偏頗問題、混淆用詞、雙管問題、雙重否定、順序不當\n第 14-3 節 — 模擬： - 蒙地卡羅法：對應結果至隨機數字範圍，重複、統計 - 當 n \\to \\infty 時，模擬平均值趨近理論值 - R 的 sample()、rbinom() 和 replicate() 讓模擬變得簡便"
+  },
+  {
+    "objectID": "ch14/ch14-zh.html#版權聲明",
+    "href": "ch14/ch14-zh.html#版權聲明",
+    "title": "統計學",
+    "section": "版權聲明",
+    "text": "版權聲明\n\n版權聲明： 本教材改編自 Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill。所有權利保留給原著作者及出版商。\n僅限非商業用途： 本教材嚴格限於教育用途，不得用於商業獲利。\n適當引用： 任何複製、散布或使用本教材者，必須提供原始來源的適當引用。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#本章概述",
+    "href": "ch14/zh/ch14.html#本章概述",
+    "title": "統計學",
+    "section": "本章概述",
+    "text": "本章概述\n為何研究抽樣與模擬？\n當母體規模過大無法完整研究時，研究者依賴樣本來推論母體。當真實實驗過於危險、昂貴或耗時時，模擬提供了安全且具成本效益的替代方案。\n隨機數字是兩種技術的核心引擎。\n本章主題：\n\n14-1： 常見抽樣技術\n14-2： 調查與問卷設計\n14-3： 模擬技術與蒙地卡羅法"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#為何使用樣本",
+    "href": "ch14/zh/ch14.html#為何使用樣本",
+    "title": "統計學",
+    "section": "為何使用樣本？",
+    "text": "為何使用樣本？\n使用樣本的三個理由\n\n節省時間與金錢 — 研究整個母體通常不切實際\n使原本不可能的研究成為可能 — 例如：破壞性測試纜線強度後就沒東西可賣；血液膽固醇分析無法用盡所有血液\n允許更深入的研究 — 較小的樣本可進行更詳細的訪談，收集更豐富的資料\n\n關鍵要求： 樣本必須是隨機的 — 母體中的每個成員都必須有相同的被選機率。隨機樣本是無偏的；非隨機樣本是有偏的。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#四種基本抽樣方法",
+    "href": "ch14/zh/ch14.html#四種基本抽樣方法",
+    "title": "統計學",
+    "section": "四種基本抽樣方法",
+    "text": "四種基本抽樣方法\n\n\n\n方法\n核心概念\n\n\n\n\n隨機抽樣\n使用隨機數字選取研究對象\n\n\n系統抽樣\n隨機起點後，每隔 k 個元素選取一個\n\n\n分層抽樣\n分成同質子群體；各層分別抽樣\n\n\n集群抽樣\n選取一個已存在的完整群體作為樣本"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#隨機抽樣",
+    "href": "ch14/zh/ch14.html#隨機抽樣",
+    "title": "統計學",
+    "section": "隨機抽樣",
+    "text": "隨機抽樣\n隨機抽樣\n母體的每個元素均編號，並使用隨機數字選取樣本。\n常見錯誤：\n\n訪問「街頭路人」（涵蓋偏誤）\n電話投票（自我選擇偏誤）\n郵件調查（無回應偏誤）\n\n正確方法： 使用隨機數字表或電腦產生的隨機數字。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-1電視節目採訪-隨機樣本",
+    "href": "ch14/zh/ch14.html#例-14-1電視節目採訪-隨機樣本",
+    "title": "統計學",
+    "section": "例 14-1：電視節目採訪 — 隨機樣本",
+    "text": "例 14-1：電視節目採訪 — 隨機樣本\n問題\n一位電視節目製作人只能採訪 50 州中的 10 位州長。請使用隨機數字表，從 50 個州中選取隨機樣本 10 個州。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-1數學解法",
+    "href": "ch14/zh/ch14.html#例-14-1數學解法",
+    "title": "統計學",
+    "section": "例 14-1：數學解法",
+    "text": "例 14-1：數學解法\n解題步驟\n步驟 1： 依字母順序將各州編號為 01–50（01 = Alabama，02 = Alaska，…，50 = Wyoming）\n步驟 2： 使用隨機數字表，從選定位置讀取兩位數字：\n選取的數字：27, 43, 34, 06, 13, 29, 01, 39, 23, 35\n（捨棄大於 50 的數字及重複數字；不放回抽樣）\n步驟 3： 對應各州：\n\n\n\n編號\n州名\n\n編號\n州名\n\n\n\n\n27\n內布拉斯加州\n\n29\n新罕布夏州\n\n\n43\n德克薩斯州\n\n01\n阿拉巴馬州\n\n\n34\n北達科塔州\n\n39\n羅德島州\n\n\n06\n科羅拉多州\n\n23\n明尼蘇達州\n\n\n13\n伊利諾州\n\n35\n俄亥俄州"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-1r-解法",
+    "href": "ch14/zh/ch14.html#例-14-1r-解法",
+    "title": "統計學",
+    "section": "例 14-1：R 解法",
+    "text": "例 14-1：R 解法\n\nstates &lt;- c(\"Alabama\",\"Alaska\",\"Arizona\",\"Arkansas\",\"California\",\n            \"Colorado\",\"Connecticut\",\"Delaware\",\"Florida\",\"Georgia\",\n            \"Hawaii\",\"Idaho\",\"Illinois\",\"Indiana\",\"Iowa\",\n            \"Kansas\",\"Kentucky\",\"Louisiana\",\"Maine\",\"Maryland\",\n            \"Massachusetts\",\"Michigan\",\"Minnesota\",\"Mississippi\",\"Missouri\",\n            \"Montana\",\"Nebraska\",\"Nevada\",\"New Hampshire\",\"New Jersey\",\n            \"New Mexico\",\"New York\",\"North Carolina\",\"North Dakota\",\"Ohio\",\n            \"Oklahoma\",\"Oregon\",\"Pennsylvania\",\"Rhode Island\",\"South Carolina\",\n            \"South Dakota\",\"Tennessee\",\"Texas\",\"Utah\",\"Vermont\",\n            \"Virginia\",\"Washington\",\"West Virginia\",\"Wisconsin\",\"Wyoming\")"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#系統抽樣",
+    "href": "ch14/zh/ch14.html#系統抽樣",
+    "title": "統計學",
+    "section": "系統抽樣",
+    "text": "系統抽樣\n系統抽樣\n\n將母體所有元素編號\n計算間隔 k = N/n（母體大小 ÷ 樣本大小）\n從 1 到 k 中隨機選取起始點\n之後每隔 k 個元素選取一個\n\n優點： 操作簡便；不需要完整的隨機數字列表。\n注意： 避免對具有與間隔 k 相符週期性規律（例如男女交替）的列表使用系統抽樣。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-2電視節目採訪-系統抽樣",
+    "href": "ch14/zh/ch14.html#例-14-2電視節目採訪-系統抽樣",
+    "title": "統計學",
+    "section": "例 14-2：電視節目採訪 — 系統抽樣",
+    "text": "例 14-2：電視節目採訪 — 系統抽樣\n問題\n使用相同的 50 州母體，選取 10 個州的系統樣本。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-2數學解法",
+    "href": "ch14/zh/ch14.html#例-14-2數學解法",
+    "title": "統計學",
+    "section": "例 14-2：數學解法",
+    "text": "例 14-2：數學解法\n解題步驟\n步驟 1： 將各州編號 01–50\n步驟 2： k = 50 / 10 = 5 → 每 5 個州選取一個\n步驟 3： 隨機起點：4（從 1–5 中選取）\n步驟 4： 從 4 開始每隔 5 個選取： 4, 9, 14, 19, 24, 29, 34, 39, 44, 49\n\n\n\n編號\n州名\n\n編號\n州名\n\n\n\n\n04\n阿肯色州\n\n29\n新罕布夏州\n\n\n09\n佛羅里達州\n\n34\n北達科塔州\n\n\n14\n印地安納州\n\n39\n羅德島州\n\n\n19\n緬因州\n\n44\n猶他州\n\n\n24\n密西西比州\n\n49\n威斯康辛州"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-2r-解法",
+    "href": "ch14/zh/ch14.html#例-14-2r-解法",
+    "title": "統計學",
+    "section": "例 14-2：R 解法",
+    "text": "例 14-2：R 解法\n\nN &lt;- 50; n &lt;- 10\nk &lt;- N / n  # 間隔 = 5\n\nset.seed(7)\nstart &lt;- sample(1:k, 1)\ncat(\"隨機起點：\", start, \"\\n\")\n\n隨機起點： 2 \n\nsys_indices &lt;- seq(start, N, by = k)\ncat(\"選取的州編號：\", sys_indices, \"\\n\\n\")\n\n選取的州編號： 2 7 12 17 22 27 32 37 42 47 \n\ncat(\"選取的州：\\n\")\n\n選取的州：\n\nfor (i in sys_indices) {\n  cat(sprintf(\"  %02d. %s\\n\", i, states[i]))\n}\n\n  02. Alaska\n  07. Connecticut\n  12. Idaho\n  17. Kentucky\n  22. Michigan\n  27. Nebraska\n  32. New York\n  37. Oregon\n  42. Tennessee\n  47. Washington"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#分層抽樣",
+    "href": "ch14/zh/ch14.html#分層抽樣",
+    "title": "統計學",
+    "section": "分層抽樣",
+    "text": "分層抽樣\n分層抽樣\n母體依共同特徵（如性別、年級、地區）劃分為層（子群體）。再從每個層中分別抽取隨機樣本。\n優點： 確保每個重要子群體都有代表性。\n缺點： - 層數眾多時需耗費大量心力 - 當分組標準複雜或模糊時操作困難\n比例分層： 各層的樣本大小與該層佔總母體的比例成正比。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-3學生的分層樣本",
+    "href": "ch14/zh/ch14.html#例-14-3學生的分層樣本",
+    "title": "統計學",
+    "section": "例 14-3：學生的分層樣本",
+    "text": "例 14-3：學生的分層樣本\n問題\n從一個由 20 名學生組成的班級（10 男 10 女；含大一及大二生）中，依性別與年級選取 8 人的分層樣本。\n四個層：\n\n\n\n第 1 組\n男性大一生（5 人）\n第 3 組\n女性大一生（5 人）\n\n\n\n\n第 2 組\n男性大二生（5 人）\n第 4 組\n女性大二生（5 人）"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-3數學解法",
+    "href": "ch14/zh/ch14.html#例-14-3數學解法",
+    "title": "統計學",
+    "section": "例 14-3：數學解法",
+    "text": "例 14-3：數學解法\n解題步驟\n步驟 1： 劃分為 4 層（男/女 × 大一/大二）\n步驟 2： 每層有 5 名成員，各選取 8/4 = 2 人\n步驟 3： 使用隨機數字，從各組各選 2 人：\n\n\n\n組別\n選取者\n\n\n\n\n男性大一生\nPeterson, John；Meloski, Gary\n\n\n男性大二生\nBrown, Danny；Lyons, Larry\n\n\n女性大一生\nBear, Theresa；Collins, Carolyn\n\n\n女性大二生\nToms, Debbie；Unger, Roberta"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-3r-解法",
+    "href": "ch14/zh/ch14.html#例-14-3r-解法",
+    "title": "統計學",
+    "section": "例 14-3：R 解法",
+    "text": "例 14-3：R 解法\n\nstudents &lt;- data.frame(\n  name   = c(\"Ald P\",\"Brown D\",\"Bear T\",\"Carson S\",\"Collins C\",\n             \"Davis W\",\"Hogan M\",\"Jones L\",\"Lutz H\",\"Lyons L\",\n             \"Martin J\",\"Meloski G\",\"Oeler G\",\"Peters M\",\"Peterson J\",\n             \"Smith N\",\"Thomas J\",\"Toms D\",\"Unger R\",\"Zibert M\"),\n  gender = c(\"M\",\"M\",\"F\",\"F\",\"F\",\"M\",\"M\",\"F\",\"M\",\"M\",\n             \"F\",\"M\",\"M\",\"F\",\"M\",\"F\",\"M\",\"F\",\"F\",\"F\"),\n  grade  = c(\"Fr\",\"So\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\n             \"Fr\",\"Fr\",\"So\",\"So\",\"Fr\",\"Fr\",\"So\",\"So\",\"So\",\"So\")\n)"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#集群抽樣",
+    "href": "ch14/zh/ch14.html#集群抽樣",
+    "title": "統計學",
+    "section": "集群抽樣",
+    "text": "集群抽樣\n集群抽樣\n選取一個自然存在的群體（集群）作為樣本。可使用集群的全部成員，或從中抽取隨機子集。\n範例： 整個學校班級、某城市街區的所有居民、某選區的所有選民。\n優點： 降低成本；簡化田野工作；操作方便。\n缺點： 同一集群內的成員往往比整體母體更具同質性 — 樣本可能缺乏多樣性。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#抽樣方法綜合比較",
+    "href": "ch14/zh/ch14.html#抽樣方法綜合比較",
+    "title": "統計學",
+    "section": "抽樣方法：綜合比較",
+    "text": "抽樣方法：綜合比較\n\n\n\n方法\n最適用情境\n注意事項\n\n\n\n\n隨機抽樣\n一般用途\nN 很大時耗時\n\n\n系統抽樣\n已有編號列表\n注意列表中的週期性規律\n\n\n分層抽樣\n子群體代表性很重要\n層數多 = 工作量大\n\n\n集群抽樣\n成本/後勤是主要考量\n集群內同質性\n\n\n\n其他方法： 序列抽樣（品質管制）、雙重抽樣（兩階段資格篩選）、多階段抽樣（適用於超大母體的組合方法）。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#調查類型",
+    "href": "ch14/zh/ch14.html#調查類型",
+    "title": "統計學",
+    "section": "調查類型",
+    "text": "調查類型\n兩種調查形式\n訪員施測： 由調查員以面對面、電話或在購物中心進行訪問。\n自填問卷： 受訪者獨立完成問卷 — 郵件、電子郵件或團體施測。\n重要提示： 問題的措辭可能大幅改變受訪結果。研究者必須謹慎設計問題，避免引導受訪者趨向預定答案。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#五種常見問卷缺失",
+    "href": "ch14/zh/ch14.html#五種常見問卷缺失",
+    "title": "統計學",
+    "section": "五種常見問卷缺失",
+    "text": "五種常見問卷缺失\n請避免以下錯誤\n\n偏頗問題 — 措辭引導受訪者朝特定方向回答 例： 「即使民調顯示瓊斯會輸，你還是會投票給他嗎？」\n混淆用詞 — 模糊用語導致誤解 例： 「你覺得節食的人活得比較久嗎？」（哪種節食？）\n雙管問題 — 一個問題同時詢問兩件事 例： 「你贊成用特別稅來資助全民健保嗎？」\n雙重否定 — 兩個否定製造混亂 例： 「你認為設置禁菸區是不恰當的嗎？」\n問題順序不當 — 前面的問題影響後面問題的回答"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#其他調查偏誤",
+    "href": "ch14/zh/ch14.html#其他調查偏誤",
+    "title": "統計學",
+    "section": "其他調查偏誤",
+    "text": "其他調查偏誤\n其他偏誤來源\n\n社會期許偏誤： 受訪者回答他們認為訪員想聽的答案\n順從偏誤： 部分人為避免衝突而同意任何陳述\n保密性與匿名性： 受訪者認為身分被知曉時行為不同\n時間與地點： 空難後進行的航空安全調查結果會有差異\n開放式 vs. 封閉式問題：\n\n開放式： 「列出三項退休活動」— 豐富但難以彙整\n封閉式： 從給定選項中選擇 — 易於統計但限制了回答範圍"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#什麼是模擬",
+    "href": "ch14/zh/ch14.html#什麼是模擬",
+    "title": "統計學",
+    "section": "什麼是模擬？",
+    "text": "什麼是模擬？\n模擬的定義\n模擬技術使用機率實驗，重現現實生活中過於昂貴、危險或耗時而無法直接研究的情境。\n歷史起源： 西洋棋是戰爭的模擬發明。現代數學模擬源於 1940 年代，物理學家 John Von Neumann 與 Stanislaw Ulam 將其用於研究核反應爐設計中的中子行為。\n現代工具： 電腦每秒可產生隨機數字、統計結果並計算機率數百萬次。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#蒙地卡羅法",
+    "href": "ch14/zh/ch14.html#蒙地卡羅法",
+    "title": "統計學",
+    "section": "蒙地卡羅法",
+    "text": "蒙地卡羅法\n蒙地卡羅法的六個步驟\n\n列出 實驗所有可能結果\n分配機率 給每個結果\n對應 結果至隨機數字範圍\n抽取 隨機數字並執行實驗\n重複 並統計結果\n計算統計量 並得出結論\n\n關鍵洞見： 隨著重複次數增加，結果會趨近理論值（大數法則）。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#建立隨機數字對應關係",
+    "href": "ch14/zh/ch14.html#建立隨機數字對應關係",
+    "title": "統計學",
+    "section": "建立隨機數字對應關係",
+    "text": "建立隨機數字對應關係\n結果與數字對應範例\n\n\n\n實驗\n結果\n隨機數字\n\n\n\n\n擲硬幣（50/50）\n正面\n1,3,5,7,9\n\n\n擲硬幣\n反面\n0,2,4,6,8\n\n\n擲骰子（各 1/6）\n1–6\n1,2,3,4,5,6（忽略 7,8,9,0）\n\n\n轉盤（4 值，各 1/4）\n1\n1–2；2→3–4；3→5–6；4→7–8（忽略 9,0）\n\n\n打鼾（20% 機率）\n打鼾\n1,2；不打鼾→3–9,0"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-4打鼾模擬",
+    "href": "ch14/zh/ch14.html#例-14-4打鼾模擬",
+    "title": "統計學",
+    "section": "例 14-4：打鼾模擬",
+    "text": "例 14-4：打鼾模擬\n問題\n根據美國疾管署資料，約 20% 的人在睡眠中打鼾。模擬 20 人的樣本，並確認有多少人打鼾。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-4數學解法",
+    "href": "ch14/zh/ch14.html#例-14-4數學解法",
+    "title": "統計學",
+    "section": "例 14-4：數學解法",
+    "text": "例 14-4：數學解法\n解題步驟\n由於 20\\% = 1/5，每五人中有一人打鼾。\n對應： 數字 1、2 → 打鼾；數字 0、3–9 → 不打鼾\n隨機數字樣本： 7\\ 2\\ 7\\ 4\\ 8\\ 2\\ 2\\ 3\\ 6\\ 1\\ 6\\ 0\\ 4\\ 6\\ 1\\ 5\\ 5\\ 3\\ 8\\ 9\n打鼾者（數字 1 或 2）：位置 2、6、7、10、15 → 20 人中有 5 人打鼾\n比例：5/20 = 0.25，接近理論值 20%。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-4r-解法",
+    "href": "ch14/zh/ch14.html#例-14-4r-解法",
+    "title": "統計學",
+    "section": "例 14-4：R 解法",
+    "text": "例 14-4：R 解法\n\nset.seed(101)\nn_people &lt;- 20\np_snore  &lt;- 0.20\n\n# 使用 R 內建的白努利抽樣器進行模擬\nsnores &lt;- rbinom(n_people, size = 1, prob = p_snore)\n\ncat(\"模擬結果（1 = 打鼾，0 = 不打鼾）：\\n\")\n\n模擬結果（1 = 打鼾，0 = 不打鼾）：\n\ncat(snores, \"\\n\\n\")\n\n0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 \n\ncat(\"打鼾人數：\", sum(snores), \"（共\", n_people, \"人）\\n\")\n\n打鼾人數： 3 （共 20 人）\n\ncat(\"比例：\", round(mean(snores), 3),\n    \"  （理論值：0.20）\\n\")\n\n比例： 0.15   （理論值：0.20）"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-5網球賽模擬",
+    "href": "ch14/zh/ch14.html#例-14-5網球賽模擬",
+    "title": "統計學",
+    "section": "例 14-5：網球賽模擬",
+    "text": "例 14-5：網球賽模擬\n問題\nBill 的網球實力是 Mike 的兩倍。模擬他們之間的 5 場比賽。\n由於 P(\\text{Bill 獲勝}) = 2/3，P(\\text{Mike 獲勝}) = 1/3：\n對應： 數字 1–6 → Bill 獲勝；數字 7–9 → Mike 獲勝；數字 0 → 忽略\n使用的隨機數字： 86314\n\n\n\n數字\n8\n6\n3\n1\n4\n\n\n\n\n勝者\nMike\nBill\nBill\nBill\nBill\n\n\n\n結果： Bill 贏 4 場，Mike 贏 1 場。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-5r-解法",
+    "href": "ch14/zh/ch14.html#例-14-5r-解法",
+    "title": "統計學",
+    "section": "例 14-5：R 解法",
+    "text": "例 14-5：R 解法\n\nset.seed(99)\nn_games  &lt;- 5\np_bill   &lt;- 2/3\n\nwinners &lt;- sample(c(\"Bill\",\"Mike\"),\n                  size = n_games,\n                  replace = TRUE,\n                  prob = c(p_bill, 1 - p_bill))\n\ncat(\"逐場結果：\\n\")\n\n逐場結果：\n\nfor (i in seq_along(winners)) cat(\"  第\", i, \"場：\", winners[i], \"\\n\")\n\n  第 1 場： Bill \n  第 2 場： Bill \n  第 3 場： Mike \n  第 4 場： Mike \n  第 5 場： Bill \n\ncat(\"\\nBill 獲勝：\", sum(winners == \"Bill\"), \"場\\n\")\n\n\nBill 獲勝： 3 場\n\ncat(\"Mike 獲勝：\", sum(winners == \"Mike\"), \"場\\n\")\n\nMike 獲勝： 2 場"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-6擲骰子直到出現-6",
+    "href": "ch14/zh/ch14.html#例-14-6擲骰子直到出現-6",
+    "title": "統計學",
+    "section": "例 14-6：擲骰子直到出現 6",
+    "text": "例 14-6：擲骰子直到出現 6\n問題\n反覆擲骰子直到出現 6 為止。利用模擬，找出所需的平均擲骰次數。重複實驗 20 次。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-6數學解法",
+    "href": "ch14/zh/ch14.html#例-14-6數學解法",
+    "title": "統計學",
+    "section": "例 14-6：數學解法",
+    "text": "例 14-6：數學解法\n解題步驟\n對應： 數字 1–6 → 骰子點數；數字 7、8、9、0 → 忽略\n範例： 隨機區塊 857236 → 忽略 8、忽略 5、忽略 7、擲出 2、擲出 3、擲出 6 → 4 次\n經過 20 次模擬試驗，總擲骰次數 = 96： \\bar{X} = \\frac{96}{20} = 4.8 \\text{ 次}\n理論值（幾何分配的期望值）： E(X) = \\frac{1}{p} = \\frac{1}{1/6} = 6\n重複次數越多，模擬結果越接近 6。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-6r-解法",
+    "href": "ch14/zh/ch14.html#例-14-6r-解法",
+    "title": "統計學",
+    "section": "例 14-6：R 解法",
+    "text": "例 14-6：R 解法\n\nset.seed(55)\nn_trials &lt;- 20\n\nrolls_needed &lt;- replicate(n_trials, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})\n\ncat(\"各次試驗擲骰次數：\", rolls_needed, \"\\n\")\n\n各次試驗擲骰次數： 1 11 2 5 1 1 2 2 7 1 3 1 1 22 5 3 6 1 1 2 \n\ncat(\"總擲骰次數：\", sum(rolls_needed), \"\\n\")\n\n總擲骰次數： 78 \n\ncat(\"模擬平均值：\", round(mean(rolls_needed), 2), \"\\n\")\n\n模擬平均值： 3.9 \n\ncat(\"理論平均值（1/p = 6）：\", 6, \"\\n\")\n\n理論平均值（1/p = 6）： 6"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-6視覺化",
+    "href": "ch14/zh/ch14.html#例-14-6視覺化",
+    "title": "統計學",
+    "section": "例 14-6：視覺化",
+    "text": "例 14-6：視覺化\n\nset.seed(55)\nmany_trials &lt;- replicate(1000, {\n  count &lt;- 0\n  repeat {\n    roll &lt;- sample(1:6, 1)\n    count &lt;- count + 1\n    if (roll == 6) break\n  }\n  count\n})"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-7選取鑰匙",
+    "href": "ch14/zh/ch14.html#例-14-7選取鑰匙",
+    "title": "統計學",
+    "section": "例 14-7：選取鑰匙",
+    "text": "例 14-7：選取鑰匙\n問題\n某人有 4 把鑰匙，其中只有一把能開鎖。她隨機逐一嘗試（不放回）直到找到正確鑰匙。求所需的平均嘗試次數。重複 25 次。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-7數學解法",
+    "href": "ch14/zh/ch14.html#例-14-7數學解法",
+    "title": "統計學",
+    "section": "例 14-7：數學解法",
+    "text": "例 14-7：數學解法\n解題步驟\n設定： 鑰匙編號 1–4；第 2 把是正確的。\n對應： 只使用數字 1–4（忽略 5–9、0）。計算數字直到出現 2 為止。\n範例： 1432 → 嘗試鑰匙 1、再試 4、再試 3、試 2 → 4 次\n經 25 次試驗：\\sum X = 54\n\\bar{X} = \\frac{54}{25} = 2.16 \\text{ 次}\n理論平均值： E(X) = \\frac{n+1}{2} = \\frac{4+1}{2} = 2.5"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-7r-解法",
+    "href": "ch14/zh/ch14.html#例-14-7r-解法",
+    "title": "統計學",
+    "section": "例 14-7：R 解法",
+    "text": "例 14-7：R 解法\n\nset.seed(77)\nn_trials   &lt;- 25\ncorrect_key &lt;- 2\n\ntries_needed &lt;- replicate(n_trials, {\n  keys &lt;- sample(1:4, 4, replace = FALSE)  # 隨機順序\n  which(keys == correct_key)               # 正確鑰匙的位置\n})\n\ncat(\"各次試驗嘗試次數：\", tries_needed, \"\\n\")\n\n各次試驗嘗試次數： 1 3 2 1 1 4 3 4 2 4 3 2 3 2 2 3 3 4 1 2 2 1 1 4 2 \n\ncat(\"總嘗試次數：\", sum(tries_needed), \"\\n\")\n\n總嘗試次數： 60 \n\ncat(\"模擬平均值：\", round(mean(tries_needed), 3), \"\\n\")\n\n模擬平均值： 2.4 \n\ncat(\"理論平均值（(n+1)/2 = 2.5）：\", 2.5, \"\\n\")\n\n理論平均值（(n+1)/2 = 2.5）： 2.5"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-8選取鈔票",
+    "href": "ch14/zh/ch14.html#例-14-8選取鈔票",
+    "title": "統計學",
+    "section": "例 14-8：選取鈔票",
+    "text": "例 14-8：選取鈔票\n問題\n一個箱子裡有 5 張一美元、3 張五美元 和 2 張十美元。某人隨機取出一張鈔票。求所取鈔票的期望值。重複實驗 25 次。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-8數學解法",
+    "href": "ch14/zh/ch14.html#例-14-8數學解法",
+    "title": "統計學",
+    "section": "例 14-8：數學解法",
+    "text": "例 14-8：數學解法\n解題步驟\n機率： P(\\$1) = 5/10 = 0.5，P(\\$5) = 3/10 = 0.3，P(\\$10) = 2/10 = 0.2\n對應： 數字 1–5 → \\$1；數字 6–8 → \\$5；數字 9、0 → \\$10\n25 次模擬抽取： 總計 = \\$116\n\\bar{X} = \\frac{116}{25} = \\$4.64\n理論期望值： E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \\$4.00\n模擬值接近理論值；重複次數越多，結果越接近。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-8r-解法",
+    "href": "ch14/zh/ch14.html#例-14-8r-解法",
+    "title": "統計學",
+    "section": "例 14-8：R 解法",
+    "text": "例 14-8：R 解法\n\nset.seed(33)\nn_trials &lt;- 25\n\nbills    &lt;- c(1, 5, 10)\nprobs    &lt;- c(0.5, 0.3, 0.2)\n\ndraws &lt;- sample(bills, size = n_trials, replace = TRUE, prob = probs)\n\ncat(\"抽取的鈔票面額：\\n\")\n\n抽取的鈔票面額：\n\ncat(draws, \"\\n\\n\")\n\n1 1 1 10 10 5 1 1 1 1 5 1 1 1 5 10 5 1 1 10 5 1 1 1 10 \n\ncat(\"總計：\", sum(draws), \"\\n\")\n\n總計： 90 \n\ncat(\"模擬平均值：$\", round(mean(draws), 2), \"\\n\")\n\n模擬平均值：$ 3.6 \n\ncat(\"理論 E(X)：$\", sum(bills * probs), \"\\n\")\n\n理論 E(X)：$ 4"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#例-14-8視覺化",
+    "href": "ch14/zh/ch14.html#例-14-8視覺化",
+    "title": "統計學",
+    "section": "例 14-8：視覺化",
+    "text": "例 14-8：視覺化\n\nset.seed(33)\nmany_draws &lt;- sample(bills, size = 1000,\n                     replace = TRUE, prob = probs)\n\nggplot(data.frame(value = many_draws), aes(x = factor(value))) +\n  geom_bar(fill = c(\"gold\",\"steelblue\",\"darkgreen\"), alpha = 0.85) +\n  geom_hline(yintercept = 1000 * probs, linetype = \"dashed\",\n             color = c(\"gold3\",\"steelblue4\",\"darkgreen\"),\n             linewidth = 0.8) +\n  labs(title = \"鈔票抽取模擬（1000 次試驗）\",\n       x = \"鈔票面額（$）\", y = \"頻率\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#蒙地卡羅法總結",
+    "href": "ch14/zh/ch14.html#蒙地卡羅法總結",
+    "title": "統計學",
+    "section": "蒙地卡羅法：總結",
+    "text": "蒙地卡羅法：總結\n關鍵重點\n\n\n\n步驟\n動作\n\n\n\n\n1\n列出所有可能結果\n\n\n2\n分配機率\n\n\n3\n對應結果至隨機數字範圍\n\n\n4\n抽取隨機數字，執行實驗\n\n\n5\n重複並統計\n\n\n6\n計算統計量，得出結論\n\n\n\n請記住： 模擬是對精確機率計算的近似 — 而非替代。大數法則保證隨著重複次數足夠多時會收斂。\n現代應用： NASA 飛行模擬器、電玩物理引擎、金融風險建模、藥物試驗設計、氣候建模。"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#第十四章總結",
+    "href": "ch14/zh/ch14.html#第十四章總結",
+    "title": "統計學",
+    "section": "第十四章總結",
+    "text": "第十四章總結\n核心概念\n第 14-1 節 — 抽樣：\n\n樣本節省時間、金錢，並使原本不可能的研究成為可能\n四種方法：隨機、系統、分層、集群\n無偏樣本要求每位研究對象都有相同的被選機率\n\n第 14-2 節 — 調查：\n\n問題措辭、順序與形式均影響調查結果\n避免：偏頗問題、混淆用詞、雙管問題、雙重否定、順序不當"
+  },
+  {
+    "objectID": "ch14/zh/ch14.html#版權聲明",
+    "href": "ch14/zh/ch14.html#版權聲明",
+    "title": "統計學",
+    "section": "版權聲明",
+    "text": "版權聲明\n\n版權聲明： 本教材改編自 Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill。所有權利保留給原著作者及出版商。\n僅限非商業用途： 本教材嚴格限於教育用途，不得用於商業獲利。\n適當引用： 任何複製、散布或使用本教材者，必須提供原始來源的適當引用。"
   }
 ]

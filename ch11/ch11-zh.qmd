@@ -1,0 +1,552 @@
+---
+title: "統計學"
+subtitle: "第11章：其他卡方檢定"
+author: "劉昱佑"
+institute: "實踐大學"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+smaller: true
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+logo: "logo.svg"
+editor: source
+slide-number: true
+scrollable: false
+transition: "none"
+menu:
+  useTextContentForMissingTitles: false
+  hideMissingTitles: true
+  side: 'left'
+  titleSelector: 'h1'
+title-slide-attributes:
+  data-notes: ""
+include-after-body:
+  text: |
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch11.html" target="_blank" style="color:#555;">[English Version]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(showtext)
+
+# 中文字型（從 Google Fonts 載入）
+font_add_google("Noto Sans TC", "noto")
+showtext_auto()
+
+# ggplot 全域主題：置中 + 中文字型
+theme_set(
+  theme_minimal(base_family = "noto") +
+  theme(plot.title    = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+)
+
+# 全域 chunk 設定
+knitr::opts_chunk$set(fig.align = "center")
+```
+
+## 第11章 總覽
+
+**卡方分配**除了用於單一變異數檢定外，還有幾個重要應用：
+
+1. **適合度檢定** — 分配是否符合某假設的樣式？
+2. **獨立性檢定** — 兩個類別變數是否有關聯？
+3. **同質性檢定** — 各母體的比例是否相等？
+
+三種檢定皆使用相同的卡方統計量，且**永遠是右尾檢定**。
+
+# 第11-1節：適合度檢定 {background-color="#2c4a6e"}
+
+## 適合度檢定
+
+::: {.callout-note}
+**卡方適合度檢定**比較觀測次數與期望次數，以判斷某分配是否符合特定樣式。
+
+$$\chi^2 = \sum \frac{(O - E)^2}{E}$$
+
+- $O$ = 觀測次數
+- $E$ = 期望次數
+- **自由度** = 類別數 − 1
+
+**假設：**
+1. 資料來自隨機樣本
+2. 每個類別的期望次數 ≥ 5
+
+此檢定永遠是**右尾**（χ² 小 → 適合度佳；χ² 大 → 適合度差）。
+:::
+
+---
+
+## 範例 11-1：水果汽水口味偏好
+
+::: {.callout-tip}
+## 問題
+一位市場分析師調查100人對五種新口味水果汽水的偏好。若消費者沒有特別偏好，每種口味應同樣受歡迎。結果如下：
+
+| 口味 | 櫻桃 | 草莓 | 柳橙 | 萊姆 | 葡萄 |
+|------|------|------|------|------|------|
+| 觀測次數 | 32 | 28 | 16 | 14 | 10 |
+| 期望次數 | 20 | 20 | 20 | 20 | 20 |
+
+在 α = 0.05 下，是否有足夠的證據拒絕「消費者沒有偏好」的主張？
+:::
+
+---
+
+## 範例 11-1：解題步驟（數學）
+
+**步驟一：** H₀：消費者沒有偏好（主張） &nbsp;&nbsp; H₁：消費者有偏好
+
+**步驟二：** 自由度 = 5 − 1 = 4；CV = 9.488
+
+**步驟三：**
+$$\chi^2 = \frac{(32-20)^2}{20} + \frac{(28-20)^2}{20} + \frac{(16-20)^2}{20} + \frac{(14-20)^2}{20} + \frac{(10-20)^2}{20}$$
+$$= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \boxed{18.0}$$
+
+**步驟四：** 18.0 > 9.488 → **拒絕 H₀**
+
+**步驟五：** 有足夠的證據得出消費者對某些口味有偏好的結論。
+
+---
+
+## 範例 11-1：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+observed <- c(32, 28, 16, 14, 10)
+expected <- c(20, 20, 20, 20, 20)
+
+chi2 <- sum((observed - expected)^2 / expected)
+df   <- length(observed) - 1
+cv   <- qchisq(0.95, df)
+p_val <- pchisq(chi2, df, lower.tail = FALSE)
+
+cat("chi-square =", round(chi2, 4), "\n")
+cat("Critical value =", round(cv, 3), "\n")
+cat("P-value =", round(p_val, 6), "\n")
+cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+
+---
+
+```{r echo=T, warning=FALSE}
+# 視覺化
+df_plot <- data.frame(
+  Flavor = c("Cherry","Strawberry","Orange","Lime","Grape"),
+  Observed = observed, Expected = expected)
+df_long <- pivot_longer(df_plot, -Flavor, names_to = "Type", values_to = "Count")
+ggplot(df_long, aes(x = Flavor, y = Count, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "觀測次數 vs. 期望次數")
+```
+
+---
+
+## 範例 11-2：退休高管重返職場
+
+::: {.callout-tip}
+## 問題
+一項調查發現，退休高管重返職場後的分布如下：38% 受雇於其他機構、32% 自行創業、23% 自由接案或顧問工作、7% 自己成立公司。一位地方研究者調查了300位高管，發現：122人為其他公司工作、85人自行創業、76人自由接案或顧問、17人自己成立公司。在 α = 0.10 下，檢定這些比例是否與全國調查相同。
+:::
+
+---
+
+## 範例 11-2：解題步驟（數學）
+
+**步驟一：** H₀：分布為 38%/32%/23%/7%（主張） &nbsp;&nbsp; H₁：分布不同
+
+**步驟二：** 自由度 = 4 − 1 = 3；CV = 6.251
+
+**步驟三：** 期望次數：0.38×300 = 114；0.32×300 = 96；0.23×300 = 69；0.07×300 = 21
+
+$$\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}$$
+$$= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}$$
+
+**步驟四：** 3.293 < 6.251 → **不拒絕 H₀**
+
+**步驟五：** 沒有足夠的證據得出當地分布與全國調查不同的結論。
+
+---
+
+## 範例 11-2：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+observed <- c(122, 85, 76, 17)
+props    <- c(0.38, 0.32, 0.23, 0.07)
+expected <- props * 300
+
+chi2  <- sum((observed - expected)^2 / expected)
+df    <- length(observed) - 1
+cv    <- qchisq(0.90, df)
+p_val <- pchisq(chi2, df, lower.tail = FALSE)
+
+cat("Expected:", expected, "\n")
+cat("chi-square =", round(chi2, 4), "\n")
+cat("Critical value =", round(cv, 3), "\n")
+cat("P-value =", round(p_val, 4), "\n")
+cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+
+---
+
+## 範例 11-3：槍枝死亡事件
+
+::: {.callout-tip}
+## 問題
+一位研究者讀到，1至18歲與槍枝相關的死亡事件分布為：74% 意外、16% 他殺、10% 自殺。在她所在的地區，過去一年有68件意外死亡、27件他殺、5件自殺（共100件）。在 α = 0.10 下，檢定此主張。
+:::
+
+---
+
+## 範例 11-3：解題步驟（數學）
+
+**步驟一：** H₀：死亡事件為74%意外、16%他殺、10%自殺（主張） &nbsp;&nbsp; H₁：分布不同
+
+**步驟二：** 自由度 = 3 − 1 = 2；CV = 4.605
+
+**步驟三：** 期望次數：74、16、10
+
+$$\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \boxed{10.549}$$
+
+**步驟四：** 10.549 > 4.605 → **拒絕 H₀**
+
+**步驟五：** 有足夠的證據拒絕該地區分布與全國樣式相符的主張。
+
+---
+
+## 範例 11-3：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+observed <- c(68, 27, 5)
+expected <- c(74, 16, 10)
+
+chi2  <- sum((observed - expected)^2 / expected)
+df    <- length(observed) - 1
+cv    <- qchisq(0.90, df)
+p_val <- pchisq(chi2, df, lower.tail = FALSE)
+
+cat("chi-square =", round(chi2, 4), "\n")
+cat("Critical value =", round(cv, 3), "\n")
+cat("P-value =", round(p_val, 4), "\n")
+cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+
+---
+
+## 範例 11-4：常態性檢定（選讀）
+
+::: {.callout-tip}
+## 問題
+使用卡方適合度檢定，判斷下列次數分配是否服從常態分配。使用 α = 0.05。
+
+| 組距 | 次數 |
+|------|------|
+| 89.5–104.5 | 24 |
+| 104.5–119.5 | 62 |
+| 119.5–134.5 | 72 |
+| 134.5–149.5 | 26 |
+| 149.5–164.5 | 12 |
+| 164.5–179.5 | 4 |
+| **合計** | **200** |
+:::
+
+## 範例 11-4：解題步驟（數學）
+
+計算 $\bar{X} = 24680/200 = 123.4$ 及 $s = 17.03$
+
+計算各組界的 z 分數與面積，再乘以 n = 200：
+
+| 區間 | 面積 | E | O |
+|------|------|---|---|
+| 低於 104.5 | 0.1335 | 26.7 | 24 |
+| 104.5–119.5 | 0.2755 | 55.1 | 62 |
+| 119.5–134.5 | 0.3332 | 66.64 | 72 |
+| 134.5–149.5 | 0.1948 | 38.96 | 26 |
+| 高於 149.5 | 0.0630 | 12.6 | 16 *(最後兩組合併)* |
+
+$$\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}$$
+
+自由度 = 5 − 1 − 2 = 2（−2 因為估計了 μ 和 σ）；CV = 5.991
+
+**拒絕 H₀** — 在 α = 0.05 下，此變數不服從常態分配。
+
+## 範例 11-4：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+# 資料
+boundaries <- c(89.5, 104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
+observed   <- c(24, 62, 72, 26, 12, 4)
+n <- 200
+xbar <- 123.4; s <- 17.03
+
+# 計算期望次數（透過常態分配）
+z_vals <- (boundaries - xbar) / s
+areas  <- diff(pnorm(z_vals))
+# 合併最後兩組（E < 5）
+obs_comb  <- c(observed[1:4], sum(observed[5:6]))
+exp_comb  <- c(areas[1:4] * n, sum(areas[5:6]) * n)
+
+chi2 <- sum((obs_comb - exp_comb)^2 / exp_comb)
+df   <- length(obs_comb) - 1 - 2  # -2 因為估計了 mu 和 sigma
+cv   <- qchisq(0.95, df)
+
+cat("Expected:", round(exp_comb, 2), "\n")
+cat("chi-square =", round(chi2, 4), "\n")
+cat("d.f. =", df, "  Critical value =", round(cv, 3), "\n")
+cat("Decision:", ifelse(chi2 > cv, "Reject H0 — NOT normally distributed",
+                        "Do not reject H0"), "\n")
+```
+
+# 第11-2節：使用列聯表的檢定 {background-color="#2c4a6e"}
+
+## 列聯表
+
+::: {.callout-note}
+**列聯表**（R × C 表）將來自兩個類別變數的資料進行交叉分類。
+
+**兩種卡方檢定使用列聯表：**
+
+1. **獨立性檢定** — 兩個變數是否有關聯？（單一樣本，同時觀測兩個變數）
+2. **同質性檢定** — 各母體的比例是否相等？（多個樣本，樣本數事先確定）
+
+**兩者使用相同公式：**
+
+$$E = \frac{\text{（列總和）} \times \text{（欄總和）}}{\text{總計}}, \quad \chi^2 = \sum \frac{(O-E)^2}{E}$$
+
+$$d.f. = (R-1)(C-1)$$
+
+**假設：** 所有期望格次數 ≥ 5。
+:::
+
+---
+
+## 獨立性檢定 — 概觀
+
+當檢定兩個變數是否**獨立**時：
+
+- **H₀：** 變數 A 與變數 B 獨立
+- **H₁：** 變數 A 與變數 B 有關聯（主張）
+
+拒絕 H₀ 表示變數**有關聯** — 但並不指明關係的方向。
+
+此檢定永遠是**右尾**。
+
+---
+
+## 範例 11-5：醫院與感染
+
+::: {.callout-tip}
+## 問題
+研究者檢驗醫院感染類型是否與發生的醫院有關。3家醫院共582件感染事件的資料：
+
+| 醫院 | 手術部位 | 肺炎 | 血流 | 合計 |
+|------|----------|------|------|------|
+| A | 41 | 27 | 51 | 119 |
+| B | 36 | 3 | 40 | 79 |
+| C | 169 | 106 | 109 | 384 |
+| **合計** | **246** | **136** | **200** | **582** |
+
+在 α = 0.05 下，檢定感染類型是否取決於醫院的主張。
+:::
+
+---
+
+## 範例 11-5：解題步驟（數學）
+
+**步驟一：** H₀：感染類型與醫院無關 &nbsp;&nbsp; H₁：感染類型取決於醫院（主張）
+
+**步驟二：** 自由度 = (3−1)(3−1) = 4；CV = 9.488
+
+**步驟三：** 期望值（E = 列×欄/總計）：
+$$E_{A,\text{手術}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{肺炎}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots$$
+
+$$\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}$$
+
+**步驟四：** 30.698 > 9.488 → **拒絕 H₀**
+
+**步驟五：** 有足夠的證據得出感染類型與發生的醫院有關的結論。
+
+---
+
+## 範例 11-5：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+M <- matrix(c(41, 27, 51,
+              36,  3, 40,
+             169, 106, 109),
+            nrow = 3, byrow = TRUE,
+            dimnames = list(c("A","B","C"),
+                            c("Surgical","Pneumonia","Bloodstream")))
+
+result <- chisq.test(M)
+cat("chi-square =", round(result$statistic, 4), "\n")
+cat("d.f. =", result$parameter, "\n")
+cat("P-value =", round(result$p.value, 6), "\n")
+cat("Decision:", ifelse(result$p.value < 0.05, "Reject H0", "Do not reject H0"), "\n")
+
+cat("\nExpected frequencies:\n")
+round(result$expected, 2)
+```
+
+---
+
+## 範例 11-6：飲酒量與性別
+
+::: {.callout-tip}
+## 問題
+研究者檢驗飲酒量是否與性別有關。68人的樣本結果如下：
+
+| 性別 | 低 | 中 | 高 | 合計 |
+|------|----|----|----|----|
+| 男 | 10 | 9 | 8 | 27 |
+| 女 | 13 | 16 | 12 | 41 |
+| **合計** | **23** | **25** | **20** | **68** |
+
+在 α = 0.10 下，檢定飲酒量是否取決於性別。
+:::
+
+---
+
+## 範例 11-6：解題步驟（數學）
+
+**步驟一：** H₀：飲酒量與性別獨立 &nbsp;&nbsp; H₁：飲酒量取決於性別（主張）
+
+**步驟二：** 自由度 = (2−1)(3−1) = 2；CV = 4.605
+
+**步驟三：** 期望值：
+$$E_{\text{男, 低}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{男, 中}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots$$
+
+$$\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}$$
+
+**步驟四：** 0.283 < 4.605 → **不拒絕 H₀**
+
+**步驟五：** 沒有足夠的證據得出飲酒量與性別有關的結論。
+
+---
+
+## 範例 11-6：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+M2 <- matrix(c(10, 9, 8,
+               13, 16, 12),
+             nrow = 2, byrow = TRUE,
+             dimnames = list(c("Male","Female"),
+                             c("Low","Moderate","High")))
+
+result2 <- chisq.test(M2)
+cat("chi-square =", round(result2$statistic, 4), "\n")
+cat("d.f. =", result2$parameter, "\n")
+cat("P-value =", round(result2$p.value, 4), "\n")
+cat("Decision:", ifelse(result2$p.value < 0.10, "Reject H0", "Do not reject H0"), "\n")
+
+cat("\nExpected frequencies:\n")
+round(result2$expected, 2)
+```
+
+---
+
+## 比例同質性檢定
+
+::: {.callout-note}
+**同質性檢定**用於判斷多個獨立抽樣母體的比例是否相等。
+
+- 樣本數事先由研究者**固定**
+- H₀：p₁ = p₂ = ... = pₖ
+- H₁：至少有一個比例不同
+
+**計算程序與獨立性檢定完全相同** — E 與 χ² 使用相同公式。
+
+**關鍵區別：** 獨立性檢定 → 單一樣本，兩個變數；同質性檢定 → 多個樣本，一個變數。
+:::
+
+---
+
+## 範例 11-7：金錢與幸福感
+
+::: {.callout-tip}
+## 問題
+心理學家從四個收入群體各選取100人，詢問他們是否「非常幸福」。結果：
+
+| | <\$30K | \$30K–\$74.9K | \$75K–\$99.9K | ≥\$100K | 合計 |
+|--|--------|--------------|--------------|---------|------|
+| 是 | 24 | 33 | 38 | 49 | 144 |
+| 否 | 76 | 67 | 62 | 51 | 256 |
+| **合計** | **100** | **100** | **100** | **100** | **400** |
+
+在 α = 0.05 下，檢定各收入群體的幸福比例相同的主張。
+:::
+
+---
+
+## 範例 11-7：解題步驟（數學）
+
+**步驟一：** H₀：p₁ = p₂ = p₃ = p₄（主張） &nbsp;&nbsp; H₁：至少有一個比例不同
+
+**步驟二：** 自由度 = (2−1)(4−1) = 3；CV = 7.815
+
+**步驟三：** 因每欄總和 = 100，「是」的總和 = 144：
+$$E_{\text{是, 每欄}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{否, 每欄}} = \frac{256 \times 100}{400} = 64 \quad \text{（各欄相同）}$$
+
+$$\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}$$
+$$+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}$$
+$$= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}$$
+
+---
+
+**步驟四：** 14.149 > 7.815 → **拒絕 H₀**
+
+**步驟五：** 有足夠的證據得出各收入群體的幸福比例不同的結論。
+
+---
+
+## 範例 11-7：解題步驟（R）
+
+```{r echo=T, warning=FALSE}
+M3 <- matrix(c(24, 33, 38, 49,
+               76, 67, 62, 51),
+             nrow = 2, byrow = TRUE,
+             dimnames = list(c("Yes","No"),
+                             c("<30K","30-74.9K","75-99.9K",">=100K")))
+
+result3 <- chisq.test(M3)
+cat("chi-square =", round(result3$statistic, 4), "\n")
+cat("d.f. =", result3$parameter, "\n")
+cat("P-value =", round(result3$p.value, 6), "\n")
+cat("Decision:", ifelse(result3$p.value < 0.05, "Reject H0", "Do not reject H0"), "\n")
+
+cat("\nExpected frequencies:\n")
+round(result3$expected, 2)
+```
+
+---
+
+## 第11章 總結
+
+| 檢定 | 使用時機 | 自由度 | 公式 |
+|------|---------|--------|------|
+| 適合度 | 單一樣本 vs. 假設分配 | k − 1 | $\chi^2 = \sum\frac{(O-E)^2}{E}$，$E$ 由比例決定 |
+| 獨立性 | 單一樣本；兩個類別變數 | (R−1)(C−1) | $E = \frac{\text{列} \times \text{欄}}{\text{總計}}$ |
+| 同質性 | 多個樣本；一個類別變數 | (R−1)(C−1) | 與獨立性相同 |
+
+::: {.callout-important}
+本章所有卡方檢定均為**右尾檢定**。每格的期望次數必須 **≥ 5**。若不足，須合併類別。
+:::
+
+## 版權聲明
+
+-   **版權說明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有版權歸原作者及出版社所有。
+
+-   **僅供非商業使用。** 本材料僅供教育用途，不得用於商業目的或牟利。
+
+-   **適當引用。** 任何複製、散布或使用本材料時，必須適當引用原始來源。
