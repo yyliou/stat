@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch7-zh.html" style="color:#555;">[中文版由此去]</a>' +
+          '<a href="ch7-zh.html"  style="color:#555;">[中文版由此去]</a>' +
           '</p>');
       }
     });
@@ -43,8 +43,7 @@ library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-## Chapter Overview
-
+## Overview
 **Sections covered:**
 
 - **7-1** Confidence Intervals for the Mean When σ Is Known
@@ -118,7 +117,7 @@ The term $E = z_{\alpha/2}(\sigma/\sqrt{n})$ is the **margin of error**.
 
 (1) Random sample; 
 
-(2) n ≥ 30, OR population is normally distributed if n < 30.
+(2) $n \geq 30$, OR population is normally distributed if n < 30.
 
 ----
 
@@ -130,34 +129,23 @@ round(qnorm((1-.95) / 2), 2)
 round(qnorm((1-.99) / 2), 2)
 ```
 
-## Example 7-1: Days It Takes to Sell an Aveo {.smaller}
+## Example 7-1 {#example-7-1}
 
-::: {.callout-tip}
-## Example 7-1
+:::{.callout-warning}
+## Days It Takes to Sell an Aveo
+
 A researcher wants to estimate the average number of days it takes to sell a Chevrolet Aveo. A sample of 50 cars had a mean time of 54 days on the dealer's lot. Assume the population standard deviation is 6.0 days. Find the best point estimate of the population mean and the **95% confidence interval**.
 :::
 
-**Solution (Mathematical):**
+## Example 7-1
 
-Point estimate: $\bar{X} = 54$ days
+:::{.callout-tip}
+## Solution
 
-$$54 - 1.96\left(\frac{6.0}{\sqrt{50}}\right) < \mu < 54 + 1.96\left(\frac{6.0}{\sqrt{50}}\right)$$
-$$54 - 1.7 < \mu < 54 + 1.7$$
-$$\mathbf{52.3 < \mu < 55.7}$$
+**Solve**
 
-----
-
-```{r ex7-1, echo=T, warning=FALSE}
-xbar <- 54; sigma <- 6.0; n <- 50; z <- 1.96
-E <- z * sigma / sqrt(n)
-c(lower = xbar - E, upper = xbar + E)
-```
-
-## Example 7-2: Waiting Times in Emergency Rooms {.smaller}
-
-::: {.callout-tip}
-## Example 7-2
 A survey of 30 emergency room patients found an average waiting time of 174.3 minutes. The population standard deviation is known to be 46.5 minutes. Find the best point estimate and the **99% confidence interval** of the true mean waiting time.
+
 :::
 
 **Solution (Mathematical):**
@@ -165,9 +153,10 @@ A survey of 30 emergency room patients found an average waiting time of 174.3 mi
 $$174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) < \mu < 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)$$
 $$174.3 - 21.9 < \mu < 174.3 + 21.9$$
 $$\mathbf{152.4 < \mu < 196.2}$$
+:::
 ---
 
-```{r ex7-2, echo=T, warning=FALSE}
+```{r e7-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 174.3; sigma <- 46.5; n <- 30; z <- 2.58
 E <- z * sigma / sqrt(n)
 cat("Point estimate:", xbar, "\n")
@@ -185,7 +174,7 @@ For confidence levels other than 90%, 95%, or 99%, find $z_{\alpha/2}$ as follow
 3. The area in each tail is 0.01; look up 1 − 0.01 = 0.9900 in Table E
 4. The corresponding z value is **2.33**
 
-```{r zalpha, echo=T, warning=FALSE}
+```{r e7-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # z_alpha/2 for common confidence levels
 conf_levels <- c(0.90, 0.95, 0.98, 0.99)
 z_vals <- qnorm(1 - (1 - conf_levels)/2)
@@ -193,36 +182,27 @@ data.frame(Confidence = paste0(conf_levels*100, "%"),
            z_alpha2 = round(z_vals, 3))
 ```
 
-## Example 7-3: Credit Union Assets {.smaller}
+## Example 7-3 {#example-7-3}
 
-::: {.callout-tip}
-## Example 7-3
+:::{.callout-warning}
+## Credit Union Assets
+
 The following data represent the assets (in millions of dollars) for a sample of 30 credit unions in southwestern Pennsylvania. Find the **90% confidence interval** of the mean. Assume σ = 14.405.
 
 12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25, 1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78, 16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76
 :::
 
-```{r ex7-3, echo=T, warning=FALSE}
-assets <- c(12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42,
-            73.25, 1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13,
-            7.92, 4.78, 16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24,
-            2.27, 12.77, 2.76)
-xbar <- mean(assets); sigma <- 14.405; n <- length(assets)
-z <- qnorm(0.95)   # 90% CI → alpha/2 = 0.05
-E <- z * sigma / sqrt(n)
-cat("X-bar =", round(xbar, 3), "\n")
-cat("90% CI: (", round(xbar - E, 3), ",", round(xbar + E, 3), ")\n")
-```
+## Example 7-3
 
-**Answer:** $6.752 < \mu < 15.430$ million. We are 90% confident that the mean assets of all credit unions in this region fall between \$6.752M and \$15.430M.
+:::{.callout-tip}
+## Solution
 
-## Sample Size for Estimating μ
+**Solve**
 
-::: {.callout-note}
-## Minimum Sample Size Formula
 $$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
 
 where E is the desired **margin of error**. Always round **up** to the next whole number.
+
 :::
 
 **What you need to know:**
@@ -230,10 +210,8 @@ where E is the desired **margin of error**. Always round **up** to the next whol
 - The population standard deviation σ (or an estimate from a prior study)
 - The acceptable margin of error E
 
-## Example 7-4: Depth of a River {.smaller}
-
-::: {.callout-tip}
-## Example 7-4
+## Example 7-4 {#example-7-4}
+:::{.callout-warning}
 A scientist wants to estimate the average depth of a river. She wants to be **99% confident** that the estimate is accurate within **2 feet**. A previous study found σ = 4.33 feet. Find the minimum sample size needed.
 :::
 
@@ -243,7 +221,7 @@ $z_{\alpha/2} = 2.58$, $E = 2$, $\sigma = 4.33$
 
 $$n = \left(\frac{2.58 \times 4.33}{2}\right)^2 = \left(\frac{11.17}{2}\right)^2 = (5.585)^2 = 31.2 \rightarrow \mathbf{n = 32}$$
 
-```{r ex7-4, echo=T, warning=FALSE}
+```{r e7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 z <- 2.58; sigma <- 4.33; E <- 2
 n_raw <- (z * sigma / E)^2
 n_raw
@@ -270,10 +248,10 @@ When σ is unknown, the sample standard deviation s is used as a substitute. How
 2. It is a **family of curves** indexed by **degrees of freedom** (d.f.)
 3. As d.f. increases, the t distribution approaches the standard normal
 :::
-
+:::
 ---
 
-```{r t-dist-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e7-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df_plot <- data.frame(
   x = rep(x, 3),
@@ -303,17 +281,17 @@ $$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\al
 where $t_{\alpha/2}$ is from Table F with d.f. = n − 1.
 :::
 
-**Assumptions:** (1) Random sample; (2) n ≥ 30, OR population is approximately normally distributed if n < 30.
+**Assumptions:** (1) Random sample; (2) $n \geq 30$, OR population is approximately normally distributed if n < 30.
 
 ## When to Use z vs. t
 
 ::: {.callout-important}
 ## Decision Rule
-- **σ is known** → use $z_{\alpha/2}$ with σ in the formula (any n, if normal or n ≥ 30)
-- **σ is unknown** → use $t_{\alpha/2}$ with s in the formula (normal population or n ≥ 30)
+- **σ is known** → use $z_{\alpha/2}$ with σ in the formula (any n, if normal or $n \geq 30$)
+- **σ is unknown** → use $t_{\alpha/2}$ with s in the formula (normal population or $n \geq 30$)
 :::
 
-```{r decision-table, echo=F}
+```{r e7-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(data.frame(
   Condition = c("σ known, n ≥ 30", "σ known, n < 30 (normal pop.)",
                 "σ unknown, n ≥ 30", "σ unknown, n < 30 (normal pop.)"),
@@ -324,32 +302,23 @@ knitr::kable(data.frame(
 ## Example 7-5: Finding $t_{\alpha/2}$ {.smaller}
 
 ::: {.callout-tip}
-## Example 7-5
-Find the $t_{\alpha/2}$ value for a **95% confidence interval** when the sample size is n = 22.
-:::
 
-**Solution (Mathematical):**
+## Example 7-5 {#example-7-5}
 
-d.f. = 22 − 1 = 21. Look up 95% column in Table F at row 21.
-
-**$t_{\alpha/2} = 2.080$**
-
-```{r ex7-5, echo=T, warning=FALSE}
-# t_alpha/2 for 95% CI with df = 21
-qt(0.975, df = 21)   # upper tail area = alpha/2 = 0.025
-```
-
-::: {.callout-important}
-## Key Rule
+:::{.callout-warning}
 For a confidence interval, always use `qt(1 - alpha/2, df = n-1)`.
 For a 95% CI: `qt(0.975, df = n-1)`.
 :::
 
-## Example 7-6: Sleeping Time {.smaller}
+## Example 7-5
 
-::: {.callout-tip}
-## Example 7-6
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
 Ten randomly selected people reported their nightly sleep duration. The sample mean was 7.1 hours and the standard deviation was 0.78 hour. Find the **95% confidence interval** of the mean. Assume the variable is normally distributed.
+
 :::
 
 **Solution (Mathematical):**
@@ -359,10 +328,10 @@ Ten randomly selected people reported their nightly sleep duration. The sample m
 $$7.1 - 2.262\left(\frac{0.78}{\sqrt{10}}\right) < \mu < 7.1 + 2.262\left(\frac{0.78}{\sqrt{10}}\right)$$
 $$7.1 - 0.56 < \mu < 7.1 + 0.56$$
 $$\mathbf{6.54 < \mu < 7.66}$$
-
+:::
 ---
 
-```{r ex7-6, echo=T, warning=FALSE}
+```{r e7-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 7.1; s <- 0.78; n <- 10
 t_crit <- qt(0.975, df = n - 1)
 E <- t_crit * s / sqrt(n)
@@ -370,18 +339,18 @@ cat("t_alpha/2 =", round(t_crit, 3), "\n")
 cat("95% CI: (", round(xbar - E, 2), ",", round(xbar + E, 2), ")\n")
 ```
 
-## Example 7-7: Home Fires Started by Candles {.smaller}
+## Example 7-7 {#example-7-7}
 
-::: {.callout-tip}
-## Example 7-7
+:::{.callout-warning}
+## Home Fires Started by Candles
+
 The data below represent the number of home fires started by candles each year over a 7-year period. Find the **99% confidence interval** for the mean number of candle-caused home fires per year.
 
 5460, 5900, 6090, 6310, 7160, 8440, 9930
 :::
-
 ---
 
-```{r ex7-7, echo=T, warning=FALSE}
+```{r e7-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fires <- c(5460, 5900, 6090, 6310, 7160, 8440, 9930)
 n <- length(fires)
 xbar <- mean(fires); s <- sd(fires)
@@ -415,21 +384,29 @@ $$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alph
 
 **Condition:** $n\hat{p} \geq 5$ and $n\hat{q} \geq 5$
 
-## Example 7-8: Air-Conditioned Households {.smaller}
+## Example 7-8 {#example-7-8}
 
-::: {.callout-tip}
-## Example 7-8
+:::{.callout-warning}
+## Air-Conditioned Households
+
 In a recent survey of 150 households, 54 had central air conditioning. Find $\hat{p}$ and $\hat{q}$, where $\hat{p}$ is the proportion of households with central air conditioning.
 :::
+
+## Example 7-8
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution (Mathematical):**
 
 $$\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%$$
 $$\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%$$
-
+:::
 ---
 
-```{r ex7-8, echo=T, warning=FALSE}
+```{r e7-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 54; n <- 150
 p_hat <- X / n
 q_hat <- 1 - p_hat
@@ -438,12 +415,20 @@ cat("p-hat =", p_hat, "  q-hat =", q_hat, "\n")
 
 This gives the best point estimate: **36%** of households have central air conditioning.
 
-## Example 7-9: Covering College Costs {.smaller}
+## Example 7-9 {#example-7-9}
 
-::: {.callout-tip}
-## Example 7-9
+:::{.callout-warning}
+## Covering College Costs
+
 A survey of 1404 respondents found that 323 students paid for their education using student loans. Find the **90% confidence interval** for the true proportion of students who fund their education through student loans.
 :::
+
+## Example 7-9
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution:**
 
@@ -451,10 +436,10 @@ $\hat{p} = 323/1404 = 0.230$, $\hat{q} = 0.770$, $z_{\alpha/2} = 1.65$
 
 $$0.230 \pm 1.65\sqrt{\frac{(0.230)(0.770)}{1404}} = 0.230 \pm 0.019$$
 $$\mathbf{0.211 < p < 0.249}$$
-
+:::
 ---
 
-```{r ex7-9, echo=T, warning=FALSE}
+```{r e7-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 323; n <- 1404
 p_hat <- X / n; q_hat <- 1 - p_hat
 z <- qnorm(0.95)   # 90% CI
@@ -465,45 +450,32 @@ cat("90% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
 
 **Interpretation:** We are 90% confident that between **21.1%** and **24.9%** of students pay for college via student loans.
 
-## Example 7-10: Religious Books {.smaller}
+## Example 7-10 {#example-7-10}
 
-::: {.callout-tip}
-## Example 7-10
+:::{.callout-warning}
+## Religious Books
+
 A survey of 1721 people found that 15.9% purchase religious books at a Christian bookstore. Find the **95% confidence interval** for the true proportion of people who purchase religious books there.
 :::
 
-**Solution:**
+## Example 7-10
 
-$\hat{p} = 0.159$, $\hat{q} = 0.841$, $z_{\alpha/2} = 1.96$
+:::{.callout-tip}
+## Solution
 
-$$0.159 \pm 1.96\sqrt{\frac{(0.159)(0.841)}{1721}} = 0.159 \pm 0.017$$
-$$\mathbf{0.142 < p < 0.176}$$
+**Solve**
 
-```{r ex7-10, echo=T, warning=FALSE}
-p_hat <- 0.159; q_hat <- 1 - p_hat; n <- 1721
-z <- 1.96
-E <- z * sqrt(p_hat * q_hat / n)
-cat("95% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
-```
-
-**Answer:** We are 95% confident the true percentage is between **14.2%** and **17.6%**.
-
-## Sample Size for a Proportion
-
-::: {.callout-note}
-## Minimum Sample Size for a Proportion
 $$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2$$
 
 - If a prior estimate of $\hat{p}$ is available, use it
 - If no prior estimate is available, use $\hat{p} = 0.5$ (maximizes n, giving the most conservative estimate)
 
 Always round **up** to the next whole number.
+
 :::
 
-## Example 7-11: Home Computers {.smaller}
-
-::: {.callout-tip}
-## Example 7-11
+## Example 7-11 {#example-7-11}
+:::{.callout-warning}
 A researcher wishes to estimate with **95% confidence** the proportion of people who own a home computer, to within **2%** of the true proportion. A previous study showed that 40% had a computer at home. Find the minimum sample size needed.
 :::
 
@@ -513,17 +485,15 @@ $z_{\alpha/2} = 1.96$, $E = 0.02$, $\hat{p} = 0.40$, $\hat{q} = 0.60$
 
 $$n = (0.40)(0.60)\left(\frac{1.96}{0.02}\right)^2 = (0.24)(9604) = 2304.96 \rightarrow \mathbf{n = 2305}$$
 
-```{r ex7-11, echo=T, warning=FALSE}
+```{r e7-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p_hat <- 0.40; q_hat <- 0.60; z <- 1.96; E <- 0.02
 n_raw <- p_hat * q_hat * (z / E)^2
 n_raw
 ceiling(n_raw)
 ```
 
-## Example 7-12: M&M Colors {.smaller}
-
-::: {.callout-tip}
-## Example 7-12
+## Example 7-12 {#example-7-12}
+:::{.callout-warning}
 A researcher wishes to estimate the percentage of M&M's that are brown. He wants to be **95% confident** and accurate within **3%** of the true proportion. No prior estimate of $\hat{p}$ is available. Find the minimum sample size.
 :::
 
@@ -532,11 +502,10 @@ A researcher wishes to estimate the percentage of M&M's that are brown. He wants
 Since no prior $\hat{p}$ is known, use $\hat{p} = \hat{q} = 0.5$
 
 $$n = (0.5)(0.5)\left(\frac{1.96}{0.03}\right)^2 = (0.25)(4268.4) = 1067.1 \rightarrow \mathbf{n = 1068}$$
-
-
+:::
 ---
 
-```{r ex7-12, echo=T, warning=FALSE}
+```{r e7-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p_hat <- 0.5; q_hat <- 0.5; z <- 1.96; E <- 0.03
 n_raw <- p_hat * q_hat * (z / E)^2
 n_raw
@@ -567,7 +536,7 @@ Confidence intervals for variances and standard deviations require a different d
 
 ---
 
-```{r chisq-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e7-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(0, 40, length.out = 300)
 df_plot <- data.frame(
   x = rep(x, 4),
@@ -601,12 +570,20 @@ $$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}
 - $\chi^2_{\text{right}}$: `qchisq(0.975, df = n-1)`
 - $\chi^2_{\text{left}}$: `qchisq(0.025, df = n-1)`
 
-## Example 7-13: Finding Chi-Square Critical Values {.smaller}
+## Example 7-13 {#example-7-13}
 
-::: {.callout-tip}
-## Example 7-13
+:::{.callout-warning}
+## Finding Chi-Square Critical Values
+
 Find the values $\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$ for a **90% confidence interval** when n = 25.
 :::
+
+## Example 7-13
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution (Mathematical):**
 
@@ -615,10 +592,10 @@ d.f. = 25 − 1 = 24
 - $\alpha = 1 - 0.90 = 0.10$, so $\alpha/2 = 0.05$
 - $\chi^2_{\text{right}}$: area to right = 0.05 → column 0.05 → **36.415**
 - $\chi^2_{\text{left}}$: area to right = 0.95 → column 0.95 → **13.848**
-
+:::
 ---
 
-```{r ex7-13, echo=T, warning=FALSE}
+```{r e7-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 25; df <- n - 1
 chi_right <- qchisq(0.95, df = df)   # upper critical value
 chi_left  <- qchisq(0.05, df = df)   # lower critical value
@@ -631,12 +608,20 @@ cat("chi-sq left  =", round(chi_left, 3), "\n")
 Note the counterintuitive naming: $\chi^2_{\text{right}}$ is the **larger** value used in the **denominator of the lower bound**, while $\chi^2_{\text{left}}$ is the **smaller** value used in the **denominator of the upper bound**.
 :::
 
-## Example 7-14: Nicotine Content {.smaller}
+## Example 7-14 {#example-7-14}
 
-::: {.callout-tip}
-## Example 7-14
+:::{.callout-warning}
+## Nicotine Content
+
 Find the **95% confidence interval** for the variance and standard deviation of the nicotine content of cigarettes manufactured, given that a sample of n = 20 cigarettes has a standard deviation of s = 1.6 milligrams.
 :::
+
+## Example 7-14
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution (Mathematical):**
 
@@ -646,10 +631,10 @@ $$\frac{(19)(1.6)^2}{32.852} < \sigma^2 < \frac{(19)(1.6)^2}{8.907}$$
 $$\frac{48.64}{32.852} < \sigma^2 < \frac{48.64}{8.907} \implies \mathbf{1.5 < \sigma^2 < 5.5}$$
 
 $$\sqrt{1.5} < \sigma < \sqrt{5.5} \implies \mathbf{1.2 < \sigma < 2.3}$$
-
+:::
 ---
 
-```{r ex7-14, echo=T, warning=FALSE}
+```{r e7-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 20; s <- 1.6; df <- n - 1
 chi_right <- qchisq(0.975, df = df)
 chi_left  <- qchisq(0.025, df = df)
@@ -663,18 +648,26 @@ cat("95% CI for std dev:  (", round(sqrt(var_lower), 1), ",",
     round(sqrt(var_upper), 1), ")\n")
 ```
 
-## Example 7-15: Cost of Ski Lift Tickets {.smaller}
+## Example 7-15 {#example-7-15}
 
-::: {.callout-tip}
-## Example 7-15
+:::{.callout-warning}
+## Cost of Ski Lift Tickets
+
 The data below represent the prices (in dollars) of adult single-day ski lift tickets at a sample of nationwide ski resorts. Find the **90% confidence interval** for the variance and standard deviation. Assume the variable is normally distributed.
 
 59, 54, 53, 52, 51, 39, 49, 46, 49, 48
 :::
 
+## Example 7-15
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
 ----
 
-```{r ex7-15, echo=T, warning=FALSE}
+```{r e7-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tickets <- c(59, 54, 53, 52, 51, 39, 49, 46, 49, 48)
 n <- length(tickets)
 s2 <- var(tickets); s <- sd(tickets)
@@ -706,22 +699,20 @@ cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
 | Sample size (proportion) | $n = \hat{p}\hat{q}(z_{\alpha/2}/E)^2$ | `ceiling(...)` |
 | Variance | $(n-1)s^2/\chi^2_R < \sigma^2 < (n-1)s^2/\chi^2_L$ | `qchisq(...)` |
 
-----
-
-::: {.callout-important}
+-
 ## Key Takeaways
+
 1. Use z when σ is known; use t when σ is unknown
 2. Wider confidence intervals → more confidence, less precision
 3. Larger samples → narrower intervals → more precision
 4. When no prior $\hat{p}$ is known for proportions, use $\hat{p} = 0.5$
 5. Chi-square CIs for variance **require** the population to be normally distributed
 6. Always round sample size calculations **up** to the nearest whole number
-:::
 
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
 -   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
+:::

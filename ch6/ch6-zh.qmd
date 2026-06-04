@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch6.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch6.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -126,31 +126,37 @@ $$z = \frac{X - \mu}{\sigma}$$
 - `qnorm(p)` — 給定左尾面積 p，求 z 值
 :::
 
-## 範例 6-1：z 左側面積 {.smaller}
+## 範例 6-1 {#example-6-1}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## z 左側面積
+
 求 z = 2.06 左側的面積。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+## 範例 6-1
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **數學解法：**
 
 - 在表 E 中查找 z = 2.06
 - 面積 = **0.9803**
 - 解讀：98.03% 的數值低於 z = 2.06
+
 :::
 
-```{r ex6-1, echo=T, warning=FALSE}
+```{r e6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # z = 2.06 左側面積
 pnorm(2.06)
 ```
-
+:::
 ---
 
-```{r ex6-1-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -162,32 +168,38 @@ ggplot(df, aes(x, y)) +
   labs(title = "P(Z < 2.06) = 0.9803", x = "z", y = "密度")
 ```
 
-## 範例 6-2：z 右側面積 {.smaller}
+## 範例 6-2 {#example-6-2}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## z 右側面積
+
 求 z = −1.19 右側的面積。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+## 範例 6-2
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **數學解法：**
 
 - z = −1.19 左側面積：由表 E 得 0.1170
 - 右側面積 = 1 − 0.1170 = **0.8830**
+
 :::
 
-```{r ex6-2, echo=T, warning=FALSE}
+```{r e6-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # z = -1.19 右側面積
 1 - pnorm(-1.19)
 # 等效寫法：
 pnorm(-1.19, lower.tail = FALSE)
 ```
-
+:::
 ---
 
-```{r ex6-2-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -199,31 +211,37 @@ ggplot(df, aes(x, y)) +
   labs(title = "P(Z > -1.19) = 0.8830", x = "z", y = "密度")
 ```
 
-## 範例 6-3：兩個 z 值之間的面積 {.smaller}
+## 範例 6-3 {#example-6-3}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 兩個 z 值之間的面積
+
 求 z = −1.37 與 z = +1.68 之間的面積。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+## 範例 6-3
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **數學解法：**
 
 - z = 1.68 左側面積：0.9535
 - z = −1.37 左側面積：0.0853
 - 兩者之間面積 = 0.9535 − 0.0853 = **0.8682**
+
 :::
 
-```{r ex6-3, echo=T, warning=FALSE}
+```{r e6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # z = -1.37 與 z = 1.68 之間的面積
 pnorm(1.68) - pnorm(-1.37)
 ```
-
+:::
 ---
 
-```{r ex6-3-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(-4, 4, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x))
 ggplot(df, aes(x, y)) +
@@ -235,33 +253,25 @@ ggplot(df, aes(x, y)) +
   labs(title = "P(-1.37 < Z < 1.68) = 0.8682", x = "z", y = "密度")
 ```
 
-## 範例 6-4：多個機率計算 {.smaller}
+## 範例 6-4 {#example-6-4}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 多個機率計算
+
 求標準常態分佈下列機率：
 
 **(a)** P(0 < Z < 2.32)   **(b)** P(Z < 1.65)   **(c)** P(Z > 1.91)
 :::
 
-```{r ex6-4, echo=T, warning=FALSE}
-# (a) P(0 < Z < 2.32)
-pnorm(2.32) - pnorm(0)
+## 範例 6-4
 
-# (b) P(Z < 1.65)
-pnorm(1.65)
+:::{.callout-tip}
+## 解題
 
-# (c) P(Z > 1.91)
-1 - pnorm(1.91)
-```
+**解題**
 
-**解讀：** (a) 48.98% 的數值落在平均數與 z = 2.32 之間；(b) 95.05% 落在 z = 1.65 以下；(c) 2.81% 落在 z = 1.91 以上。
-
-## 範例 6-5：由面積求 z 值 {.smaller}
-
-::: {.callout-tip}
-## 問題
 求左側面積為 0.7123 所對應的 z 值。
+
 :::
 
 ::: {.callout-tip}
@@ -273,7 +283,7 @@ pnorm(1.65)
 - 對應的 z 值為 **z = 0.56**
 :::
 
-```{r ex6-5, echo=T, warning=FALSE}
+```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 左尾面積 = 0.7123，求 z 值
 qnorm(0.7123)
 ```
@@ -306,9 +316,8 @@ $$z = \frac{X - \mu}{\sigma}$$
 4. 求機率
 :::
 
-## 範例 6-6：夏季旅遊消費 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-6 {#example-6-6}
+:::{.callout-warning}
 ## 問題
 美國人夏季旅遊消費金額呈常態分佈，μ = $146.21，σ = $29.44。隨機選取一位美國人，求其夏季旅遊消費**少於 $160** 的機率。
 :::
@@ -321,14 +330,14 @@ $$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
 z = 0.47 左側面積 → **0.6808**（68.08%）
 :::
 
-```{r ex6-6, echo=T, warning=FALSE}
+```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 146.21; sigma <- 29.44
 pnorm(160, mean = mu, sd = sigma)
 ```
-
+:::
 ---
 
-```{r ex6-6-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x, mu, sigma))
 ggplot(df, aes(x, y)) +
@@ -342,16 +351,24 @@ ggplot(df, aes(x, y)) +
        x = "金額（$）", y = "密度")
 ```
 
-## 範例 6-7：報紙回收 {.smaller}
+## 範例 6-7 {#example-6-7}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 報紙回收
+
 美國家庭每月平均產生 28 磅的廢報紙供回收，σ = 2 磅，假設呈常態分佈。
 
 **(a)** P(27 < X < 31)   **(b)** P(X > 30.2)
 :::
 
-```{r ex6-7, echo=T, warning=FALSE}
+## 範例 6-7
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e6-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 28; sigma <- 2
 
 # (a) P(27 < X < 31)
@@ -361,11 +378,11 @@ pnorm(31, mu, sigma) - pnorm(27, mu, sigma)
 pnorm(30.2, mu, sigma, lower.tail = FALSE)
 ```
 
-**答案：** (a) ≈ **62.47%**；(b) ≈ **13.57%**
-
+**答案：** (a) $\approx$ **62.47%**；(b) $\approx$ **13.57%**
+:::
 ---
 
-```{r ex6-7-plot,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x, mu, sigma))
 p1 <- ggplot(df, aes(x, y)) +
@@ -381,31 +398,23 @@ p2 <- ggplot(df, aes(x, y)) +
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
-## 範例 6-8：咖啡消費量 {.smaller}
+## 範例 6-8 {#example-6-8}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 咖啡消費量
+
 每人每年的咖啡消費量呈常態分佈，μ = 1.64 加侖，σ = 0.24 加侖。在 500 人的樣本中，有多少人每年消費**少於 1 加侖**？
 :::
 
-```{r ex6-8, echo=T, warning=FALSE}
-mu <- 1.64; sigma <- 0.24
+## 範例 6-8
 
-# 消費少於 1 加侖的機率
-p <- pnorm(1, mean = mu, sd = sigma)
-p
+:::{.callout-tip}
+## 解題
 
-# 500 人樣本中的預期人數
-round(p * 500)
-```
+**解題**
 
-**解讀：** 約只有 **0.4%** 的人每年飲用少於 1 加侖——500 人的樣本中約 **2 人**。
-
-## 範例 6-9：警察學院錄取 {.smaller}
-
-::: {.callout-tip}
-## 問題
 報考警察學院的申請者需接受體能測試，成績呈常態分佈，μ = 200，σ = 20。成績排名前 **10%** 的申請者將被錄取。求最低錄取分數。
+
 :::
 
 ::: {.callout-tip}
@@ -414,11 +423,11 @@ round(p * 500)
 **數學解法：**
 
 - 需求第 90 百分位數 → 找 z 使 P(Z < z) = 0.90
-- z ≈ 1.28
-- X = μ + z·σ = 200 + 1.28(20) = **225.6 ≈ 226**
+- $z \approx 1.28$
+- X = μ + z·σ = 200 + 1.28(20) = **225.6 $\approx 226$**
 :::
 
-```{r ex6-9, echo=T, warning=FALSE}
+```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 200; sigma <- 20
 # 求 X 使 P(X > x) = 0.10
 qnorm(0.90, mean = mu, sd = sigma)
@@ -426,9 +435,8 @@ qnorm(0.90, mean = mu, sd = sigma)
 
 **答案：** 申請者至少需要 **226 分**才能進入前 10%。
 
-## 範例 6-10：血壓 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-10 {#example-6-10}
+:::{.callout-warning}
 ## 問題
 某族群的收縮壓呈常態分佈，μ = 120，σ = 8。求包含**中間 60%** 讀數的血壓範圍。
 :::
@@ -437,12 +445,12 @@ qnorm(0.90, mean = mu, sd = sigma)
 ## 解題步驟
 
 - 中間 60% → 每尾各 20% → 找 z 使 P(Z < z) = 0.20 與 P(Z < z) = 0.80
-- z₁ ≈ −0.84，z₂ ≈ +0.84
+- $z_1 \approx -0.84$，$z_2 \approx 0.84$
 - X₁ = 120 + (−0.84)(8) = **113.28**
 - X₂ = 120 + (0.84)(8) = **126.72**
 :::
 
-```{r ex6-10, echo=T, warning=FALSE}
+```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 120; sigma <- 8
 # 中間 60% 的上下界
 qnorm(0.20, mean = mu, sd = sigma)
@@ -451,14 +459,13 @@ qnorm(0.80, mean = mu, sd = sigma)
 
 **答案：** 中間 60% 的讀數落在 **113.28** 至 **126.72** mmHg 之間。
 
-## 範例 6-11：科技庫存 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-11 {#example-6-11}
+:::{.callout-warning}
 ## 問題
 研究者聲稱倉庫的科技庫存量呈近似常態分佈，μ = 110,000 單位，σ = 15,000 單位。隨機選取一座倉庫，求其庫存量**超過 132,500 單位**的機率。
 :::
 
-```{r ex6-11, echo=T, warning=FALSE}
+```{r e6-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 110000; sigma <- 15000
 
 # P(X > 132500)
@@ -470,11 +477,10 @@ z
 pnorm(z, lower.tail = FALSE)
 ```
 
-**答案：** z = 1.50，P(X > 132,500) ≈ **0.0668**（約 6.68%）。
+**答案：** z = 1.50，P(X > 132,500) $\approx$ **0.0668**（約 6.68%）。
 
-## 範例 6-12：棒球比賽時長 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-12 {#example-6-12}
+:::{.callout-warning}
 ## 問題
 職業棒球比賽時長的分佈呈**負偏態**，μ = 166 分鐘，σ = 26 分鐘。隨機選取一場比賽，求其時長**少於 145 分鐘**的機率。
 :::
@@ -484,7 +490,7 @@ pnorm(z, lower.tail = FALSE)
 此分佈**非**常態分佈——它呈負偏態。僅在分佈近似常態時，才適合使用常態分佈方法。此處答案為近似值。
 :::
 
-```{r ex6-12, echo=T, warning=FALSE}
+```{r e6-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 166; sigma <- 26
 # 近似機率（視為常態處理）
 z <- (145 - mu) / sigma
@@ -492,7 +498,7 @@ z
 pnorm(145, mean = mu, sd = sigma)
 ```
 
-**注意：** z ≈ −0.81；P(X < 145) ≈ **0.2090**（約 20.9%）。由於資料呈偏態，此僅為粗略估計。
+**注意：** $z \approx -0.81$；P(X < 145) $\approx$ **0.2090**（約 20.9%）。由於資料呈偏態，此僅為粗略估計。
 
 # 第 6-3 節：中央極限定理 {background-color="#2c4a6e"}
 
@@ -500,7 +506,7 @@ pnorm(145, mean = mu, sd = sigma)
 
 ::: {.callout-note}
 ## 中央極限定理（CLT）
-隨著樣本數 **n** 增大，樣本平均數 $\bar{X}$ 的抽樣分佈趨近於**常態分佈**，無論母體分佈的形狀為何，只要 n 足夠大（通常 **n ≥ 30**）。
+隨著樣本數 **n** 增大，樣本平均數 $\bar{X}$ 的抽樣分佈趨近於**常態分佈**，無論母體分佈的形狀為何，只要 n 足夠大（通常 **$n \geq 30$**）。
 
 $$\mu_{\bar{X}} = \mu \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
 :::
@@ -520,10 +526,10 @@ $$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 
 - 調查結果、民調平均數、樣本統計量均趨向常態
 - 即使母體分佈未知，也能進行推論
-
+:::
 ---
 
-```{r clt-demo,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e6-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 中央極限定理示範：從偏態分佈抽樣
 set.seed(42)
 pop <- rexp(10000, rate = 0.5)  # 偏態母體
@@ -535,22 +541,28 @@ curve(dnorm(x, mean(pop), sd(pop)/sqrt(30)), add = TRUE,
       col = "red", lwd = 2)
 ```
 
-## 範例 6-13：兒童收視時間 {.smaller}
+## 範例 6-13 {#example-6-13}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 兒童收視時間
+
 美國兒童每週平均收看電視 μ = 25 小時，σ = 3 小時。隨機抽取 n = 20 名兒童，求樣本平均數超過 26.3 小時的機率。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+## 範例 6-13
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 $$z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94$$
 
-P($\bar{X}$ > 26.3) = P(Z > 1.94) ≈ **0.0262**（2.62%）
+P($\bar{X}$ > 26.3) = P(Z > 1.94) $\approx$ **0.0262**（2.62%）
+
 :::
 
-```{r ex6-13, echo=T, warning=FALSE}
+```{r e6-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 25; sigma <- 3; n <- 20
 se <- sigma / sqrt(n)
 se
@@ -559,14 +571,13 @@ se
 pnorm(26.3, mean = mu, sd = se, lower.tail = FALSE)
 ```
 
-## 範例 6-14：車齡 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-14 {#example-6-14}
+:::{.callout-warning}
 ## 問題
 美國登記車輛的平均車齡為 μ = 96 個月，σ = 16 個月，假設分佈近似常態。隨機抽取 n = 36 輛車，求 P(90 < $\bar{X}$ < 100)。
 :::
 
-```{r ex6-14, echo=T, warning=FALSE}
+```{r e6-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 96; sigma <- 16; n <- 36
 se <- sigma / sqrt(n)
 se
@@ -575,13 +586,12 @@ se
 pnorm(100, mean = mu, sd = se) - pnorm(90, mean = mu, sd = se)
 ```
 
-**答案：** P(90 < $\bar{X}$ < 100) ≈ **0.9211**（92.11%）
+**答案：** P(90 < $\bar{X}$ < 100) $\approx$ **0.9211**（92.11%）
 
 樣本平均數極有可能落在此區間內，因為標準誤僅 `r round(16/sqrt(36), 2)` 個月。
 
-## 範例 6-15：肉類消費量 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-15 {#example-6-15}
+:::{.callout-warning}
 ## 問題
 每人每年平均肉類消費量 μ = 218.4 磅，σ = 25 磅。
 
@@ -589,7 +599,7 @@ pnorm(100, mean = mu, sd = se) - pnorm(90, mean = mu, sd = se)
 **(b)** 求 **n = 40** 人樣本的 P($\bar{X}$ < 224)
 :::
 
-```{r ex6-15, echo=T, warning=FALSE}
+```{r e6-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 218.4; sigma <- 25; n <- 40
 
 # (a) 個體：P(X < 224)
@@ -600,7 +610,7 @@ se <- sigma / sqrt(n)
 pnorm(224, mean = mu, sd = se)
 ```
 
-**答案：** (a) ≈ **58.71%**；(b) ≈ **92.22%**
+**答案：** (a) $\approx$ **58.71%**；(b) $\approx$ **92.22%**
 
 ::: {.callout-important}
 ## 關鍵洞察
@@ -632,30 +642,29 @@ $$\mu = np \qquad \sigma = \sqrt{npq}$$
 | 二項式表示 | 常態近似 |
 |-----------|---------|
 | P(X = a) | P(a − 0.5 < X < a + 0.5) |
-| P(X ≥ a) | P(X > a − 0.5) |
+| $P(X \geq a)$ | P(X > a − 0.5) |
 | P(X > a) | P(X > a + 0.5) |
-| P(X ≤ a) | P(X < a + 0.5) |
+| $P(X \leq a)$ | P(X < a + 0.5) |
 | P(X < a) | P(X < a − 0.5) |
 :::
 
-## 範例 6-16：邊開車邊閱讀 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-16 {#example-6-16}
+:::{.callout-warning}
 ## 問題
 調查發現 6% 的美國駕駛人邊開車邊閱讀。若隨機選取 300 名駕駛人，求**恰好 25 人**邊開車邊閱讀的近似機率。
 :::
-
+:::
 ---
 
 **驗證條件：** n = 300，p = 0.06，q = 0.94
 
-- np = 300(0.06) = 18 ≥ 5 ✓
+- np = 300(0.06) = 18 $\geq 5$ ✓
 
-- nq = 300(0.94) = 282 ≥ 5 ✓
+- nq = 300(0.94) = 282 $\geq 5$ ✓
 
-**參數：** μ = np = 18，σ = √(npq) = √(300 × 0.06 × 0.94)
+**參數：** μ = np = 18，σ = $\sqrt{npq}$ = $\sqrt{300 \times 0.06 \times 0.94}$
 
-```{r ex6-16, echo=T, warning=FALSE}
+```{r e6-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 300; p <- 0.06; q <- 1 - p
 mu <- n * p; sigma <- sqrt(n * p * q)
 cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
@@ -667,45 +676,32 @@ pnorm(25.5, mean = mu, sd = sigma) - pnorm(24.5, mean = mu, sd = sigma)
 dbinom(25, n, p)
 ```
 
-**答案（常態近似）：** ≈ **0.0227**（2.27%）；精確二項值：≈ 0.0220。
+**答案（常態近似）：** $\approx$ **0.0227**（2.27%）；精確二項值：$\approx 0.0220$。
 
-## 範例 6-17：喪偶保齡球員 {.smaller}
+## 範例 6-17 {#example-6-17}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 喪偶保齡球員
+
 研究發現打保齡球的人中有 10% 是喪偶者。若選取 200 名保齡球員，求**10 人或以上**為喪偶者的機率。
 :::
 
-**驗證條件：** np = 20 ≥ 5，nq = 180 ≥ 5 ✓
+## 範例 6-17
 
-**參數：** μ = 20，σ = √(200 × 0.10 × 0.90) = √18
+:::{.callout-tip}
+## 解題
 
-```{r ex6-17, echo=T, warning=FALSE}
-n <- 200; p <- 0.10; q <- 0.90
-mu <- n * p; sigma <- sqrt(n * p * q)
-cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+**解題**
 
-# P(X >= 10) 含連續修正：P(X > 9.5)
-pnorm(9.5, mean = mu, sd = sigma, lower.tail = FALSE)
-
-# 精確二項機率以供比較
-pbinom(9, n, p, lower.tail = FALSE)
-```
-
-**答案：** ≈ **0.9934**（99.34%）——在此樣本中出現 10 名或以上喪偶保齡球員的可能性極高。
-
-## 範例 6-18：打擊率 {.smaller}
-
-::: {.callout-tip}
-## 問題
 在棒球中，打擊率 .320 表示打者有 32% 的機率安打。在 100 次打席中，求安打次數**26 次或以下**的機率。
+
 :::
 
-**驗證條件：** np = 32 ≥ 5，nq = 68 ≥ 5 ✓
+**驗證條件：** np = 32 $\geq 5$，nq = 68 $\geq 5$ ✓
 
-**參數：** μ = 32，σ = √(100 × 0.32 × 0.68)
+**參數：** μ = 32，σ = $\sqrt{100 \times 0.32 \times 0.68}$
 
-```{r ex6-18, echo=T, warning=FALSE}
+```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 100; p <- 0.32; q <- 0.68
 mu <- n * p; sigma <- sqrt(n * p * q)
 cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
@@ -717,11 +713,10 @@ pnorm(26.5, mean = mu, sd = sigma)
 pbinom(26, n, p)
 ```
 
-**答案（常態近似）：** ≈ **0.119**（11.9%）；精確值：≈ 0.116。
+**答案（常態近似）：** $\approx$ **0.119**（11.9%）；精確值：$\approx 0.116$。
 
-## 範例 6-19：比較二項分佈與常態近似 {.smaller}
-
-::: {.callout-tip}
+## 範例 6-19 {#example-6-19}
+:::{.callout-warning}
 ## 問題
 投擲硬幣 10 次，求**恰好出現 6 次正面**的機率，分別使用：
 
@@ -734,10 +729,10 @@ pbinom(26, n, p)
 ## 注意
 此處 np = 5，nq = 5——恰好在最低門檻。對小 n，常態近似的精確度可能較低。
 :::
-
+:::
 ---
 
-```{r ex6-19, echo=T, warning=FALSE}
+```{r e6-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 10; p <- 0.5; q <- 0.5
 mu <- n * p; sigma <- sqrt(n * p * q)
 cat("mu =", mu, "  sigma =", sigma, "\n")
@@ -762,7 +757,7 @@ pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
 | 由面積求 z | — | `qnorm(p)` |
 | 非標準常態 | z = (X − μ)/σ | `pnorm(x, mean, sd)` |
 | 樣本平均數機率 | z = (X̄ − μ)/(σ/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
-| 二項分佈的常態近似 | μ=np，σ=√(npq) | ±0.5 連續修正 |
+| 二項分佈的常態近似 | μ=np，σ=$\sqrt{npq}$ | ±0.5 連續修正 |
 
 ---
 
@@ -770,8 +765,8 @@ pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
 ## 重點整理
 1. 常態分佈完全由 μ 與 σ 決定
 2. 將 X 轉換為 z 分數以使用標準常態表
-3. 中央極限定理保證當 n ≥ 30 時，樣本平均數近似常態
-4. 當 np ≥ 5 **且** nq ≥ 5 時，使用常態近似二項分佈
+3. 中央極限定理保證當 $n \geq 30$ 時，樣本平均數近似常態
+4. 當 np $\geq 5$ **且** nq $\geq 5$ 時，使用常態近似二項分佈
 5. 常態近似時務必套用**連續修正**
 :::
 

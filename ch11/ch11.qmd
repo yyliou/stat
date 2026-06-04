@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch11-zh.html" style="color:#555;">[中文版由此去]</a>' +
+          '<a href="ch11-zh.html"  style="color:#555;">[中文版由此去]</a>' +
           '</p>');
       }
     });
@@ -42,8 +42,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-## Chapter 11 Overview
-
+## Overview
 The **chi-square distribution** has several important applications beyond testing a single variance:
 
 1. **Goodness-of-fit test** — Does a distribution follow a hypothesized pattern?
@@ -67,16 +66,16 @@ $$\chi^2 = \sum \frac{(O - E)^2}{E}$$
 
 **Assumptions:**
 1. Data are from a random sample
-2. Expected frequency for each category ≥ 5
+2. Expected frequency for each category $\geq 5$
 
 The test is always **right-tailed** (small χ² → good fit; large χ² → poor fit).
 :::
 
----
+## Example 11-1 {#example-11-1}
 
-## Example 11-1: Fruit Soda Flavor Preference
+:::{.callout-warning}
+## Fruit Soda Flavor Preference
 
-::: {.callout-tip}
 A market analyst surveys 100 people about their preference among five flavors of a new fruit soda. If there is no preference, each flavor should be equally popular. The results are:
 
 | Flavor | Cherry | Strawberry | Orange | Lime | Grape |
@@ -87,9 +86,12 @@ A market analyst surveys 100 people about their preference among five flavors of
 At α = 0.05, is there enough evidence to reject the claim that consumers show no preference?
 :::
 
----
+## Example 11-1
 
-## Example 11-1: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: Consumers show no preference (claim) &nbsp;&nbsp; H₁: Consumers show a preference
 
@@ -102,12 +104,16 @@ $$= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{
 **Step 4:** 18.0 > 9.488 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence to conclude that consumers show a preference for certain flavors.
+:::
 
----
+## Example 11-1
 
-## Example 11-1: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 observed <- c(32, 28, 16, 14, 10)
 expected <- c(20, 20, 20, 20, 20)
 
@@ -121,10 +127,10 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 6), "\n")
 cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
-
+:::
 ---
 
-```{r echo=T, warning=FALSE}
+```{r e11-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Visualize
 df_plot <- data.frame(
   Flavor = c("Cherry","Strawberry","Orange","Lime","Grape"),
@@ -135,23 +141,26 @@ ggplot(df_long, aes(x = Flavor, y = Count, fill = Type)) +
   theme_minimal() + labs(title = "Observed vs. Expected Frequencies")
 ```
 
----
+## Example 11-2 {#example-11-2}
 
-## Example 11-2: Retired Senior Executives Return to Work
+:::{.callout-warning}
+## Retired Senior Executives Return to Work
 
-::: {.callout-tip}
 A survey found that after returning to work, retired executives were distributed as: 38% employed by another organization, 32% self-employed, 23% freelancing/consulting, 7% formed their own companies. A local researcher surveyed 300 executives and found: 122 working for another company, 85 self-employed, 76 freelancing/consulting, and 17 formed their own companies. At α = 0.10, test the claim that these proportions are the same.
 :::
 
----
+## Example 11-2
 
-## Example 11-2: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: Distribution is 38%/32%/23%/7% (claim) &nbsp;&nbsp; H₁: Distribution differs
 
 **Step 2:** d.f. = 4 − 1 = 3; CV = 6.251
 
-**Step 3:** Expected frequencies: 0.38×300 = 114; 0.32×300 = 96; 0.23×300 = 69; 0.07×300 = 21
+**Step 3:** Expected frequencies: 0.3$8 \times 3$00 = 114; 0.3$2 \times 3$00 = 96; 0.2$3 \times 3$00 = 69; 0.0$7 \times 3$00 = 21
 
 $$\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}$$
 $$= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}$$
@@ -159,12 +168,16 @@ $$= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}$$
 **Step 4:** 3.293 < 6.251 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to conclude that the local distribution differs from the national survey.
+:::
 
----
+## Example 11-2
 
-## Example 11-2: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 observed <- c(122, 85, 76, 17)
 props    <- c(0.38, 0.32, 0.23, 0.07)
 expected <- props * 300
@@ -180,18 +193,22 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 11-3 {#example-11-3}
 
-## Example 11-3: Firearm Deaths
+:::{.callout-warning}
+## Firearm Deaths
 
-::: {.callout-tip}
 A researcher read that firearm-related deaths for people aged 1–18 are distributed as: 74% accidental, 16% homicides, 10% suicides. In her district, there were 68 accidental deaths, 27 homicides, and 5 suicides (total = 100) during the past year. At α = 0.10, test the claim.
 :::
 
----
+## Example 11-3
 
-## Example 11-3: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: Deaths are 74% accidental, 16% homicides, 10% suicides (claim) &nbsp;&nbsp; H₁: Distribution differs
 
@@ -204,12 +221,16 @@ $$\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0
 **Step 4:** 10.549 > 4.605 → **Reject H₀**
 
 **Step 5:** There is enough evidence to reject the claim that the distribution in this district matches the national pattern.
+:::
 
----
+## Example 11-3
 
-## Example 11-3: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 observed <- c(68, 27, 5)
 expected <- c(74, 16, 10)
 
@@ -223,12 +244,13 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(chi2 > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 11-4 {#example-11-4}
 
-## Example 11-4: Test of Normality (Optional)
+:::{.callout-warning}
+## Test of Normality (Optional)
 
-::: {.callout-tip}
 Use the chi-square goodness-of-fit test to determine if the following frequency distribution is normally distributed. Use α = 0.05.
 
 | Boundaries | Frequency |
@@ -242,59 +264,14 @@ Use the chi-square goodness-of-fit test to determine if the following frequency 
 | **Total** | **200** |
 :::
 
-## Example 11-4: Solution (Math)
+## Example 11-4
 
-Compute $\bar{X} = 24680/200 = 123.4$ and $s = 17.03$
+:::{.callout-tip}
+## Solution
 
-Compute z-scores and areas for each boundary, then multiply by n = 200:
+**Solve**
 
-| Interval | Area | E | O |
-|----------|------|---|---|
-| Below 104.5 | 0.1335 | 26.7 | 24 |
-| 104.5–119.5 | 0.2755 | 55.1 | 62 |
-| 119.5–134.5 | 0.3332 | 66.64 | 72 |
-| 134.5–149.5 | 0.1948 | 38.96 | 26 |
-| Above 149.5 | 0.0630 | 12.6 | 16 *(combined last two)* |
-
-$$\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}$$
-
-d.f. = 5 − 1 − 2 = 2 (−2 for estimating μ and σ); CV = 5.991
-
-**Reject H₀** — the variable is not normally distributed at α = 0.05.
-
-## Example 11-4: Solution (R)
-
-```{r echo=T, warning=FALSE}
-# Data
-boundaries <- c(89.5, 104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
-observed   <- c(24, 62, 72, 26, 12, 4)
-n <- 200
-xbar <- 123.4; s <- 17.03
-
-# Compute expected frequencies via normal distribution
-z_vals <- (boundaries - xbar) / s
-areas  <- diff(pnorm(z_vals))
-# Combine last two categories (E < 5)
-obs_comb  <- c(observed[1:4], sum(observed[5:6]))
-exp_comb  <- c(areas[1:4] * n, sum(areas[5:6]) * n)
-
-chi2 <- sum((obs_comb - exp_comb)^2 / exp_comb)
-df   <- length(obs_comb) - 1 - 2  # -2 for estimated mu and sigma
-cv   <- qchisq(0.95, df)
-
-cat("Expected:", round(exp_comb, 2), "\n")
-cat("chi-square =", round(chi2, 4), "\n")
-cat("d.f. =", df, "  Critical value =", round(cv, 3), "\n")
-cat("Decision:", ifelse(chi2 > cv, "Reject H0 — NOT normally distributed",
-                        "Do not reject H0"), "\n")
-```
-
-# Section 11-2: Tests Using Contingency Tables {background-color="#2c4a6e"}
-
-## Contingency Tables
-
-::: {.callout-note}
-A **contingency table** (R × C table) cross-classifies data from two categorical variables.
+A **contingency table** ($R \times C$ table) cross-classifies data from two categorical variables.
 
 **Two chi-square tests use contingency tables:**
 
@@ -307,10 +284,10 @@ $$E = \frac{\text{(row sum)} \times \text{(column sum)}}{\text{grand total}}, \q
 
 $$d.f. = (R-1)(C-1)$$
 
-**Assumption:** All expected cell frequencies ≥ 5.
-:::
+**Assumption:** All expected cell frequencies $\geq 5$.
 
----
+:::
+:::
 
 ## Test of Independence — Overview
 
@@ -323,11 +300,11 @@ Rejecting H₀ means the variables are **related** — but it does not specify t
 
 The test is always **right-tailed**.
 
----
+## Example 11-5 {#example-11-5}
 
-## Example 11-5: Hospitals and Infections
+:::{.callout-warning}
+## Hospitals and Infections
 
-::: {.callout-tip}
 A researcher examines whether the type of hospital infection is related to which hospital it occurred in. Data for 582 total infections across 3 hospitals:
 
 | Hospital | Surgical Site | Pneumonia | Bloodstream | Total |
@@ -340,15 +317,18 @@ A researcher examines whether the type of hospital infection is related to which
 At α = 0.05, test the claim that infection type depends on hospital.
 :::
 
----
+## Example 11-5
 
-## Example 11-5: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: Infection type is independent of hospital &nbsp;&nbsp; H₁: Infection type depends on hospital (claim)
 
 **Step 2:** d.f. = (3−1)(3−1) = 4; CV = 9.488
 
-**Step 3:** Expected values (E = row×col/grand):
+**Step 3:** Expected values (E = row$\times$col/grand):
 $$E_{A,\text{Surg}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{Pneu}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots$$
 
 $$\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}$$
@@ -356,12 +336,16 @@ $$\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-4
 **Step 4:** 30.698 > 9.488 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence that infection type is related to the hospital where it occurred.
+:::
 
----
+## Example 11-5
 
-## Example 11-5: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 M <- matrix(c(41, 27, 51,
               36,  3, 40,
              169, 106, 109),
@@ -378,12 +362,13 @@ cat("Decision:", ifelse(result$p.value < 0.05, "Reject H0", "Do not reject H0"),
 cat("\nExpected frequencies:\n")
 round(result$expected, 2)
 ```
+:::
 
----
+## Example 11-6 {#example-11-6}
 
-## Example 11-6: Alcohol Consumption and Gender
+:::{.callout-warning}
+## Alcohol Consumption and Gender
 
-::: {.callout-tip}
 A researcher examines whether alcohol consumption level is related to gender. A sample of 68 people yielded:
 
 | Gender | Low | Moderate | High | Total |
@@ -395,9 +380,12 @@ A researcher examines whether alcohol consumption level is related to gender. A 
 At α = 0.10, test whether alcohol consumption depends on gender.
 :::
 
----
+## Example 11-6
 
-## Example 11-6: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: Alcohol consumption is independent of gender &nbsp;&nbsp; H₁: Consumption depends on gender (claim)
 
@@ -411,12 +399,16 @@ $$\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2
 **Step 4:** 0.283 < 4.605 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to conclude that alcohol consumption is related to gender.
+:::
 
----
+## Example 11-6
 
-## Example 11-6: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 M2 <- matrix(c(10, 9, 8,
                13, 16, 12),
              nrow = 2, byrow = TRUE,
@@ -432,8 +424,7 @@ cat("Decision:", ifelse(result2$p.value < 0.10, "Reject H0", "Do not reject H0")
 cat("\nExpected frequencies:\n")
 round(result2$expected, 2)
 ```
-
----
+:::
 
 ## Test of Homogeneity of Proportions
 
@@ -449,11 +440,11 @@ The **homogeneity test** determines whether proportions are equal across multipl
 **Key distinction:** Independence test → one sample, two variables; Homogeneity test → multiple samples, one variable.
 :::
 
----
+## Example 11-7 {#example-11-7}
 
-## Example 11-7: Money and Happiness
+:::{.callout-warning}
+## Money and Happiness
 
-::: {.callout-tip}
 A psychologist selects 100 people from each of four income groups and asks whether they are "very happy." Results:
 
 | | <\$30K | \$30K–\$74.9K | \$75K–\$99.9K | ≥\$100K | Total |
@@ -465,9 +456,12 @@ A psychologist selects 100 people from each of four income groups and asks wheth
 At α = 0.05, test the claim that happiness proportions are the same across income groups.
 :::
 
----
+## Example 11-7
 
-## Example 11-7: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: p₁ = p₂ = p₃ = p₄ (claim) &nbsp;&nbsp; H₁: At least one proportion differs
 
@@ -479,18 +473,21 @@ $$E_{\text{Yes, col}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{No, col}
 $$\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}$$
 $$+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}$$
 $$= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}$$
-
+:::
 ---
 
 **Step 4:** 14.149 > 7.815 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence that happiness proportions differ across income groups.
 
----
+## Example 11-7
 
-## Example 11-7: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e11-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 M3 <- matrix(c(24, 33, 38, 49,
                76, 67, 62, 51),
              nrow = 2, byrow = TRUE,
@@ -506,10 +503,9 @@ cat("Decision:", ifelse(result3$p.value < 0.05, "Reject H0", "Do not reject H0")
 cat("\nExpected frequencies:\n")
 round(result3$expected, 2)
 ```
+:::
 
----
-
-## Chapter 11 Summary
+## Key Takeaways
 
 | Test | When to Use | d.f. | Formula |
 |------|------------|------|---------|
@@ -518,11 +514,10 @@ round(result3$expected, 2)
 | Homogeneity | Multiple samples; one categorical variable | (R−1)(C−1) | Same as independence |
 
 ::: {.callout-important}
-All chi-square tests in this chapter are **right-tailed**. Expected frequencies in each cell must be **≥ 5**. If not, combine categories.
+All chi-square tests in this chapter are **right-tailed**. Expected frequencies in each cell must be **$\geq 5$**. If not, combine categories.
 :::
 
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

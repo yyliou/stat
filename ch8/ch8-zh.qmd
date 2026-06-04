@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch8.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch8.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -86,8 +86,8 @@ knitr::opts_chunk$set(fig.align = "center")
 ::: {.callout-note}
 ### 假設結構
 
-- **H₀**（虛無假設）：包含等號（=、≤、≥）
-- **H₁**（對立／研究假設）：包含不等號（≠、<、>）
+- **H₀**（虛無假設）：包含等號（$=$、$\leq$、$\geq$）
+- **H₁**（對立／研究假設）：包含不等號（$\neq$、$<$、$>$）
 - **主張**可能在 H₀ 或 H₁ 中
 :::
 
@@ -97,7 +97,7 @@ knitr::opts_chunk$set(fig.align = "center")
 |---|---|
 | > | 右尾檢定 |
 | < | 左尾檢定 |
-| ≠ | 雙尾檢定 |
+| $\neq$ | 雙尾檢定 |
 
 ## 錯誤類型
 
@@ -124,10 +124,11 @@ knitr::opts_chunk$set(fig.align = "center")
 - **臨界值**：分隔兩個區域的邊界值
 :::
 
-## 例題 8-1：陳述假設 {.smaller}
+## 例題 8-1 {#example-8-1}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 陳述假設
+
 對每個主張陳述 H₀ 與 H₁：
 
 **(a)** 某研究者聲稱新生兒的平均體重超過 8.6 磅。
@@ -137,26 +138,22 @@ knitr::opts_chunk$set(fig.align = "center")
 **(c)** 某研究者聲稱背景輕音樂會改變考試成績，使其不同於平均值 73 分。
 :::
 
-**解答：**
+## 例題 8-1
 
-**(a)** 主張：μ > 8.6 → H₀：μ = 8.6 且 H₁：μ > 8.6 *（右尾檢定）*
+:::{.callout-tip}
+## 解題
 
-**(b)** 主張：μ < 18 → H₀：μ = 18 且 H₁：μ < 18 *（左尾檢定）*
+**解題**
 
-**(c)** 主張：μ ≠ 73 → H₀：μ = 73 且 H₁：μ ≠ 73 *（雙尾檢定）*
-
-## 例題 8-2：求臨界值 {.smaller}
-
-::: {.callout-tip}
-## 問題
 求各情境的臨界值：
 
 **(a)** 左尾檢定，α = 0.10
 **(b)** 雙尾檢定，α = 0.02
 **(c)** 右尾檢定，α = 0.005
+
 :::
 
-```{r echo=T, warning=FALSE}
+```{r e8-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # (a) 左尾檢定，α = 0.10
 qnorm(0.10)
 
@@ -166,7 +163,7 @@ qnorm(0.01)  # 左側；右側為 +2.326
 # (c) 右尾檢定，α = 0.005
 qnorm(1 - 0.005)
 ```
-
+:::
 ---
 
 **解答：**
@@ -203,41 +200,30 @@ $$z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$$
 
 使用標準常態（z）分配求臨界值與 P 值。
 
-## 例題 8-3：汽車在展示場停留天數（傳統法） {.smaller}
+## 例題 8-3 {#example-8-3}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 汽車在展示場停留天數（傳統法）
+
 某研究者聲稱汽車在展示場平均停留超過 29 天。隨機抽取 30 輛汽車，得 X̄ = 30.1 天；σ = 3.8。使用 α = 0.05。
 :::
 
-**步驟 1：** H₀：μ = 29 且 H₁：μ > 29 *（主張；右尾檢定）*
+## 例題 8-3
 
-**步驟 2：** CV = +1.65
+:::{.callout-tip}
+## 解題
 
-**步驟 3：** 計算檢定值。
+**解題**
 
-```{r echo=T, warning=FALSE}
-xbar <- 30.1; mu <- 29; sigma <- 3.8; n <- 30
-z <- (xbar - mu) / (sigma / sqrt(n))
-round(z, 2)
-```
-
-**步驟 4：** 由於 1.59 < 1.65，**不拒絕 H₀**。
-
-**步驟 5：** 沒有足夠證據支持汽車在展示場停留超過 29 天的主張。
-
-## 例題 8-4：男性運動鞋價格（傳統法） {.smaller}
-
-::: {.callout-tip}
-## 問題
 某研究者聲稱男性運動鞋的平均價格低於 80 美元。抽取 36 雙鞋，得 X̄ = 75 美元，σ = 19.2 美元。使用 α = 0.10。
+
 :::
 
 **步驟 1：** H₀：μ = 80 且 H₁：μ < 80 *（主張；左尾檢定）*
 
 **步驟 2：** CV = −1.28
 
-```{r echo=T, warning=FALSE}
+```{r e8-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 75; mu <- 80; sigma <- 19.2; n <- 36
 z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
@@ -247,18 +233,17 @@ round(z, 2)
 
 **步驟 5：** 有足夠證據支持平均價格低於 80 美元的主張。
 
-## 例題 8-5：中風患者復健費用（傳統法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-5 {#example-8-5}
+:::{.callout-warning}
 ## 問題
 某研究者聲稱中風患者的平均復健費用不同於 24,672 美元。抽取 35 位患者，得 X̄ = 26,343 美元，σ = 3251 美元。使用 α = 0.01。
 :::
 
-**步驟 1：** H₀：μ = 24672 且 H₁：μ ≠ 24672 *（主張；雙尾檢定）*
+**步驟 1：** H₀：μ = 24672 且 H₁：$\mu \neq 24672$ *（主張；雙尾檢定）*
 
 **步驟 2：** CV = ±2.58
 
-```{r echo=T, warning=FALSE}
+```{r e8-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 26343; mu <- 24672; sigma <- 3251; n <- 35
 z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
@@ -274,7 +259,7 @@ round(z, 2)
 ### P 值決策規則
 
 - 計算 **P 值**：在 H₀ 為真的假設下，獲得至少與已計算之檢定統計量一樣極端的機率
-- **若 P 值 ≤ α → 拒絕 H₀**
+- **若 P 值 $\leq \alpha$ → 拒絕 H₀**
 - **若 P 值 > α → 不拒絕 H₀**
 
 步驟：
@@ -285,16 +270,15 @@ round(z, 2)
 5. 摘要結果
 :::
 
-## 例題 8-6：大學學費（P 值法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-6 {#example-8-6}
+:::{.callout-warning}
 ## 問題
 某研究者聲稱平均學費超過 5700 美元。抽取 36 所學校，得 X̄ = 5950 美元，σ = 659 美元。使用 α = 0.05。
 :::
 
 **步驟 1：** H₀：μ = 5700 且 H₁：μ > 5700 *（主張；右尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 5950; mu <- 5700; sigma <- 659; n <- 36
 z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
@@ -308,16 +292,15 @@ round(p_val, 4)
 
 **步驟 5：** 有足夠證據支持平均學費超過 5700 美元的主張。
 
-## 例題 8-7：風速（P 值法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-7 {#example-8-7}
+:::{.callout-warning}
 ## 問題
 某研究者聲稱某城市的平均風速為每小時 8 英里。抽取 32 天的資料，得 X̄ = 8.2 英里/小時，σ = 0.6。使用 α = 0.05。
 :::
 
-**步驟 1：** H₀：μ = 8 *（主張）* 且 H₁：μ ≠ 8 *（雙尾檢定）*
+**步驟 1：** H₀：μ = 8 *（主張）* 且 H₁：$\mu \neq 8$ *（雙尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 8.2; mu <- 8; sigma <- 0.6; n <- 32
 z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
@@ -358,10 +341,10 @@ $$t = \frac{\bar{X} - \mu}{s / \sqrt{n}}, \quad \text{自由度} = n - 1$$
 - **8-10**：α = 0.10，自由度 = 18，雙尾檢定
 - **8-11**：α = 0.05，自由度 = 28，右尾檢定
 :::
-
+:::
 ---
 
-```{r echo=T, warning=FALSE}
+```{r e8-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 qt(1 - 0.05, df = 16)   # 8-8：右尾檢定
 qt(0.01, df = 22)        # 8-9：左尾檢定
 qt(1 - 0.10/2, df = 18) # 8-10：雙尾檢定（±）
@@ -370,42 +353,32 @@ qt(1 - 0.05, df = 28)   # 8-11：右尾檢定
 
 **解答：** +1.746 | −2.508 | ±1.734 | +1.701
 
-## 例題 8-12：醫院感染數（傳統法） {.smaller}
+## 例題 8-12 {#example-8-12}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 醫院感染數（傳統法）
+
 某醫院管理員聲稱每週平均感染數為 16.3 例。抽取 10 週的資料，得 X̄ = 17.7，s = 1.8。在 α = 0.05 下，有足夠證據拒絕此主張嗎？
 :::
 
-**步驟 1：** H₀：μ = 16.3 *（主張）* 且 H₁：μ ≠ 16.3 *（雙尾檢定）*
+## 例題 8-12
 
-**步驟 2：** 自由度 = 9；CV = ±2.262
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
-xbar <- 17.7; mu <- 16.3; s <- 1.8; n <- 10
-t <- (xbar - mu) / (s / sqrt(n))
-round(t, 2)
-qt(1 - 0.05/2, df = 9)  # 臨界值
-```
+**解題**
 
-**步驟 4：** 由於 2.46 > 2.262，**拒絕 H₀**。
-
-**步驟 5：** 有足夠證據拒絕每週平均感染數為 16.3 例的主張。
-
-## 例題 8-13：代課教師薪資（傳統法） {.smaller}
-
-::: {.callout-tip}
-## 問題
 某研究者聲稱某地區代課教師的平均日薪低於 60 美元。資料：60、56、60、55、70、55、60、55。使用 α = 0.10。
-:::
 
+:::
+:::
 ---
 
 **步驟 1：** H₀：μ = 60 且 H₁：μ < 60 *（主張；左尾檢定）*
 
 **步驟 2：** 自由度 = 7；CV = −1.415
 
-```{r echo=T, warning=FALSE}
+```{r e8-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data <- c(60, 56, 60, 55, 70, 55, 60, 55)
 n <- length(data)
 xbar <- mean(data); s <- sd(data)
@@ -430,7 +403,7 @@ qt(0.10, df = 7)  # 臨界值
 
 ---
 
-```{r echo=T, warning=FALSE}
+```{r e8-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-14：右尾檢定，自由度 = 10
 p14 <- pt(2.056, df = 10, lower.tail = FALSE)
 cat("8-14 P 值:", round(p14, 4), " → 區間：0.025 < P < 0.05\n")
@@ -444,35 +417,20 @@ cat("8-15 P 值:", round(p15, 4), " → 區間：0.02 < P < 0.05")
 從 t 分配表中，找到自由度所在列，定位檢定統計量落點，並讀取對應的 α 值作為 P 值的上下界。
 :::
 
-## 例題 8-16：慢跑者最大攝氧量（P 值法） {.smaller}
+## 例題 8-16 {#example-8-16}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 慢跑者最大攝氧量（P 值法）
+
 某研究者聲稱慢跑者的最大攝氧量超過 36.7 mL/kg/min。抽取 15 位慢跑者，得 X̄ = 40.6，s = 6。使用 α = 0.05。
 :::
 
-**步驟 1：** H₀：μ = 36.7 且 H₁：μ > 36.7 *（主張；右尾檢定）*
+## 例題 8-16
 
-```{r echo=T, warning=FALSE}
-xbar <- 40.6; mu <- 36.7; s <- 6; n <- 15
-t <- (xbar - mu) / (s / sqrt(n))
-round(t, 3)
+:::{.callout-tip}
+## 解題
 
-# P 值
-p_val <- pt(t, df = n - 1, lower.tail = FALSE)
-round(p_val, 4)
-```
-
-**步驟 4：** 由於 P ≈ 0.012 < α = 0.05，**拒絕 H₀**。
-
-**步驟 5：** 有足夠證據支持慢跑者最大攝氧量超過 36.7 mL/kg/min 的主張。
-
-# 第 8-4 節：比例的 z 檢定 {background-color="#2c4a6e"}
-
-## 比例的 z 檢定
-
-::: {.callout-note}
-### 公式
+**解題**
 
 $$z = \frac{\hat{p} - p}{\sqrt{pq/n}}$$
 
@@ -481,21 +439,21 @@ $$z = \frac{\hat{p} - p}{\sqrt{pq/n}}$$
 **要求條件：**
 - 隨機樣本
 - 滿足二項條件
-- np ≥ 5 且 nq ≥ 5
+- np $\geq 5$ 且 nq $\geq 5$
+
 :::
 
-## 例題 8-17：反式脂肪（傳統法，雙尾） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-17 {#example-8-17}
+:::{.callout-warning}
 ## 問題
 某營養師聲稱 60% 的人會刻意避免攝入反式脂肪。調查 200 人後發現 128 人會避免攝入。在 α = 0.05 下，有足夠證據拒絕此主張嗎？
 :::
 
-**步驟 1：** H₀：p = 0.60 *（主張）* 且 H₁：p ≠ 0.60 *（雙尾檢定）*
+**步驟 1：** H₀：p = 0.60 *（主張）* 且 H₁：p $\neq 0.60$ *（雙尾檢定）*
 
 **步驟 2：** CV = ±1.96
 
-```{r echo=T, warning=FALSE}
+```{r e8-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 128; n <- 200; p <- 0.60; q <- 1 - p
 p_hat <- X / n
 z <- (p_hat - p) / sqrt(p * q / n)
@@ -506,18 +464,17 @@ cat("p-hat:", p_hat, "  z:", round(z, 2))
 
 **步驟 5：** 沒有足夠證據拒絕 60% 的人會避免反式脂肪的主張。
 
-## 例題 8-18：家庭與醫療假法（傳統法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-18 {#example-8-18}
+:::{.callout-warning}
 ## 問題
 2000 年時，60% 的人認為《家庭與醫療假法》非常易於使用。某研究者認為此百分比已改變。抽取 100 人的樣本，發現 p̂ = 53% 認為容易使用。在 α = 0.01 下，此百分比是否改變？
 :::
 
-**步驟 1：** H₀：p = 0.60 且 H₁：p ≠ 0.60 *（主張；雙尾檢定）*
+**步驟 1：** H₀：p = 0.60 且 H₁：p $\neq 0.60$ *（主張；雙尾檢定）*
 
 **步驟 2：** CV = ±2.58
 
-```{r echo=T, warning=FALSE}
+```{r e8-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p_hat <- 0.53; p <- 0.60; q <- 0.40; n <- 100
 z <- (p_hat - p) / sqrt(p * q / n)
 round(z, 2)
@@ -527,9 +484,8 @@ round(z, 2)
 
 **步驟 5：** 沒有足夠證據支持百分比已改變的主張。
 
-## 例題 8-19：以一元硬幣取代一元紙幣（傳統法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-19 {#example-8-19}
+:::{.callout-warning}
 ## 問題
 某主張指出至少 77% 的民眾反對以一元硬幣取代一元紙幣。抽取 80 人的樣本，發現 55 人反對。在 α = 0.01 下，檢定此主張。
 :::
@@ -538,7 +494,7 @@ round(z, 2)
 
 **步驟 2：** CV = −2.33
 
-```{r echo=T, warning=FALSE}
+```{r e8-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 55; n <- 80; p <- 0.77; q <- 1 - p
 p_hat <- X / n
 z <- (p_hat - p) / sqrt(p * q / n)
@@ -549,16 +505,15 @@ cat("p-hat:", round(p_hat, 4), "  z:", round(z, 2))
 
 **步驟 5：** 沒有足夠證據拒絕至少 77% 的民眾反對以一元硬幣取代一元紙幣的主張。
 
-## 例題 8-20：律師廣告（P 值法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-20 {#example-8-20}
+:::{.callout-warning}
 ## 問題
 某律師聲稱超過 25% 的律師會做廣告。抽取 200 位律師的樣本，發現 63 位有做廣告。在 α = 0.05 下，有足夠證據支持此主張嗎？
 :::
 
 **步驟 1：** H₀：p = 0.25 且 H₁：p > 0.25 *（主張；右尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 63; n <- 200; p <- 0.25; q <- 0.75
 p_hat <- X / n
 z <- (p_hat - p) / sqrt(p * q / n)
@@ -568,7 +523,7 @@ p_val <- 1 - pnorm(z)
 cat("  P 值:", round(p_val, 4))
 ```
 
-**步驟 4：** 由於 P ≈ 0.017 < α = 0.05，**拒絕 H₀**。
+**步驟 4：** 由於 P $\approx 0.017$ < α = 0.05，**拒絕 H₀**。
 
 **步驟 5：** 有足夠證據支持超過 25% 的律師做廣告的主張。
 
@@ -586,7 +541,7 @@ $$\chi^2 = \frac{(n-1)s^2}{\sigma^2}, \quad \text{自由度} = n - 1$$
 - 母體為常態分配
 - 觀測值相互獨立
 
-**三種檢定類型：** 右尾（σ² > 某值）、左尾（σ² < 某值）、雙尾（σ² ≠ 某值）
+**三種檢定類型：** 右尾（σ² > 某值）、左尾（σ² < 某值）、雙尾（$\sigma^2 \neq$ 某值）
 :::
 
 ## 例題 8-21 至 8-23：求 χ² 臨界值 {.smaller}
@@ -599,10 +554,10 @@ $$\chi^2 = \frac{(n-1)s^2}{\sigma^2}, \quad \text{自由度} = n - 1$$
 - **8-22**：自由度 = 10，α = 0.05，左尾檢定
 - **8-23**：自由度 = 22，α = 0.05，雙尾檢定
 :::
-
+:::
 ---
 
-```{r echo=T, warning=FALSE}
+```{r e8-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-21：右尾檢定
 qchisq(1 - 0.05, df = 15)
 
@@ -620,43 +575,32 @@ qchisq(0.025, df = 22)       # 左側 CV
 - 8-22：**3.940**
 - 8-23：**36.781** 與 **10.982**
 
-## 例題 8-24：考試成績的變異（傳統法） {.smaller}
+## 例題 8-24 {#example-8-24}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 考試成績的變異（傳統法）
+
 某教師聲稱其班上 23 位學生的變異數（s² = 198）小於母體變異數（σ² = 225）。在 α = 0.05 下，有足夠證據支持此主張嗎？
 :::
 
-**步驟 1：** H₀：σ² = 225 且 H₁：σ² < 225 *（主張；左尾檢定）*
+## 例題 8-24
 
-**步驟 2：** 自由度 = 22；CV = 12.338
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
-n <- 23; s2 <- 198; sigma2 <- 225
-chi2 <- (n - 1) * s2 / sigma2
-round(chi2, 2)
+**解題**
 
-qchisq(0.05, df = n - 1)  # 左尾臨界值
-```
-
-**步驟 4：** 由於 19.36 > 12.338（落在非臨界區域），**不拒絕 H₀**。
-
-**步驟 5：** 沒有足夠證據支持班級變異數小於 225 的主張。
-
-## 例題 8-25：門診手術（傳統法） {.smaller}
-
-::: {.callout-tip}
-## 問題
 某醫院管理員聲稱每日門診手術患者數的標準差大於 8。隨機抽取 15 天的資料如下。在 α = 0.10 下，檢定此主張。
 
 資料：25、30、5、15、18、42、16、9、10、12、12、38、8、14、27
-:::
 
+:::
+:::
 ---
 
 **步驟 1：** H₀：σ = 8 且 H₁：σ > 8 *（主張；右尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data <- c(25, 30, 5, 15, 18, 42, 16, 9, 10, 12, 12, 38, 8, 14, 27)
 n <- length(data); s <- sd(data)
 cat("s =", round(s, 1))
@@ -671,40 +615,29 @@ qchisq(1 - 0.10, df = n - 1)  # 臨界值
 
 **步驟 5：** 有足夠證據支持標準差大於 8 的主張。
 
-## 例題 8-26：香菸尼古丁含量（傳統法） {.smaller}
+## 例題 8-26 {#example-8-26}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 香菸尼古丁含量（傳統法）
+
 某製造商聲稱尼古丁含量的變異數為 0.644。抽取 20 支香菸，得 s = 1.00。在 α = 0.05 下，有足夠證據拒絕此主張嗎？
 :::
 
-**步驟 1：** H₀：σ² = 0.644 *（主張）* 且 H₁：σ² ≠ 0.644 *（雙尾檢定）*
+## 例題 8-26
 
-**步驟 2：** 自由度 = 19；CV = 32.852 與 8.907
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
-n <- 20; s <- 1.00; sigma2 <- 0.644
-chi2 <- (n - 1) * s^2 / sigma2
-round(chi2, 1)
+**解題**
 
-c(qchisq(0.975, df = 19), qchisq(0.025, df = 19))  # 右側、左側 CV
-```
-
-**步驟 4：** 由於 8.907 < 29.5 < 32.852，**不拒絕 H₀**。
-
-**步驟 5：** 沒有足夠證據拒絕製造商所稱變異數為 0.644 的主張。
-
-## 例題 8-27 & 8-28：χ² 的 P 值區間 {.smaller}
-
-::: {.callout-tip}
-## 問題
 求 P 值區間：
 
 - **8-27**：χ² = 19.274，n = 8，右尾檢定
 - **8-28**：χ² = 3.823，n = 13，左尾檢定
+
 :::
 
-```{r echo=T, warning=FALSE}
+```{r e8-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-27：右尾檢定，自由度 = 7
 p27 <- pchisq(19.274, df = 7, lower.tail = FALSE)
 cat("8-27 P 值:", round(p27, 4), " → 區間：0.005 < P < 0.01\n")
@@ -714,18 +647,17 @@ p28 <- pchisq(3.823, df = 12, lower.tail = TRUE)
 cat("8-28 P 值:", round(p28, 4), " → 區間：0.01 < P < 0.025")
 ```
 
-## 例題 8-29：汽車驗車時間（P 值法） {.smaller}
-
-::: {.callout-tip}
+## 例題 8-29 {#example-8-29}
+:::{.callout-warning}
 ## 問題
 汽車驗車時間的標準差已知為 16.8 分鐘。抽取 24 輛汽車，得 s = 12.5 分鐘。在 α = 0.05 下，標準差是否改變？
 :::
-
+:::
 ---
 
-**步驟 1：** H₀：σ = 16.8 且 H₁：σ ≠ 16.8 *（主張；雙尾檢定）*
+**步驟 1：** H₀：σ = 16.8 且 H₁：σ $\neq 16.8$ *（主張；雙尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 24; s <- 12.5; sigma <- 16.8
 chi2 <- (n - 1) * s^2 / sigma^2
 round(chi2, 3)
@@ -755,43 +687,28 @@ cat("P 值 ≈", round(p_two, 4), " → 區間：0.05 < P < 0.10")
 這表示相同水準的假設檢定與信賴區間會得出**相同的結論**。
 :::
 
-## 例題 8-30：糖的產量 {.smaller}
+## 例題 8-30 {#example-8-30}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 糖的產量
+
 糖袋標示應裝 5 磅。抽取 50 個袋子，得 X̄ = 4.6 磅，s = 0.7。在 α = 0.05 下，是否有證據顯示袋裝量不同於 5 磅？另求 95% 信賴區間。
 :::
 
-**步驟 1：** H₀：μ = 5 且 H₁：μ ≠ 5 *（主張；雙尾檢定）*
+## 例題 8-30
 
-```{r echo=T, warning=FALSE}
-xbar <- 4.6; mu <- 5; s <- 0.7; n <- 50; alpha <- 0.05
-# t 檢定（σ 未知）
-t_val <- (xbar - mu) / (s / sqrt(n))
-cat("t =", round(t_val, 2))
+:::{.callout-tip}
+## 解題
 
-t_crit <- qt(1 - alpha/2, df = n - 1)
-cat("  CV =", round(t_crit, 3))
+**解題**
 
-# 95% CI
-ME <- t_crit * s / sqrt(n)
-cat("  95% CI: (", round(xbar - ME, 2), ",", round(xbar + ME, 2), ")")
-```
-
-**決策：** |−4.04| > 2.010 → **拒絕 H₀**。
-
-95% 信賴區間為 (4.4, 4.8)——**不**包含 μ = 5，與檢定結果一致。
-
-## 例題 8-31：豬的體重 {.smaller}
-
-::: {.callout-tip}
-## 問題
 某研究者聲稱餵食特殊飼料的豬平均體重為 200 磅。抽取 10 頭豬，得 X̄ = 198.2，s = 3.3。在 α = 0.05 下，能拒絕此主張嗎？求 95% 信賴區間。
+
 :::
 
-**步驟 1：** H₀：μ = 200 *（主張）* 且 H₁：μ ≠ 200 *（雙尾檢定）*
+**步驟 1：** H₀：μ = 200 *（主張）* 且 H₁：$\mu \neq 200$ *（雙尾檢定）*
 
-```{r echo=T, warning=FALSE}
+```{r e8-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 198.2; mu <- 200; s <- 3.3; n <- 10; alpha <- 0.05
 t_val <- (xbar - mu) / (s / sqrt(n))
 cat("t =", round(t_val, 2))
@@ -846,7 +763,7 @@ $$\text{檢定力} = 1 - \beta$$
 
 **P 值法：** 將計算出的 P 值與 α 比較
 
-- 若檢定值落在臨界區域**或** P 值 ≤ α → **拒絕 H₀**
+- 若檢定值落在臨界區域**或** P 值 $\leq \alpha$ → **拒絕 H₀**
 - 否則 → **不拒絕 H₀**
 
 **信賴區間法（僅限雙尾）：** 若信賴區間包含假設值 → 不拒絕 H₀；若不包含 → 拒絕 H₀
@@ -859,3 +776,4 @@ $$\text{檢定力} = 1 - \beta$$
 -   **僅供非商業使用。** 本材料僅供教育目的使用，不得用於商業獲利。
 
 -   **適當引用。** 任何複製、散佈或使用本材料時，須適當引用原始出處。
+:::

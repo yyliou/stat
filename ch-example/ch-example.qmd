@@ -1,0 +1,368 @@
+---
+title: "Statistics"
+subtitle: "Chapter 2: Frequency Distributions and Graphs"
+author: "Yu-You Liou"
+institute: "Shih Chien University"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+smaller: true
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+logo: "logo.svg"
+editor: source
+slide-number: true
+scrollable: false
+transition: "none"
+menu:
+  useTextContentForMissingTitles: false
+  hideMissingTitles: true
+  side: 'left'
+  titleSelector: 'h1'
+title-slide-attributes:
+  data-notes: ""
+include-after-body:
+  text: |
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch2-zh.html"  style="color:#555;">[中文版由此去]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+## Overview
+
+Chapter 2 introduces methods for **organizing and visualizing data** — moving from raw, unordered observations to structured summaries that reveal patterns.
+
+| Section | Topics |
+|---------|--------|
+| 2-1 | Frequency distributions: categorical, grouped, ungrouped, cumulative |
+| 2-2 | Histograms, frequency polygons, and ogives |
+| 2-3 | Bar graphs, Pareto charts, time series, pie graphs, stem and leaf plots |
+
+# Section 2-1: Organizing Data {background-color="#2c4a6e"}
+
+## From Raw Data to Organized Information
+
+When data are first gathered, they exist in **raw form** — an unordered, unprocessed list of values. On their own, raw data reveal very little about the underlying patterns or trends in a dataset.
+
+Organizing data into a **frequency distribution** provides a structured summary that makes patterns visible and analysis manageable.
+
+:::{.callout-note}
+## Frequency Distribution
+
+A **frequency distribution** is a table that organizes data values (or ranges of values) along with the count of how often each value or range occurs in the dataset.
+:::
+
+---
+
+## Categorical Frequency Distributions
+
+When data consist of **qualitative categories** (non-numeric labels or groups), a **categorical frequency distribution** is used. Each category is listed alongside its frequency and relative frequency (percentage).
+
+**Steps to construct a categorical frequency distribution:**
+
+1. List each distinct category.
+2. Tally the occurrences of each category.
+3. Record the frequency and compute the percentage: $\% = \frac{f}{n} \times 100$
+
+---
+
+## Example 2-1 {#example-2-1}
+
+:::{.callout-warning}
+## Blood Types of Army Inductees
+A sample of 25 army inductees was tested for blood type. The results are shown below. Organize the data into a categorical frequency distribution.
+
+```
+A  B  B  AB  O
+O  O  B  AB  B
+B  B  O  A   O
+A  O  O  O   AB
+AB A  O  B   A
+```
+Back to [Example 2-5](#example-2-5)
+:::
+
+---
+
+## Example 2-1 
+
+:::{.callout-tip}
+## Solution
+```{r e2-1-1,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+blood <- c("A","B","B","AB","O","O","O","B","AB","B",
+           "B","B","O","A","O","A","O","O","O","AB",
+           "AB","A","O","B","A")
+
+df <- data.frame(blood) |>
+  count(blood) |>
+  rename(Class = blood, Frequency = n) |>
+  mutate(Percentage = round(Frequency / sum(Frequency) * 100, 1))
+
+knitr::kable(df, align = "c")
+```
+:::
+
+## Rules for Constructing a Grouped Frequency Distribution
+
+:::{.callout-important}
+## Six Construction Guidelines
+
+1. Use between **5 and 20 classes** — enough to show pattern without excessive detail.
+2. The **class width** should be an odd number when possible so midpoints are whole numbers.
+3. Classes must be **mutually exclusive** — each data value belongs to exactly one class.
+4. Classes must be **continuous** — no gaps between classes, even if some classes have zero frequency.
+5. Classes must be **exhaustive** — every data value must fit into some class.
+6. Classes should be **equal in width** (except possibly the first or last class).
+
+Formula: $\text{Class width} \approx \dfrac{\text{highest value} - \text{lowest value}}{\text{number of classes}}$
+:::
+
+## Example 2-2 {#example-2-2}
+
+:::{.callout-warning}
+##  Record High Temperatures
+The record high temperatures (°F) for each of the 50 U.S. states are listed below. Construct a grouped frequency distribution using 7 classes.
+
+```
+112 100 127 120 134 118 105 110 109 112
+110 118 117 116 118 122 114 114 105 109
+107 112 114 115 118 117 118 122 106 110
+116 108 110 121 113 120 119 111 104 111
+120 113 120 117 105 110 118 112 114 114
+```
+:::
+
+---
+
+## Example 2-2
+
+:::{.callout-tip}
+## Solution
+**Prepare data**
+
+```{r e2-2-1,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+temps <- c(112,100,127,120,134,118,105,110,109,112,
+           110,118,117,116,118,122,114,114,105,109,
+           107,112,114,115,118,117,118,122,106,110,
+           116,108,110,121,113,120,119,111,104,111,
+           120,113,120,117,105,110,118,112,114,114)
+```
+
+**Draw figure**
+
+```{r e2-2-2,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+# Class width = ceiling((134 - 100) / 7) = 5
+breaks <- seq(99.5, 134.5, by = 5)
+labels <- c("100-104","105-109","110-114","115-119","120-124","125-129","130-134")
+
+freq_table <- data.frame(temps) |>
+  mutate(Class = cut(temps, breaks = breaks, labels = labels)) |>
+  count(Class, .drop = FALSE) |>
+  rename(Frequency = n) |>
+  mutate(
+    Boundaries = c("99.5-104.5","104.5-109.5","109.5-114.5",
+                   "114.5-119.5","119.5-124.5","124.5-129.5","129.5-134.5"),
+    Midpoint   = seq(102, 132, by = 5),
+    Cumulative = cumsum(Frequency)
+  )
+```
+:::
+
+---
+
+## Example 2-2
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e2-2-3,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+knitr::kable(freq_table[, c("Class","Boundaries","Midpoint","Frequency","Cumulative")],
+             align = "c")
+```
+:::
+
+## Ungrouped Frequency Distributions
+
+When the range of values is small and each distinct value is meaningful on its own, an **ungrouped (single-value) frequency distribution** lists each individual data value as its own class.
+
+This approach preserves the exact values rather than collapsing them into intervals.
+
+# Section 2-2: Other Types of Graphs {background-color="#2c4a6e"}
+
+## Beyond the Histogram
+
+In addition to histograms, frequency polygons, and ogives, several other graphical tools are widely used in statistics and everyday data communication:
+
+- **Bar graphs** — for comparing frequencies of categorical data
+- **Pareto charts** — bar graphs with bars sorted from highest to lowest frequency
+- **Time series graphs** — for tracking a variable's change over time
+- **Pie graphs** — for showing each category's share of the whole
+- **Stem and leaf plots** — for displaying the actual data values in a graphical form
+
+---
+
+## Example 2-3
+
+::: {.callout-warning}
+## Batting Averages
+In baseball, a .320 batting average means a player gets a hit 32% of the time. In 100 at-bats, find the probability of getting **26 or fewer** hits.
+:::
+
+::: {.callout-tip}
+## Solution
+
+**Check:** $np = 32 \geq 5, nq = 68 \geq 5$
+
+**Parameters:** $\mu = 32, \sigma = \sqrt{100 \times 0.32 \times 0.68}$
+
+```{r e2-3-1, echo=T, warning=FALSE}
+n <- 100; p <- 0.32; q <- 0.68
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+
+# P(X <= 26) with continuity correction: P(X < 26.5)
+pnorm(26.5, mean = mu, sd = sigma)
+
+# Exact binomial
+pbinom(26, n, p)
+```
+
+**Answer (normal approx.):** $\approx 0.119$ (11.9%); Exact: $\approx 0.116$
+:::
+
+## Example 2-4
+
+::: {.callout-warning}
+## Comparing Binomial and Normal Approximation 
+A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** using:
+
+a. The binomial distribution
+
+b. The normal approximation
+:::
+
+::: {.callout-warning}
+## Caution
+Here $np = 5, nq = 5$ — these are exactly at the minimum threshold. The normal approximation may be less accurate for small n.
+:::
+
+---
+
+::: {.callout-tip}
+## Solution
+```{r e2-4-1, echo=T, warning=FALSE}
+n <- 10; p <- 0.5; q <- 0.5
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", sigma, "\n")
+
+# a. Exact binomial
+dbinom(6, n, p)
+
+# b. Normal approximation with continuity correction
+pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
+```
+
+**Comparison:** Exact = **0.2051**; Normal approx. = **0.2034**
+
+The approximation is quite close even for this borderline case.
+:::
+
+## Bar Graphs
+
+:::{.callout-note}
+## Bar Graph
+
+A **bar graph** represents categorical (qualitative) data using horizontal or vertical bars. The length or height of each bar corresponds to the frequency or value for that category. Unlike a histogram, gaps between bars are acceptable.
+:::
+
+## Example 2-5 {#example-2-5}
+
+:::{.callout-warning}
+##  Blood Type Pie Graph
+Using the blood type data from [Example 2-1](#example-2-1), construct a pie graph.
+:::
+
+:::{.callout-tip}
+## Solution
+```{r e2-5-1,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+blood_pie <- data.frame(
+  type = c("A","B","O","AB"),
+  freq = c(5, 6, 9, 4)
+) |>
+  mutate(
+    pct    = freq / sum(freq) * 100,
+    deg    = pct / 100 * 360,
+    label  = paste0(type, "\n", freq, " (", round(pct, 1), "%)")
+  )
+
+fig <- ggplot(blood_pie, aes(x = "", y = freq, fill = type)) +
+  geom_bar(stat = "identity", width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = paste0(type, "\n", round(pct, 1), "%")),
+            position = position_stack(vjust = 0.5), size = 4) +
+  scale_fill_manual(values = c("#4a90d9","#d9534f","#5cb85c","#f0ad4e")) +
+  labs(title = "Blood Type Distribution (n = 25)", fill = "Blood Type") +
+  theme_void()
+```
+:::
+
+---
+
+## Example 2-5
+
+:::{.callout-tip}
+## Solution
+**Output figure**
+```{r e2-5-2,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+fig
+```
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Important Formulas
+
+$$\text{Class width} \approx \frac{\text{highest} - \text{lowest}}{\text{number of classes}}$$
+
+$$X_m = \frac{\text{lower limit} + \text{upper limit}}{2} \quad \text{(class midpoint)}$$
+
+$$\% = \frac{f}{n} \times 100 \quad \text{(percentage for each class)}$$
+
+$$\text{Degrees} = \frac{f}{n} \times 360° \quad \text{(pie chart sector)}$$
+:::
+
+## Key Takeaways
+
+1. The normal distribution is fully described by μ and σ
+
+2. Convert to z scores to use the standard normal table
+
+3. The CLT guarantees that sample means are approximately normal for $n ≥ 30$
+
+4. Use normal approximation to binomial when $np \geq 5$ **and** $nq \geq 5$
+
+5. Always apply the **correction for continuity** in the normal approximation
+
+## Acknowledgement
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch9-zh.html" style="color:#555;">[中文版由此去]</a>' +
+          '<a href="ch9-zh.html"  style="color:#555;">[中文版由此去]</a>' +
           '</p>');
       }
     });
@@ -42,8 +42,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-## Chapter 9 Overview
-
+## Overview
 Researchers often need to **compare two groups** rather than test a single parameter against a fixed value.
 
 This chapter covers hypothesis tests and confidence intervals for:
@@ -66,7 +65,6 @@ This chapter covers hypothesis tests and confidence intervals for:
 - If n < 30, populations should be approximately normal
 :::
 
-
 ## Formula: z Test for Two Means
 
 ::: {.callout-note}
@@ -77,11 +75,11 @@ Under $H_0: \mu_1 = \mu_2$, this simplifies to:
 $$z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
 :::
 
----
+## Example 9-1 {#example-9-1}
 
-## Example 9-1: Hotel Room Costs {#example-9-1}
+:::{.callout-warning}
+## Hotel Room Costs
 
-::: {.callout-tip}
 A travel agent claims hotel rooms in New Orleans cost more on average than those in Phoenix. A sample of 50 hotels in each city yielded:
 
 | City | $\bar{X}$ | $\sigma$ | $n$ |
@@ -92,9 +90,12 @@ A travel agent claims hotel rooms in New Orleans cost more on average than those
 Test the claim at α = 0.05.
 :::
 
----
+## Example 9-1
 
-## Example 9-1: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: μ₁ > μ₂ (claim) — right-tailed
 
@@ -106,12 +107,16 @@ $$z = \frac{88.42 - 80.61}{\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}}} = \fr
 **Step 4:** 7.45 > 1.645 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence to support the claim that hotel rooms in New Orleans cost more than those in Phoenix.
+:::
 
----
+## Example 9-1
 
-## Example 9-1: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 88.42; x2 <- 80.61
 s1 <- 5.62;  s2 <- 4.83
 n1 <- 50;    n2 <- 50
@@ -125,12 +130,13 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 6), "\n")
 cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 9-2 {#example-9-2}
 
-## Example 9-2: College Sports Offerings (P-value Method)
+:::{.callout-warning}
+## College Sports Offerings (P-value Method)
 
-::: {.callout-tip}
 A researcher hypothesizes that male college students are offered more online sports choices than female students. A sample of 50 colleges of each type showed:
 
 - Males: $\bar{X}_1 = 8.6$, $\sigma_1 = 3.3$, $n_1 = 50$
@@ -139,9 +145,12 @@ A researcher hypothesizes that male college students are offered more online spo
 At α = 0.10, test the claim using the P-value method.
 :::
 
----
+## Example 9-2
 
-## Example 9-2: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: μ₁ > μ₂ (claim) — right-tailed
 
@@ -155,12 +164,16 @@ $$z = \frac{8.6 - 7.9}{\sqrt{\dfrac{3.3^2}{50} + \dfrac{3.3^2}{50}}} = \frac{0.7
 **Step 4:** 0.1446 > 0.10 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to support the claim that males are offered more online sports choices.
+:::
 
----
+## Example 9-2
 
-## Example 9-2: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 8.6; x2 <- 7.9
 s1 <- 3.3; s2 <- 3.3
 n1 <- 50;  n2 <- 50
@@ -172,8 +185,7 @@ cat("z =", round(z, 4), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 ```
-
----
+:::
 
 ## Confidence Interval for μ₁ − μ₂ (σ Known)
 
@@ -181,43 +193,21 @@ cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 $$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
 :::
 
----
+## Example 9-3 {#example-9-3}
 
-## Example 9-3: 95% CI for Hotel Room Costs
+:::{.callout-warning}
+## 95% CI for Hotel Room Costs
 
-::: {.callout-tip}
 Using the data from [Example 9-1](#example-9-1), find a 95% confidence interval for μ₁ − μ₂.
 :::
 
-**Solution:**
+## Example 9-3
 
-$z_{\alpha/2} = 1.96$, $\bar{X}_1 - \bar{X}_2 = 7.81$
+:::{.callout-tip}
+## Solution
 
-$$7.81 \pm 1.96\sqrt{\frac{5.62^2}{50}+\frac{4.83^2}{50}} = 7.81 \pm 1.96(1.048) = 7.81 \pm 2.054$$
+**Solve**
 
-$$\boxed{5.76 < \mu_1 - \mu_2 < 9.86}$$
-
-Since the interval does not contain 0, there is a significant difference.
-
-## Example 9-3: Solution (R)
-
-```{r echo=T, warning=FALSE}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-diff <- x1 - x2
-se   <- sqrt(s1^2/n1 + s2^2/n2)
-moe  <- qnorm(0.975) * se
-
-cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
-```
-
-# Section 9-2: Testing the Difference Between Two Means of Independent Samples Using the t Test {background-color="#2c4a6e"}
-
-## When to Use the t Test (Two Independent Means)
-
-::: {.callout-note}
 Use the **t test** when:
 
 - Samples are independent and random
@@ -227,13 +217,15 @@ Use the **t test** when:
 $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
 
 **Degrees of freedom:** $d.f. = \min(n_1-1,\; n_2-1)$ *(conservative method)*
+
+:::
 :::
 
----
+## Example 9-4 {#example-9-4}
 
-## Example 9-4: Farm Sizes {#example-9-4}
+:::{.callout-warning}
+## Farm Sizes
 
-::: {.callout-tip}
 A researcher wants to determine whether farm sizes in Indiana and Greene counties differ. Random samples yielded:
 
 | | Indiana | Greene |
@@ -245,11 +237,14 @@ A researcher wants to determine whether farm sizes in Indiana and Greene countie
 At α = 0.05, test whether the means differ.
 :::
 
----
+## Example 9-4
 
-## Example 9-4: Solution (Math)
+:::{.callout-tip}
+## Solution
 
-**Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: μ₁ ≠ μ₂ (claim) — two-tailed
+**Mathematical solution**
+
+**Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: $\mu_1 \neq \mu_2$ (claim) — two-tailed
 
 **Step 2:** d.f. = min(8−1, 10−1) = 7; CV = ±2.365
 
@@ -259,12 +254,16 @@ $$t = \frac{191 - 199}{\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}}} = \frac{-8}{\s
 **Step 4:** |−0.573| < 2.365 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to conclude that farm sizes differ between the two counties.
+:::
 
----
+## Example 9-4
 
-## Example 9-4: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 191; x2 <- 199
 s1 <- 38;  s2 <- 12
 n1 <- 8;   n2 <- 10
@@ -280,8 +279,7 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
-
----
+:::
 
 ## Confidence Interval for μ₁ − μ₂ (σ Unknown)
 
@@ -291,42 +289,21 @@ $$(\bar{X}_1 - \bar{X}_2) - t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2
 where $d.f. = \min(n_1-1,\; n_2-1)$
 :::
 
----
+## Example 9-5 {#example-9-5}
 
-## Example 9-5: 95% CI for Farm Sizes
+:::{.callout-warning}
+## 95% CI for Farm Sizes
 
-::: {.callout-tip}
 Using the data from [Example 9-4](#example-9-4), construct a 95% confidence interval for μ₁ − μ₂.
 :::
 
-**Solution:** d.f. = 7; $t_{0.025, 7} = 2.365$
+## Example 9-5
 
-$$-8 \pm 2.365\sqrt{\frac{38^2}{8}+\frac{12^2}{10}} = -8 \pm 2.365(13.96) = -8 \pm 33.02$$
+:::{.callout-tip}
+## Solution
 
-$$\boxed{-41.02 < \mu_1 - \mu_2 < 25.02}$$
+**Solve**
 
-Since 0 is in the interval, there is no significant difference.
-
-## Example 9-5: Solution (R)
-
-```{r echo=T, warning=FALSE}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-diff <- x1 - x2
-se   <- sqrt(s1^2/n1 + s2^2/n2)
-df   <- min(n1 - 1, n2 - 1)
-moe  <- qt(0.975, df) * se
-
-cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
-```
-
-# Section 9-3: Testing the Difference Between Two Means — Dependent Samples {background-color="#2c4a6e"}
-
-## Dependent Samples (Paired Data)
-
-::: {.callout-note}
 Samples are **dependent** (paired) when:
 
 - The same subjects are measured twice (before/after)
@@ -337,13 +314,15 @@ Samples are **dependent** (paired) when:
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad d.f. = n - 1$$
 
 where $\bar{D} = \dfrac{\sum D}{n}$ and $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)^2}{n(n-1)}}$
+
+:::
 :::
 
----
+## Example 9-6 {#example-9-6}
 
-## Example 9-6: Bank Deposits
+:::{.callout-warning}
+## Bank Deposits
 
-::: {.callout-tip}
 A bank manager claims that deposits have decreased over the past 3 years. The following data (in millions) were recorded for 9 banks:
 
 | Bank | 3 yrs ago | Today | D |
@@ -361,9 +340,12 @@ A bank manager claims that deposits have decreased over the past 3 years. The fo
 At α = 0.05, test the claim.
 :::
 
----
+## Example 9-6
 
-## Example 9-6: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: μ_D = 0 &nbsp;&nbsp; H₁: μ_D < 0 (claim) — left-tailed
 
@@ -384,16 +366,21 @@ Recalculate: ΣD = −4.8; $\bar{D} = -4.8/9 \approx -0.533$...
 Using textbook values: $\bar{D} = -1.081$, $s_D = 1.937$
 
 $t = \frac{-1.081 - 0}{1.937/\sqrt{9}} = \frac{-1.081}{0.646} \approx -1.67$
-
+:::
 ---
 
 **Step 4:** −1.67 > −1.860 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to support the claim that deposits have decreased.
 
-## Example 9-6: Solution (R)
+## Example 9-6
 
-```{r echo=T, warning=FALSE}
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e9-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(1.2, 5.6, 7.1, 2.3, 4.0, 2.4, 1.7, 0.4, 0.9)
 today  <- c(1.8, 5.7, 8.2, 2.1, 5.3, 3.1, 1.8, 1.9, 1.5)
 
@@ -411,12 +398,13 @@ cat("t =", round(t_stat, 4), "\n")
 cat("Critical value =", round(cv, 3), "\n")
 cat("Decision:", ifelse(t_stat < cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 9-7 {#example-9-7}
 
-## Example 9-7: Cholesterol Levels
+:::{.callout-warning}
+## Cholesterol Levels
 
-::: {.callout-tip}
 A researcher claims that a mineral supplement affects cholesterol levels. Six subjects were tested before and after taking the supplement:
 
 | Subject | Before | After | D |
@@ -431,11 +419,14 @@ A researcher claims that a mineral supplement affects cholesterol levels. Six su
 At α = 0.10, test the claim that cholesterol levels changed.
 :::
 
----
+## Example 9-7
 
-## Example 9-7: Solution (Math)
+:::{.callout-tip}
+## Solution
 
-**Step 1:** H₀: μ_D = 0 &nbsp;&nbsp; H₁: μ_D ≠ 0 (claim) — two-tailed
+**Mathematical solution**
+
+**Step 1:** H₀: μ_D = 0 &nbsp;&nbsp; H₁: μ_D $\neq 0$ (claim) — two-tailed
 
 **Step 2:** d.f. = 5; CV = ±2.015
 
@@ -450,12 +441,16 @@ $t = \frac{16.7}{25.4/\sqrt{6}} = \frac{16.7}{10.37} \approx 1.610$
 **Step 4:** |1.610| < 2.015 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to support the claim that the supplement affects cholesterol levels.
+:::
 
----
+## Example 9-7
 
-## Example 9-7: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(210, 235, 208, 190, 172, 244)
 after  <- c(190, 170, 210, 188, 173, 228)
 
@@ -475,8 +470,7 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
-
----
+:::
 
 ## Confidence Interval for μ_D (Dependent Samples)
 
@@ -486,13 +480,20 @@ $$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\fr
 where $d.f. = n - 1$
 :::
 
----
+## Example 9-8 {#example-9-8}
 
-## Example 9-8: 90% CI for Cholesterol Change
+:::{.callout-warning}
+## 90% CI for Cholesterol Change
 
-::: {.callout-tip}
 Using Example 9-7 data, find a 90% confidence interval for μ_D.
 :::
+
+## Example 9-8
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
 
 **Solution:** d.f. = 5; $t_{0.05, 5} = 2.015$
 
@@ -502,9 +503,8 @@ $$\boxed{-4.19 < \mu_D < 37.59}$$
 
 Since the interval contains 0, we cannot conclude cholesterol levels changed significantly.
 
-## Example 9-8: Solution (R)
-
-```{r echo=T, warning=FALSE}
+## Example 9-8
+```{r e9-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(210, 235, 208, 190, 172, 244)
 after  <- c(190, 170, 210, 188, 173, 228)
 
@@ -517,7 +517,7 @@ moe  <- qt(0.95, df) * sD / sqrt(n)
 
 cat("90% CI: (", round(Dbar - moe, 2), ",", round(Dbar + moe, 2), ")\n")
 ```
-
+:::
 ---
 
 # Section 9-4: Testing the Difference Between Proportions {background-color="#2c4a6e"}
@@ -531,14 +531,14 @@ $$\bar{p} = \frac{X_1 + X_2}{n_1 + n_2}, \quad \bar{q} = 1 - \bar{p}$$
 **Test statistic:**
 $$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
 
-**Requirements:** $n_1\hat{p}_1$, $n_1\hat{q}_1$, $n_2\hat{p}_2$, $n_2\hat{q}_2$ all ≥ 5
+**Requirements:** $n_1\hat{p}_1$, $n_1\hat{q}_1$, $n_2\hat{p}_2$, $n_2\hat{q}_2$ all $\geq 5$
 :::
 
----
+## Example 9-9 {#example-9-9}
 
-## Example 9-9: Vaccination Rates in Nursing Homes
+:::{.callout-warning}
+## Vaccination Rates in Nursing Homes
 
-::: {.callout-tip}
 A researcher wants to determine whether the influenza vaccination rate of nursing home residents is the same for small and large homes. At α = 0.05, test the claim.
 
 | | Small | Large |
@@ -547,11 +547,14 @@ A researcher wants to determine whether the influenza vaccination rate of nursin
 | Total sampled | 34 | 24 |
 :::
 
----
+## Example 9-9
 
-## Example 9-9: Solution (Math)
+:::{.callout-tip}
+## Solution
 
-**Step 1:** H₀: p₁ = p₂ (claim) &nbsp;&nbsp; H₁: p₁ ≠ p₂ — two-tailed
+**Mathematical solution**
+
+**Step 1:** H₀: p₁ = p₂ (claim) &nbsp;&nbsp; H₁: $p_1 \neq p_2$ — two-tailed
 
 **Step 2:** CV = ±1.96
 
@@ -564,12 +567,16 @@ $$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\r
 **Step 4:** |−2.67| > 1.96 → **Reject H₀**
 
 **Step 5:** There is enough evidence to reject the claim that vaccination rates are the same for small and large nursing homes.
+:::
 
----
+## Example 9-9
 
-## Example 9-9: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 12; n1 <- 34
 x2 <- 17; n2 <- 24
 
@@ -588,14 +595,22 @@ cat("Critical value = ±", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(abs(z) > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 9-10 {#example-9-10}
 
-## Example 9-10: Texting While Driving
+:::{.callout-warning}
+## Texting While Driving
 
-::: {.callout-tip}
 A survey found that 29% of drivers this year text while driving, versus 17% last year. Each sample included 1000 drivers. At α = 0.01, test the claim that the proportion has increased.
 :::
+
+## Example 9-10
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Step 1:** H₀: p₁ = p₂ &nbsp;&nbsp; H₁: p₁ > p₂ (claim) — right-tailed
 
@@ -608,12 +623,16 @@ $$z = \frac{0.29 - 0.17}{\sqrt{0.23(0.77)\left(\frac{1}{1000}+\frac{1}{1000}\rig
 **Step 4:** 6.38 > 2.33 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence to support the claim that texting while driving has increased.
+:::
 
----
+## Example 9-10
 
-## Example 9-10: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 290; n1 <- 1000   # this year
 x2 <- 170; n2 <- 1000   # last year
 
@@ -630,8 +649,7 @@ cat("Critical value =", round(cv, 3), "\n")
 cat("P-value =", round(p_val, 6), "\n")
 cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
-
----
+:::
 
 ## Confidence Interval for p₁ − p₂
 
@@ -639,54 +657,31 @@ cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
 $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}} < p_1-p_2 < (\hat{p}_1-\hat{p}_2) + z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
 :::
 
----
+## Example 9-11 {#example-9-11}
 
-## Example 9-11: 95% CI for Vaccination Rate Difference
+:::{.callout-warning}
+## 95% CI for Vaccination Rate Difference
 
-::: {.callout-tip}
 Using Example 9-9 data, find a 95% confidence interval for p₁ − p₂.
 :::
 
-**Solution:** $\hat{p}_1 = 0.353$, $\hat{p}_2 = 0.708$; $z_{0.025} = 1.96$
+## Example 9-11
 
-$$\sqrt{\frac{(0.353)(0.647)}{34}+\frac{(0.708)(0.292)}{24}} = \sqrt{0.00671 + 0.00861} = \sqrt{0.01532} = 0.1238$$
+:::{.callout-tip}
+## Solution
 
-$$-0.355 \pm 1.96(0.1238) = -0.355 \pm 0.243$$
+**Solve**
 
-$$\boxed{-0.602 < p_1 - p_2 < -0.118}$$
-
-The interval does not contain 0, confirming a significant difference.
-
-## Example 9-11: Solution (R)
-
-```{r echo=T, warning=FALSE}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; phat2 <- x2/n2
-qhat1 <- 1 - phat1; qhat2 <- 1 - phat2
-diff  <- phat1 - phat2
-se    <- sqrt(phat1*qhat1/n1 + phat2*qhat2/n2)
-moe   <- qnorm(0.975) * se
-
-cat("95% CI: (", round(diff - moe, 3), ",", round(diff + moe, 3), ")\n")
-```
-
-# Section 9-5: Testing the Difference Between Two Variances {background-color="#2c4a6e"}
-
-## The F Distribution
-
-::: {.callout-note}
 The **F distribution** is used to compare two variances from independent, normally distributed populations.
 
 **Characteristics:**
-- F values are always ≥ 0 (variances are non-negative)
+- F values are always $\geq 0$ (variances are non-negative)
 - The distribution is positively skewed
-- The mean ≈ 1
+- The mean $\approx 1$
 - It is a family of curves indexed by two degrees of freedom: numerator (d.f.N.) and denominator (d.f.D.)
-:::
 
----
+:::
+:::
 
 ## F Test Formula
 
@@ -704,8 +699,6 @@ where $s_1^2$ is always the **larger** variance (placed in the numerator).
 3. For a two-tailed test, use the $\alpha/2$ critical value table (right tail only)
 :::
 
----
-
 ## Key Rules for the F Test
 
 ::: {.callout-important}
@@ -715,23 +708,34 @@ where $s_1^2$ is always the **larger** variance (placed in the numerator).
 4. If d.f. not in the table, use the next **smaller** d.f.
 :::
 
----
+## Example 9-12 {#example-9-12}
 
-## Example 9-12: Finding a Critical Value (Right-Tailed)
+:::{.callout-warning}
+## Finding a Critical Value (Right-Tailed)
 
-::: {.callout-tip}
 Find the critical value for a right-tailed F test when α = 0.05, d.f.N. = 15, d.f.D. = 21.
 :::
+
+## Example 9-12
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution:** Use the α = 0.05 table. Look up d.f.N. = 15 (column) and d.f.D. = 21 (row).
 
 $$F_{CV} = 2.18$$
+:::
 
----
+## Example 9-12
 
-## Example 9-12: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Critical value for right-tailed F test
 alpha  <- 0.05
 dfN    <- 15
@@ -740,26 +744,38 @@ dfD    <- 21
 cv <- qf(1 - alpha, dfN, dfD)
 cat("Critical value (right-tailed, alpha=0.05):", round(cv, 4), "\n")
 ```
+:::
 
----
+## Example 9-13 {#example-9-13}
 
-## Example 9-13: Finding a Critical Value (Two-Tailed)
+:::{.callout-warning}
+## Finding a Critical Value (Two-Tailed)
 
-::: {.callout-tip}
 Find the critical value for a two-tailed F test with α = 0.05 when the sample size from which the numerator variance was obtained was 21 and the denominator variance was from n = 12.
 :::
+
+## Example 9-13
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution:** Two-tailed → use α/2 = 0.025 table.
 
 d.f.N. = 21 − 1 = 20, d.f.D. = 12 − 1 = 11
 
 $$F_{CV} = 3.23$$
+:::
 
----
+## Example 9-13
 
-## Example 9-13: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 alpha <- 0.05
 n1    <- 21; n2 <- 12
 dfN   <- n1 - 1; dfD <- n2 - 1
@@ -768,12 +784,13 @@ cv <- qf(1 - alpha/2, dfN, dfD)
 cat("Critical value (two-tailed, alpha=0.05):", round(cv, 4), "\n")
 cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
 ```
+:::
 
----
+## Example 9-14 {#example-9-14}
 
-## Example 9-14: Heart Rates of Smokers
+:::{.callout-warning}
+## Heart Rates of Smokers
 
-::: {.callout-tip}
 A researcher wants to determine whether the variance in heart rates (beats per minute) differs between smokers and nonsmokers. At α = 0.05, test the claim.
 
 | | Smokers | Nonsmokers |
@@ -782,11 +799,14 @@ A researcher wants to determine whether the variance in heart rates (beats per m
 | $s^2$ | 36 | 10 |
 :::
 
----
+## Example 9-14
 
-## Example 9-14: Solution (Math)
+:::{.callout-tip}
+## Solution
 
-**Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: σ₁² ≠ σ₂² (claim) — two-tailed
+**Mathematical solution**
+
+**Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: $\sigma_1^2 \neq \sigma_2^2$ (claim) — two-tailed
 
 **Step 2:** Use α/2 = 0.025 table.
 d.f.N. = 26 − 1 = 25; d.f.D. = 18 − 1 = 17 → CV = 2.56 (use d.f.N. = 24)
@@ -797,12 +817,16 @@ $$F = \frac{s_1^2}{s_2^2} = \frac{36}{10} = 3.6$$
 **Step 4:** 3.6 > 2.56 → **Reject H₀**
 
 **Step 5:** There is sufficient evidence to support the claim that the variance in heart rates differs between smokers and nonsmokers.
+:::
 
----
+## Example 9-14
 
-## Example 9-14: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s1_sq <- 36; n1 <- 26
 s2_sq <- 10; n2 <- 18
 
@@ -817,14 +841,22 @@ cat("Critical value (two-tailed) =", round(cv, 4), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 9-15 {#example-9-15}
 
-## Example 9-15: Waiting Time to See a Doctor
+:::{.callout-warning}
+## Waiting Time to See a Doctor
 
-::: {.callout-tip}
 At a first hospital the standard deviation of emergency room waiting times is 32 minutes (n = 16); at a second hospital it is 28 minutes (n = 18). At α = 0.01, test whether the first hospital has greater variation.
 :::
+
+## Example 9-15
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: σ₁² > σ₂² (claim) — right-tailed
 
@@ -836,12 +868,16 @@ $$F = \frac{32^2}{28^2} = \frac{1024}{784} \approx 1.306$$
 **Step 4:** 1.306 < 3.31 → **Do not reject H₀**
 
 **Step 5:** There is not enough evidence to support the claim that the first hospital has greater variation in waiting times.
+:::
 
----
+## Example 9-15
 
-## Example 9-15: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s1 <- 32; n1 <- 16
 s2 <- 28; n2 <- 18
 
@@ -855,21 +891,25 @@ cat("Critical value =", round(cv, 4), "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 9-16 {#example-9-16}
 
-## Example 9-16: Airport Passengers (P-value Method)
+:::{.callout-warning}
+## Airport Passengers (P-value Method)
 
-::: {.callout-tip}
 A CEO hypothesizes that the variance in annual passenger counts is greater for American airports than for foreign airports. At α = 0.10, test the claim using the P-value method.
 
 **American** (millions): 36.8, 72.4, 60.5, 73.5, 61.2, 40.1
 **Foreign** (millions): 60.7, 42.7, 51.2, 38.6
 :::
 
----
+## Example 9-16
 
-## Example 9-16: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 **Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: σ₁² > σ₂² (claim) — right-tailed
 
@@ -881,17 +921,21 @@ $$F = \frac{246.38}{95.87} \approx 2.57$$
 
 d.f.N. = 5, d.f.D. = 3
 
-From the F table at α = 0.10: F = 5.31. Since 2.57 < 5.31, **P-value > 0.10** (actual P ≈ 0.234)
+From the F table at α = 0.10: F = 5.31. Since 2.57 < 5.31, **P-value > 0.10** (actual P $\approx 0.234$)
 
 **Step 4:** Do not reject H₀
 
 **Step 5:** There is not enough evidence to support the claim that American airports have greater variance in passenger counts.
+:::
 
----
+## Example 9-16
 
-## Example 9-16: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e9-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 american <- c(36.8, 72.4, 60.5, 73.5, 61.2, 40.1)
 foreign  <- c(60.7, 42.7, 51.2, 38.6)
 
@@ -908,10 +952,9 @@ cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
 cat("P-value =", round(p_val, 4), "\n")
 cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
-
-## Chapter 9 Summary
+## Key Takeaways
 
 | Situation | Test | Statistic |
 |-----------|------|-----------|
@@ -921,10 +964,7 @@ cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 | Two proportions | z test | $z = \frac{\hat{p}_1-\hat{p}_2}{\sqrt{\bar{p}\bar{q}(1/n_1+1/n_2)}}$ |
 | Two variances | F test | $F = s_1^2/s_2^2$ (larger in numerator) |
 
----
-
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

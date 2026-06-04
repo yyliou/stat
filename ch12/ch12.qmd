@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -44,8 +44,7 @@ library(ggplot2)
 
 # Chapter 12: Analysis of Variance {background-color="#2c4a6e"}
 
-## Chapter Overview
-
+## Overview
 ::: {.callout-note}
 ## Why ANOVA?
 When comparing **three or more group means**, using multiple t-tests is problematic:
@@ -60,8 +59,6 @@ When comparing **three or more group means**, using multiple t-tests is problema
 - **Section 12-1:** One-Way Analysis of Variance (ANOVA)
 - **Section 12-2:** Post-hoc Tests — Scheffé and Tukey
 - **Section 12-3:** Two-Way Analysis of Variance
-
----
 
 ## Historical Note
 
@@ -87,8 +84,6 @@ ANOVA uses **variances** to make inferences about **means** — hence the name "
 
 The **F test** overcomes all three issues by comparing all means at once.
 
----
-
 ## Assumptions for One-Way ANOVA
 
 ::: {.callout-important}
@@ -97,8 +92,6 @@ The **F test** overcomes all three issues by comparing all means at once.
 2. All samples must be **independent** of one another
 3. The **variances of all populations** must be equal (homogeneity of variance)
 :::
-
----
 
 ## The Logic of ANOVA
 
@@ -117,8 +110,6 @@ $$F = \frac{s_B^2}{s_W^2}$$
 
 The F test for comparing means is always **right-tailed**.
 
----
-
 ## Hypotheses and Degrees of Freedom
 
 ::: {.callout-note}
@@ -133,8 +124,6 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
 where $k$ = number of groups and $N = n_1 + n_2 + \cdots + n_k$
 :::
-
----
 
 ## ANOVA Computational Formulas
 
@@ -151,8 +140,6 @@ where $k$ = number of groups and $N = n_1 + n_2 + \cdots + n_k$
 **Step 5:** $F = \dfrac{s_B^2}{s_W^2}$
 :::
 
----
-
 ## ANOVA Summary Table
 
 ::: {.callout-note}
@@ -168,12 +155,11 @@ Where:
 - $SSW = \sum (n_i - 1)s_i^2$
 :::
 
----
+## Example 12-1 {#example-12-1}
 
-## Example 12-1: Lowering Blood Pressure (Part 1)
+:::{.callout-warning}
+## Lowering Blood Pressure
 
-::: {.callout-tip}
-## Problem
 A researcher tests three techniques to reduce blood pressure: **medication**, **exercise**, and **diet**. After 4 weeks, blood pressure reductions are recorded. At $\alpha = 0.05$, test the claim that there is no difference among the means.
 
 | Medication | Exercise | Diet |
@@ -185,14 +171,16 @@ A researcher tests three techniques to reduce blood pressure: **medication**, **
 | 13 | 2 | 4 |
 | $\bar{X}_1=11.8$ | $\bar{X}_2=3.8$ | $\bar{X}_3=7.6$ |
 | $s_1^2=5.7$ | $s_2^2=10.2$ | $s_3^2=10.3$ |
+
+:::
 :::
 
----
+## Example 12-1
 
-## Example 12-1: Mathematical Solution
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
-## Step-by-Step Solution
+**Mathematical solution**
 
 **Step 1:** $H_0: \mu_1 = \mu_2 = \mu_3$ (claim); $H_1:$ At least one mean differs
 
@@ -213,11 +201,16 @@ $$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
 **Step 4:** $9.17 > 3.89$ → **Reject** $H_0$
 
 **Step 5:** There is sufficient evidence that at least one mean differs from the others.
+
+:::
 :::
 
----
+## Example 12-1
 
-## Example 12-1: ANOVA Summary Table
+:::{.callout-tip}
+## Solution
+
+**ANOVA summary table**
 
 | Source | SS | d.f. | MS | F |
 |--------|-----|------|-----|---|
@@ -228,12 +221,16 @@ $$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
 Critical value at $\alpha=0.05$: **3.89**
 
 Since $F = 9.17 > 3.89$, we **reject** $H_0$.
+:::
 
----
+## Example 12-1
 
-## Example 12-1: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex12-1, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e12-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 medication <- c(10, 12, 9, 15, 13)
 exercise   <- c(6, 8, 3, 0, 2)
 diet       <- c(5, 9, 12, 8, 4)
@@ -246,12 +243,16 @@ bp_data <- data.frame(
 result <- aov(reduction ~ group, data = bp_data)
 summary(result)
 ```
+:::
 
----
+## Example 12-1
 
-## Example 12-1: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r ex12-1-plot, echo=T, warning=FALSE}
+**Visualization**
+
+```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -260,13 +261,13 @@ ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
+:::
 
----
+## Example 12-2 {#example-12-2}
 
-## Example 12-2: Employees at Toll Road Interchanges (Part 1)
+:::{.callout-warning}
+## Employees at Toll Road Interchanges
 
-::: {.callout-tip}
-## Problem
 A state official wants to determine if there is a significant difference in the number of employees at interchanges across three Pennsylvania toll roads. At $\alpha = 0.05$, test the claim.
 
 | PA Turnpike | Greensburg Bypass | Beaver Valley |
@@ -279,14 +280,16 @@ A state official wants to determine if there is a significant difference in the 
 | 11 | 1 | 11 |
 | $\bar{X}_1=15.5$ | $\bar{X}_2=4.0$ | $\bar{X}_3=5.8$ |
 | $s_1^2=81.9$ | $s_2^2=25.6$ | $s_3^2=29.0$ |
+
+:::
 :::
 
----
+## Example 12-2
 
-## Example 12-2: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Step 1:** $H_0: \mu_1 = \mu_2 = \mu_3$; $H_1:$ At least one mean differs (claim)
 
@@ -303,11 +306,16 @@ A state official wants to determine if there is a significant difference in the 
 **Step 4:** $5.05 > 3.68$ → **Reject** $H_0$
 
 **Step 5:** Sufficient evidence that at least one interchange mean differs from the others.
+
+:::
 :::
 
----
+## Example 12-2
 
-## Example 12-2: ANOVA Summary Table
+:::{.callout-tip}
+## Solution
+
+**ANOVA summary table**
 
 | Source | SS | d.f. | MS | F |
 |--------|-----|------|-----|---|
@@ -318,12 +326,16 @@ A state official wants to determine if there is a significant difference in the 
 **P-value:** $0.01 < P < 0.025$ (from F-tables); calculator: $P = 0.021$
 
 Since $F = 5.05 > 3.68$, we **reject** $H_0$.
+:::
 
----
+## Example 12-2
 
-## Example 12-2: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex12-2, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e12-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 pa_turnpike  <- c(7, 14, 32, 19, 10, 11)
 greensburg   <- c(10, 1, 1, 0, 11, 1)
 beaver       <- c(1, 12, 1, 9, 1, 11)
@@ -336,12 +348,16 @@ emp_data <- data.frame(
 result2 <- aov(employees ~ road, data = emp_data)
 summary(result2)
 ```
+:::
 
----
+## Example 12-2
 
-## Example 12-2: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r ex12-2-plot, echo=T, warning=FALSE}
+**Visualization**
+
+```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -350,7 +366,7 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
-
+:::
 ---
 
 # Section 12-2: The Scheffé Test and the Tukey Test {background-color="#2c4a6e"}
@@ -371,8 +387,6 @@ Post-hoc tests make all pairwise comparisons after ANOVA:
 **General rule:** Use Tukey when $n_i = n_j$; use Scheffé when sizes differ.
 :::
 
----
-
 ## The Scheffé Test
 
 ::: {.callout-note}
@@ -385,23 +399,22 @@ $$F' = (k-1) \times C.V._{\text{ANOVA}}$$
 Reject $H_0$ for that pair if $F_S > F'$
 :::
 
----
+## Example 12-3 {#example-12-3}
 
-## Example 12-3: Scheffé Test for Blood Pressure Data
+:::{.callout-warning}
+## Scheffé Test for Blood Pressure Data
 
-::: {.callout-tip}
-## Problem
 Using the Scheffé test, determine which pairs of means in Example 12-1 differ significantly at $\alpha = 0.05$.
 
 Recall: $\bar{X}_1=11.8$, $\bar{X}_2=3.8$, $\bar{X}_3=7.6$, $s_W^2=8.73$, $n_i=5$ for all groups.
 :::
 
----
+## Example 12-3
 
-## Example 12-3: Mathematical Solution
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
-## Scheffé Test Calculations
+**Mathematical solution**
 
 **Critical value:** $F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78$
 
@@ -415,13 +428,18 @@ $$F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad
 $$F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{Not significant}$$
 
 **Conclusion:** Only **Medication vs. Exercise** ($\bar{X}_1$ vs $\bar{X}_2$) is significantly different.
+
+:::
 :::
 
----
+## Example 12-3
 
-## Example 12-3: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex12-3, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Scheffé test using agricolae package (or manual calculation)
 # Manual Scheffe test
 scheffe_fs <- function(x1_bar, x2_bar, sw2, n1, n2) {
@@ -445,8 +463,7 @@ for (p in pairs) {
   cat(p[1], ": Fs =", round(fs, 2), "->", sig, "\n")
 }
 ```
-
----
+:::
 
 ## The Tukey Test
 
@@ -464,23 +481,22 @@ Compare $|q|$ to the critical value from **Tukey's table** (Table N):
 Reject $H_0$ for that pair if $|q| >$ critical value.
 :::
 
----
+## Example 12-4 {#example-12-4}
 
-## Example 12-4: Tukey Test for Blood Pressure Data
+:::{.callout-warning}
+## Tukey Test for Blood Pressure Data
 
-::: {.callout-tip}
-## Problem
 Using the Tukey test, determine which pairs of means in Example 12-1 differ significantly at $\alpha = 0.05$.
 
 $\bar{X}_1=11.8$, $\bar{X}_2=3.8$, $\bar{X}_3=7.6$, $s_W^2=8.73$, $n=5$
 :::
 
----
+## Example 12-4
 
-## Example 12-4: Mathematical Solution
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
-## Tukey Test Calculations
+**Mathematical solution**
 
 $\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321$
 
@@ -496,13 +512,18 @@ $$q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{Not signif
 $$q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{Not significant}$$
 
 **Conclusion:** Only **Medication vs. Exercise** is significantly different — agrees with Scheffé.
+
+:::
 :::
 
----
+## Example 12-4
 
-## Example 12-4: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex12-4, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e12-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Tukey HSD test using R's built-in function
 medication <- c(10, 12, 9, 15, 13)
 exercise   <- c(6, 8, 3, 0, 2)
@@ -516,17 +537,20 @@ bp_data <- data.frame(
 bp_aov <- aov(reduction ~ group, data = bp_data)
 TukeyHSD(bp_aov)
 ```
+:::
 
----
+## Example 12-4
 
-## Example 12-4: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r ex12-4-plot, echo=T, warning=FALSE}
+**Visualization**
+
+```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tukey_result <- TukeyHSD(bp_aov)
 plot(tukey_result, las = 1)
 ```
-
----
+:::
 
 ## Scheffé vs. Tukey: Comparison
 
@@ -561,8 +585,6 @@ Benefits of two-way ANOVA:
 - More efficient than two separate one-way ANOVAs
 :::
 
----
-
 ## Two-Way ANOVA: Design Structure
 
 ::: {.callout-note}
@@ -572,12 +594,10 @@ Benefits of two-way ANOVA:
 - **$n$** subjects per cell (must be equal)
 - **Total subjects** = $abn$
 
-A **2×2 design** has 2 levels for each factor → 4 treatment groups.
+A **$2 \times 2$ design** has 2 levels for each factor → 4 treatment groups.
 
-Example: Plant food type (A1, A2) × Soil type (I, II) → 4 groups
+Example: Plant food type (A1, A2) $\times$ Soil type (I, II) → 4 groups
 :::
-
----
 
 ## Two-Way ANOVA: Three Hypotheses
 
@@ -596,8 +616,6 @@ $$H_0: \text{No difference in means across levels of B}$$
 $$H_1: \text{At least one mean of B differs}$$
 :::
 
----
-
 ## Two-Way ANOVA: Assumptions
 
 ::: {.callout-important}
@@ -608,8 +626,6 @@ $$H_1: \text{At least one mean of B differs}$$
 4. **Group sizes must be equal** ($n$ per cell is the same for all cells)
 :::
 
----
-
 ## Two-Way ANOVA: Summary Table
 
 ::: {.callout-note}
@@ -618,17 +634,16 @@ $$H_1: \text{At least one mean of B differs}$$
 |--------|-----|------|-----|---|
 | Factor A | SSA | $a-1$ | MSA | $F_A = MSA/MSW$ |
 | Factor B | SSB | $b-1$ | MSB | $F_B = MSB/MSW$ |
-| Interaction A×B | SS(A×B) | $(a-1)(b-1)$ | MS(A×B) | $F_{A \times B} = MS(A \times B)/MSW$ |
+| Interaction $A \times B$ | SS($A \times B$) | $(a-1)(b-1)$ | MS($A \times B$) | $F_{A \times B} = MS(A \times B)/MSW$ |
 | Within (Error) | SSW | $ab(n-1)$ | MSW | |
 | Total | SST | $abn-1$ | | |
 :::
 
----
+## Example 12-5 {#example-12-5}
 
-## Example 12-5: Gasoline Consumption (Part 1)
+:::{.callout-warning}
+## Gasoline Consumption
 
-::: {.callout-tip}
-## Problem
 A researcher investigates whether **type of gasoline** (regular vs. high-octane) and **type of automobile** (two-wheel vs. four-wheel drive) affect fuel economy (mpg). Two cars are tested in each of the four combinations.
 
 |  | Two-wheel-drive | Four-wheel-drive |
@@ -637,16 +652,18 @@ A researcher investigates whether **type of gasoline** (regular vs. high-octane)
 | **High-octane** | 32.3, 32.8 | 26.1, 24.2 |
 
 Test at $\alpha = 0.05$.
+
+:::
 :::
 
----
+## Example 12-5
 
-## Example 12-5: Setting Up the Test
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
-## Step 1: Hypotheses
+**Setting up the test**
 
-**Interaction (A×B):**
+**Interaction ($A \times B$):**
 $H_0$: No interaction between gasoline type and automobile type
 $H_1$: There is an interaction effect
 
@@ -661,45 +678,46 @@ $H_1$: Means differ by automobile type
 **Step 2:** $a=2$, $b=2$, $n=2$; all F critical values use $d.f.N.=1$, $d.f.D.=ab(n-1)=4$ → $F_{crit} = 7.71$
 :::
 
----
+## Example 12-5
 
-## Example 12-5: Completed ANOVA Table
-
-::: {.callout-tip}
-## Step 3: Computing Mean Squares and F Values
+:::{.callout-tip}
+## Solution
 
 | Source | SS | d.f. | MS | F |
 |--------|-----|------|-----|---|
 | Gasoline A | 3.920 | 1 | 3.920 | 4.752 |
 | Automobile B | 9.680 | 1 | 9.680 | **11.733** |
-| Interaction A×B | 54.080 | 1 | 54.080 | **65.552** |
+| Interaction $A \times B$ | 54.080 | 1 | 54.080 | **65.552** |
 | Within (Error) | 3.300 | 4 | 0.825 | |
 | **Total** | **70.980** | **7** | | |
 
 Critical value for all tests: **7.71**
 :::
 
----
+## Example 12-5
 
-## Example 12-5: Decisions and Interpretation
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
-## Steps 4 & 5
+**Interpretation**
 
 **Gasoline A:** $F_A = 4.752 < 7.71$ → **Fail to reject** $H_0$
 
 **Automobile B:** $F_B = 11.733 > 7.71$ → **Reject** $H_0$
 
-**Interaction A×B:** $F_{A \times B} = 65.552 > 7.71$ → **Reject** $H_0$
+**Interaction $A \times B$:** $F_{A \times B} = 65.552 > 7.71$ → **Reject** $H_0$
 
 **Important:** Since the interaction is **significant**, the main effect of automobile type should **not** be interpreted independently — it depends on which gasoline type is used.
 
 **Conclusion:** The combination of gasoline type and automobile type significantly affects fuel economy.
+
+:::
 :::
 
----
+## Example 12-5
 
-## Example 12-5: Cell Means and Interaction Plot
+:::{.callout-tip}
+## Solution
 
 Cell means for visualization:
 
@@ -708,7 +726,7 @@ Cell means for visualization:
 | **Regular** | 25.95 | 28.95 |
 | **High-octane** | 32.55 | 25.15 |
 
-```{r ex12-5-plot, echo=T, warning=FALSE}
+```{r e12-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gas_data <- data.frame(
   mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
   gas  = rep(c("Regular","Regular","Regular","Regular",
@@ -727,12 +745,16 @@ ggplot(cell_means, aes(x = gas, y = mean_mpg, color = auto, group = auto)) +
        x = "Gasoline Type", y = "Mean MPG", color = "Auto Type") +
   theme_minimal()
 ```
+:::
 
----
+## Example 12-5
 
-## Example 12-5: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex12-5-aov, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e12-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gas_data2 <- data.frame(
   mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
   gas  = factor(rep(c("Regular","High-octane"), each = 4)),
@@ -742,8 +764,7 @@ gas_data2 <- data.frame(
 result5 <- aov(mpg ~ gas * auto, data = gas_data2)
 summary(result5)
 ```
-
----
+:::
 
 ## Interpreting Interaction Effects
 
@@ -761,12 +782,8 @@ summary(result5)
 - If lines don't cross → **ordinal** interaction → main effects can be interpreted
 :::
 
----
-
-## Chapter 12 Summary
-
-::: {.callout-note}
 ## Key Takeaways
+
 
 **Section 12-1 — One-Way ANOVA:**
 - F test compares 3+ means simultaneously
@@ -781,10 +798,8 @@ summary(result5)
 - Tests two factors and their interaction simultaneously
 - If interaction is significant, do not interpret main effects independently
 - Interaction plots reveal the nature of the relationship
-:::
 
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

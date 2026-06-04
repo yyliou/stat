@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -41,8 +41,7 @@ include-after-body:
 library(tidyverse)
 ```
 
-## Chapter 3 Overview
-
+## Overview
 Chapter 3 develops tools for **describing a dataset** numerically — where it centers, how spread out it is, and where any individual value stands.
 
 | Section | Topics |
@@ -78,8 +77,6 @@ The four most widely used measures are:
 | $N$ | Population size |
 :::
 
----
-
 ## The Mean
 
 The **mean** is computed by summing all data values and dividing by the number of observations. It is the most commonly reported measure of center.
@@ -101,22 +98,24 @@ where $\Sigma X$ is the sum of all data values and $n$ (or $N$) is the count of 
 Round the mean to **one more decimal place** than appears in the original data.
 :::
 
----
+## Example 3-1 {#example-3-1}
 
-## Example 3-1: Days Off per Year
+:::{.callout-warning}
+## Days Off per Year
 
-:::{.callout-tip}
-## Example 3-1
 A survey of six countries found the following average number of days per year that workers receive as paid leave. Find the mean.
 
 **Days:** 13, 15, 26, 36, 37, 42
 :::
 
----
+## Example 3-1
 
-## Example 3-1: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 days_off <- c(13, 15, 26, 36, 37, 42)
 
 mean_val <- mean(days_off)
@@ -126,31 +125,33 @@ cat("Mean:", mean_val, "\n")
 ```
 
 The mean number of paid days off is approximately **`r round(mean(c(13,15,26,36,37,42)),1)` days**.
+:::
 
----
+## Example 3-2 {#example-3-2}
 
-## Example 3-2: Hospital Infections
+:::{.callout-warning}
+## Hospital Infections
 
-:::{.callout-tip}
-## Example 3-2
 The number of hospital-acquired infections reported at a sample of hospitals over one year is listed below. Determine the mean.
 
 **Values:** 62, 58, 71, 70, 69, 58, 51, 64, 66, 80
 :::
 
----
+## Example 3-2
 
-## Example 3-2: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 infections <- c(62, 58, 71, 70, 69, 58, 51, 64, 66, 80)
 cat("Mean number of infections:", mean(infections), "\n")
 cat("Sum:", sum(infections), "  n:", length(infections), "\n")
 ```
 
 The mean is **`r mean(c(62,58,71,70,69,58,51,64,66,80))`** hospital-acquired infections.
-
----
+:::
 
 ## Mean for Grouped Data
 
@@ -164,12 +165,11 @@ $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
 where $f$ = class frequency, $X_m$ = class midpoint, $n = \Sigma f$.
 :::
 
----
+## Example 3-3 {#example-3-3}
 
-## Example 3-3: Miles Run per Week (Grouped Mean) {#example-3-3}
+:::{.callout-warning}
+## Miles Run per Week (Grouped Mean)
 
-:::{.callout-tip}
-## Example 3-3
 Twenty runners recorded the number of miles they ran during one week. Using the frequency distribution below, find the mean.
 
 | Class | Frequency |
@@ -183,11 +183,14 @@ Twenty runners recorded the number of miles they ran during one week. Using the 
 | 35.5–40.5 | 2 |
 :::
 
----
+## Example 3-3
 
-## Example 3-3: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 midpoints <- c(8, 13, 18, 23, 28, 33, 38)
 freq      <- c(1,  2,  3,  5,  4,  3,  2)
 
@@ -197,17 +200,15 @@ df_grouped <- data.frame(midpoint = midpoints, f = freq) |>
 knitr::kable(df_grouped, col.names = c("Midpoint (Xm)", "Frequency (f)", "f · Xm"),
              caption = "Grouped Mean Calculation")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n    <- sum(freq)
 xbar <- sum(df_grouped$fXm) / n
 cat("\nn =", n, "  Sum(f·Xm) =", sum(df_grouped$fXm),
     "  Mean =", round(xbar, 1), "miles\n")
 ```
-
----
 
 ## The Median
 
@@ -221,22 +222,24 @@ The **median** is the value that sits at the exact center of an ordered dataset,
 3. If $n$ is **even**: the median is the **average of the two middle values**.
 :::
 
----
+## Example 3-4 {#example-3-4}
 
-## Example 3-4: Hotel Rooms
+:::{.callout-warning}
+## Hotel Rooms
 
-:::{.callout-tip}
-## Example 3-4
 The number of rooms in the seven hotels in a downtown district are listed below. Find the median.
 
 **Rooms:** 713, 300, 618, 595, 311, 401, 292
 :::
 
----
+## Example 3-4
 
-## Example 3-4: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 rooms <- c(713, 300, 618, 595, 311, 401, 292)
 sorted <- sort(rooms)
 cat("Sorted:", sorted, "\n")
@@ -245,17 +248,24 @@ cat("Median:", median(rooms), "\n")
 ```
 
 With 7 values (odd), the median is the **4th value** when sorted: **`r median(c(713,300,618,595,311,401,292))`** rooms.
+:::
 
----
+## Example 3-5 {#example-3-5}
 
-## Example 3-5: National Park Costs (Even n)
+:::{.callout-warning}
+## National Park Costs (Even n)
 
-:::{.callout-tip}
-## Example 3-5
 The entrance fees (in dollars) for a random sample of national parks are: 25, 10, 8, 15, 5, 12, 14, 3. Find the median.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-5
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fees <- c(25, 10, 8, 15, 5, 12, 14, 3)
 sorted_fees <- sort(fees)
 cat("Sorted:", sorted_fees, "\n")
@@ -265,13 +275,11 @@ cat("Median:", median(fees), "\n")
 ```
 
 With 8 values (even), the median is the average of the 4th and 5th sorted values: $\frac{10+12}{2}$ = **$11**.
+:::
 
----
-
-## Example 3-6 & 3-7: Medians for Larger Datasets
-
-:::{.callout-tip}
-## Example 3-6 & 3-7 — Tornadoes & Asthma Cases
+## Example 3-6 {#example-3-6}
+:::{.callout-warning}
+## example-3-6
 1. The number of tornadoes reported in 12 U.S. states during a recent year:
 188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810
 
@@ -281,7 +289,7 @@ With 8 values (even), the median is the average of the 4th and 5th sorted values
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tornadoes <- c(188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810)
 asthma    <- c(345, 243, 111, 144, 280, 300, 213, 201, 403, 201)
 
@@ -291,24 +299,29 @@ cat("Asthma — sorted:", paste(sort(asthma), collapse=", "), "\n")
 cat("Asthma median:", median(asthma), "\n")
 ```
 
----
+## Example 3-8 {#example-3-8}
 
-## Example 3-8: Magazines (Finding the Median from a Distribution)
+:::{.callout-warning}
+## Magazines (Finding the Median from a Distribution)
 
-:::{.callout-tip}
-## Example 3-8
 Six randomly selected bookstores reported selling this many magazines per week: 3, 7, 8, 3, 1, 3. Find the median.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-8
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mags <- c(3, 7, 8, 3, 1, 3)
 cat("Sorted:", sort(mags), "\n")
 cat("Median:", median(mags), "\n")
 ```
 
 The median is **`r median(c(3,7,8,3,1,3))`** magazines per week.
-
----
+:::
 
 ## The Mode
 
@@ -322,18 +335,24 @@ The **mode** is the value that appears most frequently in a dataset. Unlike the 
 - Mode is the **only** appropriate measure of center for nominal (categorical) data.
 :::
 
----
+## Example 3-9 {#example-3-9}
 
-## Example 3-9: NFL Signing Bonuses {#example-3-9}
+:::{.callout-warning}
+## NFL Signing Bonuses
 
-:::{.callout-tip}
-## Example 3-9
 The signing bonuses (in millions of dollars) for a sample of NFL players are listed. Find the mode.
 
 **Values:** 18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-9
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 bonuses <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
 
 mode_tbl <- sort(table(bonuses), decreasing = TRUE)
@@ -342,20 +361,18 @@ cat("Mode: $", names(mode_tbl)[1], "million\n")
 ```
 
 Both 2 and 10 appear 3 times → dataset is **bimodal**: **$2M and $10M**.
+:::
 
----
-
-## Example 3-10 & 3-11: No Mode vs. Bimodal
-
-:::{.callout-tip}
-## Example 3-10 & 3-11 — No Mode & Bimodal
+## Example 3-10 {#example-3-10}
+:::{.callout-warning}
+## Example 3-10
 1. Bank branches in 5 cities: 17, 23, 25, 3, 42 — each value appears exactly once → **no mode**.
 
 2. Licensed nuclear reactors in the U.S. over 15 years:
 104, 104, 104, 104, 104, 107, 109, 109, 109, 110, 109, 111, 112, 111, 109
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 reactors <- c(104,104,104,104,104,107,109,109,109,110,109,111,112,111,109)
 mode_tbl <- sort(table(reactors), decreasing = TRUE)
 print(mode_tbl)
@@ -363,18 +380,16 @@ print(mode_tbl)
 
 **104** appears 5 times and **109** appears 6 times → bimodal: **104 and 109**.
 
----
+## Example 3-12 {#example-3-12}
 
-## Example 3-12: Modal Class for Grouped Data
+:::{.callout-warning}
+## Modal Class for Grouped Data
 
-:::{.callout-tip}
-## Example 3-12
 Find the modal class for the miles-run-per-week frequency distribution ([Example 3-3](#example-3-3)).
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 classes <- c("5.5-10.5","10.5-15.5","15.5-20.5","20.5-25.5",
              "25.5-30.5","30.5-35.5","35.5-40.5")
 freq <- c(1,2,3,5,4,3,2)
@@ -385,19 +400,17 @@ cat("\nModal class:", classes[which.max(freq)], "(frequency =", max(freq), ")\n"
 
 The **modal class** is **20.5–25.5** miles, with the highest frequency of 5.
 
----
+## Example 3-13 {#example-3-13}
 
-## Example 3-13: Mode for Qualitative Data
+:::{.callout-warning}
+## Mode for Qualitative Data
 
-:::{.callout-tip}
-## Example 3-13
 A survey recorded boat registrations (in thousands) for five Pennsylvania counties:
 Westmoreland: 11,008 | Butler: 9,147 | Allegheny: 5,765 | Beaver: 3,342 | Lawrence: 1,478
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 county <- c("Westmoreland","Butler","Allegheny","Beaver","Lawrence")
 boats  <- c(11008, 9147, 5765, 3342, 1478)
 df_boats <- data.frame(County=county, Registrations=boats)
@@ -406,20 +419,18 @@ cat("\nMode (highest registrations):", county[which.max(boats)],
     "with", max(boats), "registrations\n")
 ```
 
----
+## Example 3-14 {#example-3-14}
 
-## Example 3-14: Effect of an Outlier on the Mean
+:::{.callout-warning}
+## Effect of an Outlier on the Mean
 
-:::{.callout-tip}
-## Example 3-14
 Six employees' salaries at a small firm: $5,000 | $6,000 | $9,000 | $12,000 | $15,000 | $45,000
 
 Which measure best represents this dataset?
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 salaries <- c(5000, 6000, 9000, 12000, 15000, 45000)
 cat("Mean:  $", mean(salaries), "\n")
 cat("Median: $", median(salaries), "\n")
@@ -437,8 +448,6 @@ The **mean ($15,333)** is inflated by the $45,000 outlier. The **median ($10,500
 Use the **median** when a dataset contains extreme values, as the mean is strongly pulled in the direction of the outlier.
 :::
 
----
-
 ## The Midrange
 
 The **midrange** is the arithmetic mean of the maximum and minimum data values. It is easy to calculate but highly sensitive to extreme values.
@@ -449,18 +458,15 @@ The **midrange** is the arithmetic mean of the maximum and minimum data values. 
 $$MR = \frac{\text{lowest value} + \text{highest value}}{2}$$
 :::
 
----
-
-## Example 3-15 & 3-16: Midrange
-
-:::{.callout-tip}
-## Example 3-15 & 3-16: — Water-Line Breaks & NFL Signing Bonuses
+## Example 3-15 {#example-3-15}
+:::{.callout-warning}
+## Example 3-15
 1. The number of water-line breaks in a city over 9 years: 2, 3, 6, 8, 4, 1, 3, 5, 7. Find the midrange.
 
 2. Using the data from [Example 3-9](#example-3-9) (min = $2M, max = $18M), find the midrange.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 water_breaks <- c(2, 3, 6, 8, 4, 1, 3, 5, 7)
 nfl_bonuses  <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
 
@@ -469,8 +475,6 @@ midrange <- function(x) (min(x) + max(x)) / 2
 cat("Water-line breaks midrange:", midrange(water_breaks), "breaks\n")
 cat("NFL bonuses midrange: $", midrange(nfl_bonuses), "million\n")
 ```
-
----
 
 ## The Weighted Mean
 
@@ -484,12 +488,11 @@ $$\bar{X}_w = \frac{\Sigma w \cdot X}{\Sigma w}$$
 where $w$ = weight and $X$ = value.
 :::
 
----
+## Example 3-17 {#example-3-17}
 
-## Example 3-17: GPA Calculation
+:::{.callout-warning}
+## GPA Calculation
 
-:::{.callout-tip}
-## Example 3-17
 A student earned the following grades. Compute the grade-point average (GPA), using credit hours as weights.
 
 | Course | Grade | Credit Hours |
@@ -500,11 +503,14 @@ A student earned the following grades. Compute the grade-point average (GPA), us
 | Art | D (1) | 2 |
 :::
 
----
+## Example 3-17
 
-## Example 3-17: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 courses <- c("English", "Math", "History", "Art")
 grades  <- c(4, 2, 3, 1)         # A=4, B=3, C=2, D=1
 credits <- c(3, 4, 3, 2)
@@ -519,8 +525,7 @@ cat("\nWeighted Mean (GPA):", round(gpa, 2), "\n")
 ```
 
 The student's GPA is **`r round(sum(c(4,2,3,1)*c(3,4,3,2))/sum(c(3,4,3,2)),2)`**.
-
----
+:::
 
 ## Choosing the Right Measure of Center
 
@@ -555,27 +560,36 @@ Two datasets can have identical means yet differ dramatically in their spread. *
 | Standard Deviation | $\sigma$, $s$ | Square root of variance |
 :::
 
----
+## Example 3-18 {#example-3-18}
 
-## Example 3-18: Why the Mean Alone Is Insufficient
+:::{.callout-warning}
+## Why the Mean Alone Is Insufficient
 
-:::{.callout-tip}
-## Example 3-18
 A testing laboratory evaluates two brands of outdoor paint to see how long (in months) each lasts before fading. Six cans of each brand were tested.
 
 **Brand A:** 10, 60, 50, 30, 40, 20 — Mean = 35 months
 **Brand B:** 35, 45, 30, 35, 40, 25 — Mean = 35 months
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-18
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 B <- c(35, 45, 30, 35, 40, 25)
 cat("Brand A mean:", mean(A), "| Brand B mean:", mean(B), "\n")
 ```
+:::
 
 ----
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+:::{.callout-tip}
+## Solution
+```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data.frame(Brand = rep(c("A","B"), each=6),
            Months = c(A, B)) |>
   ggplot(aes(x = Brand, y = Months, color = Brand)) +
@@ -585,8 +599,7 @@ data.frame(Brand = rep(c("A","B"), each=6),
        y="Months before fading") +
   theme_bw() + theme(legend.position="none")
 ```
-
----
+:::
 
 ## The Range
 
@@ -603,16 +616,22 @@ $$R = \text{highest value} - \text{lowest value}$$
 A single extreme value can drastically inflate the range, making it a misleading indicator of typical variation.
 :::
 
----
+## Example 3-19 {#example-3-19}
 
-## Example 3-19: Ranges for Paint Brands
+:::{.callout-warning}
+## Ranges for Paint Brands
 
-:::{.callout-tip}
-## Example 3-19
 Find the range for Brand A and Brand B from Example 3-18.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-19
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 B <- c(35, 45, 30, 35, 40, 25)
 
@@ -620,19 +639,26 @@ cat("Brand A range:", max(A) - min(A), "months\n")
 cat("Brand B range:", max(B) - min(B), "months\n")
 cat("\nBrand B is more consistent: range is less than half of Brand A's range.\n")
 ```
+:::
 
----
+## Example 3-20 {#example-3-20}
 
-## Example 3-20: Employee Salaries Range
+:::{.callout-warning}
+## Employee Salaries Range
 
-:::{.callout-tip}
-## Example 3-20
 Find the range for the following salaries at XYZ Manufacturing Co.:
 
 Owner: $100,000 | Manager: $40,000 | Sales rep: $30,000 | Workers: $25,000, $15,000, $18,000
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-20
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 salaries <- c(100000, 40000, 30000, 25000, 15000, 18000)
 cat("Minimum salary: $", min(salaries), "\n")
 cat("Maximum salary: $", max(salaries), "\n")
@@ -640,8 +666,7 @@ cat("Range: $", max(salaries) - min(salaries), "\n")
 ```
 
 The range is **$85,000** — heavily influenced by the owner's salary.
-
----
+:::
 
 ## Population Variance and Standard Deviation
 
@@ -661,18 +686,16 @@ $$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X - 
 5. Divide by $N$ to get variance; take the square root for $\sigma$.
 :::
 
----
+## Example 3-21 {#example-3-21}
 
-## Example 3-21: Variance & SD — Paint Brand A
+:::{.callout-warning}
+## Variance & SD — Paint Brand A
 
-:::{.callout-tip}
-## Example 3-21
 Find the variance and standard deviation for Brand A paint data: 10, 60, 50, 30, 40, 20
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 mu <- mean(A)
 df_A <- data.frame(X = A) |>
@@ -681,25 +704,23 @@ df_A <- data.frame(X = A) |>
 knitr::kable(df_A, caption=paste("Brand A: mu =", mu))
 ```
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-21-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sigma2 <- sum(df_A$`(X-mu)^2`) / length(A)
 sigma  <- sqrt(sigma2)
 cat("\nVariance (sigma^2):", round(sigma2, 1),
     "\nStandard deviation (sigma):", round(sigma, 1), "months\n")
 ```
 
----
+## Example 3-22 {#example-3-22}
 
-## Example 3-22: Variance & SD — Paint Brand B
+:::{.callout-warning}
+## Variance & SD — Paint Brand B
 
-:::{.callout-tip}
-## Example 3-22
 Find the variance and standard deviation for Brand B: 35, 45, 30, 35, 40, 25
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 B <- c(35, 45, 30, 35, 40, 25)
 mu_B <- mean(B)
 df_B <- data.frame(X = B) |>
@@ -710,7 +731,7 @@ knitr::kable(df_B, caption=paste("Brand B: mu =", mu_B))
 
 ----
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sigma2_B <- sum(df_B$`(X-mu)^2`) / length(B)
 sigma_B  <- sqrt(sigma2_B)
 cat("\nVariance (sigma^2):", round(sigma2_B, 1),
@@ -719,8 +740,6 @@ cat("\nBrand A sigma:", round(sqrt(1750/6), 1),
     "vs Brand B sigma:", round(sigma_B, 1),
     "→ Brand B is more consistent.\n")
 ```
-
----
 
 ## Sample Variance and Standard Deviation
 
@@ -743,18 +762,16 @@ $$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Si
 Dividing by $n-1$ corrects the tendency of sample variance to underestimate population variance. The value $n-1$ is called the **degrees of freedom**.
 :::
 
----
+## Example 3-23 {#example-3-23}
 
-## Example 3-23: European Auto Sales (Shortcut Formula)
+:::{.callout-warning}
+## European Auto Sales (Shortcut Formula)
 
-:::{.callout-tip}
-## Example 3-23
 Find the sample variance and standard deviation for European auto sales (in billions of dollars) over 6 years: 11.2, 11.9, 12.0, 12.8, 13.4, 14.3
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 auto <- c(11.2, 11.9, 12.0, 12.8, 13.4, 14.3)
 n    <- length(auto)
 
@@ -773,18 +790,16 @@ cat("s =", round(s, 2), "billion dollars\n")
 cat("Verified with var():", round(var(auto), 3), "\n")
 ```
 
----
+## Example 3-24 {#example-3-24}
 
-## Example 3-24: Standard Deviation for Grouped Data
+:::{.callout-warning}
+## Standard Deviation for Grouped Data
 
-:::{.callout-tip}
-## Example 3-24
 Find the variance and standard deviation for the miles-run-per-week grouped data ([Example 3-3](#example-3-3)), representing 20 runners.
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 Xm   <- c(8, 13, 18, 23, 28, 33, 38)
 f    <- c(1,  2,  3,  5,  4,  3,  2)
 n    <- sum(f)
@@ -797,15 +812,13 @@ knitr::kable(df_g, col.names=c("Xm","f","f·Xm","f·Xm²"),
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-24-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s2 <- (n * sum(df_g$fXm2) - sum(df_g$fXm)^2) / (n * (n - 1))
 s  <- sqrt(s2)
 cat("\nn =", n, "  Sum(f·Xm) =", sum(df_g$fXm),
     "  Sum(f·Xm^2) =", sum(df_g$fXm2))
 cat("\nVariance s^2 =", round(s2, 1), "  Std Dev s =", round(s, 1), "miles\n")
 ```
-
----
 
 ## Coefficient of Variation
 
@@ -817,16 +830,22 @@ The **coefficient of variation (CVar)** expresses the standard deviation as a pe
 $$\text{CVar} = \frac{s}{\bar{X}} \times 100\% \quad \text{(samples)} \qquad \text{CVar} = \frac{\sigma}{\mu} \times 100\% \quad \text{(populations)}$$
 :::
 
----
+## Example 3-25 {#example-3-25}
 
-## Example 3-25: Sales vs. Commissions
+:::{.callout-warning}
+## Sales vs. Commissions
 
-:::{.callout-tip}
-## Example 3-25
 The mean number of car sales per 3-month period is 87 with a standard deviation of 5. The mean commission amount is $5,225 with a standard deviation of $773. Which is more variable?
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-25
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cvar_sales <- (5 / 87) * 100
 cvar_comm  <- (773 / 5225) * 100
 
@@ -834,17 +853,24 @@ cat("CVar (sales):", round(cvar_sales, 1), "%\n")
 cat("CVar (commissions):", round(cvar_comm, 1), "%\n")
 cat("\nConclusion: Commissions are more variable (larger CVar).\n")
 ```
+:::
 
----
+## Example 3-26 {#example-3-26}
 
-## Example 3-26: Pages vs. Advertisements
+:::{.callout-warning}
+## Pages vs. Advertisements
 
-:::{.callout-tip}
-## Example 3-26
 For women's fitness magazines: mean pages = 132, variance = 23; mean ads = 182, variance = 62. Which is more variable?
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-26
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cvar_pages <- (sqrt(23) / 132) * 100
 cvar_ads   <- (sqrt(62) / 182) * 100
 
@@ -852,8 +878,7 @@ cat("CVar (pages):", round(cvar_pages, 1), "%\n")
 cat("CVar (ads):", round(cvar_ads, 1), "%\n")
 cat("\nConclusion: Advertisements are more variable.\n")
 ```
-
----
+:::
 
 ## Range Rule of Thumb
 
@@ -869,8 +894,6 @@ $$[\bar{X} - 2s, \; \bar{X} + 2s]$$
 :::
 
 This approximation works best for unimodal, roughly symmetric distributions.
-
----
 
 ## Chebyshev's Theorem
 
@@ -890,16 +913,22 @@ $$1 - \frac{1}{k^2}, \quad k > 1$$
 | 2.5 | At least 84% |
 :::
 
----
+## Example 3-27 {#example-3-27}
 
-## Example 3-27: Home Prices (Chebyshev)
+:::{.callout-warning}
+## Home Prices (Chebyshev)
 
-:::{.callout-tip}
-## Example 3-27
 The mean price of homes in a neighborhood is $50,000 and the standard deviation is $10,000. Find the price range in which at least 75% of homes will sell.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-27
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu  <- 50000
 sd  <- 10000
 k   <- 2   # gives at least 75%
@@ -913,19 +942,18 @@ cat("Price range: $", lower, "to $", upper, "\n")
 ```
 
 At least **75%** of homes will sell between **$30,000 and $70,000**.
-
----
-
-## Example 3-28: Travel Allowances (Chebyshev — Finding k)
-
-:::{.callout-tip}
-## Example 3-28
-Executive travel allowances: mean = $0.25/mile, SD = $0.02/mile. Find the minimum percentage of values between $0.20 and $0.30.
 :::
 
+## Example 3-28 {#example-3-28}
+
+:::{.callout-warning}
+## Travel Allowances (Chebyshev — Finding k)
+
+Executive travel allowances: mean = $0.25/mile, SD = $0.02/mile. Find the minimum percentage of values between $0.20 and $0.30.
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu  <- 0.25
 sd  <- 0.02
 
@@ -941,8 +969,6 @@ cat("Minimum percentage: 1 - 1/k^2 =", pct, "%\n")
 
 At least **84%** of travel allowances fall between $0.20 and $0.30 per mile.
 
----
-
 ## The Empirical (Normal) Rule
 
 When a distribution is **bell-shaped (normal)**, tighter guarantees apply:
@@ -954,14 +980,14 @@ For bell-shaped distributions:
 
 | Interval | Approximate % of data |
 |----------|----------------------|
-| $\bar{X} \pm 1s$ | ≈ 68% |
-| $\bar{X} \pm 2s$ | ≈ 95% |
-| $\bar{X} \pm 3s$ | ≈ 99.7% |
+| $\bar{X} \pm 1s$ | $\approx 68%$ |
+| $\bar{X} \pm 2s$ | $\approx 95%$ |
+| $\bar{X} \pm 3s$ | $\approx 99.7%$ |
 :::
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-28-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 480; sigma <- 90
 tibble(x = seq(mu - 4*sigma, mu + 4*sigma, length.out = 500),
        y = dnorm(x, mu, sigma)) |>
@@ -991,8 +1017,6 @@ Key position measures include:
 - **Deciles** — divide data into 10 equal groups
 - **Quartiles** — divide data into 4 equal groups
 
----
-
 ## Standard Scores (z-Scores)
 
 A **z-score** (standard score) converts a raw value into the number of standard deviations it lies above or below the mean, enabling fair comparison across different distributions.
@@ -1007,16 +1031,22 @@ $$z = \frac{X - \bar{X}}{s} \quad \text{(sample)} \qquad z = \frac{X - \mu}{\sig
 - $z < 0$: value is **below** the mean
 :::
 
----
+## Example 3-29 {#example-3-29}
 
-## Example 3-29: Comparing Test Performance
+:::{.callout-warning}
+## Comparing Test Performance
 
-:::{.callout-tip}
-## Example 3-29
 A student scored 65 on a calculus exam ($\bar{X}=50$, $s=10$) and 30 on a history exam ($\bar{X}=25$, $s=5$). On which test did she perform relatively better?
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-29
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 z_calc <- (65 - 50) / 10
 z_hist <- (30 - 25) / 5
 
@@ -1026,13 +1056,12 @@ cat("\nBoth z-scores are equal (1.5) → same relative performance.\n")
 ```
 
 Both scores are 1.5 standard deviations above their respective means — **equal relative positions**.
+:::
 
----
+## Example 3-30 {#example-3-30}
 
-## Example 3-30: Which Score Is Relatively Higher?
-
-:::{.callout-tip}
-## Example 3-30
+:::{.callout-warning}
+## Which Score Is Relatively Higher?
 
 | Test | Score (X) | Mean ($\bar{X}$) | SD ($s$) |
 |------|-----------|-----------------|----------|
@@ -1042,7 +1071,14 @@ Both scores are 1.5 standard deviations above their respective means — **equal
 Find each z-score and identify the relatively higher score.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-30
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 z_A <- (38 - 40) / 5
 z_B <- (94 - 100) / 10
 
@@ -1052,8 +1088,7 @@ cat("\nConclusion: Test A score is relatively higher (z = -0.4 > -0.6)\n")
 ```
 
 The Test A score has a **higher relative position** (z = −0.4 vs z = −0.6).
-
----
+:::
 
 ## Percentiles
 
@@ -1072,12 +1107,11 @@ $$c = \frac{n \cdot p}{100}$$
 - If $c$ **is** a whole number: average the $c$th and $(c+1)$th values.
 :::
 
----
+## Example 3-31 {#example-3-31}
 
-## Example 3-31: Percentile Graph (Systolic Blood Pressure)
+:::{.callout-warning}
+## Percentile Graph (Systolic Blood Pressure)
 
-:::{.callout-tip}
-## Example 3-31
 Construct a percentile graph for the systolic blood pressure readings of 200 college students.
 
 | Class Boundaries | Frequency |
@@ -1090,11 +1124,14 @@ Construct a percentile graph for the systolic blood pressure readings of 200 col
 | 164.5–179.5 | 4 |
 :::
 
----
+## Example 3-31
 
-## Example 3-31: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 upper <- c(104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
 freq  <- c(24, 62, 72, 26, 12, 4)
 cum_f <- cumsum(freq)
@@ -1104,10 +1141,10 @@ df_bp <- data.frame(upper, cum_f, cum_pct)
 knitr::kable(df_bp, col.names=c("Upper Boundary","Cumulative Freq","Cumulative %"),
              caption="Systolic Blood Pressure — Percentile Table")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-31-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(df_bp, aes(x=upper, y=cum_pct)) +
   geom_line(color="#2c4a6e", linewidth=1) +
   geom_point(size=3, color="#2c4a6e") +
@@ -1115,8 +1152,6 @@ ggplot(df_bp, aes(x=upper, y=cum_pct)) +
        x="Blood Pressure (mm Hg)", y="Cumulative Percentage") +
   theme_bw()
 ```
-
----
 
 ## Examples 3-32 & 3-33: Finding Percentile Rank
 
@@ -1129,7 +1164,7 @@ Find the percentile rank of a score of **12** and a score of **6**.
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-31-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 scores <- c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10)
 n <- length(scores)
 
@@ -1145,12 +1180,10 @@ cat("Percentile rank of 6:", prank(6, scores), "\n")
 
 Score 12 is at the **65th percentile** (did better than 65% of class). Score 6 is at the **35th percentile**.
 
----
-
 ## Examples 3-34 & 3-35: Value at a Given Percentile
 
 :::{.callout-tip}
-## Example 3-34 & 3-35
+## Example 3-34 {#example-3-34}
 1. Using the test scores from 3-32, find the value corresponding to the **25th percentile**.
 
 2. Find the value corresponding to the **60th percentile**.
@@ -1158,7 +1191,7 @@ Score 12 is at the **65th percentile** (did better than 65% of class). Score 6 i
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 scores_sorted <- sort(c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10))
 n <- length(scores_sorted)
 cat("Sorted scores:", scores_sorted, "\n\n")
@@ -1173,8 +1206,6 @@ c60 <- n * 60 / 100
 cat("c for 60th percentile:", c60, "(whole number → average positions 6 and 7)\n")
 cat("Average of positions 6 and 7:", (scores_sorted[6] + scores_sorted[7])/2, "\n")
 ```
-
----
 
 ## Quartiles and Deciles
 
@@ -1196,8 +1227,6 @@ cat("Average of positions 6 and 7:", (scores_sorted[6] + scores_sorted[7])/2, "\
 The IQR measures the spread of the middle 50% of the data.
 :::
 
----
-
 ## Finding Quartiles — Procedure
 
 :::{.callout-important}
@@ -1209,24 +1238,30 @@ The IQR measures the spread of the middle 50% of the data.
 4. Find the median of the upper half (above $Q_2$) → this is $Q_3$.
 :::
 
----
+## Example 3-36 {#example-3-36}
 
-## Example 3-36: Finding Quartiles {#example-3-36}
+:::{.callout-warning}
+## Finding Quartiles
 
-:::{.callout-tip}
-## Example 3-36
 Find $Q_1$, $Q_2$, and $Q_3$ for the data set: 15, 13, 6, 5, 12, 50, 22, 18
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-36
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(15, 13, 6, 5, 12, 50, 22, 18)
 xs <- sort(x)
 cat("Sorted data:", xs, "\n\n")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-36-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 Q2 <- median(xs)
 lower <- xs[xs < Q2]
 upper <- xs[xs > Q2]
@@ -1243,8 +1278,6 @@ cat("IQR:", IQR_val, "\n")
 
 $Q_1 = 9$, $Q_2 = 14$, $Q_3 = 20$, $\text{IQR} = 11$.
 
----
-
 ## Outliers
 
 An **outlier** is an extremely high or low data value that stands apart from the rest of the distribution. Outliers can distort the mean and standard deviation significantly.
@@ -1259,18 +1292,24 @@ An **outlier** is an extremely high or low data value that stands apart from the
 5. Any value **outside** these fences is a suspected outlier.
 :::
 
----
+## Example 3-37 {#example-3-37}
 
-## Example 3-37: Checking for Outliers
+:::{.callout-warning}
+## Checking for Outliers
 
-:::{.callout-tip}
-## Example 3-37
 Check the following dataset for outliers: 5, 6, 12, 13, 15, 18, 22, 50
 
 (This is the sorted version of [Example 3-36](#example-3-36)'s data.)
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-37
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(5, 6, 12, 13, 15, 18, 22, 50)
 
 Q1 <- 9; Q3 <- 20  # from Example 3-36
@@ -1279,10 +1318,10 @@ IQR_val <- Q3 - Q1
 lower_fence <- Q1 - 1.5 * IQR_val
 upper_fence <- Q3 + 1.5 * IQR_val
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-37-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("Q1:", Q1, "  Q3:", Q3, "  IQR:", IQR_val, "\n")
 cat("1.5 × IQR:", 1.5 * IQR_val, "\n")
 cat("Lower fence:", lower_fence, "\n")
@@ -1312,8 +1351,6 @@ cat("Conclusion: 50 is an outlier.\n")
 EDA statistics (median, IQR) are **resistant** — less influenced by extreme values — while mean and standard deviation are **nonresistant**.
 :::
 
----
-
 ## The Five-Number Summary
 
 A **five-number summary** captures the full spread and shape of a distribution using five key values:
@@ -1329,8 +1366,6 @@ A **five-number summary** captures the full spread and shape of a distribution u
 :::
 
 These five values form the basis of the **boxplot** (box-and-whisker plot).
-
----
 
 ## Constructing a Boxplot
 
@@ -1351,16 +1386,22 @@ These five values form the basis of the **boxplot** (box-and-whisker plot).
 - Longer right whisker → **positively skewed**
 - Longer left whisker → **negatively skewed**
 
----
+## Example 3-38 {#example-3-38}
 
-## Example 3-38: Meteorites Found
+:::{.callout-warning}
+## Meteorites Found
 
-:::{.callout-tip}
-## Example 3-38
 The number of meteorites found in 10 U.S. states: 89, 47, 164, 296, 30, 215, 138, 78, 48, 39. Construct a boxplot and describe the distribution.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 3-38
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
 xs <- sort(meteorites)
 cat("Sorted:", xs, "\n")
@@ -1369,10 +1410,11 @@ five_num <- fivenum(meteorites)
 names(five_num) <- c("Min","Q1","Median","Q3","Max")
 print(five_num)
 ```
+:::
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-38-2, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
 boxplot(meteorites, horizontal=TRUE,
         main="Meteorites Found in 10 U.S. States",
         xlab="Number of Meteorites",
@@ -1381,11 +1423,12 @@ boxplot(meteorites, horizontal=TRUE,
 
 The distribution is **positively skewed** — the right whisker extends much farther than the left.
 
----
+## Example 3-38
 
-## Example 3-38: Using ggplot2
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-38-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
 meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
 
 ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
@@ -1395,24 +1438,27 @@ ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
        y="Number of Meteorites", x="") +
   theme_bw()
 ```
+:::
 
----
+## Example 3-39 {#example-3-39}
 
-## Example 3-39: Comparing Two Distributions
+:::{.callout-warning}
+## Comparing Two Distributions
 
-:::{.callout-tip}
-## Example 3-39
 A dietitian compares the sodium content (mg) of real cheese vs. cheese substitute. Compare the two distributions using boxplots.
 
 **Real cheese:** 310, 420, 45, 40, 220, 240, 180, 90
 **Cheese substitute:** 270, 180, 250, 290, 130, 260, 340, 310
 :::
 
----
+## Example 3-39
 
-## Example 3-39: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e3-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 real  <- c(310, 420, 45, 40, 220, 240, 180, 90)
 sub   <- c(270, 180, 250, 290, 130, 260, 340, 310)
 
@@ -1426,10 +1472,10 @@ df_cheese <- data.frame(
   type   = rep(c("Real Cheese","Cheese Substitute"), each=8)
 )
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-39-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
   geom_boxplot(alpha=0.7) +
   coord_flip() +
@@ -1439,11 +1485,14 @@ ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
   theme_bw() + theme(legend.position="none")
 ```
 
----
+## Example 3-39
 
-## Example 3-39: Interpretation
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Interpretation**
+
+```{r e3-39-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 real <- c(310, 420, 45, 40, 220, 240, 180, 90)
 sub  <- c(270, 180, 250, 290, 130, 260, 340, 310)
 
@@ -1457,18 +1506,16 @@ summary_df <- data.frame(
                        IQR(sub))
 )
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-39-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(summary_df, caption="Five-Number Summary Comparison")
 ```
 
 :::{.callout-note}
 **Interpretation:** The cheese substitute has a **higher median** sodium content (265 vs 200 mg) and **less variability** (IQR = 85 vs 207 mg). Real cheese data are more spread out and slightly positively skewed.
 :::
-
----
 
 ## Summary: Chapter 3 at a Glance
 
@@ -1502,9 +1549,7 @@ knitr::kable(summary_df, caption="Five-Number Summary Comparison")
 **Empirical Rule** — 68/95/99.7% within 1/2/3 SDs (bell-shaped only)
 :::
 
----
-
-## Summary: Chapter 3 at a Glance (cont.)
+## Key Takeaways
 
 :::{.callout-note}
 ## Section 3-3: Measures of Position
@@ -1532,10 +1577,7 @@ knitr::kable(summary_df, caption="Five-Number Summary Comparison")
 **Traditional statistics** (mean, SD) are **nonresistant**
 :::
 
----
-
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch5.html" target="_blank" style="color:#555;">[English Version]</a>' +
+          '<a href="ch5.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -112,64 +112,80 @@ knitr::opts_chunk$set(fig.align = "center")
 
 機率分配可以用表格、公式或圖形呈現。
 
-## 例題 5-1：擲骰子
+## 例題 5-1 {#example-5-1}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 擲骰子
+
 建構擲一顆公正骰子各點數結果的機率分配。
 :::
 
-```{r ex5-1, echo=TRUE, warning=FALSE}
+## 例題 5-1
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e5-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 1:6
 PX <- rep(1/6, 6)
 dist <- data.frame(X = X, `P(X)` = round(PX, 4), check.names = FALSE)
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(dist, caption = "機率分配：擲骰子")
 ```
 
 每個點數出現的機率相等，均為 $\frac{1}{6} \approx 0.167$。注意 $\sum P(X) = 1$。
 
-## 例題 5-2：拋擲三枚硬幣
+## 例題 5-2 {#example-5-2}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 拋擲三枚硬幣
+
 表示拋擲 3 枚公正硬幣時正面數的機率分配，並畫出圖形。
 :::
 
-```{r ex5-2, echo=TRUE, warning=FALSE}
+## 例題 5-2
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e5-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:3
 PX <- c(1/8, 3/8, 3/8, 1/8)
 dist <- data.frame(X = X, `P(X)` = PX, check.names = FALSE)
 knitr::kable(dist, caption = "三枚硬幣：正面數")
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
   geom_col(fill = "steelblue", width = 0.5) +
   labs(title = "機率分配：拋擲3枚硬幣",
        x = "正面數 (X)", y = "P(X)")
 ```
 
-## 例題 5-3：棒球世界大賽
+## 例題 5-3 {#example-5-3}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 棒球世界大賽
+
 下列資料顯示 40 屆世界大賽的比賽場次。建構機率分配並畫出圖形。
 
 | 比賽場次 | 4 | 5 | 6 | 7 |
 |---|---|---|---|---|
 | 頻率 | 8 | 7 | 9 | 16 |
 :::
-
 ---
 
-```{r ex5-3, echo=TRUE, warning=FALSE}
+```{r e5-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 4:7
 freq <- c(8, 7, 9, 16)
 PX <- freq / 40
@@ -179,21 +195,29 @@ knitr::kable(dist, caption = "世界大賽：40屆的比賽場次")
 
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
   geom_col(fill = "darkorange", width = 0.5) +
   labs(title = "世界大賽比賽場次",
        x = "比賽場次 (X)", y = "P(X)")
 ```
 
-## 例題 5-4：判斷有效分配
+## 例題 5-4 {#example-5-4}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 判斷有效分配
+
 判斷以下各項是否為有效的機率分配。
 :::
 
-```{r ex5-4, echo=TRUE, warning=FALSE}
+## 例題 5-4
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e5-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # (a) 有效
 a_X <- 0:4; a_P <- c(0.5, 0.3, 0.15, 0.04, 0.01)
 cat("(a) 總和 =", sum(a_P), "| 全部介於[0,1]:", all(a_P >= 0 & a_P <= 1),
@@ -203,10 +227,10 @@ cat("(a) 總和 =", sum(a_P), "| 全部介於[0,1]:", all(a_P >= 0 & a_P <= 1),
 b_X <- 1:3; b_P <- c(1/3, 1/3, 1/4)
 cat("(b) 總和 =", round(sum(b_P), 4), "→", ifelse(abs(sum(b_P)-1) < 1e-9, "有效", "無效"), "\n")
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # (c) 有效
 c_X <- 1:5; c_P <- c(0.1, 0.3, 0.4, 0.1, 0.1)
 cat("(c) 總和 =", sum(c_P), "→", ifelse(sum(c_P) == 1 & all(c_P >= 0 & c_P <= 1), "有效", "無效"), "\n")
@@ -239,30 +263,26 @@ $$\sigma = \sqrt{\sigma^2}$$
 
 平均數描述實驗的長期平均結果。變異數與標準差則衡量分配圍繞平均數的分散程度。
 
-## 例題 5-5：擲骰子 {#example-5-5}
+## 例題 5-5 {#example-5-5}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 擲骰子
+
 求擲一顆公正骰子時，出現點數的平均數。
 :::
 
-```{r ex5-5, echo=TRUE, warning=FALSE}
-X <- 1:6
-PX <- rep(1/6, 6)
-mu <- sum(X * PX)
-cat("平均數 μ = Σ X·P(X) =", mu)
-```
+## 例題 5-5
 
-反覆擲一顆公正骰子，長期平均結果趨近於 **3.5**。
+:::{.callout-tip}
+## 解題
 
-## 例題 5-6：兩個孩子家庭的女孩數
+**解題**
 
-::: {.callout-tip}
-## 問題
 在有兩個孩子的家庭中，求女孩平均數。
+
 :::
 
-```{r ex5-6, echo=TRUE, warning=FALSE}
+```{r e5-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:2
 PX <- c(1/4, 2/4, 1/4)
 mu <- sum(X * PX)
@@ -272,20 +292,19 @@ knitr::kable(df, caption = "兩個孩子家庭的女孩數")
 
 ----
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("平均數 μ =", mu)
 ```
 
 平均而言，有兩個孩子的家庭將有 **1 個女孩**。
 
-## 例題 5-7：拋擲三枚硬幣
-
-::: {.callout-tip}
+## 例題 5-7 {#example-5-7}
+:::{.callout-warning}
 ## 問題
 拋擲 3 枚硬幣時，求正面數的平均數。
 :::
 
-```{r ex5-7, echo=TRUE, warning=FALSE}
+```{r e5-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:3
 PX <- c(1/8, 3/8, 3/8, 1/8)
 mu <- sum(X * PX)
@@ -295,15 +314,14 @@ knitr::kable(df, caption = "三枚硬幣：正面數")
 
 ----
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("平均數 μ =", mu)
 ```
 
 多次拋擲 3 枚硬幣，正面數的平均值為 **1.5**。
 
-## 例題 5-8：隔夜旅行次數
-
-::: {.callout-tip}
+## 例題 5-8 {#example-5-8}
+:::{.callout-warning}
 ## 問題
 下列機率分配顯示美國成年人每年進行五晚以上旅行的次數。求平均數。
 
@@ -314,7 +332,7 @@ cat("平均數 μ =", mu)
 
 ----
 
-```{r ex5-8, echo=TRUE, warning=FALSE}
+```{r e5-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:4
 PX <- c(0.08, 0.60, 0.25, 0.04, 0.03)
 mu <- sum(X * PX)
@@ -325,14 +343,13 @@ cat("平均數 μ =", mu, "次/年")
 
 美國成年人每年進行 5 晚以上旅行的平均次數約為 **1.34** 次。
 
-## 例題 5-9：變異數——擲骰子
-
-::: {.callout-tip}
+## 例題 5-9 {#example-5-9}
+:::{.callout-warning}
 ## 問題
 求擲一顆公正骰子的機率分配之變異數與標準差（[例題 5-5](#example-5-5)）。
 :::
 
-```{r ex5-9, echo=TRUE, warning=FALSE}
+```{r e5-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 1:6
 PX <- rep(1/6, 6)
 mu <- sum(X * PX)
@@ -343,20 +360,19 @@ df <- data.frame(X = X, `P(X)` = PX, `X²·P(X)` = X^2 * PX, check.names = FALSE
 
 ----
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-9-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(df)
 cat("μ =", mu, "\nσ² = Σ[X²·P(X)] - μ² =", round(sum(X^2*PX),4), "-", mu^2, "=", round(sigma2,4),
     "\nσ =", round(sigma, 2))
 ```
 
-## 例題 5-10：選取編號球
-
-::: {.callout-tip}
+## 例題 5-10 {#example-5-10}
+:::{.callout-warning}
 ## 問題
 袋中有 5 顆球，編號分別為 3、3、4、5、5。隨機選取一顆。求平均數、變異數與標準差。
 :::
 
-```{r ex5-10, echo=TRUE, warning=FALSE}
+```{r e5-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- c(3, 4, 5)
 PX <- c(2/5, 1/5, 2/5)
 mu <- sum(X * PX)
@@ -367,9 +383,8 @@ knitr::kable(df)
 cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
 ```
 
-## 例題 5-11：廣播叩應電話線
-
-::: {.callout-tip}
+## 例題 5-11 {#example-5-11}
+:::{.callout-warning}
 ## 問題
 下列機率分配顯示廣播叩應節目等候接線的呼叫者數。求平均數、變異數與標準差。
 
@@ -377,10 +392,10 @@ cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
 |---|---|---|---|---|---|
 | P(X) | 0.1 | 0.3 | 0.3 | 0.2 | 0.1 |
 :::
-
+:::
 ---
 
-```{r ex5-11, echo=TRUE, warning=FALSE}
+```{r e5-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:4
 PX <- c(0.1, 0.3, 0.3, 0.2, 0.1)
 mu <- sum(X * PX)
@@ -407,16 +422,16 @@ $$E(X) = \mu = \sum X \cdot P(X)$$
 若 $E(X) < 0$，表示玩家或投資人長期預期將有**淨損失**。
 :::
 
-## 例題 5-12：抽獎彩券
+## 例題 5-12 {#example-5-12}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 抽獎彩券
+
 某抽獎活動提供一個 $1000 的獎項、兩個 $500 的獎項及五個 $100 的獎項。共售出 1000 張彩券，每張 $1。求一張彩券的期望值。
 :::
-
 ---
 
-```{r ex5-12, echo=TRUE, warning=FALSE}
+```{r e5-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- c(1000-1, 500-1, 100-1, -1)   # 淨獲利
 PX <- c(1/1000, 2/1000, 5/1000, 992/1000)
 EX <- sum(X * PX)
@@ -427,30 +442,26 @@ cat("E(X) = $", round(EX, 4))
 
 期望值為**負值**，表示平均每張彩券玩家預期損失約 $0.35。
 
-## 例題 5-13：特殊骰子
+## 例題 5-13 {#example-5-13}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 特殊骰子
+
 某特殊骰子的六個面標示為 1、4、4、6、6、6。求擲此骰子的期望值。
 :::
 
-```{r ex5-13, echo=TRUE, warning=FALSE}
-X <- c(1, 4, 6)
-PX <- c(1/6, 2/6, 3/6)
-EX <- sum(X * PX)
-df <- data.frame(X = X, `P(X)` = round(PX, 4), `X·P(X)` = round(X*PX, 4), check.names = FALSE)
-knitr::kable(df)
-cat("E(X) =", round(EX, 4))
-```
+## 例題 5-13
 
-## 例題 5-14：債券投資
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 問題
+**解題**
+
 投資人考慮兩種債券。債券X：70% 機率獲利 $120，30% 機率損失 $40。債券Y：60% 機率獲利 $90，40% 機率損失 $30。哪種債券的期望報酬較好？
+
 :::
 
-```{r ex5-14, echo=TRUE, warning=FALSE}
+```{r e5-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 債券 X
 X_x <- c(120, -40); P_x <- c(0.70, 0.30)
 EX <- sum(X_x * P_x)
@@ -518,12 +529,12 @@ $$P(X) = \frac{n!}{(n-X)!\,X!} \cdot p^X \cdot q^{n-X}$$
 
 ## 例題 5-15：拋硬幣 {#example-5-15}
 
-::: {.callout-tip}
+:::{.callout-warning}
 ## 問題
 拋一枚硬幣 3 次。求恰好出現 2 次正面的機率。
 :::
 
-```{r ex5-15, echo=TRUE, warning=FALSE}
+```{r e5-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 3; X <- 2; p <- 0.5; q <- 1 - p
 prob <- choose(n, X) * p^X * q^(n - X)
 cat("n =", n, ", X =", X, ", p =", p, ", q =", q, "\n")
@@ -538,14 +549,13 @@ cat("\n以 dbinom 驗證:", dbinom(2, size = 3, prob = 0.5))
 此拋硬幣問題滿足所有 4 個二項條件：固定 $n=3$ 次試驗、兩種結果（正/反），獨立拋擲，常數 $p=0.5$。
 :::
 
-## 例題 5-16：看診調查
-
-::: {.callout-tip}
+## 例題 5-16 {#example-5-16}
+:::{.callout-warning}
 ## 問題
 調查發現每 5 名美國人中有 1 名在任一特定月份曾看醫生。若隨機抽取 10 人，求恰好有 3 人上個月看過醫生的機率。
 :::
 
-```{r ex5-16, echo=TRUE, warning=FALSE}
+```{r e5-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 10; X <- 3; p <- 1/5; q <- 1 - p
 prob <- choose(n, X) * p^X * q^(n - X)
 cat("n =", n, ", X =", X, ", p =", round(p, 2), ", q =", round(q, 2), "\n")
@@ -553,24 +563,23 @@ cat("P(3) = C(10,3) × (1/5)³ × (4/5)⁷ =", round(prob, 3))
 cat("\ndbinom 驗證:", round(dbinom(X, n, p), 3))
 ```
 
-## 例題 5-17：兼職就業調查
-
-::: {.callout-tip}
+## 例題 5-17 {#example-5-17}
+:::{.callout-warning}
 ## 問題
 調查發現 30% 的青少年消費者從兼職工作獲得零用錢。若隨機抽取 5 名青少年，求**至少 3 名**有兼職工作的機率。
 :::
 
-```{r ex5-17, echo=TRUE, warning=FALSE}
+```{r e5-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 5; p <- 0.30; q <- 0.70
 P3 <- choose(n,3) * p^3 * q^2
 P4 <- choose(n,4) * p^4 * q^1
 P5 <- choose(n,5) * p^5 * q^0
 total <- P3 + P4 + P5
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-17-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("P(3) =", round(P3, 3), "\n")
 cat("P(4) =", round(P4, 3), "\n")
 cat("P(5) =", round(P5, 3), "\n")
@@ -580,22 +589,30 @@ cat("P(至少3人) = P(3)+P(4)+P(5) =", round(total, 3))
 cat("\n驗證：1 - P(X ≤ 2) =", round(1 - pbinom(2, n, p), 3))
 ```
 
-## 例題 5-18：使用二項表
+## 例題 5-18 {#example-5-18}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 使用二項表
+
 使用二項機率表（表B）或 R 求解[例題 5-15](#example-5-15)（3 枚硬幣，P(恰好2次正面)）。
 :::
 
-```{r ex5-18, echo=TRUE, warning=FALSE}
+## 例題 5-18
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e5-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 表B：查 n=3, X=2, p=0.5
 result <- dbinom(2, size = 3, prob = 0.5)
 cat("由二項表（或dbinom）：P(X=2 | n=3, p=0.5) =", result)
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # n=3, p=0.5 的完整分配
 dist <- data.frame(
   X = 0:3,
@@ -605,10 +622,11 @@ dist <- data.frame(
 knitr::kable(dist, digits = 4, caption = "二項分配：n=3, p=0.5")
 ```
 
-## 例題 5-19：夜晚獨自在家的恐懼
+## 例題 5-19 {#example-5-19}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 夜晚獨自在家的恐懼
+
 調查顯示 5% 的美國人害怕夜晚獨自在家。若隨機抽取 20 名美國人，求以下機率：
 
 a. 恰好 5 人感到害怕
@@ -617,10 +635,9 @@ b. 最多 3 人感到害怕
 
 c. 至少 3 人感到害怕
 :::
-
 ---
 
-```{r ex5-19, echo=TRUE, warning=FALSE}
+```{r e5-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 20; p <- 0.05
 
 # (a) P(X = 5)
@@ -636,24 +653,20 @@ c <- 1 - sum(dbinom(0:2, n, p))
 cat("(c) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(c, 4))
 ```
 
-## 例題 5-20：酒後駕車
+## 例題 5-20 {#example-5-20}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 酒後駕車
+
 報告指出週末夜間單車輛交通死亡事故中，70% 涉及酒醉駕駛。若隨機抽取 15 件此類死亡事故，求恰好 12 件涉及酒醉駕駛的機率。
 :::
 
-```{r ex5-20, echo=TRUE, warning=FALSE}
-n <- 15; p <- 0.70; X <- 12
-prob <- dbinom(X, n, p)
-cat("n =", n, ", X =", X, ", p =", p, "\n")
-cat("P(X = 12) =", round(prob, 3))
-```
+## 例題 5-20
 
-## 二項分配的平均數、變異數與標準差
+:::{.callout-tip}
+## 解題
 
-::: {.callout-note}
-## 二項分配的簡化公式
+**解題**
 
 $$\mu = n \cdot p$$
 
@@ -662,18 +675,18 @@ $$\sigma^2 = n \cdot p \cdot q$$
 $$\sigma = \sqrt{n \cdot p \cdot q}$$
 
 這些公式在代數上等同於一般公式 $\mu = \sum X \cdot P(X)$ 與 $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$。
+
 :::
 
-## 例題 5-21：拋硬幣四次
-
-::: {.callout-tip}
+## 例題 5-21 {#example-5-21}
+:::{.callout-warning}
 ## 問題
 拋一枚硬幣 4 次。求正面數的平均數、變異數與標準差。
 :::
-
+:::
 ---
 
-```{r ex5-21, echo=TRUE, warning=FALSE}
+```{r e5-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 4; p <- 0.5; q <- 0.5
 mu <- n * p
 sigma2 <- n * p * q
@@ -690,34 +703,26 @@ sigma2_check <- sum(X^2 * PX) - mu_check^2
 cat("\n驗證：μ =", mu_check, "| σ² =", sigma2_check)
 ```
 
-## 例題 5-22：擲骰子 480 次
+## 例題 5-22 {#example-5-22}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 擲骰子 480 次
+
 擲一顆骰子 480 次。求出現 3 點的平均數、變異數與標準差。
 :::
 
-```{r ex5-22, echo=TRUE, warning=FALSE}
-n <- 480; p <- 1/6; q <- 5/6
-mu <- n * p
-sigma2 <- n * p * q
-sigma <- sqrt(sigma2)
-cat("n =", n, ", p = 1/6, q = 5/6\n")
-cat("μ = n·p =", round(mu, 2), "\n")
-cat("σ² = n·p·q =", round(sigma2, 2), "\n")
-cat("σ = √σ² =", round(sigma, 2))
-```
+## 例題 5-22
 
-擲骰子 480 次，預期約出現 **80** 次 3 點，標準差約為 **8.16**。
+:::{.callout-tip}
+## 解題
 
-## 例題 5-23：雙胞胎的可能性
+**解題**
 
-::: {.callout-tip}
-## 問題
 約 2% 的美國新生兒為雙胞胎。若隨機抽取 8000 名新生兒，求雙胞胎出生數的平均數、變異數與標準差。
+
 :::
 
-```{r ex5-23, echo=TRUE, warning=FALSE}
+```{r e5-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8000; p <- 0.02; q <- 0.98
 mu <- n * p
 sigma2 <- n * p * q
@@ -728,12 +733,12 @@ cat("σ = √σ² =", round(sigma, 1))
 ```
 
 ::: {.callout-important}
-在 8000 名新生兒樣本中，平均預期有 **160** 對雙胞胎出生，σ ≈ 12.5。
+在 8000 名新生兒樣本中，平均預期有 **160** 對雙胞胎出生，$\sigma \approx 12.5$。
 :::
 
 ## 二項分配：視覺化
 
-```{r binom-viz, echo=TRUE, warning=FALSE}
+```{r e5-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 繪製不同 p 值的二項分配
 params <- list(
   list(n=10, p=0.3, label="n=10, p=0.3"),
@@ -746,10 +751,10 @@ df_all <- do.call(rbind, lapply(params, function(par) {
   data.frame(X = x, PX = dbinom(x, par$n, par$p), Label = par$label)
 }))
 ```
-
+:::
 ---
 
-```{r, echo=TRUE, warning=FALSE}
+```{r e5-22-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(df_all, aes(x = X, y = PX, fill = Label)) +
   geom_col(position = "dodge", width = 0.7) +
   facet_wrap(~Label, scales = "free_x") +
@@ -783,35 +788,26 @@ $$P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2
 
 多項分配是二項分配的推廣——二項分配是 $k = 2$ 的特殊情形。
 
-## 例題 5-24：休閒活動
+## 例題 5-24 {#example-5-24}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 休閒活動
+
 在某大城市，50% 的居民選擇看電影，30% 選擇晚餐加看戲，20% 選擇購物作為休閒活動。若隨機抽取 5 人，求 3 人計劃看電影、1 人看戲、1 人逛購物中心的機率。
 :::
 
-```{r ex5-24, echo=TRUE, warning=FALSE}
-n <- 5
-X1 <- 3; X2 <- 1; X3 <- 1   # 電影、看戲、購物
-p1 <- 0.50; p2 <- 0.30; p3 <- 0.20
+## 例題 5-24
 
-prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)) *
-        p1^X1 * p2^X2 * p3^X3
+:::{.callout-tip}
+## 解題
 
-cat("P(X) = 5!/(3!·1!·1!) × (0.50)³ × (0.30)¹ × (0.20)¹\n")
-cat("     =", factorial(n)/(factorial(X1)*factorial(X2)*factorial(X3)),
-    "×", p1^X1, "×", p2^X2, "×", p3^X3, "\n")
-cat("     =", round(prob, 4))
-```
+**解題**
 
-## 例題 5-25：咖啡廳顧客
-
-::: {.callout-tip}
-## 問題
 咖啡廳經理發現顧客購買 0、1、2 或 3 杯咖啡的機率分別為 0.3、0.5、0.15 及 0.05。若有 8 名顧客進入，求 2 人什麼都不買、4 人買 1 杯、1 人買 2 杯、1 人買 3 杯的機率。
+
 :::
 
-```{r ex5-25, echo=TRUE, warning=FALSE}
+```{r e5-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8
 X1 <- 2; X2 <- 4; X3 <- 1; X4 <- 1
 p1 <- 0.30; p2 <- 0.50; p3 <- 0.15; p4 <- 0.05
@@ -824,14 +820,13 @@ cat("X₁=2（0杯），X₂=4（1杯），X₃=1（2杯），X₄=1（3杯）\n
 cat("P(X) =", round(prob, 4))
 ```
 
-## 例題 5-26：選取彩色球
-
-::: {.callout-tip}
+## 例題 5-26 {#example-5-26}
+:::{.callout-warning}
 ## 問題
 箱中有 4 顆白球、3 顆紅球、3 顆藍球。選取一顆球，記錄顏色後放回。若選取 5 顆球，求 2 顆白球、2 顆紅球、1 顆藍球的機率。
 :::
 
-```{r ex5-26, echo=TRUE, warning=FALSE}
+```{r e5-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 5
 X1 <- 2; X2 <- 2; X3 <- 1
 p1 <- 4/10; p2 <- 3/10; p3 <- 3/10
@@ -860,14 +855,13 @@ $$P(X;\, \lambda) = \frac{e^{-\lambda}\, \lambda^X}{X!}, \quad X = 0, 1, 2, \ldo
 當 $\lambda = n \cdot p < 5$ 時，也可用於**近似二項分配**。
 :::
 
-## 例題 5-27：打字錯誤
-
-::: {.callout-tip}
+## 例題 5-27 {#example-5-27}
+:::{.callout-warning}
 ## 問題
 一份 500 頁的手稿含有 200 個隨機分布的打字錯誤。求某頁恰好有 3 個錯誤的機率。
 :::
 
-```{r ex5-27, echo=TRUE, warning=FALSE}
+```{r e5-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 lambda <- 200 / 500   # 每頁平均錯誤數
 X <- 3
 prob <- (exp(-lambda) * lambda^X) / factorial(X)
@@ -880,9 +874,8 @@ cat("              =", round(exp(-lambda), 6), "×", lambda^X, "/", factorial(X)
 cat("\n以 dpois 驗證:", round(dpois(X, lambda), 4))
 ```
 
-## 例題 5-28：免費電話叩應
-
-::: {.callout-tip}
+## 例題 5-28 {#example-5-28}
+:::{.callout-warning}
 ## 問題
 某銷售公司的免費電話平均每小時接到 3 通電話。求任意一小時內的以下機率：
 
@@ -892,10 +885,10 @@ b. 至少 3 通電話
 
 c. 5 通以上電話
 :::
-
+:::
 ---
 
-```{r ex5-28, echo=TRUE, warning=FALSE}
+```{r e5-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 lambda <- 3
 
 # (a) P(X ≤ 3)
@@ -911,16 +904,16 @@ c <- 1 - ppois(4, lambda)
 cat("(c) P(X ≥ 5) = 1 - P(X ≤ 4) =", round(c, 4))
 ```
 
-## 例題 5-29：卜瓦松近似二項
+## 例題 5-29 {#example-5-29}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 卜瓦松近似二項
+
 房間內約 2% 的人是左撇子，共有 200 人。使用卜瓦松近似求恰好 5 人是左撇子的機率。
 :::
-
 ---
 
-```{r ex5-29, echo=TRUE, warning=FALSE}
+```{r e5-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 200; p <- 0.02
 lambda <- n * p   # = 4
 X <- 5
@@ -954,34 +947,26 @@ $$P(X) = \frac{C^a_X \cdot  C^b_{n-X}}{C^{a+b}_n}$$
 
 **與二項的主要差異：** 試驗是**相依的**（不放回）。
 
-## 例題 5-30：助理經理應聘者
+## 例題 5-30 {#example-5-30}
 
-::: {.callout-tip}
-## 問題
+:::{.callout-warning}
+## 助理經理應聘者
+
 10 人應聘餐廳助理經理職位：5 人是大學畢業生，5 人不是。若經理隨機抽取 3 人，求 3 人都是大學畢業生的機率。
 :::
 
-```{r ex5-30, echo=TRUE, warning=FALSE}
-a <- 5   # 大學畢業生
-b <- 5   # 非畢業生
-n <- 3   # 樣本大小
-X <- 3   # 期望的成功數
+## 例題 5-30
 
-prob <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
-cat("a =", a, "（畢業生），b =", b, "（非畢業生），n =", n, ", X =", X, "\n")
-cat("P(X) = C(5,3)×C(5,0) / C(10,3)\n")
-cat("     =", choose(a,X), "×", choose(b, n-X), "/", choose(a+b, n),
-    "=", round(prob, 4), "（= 1/12）")
-```
+:::{.callout-tip}
+## 解題
 
-## 例題 5-31：房屋保險
+**解題**
 
-::: {.callout-tip}
-## 問題
 研究發現某社區 10 棟房屋中有 2 棟沒有保險。若從 10 棟中抽取 5 棟，求恰好 1 棟未投保的機率。
+
 :::
 
-```{r ex5-31, echo=TRUE, warning=FALSE}
+```{r e5-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 a <- 2   # 未投保
 b <- 8   # 已投保
 n <- 5; X <- 1
@@ -993,16 +978,15 @@ cat("       =", choose(a,X), "×", choose(b,n-X), "/", choose(a+b,n),
     "=", round(prob, 4), "（= 5/9）")
 ```
 
-## 例題 5-32：瑕疵壓縮機槽
-
-::: {.callout-tip}
+## 例題 5-32 {#example-5-32}
+:::{.callout-warning}
 ## 問題
 一批 12 個壓縮機槽中有 3 個瑕疵品。若隨機抽取 3 個進行檢驗，當發現 1 個或以上瑕疵品時即拒絕該批次，求該批次被拒絕的機率。
 :::
-
+:::
 ---
 
-```{r ex5-32, echo=TRUE, warning=FALSE}
+```{r e5-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 a <- 3   # 瑕疵品
 b <- 9   # 良品
 n <- 3; X <- 0   # 求 P(無瑕疵品)
@@ -1021,7 +1005,7 @@ cat("P(至少1個瑕疵品) = 1 - P(0) = 1 -", round(p_none, 4),
 
 ## 離散分配摘要
 
-```{r summary-table, echo=FALSE, warning=FALSE}
+```{r e5-32-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 summary_df <- data.frame(
   分配 = c("二項分配", "多項分配", "卜瓦松分配", "超幾何分配"),
   公式 = c(

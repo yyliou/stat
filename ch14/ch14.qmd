@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch14-zh.html" style="color:#555;">[中文版由此去]</a>' +
+          '<a href="ch14-zh.html"  style="color:#555;">[中文版由此去]</a>' +
           '</p>');
       }
     });
@@ -43,8 +43,7 @@ library(ggplot2)
 set.seed(42)
 ```
 
-## Chapter Overview
-
+## Overview
 ::: {.callout-note}
 ## Why Sampling and Simulation?
 When populations are too large to study completely, researchers rely on **samples** to draw valid inferences. And when real-world experiments are too dangerous, expensive, or time-consuming, **simulation** provides a safe, cost-effective alternative.
@@ -71,8 +70,6 @@ Random numbers are the engine behind both techniques.
 **Key requirement:** A sample must be **random** — every member of the population must have an equal chance of selection. Random samples are **unbiased**; non-random samples are **biased**.
 :::
 
----
-
 ## Four Basic Sampling Methods
 
 ::: {.callout-note}
@@ -84,8 +81,6 @@ Random numbers are the engine behind both techniques.
 | **Stratified** | Divide into homogeneous subgroups; sample each |
 | **Cluster** | Select an intact, pre-existing group as the sample |
 :::
-
----
 
 ## Random Sampling
 
@@ -101,21 +96,20 @@ Each element of the population is numbered, and random numbers are used to selec
 **Correct method:** Use a random number table or computer-generated random numbers.
 :::
 
----
+## Example 14-1 {#example-14-1}
 
-## Example 14-1: TV Show Interviews — Random Sample
+:::{.callout-warning}
+## TV Show Interviews — Random Sample
 
-::: {.callout-tip}
-## Problem
 A researcher producing a TV show can interview only **10 governors** from the 50 states. Select a random sample of 10 states using a random number table.
 :::
 
----
+## Example 14-1
 
-## Example 14-1: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Step 1:** Number the states 01–50 alphabetically (01 = Alabama, 02 = Alaska, …, 50 = Wyoming)
 
@@ -134,13 +128,18 @@ Selected numbers: **27, 43, 34, 06, 13, 29, 01, 39, 23, 35**
 | 34 | North Dakota | | 39 | Rhode Island |
 | 06 | Colorado | | 23 | Minnesota |
 | 13 | Illinois | | 35 | Ohio |
+
+:::
 :::
 
----
+## Example 14-1
 
-## Example 14-1: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-1, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 states <- c("Alabama","Alaska","Arizona","Arkansas","California",
             "Colorado","Connecticut","Delaware","Florida","Georgia",
             "Hawaii","Idaho","Illinois","Indiana","Iowa",
@@ -152,10 +151,10 @@ states <- c("Alabama","Alaska","Arizona","Arkansas","California",
             "South Dakota","Tennessee","Texas","Utah","Vermont",
             "Virginia","Washington","West Virginia","Wisconsin","Wyoming")
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e14-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(123)
 sample_indices <- sample(1:50, size = 10, replace = FALSE)
 cat("Selected state numbers:", sample_indices, "\n")
@@ -164,8 +163,6 @@ for (i in sort(sample_indices)) {
   cat(sprintf("  %02d. %s\n", i, states[i]))
 }
 ```
-
----
 
 ## Systematic Sampling
 
@@ -181,21 +178,20 @@ for (i in sort(sample_indices)) {
 **Caution:** Avoid using systematic sampling on lists with a periodic pattern (e.g., alternating male/female) that matches the interval $k$.
 :::
 
----
+## Example 14-2 {#example-14-2}
 
-## Example 14-2: TV Show Interviews — Systematic Sample
+:::{.callout-warning}
+## TV Show Interviews — Systematic Sample
 
-::: {.callout-tip}
-## Problem
 Using the same 50-state population, select a **systematic sample** of 10 states.
 :::
 
----
+## Example 14-2
 
-## Example 14-2: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Step 1:** Number states 01–50
 
@@ -213,13 +209,18 @@ $$4, 9, 14, 19, 24, 29, 34, 39, 44, 49$$
 | 14 | Indiana | | 39 | Rhode Island |
 | 19 | Maine | | 44 | Utah |
 | 24 | Mississippi | | 49 | Wisconsin |
+
+:::
 :::
 
----
+## Example 14-2
 
-## Example 14-2: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-2, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 N <- 50; n <- 10
 k <- N / n  # interval = 5
 
@@ -234,8 +235,7 @@ for (i in sys_indices) {
   cat(sprintf("  %02d. %s\n", i, states[i]))
 }
 ```
-
----
+:::
 
 ## Stratified Sampling
 
@@ -252,12 +252,11 @@ The population is divided into **strata** (subgroups) based on shared characteri
 **Proportional stratification:** Sample size from each stratum is proportional to that stratum's share of the total population.
 :::
 
----
+## Example 14-3 {#example-14-3}
 
-## Example 14-3: Stratified Sample of Students
+:::{.callout-warning}
+## Stratified Sample of Students
 
-::: {.callout-tip}
-## Problem
 From a class of 20 students (10 male, 10 female; mixed freshmen/sophomores), select a **stratified sample of 8** based on gender and grade level.
 
 **Four strata:**
@@ -267,14 +266,14 @@ From a class of 20 students (10 male, 10 female; mixed freshmen/sophomores), sel
 | Group 2 | Male Sophomores (5) | Group 4 | Female Sophomores (5) |
 :::
 
----
+## Example 14-3
 
-## Example 14-3: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
 
-**Step 1:** Divide into 4 strata (Male/Female × Freshman/Sophomore)
+**Mathematical solution**
+
+**Step 1:** Divide into 4 strata (Male/Female $\times$ Freshman/Sophomore)
 
 **Step 2:** Each stratum has 5 members. Select $8/4 = 2$ from each.
 
@@ -286,13 +285,18 @@ From a class of 20 students (10 male, 10 female; mixed freshmen/sophomores), sel
 | Male Sophomores | Brown, Danny; Lyons, Larry |
 | Female Freshmen | Bear, Theresa; Collins, Carolyn |
 | Female Sophomores | Toms, Debbie; Unger, Roberta |
+
+:::
 :::
 
----
+## Example 14-3
 
-## Example 14-3: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-3, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 students <- data.frame(
   name   = c("Ald P","Brown D","Bear T","Carson S","Collins C",
              "Davis W","Hogan M","Jones L","Lutz H","Lyons L",
@@ -307,7 +311,7 @@ students <- data.frame(
 
 ----
 
-```{r, echo=T, warning=FALSE}
+```{r e14-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Stratify and sample 2 from each stratum
 set.seed(42)
 stratified <- students %>%
@@ -317,8 +321,7 @@ stratified <- students %>%
 
 print(stratified)
 ```
-
----
+:::
 
 ## Cluster Sampling
 
@@ -332,8 +335,6 @@ A **naturally occurring group** (cluster) is selected as the sample. All members
 
 **Disadvantage:** Members within a cluster tend to be more **homogeneous** than the general population — the sample may lack diversity.
 :::
-
----
 
 ## Sampling Methods: Summary Comparison
 
@@ -363,7 +364,6 @@ A **naturally occurring group** (cluster) is selected as the sample. All members
 
 **Important:** How a question is worded can dramatically change the responses. Researchers must design questions carefully to avoid leading respondents toward a predetermined answer.
 :::
-
 
 ## Five Common Questionnaire Flaws
 
@@ -408,8 +408,6 @@ A **simulation technique** uses a probability experiment to replicate a real-lif
 **Modern tools:** Computers generate random numbers, tally outcomes, and compute probabilities millions of times per second.
 :::
 
----
-
 ## The Monte Carlo Method
 
 ::: {.callout-note}
@@ -423,8 +421,6 @@ A **simulation technique** uses a probability experiment to replicate a real-lif
 
 **Key insight:** Results approach the theoretical values as the number of repetitions increases (Law of Large Numbers).
 :::
-
----
 
 ## Setting Up Random Number Correspondences
 
@@ -440,21 +436,20 @@ A **simulation technique** uses a probability experiment to replicate a real-lif
 | Snoring (20% chance) | Snores | 1,2; Non-snore→3–9,0 |
 :::
 
----
+## Example 14-4 {#example-14-4}
 
-## Example 14-4: Snoring Simulation
+:::{.callout-warning}
+## Snoring Simulation
 
-::: {.callout-tip}
-## Problem
 According to the CDC, approximately **20%** of people snore while sleeping. Simulate a sample of **20 people** and identify how many snore.
 :::
 
----
+## Example 14-4
 
-## Example 14-4: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 Since $20\% = 1/5$, one in five people snores.
 
@@ -466,13 +461,18 @@ $$7\ 2\ 7\ 4\ 8\ 2\ 2\ 3\ 6\ 1\ 6\ 0\ 4\ 6\ 1\ 5\ 5\ 3\ 8\ 9$$
 Snorers (digits 1 or 2): positions 2, 6, 7, 10, 15 → **5 snorers out of 20**
 
 Proportion: $5/20 = 0.25$, close to the theoretical 20%.
+
+:::
 :::
 
----
+## Example 14-4
 
-## Example 14-4: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-4, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(101)
 n_people <- 20
 p_snore  <- 0.20
@@ -486,13 +486,13 @@ cat("Number who snore:", sum(snores), "out of", n_people, "\n")
 cat("Proportion:", round(mean(snores), 3),
     "  (Theoretical: 0.20)\n")
 ```
+:::
 
----
+## Example 14-5 {#example-14-5}
 
-## Example 14-5: Tennis Game Simulation
+:::{.callout-warning}
+## Tennis Game Simulation
 
-::: {.callout-tip}
-## Problem
 Bill is **twice as good** as Mike at tennis. Simulate a **5-game match** between them.
 
 Since $P(\text{Bill wins}) = 2/3$ and $P(\text{Mike wins}) = 1/3$:
@@ -508,11 +508,14 @@ Since $P(\text{Bill wins}) = 2/3$ and $P(\text{Mike wins}) = 1/3$:
 **Result:** Bill wins 4 games, Mike wins 1.
 :::
 
----
+## Example 14-5
 
-## Example 14-5: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-5, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(99)
 n_games  <- 5
 p_bill   <- 2/3
@@ -528,22 +531,22 @@ for (i in seq_along(winners)) cat("  Game", i, ":", winners[i], "\n")
 cat("\nBill wins:", sum(winners == "Bill"), "games\n")
 cat("Mike wins:", sum(winners == "Mike"), "games\n")
 ```
+:::
 
----
+## Example 14-6 {#example-14-6}
 
-## Example 14-6: Rolling a Die Until a 6 Appears
+:::{.callout-warning}
+## Rolling a Die Until a 6 Appears
 
-::: {.callout-tip}
-## Problem
 A die is rolled until a **6** appears. Using simulation, find the **average number of rolls** needed. Repeat the experiment **20 times**.
 :::
 
----
+## Example 14-6
 
-## Example 14-6: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Mapping:** Digits 1–6 → die face; digits 7, 8, 9, 0 → ignore
 
@@ -556,13 +559,18 @@ $$\bar{X} = \frac{96}{20} = 4.8 \text{ rolls}$$
 $$E(X) = \frac{1}{p} = \frac{1}{1/6} = 6$$
 
 More repetitions would push the simulation closer to 6.
+
+:::
 :::
 
----
+## Example 14-6
 
-## Example 14-6: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-6, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(55)
 n_trials <- 20
 
@@ -581,12 +589,16 @@ cat("Total rolls:", sum(rolls_needed), "\n")
 cat("Simulated average:", round(mean(rolls_needed), 2), "\n")
 cat("Theoretical average (1/p = 6):", 6, "\n")
 ```
+:::
 
----
+## Example 14-6
 
-## Example 14-6: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r ex14-6-plot, echo=T, warning=FALSE}
+**Visualization**
+
+```{r e14-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(55)
 many_trials <- replicate(1000, {
   count <- 0
@@ -598,10 +610,10 @@ many_trials <- replicate(1000, {
   count
 })
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e14-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
   geom_histogram(binwidth = 1, fill = "steelblue", color = "white", alpha = 0.8) +
   geom_vline(xintercept = mean(many_trials), color = "red", linetype = "dashed", linewidth = 1) +
@@ -612,21 +624,20 @@ ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
   theme_minimal()
 ```
 
----
+## Example 14-7 {#example-14-7}
 
-## Example 14-7: Selecting a Key
+:::{.callout-warning}
+## Selecting a Key
 
-::: {.callout-tip}
-## Problem
 A person has **4 keys**, only one of which opens a lock. She tries them at random (without replacement) until the correct one is found. Find the **average number of tries** needed. Repeat **25 times**.
 :::
 
----
+## Example 14-7
 
-## Example 14-7: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Setup:** Keys numbered 1–4; key 2 is the correct one.
 
@@ -640,13 +651,18 @@ $$\bar{X} = \frac{54}{25} = 2.16 \text{ tries}$$
 
 **Theoretical average:**
 $$E(X) = \frac{n+1}{2} = \frac{4+1}{2} = 2.5$$
+
+:::
 :::
 
----
+## Example 14-7
 
-## Example 14-7: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-7, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(77)
 n_trials   <- 25
 correct_key <- 2
@@ -661,22 +677,22 @@ cat("Total tries:", sum(tries_needed), "\n")
 cat("Simulated average:", round(mean(tries_needed), 3), "\n")
 cat("Theoretical average ((n+1)/2 = 2.5):", 2.5, "\n")
 ```
+:::
 
----
+## Example 14-8 {#example-14-8}
 
-## Example 14-8: Selecting a Monetary Bill
+:::{.callout-warning}
+## Selecting a Monetary Bill
 
-::: {.callout-tip}
-## Problem
 A box contains **5 one-dollar bills**, **3 five-dollar bills**, and **2 ten-dollar bills**. A person randomly selects one bill. Find the **expected value** of the selected bill. Perform the experiment **25 times**.
 :::
 
----
+## Example 14-8
 
-## Example 14-8: Mathematical Solution
-
-::: {.callout-tip}
+:::{.callout-tip}
 ## Solution
+
+**Mathematical solution**
 
 **Probabilities:** $P(\$1) = 5/10 = 0.5$, $P(\$5) = 3/10 = 0.3$, $P(\$10) = 2/10 = 0.2$
 
@@ -690,13 +706,18 @@ $$\bar{X} = \frac{116}{25} = \$4.64$$
 $$E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \$4.00$$
 
 The simulation is close to the theoretical value; more repetitions bring the results even closer.
+
+:::
 :::
 
----
+## Example 14-8
 
-## Example 14-8: R Solution
+:::{.callout-tip}
+## Solution
 
-```{r ex14-8, echo=T, warning=FALSE}
+**R implementation**
+
+```{r e14-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 n_trials <- 25
 
@@ -711,12 +732,16 @@ cat("Total:", sum(draws), "\n")
 cat("Simulated average: $", round(mean(draws), 2), "\n")
 cat("Theoretical E(X): $", sum(bills * probs), "\n")
 ```
+:::
 
----
+## Example 14-8
 
-## Example 14-8: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r ex14-8-plot, echo=T, warning=FALSE}
+**Visualization**
+
+```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 many_draws <- sample(bills, size = 1000, replace = TRUE, prob = probs)
 
@@ -728,13 +753,12 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
        x = "Bill Value ($)", y = "Frequency") +
   theme_minimal()
 ```
-
----
+:::
 
 ## Monte Carlo Method: Summary
 
 ::: {.callout-note}
-## Key Takeaways
+## Summary
 
 | Step | Action |
 |------|--------|
@@ -750,12 +774,8 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
 **Modern use:** NASA flight simulators, video game physics, financial risk modeling, drug trial design, climate modeling.
 :::
 
----
+## Key Takeaways
 
-## Chapter 14 Summary
-
-::: {.callout-note}
-## Core Concepts
 
 **Section 14-1 — Sampling:**
 - Samples save time, money, and enable otherwise impossible research
@@ -770,10 +790,8 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
 - Monte Carlo method: map outcomes to random number ranges, repeat, tally
 - Simulated averages approach theoretical values as $n \to \infty$
 - R's `sample()`, `rbinom()`, and `replicate()` make simulation straightforward
-:::
 
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

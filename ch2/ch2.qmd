@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -41,8 +41,7 @@ include-after-body:
 library(tidyverse)
 ```
 
-## Chapter 2 Overview
-
+## Overview
 Chapter 2 introduces methods for **organizing and visualizing data** — moving from raw, unordered observations to structured summaries that reveal patterns.
 
 | Section | Topics |
@@ -65,8 +64,6 @@ Organizing data into a **frequency distribution** provides a structured summary 
 A **frequency distribution** is a table that organizes data values (or ranges of values) along with the count of how often each value or range occurs in the dataset.
 :::
 
----
-
 ## Categorical Frequency Distributions
 
 When data consist of **qualitative categories** (non-numeric labels or groups), a **categorical frequency distribution** is used. Each category is listed alongside its frequency and relative frequency (percentage).
@@ -77,12 +74,11 @@ When data consist of **qualitative categories** (non-numeric labels or groups), 
 2. Tally the occurrences of each category.
 3. Record the frequency and compute the percentage: $\% = \frac{f}{n} \times 100$
 
----
+## Example 2-1 {#example-2-1}
 
-## Example 2-1: Blood Types of Army Inductees {#example-2-1}
+:::{.callout-warning}
+## Blood Types of Army Inductees
 
-:::{.callout-tip}
-## Example 2-1
 A sample of 25 army inductees was tested for blood type. The results are shown below. Organize the data into a categorical frequency distribution.
 
 ```
@@ -94,11 +90,14 @@ AB A  O  B   A
 ```
 :::
 
----
+## Example 2-1
 
-## Example 2-1: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 blood <- c("A","B","B","AB","O","O","O","B","AB","B",
            "B","B","O","A","O","A","O","O","O","AB",
            "AB","A","O","B","A")
@@ -110,14 +109,18 @@ df <- data.frame(blood) |>
 
 knitr::kable(df, align = "c")
 ```
+:::
 
----
+## Example 2-1
 
-## Example 2-1: Interpretation
+:::{.callout-tip}
+## Solution
+
+**Interpretation**
 
 The frequency distribution reveals that **Type O** is the most common blood type in this sample, occurring 9 times (36%). **Type A** appears 5 times (20%), **Type B** appears 6 times (24%), and **Type AB** appears 4 times (16%).
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-1-2, echo=T, warning=FALSE, out.width="50%", fig.align='center'}
 ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   geom_text(aes(label = Frequency), vjust = -0.3) +
@@ -125,8 +128,7 @@ ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
        x = "Blood Type", y = "Frequency") +
   theme_minimal()
 ```
-
----
+:::
 
 ## Grouped Frequency Distributions
 
@@ -138,8 +140,6 @@ Key terminology:
 - **Class boundaries**: Values halfway between the upper limit of one class and the lower limit of the next, eliminating gaps.
 - **Class width**: The difference between consecutive lower class limits (or upper class boundaries).
 - **Class midpoint**: $X_m = \dfrac{\text{lower limit} + \text{upper limit}}{2}$
-
----
 
 ## Rules for Constructing a Grouped Frequency Distribution
 
@@ -156,12 +156,11 @@ Key terminology:
 Formula: $\text{Class width} \approx \dfrac{\text{highest value} - \text{lowest value}}{\text{number of classes}}$
 :::
 
----
+## Example 2-2 {#example-2-2}
 
-## Example 2-2: Record High Temperatures {#example-2-2}
+:::{.callout-warning}
+## Record High Temperatures
 
-:::{.callout-tip}
-## Example 2-2
 The record high temperatures (°F) for each of the 50 U.S. states are listed below. Construct a grouped frequency distribution using 7 classes.
 
 ```
@@ -173,13 +172,16 @@ The record high temperatures (°F) for each of the 50 U.S. states are listed bel
 ```
 :::
 
----
+## Example 2-2
 
-## Example 2-2: Solution
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Prepare data**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 temps <- c(112,100,127,120,134,118,105,110,109,112,
            110,118,117,116,118,122,114,114,105,109,
            107,112,114,115,118,117,118,122,106,110,
@@ -189,7 +191,7 @@ temps <- c(112,100,127,120,134,118,105,110,109,112,
 
 **Draw the figure**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Class width = ceiling((134 - 100) / 7) = 5
 breaks <- seq(99.5, 134.5, by = 5)
 labels <- c("100-104","105-109","110-114","115-119","120-124","125-129","130-134")
@@ -205,21 +207,24 @@ freq_table <- data.frame(temps) |>
     Cumulative = cumsum(Frequency)
   )
 ```
-
+:::
 ---
 
 **Output**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(freq_table[, c("Class","Boundaries","Midpoint","Frequency","Cumulative")],
              align = "c")
 ```
 
----
+## Example 2-2
 
-## Example 2-2: Visualization
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Visualization**
+
+```{r e2-2-4, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
 ggplot(data.frame(temps), aes(x = temps)) +
   geom_histogram(breaks = breaks, fill = "steelblue", color = "white") +
   scale_x_continuous(breaks = seq(100, 135, by = 5)) +
@@ -227,8 +232,7 @@ ggplot(data.frame(temps), aes(x = temps)) +
        x = "Temperature (°F)", y = "Frequency") +
   theme_minimal()
 ```
-
----
+:::
 
 ## Ungrouped Frequency Distributions
 
@@ -236,12 +240,11 @@ When the range of values is small and each distinct value is meaningful on its o
 
 This approach preserves the exact values rather than collapsing them into intervals.
 
----
+## Example 2-3 {#example-2-3}
 
-## Example 2-3: Miles per Gallon for SUVs
+:::{.callout-warning}
+## Miles per Gallon for SUVs
 
-:::{.callout-tip}
-## Example 2-3
 The fuel economy ratings (mpg) for a sample of 30 sport utility vehicles are listed below. Construct an ungrouped frequency distribution.
 
 ```
@@ -251,13 +254,16 @@ The fuel economy ratings (mpg) for a sample of 30 sport utility vehicles are lis
 ```
 :::
 
----
+## Example 2-3
 
-## Example 2-3: Solution
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Prepare data**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mpg_data <- c(12,17,12,14,16,18,16,18,12,16,
               15,15,16,12,15,15,16,16,12,14,
               15,12,15,15,12,16,15,16,16,12)
@@ -265,7 +271,7 @@ mpg_data <- c(12,17,12,14,16,18,16,18,12,16,
 
 **Draw the figure**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ungrouped <- data.frame(mpg_data) |>
   count(mpg_data) |>
   rename(MPG = mpg_data, Frequency = n) |>
@@ -274,18 +280,16 @@ ungrouped <- data.frame(mpg_data) |>
     `Cum. Freq.` = cumsum(Frequency)
   )
 ```
-
+:::
 ---
 
 **Output**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(ungrouped, align = "c")
 ```
 
 The distribution shows that **15 mpg** and **16 mpg** are the most frequent ratings in this sample.
-
----
 
 ## Cumulative Frequency Distributions
 
@@ -293,7 +297,7 @@ A **cumulative frequency distribution** shows the running total of frequencies f
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(freq_table[, c("Class","Frequency","Cumulative")],
              col.names = c("Class","Frequency","Cumulative Frequency"),
              align = "c",
@@ -310,8 +314,6 @@ Three fundamental graphs are used to visualize data organized in a grouped frequ
 - **Frequency polygon** — a line graph connecting the midpoints of each class at their frequency values; extended to the x-axis at each end.
 - **Ogive** (oh-jive) — a cumulative frequency graph; shows the running total of observations up to each class boundary.
 
----
-
 ## The Histogram
 
 :::{.callout-note}
@@ -320,20 +322,18 @@ Three fundamental graphs are used to visualize data organized in a grouped frequ
 A **histogram** is a bar graph in which the horizontal axis represents the class boundaries and the vertical axis represents the frequencies (or relative frequencies). Adjacent bars share boundaries — there are no gaps.
 :::
 
----
+## Example 2-4 {#example-2-4}
 
-## Example 2-4: Histogram of Record High Temperatures
+:::{.callout-warning}
+## Histogram of Record High Temperatures
 
-:::{.callout-tip}
-## Example 2-4
 Using the frequency distribution from [Example 2-2](#example-2-2), draw a histogram for the record high temperatures of the 50 U.S. states.
 :::
-
 ---
 
 **Solution** (R)
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(data.frame(temps), aes(x = temps)) +
   geom_histogram(breaks = breaks, fill = "#4a90d9", color = "white", linewidth = 0.8) +
   scale_x_continuous(breaks = c(99.5, 104.5, 109.5, 114.5, 119.5, 124.5, 129.5, 134.5)) +
@@ -341,8 +341,6 @@ ggplot(data.frame(temps), aes(x = temps)) +
        x = "Temperature (°F)", y = "Frequency") +
   theme_minimal()
 ```
-
----
 
 ## The Frequency Polygon
 
@@ -352,20 +350,18 @@ ggplot(data.frame(temps), aes(x = temps)) +
 A **frequency polygon** is a line graph drawn by connecting the **midpoints** of the tops of each histogram bar. The line is extended to the x-axis one class width beyond each end, so the polygon is "closed."
 :::
 
----
+## Example 2-5 {#example-2-5}
 
-## Example 2-5: Frequency Polygon
+:::{.callout-warning}
+## Frequency Polygon
 
-:::{.callout-tip}
-## Example 2-5
 Draw a frequency polygon for the record high temperatures data from [Example 2-2](#example-2-2).
 :::
-
 ---
 
 **Solution** (R)
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 midpoints <- seq(102, 132, by = 5)
 freqs     <- freq_table$Frequency
 
@@ -377,7 +373,7 @@ poly_df <- data.frame(
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(poly_df, aes(x, y)) +
   geom_line(color = "#d9534f", linewidth = 1.2) +
   geom_point(color = "#d9534f", size = 2.5) +
@@ -387,8 +383,6 @@ ggplot(poly_df, aes(x, y)) +
   theme_minimal()
 ```
 
----
-
 ## The Ogive
 
 :::{.callout-note}
@@ -397,20 +391,18 @@ ggplot(poly_df, aes(x, y)) +
 An **ogive** (cumulative frequency graph) plots the **upper class boundaries** on the x-axis against the **cumulative frequencies** on the y-axis. It is useful for determining how many observations fall below a particular value.
 :::
 
----
+## Example 2-6 {#example-2-6}
 
-## Example 2-6: Ogive for Record High Temperatures
+:::{.callout-warning}
+## Ogive for Record High Temperatures
 
-:::{.callout-tip}
-## Example 2-6
 Draw an ogive for the record high temperatures distribution from [Example 2-2](#example-2-2).
 :::
-
 ---
 
 **Solution** (R)
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 upper_bounds <- c(99.5, 104.5, 109.5, 114.5, 119.5, 124.5, 129.5, 134.5)
 cum_freqs    <- c(0, freq_table$Cumulative)
 
@@ -419,7 +411,7 @@ ogive_df <- data.frame(x = upper_bounds, y = cum_freqs)
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(ogive_df, aes(x, y)) +
   geom_line(color = "#5cb85c", linewidth = 1.2) +
   geom_point(color = "#5cb85c", size = 2.5) +
@@ -429,20 +421,17 @@ ggplot(ogive_df, aes(x, y)) +
   theme_minimal()
 ```
 
----
-
 ## Relative Frequency Graphs
 
 All three graph types (histogram, frequency polygon, ogive) can be redrawn using **relative frequencies** (proportions or percentages) instead of raw counts. The shape of the graph is identical, but the vertical axis reflects the fraction of total observations rather than the count.
 
 Relative frequency graphs facilitate comparisons between datasets of different sizes.
 
----
+## Example 2-7 {#example-2-7}
 
-## Example 2-7: Relative Frequency Graphs — Miles Run per Week
+:::{.callout-warning}
+## Relative Frequency Graphs — Miles Run per Week
 
-:::{.callout-tip}
-## Example 2-7
 A survey of 20 runners recorded the number of miles each ran per week. The data are organized into the frequency distribution below. Draw a relative frequency histogram, frequency polygon, and ogive.
 
 | Class | Frequency |
@@ -456,13 +445,16 @@ A survey of 20 runners recorded the number of miles each ran per week. The data 
 | 35.5–40.5 | 2 |
 :::
 
----
+## Example 2-7
 
-## Example 2-7: Solution
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Prepare data**
 
-```{r, echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 run_df <- data.frame(
   lower = c(5.5, 10.5, 15.5, 20.5, 25.5, 30.5, 35.5),
   upper = c(10.5,15.5, 20.5, 25.5, 30.5, 35.5, 40.5),
@@ -474,12 +466,12 @@ run_df <- data.frame(
     cum_rf = cumsum(rel_f)
   )
 ```
-
+:::
 ---
 
 **Draw the figure**
 
-```{r, echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p1 <- ggplot(run_df, aes(x = mid, y = rel_f)) +
   geom_bar(stat = "identity", width = 5, fill = "#5bc0de", color = "white") +
   labs(title = "Rel. Freq. Histogram", x = "Miles", y = "Rel. Freq.") +
@@ -511,11 +503,9 @@ p3 <- ggplot(
 
 **Output**
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-7-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ```
-
----
 
 ## Distribution Shapes
 
@@ -534,11 +524,9 @@ The overall shape of a distribution describes how data values are spread across 
 | **Bimodal** | Two distinct peaks; may indicate two subgroups in the data |
 | **U-shaped** | Frequencies high at both ends, low in the middle |
 
----
-
 ## Visualizing Distribution Shapes
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-7-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(42)
 
 make_hist <- function(data, title, fill_col) {
@@ -560,7 +548,7 @@ p_u       <- make_hist(c(rnorm(200,20,5), rnorm(200,80,5)), "U-shaped", "#1abc9c
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-7-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gridExtra::grid.arrange(p_bell, p_uni, p_right, p_left, p_bimod, p_u, ncol = 3)
 ```
 
@@ -576,8 +564,6 @@ In addition to histograms, frequency polygons, and ogives, several other graphic
 - **Pie graphs** — for showing each category's share of the whole
 - **Stem and leaf plots** — for displaying the actual data values in a graphical form
 
----
-
 ## Bar Graphs
 
 :::{.callout-note}
@@ -586,12 +572,11 @@ In addition to histograms, frequency polygons, and ogives, several other graphic
 A **bar graph** represents categorical (qualitative) data using horizontal or vertical bars. The length or height of each bar corresponds to the frequency or value for that category. Unlike a histogram, gaps between bars are acceptable.
 :::
 
----
+## Example 2-8 {#example-2-8}
 
-## Example 2-8: First-Year College Student Spending
+:::{.callout-warning}
+## First-Year College Student Spending
 
-:::{.callout-tip}
-## Example 2-8
 A survey of first-year college students reported average spending in four back-to-school categories. Represent the data with a bar graph.
 
 | Category | Average Spending |
@@ -602,20 +587,23 @@ A survey of first-year college students reported average spending in four back-t
 | Shoes | $72 |
 :::
 
----
+## Example 2-8
 
-## Example 2-8: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 spending <- data.frame(
   category = c("Electronics/\nComputers", "Dorm Décor", "Clothing", "Shoes"),
   amount   = c(728, 344, 141, 72)
 )
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(spending, aes(x = reorder(category, -amount), y = amount, fill = category)) +
   geom_bar(stat = "identity", show.legend = FALSE, width = 0.6) +
   geom_text(aes(label = paste0("$", amount)), vjust = -0.4, size = 3.5) +
@@ -624,8 +612,6 @@ ggplot(spending, aes(x = reorder(category, -amount), y = amount, fill = category
        x = "Category", y = "Average Amount ($)") +
   theme_minimal()
 ```
-
----
 
 ## Pareto Charts
 
@@ -637,12 +623,11 @@ A **Pareto chart** is a specialized bar graph in which the categories are arrang
 
 The name honors Vilfredo Pareto, who observed that a small number of causes often account for the majority of effects (the "80/20 rule").
 
----
+## Example 2-9 {#example-2-9}
 
-## Example 2-9: Homeless Population in Five Cities
+:::{.callout-warning}
+## Homeless Population in Five Cities
 
-:::{.callout-tip}
-## Example 2-9
 The estimated number of homeless individuals in five U.S. cities is given below. Construct a Pareto chart.
 
 | City | Count |
@@ -654,11 +639,14 @@ The estimated number of homeless individuals in five U.S. cities is given below.
 | St. Louis | 1,485 |
 :::
 
----
+## Example 2-9
 
-## Example 2-9: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 homeless <- data.frame(
   city  = c("Atlanta","Chicago","Washington\nD.C.","Baltimore","St. Louis"),
   count = c(6832, 6680, 5518, 2904, 1485)
@@ -666,10 +654,10 @@ homeless <- data.frame(
   arrange(desc(count)) |>
   mutate(city = factor(city, levels = city))
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-9-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(homeless, aes(x = city, y = count, fill = city)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   geom_text(aes(label = scales::comma(count)), vjust = -0.4, size = 3.5) +
@@ -679,8 +667,6 @@ ggplot(homeless, aes(x = city, y = count, fill = city)) +
   theme_minimal()
 ```
 
----
-
 ## Time Series Graphs
 
 :::{.callout-note}
@@ -689,12 +675,11 @@ ggplot(homeless, aes(x = city, y = count, fill = city)) +
 A **time series graph** plots a quantitative variable on the vertical axis against time on the horizontal axis. The data points are connected by line segments to emphasize trend or pattern over time.
 :::
 
----
+## Example 2-10 {#example-2-10}
 
-## Example 2-10: Workplace Homicides (2003–2008)
+:::{.callout-warning}
+## Workplace Homicides (2003–2008)
 
-:::{.callout-tip}
-## Example 2-10
 The number of workplace homicides reported in the United States for the years 2003 through 2008 is shown below. Draw a time series graph and describe the trend.
 
 | Year | 2003 | 2004 | 2005 | 2006 | 2007 | 2008 |
@@ -702,11 +687,14 @@ The number of workplace homicides reported in the United States for the years 20
 | Homicides | 632 | 559 | 567 | 540 | 628 | 517 |
 :::
 
----
+## Example 2-10
 
-## Example 2-10: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 homicides <- data.frame(
   year  = 2003:2008,
   count = c(632, 559, 567, 540, 628, 517)
@@ -722,16 +710,14 @@ fig <- ggplot(homicides, aes(x = year, y = count)) +
        x = "Year", y = "Number of Homicides") +
   theme_minimal()
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fig
 ```
 
 The overall trend shows a **general decline** in workplace homicides over this period, with a notable spike in 2007.
-
----
 
 ## Pie Graphs
 
@@ -746,12 +732,11 @@ $$\text{Degrees} = \frac{f}{n} \times 360°$$
 where $f$ is the category frequency and $n$ is the total number of observations.
 :::
 
----
+## Example 2-11 {#example-2-11}
 
-## Example 2-11: Super Bowl Snack Food Preferences
+:::{.callout-warning}
+## Super Bowl Snack Food Preferences
 
-:::{.callout-tip}
-## Example 2-11
 A survey of Super Bowl viewers recorded their preferred snack foods. Construct a pie graph.
 
 | Snack | Frequency |
@@ -763,11 +748,14 @@ A survey of Super Bowl viewers recorded their preferred snack foods. Construct a
 | Snack nuts | 2.5 million |
 :::
 
----
+## Example 2-11
 
-## Example 2-11: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 snacks <- data.frame(
   item = c("Potato chips","Tortilla chips","Pretzels","Popcorn","Snack nuts"),
   freq = c(11.2, 8.2, 4.3, 3.8, 2.5)
@@ -786,23 +774,29 @@ fig <- ggplot(snacks, aes(x = "", y = freq, fill = item)) +
   labs(title = "Super Bowl Snack Food Preferences", fill = "Snack") +
   theme_void()
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-11-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fig
 ```
 
----
+## Example 2-12 {#example-2-12}
 
-## Example 2-12: Blood Type Pie Graph
+:::{.callout-warning}
+## Blood Type Pie Graph
 
-:::{.callout-tip}
-## Example 2-12
 Using the blood type data from [Example 2-1](#example-2-1), construct a pie graph.
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## Example 2-12
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e2-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 blood_pie <- data.frame(
   type = c("A","B","O","AB"),
   freq = c(5, 6, 9, 4)
@@ -822,14 +816,12 @@ fig <- ggplot(blood_pie, aes(x = "", y = freq, fill = type)) +
   labs(title = "Blood Type Distribution (n = 25)", fill = "Blood Type") +
   theme_void()
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e2-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fig
 ```
-
----
 
 ## Misleading Graphs
 
@@ -845,8 +837,6 @@ Graphs are powerful communication tools, but they can distort perception. Common
 Always examine the scale and labels carefully before drawing conclusions from a graph.
 :::
 
----
-
 ## Stem and Leaf Plots
 
 :::{.callout-note}
@@ -859,12 +849,11 @@ A **stem and leaf plot** (stemplot) organizes data by splitting each value into 
 - The plot functions like a histogram turned on its side.
 :::
 
----
+## Example 2-13 {#example-2-13}
 
-## Example 2-13: Cardiograms at an Outpatient Center
+:::{.callout-warning}
+## Cardiograms at an Outpatient Center
 
-:::{.callout-tip}
-## Example 2-13
 The number of cardiograms performed each day over 20 days at an outpatient testing center is recorded below. Construct a stem and leaf plot.
 
 ```
@@ -875,11 +864,14 @@ The number of cardiograms performed each day over 20 days at an outpatient testi
 ```
 :::
 
----
+## Example 2-13
 
-## Example 2-13: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cardio <- c(25,31,20,32,13,14,43,2,57,23,36,32,33,32,44,32,52,44,51,45)
 
 # Display stem and leaf plot
@@ -887,13 +879,13 @@ stem(cardio, scale = 2)
 ```
 
 The distribution **peaks in the 30s**, with 7 of the 20 days recording between 31 and 36 cardiograms. The minimum is 2 and the maximum is 57.
+:::
 
----
+## Example 2-14 {#example-2-14}
 
-## Example 2-14: Car Thefts — Stem and Leaf with Classes
+:::{.callout-warning}
+## Car Thefts — Stem and Leaf with Classes
 
-:::{.callout-tip}
-## Example 2-14
 An insurance researcher recorded the number of car thefts in a city over 30 days. Construct a stem and leaf plot using the classes 50–54, 55–59, 60–64, 65–69, 70–74, 75–79.
 
 ```
@@ -903,11 +895,14 @@ An insurance researcher recorded the number of car thefts in a city over 30 days
 ```
 :::
 
----
+## Example 2-14
 
-## Example 2-14: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 thefts <- c(
   52, 62, 51, 50, 69,
   58, 77, 66, 53, 57,
@@ -919,23 +914,21 @@ thefts <- c(
 
 stem(thefts, scale = 1)
 ```
+:::
 
----
+## Example 2-15 {#example-2-15}
 
-## Example 2-15: Back-to-Back Stem and Leaf Plot
-
-:::{.callout-note}
+:::{.callout-warning}
 ## Back-to-Back Stem and Leaf Plot
 
 When comparing two related groups, a **back-to-back stem and leaf plot** uses a shared column of stems in the center, with one group's leaves fanning left and the other's fanning right. This makes it easy to compare the shapes, centers, and spreads of both distributions simultaneously.
 :::
 
----
-
-## Example 2-15: Tall Buildings in Atlanta vs. Philadelphia
+## Example 2-15
 
 :::{.callout-tip}
-## Example 2-15
+## Solution
+
 The number of stories in samples of tall buildings from Atlanta and Philadelphia are shown. Construct a back-to-back stem and leaf plot and compare the two distributions.
 
 **Atlanta:** 55, 70, 44, 36, 40, 63, 40, 44, 34, 38, 60, 47, 52, 32, 32, 50, 53, 32, 28, 31, 52, 32, 34, 32, 50, 26, 29
@@ -943,11 +936,14 @@ The number of stories in samples of tall buildings from Atlanta and Philadelphia
 **Philadelphia:** 61, 40, 38, 32, 30, 58, 40, 40, 25, 30, 54, 40, 36, 30, 30, 53, 39, 36, 34, 33, 50, 38, 36, 39, 32
 :::
 
----
+## Example 2-15
 
-## Example 2-15: Solution
+:::{.callout-tip}
+## Solution
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**Solve**
+
+```{r e2-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 atlanta <- c(55,70,44,36,40,63,40,44,34,38,60,47,52,32,32,
              50,53,32,28,31,52,32,34,32,50,26,29)
 philly  <- c(61,40,38,32,30,58,40,40,25,30,54,40,36,30,30,
@@ -956,10 +952,14 @@ philly  <- c(61,40,38,32,30,58,40,40,25,30,54,40,36,30,30,
 aplpack::stem.leaf.backback(atlanta,philly,
                             depths = F, m = 1)
 ```
+:::
 
----
+## Example 2-15
 
-## Example 2-15: Interpretation
+:::{.callout-tip}
+## Solution
+
+**Interpretation**
 
 Examining the back-to-back plot reveals several key differences:
 
@@ -967,8 +967,7 @@ Examining the back-to-back plot reveals several key differences:
 - **Atlanta** shows considerably more variability — its buildings range from the upper 20s all the way to 70 stories.
 - **Philadelphia** buildings are more tightly concentrated in the 30–50 story range.
 - **Atlanta** has more buildings of 40 or more stories, indicating a slightly taller skyline in this sample.
-
----
+:::
 
 ## Summary
 
@@ -983,9 +982,7 @@ Examining the back-to-back plot reveals several key differences:
 | Pie graph | Showing each category's proportion of the whole |
 | Stem and leaf plot | Displaying actual data values; small to moderate datasets |
 
----
-
-## Key Formulas — Chapter 2
+## Key Formulas
 
 :::{.callout-important}
 ## Important Formulas
@@ -999,9 +996,7 @@ $$\% = \frac{f}{n} \times 100 \quad \text{(percentage for each class)}$$
 $$\text{Degrees} = \frac{f}{n} \times 360° \quad \text{(pie chart sector)}$$
 :::
 
----
-
-## Chapter 2: Key Vocabulary
+## Key Takeaways
 
 - **Raw data** — unorganized observations collected before any processing
 - **Frequency distribution** — a table pairing data values/classes with their counts

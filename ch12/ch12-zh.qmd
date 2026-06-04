@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch12.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch12.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -74,8 +74,6 @@ knitr::opts_chunk$set(fig.align = "center")
 - **第12-2節：** 事後檢定 — Scheffé 法與 Tukey 法
 - **第12-3節：** 二因子變異數分析（Two-Way ANOVA）
 
----
-
 ## 歷史背景
 
 ::: {.callout-note}
@@ -100,8 +98,6 @@ ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數�
 
 **F 檢定**同時比較所有平均數，解決上述三個問題。
 
----
-
 ## 單因子 ANOVA 的假設
 
 ::: {.callout-important}
@@ -110,8 +106,6 @@ ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數�
 2. 所有樣本必須**相互獨立**
 3. **所有母體的變異數**必須相等（變異數同質性）
 :::
-
----
 
 ## ANOVA 的邏輯
 
@@ -130,8 +124,6 @@ $$F = \frac{s_B^2}{s_W^2}$$
 
 比較平均數的 F 檢定永遠是**右尾**。
 
----
-
 ## 假設與自由度
 
 ::: {.callout-note}
@@ -146,8 +138,6 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
 其中 $k$ = 組數，$N = n_1 + n_2 + \cdots + n_k$
 :::
-
----
 
 ## ANOVA 計算公式
 
@@ -164,8 +154,6 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 **步驟五：** $F = \dfrac{s_B^2}{s_W^2}$
 :::
 
----
-
 ## ANOVA 摘要表
 
 ::: {.callout-note}
@@ -181,12 +169,11 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 - $SSW = \sum (n_i - 1)s_i^2$
 :::
 
----
+## 範例 12-1 {#example-12-1}
 
-## 範例 12-1：降低血壓（第一部分）
+:::{.callout-warning}
+## 降低血壓（第一部分）
 
-::: {.callout-tip}
-## 問題
 研究者測試三種降低血壓的技術：**藥物**、**運動**和**飲食**。4週後記錄血壓降低量。在 $\alpha = 0.05$ 下，檢定各組平均數無差異的主張。
 
 | 藥物 | 運動 | 飲食 |
@@ -200,12 +187,12 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 | $s_1^2=5.7$ | $s_2^2=10.2$ | $s_3^2=10.3$ |
 :::
 
----
+## 範例 12-1
 
-## 範例 12-1：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 逐步解答
+**數學解法**
 
 **步驟一：** $H_0: \mu_1 = \mu_2 = \mu_3$（主張）；$H_1:$ 至少有一個平均數不同
 
@@ -226,11 +213,16 @@ $$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
 **步驟四：** $9.17 > 3.89$ → **拒絕** $H_0$
 
 **步驟五：** 有足夠的證據得出至少有一個平均數與其他不同的結論。
+
+:::
 :::
 
----
+## 範例 12-1
 
-## 範例 12-1：ANOVA 摘要表
+:::{.callout-tip}
+## 解題
+
+**ANOVA 摘要表**
 
 | 來源 | SS | 自由度 | MS | F |
 |------|-----|--------|-----|---|
@@ -241,12 +233,16 @@ $$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
 $\alpha=0.05$ 時的臨界值：**3.89**
 
 由於 $F = 9.17 > 3.89$，我們**拒絕** $H_0$。
+:::
 
----
+## 範例 12-1
 
-## 範例 12-1：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex12-1, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e12-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 medication <- c(10, 12, 9, 15, 13)
 exercise   <- c(6, 8, 3, 0, 2)
 diet       <- c(5, 9, 12, 8, 4)
@@ -259,12 +255,16 @@ bp_data <- data.frame(
 result <- aov(reduction ~ group, data = bp_data)
 summary(result)
 ```
+:::
 
----
+## 範例 12-1
 
-## 範例 12-1：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex12-1-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -272,13 +272,13 @@ ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
        x = "治療組別", y = "降低量（毫米汞柱）") +
   theme(legend.position = "none")
 ```
+:::
 
----
+## 範例 12-2 {#example-12-2}
 
-## 範例 12-2：收費站交流道員工數（第一部分）
+:::{.callout-warning}
+## 收費站交流道員工數（第一部分）
 
-::: {.callout-tip}
-## 問題
 州政府官員想了解三條賓夕法尼亞州收費公路各交流道的員工數是否有顯著差異。在 $\alpha = 0.05$ 下，檢定此主張。
 
 | PA 高速公路 | 格林斯堡支線 | 比弗谷 |
@@ -293,12 +293,12 @@ ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
 | $s_1^2=81.9$ | $s_2^2=25.6$ | $s_3^2=29.0$ |
 :::
 
----
+## 範例 12-2
 
-## 範例 12-2：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解答
+**數學解法**
 
 **步驟一：** $H_0: \mu_1 = \mu_2 = \mu_3$；$H_1:$ 至少有一個平均數不同（主張）
 
@@ -315,11 +315,16 @@ ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
 **步驟四：** $5.05 > 3.68$ → **拒絕** $H_0$
 
 **步驟五：** 有足夠的證據得出至少有一個交流道的平均員工數與其他不同的結論。
+
+:::
 :::
 
----
+## 範例 12-2
 
-## 範例 12-2：ANOVA 摘要表
+:::{.callout-tip}
+## 解題
+
+**ANOVA 摘要表**
 
 | 來源 | SS | 自由度 | MS | F |
 |------|-----|--------|-----|---|
@@ -330,12 +335,16 @@ ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
 **P 值：** $0.01 < P < 0.025$（查 F 表）；計算機：$P = 0.021$
 
 由於 $F = 5.05 > 3.68$，我們**拒絕** $H_0$。
+:::
 
----
+## 範例 12-2
 
-## 範例 12-2：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex12-2, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e12-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 pa_turnpike  <- c(7, 14, 32, 19, 10, 11)
 greensburg   <- c(10, 1, 1, 0, 11, 1)
 beaver       <- c(1, 12, 1, 9, 1, 11)
@@ -348,12 +357,16 @@ emp_data <- data.frame(
 result2 <- aov(employees ~ road, data = emp_data)
 summary(result2)
 ```
+:::
 
----
+## 範例 12-2
 
-## 範例 12-2：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex12-2-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -361,7 +374,7 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
        x = "收費公路", y = "員工數") +
   theme(legend.position = "none")
 ```
-
+:::
 ---
 
 # 第12-2節：Scheffé 檢定與 Tukey 檢定 {background-color="#2c4a6e"}
@@ -382,8 +395,6 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
 **一般原則：** 當 $n_i = n_j$ 時用 Tukey；當樣本數不等時用 Scheffé。
 :::
 
----
-
 ## Scheffé 檢定
 
 ::: {.callout-note}
@@ -396,23 +407,22 @@ $$F' = (k-1) \times C.V._{\text{ANOVA}}$$
 若 $F_S > F'$，則拒絕該對的 $H_0$。
 :::
 
----
+## 範例 12-3 {#example-12-3}
 
-## 範例 12-3：血壓資料的 Scheffé 檢定
+:::{.callout-warning}
+## 血壓資料的 Scheffé 檢定
 
-::: {.callout-tip}
-## 問題
 使用 Scheffé 檢定，判斷範例 12-1 中哪些平均數對在 $\alpha = 0.05$ 下有顯著差異。
 
 已知：$\bar{X}_1=11.8$，$\bar{X}_2=3.8$，$\bar{X}_3=7.6$，$s_W^2=8.73$，各組 $n_i=5$。
 :::
 
----
+## 範例 12-3
 
-## 範例 12-3：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## Scheffé 檢定計算
+**數學解法**
 
 **臨界值：** $F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78$
 
@@ -426,13 +436,18 @@ $$F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad
 $$F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{不顯著}$$
 
 **結論：** 只有**藥物 vs. 運動**（$\bar{X}_1$ vs $\bar{X}_2$）有顯著差異。
+
+:::
 :::
 
----
+## 範例 12-3
 
-## 範例 12-3：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex12-3, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 使用 agricolae 套件的 Scheffé 檢定（或手動計算）
 # 手動 Scheffe 檢定
 scheffe_fs <- function(x1_bar, x2_bar, sw2, n1, n2) {
@@ -456,8 +471,7 @@ for (p in pairs) {
   cat(p[1], ": Fs =", round(fs, 2), "->", sig, "\n")
 }
 ```
-
----
+:::
 
 ## Tukey 檢定
 
@@ -475,23 +489,22 @@ $$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}$$
 若 $|q| >$ 臨界值，則拒絕該對的 $H_0$。
 :::
 
----
+## 範例 12-4 {#example-12-4}
 
-## 範例 12-4：血壓資料的 Tukey 檢定
+:::{.callout-warning}
+## 血壓資料的 Tukey 檢定
 
-::: {.callout-tip}
-## 問題
 使用 Tukey 檢定，判斷範例 12-1 中哪些平均數對在 $\alpha = 0.05$ 下有顯著差異。
 
 $\bar{X}_1=11.8$，$\bar{X}_2=3.8$，$\bar{X}_3=7.6$，$s_W^2=8.73$，$n=5$
 :::
 
----
+## 範例 12-4
 
-## 範例 12-4：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## Tukey 檢定計算
+**數學解法**
 
 $\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321$
 
@@ -507,13 +520,18 @@ $$q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{不顯著}
 $$q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{不顯著}$$
 
 **結論：** 只有**藥物 vs. 運動**有顯著差異 — 與 Scheffé 結果一致。
+
+:::
 :::
 
----
+## 範例 12-4
 
-## 範例 12-4：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex12-4, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e12-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 使用 R 內建函數進行 Tukey HSD 檢定
 medication <- c(10, 12, 9, 15, 13)
 exercise   <- c(6, 8, 3, 0, 2)
@@ -527,17 +545,20 @@ bp_data <- data.frame(
 bp_aov <- aov(reduction ~ group, data = bp_data)
 TukeyHSD(bp_aov)
 ```
+:::
 
----
+## 範例 12-4
 
-## 範例 12-4：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex12-4-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tukey_result <- TukeyHSD(bp_aov)
 plot(tukey_result, las = 1)
 ```
-
----
+:::
 
 ## Scheffé vs. Tukey：比較
 
@@ -572,8 +593,6 @@ plot(tukey_result, las = 1)
 - 比兩次單獨的單因子 ANOVA 更有效率
 :::
 
----
-
 ## 二因子 ANOVA：設計結構
 
 ::: {.callout-note}
@@ -583,12 +602,10 @@ plot(tukey_result, las = 1)
 - 每格有 **$n$** 位受試者（必須相等）
 - **受試者總數** = $abn$
 
-**2×2 設計**每個因子各有2個水準 → 4個處理組。
+**$2 \times 2$ 設計**每個因子各有2個水準 → 4個處理組。
 
-例如：植物肥料類型（A1, A2）× 土壤類型（I, II）→ 4組
+例如：植物肥料類型（A1, A2）$\times$ 土壤類型（I, II）→ 4組
 :::
-
----
 
 ## 二因子 ANOVA：三個假設
 
@@ -607,8 +624,6 @@ $$H_0: \text{B 各水準的平均數無差異}$$
 $$H_1: \text{至少有一個 B 的平均數不同}$$
 :::
 
----
-
 ## 二因子 ANOVA：假設條件
 
 ::: {.callout-important}
@@ -619,8 +634,6 @@ $$H_1: \text{至少有一個 B 的平均數不同}$$
 4. **各組樣本數必須相等**（每格的 $n$ 相同）
 :::
 
----
-
 ## 二因子 ANOVA：摘要表
 
 ::: {.callout-note}
@@ -629,17 +642,16 @@ $$H_1: \text{至少有一個 B 的平均數不同}$$
 |------|-----|--------|-----|---|
 | 因子 A | SSA | $a-1$ | MSA | $F_A = MSA/MSW$ |
 | 因子 B | SSB | $b-1$ | MSB | $F_B = MSB/MSW$ |
-| 交互作用 A×B | SS(A×B) | $(a-1)(b-1)$ | MS(A×B) | $F_{A \times B} = MS(A \times B)/MSW$ |
+| 交互作用 $A \times B$ | SS($A \times B$) | $(a-1)(b-1)$ | MS($A \times B$) | $F_{A \times B} = MS(A \times B)/MSW$ |
 | 組內（誤差） | SSW | $ab(n-1)$ | MSW | |
 | 總計 | SST | $abn-1$ | | |
 :::
 
----
+## 範例 12-5 {#example-12-5}
 
-## 範例 12-5：油耗（第一部分）
+:::{.callout-warning}
+## 油耗（第一部分）
 
-::: {.callout-tip}
-## 問題
 研究者探討**汽油類型**（普通 vs. 高辛烷值）和**汽車類型**（兩輪驅動 vs. 四輪驅動）是否影響油耗（每加侖英里數）。四種組合各測試兩輛車。
 
 |  | 兩輪驅動 | 四輪驅動 |
@@ -650,14 +662,12 @@ $$H_1: \text{至少有一個 B 的平均數不同}$$
 在 $\alpha = 0.05$ 下進行檢定。
 :::
 
----
+## 範例 12-5
 
-## 範例 12-5：建立檢定
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 步驟一：假設
-
-**交互作用（A×B）：**
+**交互作用（$A \times B$）：**
 $H_0$：汽油類型與汽車類型之間無交互作用
 $H_1$：有交互作用效果
 
@@ -672,45 +682,42 @@ $H_1$：各汽車類型的平均數有差異
 **步驟二：** $a=2$，$b=2$，$n=2$；所有 F 臨界值的 $d.f.N.=1$，$d.f.D.=ab(n-1)=4$ → $F_{crit} = 7.71$
 :::
 
----
+## 範例 12-5
 
-## 範例 12-5：完整 ANOVA 表
-
-::: {.callout-tip}
-## 步驟三：計算均方與 F 值
+:::{.callout-tip}
+## 解題
 
 | 來源 | SS | 自由度 | MS | F |
 |------|-----|--------|-----|---|
 | 汽油 A | 3.920 | 1 | 3.920 | 4.752 |
 | 汽車 B | 9.680 | 1 | 9.680 | **11.733** |
-| 交互作用 A×B | 54.080 | 1 | 54.080 | **65.552** |
+| 交互作用 $A \times B$ | 54.080 | 1 | 54.080 | **65.552** |
 | 組內（誤差） | 3.300 | 4 | 0.825 | |
 | **總計** | **70.980** | **7** | | |
 
 所有檢定的臨界值：**7.71**
 :::
 
----
+## 範例 12-5
 
-## 範例 12-5：決策與詮釋
-
-::: {.callout-tip}
-## 步驟四和五
+:::{.callout-tip}
+## 解題
 
 **汽油 A：** $F_A = 4.752 < 7.71$ → **無法拒絕** $H_0$
 
 **汽車 B：** $F_B = 11.733 > 7.71$ → **拒絕** $H_0$
 
-**交互作用 A×B：** $F_{A \times B} = 65.552 > 7.71$ → **拒絕** $H_0$
+**交互作用 $A \times B$：** $F_{A \times B} = 65.552 > 7.71$ → **拒絕** $H_0$
 
 **重要：** 由於交互作用**顯著**，汽車類型的主效果**不應**獨立解讀 — 其影響取決於使用哪種汽油。
 
 **結論：** 汽油類型與汽車類型的組合對油耗有顯著影響。
 :::
 
----
+## 範例 12-5
 
-## 範例 12-5：格子平均數與交互作用圖
+:::{.callout-tip}
+## 解題
 
 格子平均數視覺化：
 
@@ -719,7 +726,7 @@ $H_1$：各汽車類型的平均數有差異
 | **普通** | 25.95 | 28.95 |
 | **高辛烷值** | 32.55 | 25.15 |
 
-```{r ex12-5-plot, echo=T, warning=FALSE}
+```{r e12-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gas_data <- data.frame(
   mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
   gas  = rep(c("Regular","Regular","Regular","Regular",
@@ -737,12 +744,16 @@ ggplot(cell_means, aes(x = gas, y = mean_mpg, color = auto, group = auto)) +
   labs(title = "交互作用圖：汽油 × 汽車類型",
        x = "汽油類型", y = "平均油耗（mpg）", color = "汽車類型")
 ```
+:::
 
----
+## 範例 12-5
 
-## 範例 12-5：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex12-5-aov, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e12-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gas_data2 <- data.frame(
   mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
   gas  = factor(rep(c("Regular","High-octane"), each = 4)),
@@ -752,8 +763,7 @@ gas_data2 <- data.frame(
 result5 <- aov(mpg ~ gas * auto, data = gas_data2)
 summary(result5)
 ```
-
----
+:::
 
 ## 詮釋交互作用效果
 
@@ -770,8 +780,6 @@ summary(result5)
 - 若線條交叉 → **非次序性**交互作用 → 僅在考量交互作用的前提下詮釋
 - 若線條不交叉 → **次序性**交互作用 → 可詮釋主效果
 :::
-
----
 
 ## 第12章 總結
 

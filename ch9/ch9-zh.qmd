@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch9.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch9.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -81,7 +81,6 @@ knitr::opts_chunk$set(fig.align = "center")
 - 若 n < 30，母體應近似常態分配
 :::
 
-
 ## 公式：兩均值的 z 檢定
 
 ::: {.callout-note}
@@ -92,12 +91,11 @@ $$z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{\sigma_1^2}{
 $$z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
 :::
 
----
+## 例題 9-1 {#example-9-1}
 
-## 例題 9-1：飯店房價 {#example-9-1}
+:::{.callout-warning}
+## 飯店房價
 
-::: {.callout-tip}
-## 問題
 某旅遊業者聲稱紐奧良的飯店房價平均高於鳳凰城。各城市抽取 50 家飯店的樣本，結果如下：
 
 | 城市 | $\bar{X}$ | $\sigma$ | $n$ |
@@ -108,9 +106,12 @@ $$z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma
 在 α = 0.05 下檢定此主張。
 :::
 
----
+## 例題 9-1
 
-## 例題 9-1：解題步驟（數學）
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** H₀：μ₁ = μ₂ &nbsp;&nbsp; H₁：μ₁ > μ₂（主張）——右尾檢定
 
@@ -122,12 +123,16 @@ $$z = \frac{88.42 - 80.61}{\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}}} = \fr
 **步驟 4：** 7.45 > 1.645 → **拒絕 H₀**
 
 **步驟 5：** 有足夠證據支持紐奧良飯店房價高於鳳凰城的主張。
+:::
 
----
+## 例題 9-1
 
-## 例題 9-1：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 88.42; x2 <- 80.61
 s1 <- 5.62;  s2 <- 4.83
 n1 <- 50;    n2 <- 50
@@ -141,13 +146,13 @@ cat("臨界值 =", round(cv, 3), "\n")
 cat("P 值 =", round(p_val, 6), "\n")
 cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 例題 9-2 {#example-9-2}
 
-## 例題 9-2：大學運動項目選擇（P 值法）
+:::{.callout-warning}
+## 大學運動項目選擇（P 值法）
 
-::: {.callout-tip}
-## 問題
 某研究者假設男大學生在線上能選擇的運動項目多於女大學生。各抽取 50 所大學的樣本，結果如下：
 
 - 男生：$\bar{X}_1 = 8.6$，$\sigma_1 = 3.3$，$n_1 = 50$
@@ -156,9 +161,12 @@ cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 在 α = 0.10 下，使用 P 值法檢定此主張。
 :::
 
----
+## 例題 9-2
 
-## 例題 9-2：解題步驟（數學）
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** H₀：μ₁ = μ₂ &nbsp;&nbsp; H₁：μ₁ > μ₂（主張）——右尾檢定
 
@@ -172,12 +180,16 @@ $$z = \frac{8.6 - 7.9}{\sqrt{\dfrac{3.3^2}{50} + \dfrac{3.3^2}{50}}} = \frac{0.7
 **步驟 4：** 0.1446 > 0.10 → **不拒絕 H₀**
 
 **步驟 5：** 沒有足夠證據支持男生能選擇更多線上運動項目的主張。
+:::
 
----
+## 例題 9-2
 
-## 例題 9-2：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 8.6; x2 <- 7.9
 s1 <- 3.3; s2 <- 3.3
 n1 <- 50;  n2 <- 50
@@ -189,8 +201,7 @@ cat("z =", round(z, 4), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
-
----
+:::
 
 ## μ₁ − μ₂ 的信賴區間（σ 已知）
 
@@ -198,44 +209,21 @@ cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
 $$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
 :::
 
----
+## 例題 9-3 {#example-9-3}
 
-## 例題 9-3：飯店房價的 95% 信賴區間
+:::{.callout-warning}
+## 飯店房價的 95% 信賴區間
 
-::: {.callout-tip}
-## 問題
 使用[例題 9-1](#example-9-1)的資料，求 μ₁ − μ₂ 的 95% 信賴區間。
 :::
 
-**解答：**
+## 例題 9-3
 
-$z_{\alpha/2} = 1.96$，$\bar{X}_1 - \bar{X}_2 = 7.81$
+:::{.callout-tip}
+## 解題
 
-$$7.81 \pm 1.96\sqrt{\frac{5.62^2}{50}+\frac{4.83^2}{50}} = 7.81 \pm 1.96(1.048) = 7.81 \pm 2.054$$
+**解題**
 
-$$\boxed{5.76 < \mu_1 - \mu_2 < 9.86}$$
-
-由於區間不包含 0，表示兩者存在顯著差異。
-
-## 例題 9-3：解題步驟（R）
-
-```{r echo=T, warning=FALSE}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-diff <- x1 - x2
-se   <- sqrt(s1^2/n1 + s2^2/n2)
-moe  <- qnorm(0.975) * se
-
-cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
-```
-
-# 第 9-2 節：使用 t 檢定來檢定兩個獨立樣本均值之差 {background-color="#2c4a6e"}
-
-## 何時使用 t 檢定（兩個獨立均值）
-
-::: {.callout-note}
 以下情況使用 **t 檢定**：
 
 - 樣本為獨立且隨機
@@ -245,14 +233,15 @@ cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
 $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
 
 **自由度：** $\text{自由度} = \min(n_1-1,\; n_2-1)$ *（保守方法）*
+
+:::
 :::
 
----
+## 例題 9-4 {#example-9-4}
 
-## 例題 9-4：農場面積 {#example-9-4}
+:::{.callout-warning}
+## 農場面積
 
-::: {.callout-tip}
-## 問題
 某研究者想確定印第安納郡與格林郡的農場面積是否不同。隨機抽樣結果如下：
 
 | | 印第安納郡 | 格林郡 |
@@ -264,11 +253,14 @@ $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} 
 在 α = 0.05 下，檢定兩者均值是否不同。
 :::
 
----
+## 例題 9-4
 
-## 例題 9-4：解題步驟（數學）
+:::{.callout-tip}
+## 解題
 
-**步驟 1：** H₀：μ₁ = μ₂ &nbsp;&nbsp; H₁：μ₁ ≠ μ₂（主張）——雙尾檢定
+**數學解法**
+
+**步驟 1：** H₀：μ₁ = μ₂ &nbsp;&nbsp; H₁：$\mu_1 \neq \mu_2$（主張）——雙尾檢定
 
 **步驟 2：** 自由度 = min(8−1, 10−1) = 7；CV = ±2.365
 
@@ -278,12 +270,16 @@ $$t = \frac{191 - 199}{\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}}} = \frac{-8}{\s
 **步驟 4：** |−0.573| < 2.365 → **不拒絕 H₀**
 
 **步驟 5：** 沒有足夠證據得出兩郡農場面積不同的結論。
+:::
 
----
+## 例題 9-4
 
-## 例題 9-4：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 191; x2 <- 199
 s1 <- 38;  s2 <- 12
 n1 <- 8;   n2 <- 10
@@ -299,8 +295,7 @@ cat("臨界值 =", round(cv, 3), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(abs(t_stat) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
-
----
+:::
 
 ## μ₁ − μ₂ 的信賴區間（σ 未知）
 
@@ -310,43 +305,21 @@ $$(\bar{X}_1 - \bar{X}_2) - t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2
 其中 $\text{自由度} = \min(n_1-1,\; n_2-1)$
 :::
 
----
+## 例題 9-5 {#example-9-5}
 
-## 例題 9-5：農場面積的 95% 信賴區間
+:::{.callout-warning}
+## 農場面積的 95% 信賴區間
 
-::: {.callout-tip}
-## 問題
 使用[例題 9-4](#example-9-4)的資料，建構 μ₁ − μ₂ 的 95% 信賴區間。
 :::
 
-**解答：** 自由度 = 7；$t_{0.025, 7} = 2.365$
+## 例題 9-5
 
-$$-8 \pm 2.365\sqrt{\frac{38^2}{8}+\frac{12^2}{10}} = -8 \pm 2.365(13.96) = -8 \pm 33.02$$
+:::{.callout-tip}
+## 解題
 
-$$\boxed{-41.02 < \mu_1 - \mu_2 < 25.02}$$
+**解題**
 
-由於 0 在區間內，表示無顯著差異。
-
-## 例題 9-5：解題步驟（R）
-
-```{r echo=T, warning=FALSE}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-diff <- x1 - x2
-se   <- sqrt(s1^2/n1 + s2^2/n2)
-df   <- min(n1 - 1, n2 - 1)
-moe  <- qt(0.975, df) * se
-
-cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
-```
-
-# 第 9-3 節：相依樣本的兩均值差異檢定 {background-color="#2c4a6e"}
-
-## 相依樣本（配對資料）
-
-::: {.callout-note}
 以下情況稱為**相依**（配對）樣本：
 
 - 相同受試者被測量兩次（前測／後測）
@@ -357,14 +330,15 @@ cat("95% CI: (", round(diff - moe, 2), ",", round(diff + moe, 2), ")\n")
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad \text{自由度} = n - 1$$
 
 其中 $\bar{D} = \dfrac{\sum D}{n}$ 且 $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)^2}{n(n-1)}}$
+
+:::
 :::
 
----
+## 例題 9-6 {#example-9-6}
 
-## 例題 9-6：銀行存款
+:::{.callout-warning}
+## 銀行存款
 
-::: {.callout-tip}
-## 問題
 某銀行經理聲稱過去 3 年存款已減少。以下為 9 家銀行的資料（單位：百萬元）：
 
 | 銀行 | 3 年前 | 今日 | D |
@@ -382,9 +356,12 @@ $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad \text{自由度} = n - 1$$
 在 α = 0.05 下，檢定此主張。
 :::
 
----
+## 例題 9-6
 
-## 例題 9-6：解題步驟（數學）
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** H₀：μ_D = 0 &nbsp;&nbsp; H₁：μ_D < 0（主張）——左尾檢定
 
@@ -399,16 +376,21 @@ $\bar{D} = \frac{-9.73}{9} \approx -1.081$
 使用教科書數值：$\bar{D} = -1.081$，$s_D = 1.937$
 
 $t = \frac{-1.081 - 0}{1.937/\sqrt{9}} = \frac{-1.081}{0.646} \approx -1.67$
-
+:::
 ---
 
 **步驟 4：** −1.67 > −1.860 → **不拒絕 H₀**
 
 **步驟 5：** 沒有足夠證據支持存款已減少的主張。
 
-## 例題 9-6：解題步驟（R）
+## 例題 9-6
 
-```{r echo=T, warning=FALSE}
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e9-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(1.2, 5.6, 7.1, 2.3, 4.0, 2.4, 1.7, 0.4, 0.9)
 today  <- c(1.8, 5.7, 8.2, 2.1, 5.3, 3.1, 1.8, 1.9, 1.5)
 
@@ -426,13 +408,13 @@ cat("t =", round(t_stat, 4), "\n")
 cat("臨界值 =", round(cv, 3), "\n")
 cat("決策:", ifelse(t_stat < cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 例題 9-7 {#example-9-7}
 
-## 例題 9-7：膽固醇值
+:::{.callout-warning}
+## 膽固醇值
 
-::: {.callout-tip}
-## 問題
 某研究者聲稱礦物質補充劑會影響膽固醇值。六位受試者在服用補充劑前後分別進行檢測：
 
 | 受試者 | 服用前 | 服用後 | D |
@@ -447,11 +429,14 @@ cat("決策:", ifelse(t_stat < cv, "拒絕 H0", "不拒絕 H0"), "\n")
 在 α = 0.10 下，檢定膽固醇值是否改變的主張。
 :::
 
----
+## 例題 9-7
 
-## 例題 9-7：解題步驟（數學）
+:::{.callout-tip}
+## 解題
 
-**步驟 1：** H₀：μ_D = 0 &nbsp;&nbsp; H₁：μ_D ≠ 0（主張）——雙尾檢定
+**數學解法**
+
+**步驟 1：** H₀：μ_D = 0 &nbsp;&nbsp; H₁：μ_D $\neq 0$（主張）——雙尾檢定
 
 **步驟 2：** 自由度 = 5；CV = ±2.015
 
@@ -466,12 +451,16 @@ $t = \frac{16.7}{25.4/\sqrt{6}} = \frac{16.7}{10.37} \approx 1.610$
 **步驟 4：** |1.610| < 2.015 → **不拒絕 H₀**
 
 **步驟 5：** 沒有足夠證據支持補充劑影響膽固醇值的主張。
+:::
 
----
+## 例題 9-7
 
-## 例題 9-7：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(210, 235, 208, 190, 172, 244)
 after  <- c(190, 170, 210, 188, 173, 228)
 
@@ -491,8 +480,7 @@ cat("臨界值 =", round(cv, 3), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(abs(t_stat) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
-
----
+:::
 
 ## μ_D 的信賴區間（相依樣本）
 
@@ -502,14 +490,20 @@ $$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\fr
 其中 $\text{自由度} = n - 1$
 :::
 
----
+## 例題 9-8 {#example-9-8}
 
-## 例題 9-8：膽固醇變化的 90% 信賴區間
+:::{.callout-warning}
+## 膽固醇變化的 90% 信賴區間
 
-::: {.callout-tip}
-## 問題
 使用例題 9-7 的資料，求 μ_D 的 90% 信賴區間。
 :::
+
+## 例題 9-8
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
 
 **解答：** 自由度 = 5；$t_{0.05, 5} = 2.015$
 
@@ -519,9 +513,8 @@ $$\boxed{-4.19 < \mu_D < 37.59}$$
 
 由於區間包含 0，無法得出膽固醇值有顯著改變的結論。
 
-## 例題 9-8：解題步驟（R）
-
-```{r echo=T, warning=FALSE}
+## 例題 9-8
+```{r e9-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(210, 235, 208, 190, 172, 244)
 after  <- c(190, 170, 210, 188, 173, 228)
 
@@ -534,7 +527,7 @@ moe  <- qt(0.95, df) * sD / sqrt(n)
 
 cat("90% CI: (", round(Dbar - moe, 2), ",", round(Dbar + moe, 2), ")\n")
 ```
-
+:::
 ---
 
 # 第 9-4 節：兩比例差異的檢定 {background-color="#2c4a6e"}
@@ -548,15 +541,14 @@ $$\bar{p} = \frac{X_1 + X_2}{n_1 + n_2}, \quad \bar{q} = 1 - \bar{p}$$
 **檢定統計量：**
 $$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
 
-**要求條件：** $n_1\hat{p}_1$、$n_1\hat{q}_1$、$n_2\hat{p}_2$、$n_2\hat{q}_2$ 均 ≥ 5
+**要求條件：** $n_1\hat{p}_1$、$n_1\hat{q}_1$、$n_2\hat{p}_2$、$n_2\hat{q}_2$ 均 $\geq 5$
 :::
 
----
+## 例題 9-9 {#example-9-9}
 
-## 例題 9-9：療養院的疫苗接種率
+:::{.callout-warning}
+## 療養院的疫苗接種率
 
-::: {.callout-tip}
-## 問題
 某研究者想確定小型與大型療養院的流感疫苗接種率是否相同。在 α = 0.05 下，檢定此主張。
 
 | | 小型 | 大型 |
@@ -565,11 +557,14 @@ $$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\df
 | 抽樣總人數 | 34 | 24 |
 :::
 
----
+## 例題 9-9
 
-## 例題 9-9：解題步驟（數學）
+:::{.callout-tip}
+## 解題
 
-**步驟 1：** H₀：p₁ = p₂（主張）&nbsp;&nbsp; H₁：p₁ ≠ p₂——雙尾檢定
+**數學解法**
+
+**步驟 1：** H₀：p₁ = p₂（主張）&nbsp;&nbsp; H₁：$p_1 \neq p_2$——雙尾檢定
 
 **步驟 2：** CV = ±1.96
 
@@ -582,12 +577,16 @@ $$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\r
 **步驟 4：** |−2.67| > 1.96 → **拒絕 H₀**
 
 **步驟 5：** 有足夠證據拒絕小型與大型療養院疫苗接種率相同的主張。
+:::
 
----
+## 例題 9-9
 
-## 例題 9-9：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 12; n1 <- 34
 x2 <- 17; n2 <- 24
 
@@ -606,15 +605,22 @@ cat("臨界值 = ±", round(cv, 3), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(abs(z) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 例題 9-10 {#example-9-10}
 
-## 例題 9-10：開車時傳訊息
+:::{.callout-warning}
+## 開車時傳訊息
 
-::: {.callout-tip}
-## 問題
 調查發現今年有 29% 的駕駛人開車時會傳訊息，去年為 17%。每個樣本各含 1000 名駕駛人。在 α = 0.01 下，檢定此比例是否增加的主張。
 :::
+
+## 例題 9-10
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **步驟 1：** H₀：p₁ = p₂ &nbsp;&nbsp; H₁：p₁ > p₂（主張）——右尾檢定
 
@@ -627,12 +633,16 @@ $$z = \frac{0.29 - 0.17}{\sqrt{0.23(0.77)\left(\frac{1}{1000}+\frac{1}{1000}\rig
 **步驟 4：** 6.38 > 2.33 → **拒絕 H₀**
 
 **步驟 5：** 有足夠證據支持開車傳訊息的比例已增加的主張。
+:::
 
----
+## 例題 9-10
 
-## 例題 9-10：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x1 <- 290; n1 <- 1000   # 今年
 x2 <- 170; n2 <- 1000   # 去年
 
@@ -649,8 +659,7 @@ cat("臨界值 =", round(cv, 3), "\n")
 cat("P 值 =", round(p_val, 6), "\n")
 cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
-
----
+:::
 
 ## p₁ − p₂ 的信賴區間
 
@@ -658,55 +667,31 @@ cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}} < p_1-p_2 < (\hat{p}_1-\hat{p}_2) + z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
 :::
 
----
+## 例題 9-11 {#example-9-11}
 
-## 例題 9-11：疫苗接種率差異的 95% 信賴區間
+:::{.callout-warning}
+## 疫苗接種率差異的 95% 信賴區間
 
-::: {.callout-tip}
-## 問題
 使用例題 9-9 的資料，求 p₁ − p₂ 的 95% 信賴區間。
 :::
 
-**解答：** $\hat{p}_1 = 0.353$，$\hat{p}_2 = 0.708$；$z_{0.025} = 1.96$
+## 例題 9-11
 
-$$\sqrt{\frac{(0.353)(0.647)}{34}+\frac{(0.708)(0.292)}{24}} = \sqrt{0.00671 + 0.00861} = \sqrt{0.01532} = 0.1238$$
+:::{.callout-tip}
+## 解題
 
-$$-0.355 \pm 1.96(0.1238) = -0.355 \pm 0.243$$
+**解題**
 
-$$\boxed{-0.602 < p_1 - p_2 < -0.118}$$
-
-區間不包含 0，確認兩者存在顯著差異。
-
-## 例題 9-11：解題步驟（R）
-
-```{r echo=T, warning=FALSE}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; phat2 <- x2/n2
-qhat1 <- 1 - phat1; qhat2 <- 1 - phat2
-diff  <- phat1 - phat2
-se    <- sqrt(phat1*qhat1/n1 + phat2*qhat2/n2)
-moe   <- qnorm(0.975) * se
-
-cat("95% CI: (", round(diff - moe, 3), ",", round(diff + moe, 3), ")\n")
-```
-
-# 第 9-5 節：兩個變異數差異的檢定 {background-color="#2c4a6e"}
-
-## F 分配
-
-::: {.callout-note}
 **F 分配**用於比較來自兩個獨立常態分配母體的變異數。
 
 **特性：**
-- F 值恆 ≥ 0（變異數為非負值）
+- F 值恆 $\geq 0$（變異數為非負值）
 - 分配呈正偏態
-- 均值 ≈ 1
+- 均值 $\approx 1$
 - 由兩個自由度參數決定曲線形狀：分子自由度（d.f.N.）與分母自由度（d.f.D.）
-:::
 
----
+:::
+:::
 
 ## F 檢定公式
 
@@ -724,8 +709,6 @@ $$F = \frac{s_1^2}{s_2^2}$$
 3. 雙尾檢定時，使用 $\alpha/2$ 臨界值表（僅右尾）
 :::
 
----
-
 ## F 檢定的重要規則
 
 ::: {.callout-important}
@@ -735,24 +718,34 @@ $$F = \frac{s_1^2}{s_2^2}$$
 4. 若自由度不在表格中，使用下一個**較小**的自由度
 :::
 
----
+## 例題 9-12 {#example-9-12}
 
-## 例題 9-12：求臨界值（右尾檢定）
+:::{.callout-warning}
+## 求臨界值（右尾檢定）
 
-::: {.callout-tip}
-## 問題
 求右尾 F 檢定的臨界值，其中 α = 0.05，d.f.N. = 15，d.f.D. = 21。
 :::
+
+## 例題 9-12
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **解答：** 使用 α = 0.05 的表格。查 d.f.N. = 15（欄）與 d.f.D. = 21（列）。
 
 $$F_{CV} = 2.18$$
+:::
 
----
+## 例題 9-12
 
-## 例題 9-12：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 右尾 F 檢定的臨界值
 alpha  <- 0.05
 dfN    <- 15
@@ -761,27 +754,38 @@ dfD    <- 21
 cv <- qf(1 - alpha, dfN, dfD)
 cat("臨界值（右尾，alpha=0.05）:", round(cv, 4), "\n")
 ```
+:::
 
----
+## 例題 9-13 {#example-9-13}
 
-## 例題 9-13：求臨界值（雙尾檢定）
+:::{.callout-warning}
+## 求臨界值（雙尾檢定）
 
-::: {.callout-tip}
-## 問題
 求雙尾 F 檢定的臨界值，其中 α = 0.05，分子變異數來自樣本數為 21 的樣本，分母變異數來自 n = 12 的樣本。
 :::
+
+## 例題 9-13
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **解答：** 雙尾 → 使用 α/2 = 0.025 的表格。
 
 d.f.N. = 21 − 1 = 20，d.f.D. = 12 − 1 = 11
 
 $$F_{CV} = 3.23$$
+:::
 
----
+## 例題 9-13
 
-## 例題 9-13：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 alpha <- 0.05
 n1    <- 21; n2 <- 12
 dfN   <- n1 - 1; dfD <- n2 - 1
@@ -790,13 +794,13 @@ cv <- qf(1 - alpha/2, dfN, dfD)
 cat("臨界值（雙尾，alpha=0.05）:", round(cv, 4), "\n")
 cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
 ```
+:::
 
----
+## 例題 9-14 {#example-9-14}
 
-## 例題 9-14：吸菸者的心率
+:::{.callout-warning}
+## 吸菸者的心率
 
-::: {.callout-tip}
-## 問題
 某研究者想確定吸菸者與非吸菸者的心率（次/分鐘）變異數是否不同。在 α = 0.05 下，檢定此主張。
 
 | | 吸菸者 | 非吸菸者 |
@@ -805,11 +809,14 @@ cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
 | $s^2$ | 36 | 10 |
 :::
 
----
+## 例題 9-14
 
-## 例題 9-14：解題步驟（數學）
+:::{.callout-tip}
+## 解題
 
-**步驟 1：** H₀：σ₁² = σ₂² &nbsp;&nbsp; H₁：σ₁² ≠ σ₂²（主張）——雙尾檢定
+**數學解法**
+
+**步驟 1：** H₀：σ₁² = σ₂² &nbsp;&nbsp; H₁：$\sigma_1^2 \neq \sigma_2^2$（主張）——雙尾檢定
 
 **步驟 2：** 使用 α/2 = 0.025 的表格。
 d.f.N. = 26 − 1 = 25；d.f.D. = 18 − 1 = 17 → CV = 2.56（使用 d.f.N. = 24）
@@ -820,12 +827,16 @@ $$F = \frac{s_1^2}{s_2^2} = \frac{36}{10} = 3.6$$
 **步驟 4：** 3.6 > 2.56 → **拒絕 H₀**
 
 **步驟 5：** 有足夠證據支持吸菸者與非吸菸者心率變異數不同的主張。
+:::
 
----
+## 例題 9-14
 
-## 例題 9-14：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s1_sq <- 36; n1 <- 26
 s2_sq <- 10; n2 <- 18
 
@@ -840,15 +851,22 @@ cat("臨界值（雙尾）=", round(cv, 4), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(F_stat > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 例題 9-15 {#example-9-15}
 
-## 例題 9-15：就診等待時間
+:::{.callout-warning}
+## 就診等待時間
 
-::: {.callout-tip}
-## 問題
 第一家醫院急診等待時間的標準差為 32 分鐘（n = 16）；第二家醫院為 28 分鐘（n = 18）。在 α = 0.01 下，檢定第一家醫院變異是否較大的主張。
 :::
+
+## 例題 9-15
+
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **步驟 1：** H₀：σ₁² = σ₂² &nbsp;&nbsp; H₁：σ₁² > σ₂²（主張）——右尾檢定
 
@@ -860,12 +878,16 @@ $$F = \frac{32^2}{28^2} = \frac{1024}{784} \approx 1.306$$
 **步驟 4：** 1.306 < 3.31 → **不拒絕 H₀**
 
 **步驟 5：** 沒有足夠證據支持第一家醫院等待時間變異較大的主張。
+:::
 
----
+## 例題 9-15
 
-## 例題 9-15：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s1 <- 32; n1 <- 16
 s2 <- 28; n2 <- 18
 
@@ -879,22 +901,25 @@ cat("臨界值 =", round(cv, 4), "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(F_stat > cv, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 例題 9-16 {#example-9-16}
 
-## 例題 9-16：機場旅客人數（P 值法）
+:::{.callout-warning}
+## 機場旅客人數（P 值法）
 
-::: {.callout-tip}
-## 問題
 某執行長假設美國機場年旅客人數的變異大於外國機場。在 α = 0.10 下，使用 P 值法檢定此主張。
 
 **美國**（百萬人）：36.8、72.4、60.5、73.5、61.2、40.1
 **外國**（百萬人）：60.7、42.7、51.2、38.6
 :::
 
----
+## 例題 9-16
 
-## 例題 9-16：解題步驟（數學）
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** H₀：σ₁² = σ₂² &nbsp;&nbsp; H₁：σ₁² > σ₂²（主張）——右尾檢定
 
@@ -906,17 +931,21 @@ $$F = \frac{246.38}{95.87} \approx 2.57$$
 
 d.f.N. = 5，d.f.D. = 3
 
-由 F 分配表，α = 0.10：F = 5.31。由於 2.57 < 5.31，**P 值 > 0.10**（實際 P ≈ 0.234）
+由 F 分配表，α = 0.10：F = 5.31。由於 2.57 < 5.31，**P 值 > 0.10**（實際 P $\approx 0.234$）
 
 **步驟 4：** 不拒絕 H₀
 
 **步驟 5：** 沒有足夠證據支持美國機場旅客人數變異較大的主張。
+:::
 
----
+## 例題 9-16
 
-## 例題 9-16：解題步驟（R）
+:::{.callout-tip}
+## 解題
 
-```{r echo=T, warning=FALSE}
+**R 程式**
+
+```{r e9-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 american <- c(36.8, 72.4, 60.5, 73.5, 61.2, 40.1)
 foreign  <- c(60.7, 42.7, 51.2, 38.6)
 
@@ -933,8 +962,7 @@ cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
 cat("P 值 =", round(p_val, 4), "\n")
 cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
-
----
+:::
 
 ## 第 9 章摘要
 
@@ -945,8 +973,6 @@ cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
 | 兩均值，相依樣本 | 配對 t 檢定 | $t = \frac{\bar{D}}{s_D/\sqrt{n}}$，自由度 = n−1 |
 | 兩比例 | z 檢定 | $z = \frac{\hat{p}_1-\hat{p}_2}{\sqrt{\bar{p}\bar{q}(1/n_1+1/n_2)}}$ |
 | 兩變異數 | F 檢定 | $F = s_1^2/s_2^2$（較大者為分子） |
-
----
 
 ## 版權聲明
 

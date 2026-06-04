@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch10-zh.html" style="color:#555;">[中文版由此去]</a>' +
+          '<a href="ch10-zh.html"  style="color:#555;">[中文版由此去]</a>' +
           '</p>');
       }
     });
@@ -42,8 +42,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-## Chapter 10 Overview
-
+## Overview
 Researchers often ask: *Is there a relationship between two variables, and if so, how strong is it?*
 
 This chapter addresses four key questions:
@@ -67,14 +66,14 @@ This chapter addresses four key questions:
 - **Negative relationship:** Variables move in opposite directions.
 :::
 
----
+## Example 10-1 {#example-10-1}
 
-## Example 10-1: Car Rental Companies — Scatter Plot {#example-10-1}
+:::{.callout-warning}
+## Car Rental Companies — Scatter Plot
 
-::: {.callout-tip}
 Construct a scatter plot for the following car rental company data:
 
-| Company | Cars (×10,000) | Revenue ($ billions) |
+| Company | Cars ($\times$10,000) | Revenue ($ billions) |
 |---------|----------------|----------------------|
 | A | 63.0 | 7.0 |
 | B | 29.0 | 3.9 |
@@ -84,11 +83,14 @@ Construct a scatter plot for the following car rental company data:
 | F | 8.5 | 1.5 |
 :::
 
----
+## Example 10-1
 
-## Example 10-1: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE,fig.align='center'}
+**R implementation**
+
+```{r e10-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cars    <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
 revenue <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
 df <- data.frame(cars, revenue)
@@ -101,12 +103,13 @@ ggplot(df, aes(x = cars, y = revenue)) +
 ```
 
 The scatter plot suggests a **positive linear relationship** — as fleet size increases, so does revenue.
+:::
 
----
+## Example 10-2 {#example-10-2}
 
-## Example 10-2: Absences and Final Grades — Scatter Plot {#example-10-2}
+:::{.callout-warning}
+## Absences and Final Grades — Scatter Plot
 
-::: {.callout-tip}
 Construct a scatter plot for the number of absences and final grades for seven statistics students:
 
 | Student | Absences x | Final Grade y (%) |
@@ -120,11 +123,14 @@ Construct a scatter plot for the number of absences and final grades for seven s
 | G | 8 | 78 |
 :::
 
----
+## Example 10-2
 
-## Example 10-2: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE,fig.align='center'}
+**R implementation**
+
+```{r e10-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 absences <- c(6, 2, 15, 9, 12, 5, 8)
 grade    <- c(82, 86, 43, 74, 58, 90, 78)
 df2 <- data.frame(absences, grade)
@@ -137,12 +143,13 @@ ggplot(df2, aes(x = absences, y = grade)) +
 ```
 
 The plot suggests a **negative linear relationship** — more absences correspond to lower grades.
+:::
 
----
+## Example 10-3 {#example-10-3}
 
-## Example 10-3: Age and Wealth — Scatter Plot {#example-10-3}
+:::{.callout-warning}
+## Age and Wealth — Scatter Plot
 
-::: {.callout-tip}
 A researcher examines the relationship between age and net worth (in $ billions) for the wealthiest people in the U.S.:
 
 | Person | Age x | Wealth y ($ billions) |
@@ -157,11 +164,14 @@ A researcher examines the relationship between age and net worth (in $ billions)
 | H | 65 | 19 |
 :::
 
----
+## Example 10-3
 
-## Example 10-3: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE,fig.align='center'}
+**R implementation**
+
+```{r e10-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 age   <- c(73, 65, 53, 54, 79, 69, 61, 65)
 wealth <- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)
 df3 <- data.frame(age, wealth)
@@ -174,8 +184,7 @@ ggplot(df3, aes(x = age, y = wealth)) +
 ```
 
 No clear pattern is visible — this suggests **little or no linear relationship** between age and wealth.
-
----
+:::
 
 ## The Pearson Correlation Coefficient
 
@@ -192,17 +201,20 @@ $$r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^
 **Assumptions:** Random sample; approximately linear relationship; interval/ratio data; bivariate normal distribution.
 :::
 
----
+## Example 10-4 {#example-10-4}
 
-## Example 10-4: Correlation for Car Rental Companies {#example-10-4}
+:::{.callout-warning}
+## Correlation for Car Rental Companies
 
-::: {.callout-tip}
 Compute the correlation coefficient for the car rental data from [Example 10-1](#example-10-1).
 :::
 
----
+## Example 10-4
 
-## Example 10-4: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 Build the calculation table:
 
@@ -217,12 +229,16 @@ Build the calculation table:
 | **Σ** | **153.8** | **18.7** | **682.77** | **5859.26** | **80.67** |
 
 $$r = \frac{6(682.77) - (153.8)(18.7)}{\sqrt{[6(5859.26) - 153.8^2][6(80.67) - 18.7^2]}} \approx \boxed{0.982}$$
+:::
 
----
+## Example 10-4
 
-## Example 10-4: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e10-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
 y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
 
@@ -230,16 +246,24 @@ r <- cor(x, y)
 cat("Correlation coefficient r =", round(r, 4), "\n")
 cat("Strong positive relationship — r is close to 1.\n")
 ```
+:::
 
----
+## Example 10-5 {#example-10-5}
 
-## Example 10-5: Correlation for Absences and Final Grades
+:::{.callout-warning}
+## Correlation for Absences and Final Grades
 
-::: {.callout-tip}
 Compute the correlation coefficient for the absences and final grade data from [Example 10-2](#example-10-2).
 :::
 
-```{r echo=T, warning=FALSE}
+## Example 10-5
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e10-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(6, 2, 15, 9, 12, 5, 8)
 y <- c(82, 86, 43, 74, 58, 90, 78)
 
@@ -248,17 +272,25 @@ cat("r =", round(r, 4), "\n")
 cat("Strong negative relationship — more absences, lower grade.\n")
 ```
 
-**Result:** r ≈ −0.944 → strong negative linear relationship.
+**Result:** $r \approx -0.944$ → strong negative linear relationship.
+:::
 
----
+## Example 10-6 {#example-10-6}
 
-## Example 10-6: Correlation for Age and Wealth {#example-10-6}
+:::{.callout-warning}
+## Correlation for Age and Wealth
 
-::: {.callout-tip}
 Compute the correlation coefficient for the age and wealth data from [Example 10-3](#example-10-3).
 :::
 
-```{r echo=T, warning=FALSE}
+## Example 10-6
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
+```{r e10-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(73, 65, 53, 54, 79, 69, 61, 65)
 y <- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)
 
@@ -267,9 +299,8 @@ cat("r =", round(r, 4), "\n")
 cat("Very weak negative relationship — r is close to 0.\n")
 ```
 
-**Result:** r ≈ −0.176 → very weak relationship, likely due to chance.
-
----
+**Result:** $r \approx -0.176$ → very weak relationship, likely due to chance.
+:::
 
 ## Testing the Significance of r
 
@@ -284,15 +315,22 @@ $$t = r\sqrt{\frac{n-2}{1-r^2}}, \quad d.f. = n-2$$
 Alternatively, use **Table I** (critical values of r) directly — no need to compute t.
 :::
 
----
+## Example 10-7 {#example-10-7}
 
-## Example 10-7: Test Significance of r = 0.982
+:::{.callout-warning}
+## Test Significance of r = 0.982
 
-::: {.callout-tip}
 Test whether the correlation r = 0.982 from [Example 10-4](#example-10-4) is significant at α = 0.05.
 :::
 
-**Step 1:** H₀: ρ = 0 &nbsp; H₁: ρ ≠ 0
+## Example 10-7
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+**Step 1:** H₀: ρ = 0 &nbsp; H₁: ρ $\neq 0$
 
 **Step 2:** d.f. = 6 − 2 = 4; CV = ±2.776 (from t-table)
 
@@ -302,12 +340,16 @@ $$t = 0.982\sqrt{\frac{6-2}{1-0.982^2}} = 0.982\sqrt{\frac{4}{0.0356}} \approx 1
 **Step 4:** |10.4| > 2.776 → **Reject H₀**
 
 **Step 5:** There is a significant linear relationship between fleet size and revenue.
+:::
 
----
+## Example 10-7
 
-## Example 10-7: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e10-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
 y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
 
@@ -317,35 +359,23 @@ cat("t =", round(test$statistic, 4), "\n")
 cat("P-value =", round(test$p.value, 6), "\n")
 cat("Decision:", ifelse(test$p.value < 0.05, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 10-8 {#example-10-8}
 
-## Example 10-8: Test Significance Using Table I (r = −0.176)
+:::{.callout-warning}
+## Test Significance Using Table I (r = −0.176)
 
-::: {.callout-tip}
 Using Table I, test the significance of r = −0.176 from [Example 10-6](#example-10-6) at α = 0.01.
 :::
 
-**H₀: ρ = 0** &nbsp;&nbsp; **H₁: ρ ≠ 0**
+## Example 10-8
 
-d.f. = 8 − 2 = 6; From Table I at α = 0.01, d.f. = 6: critical value = **0.834**
+:::{.callout-tip}
+## Solution
 
-|r| = 0.176 < 0.834 → **Do not reject H₀**
+**Solve**
 
-There is **not enough evidence** to conclude a significant linear relationship between age and wealth.
-
-```{r echo=T, warning=FALSE}
-x <- c(73, 65, 53, 54, 79, 69, 61, 65)
-y <- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)
-test <- cor.test(x, y)
-cat("r =", round(test$estimate, 4), "  P-value =", round(test$p.value, 4), "\n")
-cat("Decision:", ifelse(test$p.value < 0.01, "Reject H0", "Do not reject H0"), "\n")
-```
-
-
-## Correlation ≠ Causation
-
-::: {.callout-important}
 A significant correlation between two variables does **not** prove causation. Possible explanations include:
 
 1. **Direct cause-and-effect** (x causes y)
@@ -353,6 +383,7 @@ A significant correlation between two variables does **not** prove causation. Po
 3. **Lurking variable** — a third variable causes both x and y
 4. **Complex interrelationships** among many variables
 5. **Coincidence** — the relationship is due to chance
+
 :::
 
 Always interpret a significant r cautiously and consider alternative explanations.
@@ -375,16 +406,24 @@ $$a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n\sum x^2 - (\sum x)^2}$$
 - $a$ = y-intercept
 - **Round a and b to three decimal places**
 :::
+:::
 
----
+## Example 10-9 {#example-10-9}
 
-## Example 10-9: Regression Line for Car Rental Data {#example-10-9}
+:::{.callout-warning}
+## Regression Line for Car Rental Data
 
-::: {.callout-tip}
 Find the equation of the regression line for the car rental data from [Example 10-4](#example-10-4).
 
 Known values: n = 6, Σx = 153.8, Σy = 18.7, Σxy = 682.77, Σx² = 5859.26
 :::
+
+## Example 10-9
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 **Solution:**
 
@@ -393,12 +432,16 @@ $$b = \frac{6(682.77) - (153.8)(18.7)}{6(5859.26) - 153.8^2} = \frac{4096.62 - 2
 $$a = \frac{(18.7)(5859.26) - (153.8)(682.77)}{6(5859.26) - 153.8^2} \approx 0.396$$
 
 $$\boxed{\hat{y} = 0.396 + 0.106x}$$
+:::
 
----
+## Example 10-9
 
-## Example 10-9: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE,fig.align='center'}
+**R implementation**
+
+```{r e10-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
 y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
 
@@ -410,58 +453,51 @@ ggplot(data.frame(x, y), aes(x, y)) +
   geom_point(size = 3, color = "steelblue") +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(title = "Car Rental: Revenue vs Fleet Size",
-       x = "Cars (×10,000)", y = "Revenue ($ billions)") +
+       x = "Cars ($\times$10,000)", y = "Revenue ($ billions)") +
   theme_minimal()
 ```
+:::
 
----
+## Example 10-10 {#example-10-10}
 
-## Example 10-10: Regression Line for Absences and Grades
+:::{.callout-warning}
+## Regression Line for Absences and Grades
 
-::: {.callout-tip}
 Find the equation of the regression line for the absences/grade data from [Example 10-2](#example-10-2).
 
 n = 7, Σx = 57, Σy = 511, Σxy = 3745, Σx² = 579
 :::
+
+## Example 10-10
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 $$b = \frac{7(3745) - (57)(511)}{7(579) - 57^2} = \frac{26215 - 29127}{4053 - 3249} = \frac{-2912}{804} \approx -3.622$$
 
 $$a = \frac{(511)(579) - (57)(3745)}{7(579) - 57^2} = \frac{295869 - 213465}{804} \approx 102.493$$
 
 $$\boxed{\hat{y} = 102.493 - 3.622x}$$
+:::
 
----
+## Example 10-10
 
-## Example 10-10: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE,fig.align='center'}
-x <- c(6, 2, 15, 9, 12, 5, 8)
-y <- c(82, 86, 43, 74, 58, 90, 78)
+**R implementation**
 
-model2 <- lm(y ~ x)
-cat("Intercept a =", round(coef(model2)[1], 3), "\n")
-cat("Slope b =",     round(coef(model2)[2], 3), "\n")
-
-ggplot(data.frame(x, y), aes(x, y)) +
-  geom_point(size = 3, color = "tomato") +
-  geom_smooth(method = "lm", se = FALSE, color = "darkred") +
-  labs(title = "Absences vs. Final Grade",
-       x = "Absences", y = "Grade (%)") +
-  theme_minimal()
-```
-
-
-## Example 10-11: Making a Prediction
-
-::: {.callout-tip}
 Using the regression equation from [Example 10-9](#example-10-9), predict the revenue of a car rental agency with **200,000 automobiles**.
+
 :::
 
 Since x values are in 10,000s: x = 200,000 ÷ 10,000 = **20**
 
 $$\hat{y} = 0.396 + 0.106(20) = 0.396 + 2.120 = \boxed{2.516 \text{ billion dollars}}$$
 
-```{r echo=T, warning=FALSE}
+```{r e10-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
 y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
 model <- lm(y ~ x)
@@ -486,8 +522,7 @@ $$\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\
 - **Explained variation:** attributed to the linear relationship with x
 - **Unexplained variation:** due to chance or other factors (also called **residual** variation)
 :::
-
----
+:::
 
 ## Coefficient of Determination
 
@@ -502,19 +537,15 @@ Equivalently, $r^2$ is obtained by **squaring the correlation coefficient**.
 **Example:** If r = 0.982, then r² = 0.964, meaning **96.4%** of the variation in revenue is explained by fleet size.
 :::
 
----
-
 ## Coefficient of Determination — R Examples
 
-```{r echo=T, warning=FALSE}
+```{r e10-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 r_vals <- c(0.982, -0.944, -0.176, 0.90, 0.60)
 for (r in r_vals) {
   cat(sprintf("r = %6.3f  →  r² = %.4f  (%.1f%% explained)\n",
               r, r^2, r^2 * 100))
 }
 ```
-
----
 
 ## Standard Error of the Estimate
 
@@ -530,11 +561,11 @@ $$s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}$$
 The smaller $s_{est}$, the better the regression line fits the data.
 :::
 
----
+## Example 10-12 {#example-10-12}
 
-## Example 10-12: Copy Machine Maintenance Costs {#example-10-12}
+:::{.callout-warning}
+## Copy Machine Maintenance Costs
 
-::: {.callout-tip}
 A researcher finds a significant relationship between the age of a copy machine (years) and its monthly maintenance cost (dollars). The regression equation is $\hat{y} = 55.57 + 8.13x$. Find the standard error of the estimate.
 
 | Machine | Age x | Cost y |
@@ -547,9 +578,12 @@ A researcher finds a significant relationship between the age of a copy machine 
 | F | 6 | $103 |
 :::
 
----
+## Example 10-12
 
-## Example 10-12: Solution (Math)
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 Compute $\hat{y}$ and residuals for each observation:
 
@@ -564,12 +598,16 @@ Compute $\hat{y}$ and residuals for each observation:
 | | | | **Σ** | **169.74** |
 
 $$s_{est} = \sqrt{\frac{169.74}{6-2}} = \sqrt{42.44} \approx \boxed{6.51}$$
+:::
 
----
+## Example 10-12
 
-## Example 10-12: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e10-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(1, 2, 3, 4, 4, 6)
 y <- c(62, 78, 70, 90, 93, 103)
 
@@ -581,18 +619,26 @@ sest <- summary(model3)$sigma
 cat("Standard error of estimate s_est =", round(sest, 4), "\n")
 cat("r² =", round(summary(model3)$r.squared, 4), "\n")
 ```
+:::
 
----
+## Example 10-13 {#example-10-13}
 
-## Example 10-13: Standard Error via Computational Formula
+:::{.callout-warning}
+## Standard Error via Computational Formula
 
-::: {.callout-tip}
 Using the shortcut formula and the data from [Example 10-12](#example-10-12) (where Σy² = 42,186, Σy = 496, Σxy = 1778, a = 55.57, b = 8.13):
 :::
 
+## Example 10-13
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
 $$s_{est} = \sqrt{\frac{42186 - 55.57(496) - 8.13(1778)}{6-2}} \approx \boxed{6.48}$$
 
-```{r echo=T, warning=FALSE}
+```{r e10-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(1, 2, 3, 4, 4, 6)
 y <- c(62, 78, 70, 90, 93, 103)
 model3 <- lm(y ~ x)
@@ -602,8 +648,7 @@ cat("s_est (shortcut formula) =", round(sest_shortcut, 4), "\n")
 ```
 
 *(Small discrepancy due to rounding in a and b.)*
-
----
+:::
 
 ## Prediction Interval
 
@@ -615,13 +660,20 @@ $$\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \ba
 with $d.f. = n - 2$
 :::
 
----
+## Example 10-14 {#example-10-14}
 
-## Example 10-14: 95% Prediction Interval
+:::{.callout-warning}
+## 95% Prediction Interval
 
-::: {.callout-tip}
 For the copy machine data, find the 95% prediction interval for the monthly maintenance cost when the machine is **3 years old**.
 :::
+
+## Example 10-14
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 Known: $\sum x = 20$, $\sum x^2 = 82$, $\bar{X} = 20/6 = 3.3$, $\hat{y}(3) = 79.96$, $s_{est} = 6.48$, $t_{0.025, 4} = 2.776$
 
@@ -630,12 +682,16 @@ $$\text{SE factor} = \sqrt{1 + \frac{1}{6} + \frac{6(3-3.3)^2}{6(82)-20^2}} = \s
 $$79.96 \pm 2.776(6.48)(1.08) = 79.96 \pm 19.43$$
 
 $$\boxed{60.53 < y < 99.39}$$
+:::
 
----
+## Example 10-14
 
-## Example 10-14: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e10-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(1, 2, 3, 4, 4, 6)
 y <- c(62, 78, 70, 90, 93, 103)
 model3 <- lm(y ~ x)
@@ -648,12 +704,11 @@ cat("95% Prediction Interval: (",
 ```
 
 We are 95% confident the actual maintenance cost for a 3-year-old machine falls between **\$60.53 and \$99.39**.
-
----
+:::
 
 ## Residual Plot
 
-```{r echo=T, warning=FALSE,fig.align='center'}
+```{r e10-14-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(1, 2, 3, 4, 4, 6)
 y <- c(62, 78, 70, 90, 93, 103)
 model3 <- lm(y ~ x)
@@ -687,11 +742,11 @@ $$\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k$$
 5. Independence of observations
 :::
 
----
+## Example 10-13
 
-## Example 10-13: State Board Scores — Multiple Regression
+:::{.callout-tip}
+## Solution
 
-::: {.callout-tip}
 A nursing instructor wants to predict a student's state board score (y) from GPA (x₁) and age (x₂). Data for 5 students:
 
 | Student | GPA x₁ | Age x₂ | Score y |
@@ -705,11 +760,14 @@ A nursing instructor wants to predict a student's state board score (y) from GPA
 Find the multiple regression equation.
 :::
 
----
+## Example 10-13
 
-## Example 10-13: Solution (R)
+:::{.callout-tip}
+## Solution
 
-```{r echo=T, warning=FALSE}
+**R implementation**
+
+```{r e10-13-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 gpa   <- c(3.2, 2.7, 2.5, 3.4, 2.2)
 age   <- c(22, 27, 24, 28, 23)
 score <- c(550, 570, 525, 670, 490)
@@ -717,18 +775,16 @@ score <- c(550, 570, 525, 670, 490)
 model_mr <- lm(score ~ gpa + age)
 summary(model_mr)
 ```
-
+:::
 ---
 
 $$\boxed{\hat{y} = -44.81 + 87.64 \cdot \text{GPA} + 14.533 \cdot \text{Age}}$$
 
 For a student with GPA = 3.0 and age = 25: $\hat{y} = -44.81 + 87.64(3.0) + 14.533(25) \approx \mathbf{581}$
 
----
-
 ## Predicting with the Multiple Regression Equation
 
-```{r echo=T, warning=FALSE}
+```{r e10-13-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 new_student <- data.frame(gpa = 3.0, age = 25)
 pred_score  <- predict(model_mr, newdata = new_student)
 cat("Predicted state board score:", round(pred_score, 1), "\n")
@@ -737,8 +793,6 @@ cat("Predicted state board score:", round(pred_score, 1), "\n")
 **Interpretation of coefficients:**
 - For each 1-point increase in GPA (holding age constant), the score increases by about **87.64 points**
 - For each 1-year increase in age (holding GPA constant), the score increases by about **14.53 points**
-
----
 
 ## Multiple Correlation Coefficient R
 
@@ -752,25 +806,31 @@ $$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{
 - $1 - R^2$ = residual/error variation
 :::
 
----
+## Example 10-15 {#example-10-15}
 
-## Example 10-15: Multiple Correlation Coefficient
+:::{.callout-warning}
+## Multiple Correlation Coefficient
 
-::: {.callout-tip}
 For the state board score data, find R given:
 $r_{yx_1} = 0.845$, $r_{yx_2} = 0.791$, $r_{x_1x_2} = 0.371$
 :::
 
+## Example 10-15
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
+
 $$R = \sqrt{\frac{0.845^2 + 0.791^2 - 2(0.845)(0.791)(0.371)}{1 - 0.371^2}} = \sqrt{\frac{0.8428}{0.8623}} \approx \boxed{0.989}$$
 
-```{r echo=T, warning=FALSE}
+```{r e10-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ryx1 <- 0.845; ryx2 <- 0.791; rx1x2 <- 0.371
 R <- sqrt((ryx1^2 + ryx2^2 - 2*ryx1*ryx2*rx1x2) / (1 - rx1x2^2))
 cat("Multiple correlation coefficient R =", round(R, 4), "\n")
 cat("Coefficient of multiple determination R² =", round(R^2, 4), "\n")
 ```
-
----
+:::
 
 ## F Test for Significance of R
 
@@ -784,13 +844,20 @@ $$F = \frac{R^2/k}{(1-R^2)/(n-k-1)}$$
 where k = number of independent variables, n = number of data groups.
 :::
 
----
+## Example 10-16 {#example-10-16}
 
-## Example 10-16: F Test for Multiple Correlation
+:::{.callout-warning}
+## F Test for Multiple Correlation
 
-::: {.callout-tip}
 Test the significance of R = 0.989 at α = 0.05 for the state board data (n = 5, k = 2).
 :::
+
+## Example 10-16
+
+:::{.callout-tip}
+## Solution
+
+**R implementation**
 
 $$F = \frac{0.989^2/2}{(1-0.989^2)/(5-2-1)} = \frac{0.978/2}{0.022/2} = \frac{0.489}{0.011} \approx 44.45$$
 
@@ -798,42 +865,49 @@ Critical value (Table H, d.f.N. = 2, d.f.D. = 2, α = 0.05): **19.16**
 
 44.45 > 19.16 → **Reject H₀** — significant relationship exists.
 
-```{r echo=T, warning=FALSE}
+```{r e10-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 R2 <- 0.989^2; n <- 5; k <- 2
 F_stat <- (R2/k) / ((1-R2)/(n-k-1))
 cv <- qf(0.95, df1 = k, df2 = n-k-1)
 cat("F =", round(F_stat, 2), "  Critical value =", round(cv, 2), "\n")
 cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
+:::
 
----
+## Example 10-17 {#example-10-17}
 
-## Example 10-17: Adjusted R²
+:::{.callout-warning}
+## Adjusted R²
 
-::: {.callout-note}
 The **adjusted R²** corrects for the number of predictors and sample size:
 
 $$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
 
-It is always ≤ R² and penalizes for adding unnecessary predictors.
+It is always $\leq R^2$ and penalizes for adding unnecessary predictors.
 :::
 
-::: {.callout-tip}
+## Example 10-17
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
 Calculate the adjusted R² for R = 0.989, n = 5, k = 2.
+
 :::
 
 $$R^2_{adj} = 1 - \frac{(1-0.989^2)(5-1)}{5-2-1} = 1 - \frac{(0.022)(4)}{2} = 1 - 0.044 = \boxed{0.956}$$
 
-```{r echo=T, warning=FALSE}
+```{r e10-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 R2 <- 0.989^2; n <- 5; k <- 2
 R2_adj <- 1 - (1-R2)*(n-1)/(n-k-1)
 cat("R² =", round(R2, 4), "\n")
 cat("Adjusted R² =", round(R2_adj, 4), "\n")
 ```
+:::
 
----
-
-## Chapter 10 Summary
+## Key Takeaways
 
 | Concept | Formula | Purpose |
 |--------|--------------|---------|
@@ -850,8 +924,7 @@ cat("Adjusted R² =", round(R2_adj, 4), "\n")
 | Prediction interval | $\hat{y} \pm t_{\alpha/2} \cdot s_{est} \cdot \text{SE factor}$ | Range for individual y |
 | Multiple R | $R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1-r_{x_1x_2}^2}}$ | Multiple predictors |
 
-## Acknowledgements
-
+## Acknowledgement
 -   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.

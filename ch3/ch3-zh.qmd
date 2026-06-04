@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch3.html" target="_blank" style="color:#555;">[English Version]</a>' +
+          '<a href="ch3.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -94,8 +94,6 @@ knitr::opts_chunk$set(fig.align = "center")
 | $N$ | 母體大小 |
 :::
 
----
-
 ## 平均數
 
 **平均數**是將所有資料值加總後除以觀測值個數計算而得。它是最常被報告的中心量數。
@@ -117,22 +115,24 @@ $$\mu = \frac{\Sigma X}{N}$$
 將平均數四捨五入至比原始資料**多一位小數**。
 :::
 
----
+## 例 3-1 {#example-3-1}
 
-## 例3-1：每年休假天數
+:::{.callout-warning}
+## 每年休假天數
 
-:::{.callout-tip}
-## 問題
 一項針對六個國家的調查發現，勞工每年獲得的帶薪假天數如下。求平均數。
 
 **天數：** 13, 15, 26, 36, 37, 42
 :::
 
----
+## 例 3-1
 
-## 例3-1：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 days_off <- c(13, 15, 26, 36, 37, 42)
 
 mean_val <- mean(days_off)
@@ -142,31 +142,33 @@ cat("平均數：", mean_val, "\n")
 ```
 
 平均帶薪假天數約為 **`r round(mean(c(13,15,26,36,37,42)),1)` 天**。
+:::
 
----
+## 例 3-2 {#example-3-2}
 
-## 例3-2：醫院感染
+:::{.callout-warning}
+## 醫院感染
 
-:::{.callout-tip}
-## 問題
 以下為某樣本醫院一年內報告的院內感染次數。求平均數。
 
 **數值：** 62, 58, 71, 70, 69, 58, 51, 64, 66, 80
 :::
 
----
+## 例 3-2
 
-## 例3-2：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 infections <- c(62, 58, 71, 70, 69, 58, 51, 64, 66, 80)
 cat("感染次數平均值：", mean(infections), "\n")
 cat("總和：", sum(infections), "  n：", length(infections), "\n")
 ```
 
 平均院內感染次數為 **`r mean(c(62,58,71,70,69,58,51,64,66,80))`** 次。
-
----
+:::
 
 ## 分組資料的平均數
 
@@ -180,12 +182,11 @@ $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
 其中 $f$ = 組次數，$X_m$ = 組中點，$n = \Sigma f$。
 :::
 
----
+## 例 3-3 {#example-3-3}
 
-## 例3-3：每週跑步英里數（分組平均數） {#example-3-3}
+:::{.callout-warning}
+## 每週跑步英里數（分組平均數）
 
-:::{.callout-tip}
-## 問題
 20名跑者記錄了一週內跑步的英里數。使用下方次數分配求平均數。
 
 | 組別 | 次數 |
@@ -199,11 +200,14 @@ $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
 | 35.5–40.5 | 2 |
 :::
 
----
+## 例 3-3
 
-## 例3-3：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 midpoints <- c(8, 13, 18, 23, 28, 33, 38)
 freq      <- c(1,  2,  3,  5,  4,  3,  2)
 
@@ -213,17 +217,15 @@ df_grouped <- data.frame(midpoint = midpoints, f = freq) |>
 knitr::kable(df_grouped, col.names = c("組中點（Xm）", "次數（f）", "f · Xm"),
              caption = "分組平均數計算")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n    <- sum(freq)
 xbar <- sum(df_grouped$fXm) / n
 cat("\nn =", n, "  Sum(f·Xm) =", sum(df_grouped$fXm),
     "  平均數 =", round(xbar, 1), "英里\n")
 ```
-
----
 
 ## 中位數
 
@@ -237,22 +239,24 @@ cat("\nn =", n, "  Sum(f·Xm) =", sum(df_grouped$fXm),
 3. 若 $n$ 為**偶數**：中位數為**兩個中間值的平均**。
 :::
 
----
+## 例 3-4 {#example-3-4}
 
-## 例3-4：旅館客房數
+:::{.callout-warning}
+## 旅館客房數
 
-:::{.callout-tip}
-## 問題
 以下為市中心7家旅館的客房數。求中位數。
 
 **客房數：** 713, 300, 618, 595, 311, 401, 292
 :::
 
----
+## 例 3-4
 
-## 例3-4：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 rooms <- c(713, 300, 618, 595, 311, 401, 292)
 sorted <- sort(rooms)
 cat("排序後：", sorted, "\n")
@@ -261,17 +265,24 @@ cat("中位數：", median(rooms), "\n")
 ```
 
 有7個值（奇數），中位數為排序後**第4個值**：**`r median(c(713,300,618,595,311,401,292))`** 間客房。
+:::
 
----
+## 例 3-5 {#example-3-5}
 
-## 例3-5：國家公園門票費用（偶數n）
+:::{.callout-warning}
+## 國家公園門票費用（偶數n）
 
-:::{.callout-tip}
-## 問題
 以下為隨機抽樣國家公園的入場費（元）：25, 10, 8, 15, 5, 12, 14, 3。求中位數。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-5
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 fees <- c(25, 10, 8, 15, 5, 12, 14, 3)
 sorted_fees <- sort(fees)
 cat("排序後：", sorted_fees, "\n")
@@ -281,8 +292,7 @@ cat("中位數：", median(fees), "\n")
 ```
 
 有8個值（偶數），中位數為排序後第4與第5個值的平均：$\frac{10+12}{2}$ = **$11**。
-
----
+:::
 
 ## 例3-6 & 3-7：較大資料集的中位數
 
@@ -297,7 +307,7 @@ cat("中位數：", median(fees), "\n")
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tornadoes <- c(188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810)
 asthma    <- c(345, 243, 111, 144, 280, 300, 213, 201, 403, 201)
 
@@ -307,24 +317,29 @@ cat("氣喘——排序後：", paste(sort(asthma), collapse=", "), "\n")
 cat("氣喘中位數：", median(asthma), "\n")
 ```
 
----
+## 例 3-8 {#example-3-8}
 
-## 例3-8：雜誌（從分配中求中位數）
+:::{.callout-warning}
+## 雜誌（從分配中求中位數）
 
-:::{.callout-tip}
-## 問題
 6家隨機選取的書店報告每週銷售的雜誌數：3, 7, 8, 3, 1, 3。求中位數。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-8
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mags <- c(3, 7, 8, 3, 1, 3)
 cat("排序後：", sort(mags), "\n")
 cat("中位數：", median(mags), "\n")
 ```
 
 中位數為每週 **`r median(c(3,7,8,3,1,3))`** 本雜誌。
-
----
+:::
 
 ## 眾數
 
@@ -338,18 +353,24 @@ cat("中位數：", median(mags), "\n")
 - 眾數是**唯一**適用於名目（類別）資料的中心量數。
 :::
 
----
+## 例 3-9 {#example-3-9}
 
-## 例3-9：NFL簽約獎金 {#example-3-9}
+:::{.callout-warning}
+## NFL簽約獎金
 
-:::{.callout-tip}
-## 問題
 以下為某樣本NFL球員的簽約獎金（百萬美元）。求眾數。
 
 **數值：** 18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-9
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 bonuses <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
 
 mode_tbl <- sort(table(bonuses), decreasing = TRUE)
@@ -358,8 +379,7 @@ cat("眾數：$", names(mode_tbl)[1], "百萬\n")
 ```
 
 2和10均出現3次 → 資料集為**雙峰**：**200萬與1,000萬美元**。
-
----
+:::
 
 ## 例3-10 & 3-11：無眾數與雙峰
 
@@ -371,7 +391,7 @@ cat("眾數：$", names(mode_tbl)[1], "百萬\n")
 104, 104, 104, 104, 104, 107, 109, 109, 109, 110, 109, 111, 112, 111, 109
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 reactors <- c(104,104,104,104,104,107,109,109,109,110,109,111,112,111,109)
 mode_tbl <- sort(table(reactors), decreasing = TRUE)
 print(mode_tbl)
@@ -379,18 +399,16 @@ print(mode_tbl)
 
 **104** 出現5次，**109** 出現6次 → 雙峰：**104與109**。
 
----
+## 例 3-12 {#example-3-12}
 
-## 例3-12：分組資料的眾數組
+:::{.callout-warning}
+## 分組資料的眾數組
 
-:::{.callout-tip}
-## 問題
 求每週跑步英里數次數分配的眾數組（[例3-3](#example-3-3)）。
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 classes <- c("5.5-10.5","10.5-15.5","15.5-20.5","20.5-25.5",
              "25.5-30.5","30.5-35.5","35.5-40.5")
 freq <- c(1,2,3,5,4,3,2)
@@ -401,19 +419,17 @@ cat("\n眾數組：", classes[which.max(freq)], "（次數 =", max(freq), "）\n
 
 **眾數組**為 **20.5–25.5** 英里，次數最高為5。
 
----
+## 例 3-13 {#example-3-13}
 
-## 例3-13：質性資料的眾數
+:::{.callout-warning}
+## 質性資料的眾數
 
-:::{.callout-tip}
-## 問題
 一項調查記錄賓州五個郡的船隻登記數（千艘）：
 Westmoreland：11,008 | Butler：9,147 | Allegheny：5,765 | Beaver：3,342 | Lawrence：1,478
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 county <- c("Westmoreland","Butler","Allegheny","Beaver","Lawrence")
 boats  <- c(11008, 9147, 5765, 3342, 1478)
 df_boats <- data.frame(County=county, Registrations=boats)
@@ -422,20 +438,18 @@ cat("\n眾數（登記數最多）：", county[which.max(boats)],
     "共", max(boats), "艘登記\n")
 ```
 
----
+## 例 3-14 {#example-3-14}
 
-## 例3-14：離群值對平均數的影響
+:::{.callout-warning}
+## 離群值對平均數的影響
 
-:::{.callout-tip}
-## 問題
 小公司6名員工的薪資：$5,000 | $6,000 | $9,000 | $12,000 | $15,000 | $45,000
 
 哪個量數最能代表此資料集？
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 salaries <- c(5000, 6000, 9000, 12000, 15000, 45000)
 cat("平均數：$", mean(salaries), "\n")
 cat("中位數：$", median(salaries), "\n")
@@ -453,8 +467,6 @@ cat("眾數：無眾數（所有值均不同）\n")
 當資料集含有極端值時，使用**中位數**，因為平均數會被離群值強烈拉向一側。
 :::
 
----
-
 ## 中距
 
 **中距**是最大值與最小值的算術平均數。計算容易，但對極端值高度敏感。
@@ -465,8 +477,6 @@ cat("眾數：無眾數（所有值均不同）\n")
 $$MR = \frac{\text{最小值} + \text{最大值}}{2}$$
 :::
 
----
-
 ## 例3-15 & 3-16：中距
 
 :::{.callout-tip}
@@ -476,7 +486,7 @@ $$MR = \frac{\text{最小值} + \text{最大值}}{2}$$
 2. 使用[例3-9](#example-3-9)的資料（最小值 = $200萬，最大值 = $1,800萬），求中距。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 water_breaks <- c(2, 3, 6, 8, 4, 1, 3, 5, 7)
 nfl_bonuses  <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
 
@@ -485,8 +495,6 @@ midrange <- function(x) (min(x) + max(x)) / 2
 cat("水管爆裂中距：", midrange(water_breaks), "次\n")
 cat("NFL獎金中距：$", midrange(nfl_bonuses), "百萬\n")
 ```
-
----
 
 ## 加權平均數
 
@@ -500,12 +508,11 @@ $$\bar{X}_w = \frac{\Sigma w \cdot X}{\Sigma w}$$
 其中 $w$ = 權重，$X$ = 數值。
 :::
 
----
+## 例 3-17 {#example-3-17}
 
-## 例3-17：GPA計算
+:::{.callout-warning}
+## GPA計算
 
-:::{.callout-tip}
-## 問題
 一名學生獲得以下成績。以學分數為權重計算學業成績平均點數（GPA）。
 
 | 課程 | 成績 | 學分數 |
@@ -516,11 +523,14 @@ $$\bar{X}_w = \frac{\Sigma w \cdot X}{\Sigma w}$$
 | 藝術 | D（1） | 2 |
 :::
 
----
+## 例 3-17
 
-## 例3-17：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 courses <- c("英文", "數學", "歷史", "藝術")
 grades  <- c(4, 2, 3, 1)         # A=4, B=3, C=2, D=1
 credits <- c(3, 4, 3, 2)
@@ -535,8 +545,7 @@ cat("\n加權平均數（GPA）：", round(gpa, 2), "\n")
 ```
 
 該學生的GPA為 **`r round(sum(c(4,2,3,1)*c(3,4,3,2))/sum(c(3,4,3,2)),2)`**。
-
----
+:::
 
 ## 選擇正確的中心量數
 
@@ -571,19 +580,25 @@ cat("\n加權平均數（GPA）：", round(gpa, 2), "\n")
 | 標準差 | $\sigma$，$s$ | 變異數的平方根 |
 :::
 
----
+## 例 3-18 {#example-3-18}
 
-## 例3-18：僅憑平均數為何不足
+:::{.callout-warning}
+## 僅憑平均數為何不足
 
-:::{.callout-tip}
-## 問題
 某測試實驗室評估兩種戶外油漆的持久性（月）。每種品牌各測試6罐。
 
 **品牌A：** 10, 60, 50, 30, 40, 20 — 平均數 = 35個月
 **品牌B：** 35, 45, 30, 35, 40, 25 — 平均數 = 35個月
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-18
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 B <- c(35, 45, 30, 35, 40, 25)
 cat("品牌A平均數：", mean(A), "| 品牌B平均數：", mean(B), "\n")
@@ -591,7 +606,7 @@ cat("品牌A平均數：", mean(A), "| 品牌B平均數：", mean(B), "\n")
 
 ----
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data.frame(Brand = rep(c("品牌A","品牌B"), each=6),
            Months = c(A, B)) |>
   ggplot(aes(x = Brand, y = Months, color = Brand)) +
@@ -601,8 +616,7 @@ data.frame(Brand = rep(c("品牌A","品牌B"), each=6),
        y="褪色前的月數") +
   theme_bw() + theme(legend.position="none")
 ```
-
----
+:::
 
 ## 全距
 
@@ -619,16 +633,22 @@ $$R = \text{最大值} - \text{最小值}$$
 單一極端值可能大幅膨脹全距，使其成為典型變異的誤導性指標。
 :::
 
----
+## 例 3-19 {#example-3-19}
 
-## 例3-19：油漆品牌的全距
+:::{.callout-warning}
+## 油漆品牌的全距
 
-:::{.callout-tip}
-## 問題
 求例3-18中品牌A與品牌B的全距。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-19
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 B <- c(35, 45, 30, 35, 40, 25)
 
@@ -636,19 +656,26 @@ cat("品牌A全距：", max(A) - min(A), "個月\n")
 cat("品牌B全距：", max(B) - min(B), "個月\n")
 cat("\n品牌B更一致：全距不到品牌A的一半。\n")
 ```
+:::
 
----
+## 例 3-20 {#example-3-20}
 
-## 例3-20：員工薪資全距
+:::{.callout-warning}
+## 員工薪資全距
 
-:::{.callout-tip}
-## 問題
 求XYZ製造公司以下薪資的全距：
 
 老闆：$100,000 | 經理：$40,000 | 業務代表：$30,000 | 員工：$25,000、$15,000、$18,000
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-20
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 salaries <- c(100000, 40000, 30000, 25000, 15000, 18000)
 cat("最低薪資：$", min(salaries), "\n")
 cat("最高薪資：$", max(salaries), "\n")
@@ -656,8 +683,7 @@ cat("全距：$", max(salaries) - min(salaries), "\n")
 ```
 
 全距為 **$85,000**——受老闆薪資強烈影響。
-
----
+:::
 
 ## 母體變異數與標準差
 
@@ -677,18 +703,16 @@ $$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X - 
 5. 除以 $N$ 得到變異數；取平方根得到 $\sigma$。
 :::
 
----
+## 例 3-21 {#example-3-21}
 
-## 例3-21：變異數 & 標準差——品牌A油漆
+:::{.callout-warning}
+## 變異數 & 標準差——品牌A油漆
 
-:::{.callout-tip}
-## 問題
 求品牌A油漆資料的變異數與標準差：10, 60, 50, 30, 40, 20
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 A <- c(10, 60, 50, 30, 40, 20)
 mu <- mean(A)
 df_A <- data.frame(X = A) |>
@@ -697,25 +721,23 @@ df_A <- data.frame(X = A) |>
 knitr::kable(df_A, caption=paste("品牌A：mu =", mu))
 ```
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-21-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sigma2 <- sum(df_A$`(X-mu)^2`) / length(A)
 sigma  <- sqrt(sigma2)
 cat("\n變異數（sigma^2）：", round(sigma2, 1),
     "\n標準差（sigma）：", round(sigma, 1), "個月\n")
 ```
 
----
+## 例 3-22 {#example-3-22}
 
-## 例3-22：變異數 & 標準差——品牌B油漆
+:::{.callout-warning}
+## 變異數 & 標準差——品牌B油漆
 
-:::{.callout-tip}
-## 問題
 求品牌B的變異數與標準差：35, 45, 30, 35, 40, 25
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 B <- c(35, 45, 30, 35, 40, 25)
 mu_B <- mean(B)
 df_B <- data.frame(X = B) |>
@@ -726,7 +748,7 @@ knitr::kable(df_B, caption=paste("品牌B：mu =", mu_B))
 
 ----
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sigma2_B <- sum(df_B$`(X-mu)^2`) / length(B)
 sigma_B  <- sqrt(sigma2_B)
 cat("\n變異數（sigma^2）：", round(sigma2_B, 1),
@@ -735,8 +757,6 @@ cat("\n品牌A sigma：", round(sqrt(1750/6), 1),
     "vs 品牌B sigma：", round(sigma_B, 1),
     "→ 品牌B更一致。\n")
 ```
-
----
 
 ## 樣本變異數與標準差
 
@@ -759,18 +779,16 @@ $$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Si
 除以 $n-1$ 修正了樣本變異數低估母體變異數的傾向。$n-1$ 稱為**自由度**。
 :::
 
----
+## 例 3-23 {#example-3-23}
 
-## 例3-23：歐洲汽車銷售（捷算公式）
+:::{.callout-warning}
+## 歐洲汽車銷售（捷算公式）
 
-:::{.callout-tip}
-## 問題
 求6年間歐洲汽車銷售額（十億美元）的樣本變異數與標準差：11.2, 11.9, 12.0, 12.8, 13.4, 14.3
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 auto <- c(11.2, 11.9, 12.0, 12.8, 13.4, 14.3)
 n    <- length(auto)
 
@@ -789,18 +807,16 @@ cat("s =", round(s, 2), "十億美元\n")
 cat("以var()驗證：", round(var(auto), 3), "\n")
 ```
 
----
+## 例 3-24 {#example-3-24}
 
-## 例3-24：分組資料的標準差
+:::{.callout-warning}
+## 分組資料的標準差
 
-:::{.callout-tip}
-## 問題
 求每週跑步英里數分組資料（[例3-3](#example-3-3)）的變異數與標準差，代表20名跑者。
 :::
-
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 Xm   <- c(8, 13, 18, 23, 28, 33, 38)
 f    <- c(1,  2,  3,  5,  4,  3,  2)
 n    <- sum(f)
@@ -813,15 +829,13 @@ knitr::kable(df_g, col.names=c("Xm","f","f·Xm","f·Xm²"),
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-24-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 s2 <- (n * sum(df_g$fXm2) - sum(df_g$fXm)^2) / (n * (n - 1))
 s  <- sqrt(s2)
 cat("\nn =", n, "  Sum(f·Xm) =", sum(df_g$fXm),
     "  Sum(f·Xm^2) =", sum(df_g$fXm2))
 cat("\n變異數 s^2 =", round(s2, 1), "  標準差 s =", round(s, 1), "英里\n")
 ```
-
----
 
 ## 變異係數
 
@@ -833,16 +847,22 @@ cat("\n變異數 s^2 =", round(s2, 1), "  標準差 s =", round(s, 1), "英里\n
 $$\text{CVar} = \frac{s}{\bar{X}} \times 100\% \quad \text{（樣本）} \qquad \text{CVar} = \frac{\sigma}{\mu} \times 100\% \quad \text{（母體）}$$
 :::
 
----
+## 例 3-25 {#example-3-25}
 
-## 例3-25：銷售量 vs. 佣金
+:::{.callout-warning}
+## 銷售量 vs. 佣金
 
-:::{.callout-tip}
-## 問題
 3個月期間汽車平均銷售量為87輛，標準差為5輛。平均佣金為$5,225，標準差為$773。哪個變異性更大？
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-25
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cvar_sales <- (5 / 87) * 100
 cvar_comm  <- (773 / 5225) * 100
 
@@ -850,17 +870,24 @@ cat("CVar（銷售量）：", round(cvar_sales, 1), "%\n")
 cat("CVar（佣金）：", round(cvar_comm, 1), "%\n")
 cat("\n結論：佣金變異性較大（CVar較大）。\n")
 ```
+:::
 
----
+## 例 3-26 {#example-3-26}
 
-## 例3-26：頁數 vs. 廣告數
+:::{.callout-warning}
+## 頁數 vs. 廣告數
 
-:::{.callout-tip}
-## 問題
 女性健身雜誌：平均頁數 = 132，變異數 = 23；平均廣告數 = 182，變異數 = 62。哪個變異性更大？
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-26
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cvar_pages <- (sqrt(23) / 132) * 100
 cvar_ads   <- (sqrt(62) / 182) * 100
 
@@ -868,8 +895,7 @@ cat("CVar（頁數）：", round(cvar_pages, 1), "%\n")
 cat("CVar（廣告）：", round(cvar_ads, 1), "%\n")
 cat("\n結論：廣告數變異性較大。\n")
 ```
-
----
+:::
 
 ## 全距經驗法則
 
@@ -885,8 +911,6 @@ $$[\bar{X} - 2s, \; \bar{X} + 2s]$$
 :::
 
 此近似法對單峰且大致對稱的分配效果最佳。
-
----
 
 ## 柴比雪夫定理
 
@@ -906,16 +930,22 @@ $$1 - \frac{1}{k^2}, \quad k > 1$$
 | 2.5 | 至少84% |
 :::
 
----
+## 例 3-27 {#example-3-27}
 
-## 例3-27：房屋價格（柴比雪夫）
+:::{.callout-warning}
+## 房屋價格（柴比雪夫）
 
-:::{.callout-tip}
-## 問題
 某社區房屋平均售價為$50,000，標準差為$10,000。求至少75%房屋的售價範圍。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-27
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu  <- 50000
 sd  <- 10000
 k   <- 2   # 至少75%
@@ -929,19 +959,18 @@ cat("價格範圍：$", lower, "至 $", upper, "\n")
 ```
 
 至少 **75%** 的房屋售價在 **$30,000 至 $70,000** 之間。
-
----
-
-## 例3-28：差旅補貼（柴比雪夫——求k）
-
-:::{.callout-tip}
-## 問題
-主管差旅補貼：平均 = $0.25/英里，標準差 = $0.02/英里。求$0.20至$0.30之間的最小百分比。
 :::
 
+## 例 3-28 {#example-3-28}
+
+:::{.callout-warning}
+## 差旅補貼（柴比雪夫——求k）
+
+主管差旅補貼：平均 = $0.25/英里，標準差 = $0.02/英里。求$0.20至$0.30之間的最小百分比。
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu  <- 0.25
 sd  <- 0.02
 
@@ -957,8 +986,6 @@ cat("最小百分比：1 - 1/k^2 =", pct, "%\n")
 
 至少 **84%** 的差旅補貼落在每英里$0.20至$0.30之間。
 
----
-
 ## 經驗法則（常態法則）
 
 當分配為**鐘形（常態）**時，可應用更嚴格的保證：
@@ -970,14 +997,14 @@ cat("最小百分比：1 - 1/k^2 =", pct, "%\n")
 
 | 區間 | 資料的近似百分比 |
 |----------|----------------------|
-| $\bar{X} \pm 1s$ | ≈ 68% |
-| $\bar{X} \pm 2s$ | ≈ 95% |
-| $\bar{X} \pm 3s$ | ≈ 99.7% |
+| $\bar{X} \pm 1s$ | $\approx 68%$ |
+| $\bar{X} \pm 2s$ | $\approx 95%$ |
+| $\bar{X} \pm 3s$ | $\approx 99.7%$ |
 :::
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-28-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 480; sigma <- 90
 tibble(x = seq(mu - 4*sigma, mu + 4*sigma, length.out = 500),
        y = dnorm(x, mu, sigma)) |>
@@ -1007,8 +1034,6 @@ tibble(x = seq(mu - 4*sigma, mu + 4*sigma, length.out = 500),
 - **十分位數**——將資料分成10個相等群組
 - **四分位數**——將資料分成4個相等群組
 
----
-
 ## 標準分數（z分數）
 
 **z分數**（標準分數）將原始值轉換為其位於平均數上方或下方幾個標準差，以便跨不同分配進行公平比較。
@@ -1023,16 +1048,22 @@ $$z = \frac{X - \bar{X}}{s} \quad \text{（樣本）} \qquad z = \frac{X - \mu}{
 - $z < 0$：數值**低於**平均數
 :::
 
----
+## 例 3-29 {#example-3-29}
 
-## 例3-29：比較考試表現
+:::{.callout-warning}
+## 比較考試表現
 
-:::{.callout-tip}
-## 問題
 一名學生微積分考試得65分（$\bar{X}=50$，$s=10$），歷史考試得30分（$\bar{X}=25$，$s=5$）。她在哪次考試表現相對較好？
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-29
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 z_calc <- (65 - 50) / 10
 z_hist <- (30 - 25) / 5
 
@@ -1042,13 +1073,12 @@ cat("\n兩個z分數相等（1.5）→ 相對表現相同。\n")
 ```
 
 兩個分數均高出各自平均數1.5個標準差——**相對位置相同**。
+:::
 
----
+## 例 3-30 {#example-3-30}
 
-## 例3-30：哪個分數相對較高？
-
-:::{.callout-tip}
-## 問題
+:::{.callout-warning}
+## 哪個分數相對較高？
 
 | 考試 | 分數（X） | 平均數（$\bar{X}$） | 標準差（$s$） |
 |------|-----------|-----------------|----------|
@@ -1058,7 +1088,14 @@ cat("\n兩個z分數相等（1.5）→ 相對表現相同。\n")
 求各z分數並判斷相對較高的分數。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-30
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 z_A <- (38 - 40) / 5
 z_B <- (94 - 100) / 10
 
@@ -1068,8 +1105,7 @@ cat("\n結論：考試A分數相對較高（z = -0.4 > -0.6）\n")
 ```
 
 考試A分數的**相對位置較高**（z = −0.4 vs z = −0.6）。
-
----
+:::
 
 ## 百分位數
 
@@ -1088,12 +1124,11 @@ $$c = \frac{n \cdot p}{100}$$
 - 若 $c$ **為**整數：取第 $c$ 與第 $(c+1)$ 個值的平均。
 :::
 
----
+## 例 3-31 {#example-3-31}
 
-## 例3-31：百分位數圖（收縮壓）
+:::{.callout-warning}
+## 百分位數圖（收縮壓）
 
-:::{.callout-tip}
-## 問題
 為200名大學生的收縮壓讀數建立百分位數圖。
 
 | 組界 | 次數 |
@@ -1106,11 +1141,14 @@ $$c = \frac{n \cdot p}{100}$$
 | 164.5–179.5 | 4 |
 :::
 
----
+## 例 3-31
 
-## 例3-31：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 upper <- c(104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
 freq  <- c(24, 62, 72, 26, 12, 4)
 cum_f <- cumsum(freq)
@@ -1120,10 +1158,10 @@ df_bp <- data.frame(upper, cum_f, cum_pct)
 knitr::kable(df_bp, col.names=c("上組界","累積次數","累積百分比"),
              caption="收縮壓——百分位數表")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-31-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(df_bp, aes(x=upper, y=cum_pct)) +
   geom_line(color="#2c4a6e", linewidth=1) +
   geom_point(size=3, color="#2c4a6e") +
@@ -1131,8 +1169,6 @@ ggplot(df_bp, aes(x=upper, y=cum_pct)) +
        x="血壓（mm Hg）", y="累積百分比") +
   theme_bw()
 ```
-
----
 
 ## 例3-32 & 3-33：求百分位數排名
 
@@ -1145,7 +1181,7 @@ ggplot(df_bp, aes(x=upper, y=cum_pct)) +
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 scores <- c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10)
 n <- length(scores)
 
@@ -1161,8 +1197,6 @@ cat("6分的百分位數排名：", prank(6, scores), "\n")
 
 分數12位於**第65百分位數**（優於65%的同學）。分數6位於**第35百分位數**。
 
----
-
 ## 例3-34 & 3-35：給定百分位數的數值
 
 :::{.callout-tip}
@@ -1174,7 +1208,7 @@ cat("6分的百分位數排名：", prank(6, scores), "\n")
 
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 scores_sorted <- sort(c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10))
 n <- length(scores_sorted)
 cat("排序後分數：", scores_sorted, "\n\n")
@@ -1189,8 +1223,6 @@ c60 <- n * 60 / 100
 cat("第60百分位數的c值：", c60, "（整數 → 取第6與第7位置的平均）\n")
 cat("第6與第7位置的平均：", (scores_sorted[6] + scores_sorted[7])/2, "\n")
 ```
-
----
 
 ## 四分位數與十分位數
 
@@ -1212,8 +1244,6 @@ cat("第6與第7位置的平均：", (scores_sorted[6] + scores_sorted[7])/2, "\
 IQR測量中間50%資料的分散程度。
 :::
 
----
-
 ## 求四分位數——步驟
 
 :::{.callout-important}
@@ -1225,24 +1255,30 @@ IQR測量中間50%資料的分散程度。
 4. 求上半部分（$Q_2$ 以上）的中位數 → 即為 $Q_3$。
 :::
 
----
+## 例 3-36 {#example-3-36}
 
-## 例3-36：求四分位數 {#example-3-36}
+:::{.callout-warning}
+## 求四分位數
 
-:::{.callout-tip}
-## 問題
 求資料集的 $Q_1$、$Q_2$ 和 $Q_3$：15, 13, 6, 5, 12, 50, 22, 18
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-36
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(15, 13, 6, 5, 12, 50, 22, 18)
 xs <- sort(x)
 cat("排序後資料：", xs, "\n\n")
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-36-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 Q2 <- median(xs)
 lower <- xs[xs < Q2]
 upper <- xs[xs > Q2]
@@ -1259,8 +1295,6 @@ cat("IQR：", IQR_val, "\n")
 
 $Q_1 = 9$，$Q_2 = 14$，$Q_3 = 20$，$\text{IQR} = 11$。
 
----
-
 ## 離群值
 
 **離群值**是與分配其餘部分差異極大的極高或極低資料值。離群值可能顯著扭曲平均數和標準差。
@@ -1275,18 +1309,24 @@ $Q_1 = 9$，$Q_2 = 14$，$Q_3 = 20$，$\text{IQR} = 11$。
 5. 任何**超出**這些圍欄的值即為疑似離群值。
 :::
 
----
+## 例 3-37 {#example-3-37}
 
-## 例3-37：檢查離群值
+:::{.callout-warning}
+## 檢查離群值
 
-:::{.callout-tip}
-## 問題
 檢查以下資料集的離群值：5, 6, 12, 13, 15, 18, 22, 50
 
 （這是[例3-36](#example-3-36)資料的排序版本。）
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-37
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- c(5, 6, 12, 13, 15, 18, 22, 50)
 
 Q1 <- 9; Q3 <- 20  # 來自例3-36
@@ -1295,10 +1335,10 @@ IQR_val <- Q3 - Q1
 lower_fence <- Q1 - 1.5 * IQR_val
 upper_fence <- Q3 + 1.5 * IQR_val
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-37-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("Q1：", Q1, "  Q3：", Q3, "  IQR：", IQR_val, "\n")
 cat("1.5 × IQR：", 1.5 * IQR_val, "\n")
 cat("下圍欄：", lower_fence, "\n")
@@ -1328,8 +1368,6 @@ cat("結論：50為離群值。\n")
 EDA統計量（中位數、IQR）具有**抗拒性**——較不受極端值影響——而平均數和標準差**不具抗拒性**。
 :::
 
----
-
 ## 五數摘要
 
 **五數摘要**使用五個關鍵值捕捉分配的完整分散程度與形狀：
@@ -1345,8 +1383,6 @@ EDA統計量（中位數、IQR）具有**抗拒性**——較不受極端值影�
 :::
 
 這五個值構成**箱形圖**（盒鬚圖）的基礎。
-
----
 
 ## 建立箱形圖
 
@@ -1367,16 +1403,22 @@ EDA統計量（中位數、IQR）具有**抗拒性**——較不受極端值影�
 - 右鬚線較長 → **正偏**
 - 左鬚線較長 → **負偏**
 
----
+## 例 3-38 {#example-3-38}
 
-## 例3-38：發現的隕石
+:::{.callout-warning}
+## 發現的隕石
 
-:::{.callout-tip}
-## 問題
 美國10個州發現的隕石數量：89, 47, 164, 296, 30, 215, 138, 78, 48, 39。建立箱形圖並描述分配。
 :::
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+## 例 3-38
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
 xs <- sort(meteorites)
 cat("排序後：", xs, "\n")
@@ -1385,10 +1427,10 @@ five_num <- fivenum(meteorites)
 names(five_num) <- c("最小值","Q1","中位數","Q3","最大值")
 print(five_num)
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-38-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 boxplot(meteorites, horizontal=TRUE,
         main="美國10個州發現的隕石數量",
         xlab="隕石數量",
@@ -1397,11 +1439,12 @@ boxplot(meteorites, horizontal=TRUE,
 
 分配呈**正偏**——右鬚線延伸遠多於左鬚線。
 
----
+## 例 3-38
 
-## 例3-38：使用ggplot2
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-38-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
 
 ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
@@ -1411,24 +1454,27 @@ ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
        y="隕石數量", x="") +
   theme_bw()
 ```
+:::
 
----
+## 例 3-39 {#example-3-39}
 
-## 例3-39：比較兩個分配
+:::{.callout-warning}
+## 比較兩個分配
 
-:::{.callout-tip}
-## 問題
 一名營養師比較真實乳酪與乳酪替代品的鈉含量（mg）。用箱形圖比較兩個分配。
 
 **真實乳酪：** 310, 420, 45, 40, 220, 240, 180, 90
 **乳酪替代品：** 270, 180, 250, 290, 130, 260, 340, 310
 :::
 
----
+## 例 3-39
 
-## 例3-39：解題步驟
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解題**
+
+```{r e3-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 real  <- c(310, 420, 45, 40, 220, 240, 180, 90)
 sub   <- c(270, 180, 250, 290, 130, 260, 340, 310)
 
@@ -1442,10 +1488,10 @@ df_cheese <- data.frame(
   type   = rep(c("真實乳酪","乳酪替代品"), each=8)
 )
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-39-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
   geom_boxplot(alpha=0.7) +
   coord_flip() +
@@ -1455,11 +1501,14 @@ ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
   theme_bw() + theme(legend.position="none")
 ```
 
----
+## 例 3-39
 
-## 例3-39：解讀
+:::{.callout-tip}
+## 解題
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+**解讀**
+
+```{r e3-39-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 real <- c(310, 420, 45, 40, 220, 240, 180, 90)
 sub  <- c(270, 180, 250, 290, 130, 260, 340, 310)
 
@@ -1473,18 +1522,16 @@ summary_df <- data.frame(
                        IQR(sub))
 )
 ```
-
+:::
 ---
 
-```{r,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
+```{r e3-39-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(summary_df, caption="五數摘要比較")
 ```
 
 :::{.callout-note}
 **解讀：** 乳酪替代品的**中位數**鈉含量較高（265 vs 200 mg），**變異性較低**（IQR = 85 vs 207 mg）。真實乳酪資料較分散，且略呈正偏。
 :::
-
----
 
 ## 摘要：第3章一覽
 
@@ -1518,8 +1565,6 @@ knitr::kable(summary_df, caption="五數摘要比較")
 **經驗法則** ——鐘形分配68/95/99.7%落在1/2/3個標準差內
 :::
 
----
-
 ## 摘要：第3章一覽（續）
 
 :::{.callout-note}
@@ -1547,8 +1592,6 @@ knitr::kable(summary_df, caption="五數摘要比較")
 
 **傳統統計量**（平均數、標準差）**不具抗拒性**
 :::
-
----
 
 ## 版權聲明
 

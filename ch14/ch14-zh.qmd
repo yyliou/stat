@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch14.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch14.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -85,8 +85,6 @@ knitr::opts_chunk$set(fig.align = "center")
 **關鍵要求：** 樣本必須是**隨機**的 — 母體中的每個成員都必須有相同的被選機率。隨機樣本是**無偏**的；非隨機樣本是**有偏**的。
 :::
 
----
-
 ## 四種基本抽樣方法
 
 ::: {.callout-note}
@@ -98,8 +96,6 @@ knitr::opts_chunk$set(fig.align = "center")
 | **分層抽樣** | 分成同質子群體；各層分別抽樣 |
 | **集群抽樣** | 選取一個已存在的完整群體作為樣本 |
 :::
-
----
 
 ## 隨機抽樣
 
@@ -116,21 +112,20 @@ knitr::opts_chunk$set(fig.align = "center")
 **正確方法：** 使用隨機數字表或電腦產生的隨機數字。
 :::
 
----
+## 例 14-1 {#example-14-1}
 
-## 例 14-1：電視節目採訪 — 隨機樣本
+:::{.callout-warning}
+## 電視節目採訪 — 隨機樣本
 
-::: {.callout-tip}
-## 問題
 一位電視節目製作人只能採訪 50 州中的 **10 位州長**。請使用隨機數字表，從 50 個州中選取隨機樣本 10 個州。
 :::
 
----
+## 例 14-1
 
-## 例 14-1：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** 依字母順序將各州編號為 01–50（01 = Alabama，02 = Alaska，…，50 = Wyoming）
 
@@ -149,13 +144,18 @@ knitr::opts_chunk$set(fig.align = "center")
 | 34 | 北達科塔州 | | 39 | 羅德島州 |
 | 06 | 科羅拉多州 | | 23 | 明尼蘇達州 |
 | 13 | 伊利諾州 | | 35 | 俄亥俄州 |
+
+:::
 :::
 
----
+## 例 14-1
 
-## 例 14-1：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-1, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 states <- c("Alabama","Alaska","Arizona","Arkansas","California",
             "Colorado","Connecticut","Delaware","Florida","Georgia",
             "Hawaii","Idaho","Illinois","Indiana","Iowa",
@@ -167,10 +167,10 @@ states <- c("Alabama","Alaska","Arizona","Arkansas","California",
             "South Dakota","Tennessee","Texas","Utah","Vermont",
             "Virginia","Washington","West Virginia","Wisconsin","Wyoming")
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e14-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(123)
 sample_indices <- sample(1:50, size = 10, replace = FALSE)
 cat("選取的州編號：", sample_indices, "\n")
@@ -179,8 +179,6 @@ for (i in sort(sample_indices)) {
   cat(sprintf("  %02d. %s\n", i, states[i]))
 }
 ```
-
----
 
 ## 系統抽樣
 
@@ -196,21 +194,20 @@ for (i in sort(sample_indices)) {
 **注意：** 避免對具有與間隔 $k$ 相符週期性規律（例如男女交替）的列表使用系統抽樣。
 :::
 
----
+## 例 14-2 {#example-14-2}
 
-## 例 14-2：電視節目採訪 — 系統抽樣
+:::{.callout-warning}
+## 電視節目採訪 — 系統抽樣
 
-::: {.callout-tip}
-## 問題
 使用相同的 50 州母體，選取 10 個州的**系統樣本**。
 :::
 
----
+## 例 14-2
 
-## 例 14-2：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** 將各州編號 01–50
 
@@ -228,13 +225,18 @@ $$4, 9, 14, 19, 24, 29, 34, 39, 44, 49$$
 | 14 | 印地安納州 | | 39 | 羅德島州 |
 | 19 | 緬因州 | | 44 | 猶他州 |
 | 24 | 密西西比州 | | 49 | 威斯康辛州 |
+
+:::
 :::
 
----
+## 例 14-2
 
-## 例 14-2：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-2, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 N <- 50; n <- 10
 k <- N / n  # 間隔 = 5
 
@@ -249,8 +251,7 @@ for (i in sys_indices) {
   cat(sprintf("  %02d. %s\n", i, states[i]))
 }
 ```
-
----
+:::
 
 ## 分層抽樣
 
@@ -267,12 +268,11 @@ for (i in sys_indices) {
 **比例分層：** 各層的樣本大小與該層佔總母體的比例成正比。
 :::
 
----
+## 例 14-3 {#example-14-3}
 
-## 例 14-3：學生的分層樣本
+:::{.callout-warning}
+## 學生的分層樣本
 
-::: {.callout-tip}
-## 問題
 從一個由 20 名學生組成的班級（10 男 10 女；含大一及大二生）中，依性別與年級選取 **8 人的分層樣本**。
 
 **四個層：**
@@ -282,14 +282,14 @@ for (i in sys_indices) {
 | 第 2 組 | 男性大二生（5 人） | 第 4 組 | 女性大二生（5 人） |
 :::
 
----
+## 例 14-3
 
-## 例 14-3：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
-**步驟 1：** 劃分為 4 層（男/女 × 大一/大二）
+**步驟 1：** 劃分為 4 層（男/女 $\times$ 大一/大二）
 
 **步驟 2：** 每層有 5 名成員，各選取 $8/4 = 2$ 人
 
@@ -301,13 +301,18 @@ for (i in sys_indices) {
 | 男性大二生 | Brown, Danny；Lyons, Larry |
 | 女性大一生 | Bear, Theresa；Collins, Carolyn |
 | 女性大二生 | Toms, Debbie；Unger, Roberta |
+
+:::
 :::
 
----
+## 例 14-3
 
-## 例 14-3：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-3, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 students <- data.frame(
   name   = c("Ald P","Brown D","Bear T","Carson S","Collins C",
              "Davis W","Hogan M","Jones L","Lutz H","Lyons L",
@@ -319,10 +324,10 @@ students <- data.frame(
              "Fr","Fr","So","So","Fr","Fr","So","So","So","So")
 )
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e14-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 分層並從每層各抽取 2 人
 set.seed(42)
 stratified <- students %>%
@@ -332,8 +337,6 @@ stratified <- students %>%
 
 print(stratified)
 ```
-
----
 
 ## 集群抽樣
 
@@ -347,8 +350,6 @@ print(stratified)
 
 **缺點：** 同一集群內的成員往往比整體母體更具**同質性** — 樣本可能缺乏多樣性。
 :::
-
----
 
 ## 抽樣方法：綜合比較
 
@@ -420,8 +421,6 @@ print(stratified)
 **現代工具：** 電腦每秒可產生隨機數字、統計結果並計算機率數百萬次。
 :::
 
----
-
 ## 蒙地卡羅法
 
 ::: {.callout-note}
@@ -435,8 +434,6 @@ print(stratified)
 
 **關鍵洞見：** 隨著重複次數增加，結果會趨近理論值（大數法則）。
 :::
-
----
 
 ## 建立隨機數字對應關係
 
@@ -452,21 +449,20 @@ print(stratified)
 | 打鼾（20% 機率） | 打鼾 | 1,2；不打鼾→3–9,0 |
 :::
 
----
+## 例 14-4 {#example-14-4}
 
-## 例 14-4：打鼾模擬
+:::{.callout-warning}
+## 打鼾模擬
 
-::: {.callout-tip}
-## 問題
 根據美國疾管署資料，約 **20%** 的人在睡眠中打鼾。模擬 **20 人**的樣本，並確認有多少人打鼾。
 :::
 
----
+## 例 14-4
 
-## 例 14-4：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 由於 $20\% = 1/5$，每五人中有一人打鼾。
 
@@ -478,13 +474,18 @@ $$7\ 2\ 7\ 4\ 8\ 2\ 2\ 3\ 6\ 1\ 6\ 0\ 4\ 6\ 1\ 5\ 5\ 3\ 8\ 9$$
 打鼾者（數字 1 或 2）：位置 2、6、7、10、15 → **20 人中有 5 人打鼾**
 
 比例：$5/20 = 0.25$，接近理論值 20%。
+
+:::
 :::
 
----
+## 例 14-4
 
-## 例 14-4：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-4, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(101)
 n_people <- 20
 p_snore  <- 0.20
@@ -498,13 +499,13 @@ cat("打鼾人數：", sum(snores), "（共", n_people, "人）\n")
 cat("比例：", round(mean(snores), 3),
     "  （理論值：0.20）\n")
 ```
+:::
 
----
+## 例 14-5 {#example-14-5}
 
-## 例 14-5：網球賽模擬
+:::{.callout-warning}
+## 網球賽模擬
 
-::: {.callout-tip}
-## 問題
 Bill 的網球實力是 Mike 的**兩倍**。模擬他們之間的 **5 場比賽**。
 
 由於 $P(\text{Bill 獲勝}) = 2/3$，$P(\text{Mike 獲勝}) = 1/3$：
@@ -520,11 +521,14 @@ Bill 的網球實力是 Mike 的**兩倍**。模擬他們之間的 **5 場比賽
 **結果：** Bill 贏 4 場，Mike 贏 1 場。
 :::
 
----
+## 例 14-5
 
-## 例 14-5：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-5, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(99)
 n_games  <- 5
 p_bill   <- 2/3
@@ -540,22 +544,22 @@ for (i in seq_along(winners)) cat("  第", i, "場：", winners[i], "\n")
 cat("\nBill 獲勝：", sum(winners == "Bill"), "場\n")
 cat("Mike 獲勝：", sum(winners == "Mike"), "場\n")
 ```
+:::
 
----
+## 例 14-6 {#example-14-6}
 
-## 例 14-6：擲骰子直到出現 6
+:::{.callout-warning}
+## 擲骰子直到出現 6
 
-::: {.callout-tip}
-## 問題
 反覆擲骰子直到出現 **6** 為止。利用模擬，找出所需的**平均擲骰次數**。重複實驗 **20 次**。
 :::
 
----
+## 例 14-6
 
-## 例 14-6：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **對應：** 數字 1–6 → 骰子點數；數字 7、8、9、0 → 忽略
 
@@ -568,13 +572,18 @@ $$\bar{X} = \frac{96}{20} = 4.8 \text{ 次}$$
 $$E(X) = \frac{1}{p} = \frac{1}{1/6} = 6$$
 
 重複次數越多，模擬結果越接近 6。
+
+:::
 :::
 
----
+## 例 14-6
 
-## 例 14-6：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-6, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(55)
 n_trials <- 20
 
@@ -593,12 +602,16 @@ cat("總擲骰次數：", sum(rolls_needed), "\n")
 cat("模擬平均值：", round(mean(rolls_needed), 2), "\n")
 cat("理論平均值（1/p = 6）：", 6, "\n")
 ```
+:::
 
----
+## 例 14-6
 
-## 例 14-6：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex14-6-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e14-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(55)
 many_trials <- replicate(1000, {
   count <- 0
@@ -610,10 +623,10 @@ many_trials <- replicate(1000, {
   count
 })
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e14-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
   geom_histogram(binwidth = 1, fill = "steelblue",
                  color = "white", alpha = 0.8) +
@@ -626,21 +639,20 @@ ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
        x = "擲骰次數", y = "頻率")
 ```
 
----
+## 例 14-7 {#example-14-7}
 
-## 例 14-7：選取鑰匙
+:::{.callout-warning}
+## 選取鑰匙
 
-::: {.callout-tip}
-## 問題
 某人有 **4 把鑰匙**，其中只有一把能開鎖。她隨機逐一嘗試（不放回）直到找到正確鑰匙。求所需的**平均嘗試次數**。重複 **25 次**。
 :::
 
----
+## 例 14-7
 
-## 例 14-7：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **設定：** 鑰匙編號 1–4；第 2 把是正確的。
 
@@ -654,13 +666,18 @@ $$\bar{X} = \frac{54}{25} = 2.16 \text{ 次}$$
 
 **理論平均值：**
 $$E(X) = \frac{n+1}{2} = \frac{4+1}{2} = 2.5$$
+
+:::
 :::
 
----
+## 例 14-7
 
-## 例 14-7：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-7, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(77)
 n_trials   <- 25
 correct_key <- 2
@@ -675,22 +692,22 @@ cat("總嘗試次數：", sum(tries_needed), "\n")
 cat("模擬平均值：", round(mean(tries_needed), 3), "\n")
 cat("理論平均值（(n+1)/2 = 2.5）：", 2.5, "\n")
 ```
+:::
 
----
+## 例 14-8 {#example-14-8}
 
-## 例 14-8：選取鈔票
+:::{.callout-warning}
+## 選取鈔票
 
-::: {.callout-tip}
-## 問題
 一個箱子裡有 **5 張一美元**、**3 張五美元** 和 **2 張十美元**。某人隨機取出一張鈔票。求所取鈔票的**期望值**。重複實驗 **25 次**。
 :::
 
----
+## 例 14-8
 
-## 例 14-8：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **機率：** $P(\$1) = 5/10 = 0.5$，$P(\$5) = 3/10 = 0.3$，$P(\$10) = 2/10 = 0.2$
 
@@ -704,13 +721,18 @@ $$\bar{X} = \frac{116}{25} = \$4.64$$
 $$E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \$4.00$$
 
 模擬值接近理論值；重複次數越多，結果越接近。
+
+:::
 :::
 
----
+## 例 14-8
 
-## 例 14-8：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex14-8, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e14-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 n_trials <- 25
 
@@ -725,12 +747,16 @@ cat("總計：", sum(draws), "\n")
 cat("模擬平均值：$", round(mean(draws), 2), "\n")
 cat("理論 E(X)：$", sum(bills * probs), "\n")
 ```
+:::
 
----
+## 例 14-8
 
-## 例 14-8：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex14-8-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 many_draws <- sample(bills, size = 1000,
                      replace = TRUE, prob = probs)
@@ -743,8 +769,7 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
   labs(title = "鈔票抽取模擬（1000 次試驗）",
        x = "鈔票面額（$）", y = "頻率")
 ```
-
----
+:::
 
 ## 蒙地卡羅法：總結
 
@@ -764,8 +789,6 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
 
 **現代應用：** NASA 飛行模擬器、電玩物理引擎、金融風險建模、藥物試驗設計、氣候建模。
 :::
-
----
 
 ## 第14章總結
 

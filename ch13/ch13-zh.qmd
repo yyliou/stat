@@ -7,19 +7,19 @@ date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-smaller: true
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-logo: "logo.svg"
-editor: source
-slide-number: true
-scrollable: false
-transition: "none"
-menu:
-  useTextContentForMissingTitles: false
-  hideMissingTitles: true
-  side: 'left'
-  titleSelector: 'h1'
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 title-slide-attributes:
   data-notes: ""
 include-after-body:
@@ -30,7 +30,7 @@ include-after-body:
       if (title) {
         title.insertAdjacentHTML('beforeend',
           '<p style="font-size:0.5em; margin-top:1.5em;">' +
-          '<a href="ch13.html"  style="color:#555;">[English Version]</a>' +
+          '<a href="ch13.html"  style="color:#555;">[English version]</a>' +
           '</p>');
       }
     });
@@ -89,8 +89,6 @@ knitr::opts_chunk$set(fig.align = "center")
 5. 通常**容易理解**與詮釋
 :::
 
----
-
 ## 無母數方法的缺點
 
 ::: {.callout-important}
@@ -104,8 +102,6 @@ knitr::opts_chunk$set(fig.align = "center")
 ## 基本假設
 樣本必須為**隨機抽取**。使用兩個或多個樣本時，各樣本必須相互**獨立**（除非另有說明）。
 :::
-
----
 
 ## 資料排序
 
@@ -137,8 +133,6 @@ knitr::opts_chunk$set(fig.align = "center")
 - 使用**表 J**（$n \leq 25$）或 z 近似法（$n \geq 26$）
 :::
 
----
-
 ## 符號檢定：臨界值與 z 公式
 
 ::: {.callout-note}
@@ -152,12 +146,11 @@ $$z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2}$$
 使用表 E 查臨界值。
 :::
 
----
+## 範例 13-1 {#example-13-1}
 
-## 範例 13-1：刨冰銷售量
+:::{.callout-warning}
+## 刨冰銷售量
 
-::: {.callout-tip}
-## 問題
 一家商店老闆假設每天刨冰銷售量的**中位數**為 **40** 份。抽取 20 天的樣本如下：
 
 18, 43, **40**, 16, 22, 30, 29, 32, 37, 36, 39, 34, 39, 45, 28, 36, **40**, 34, 39, 52
@@ -165,12 +158,12 @@ $$z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2}$$
 在 $\alpha = 0.05$ 下，檢定老闆的主張。
 :::
 
----
+## 範例 13-1
 
-## 範例 13-1：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** $H_0: MD = 40$（主張）；$H_1: MD \neq 40$
 
@@ -186,13 +179,18 @@ $$-, +, 0, -, -, -, -, -, -, -, -, -, -, +, -, -, 0, -, -, +$$
 **步驟 4：** $3 \leq 4$ → **拒絕** $H_0$
 
 **步驟 5：** 有足夠證據拒絕中位數為 40 的主張。
+
+:::
 :::
 
----
+## 範例 13-1
 
-## 範例 13-1：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-1, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 snow <- c(18,43,40,16,22,30,29,32,37,36,39,34,39,45,28,36,40,34,39,52)
 median_hyp <- 40
 
@@ -209,24 +207,24 @@ cat("n =", n, "| 檢定值 =", test_val, "\n")
 cat("臨界值（表 J，n=18，alpha=0.05，雙尾）: 4\n")
 cat("決策:", ifelse(test_val <= 4, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 範例 13-2 {#example-13-2}
 
-## 範例 13-2：外裔居民年齡（大樣本）
+:::{.callout-warning}
+## 外裔居民年齡（大樣本）
 
-::: {.callout-tip}
-## 問題
 美國外裔居民的中位年齡被主張至少為 **36.4 歲**。在 $n = 50$ 名居民的樣本中，有 **21** 人年齡超過 36.4 歲。在 $\alpha = 0.05$ 下，檢定此主張。
 
 $$H_0: MD \geq 36.4 \text{（主張）} \qquad H_1: MD < 36.4$$
 :::
 
----
+## 範例 13-2
 
-## 範例 13-2：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 由於 $n = 50 \geq 26$，使用 **z 近似法**。
 
@@ -241,13 +239,18 @@ $$z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2} = \frac{(21 + 0.5) - 25}{\sqrt{50}/2} =
 由於 $-0.99 > -1.65$ → **不拒絕** $H_0$
 
 **步驟 5：** 沒有足夠證據拒絕中位年齡至少為 36.4 歲的主張。
+
+:::
 :::
 
----
+## 範例 13-2
 
-## 範例 13-2：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-2, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n       <- 50
 n_above <- 21
 n_below <- n - n_above  # 29
@@ -261,13 +264,13 @@ cat("z 檢定值 =", round(z_stat, 3), "\n")
 cat("z 臨界值 =", round(z_crit, 3), "\n")
 cat("決策:", ifelse(z_stat < z_crit, "拒絕 H0", "不拒絕 H0"), "\n")
 ```
+:::
 
----
+## 範例 13-3 {#example-13-3}
 
-## 範例 13-3：游泳者耳部感染（配對符號檢定）
+:::{.callout-warning}
+## 游泳者耳部感染（配對符號檢定）
 
-::: {.callout-tip}
-## 問題
 研究者認為耳塞可以減少耳部感染。十名游泳者在使用耳塞**前後**的感染次數如下。在 $\alpha = 0.05$ 下，檢定耳塞是否有效減少感染。
 
 | 游泳者 | 使用前 | 使用後 | 符號（前 − 後） |
@@ -284,10 +287,12 @@ cat("決策:", ifelse(z_stat < z_crit, "拒絕 H0", "不拒絕 H0"), "\n")
 | J | 1 | 3 | − |
 :::
 
-## 範例 13-3：數學解法
+## 範例 13-3
 
-::: {.callout-tip}
-## 解題步驟
+:::{.callout-tip}
+## 解題
+
+**解題**
 
 **步驟 1：** $H_0:$ 耳塞不能減少感染；$H_1:$ 耳塞能減少感染（主張）
 
@@ -304,11 +309,11 @@ cat("決策:", ifelse(z_stat < z_crit, "拒絕 H0", "不拒絕 H0"), "\n")
 **步驟 5：** 沒有足夠證據顯示耳塞減少了感染次數。
 
 **備註：** 資料確實偏向對立假設（正號較多），但在此小樣本下差異不夠顯著。
+
 :::
 
-## 範例 13-3：R 解法
-
-```{r ex13-3, echo=T, warning=FALSE}
+## 範例 13-3
+```{r e13-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(3, 0, 5, 4, 2, 4, 3, 5, 2, 1)
 after  <- c(2, 1, 4, 0, 1, 3, 1, 3, 2, 3)
 
@@ -351,13 +356,13 @@ $$z = \frac{R - \mu_R}{\sigma_R}$$
 
 使用表 E 查臨界值（標準常態）。
 :::
+:::
 
----
+## 範例 13-4 {#example-13-4}
 
-## 範例 13-4：障礙賽完成時間
+:::{.callout-warning}
+## 障礙賽完成時間
 
-::: {.callout-tip}
-## 問題
 兩個獨立組別（陸軍：$n=12$，海軍陸戰隊：$n=11$）完成一段障礙賽。在 $\alpha = 0.05$ 下，檢定兩組完成時間是否有差異。
 
 | 陸軍 | 15 18 16 17 13 22 24 17 19 21 26 28 |
@@ -365,12 +370,12 @@ $$z = \frac{R - \mu_R}{\sigma_R}$$
 | 海軍陸戰隊 | 14 9 16 19 10 12 11 8 15 18 25 |
 :::
 
----
+## 範例 13-4
 
-## 範例 13-4：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** $H_0:$ 兩組時間無差異；$H_1:$ 有差異（主張）
 
@@ -387,13 +392,18 @@ $$z = \frac{93 - 132}{16.2} = -2.41$$
 **步驟 4：** $|-2.41| > 1.96$ → **拒絕** $H_0$
 
 **步驟 5：** 有足夠證據顯示兩組時間存在差異。
+
+:::
 :::
 
----
+## 範例 13-4
 
-## 範例 13-4：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-4, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 army    <- c(15,18,16,17,13,22,24,17,19,21,26,28)
 marines <- c(14,9,16,19,10,12,11,8,15,18,25)
 
@@ -401,10 +411,10 @@ marines <- c(14,9,16,19,10,12,11,8,15,18,25)
 result <- wilcox.test(army, marines, alternative = "two.sided", correct = FALSE)
 print(result)
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e13-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 手動計算 z 值
 all_times <- c(army, marines)
 groups    <- c(rep("Army",12), rep("Marine",11))
@@ -419,28 +429,13 @@ cat("\nR =", R, "| mu_R =", mu_R, "| sigma_R =", round(sig_R,2))
 cat("\nz =", round(z_stat,3), "| 臨界值 = +/-1.96\n")
 ```
 
-## 範例 13-4：視覺化
+## 範例 13-4
 
-```{r ex13-4-plot, echo=T, warning=FALSE}
-df_course <- data.frame(
-  time  = c(army, marines),
-  group = c(rep("陸軍",12), rep("海軍陸戰隊",11))
-)
+:::{.callout-tip}
+## 解題
 
-ggplot(df_course, aes(x = group, y = time, fill = group)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.1, size = 2) +
-  labs(title = "障礙賽完成時間",
-       x = "組別", y = "時間（分鐘）") +
-  theme(legend.position = "none")
-```
+**視覺化**
 
-# 第 13-4 節：Wilcoxon 帶號秩檢定 {background-color="#2c4a6e"}
-
-## Wilcoxon 帶號秩檢定：概述
-
-::: {.callout-note}
-## 用途
 用於**兩個相依（配對）樣本**且無法假設常態性的情況。是**配對 t 檢定**的無母數對應方法。
 
 與符號檢定不同，此方法同時考量每個差值的**大小**，而非僅有方向。
@@ -450,9 +445,9 @@ $n \leq 30$ 時：使用**表 K** 查臨界值。
 $n > 30$ 時：使用 z 近似法：
 $$z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}$$
 其中 $w_s$ = 絕對秩和中較小的那個。
-:::
 
----
+:::
+:::
 
 ## 帶號秩檢定步驟
 
@@ -466,12 +461,11 @@ $$z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}$$
 6. 若 $w_s \leq$ 表 K 的臨界值，則拒絕 $H_0$
 :::
 
----
+## 範例 13-5 {#example-13-5}
 
-## 範例 13-5：商店竊盜事件
+:::{.callout-warning}
+## 商店竊盜事件
 
-::: {.callout-tip}
-## 問題
 一家百貨公司將保全人員加倍。連續 7 天的每日竊盜件數（增加前與增加後）如下。在 $\alpha = 0.05$ 下，是否有足夠證據顯示事件件數發生改變？
 
 | 星期 | 增加前 | 增加後 |
@@ -485,9 +479,12 @@ $$z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}$$
 | 日 | 12 | 4 |
 :::
 
----
+## 範例 13-5
 
-## 範例 13-5：數學解法
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** $H_0:$ 竊盜件數無差異；$H_1:$ 有差異（主張）
 
@@ -504,7 +501,7 @@ $$z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}$$
 | 五 | 4 | 4 | 6 | +6 |
 | 六 | 2 | 2 | 3.5 | +3.5 |
 | 日 | 8 | 8 | 7 | +7 |
-
+:::
 ---
 
 $W^+ = 3.5+5+6+3.5+7 = 25$；$W^- = 1.5+1.5 = 3$；$w_s = 3$
@@ -513,10 +510,14 @@ $W^+ = 3.5+5+6+3.5+7 = 25$；$W^- = 1.5+1.5 = 3$；$w_s = 3$
 
 **步驟 5：** 沒有足夠證據顯示增加保全人員後竊盜件數有所改變。
 
+## 範例 13-5
 
-## 範例 13-5：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-5, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(7, 2, 3, 6, 5, 8, 12)
 after  <- c(5, 3, 4, 3, 1, 6, 4)
 
@@ -524,10 +525,10 @@ result <- wilcox.test(before, after, paired = TRUE,
                       alternative = "two.sided", exact = FALSE)
 print(result)
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e13-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 手動計算帶號秩次
 D      <- before - after
 D_nz   <- D[D != 0]
@@ -559,7 +560,6 @@ cat("\n決策:", ifelse(ws <= 2, "拒絕 H0", "不拒絕 H0"), "\n")
 - 此檢定永遠是**右尾**檢定
 :::
 
-
 ## Kruskal-Wallis 公式
 
 ::: {.callout-note}
@@ -575,12 +575,11 @@ $$H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \f
 **臨界值：** 由表 G 查自由度 $d.f. = k - 1$ 的 $\chi^2$ 值。若 $H > \chi^2_{crit}$，則拒絕 $H_0$。
 :::
 
----
+## 範例 13-6 {#example-13-6}
 
-## 範例 13-6：醫院感染數
+:::{.callout-warning}
+## 醫院感染數
 
-::: {.callout-tip}
-## 問題
 研究者檢視三組醫院的感染件數。在 $\alpha = 0.05$ 下，檢定各組感染分佈是否相同。
 
 | A 組 | B 組 | C 組 |
@@ -591,9 +590,12 @@ $$H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \f
 | 178 | 116 | 155 |
 :::
 
----
+## 範例 13-6
 
-## 範例 13-6：數學解法
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** $H_0:$ 各組感染分佈無差異（主張）；$H_1:$ 分佈有差異
 
@@ -606,7 +608,7 @@ $$H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \f
 | 80 | B | 1 | 105 | C | 2 | 110 | C | 3 | 116 | B | 4 |
 | 155 | C | 5 | 167 | C | 6 | 178 | A | 7 | 232 | B | 8 |
 | 315 | A | 9 | 476 | B | 10 | 557 | A | 11 | 920 | A | 12 |
-
+:::
 ---
 
 $R_A = 7+9+11+12 = 39$；$R_B = 1+4+8+10 = 23$；$R_C = 2+3+5+6 = 16$
@@ -617,11 +619,14 @@ $$H = \frac{12}{12 \cdot 13}\left(\frac{39^2}{4} + \frac{23^2}{4} + \frac{16^2}{
 
 **步驟 5：** 沒有足夠證據顯示各醫院組別的感染數有所差異。
 
----
+## 範例 13-6
 
-## 範例 13-6：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-6, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 infect <- c(557,315,920,178, 476,232,80,116, 105,110,167,155)
 group  <- factor(rep(c("A","B","C"), each = 4))
 
@@ -640,28 +645,15 @@ H <- (12/(N*(N+1))) * (R_A^2/n_each + R_B^2/n_each + R_C^2/n_each) - 3*(N+1)
 cat("\n各組秩和：A =", R_A, "B =", R_B, "C =", R_C)
 cat("\nH =", round(H, 3), "| 卡方臨界值（df=2）=", round(qchisq(0.95, 2), 3), "\n")
 ```
+:::
 
----
+## 範例 13-6
 
-## 範例 13-6：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex13-6-plot, echo=T, warning=FALSE}
-df_hosp <- data.frame(infections = infect, group = group)
+**視覺化**
 
-ggplot(df_hosp, aes(x = group, y = infections, fill = group)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.1, size = 2) +
-  labs(title = "各組醫院感染數",
-       x = "醫院組別", y = "感染件數") +
-  theme(legend.position = "none")
-```
-
-# 第 13-6 節：Spearman 等級相關係數與連串檢定 {background-color="#2c4a6e"}
-
-## Spearman 等級相關：概述
-
-::: {.callout-note}
-## 用途
 **Pearson r** 的無母數等效方法。當資料為**排序資料**或無法假設常態性時使用。
 
 $$r_s = 1 - \frac{6\sum d^2}{n(n^2 - 1)}$$
@@ -673,14 +665,15 @@ $$r_s = 1 - \frac{6\sum d^2}{n(n^2 - 1)}$$
 - $r_s \approx 0$：秩次無關聯
 
 $n \leq 30$ 時，使用**表 L** 查臨界值。
+
+:::
 :::
 
----
+## 範例 13-7 {#example-13-7}
 
-## 範例 13-7：銀行分行數與存款
+:::{.callout-warning}
+## 銀行分行數與存款
 
-::: {.callout-tip}
-## 問題
 對於 8 家地區性銀行，分行數與存款總額（十億元）之間是否有顯著關聯？$\alpha = 0.05$。
 
 | 銀行 | 分行數 | 存款（十億元） |
@@ -695,9 +688,12 @@ $n \leq 30$ 時，使用**表 L** 查臨界值。
 | H | 126 | 4 |
 :::
 
----
+## 範例 13-7
 
-## 範例 13-7：數學解法
+:::{.callout-tip}
+## 解題
+
+**數學解法**
 
 **步驟 1：** $H_0: \rho_s = 0$；$H_1: \rho_s \neq 0$
 
@@ -731,12 +727,16 @@ $$r_s = 1 - \frac{6(12)}{8(64-1)} = 1 - \frac{72}{504} = 0.857$$
 使用教科書秩次：$\sum d^2 = 12$，$r_s = 1 - 72/504 = 0.857$（部分版本因存款排序不同列為 $r_s = 0.657$）。由於 $0.657 < 0.738$ → **不拒絕** $H_0$。
 
 **步驟 5：** 沒有足夠證據顯示分行數與存款之間存在線性關聯。
+:::
 
----
+## 範例 13-7
 
-## 範例 13-7：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-7, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 branches <- c(209, 353, 19, 201, 344, 132, 401, 126)
 deposits <- c(23, 31, 7, 12, 26, 5, 24, 4)  # 注意：銀行 H 為 4 非 5
 
@@ -751,12 +751,16 @@ rs <- 1 - 6*sum(d2) / (n*(n^2 - 1))
 cat("\nd^2 總和 =", sum(d2))
 cat("\nSpearman rs =", round(rs, 3), "\n")
 ```
+:::
 
----
+## 範例 13-7
 
-## 範例 13-7：視覺化
+:::{.callout-tip}
+## 解題
 
-```{r ex13-7-plot, echo=T, warning=FALSE}
+**視覺化**
+
+```{r e13-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 df_bank <- data.frame(branches = branches, deposits = deposits)
 
 ggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +
@@ -765,8 +769,7 @@ ggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +
   labs(title = "Spearman 等級相關：分行數 vs. 存款",
        x = "分行數秩次", y = "存款秩次")
 ```
-
----
+:::
 
 ## 連串檢定：概述
 
@@ -782,12 +785,11 @@ ggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +
 使用**表 M**（雙尾，$\alpha = 0.05$）來查可接受的連串數範圍。
 :::
 
----
+## 範例 13-8 {#example-13-8}
 
-## 範例 13-8：計算連串數
+:::{.callout-warning}
+## 計算連串數
 
-::: {.callout-tip}
-## 問題
 計算以下每個序列的連串數。
 
 **a.** M M F F F M F F
@@ -797,21 +799,22 @@ ggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +
 **c.** A B A A A B B A B B B
 :::
 
----
+## 範例 13-8
 
-## 範例 13-8：解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**解題**
 
 **a.** MM | FFF | M | FF → **4 個連串**
 
 **b.** H | T | HHH → **3 個連串**
 
 **c.** A | B | AAA | BB | A | BBB → **6 個連串**
+
 :::
 
-```{r ex13-8, echo=T, warning=FALSE}
+```{r e13-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 count_runs <- function(seq) {
   n <- length(seq)
   if (n == 0) return(0)
@@ -826,24 +829,24 @@ cat("a 的連串數:", count_runs(a), "\n")
 cat("b 的連串數:", count_runs(b), "\n")
 cat("c 的連串數:", count_runs(d), "\n")
 ```
+:::
 
----
+## 範例 13-9 {#example-13-9}
 
-## 範例 13-9：火車乘客的性別
+:::{.callout-warning}
+## 火車乘客的性別
 
-::: {.callout-tip}
-## 問題
 一名列車長觀察 25 名上車乘客：**FFFMMFFFFMFMMMFFFFMMFFFMM**
 
 在 $\alpha = 0.05$ 下，檢定乘客上車順序是否為隨機。
 :::
 
----
+## 範例 13-9
 
-## 範例 13-9：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** $H_0:$ 乘客以隨機順序上車（主張）；$H_1:$ 非隨機
 
@@ -858,13 +861,18 @@ $n_1$（女性）= 15；$n_2$（男性）= 10
 **步驟 4：** 10 落在 [7, 18] 之內 → **不拒絕** $H_0$
 
 **步驟 5：** 沒有足夠證據顯示上車順序為非隨機。
+
+:::
 :::
 
----
+## 範例 13-9
 
-## 範例 13-9：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-9, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 passengers <- strsplit("FFFMMFFFFMFMMMFFFFMMFFFMM", "")[[1]]
 
 n_F    <- sum(passengers == "F")
@@ -878,25 +886,25 @@ cat("決策:", ifelse(n_runs >= 7 & n_runs <= 18,
                     "不拒絕 H0 — 資料顯示為隨機",
                     "拒絕 H0 — 資料為非隨機"), "\n")
 ```
+:::
 
----
+## 範例 13-10 {#example-13-10}
 
-## 範例 13-10：藥物戒治計畫參與者年齡
+:::{.callout-warning}
+## 藥物戒治計畫參與者年齡
 
-::: {.callout-tip}
-## 問題
 二十人依以下年齡順序加入藥物戒治計畫：
 18, 36, 19, 22, 25, 44, 23, 27, 27, 35, 19, 43, 37, 32, 28, 43, 46, 19, 20, 22
 
 在 $\alpha = 0.05$ 下，檢定年齡是否隨機出現。
 :::
 
----
+## 範例 13-10
 
-## 範例 13-10：數學解法
+:::{.callout-tip}
+## 解題
 
-::: {.callout-tip}
-## 解題步驟
+**數學解法**
 
 **步驟 1：** $H_0:$ 年齡隨機出現（主張）；$H_1:$ 非隨機
 
@@ -917,13 +925,18 @@ $n_1 = n_2 = 9$（捨棄 27 後，9 個高於中位數，9 個低於中位數）
 由於 9 落在 [5, 15] 之內 → **不拒絕** $H_0$
 
 **步驟 5：** 沒有足夠證據顯示年齡為非隨機。
+
+:::
 :::
 
----
+## 範例 13-10
 
-## 範例 13-10：R 解法
+:::{.callout-tip}
+## 解題
 
-```{r ex13-10, echo=T, warning=FALSE}
+**R 程式**
+
+```{r e13-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ages <- c(18,36,19,22,25,44,23,27,27,35,19,43,37,32,28,43,46,19,20,22)
 med  <- median(ages)
 
@@ -934,10 +947,10 @@ n_A    <- sum(labels == "A")
 n_B    <- sum(labels == "B")
 n_runs <- count_runs(labels)
 ```
-
+:::
 ---
 
-```{r, echo=T, warning=FALSE}
+```{r e13-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("中位數 =", med, "\n")
 cat("高於中位數（A）=", n_A, "| 低於中位數（B）=", n_B, "\n")
 cat("序列:", paste(labels, collapse=" "), "\n")
@@ -947,8 +960,6 @@ cat("決策:", ifelse(n_runs >= 5 & n_runs <= 15,
                     "不拒絕 H0 — 年齡顯示為隨機",
                     "拒絕 H0 — 年齡為非隨機"), "\n")
 ```
-
----
 
 ## 第十三章摘要
 
@@ -964,8 +975,6 @@ cat("決策:", ifelse(n_runs >= 5 & n_runs <= 15,
 | Spearman $r_s$ | 13-6 | 秩次間的相關 | Pearson r |
 | 連串檢定 | 13-6 | 隨機性檢定 | 無 |
 :::
-
----
 
 ## 何時使用無母數檢定
 
