@@ -1,0 +1,1559 @@
+---
+title: "統計學"
+subtitle: "第四章：機率與計數規則"
+author: "劉昱佑"
+institute: "實踐大學"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+smaller: true
+theme: serif
+footer: "Elementary Statistics: A Step by Step Approach"
+logo: "logo.svg"
+editor: source
+slide-number: true
+scrollable: false
+transition: "none"
+menu:
+  useTextContentForMissingTitles: false
+  hideMissingTitles: true
+  side: 'left'
+  titleSelector: 'h1'
+title-slide-attributes:
+  data-notes: ""
+include-after-body:
+  text: |
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch4.html" target="_blank" style="color:#555;">[English Version]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(showtext)
+
+# 中文字型（從 Google Fonts 載入）
+font_add_google("Noto Sans TC", "noto")
+showtext_auto()
+
+# ggplot 全域主題：置中 + 中文字型
+theme_set(
+  theme_minimal(base_family = "noto") +
+  theme(plot.title    = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+)
+
+# 全域 chunk 設定
+knitr::opts_chunk$set(fig.align = "center")
+```
+
+## 本章概覽
+
+**第四章：機率與計數規則**
+
+機率是統計推論的基礎。本章涵蓋：
+
+- **第 4-1 節**：樣本空間與機率
+- **第 4-2 節**：機率的加法規則
+- **第 4-3 節**：乘法規則與條件機率
+- **第 4-4 節**：計數規則
+- **第 4-5 節**：機率與計數規則的綜合應用
+
+---
+
+## 學習目標
+
+完成本章後，你將能夠：
+
+1. 確定樣本空間並計算古典機率
+2. 利用次數分配表計算經驗機率
+3. 使用加法規則求複合事件的機率
+4. 使用乘法規則求複合事件的機率
+5. 計算條件機率
+6. 利用基本計數原理求結果總數
+7. 利用排列規則求排列數
+8. 利用組合規則求組合數
+
+# 第 4-1 節：樣本空間與機率 {background-color="#2c4a6e"}
+
+---
+
+## 重要詞彙
+
+::: {.callout-note title="機率實驗"}
+**機率實驗**（probability experiment）是一種能產生明確定義結果（稱為**結果**）的過程。
+:::
+
+::: {.callout-note title="樣本空間與事件"}
+- **樣本空間**（*S*）：一次機率實驗所有可能結果的集合
+- **結果**（outcome）：一次試驗所產生的單一結果
+- **事件**（*E*）：一個或多個結果——樣本空間的子集
+- **簡單事件**：恰好只有一個結果的事件
+- **複合事件**：包含兩個或兩個以上結果的事件
+:::
+
+---
+
+## 範例 4-1：擲兩個骰子
+
+::: {.callout-tip}
+## 問題
+求擲兩個骰子的樣本空間。
+:::
+
+```{r ex4-1}
+# 產生兩個骰子的樣本空間
+die1 <- 1:6
+die2 <- 1:6
+sample_space <- expand.grid(Die1 = die1, Die2 = die2)
+sample_space$Sum <- sample_space$Die1 + sample_space$Die2
+
+cat("結果總數：", nrow(sample_space), "\n")
+
+# 以矩陣方式顯示
+ss_matrix <- matrix(paste0("(", rep(1:6, each=6), ",", rep(1:6, 6), ")"),
+                    nrow = 6, ncol = 6, byrow = TRUE)
+rownames(ss_matrix) <- paste("骰子1 =", 1:6)
+colnames(ss_matrix) <- paste("骰子2 =", 1:6)
+knitr::kable(ss_matrix, caption = "兩個骰子的樣本空間（36 個結果）")
+```
+
+---
+
+## 範例 4-2：抽一張牌
+
+::: {.callout-tip}
+## 問題
+求從一副普通撲克牌中抽一張牌的樣本空間。
+:::
+
+```{r ex4-2}
+suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
+ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
+deck <- expand.grid(Rank = ranks, Suit = suits)
+deck$Card <- paste(deck$Rank, deck$Suit)
+cat("樣本空間中的牌總數：", nrow(deck), "\n\n")
+cat("前 8 張牌：\n")
+print(deck$Card[1:8])
+```
+
+---
+
+## 範例 4-3：三個孩子的性別
+
+::: {.callout-tip}
+## 問題
+求一個有三個孩子的家庭中，記錄每個孩子性別的樣本空間。
+:::
+
+```{r ex4-3}
+genders <- c("B", "G")
+ss <- expand.grid(Child1 = genders, Child2 = genders, Child3 = genders)
+ss$Outcome <- paste0(ss$Child1, ss$Child2, ss$Child3)
+cat("樣本空間（", nrow(ss), "個結果）：\n")
+print(ss$Outcome)
+```
+
+---
+
+## 範例 4-4：樹狀圖——孩子的性別
+
+::: {.callout-tip}
+## 問題
+為三個孩子的性別繪製樹狀圖。
+:::
+
+```{r ex4-4, fig.height=4}
+library(ggplot2)
+
+# 手動指定三個孩子的樹狀結構
+nodes <- data.frame(
+  label = c("開始",
+            "B","G",
+            "BB","BG","GB","GG",
+            "BBB","BBG","BGB","BGG","GBB","GBG","GGB","GGG"),
+  x = c(0,
+        -3, 3,
+        -4.5,-1.5,1.5,4.5,
+        -5,-4,-2,-1,1,2,4,5),
+  y = c(4,
+        3,3,
+        2,2,2,2,
+        1,1,1,1,1,1,1,1)
+)
+
+edges <- data.frame(
+  x1=c(0,0,-3,-3,3,3,-4.5,-4.5,-1.5,-1.5,1.5,1.5,4.5,4.5),
+  y1=c(4,4,3,3,3,3,2,2,2,2,2,2,2,2),
+  x2=c(-3,3,-4.5,-1.5,1.5,4.5,-5,-4,-2,-1,1,2,4,5),
+  y2=c(3,3,2,2,2,2,1,1,1,1,1,1,1,1)
+)
+
+ggplot() +
+  geom_segment(data=edges, aes(x=x1,y=y1,xend=x2,yend=y2), color="steelblue") +
+  geom_label(data=nodes, aes(x=x, y=y, label=label), size=3, fill="lightyellow") +
+  theme_void() +
+  labs(title="樹狀圖：三個孩子的性別") +
+  theme(plot.title = element_text(hjust=0.5))
+```
+
+---
+
+## 古典機率
+
+::: {.callout-note title="古典機率"}
+當樣本空間中所有結果**等可能**發生時：
+
+$$P(E) = \frac{n(E)}{n(S)} = \frac{\text{事件 } E \text{ 中的結果數}}{\text{樣本空間中的結果總數}}$$
+:::
+
+::: {.callout-important title="機率規則"}
+1. $0 \leq P(E) \leq 1$，對任何事件 $E$ 均成立
+2. $P(S) = 1$（所有結果之和 = 1）
+3. $P(\emptyset) = 0$（不可能事件）
+4. $\sum P(E_i) = 1$，對所有簡單事件均成立
+:::
+
+---
+
+## 範例 4-5：抽一張牌
+
+::: {.callout-tip }
+## 問題
+從一副標準 52 張的撲克牌中抽一張牌，求抽到黑色 10 的機率。
+:::
+
+```{r ex4-5}
+# 兩張黑色 10：梅花 10 和黑桃 10
+n_event <- 2   # 黑色 10 的張數
+n_sample <- 52 # 牌的總數
+prob <- n_event / n_sample
+cat("P(黑色 10) =", n_event, "/", n_sample, "=", round(prob, 4), "= 1/26\n")
+```
+
+::: {.callout-tip }
+## 解題步驟
+共有 2 張黑色 10（梅花 10、黑桃 10），牌的總數為 52。
+$$P(\text{黑色 10}) = \frac{2}{52} = \frac{1}{26}$$
+:::
+
+---
+
+## 範例 4-6：孩子的性別
+
+::: {.callout-tip}
+## 問題
+若一個家庭有三個孩子，求恰好有兩個女孩的機率。
+:::
+
+```{r ex4-6}
+genders <- c("B","G")
+ss <- expand.grid(C1=genders, C2=genders, C3=genders)
+ss$Outcome <- paste0(ss$C1, ss$C2, ss$C3)
+ss$TwoGirls <- rowSums(ss[,1:3] == "G") == 2
+
+cat("樣本空間：", paste(ss$Outcome, collapse=", "), "\n")
+cat("恰好有 2 個女孩的結果：", paste(ss$Outcome[ss$TwoGirls], collapse=", "), "\n")
+cat("P(恰好 2 個女孩) =", sum(ss$TwoGirls), "/", nrow(ss), "=",
+    round(mean(ss$TwoGirls), 4), "\n")
+```
+
+---
+
+## 範例 4-7：抽一張牌——多重事件
+
+::: {.callout-tip}
+## 問題
+從一副標準牌中抽一張牌，求下列事件的機率：
+
+- (a) 抽到 J（傑克）
+
+- (b) 抽到梅花 6
+
+- (c) 抽到 3 或方塊
+
+- (d) 抽到 3 或 6
+:::
+
+```{r ex4-7}
+suits <- c("Hearts","Diamonds","Clubs","Spades")
+ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
+deck <- expand.grid(Rank=ranks, Suit=suits)
+
+p_jack <- sum(deck$Rank=="J") / 52
+p_6clubs <- sum(deck$Rank=="6" & deck$Suit=="Clubs") / 52
+p_3_or_diamond <- sum(deck$Rank=="3" | deck$Suit=="Diamonds") / 52
+p_3_or_6 <- sum(deck$Rank=="3" | deck$Rank=="6") / 52
+
+cat("(a) P(J)          =", p_jack, "= 4/52 = 1/13\n")
+cat("(b) P(梅花 6)     =", p_6clubs, "= 1/52\n")
+cat("(c) P(3 或方塊)   =", p_3_or_diamond, "= 16/52 = 4/13\n")
+cat("(d) P(3 或 6)     =", p_3_or_6, "= 8/52 = 2/13\n")
+```
+
+---
+
+## 範例 4-8 & 4-9：不可能事件與確定事件
+
+::: {.callout-tip}
+## 問題
+範例 4-8——不可能事件：擲一個骰子，求出現 9 的機率。
+:::
+
+$$P(9) = \frac{0}{6} = 0$$
+
+::: {.callout-tip}
+## 問題
+範例 4-9——確定事件：擲一個骰子，求出現小於 7 的數字的機率。
+:::
+
+$$P(\text{數字} < 7) = \frac{6}{6} = 1$$
+
+---
+
+## 餘事件
+
+::: {.callout-note title="補集規則"}
+事件 $E$ 的**補集**（餘事件），記為 $\bar{E}$，包含所有**不在** $E$ 中的結果。
+
+$$P(\bar{E}) = 1 - P(E)$$
+:::
+
+---
+
+## 範例 4-10：求餘事件
+
+::: {.callout-tip}
+## 問題
+求下列每個事件的餘事件：
+
+- (a) 擲骰子得到 4
+
+- (b) 從一年的各月份中選一個月，得到有 31 天的月份
+
+- (c) 從一週的每天中選一天，得到工作日
+:::
+
+```{r ex4-10}
+months_31 <- c("Jan","Mar","May","Jul","Aug","Oct","Dec")
+months_not_31 <- c("Feb","Apr","Jun","Sep","Nov")
+
+cat("(a) 得到 4 的餘事件：{1, 2, 3, 5, 6}\n")
+cat("(b) 有 31 天月份的餘事件：{", paste(months_not_31, collapse=", "), "}\n")
+cat("(c) 工作日的餘事件：{星期六, 星期日}\n")
+```
+
+---
+
+## 範例 4-11：居住地
+
+::: {.callout-tip}
+## 問題
+若一個人住在工業化國家的機率為 1/5，求此人**不**住在工業化國家的機率。
+:::
+
+```{r ex4-11}
+p_industrial <- 1/5
+p_not_industrial <- 1 - p_industrial
+cat("P(工業化國家) =", p_industrial, "\n")
+cat("P(非工業化國家) = 1 -", p_industrial, "=", p_not_industrial, "\n")
+```
+
+---
+
+## 範例 4-12：旅遊調查
+
+::: {.callout-tip}
+## 問題
+在一項調查中，25 人中有 3 人表示過去一年曾搭飛機旅行。求隨機選出一人，此人過去一年**沒有**搭飛機的機率。
+:::
+
+```{r ex4-12}
+p_fly <- 3/25
+p_not_fly <- 1 - p_fly
+cat("P(搭飛機) =", p_fly, "\n")
+cat("P(未搭飛機) = 1 -", p_fly, "=", p_not_fly, "=", 22, "/", 25, "\n")
+```
+
+---
+
+## 經驗機率
+
+::: {.callout-note title="經驗機率"}
+**經驗機率（相對次數機率）**是根據觀察到的資料計算的：
+
+$$P(E) = \frac{\text{事件 } E \text{ 的次數}}{\text{總次數}} = \frac{f}{n}$$
+:::
+
+---
+
+## 範例 4-13：血型
+
+::: {.callout-tip}
+## 問題
+在 50 人的樣本中，21 人為 O 型血，22 人為 A 型，5 人為 B 型，2 人為 AB 型。求隨機選出一人，此人為 O 型或 B 型的機率。
+:::
+
+```{r ex4-13}
+blood <- data.frame(
+  Type = c("O","A","B","AB"),
+  Frequency = c(21,22,5,2)
+)
+blood$RelFreq <- blood$Frequency / sum(blood$Frequency)
+knitr::kable(blood, digits=3, col.names=c("血型","次數","相對次數"),
+             caption="血型分佈（n=50）")
+
+p_O <- 21/50
+p_B <- 5/50
+cat("\nP(O 型) =", p_O, "\n")
+cat("P(B 型) =", p_B, "\n")
+cat("P(O 型或 B 型) =", p_O + p_B, "\n")
+```
+
+---
+
+## 範例 4-14：住院天數
+
+::: {.callout-tip}
+## 問題
+下列分佈顯示 127 位產科病患的住院天數。求病患住院天數的機率：
+
+- (a) 恰好 4 天
+
+- (b) 至多 4 天
+
+- (c) 至少 5 天
+:::
+
+----
+
+```{r ex4-14}
+hospital <- data.frame(Days=3:7, Freq=c(15,32,56,19,5))
+hospital$P <- hospital$Freq / sum(hospital$Freq)
+knitr::kable(hospital, digits=4, col.names=c("天數","次數","P(X)"),
+             caption="住院天數分佈（n=127）")
+cat("(a) P(恰好 4 天)  =", round(32/127,4), "\n")
+cat("(b) P(至多 4 天)  =", round((15+32)/127,4), "\n")
+cat("(c) P(至少 5 天)  =", round((56+19+5)/127,4), "\n")
+```
+
+---
+
+## 機率的類型
+
+::: {.callout-note title="三種機率類型"}
+| 類型 | 定義 | 範例 |
+|---|---|---|
+| **古典機率** | 等可能結果；基於理論 | 擲一個公平骰子 |
+| **經驗機率** | 基於觀察/實驗 | 次數調查資料 |
+| **主觀機率** | 基於合理推測 | 天氣預報 |
+:::
+
+::: {.callout-important title="大數法則"}
+隨著實驗試驗次數增加，**經驗機率**會趨近於**理論（古典）機率**。
+:::
+
+# 第 4-2 節：機率的加法規則 {background-color="#2c4a6e"}
+
+---
+
+## 互斥事件
+
+::: {.callout-note title="互斥事件"}
+若兩個事件 $A$ 與 $B$ **不能同時發生**——即沒有共同結果——則稱它們為**互斥事件**。
+:::
+
+::: {.callout-note title="加法規則 1——互斥事件"}
+當兩個事件 $A$ 與 $B$ 互斥時：
+$$P(A \text{ 或 } B) = P(A) + P(B)$$
+:::
+
+::: {.callout-note title="加法規則 2——非互斥事件"}
+當 $A$ 與 $B$ **非**互斥時：
+$$P(A \text{ 或 } B) = P(A) + P(B) - P(A \text{ 且 } B)$$
+:::
+
+---
+
+## 範例 4-15：擲骰子——互斥性
+
+::: {.callout-tip}
+## 問題
+擲一個骰子，判斷下列哪些事件對是互斥的：
+
+- (a) 奇數與偶數
+
+- (b) 出現 3 與出現奇數
+
+- (c) 奇數與小於 4 的數
+
+- (d) 大於 4 的數與小於 4 的數
+:::
+
+```{r ex4-15}
+outcomes <- 1:6
+odd <- outcomes[outcomes %% 2 != 0]
+even <- outcomes[outcomes %% 2 == 0]
+lt4 <- outcomes[outcomes < 4]
+gt4 <- outcomes[outcomes > 4]
+
+cat("(a) 奇數:", odd, "| 偶數:", even, "| 重疊:", intersect(odd, even),
+    "→ 互斥\n")
+cat("(b) {3} vs 奇數:", odd, "| 重疊:", intersect(3, odd),
+    "→ 非互斥\n")
+cat("(c) 奇數:", odd, "vs <4:", lt4, "| 重疊:", intersect(odd, lt4),
+    "→ 非互斥\n")
+cat("(d) >4:", gt4, "vs <4:", lt4, "| 重疊:", intersect(gt4, lt4),
+    "→ 互斥\n")
+```
+
+---
+
+## 範例 4-16：抽一張牌——互斥性
+
+::: {.callout-tip}
+## 問題
+抽一張牌，判斷下列哪些事件是互斥的：
+
+- (a) 7 與傑克（J）
+
+- (b) 梅花與國王（K）
+
+- (c) 人頭牌與 A
+
+- (d) 人頭牌與黑桃
+:::
+
+```{r ex4-16}
+cat("(a) 同時得到 7 和 J：一張牌不可能同時為兩個面值 → 互斥\n")
+cat("(b) 同時得到梅花和 K：存在梅花 K → 非互斥\n")
+cat("(c) 人頭牌和 A：A 不是人頭牌 → 互斥\n")
+cat("(d) 人頭牌和黑桃：存在黑桃 J/Q/K → 非互斥\n")
+```
+
+---
+
+## 範例 4-17：選擇咖啡店
+
+::: {.callout-tip}
+## 問題
+某市有 9 家咖啡店：3 家星巴克、2 家 Caribou Coffee 和 4 家 Crazy Mocha Coffee。求隨機選出一家，該店為星巴克或 Crazy Mocha 的機率。
+:::
+
+```{r ex4-17}
+shops <- data.frame(Brand = c("Starbucks","Caribou","Crazy Mocha"), Count=c(3,2,4))
+total <- sum(shops$Count)
+p_starbucks <- 3/total
+p_crazy <- 4/total
+p_or <- p_starbucks + p_crazy
+
+cat("P(星巴克或 Crazy Mocha) = P(星巴克) + P(Crazy Mocha)\n")
+cat("                        =", p_starbucks, "+", p_crazy, "=", p_or, "= 7/9\n")
+```
+
+---
+
+## 範例 4-18：研發部門員工
+
+::: {.callout-tip}
+## 問題
+三家公司的研發中心分別有 110 人（美國鋼鐵）、750 人（Alcoa）和 250 人（拜耳）。求隨機選出一名員工，此人在美國鋼鐵或 Alcoa 工作的機率。
+:::
+
+```{r ex4-18}
+employees <- c("US Steel"=110, "Alcoa"=750, "Bayer"=250)
+total <- sum(employees)
+p <- employees / total
+cat("員工總數：", total, "\n")
+cat("P(美國鋼鐵或 Alcoa) =", employees["US Steel"], "+", employees["Alcoa"],
+    "/", total, "=", (employees["US Steel"]+employees["Alcoa"])/total, "\n")
+cat("                    = 860/1110 = 86/111 ≈", round(860/1110,4), "\n")
+```
+
+---
+
+## 範例 4-19：一週中的某天
+
+::: {.callout-tip}
+## 問題
+隨機選取一天，求選到週末的機率。
+:::
+
+```{r ex4-19}
+p_saturday <- 1/7
+p_sunday <- 1/7
+p_weekend <- p_saturday + p_sunday
+cat("P(星期六或星期日) = 1/7 + 1/7 =", p_weekend, "= 2/7\n")
+```
+
+---
+
+## 範例 4-20：抽一張牌（非互斥）
+
+::: {.callout-tip}
+## 問題
+求從一副牌中抽一張牌，抽到 A 或黑色牌的機率。
+:::
+
+```{r ex4-20}
+suits <- c("Hearts","Diamonds","Clubs","Spades")
+ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
+deck <- expand.grid(Rank=ranks, Suit=suits)
+deck$IsAce <- deck$Rank=="A"
+deck$IsBlack <- deck$Suit %in% c("Clubs","Spades")
+deck$IsAceOrBlack <- deck$IsAce | deck$IsBlack
+
+cat("A 的張數:", sum(deck$IsAce), "| 黑色牌數:", sum(deck$IsBlack),
+    "| 黑色 A:", sum(deck$IsAce & deck$IsBlack), "\n")
+cat("P(A 或黑色) = 4/52 + 26/52 - 2/52 =", (4+26-2)/52, "= 28/52 = 7/13\n")
+```
+
+---
+
+## 範例 4-21：醫療人員
+
+::: {.callout-tip}
+## 問題
+某病房有 8 名護士和 5 名醫師；其中 7 名護士和 3 名醫師為女性。求隨機選出一名員工，此人為護士或男性的機率。
+:::
+
+```{r ex4-21}
+staff <- data.frame(
+  Staff = c("護士","醫師","合計"),
+  Female = c(7,3,10),
+  Male = c(1,2,3),
+  Total = c(8,5,13)
+)
+knitr::kable(staff, caption="醫院人員組成")
+
+cat("\nP(護士或男性) = P(護士) + P(男性) - P(男性護士)\n")
+cat("              = 8/13 + 3/13 - 1/13 =", (8+3-1)/13, "= 10/13\n")
+```
+
+---
+
+## 範例 4-22：酒後駕車
+
+::: {.callout-tip}
+## 問題
+P(酒後駕車) = 0.32，P(發生事故) = 0.09，P(酒後駕車且發生事故) = 0.06。求 P(酒後駕車或發生事故)。
+:::
+
+```{r ex4-22}
+p_int <- 0.32
+p_acc <- 0.09
+p_both <- 0.06
+p_or <- p_int + p_acc - p_both
+cat("P(酒後駕車或發生事故) = P(酒駕) + P(事故) - P(兩者)\n")
+cat("                      =", p_int, "+", p_acc, "-", p_both, "=", p_or, "\n")
+```
+
+---
+
+## 加法規則的文氏圖
+
+```{r,echo=FALSE}
+library(ggplot2)
+
+# 輔助函數：產生圓的座標
+get_circle_coords <- function(cx, cy, r, group, npoints = 100) {
+  theta <- seq(0, 2 * pi, length.out = npoints)
+  data.frame(
+    x = cx + r * cos(theta),
+    y = cy + r * sin(theta),
+    group = group
+  )
+}
+
+# 1. 產生互斥（無重疊）的資料
+me_A <- get_circle_coords(cx = 2, cy = 5, r = 1.5, group = "A")
+me_B <- get_circle_coords(cx = 6, cy = 5, r = 1.5, group = "B")
+me_data <- rbind(me_A, me_B)
+me_data$condition <- "互斥（無重疊）"
+
+# 2. 產生非互斥（有重疊）的資料
+nme_A <- get_circle_coords(cx = 3, cy = 5, r = 1.5, group = "A")
+nme_B <- get_circle_coords(cx = 5, cy = 5, r = 1.5, group = "B")
+nme_data <- rbind(nme_A, nme_B)
+nme_data$condition <- "非互斥（有重疊）"
+
+# 合併資料集
+venn_data <- rbind(me_data, nme_data)
+
+# 建立文字標註的資料框
+labels_data <- data.frame(
+  x = c(2, 6,
+        2.3, 5.7, 4,
+        4,
+        4),
+  y = c(5, 5,
+        5, 5, 5,
+        2.8,
+        2.8),
+  label = c("A", "B",
+            "A", "B", "A 且 B",
+            "P(A 或 B) = P(A) + P(B)",
+            "P(A 或 B) = P(A) + P(B) - P(A 且 B)"),
+  condition = c("互斥（無重疊）", "互斥（無重疊）",
+                "非互斥（有重疊）", "非互斥（有重疊）",
+                "非互斥（有重疊）",
+                "互斥（無重疊）",
+                "非互斥（有重疊）")
+)
+
+# 使用 ggplot2 繪圖
+ggplot(venn_data, aes(x = x, y = y, fill = group)) +
+  geom_polygon(alpha = 0.4, color = "black", linewidth = 1) +
+  geom_text(data = labels_data, aes(x = x, y = y, label = label),
+            inherit.aes = FALSE, size = 4.5, fontface = "bold") +
+  facet_wrap(~condition) +
+  scale_fill_manual(values = c("A" = "#377eb8", "B" = "#e41a1c")) +
+  theme_void() +
+  theme(
+    strip.text = element_text(size = 14, face = "bold", margin = margin(b = 10)),
+    legend.position = "none"
+  ) +
+  coord_fixed()
+```
+
+
+
+# 第 4-3 節：乘法規則與條件機率 {background-color="#2c4a6e"}
+
+---
+
+## 獨立事件與相依事件
+
+::: {.callout-note title="獨立事件"}
+若事件 $A$ 的發生**不影響**事件 $B$ 發生的機率，則稱 $A$ 與 $B$ 為**獨立事件**。
+:::
+
+::: {.callout-note title="乘法規則 1——獨立事件"}
+$$P(A \text{ 且 } B) = P(A) \cdot P(B)$$
+
+對多個獨立事件：$P(A_1 \text{ 且 } A_2 \cdots \text{ 且 } A_k) = P(A_1) \cdot P(A_2) \cdots P(A_k)$
+:::
+
+---
+
+## 範例 4-23：擲硬幣並投骰子
+
+::: {.callout-tip}
+## 問題
+擲一枚硬幣並投一個骰子，求 P(正面且 4)。
+:::
+
+```{r ex4-23}
+p_head <- 1/2
+p_four <- 1/6
+p_both <- p_head * p_four
+cat("P(正面且 4) = P(正面) × P(4) =", p_head, "×", p_four, "=", p_both, "= 1/12\n")
+
+# 以樣本空間驗證
+ss <- expand.grid(Coin=c("H","T"), Die=1:6)
+cat("由樣本空間計算 P:", sum(ss$Coin=="H" & ss$Die==4)/nrow(ss), "\n")
+```
+
+---
+
+## 範例 4-24：抽牌（有放回）
+
+::: {.callout-tip}
+## 問題
+從一副牌中抽一張後放回，再抽第二張。求 P(先抽到 Q，再抽到 A)。
+:::
+
+```{r ex4-24}
+p_queen <- 4/52
+p_ace <- 4/52
+p_both <- p_queen * p_ace
+cat("P(Q 後 A) = P(Q) × P(A) =", p_queen, "×", p_ace, "\n")
+cat("          =", p_both, "= 16/2704 = 1/169\n")
+```
+
+---
+
+## 範例 4-25：選取有色球（有放回）
+
+::: {.callout-tip}
+## 問題
+甕中有 3 個紅球、2 個藍球和 5 個白球。取出一個球，記錄後放回，再取第二個。求：
+
+1. P(2 個藍球)
+
+2. P(藍球後白球)
+
+3. P(紅球後藍球)
+:::
+
+```{r ex4-25}
+p_blue <- 2/10; p_white <- 5/10; p_red <- 3/10
+cat("1. P(藍且藍)  =", p_blue, "×", p_blue, "=", p_blue^2, "= 4/100 = 1/25\n")
+cat("2. P(藍且白)  =", p_blue, "×", p_white, "=", p_blue*p_white, "= 1/10\n")
+cat("3. P(紅且藍)  =", p_red, "×", p_blue, "=", p_red*p_blue, "= 6/100 = 3/50\n")
+```
+
+---
+
+## 範例 4-26：壓力調查
+
+::: {.callout-tip}
+## 問題
+Harris 民調發現，46% 的美國人每週至少有一次感受到嚴重壓力。若隨機選取 3 人，求 3 人都每週至少有一次感受到嚴重壓力的機率。
+:::
+
+```{r ex4-26}
+p_stress <- 0.46
+p_all3 <- p_stress^3
+cat("P(S 且 S 且 S) = (0.46)³ =", round(p_all3, 4), "≈ 0.097\n")
+```
+
+---
+
+## 範例 4-27：色盲
+
+::: {.callout-tip}
+## 問題
+約 9% 的男性有紅綠色盲。若隨機選取 3 名男性，求三人都有色盲的機率。
+:::
+
+```{r ex4-27}
+p_cb <- 0.09
+p_all3 <- p_cb^3
+cat("P(三人都色盲) = (0.09)³ =", p_all3, "≈ 0.0007\n")
+```
+
+---
+
+## 相依事件
+
+::: {.callout-note title="相依事件"}
+若**第一個事件**的結果或機率**影響**到**第二個事件**發生的機率，則稱這些事件為**相依事件**。
+:::
+
+::: {.callout-note title="乘法規則 2——相依事件"}
+$$P(A \text{ 且 } B) = P(A) \cdot P(B|A)$$
+
+其中 $P(B|A)$ 是在 $A$ 已發生的條件下，$B$ 發生的**條件機率**。
+:::
+
+---
+
+## 範例 4-28：大學犯罪
+
+::: {.callout-tip}
+## 問題
+某大學 2003 年發生 5 起竊盜案，2004 年 16 起，2005 年 32 起。研究人員隨機選取 2 件案例調查，求兩件都發生在 2004 年的機率。
+:::
+
+```{r ex4-28}
+total <- 5 + 16 + 32  # 53
+p_c1 <- 16/53
+p_c2_given_c1 <- 15/52  # 未放回
+p_both <- p_c1 * p_c2_given_c1
+cat("竊盜案總數：", total, "\n")
+cat("P(兩件都在 2004 年) = 16/53 × 15/52 =", round(p_both,4), "= 60/689\n")
+```
+
+---
+
+## 範例 4-29：房屋保險與汽車保險
+
+::: {.callout-tip}
+## 問題
+某市 53% 的居民投保房屋險（H），其中 27% 的人也向同一家公司投保汽車險（A）。求 P(H 且 A)。
+:::
+
+```{r ex4-29}
+p_H <- 0.53
+p_A_given_H <- 0.27
+p_both <- p_H * p_A_given_H
+cat("P(H 且 A) = P(H) × P(A|H) =", p_H, "×", p_A_given_H, "=", p_both, "\n")
+```
+
+---
+
+## 範例 4-30：抽牌（不放回）
+
+::: {.callout-tip}
+## 問題
+從一副牌中不放回地抽三張牌，求：
+
+1. P(3 張 J)
+
+2. P(依序抽到 A、K、Q)
+
+3. P(依序抽到梅花、黑桃、紅心)
+
+4. P(3 張梅花)
+:::
+
+```{r ex4-30}
+cat("1. P(3 張 J)      = 4/52 × 3/51 × 2/50 =",
+    round(4/52 * 3/51 * 2/50, 6), "= 1/5525\n")
+cat("2. P(A,K,Q)       = 4/52 × 4/51 × 4/50 =",
+    round(4/52 * 4/51 * 4/50, 6), "= 8/16575\n")
+cat("3. P(梅花,黑桃,紅心) = 13/52 × 13/51 × 13/50 =",
+    round(13/52 * 13/51 * 13/50, 6), "= 169/10200\n")
+cat("4. P(3 張梅花)    = 13/52 × 12/51 × 11/50 =",
+    round(13/52 * 12/51 * 11/50, 6), "= 11/850\n")
+```
+
+---
+
+## 範例 4-31：選取有色球（樹狀圖）
+
+::: {.callout-tip}
+## 問題
+箱 1 有 2 個紅球和 1 個藍球；箱 2 有 3 個藍球和 1 個紅球。擲硬幣：正面→箱 1；反面→箱 2，再取出一個球。求 P(紅球)。
+:::
+
+```{r ex4-31}
+# 使用全機率定理
+p_box1 <- 1/2; p_box2 <- 1/2
+p_red_box1 <- 2/3; p_red_box2 <- 1/4
+
+p_red <- p_box1 * p_red_box1 + p_box2 * p_red_box2
+cat("P(紅球) = P(箱1)×P(紅|箱1) + P(箱2)×P(紅|箱2)\n")
+cat("        =", p_box1, "×", p_red_box1, "+", p_box2, "×", p_red_box2, "\n")
+cat("        =", p_box1*p_red_box1, "+", p_box2*p_red_box2, "=", p_red, "= 11/24\n")
+```
+
+---
+
+## 條件機率
+
+::: {.callout-note title="條件機率公式"}
+在事件 $A$ 已發生的條件下，事件 $B$ 發生的**條件機率**：
+
+$$P(B|A) = \frac{P(A \text{ 且 } B)}{P(A)}$$
+:::
+
+---
+
+## 範例 4-32：選取有色籌碼
+
+::: {.callout-tip}
+## 問題
+P(黑色籌碼且白色籌碼) = 15/56。P(第一次抽到黑色籌碼) = 3/8。求 P(白色 | 第一次黑色)。
+:::
+
+```{r ex4-32}
+p_B_and_W <- 15/56
+p_B <- 3/8
+p_W_given_B <- p_B_and_W / p_B
+cat("P(白|黑) = P(黑且白) / P(黑) =", p_B_and_W, "/", p_B, "=", p_W_given_B, "= 5/7\n")
+```
+
+---
+
+## 範例 4-33：違規停車罰單
+
+::: {.callout-tip}
+## 問題
+P(停在禁停區且收到罰單) = 0.06。P(停在禁停區) = 0.20。求 P(收到罰單 | 停在禁停區)。
+:::
+
+```{r ex4-33}
+p_N_and_T <- 0.06
+p_N <- 0.20
+p_T_given_N <- p_N_and_T / p_N
+cat("P(罰單|禁停) = P(禁停且罰單)/P(禁停) =", p_N_and_T, "/", p_N, "=", p_T_given_N, "\n")
+```
+
+---
+
+## 範例 4-34：女性從軍調查
+
+::: {.callout-tip}
+## 問題
+對 100 人進行調查，詢問女性是否應參與戰鬥。結果如下：
+
+| | 是 | 否 | 合計 |
+|--|--|--|--|
+| 男性 | 32 | 18 | 50 |
+| 女性 | 8 | 42 | 50 |
+| **合計** | 40 | 60 | 100 |
+
+求：
+
+1. P(是 | 女性)
+
+2. P(男性 | 否)
+:::
+
+```{r ex4-34}
+survey <- matrix(c(32,18,8,42), nrow=2,
+                 dimnames=list(c("Male","Female"), c("Yes","No")))
+total <- sum(survey)
+
+p_yes_given_female <- survey["Female","Yes"] / sum(survey["Female",])
+p_male_given_no <- survey["Male","No"] / sum(survey[,"No"])
+
+cat("1. P(是 | 女性) =", survey["Female","Yes"], "/", sum(survey["Female",]),
+    "=", round(p_yes_given_female,4), "= 4/25\n")
+cat("2. P(男性 | 否) =", survey["Male","No"], "/", sum(survey[,"No"]),
+    "=", round(p_male_given_no,4), "= 3/10\n")
+```
+
+---
+
+## 「至少」的機率
+
+::: {.callout-important title="「至少一個」的策略"}
+處理「至少一個」的問題時，使用補集：
+$$P(\text{至少一個}) = 1 - P(\text{一個都沒有})$$
+:::
+
+---
+
+## 範例 4-35：抽牌——至少一張 A
+
+::: {.callout-tip}
+## 問題
+一個遊戲有放回地抽 4 張牌，求 P(至少 1 張 A)。
+:::
+
+```{r ex4-35}
+p_no_ace_one <- 48/52
+p_no_ace_four <- p_no_ace_one^4
+p_at_least_one_ace <- 1 - p_no_ace_four
+cat("P(4 次都沒有 A) = (48/52)⁴ =", round(p_no_ace_four, 4), "\n")
+cat("P(至少 1 張 A)  = 1 -", round(p_no_ace_four,4), "=", round(p_at_least_one_ace,4), "\n")
+```
+
+---
+
+## 範例 4-36：擲硬幣
+
+::: {.callout-tip}
+## 問題
+擲一枚硬幣 5 次，求 P(至少 1 次反面)。
+:::
+
+```{r ex4-36}
+p_all_heads <- (1/2)^5
+p_at_least_one_tail <- 1 - p_all_heads
+cat("P(全部正面) = (1/2)⁵ =", p_all_heads, "= 1/32\n")
+cat("P(至少 1 次反面) = 1 - 1/32 =", p_at_least_one_tail, "= 31/32\n")
+```
+
+---
+
+## 範例 4-37：蝴蝶結領帶
+
+::: {.callout-tip}
+## 問題
+領帶銷售中有 3% 為蝴蝶結領帶。若隨機選取 4 位購買領帶的顧客，求 P(至少 1 人購買蝴蝶結領帶)。
+:::
+
+```{r ex4-37}
+p_bow <- 0.03
+p_not_bow <- 1 - p_bow
+p_none <- p_not_bow^4
+p_at_least_one <- 1 - p_none
+cat("P(沒有蝴蝶結領帶) = (0.97)⁴ =", round(p_none,4), "\n")
+cat("P(至少 1 條蝴蝶結領帶) = 1 -", round(p_none,4), "=", round(p_at_least_one,4), "\n")
+```
+
+# 第 4-4 節：計數規則 {background-color="#2c4a6e"}
+
+---
+
+## 三種計數規則
+
+::: {.callout-note title="三種計數規則"}
+為確定可能結果的總數：
+
+1. **基本計數原理**：將每個步驟的選擇數相乘
+
+2. **排列規則**：**順序有關**的排列方式
+
+3. **組合規則**：**順序無關**的選取方式
+:::
+
+::: {.callout-note title="基本計數原理"}
+在 $n$ 個依序發生的事件中，第一個事件有 $k_1$ 種可能，第二個有 $k_2$ 種，依此類推：
+$$\text{結果總數} = k_1 \cdot k_2 \cdot k_3 \cdots k_n$$
+:::
+
+---
+
+## 範例 4-38：擲硬幣並投骰子
+
+::: {.callout-tip}
+## 問題
+擲一枚硬幣並投一個骰子，求結果的總數。
+:::
+
+```{r ex4-38}
+coin_outcomes <- 2
+die_outcomes <- 6
+total <- coin_outcomes * die_outcomes
+cat("結果總數 = 2 × 6 =", total, "\n")
+
+# 顯示所有結果
+ss <- expand.grid(Coin=c("H","T"), Die=1:6)
+ss$Outcome <- paste0(ss$Coin, ss$Die)
+cat("樣本空間：", paste(ss$Outcome, collapse=", "), "\n")
+```
+
+---
+
+## 範例 4-39：油漆的種類
+
+::: {.callout-tip}
+## 問題
+一家油漆製造商提供 7 種顏色、2 種類型（乳膠/油性）、3 種質地（平光/半光/高光澤）和 2 種用途（戶外/室內）。共可製造幾種不同的油漆？
+:::
+
+```{r ex4-39}
+colors <- 7; types <- 2; textures <- 3; uses <- 2
+total <- colors * types * textures * uses
+cat("油漆總數 = 7 × 2 × 3 × 2 =", total, "\n")
+```
+
+---
+
+## 範例 4-40：血型標記
+
+::: {.callout-tip}
+## 問題
+血型可分為 A、B、AB 或 O；Rh 因子為 Rh+ 或 Rh−；性別為男（M）或女（F）。共有幾種不同的標記方式？
+:::
+
+```{r ex4-40}
+blood_type <- 4; rh_factor <- 2; gender <- 2
+total <- blood_type * rh_factor * gender
+cat("標記總數 = 4 × 2 × 2 =", total, "\n")
+labels <- expand.grid(Type=c("A","B","AB","O"), Rh=c("+","-"), Gender=c("M","F"))
+cat("範例標記：", paste(labels$Type[1:4], labels$Rh[1:4], labels$Gender[1:4], sep=""), "\n")
+```
+
+---
+
+## 範例 4-41：識別卡
+
+::: {.callout-tip}
+## 問題
+一家商店使用四位數字（1–6）的識別卡。若
+
+1. 允許重複，
+
+2. 不允許重複，
+
+分別有幾種不同的識別卡？
+:::
+
+```{r ex4-41}
+# 允許重複
+with_rep <- 6^4
+cat("1. 允許重複：   6 × 6 × 6 × 6 =", with_rep, "\n")
+
+# 不允許重複
+without_rep <- 6 * 5 * 4 * 3
+cat("2. 不允許重複：6 × 5 × 4 × 3 =", without_rep, "\n")
+```
+
+---
+
+## 階乘符號與排列
+
+::: {.callout-note title="階乘符號"}
+$$n! = n \cdot (n-1) \cdot (n-2) \cdots 1 \qquad \text{且} \qquad 0! = 1$$
+:::
+
+::: {.callout-note title="排列規則"}
+從 $n$ 個物件中取 $r$ 個進行排列（順序有關）：
+$$_nP_r = \frac{n!}{(n-r)!}$$
+:::
+
+---
+
+## 範例 4-42：商業地點
+
+::: {.callout-tip}
+## 問題
+一位商業主將全部 5 個地點進行排名，有幾種不同的排名方式？
+:::
+
+```{r ex4-42}
+n <- 5
+total <- factorial(n)
+cat("5! = 5 × 4 × 3 × 2 × 1 =", total, "種不同排名\n")
+cat("用排列公式：₅P₅ =", factorial(5)/factorial(5-5), "\n")
+```
+
+```{r}
+factorial(5) / factorial(5-5)
+```
+
+---
+
+## 範例 4-43 & 4-44：排列
+
+::: {.callout-tip}
+## 問題
+1. 從 5 個地點中選出排名前 3 的地點，有幾種排列方式？
+
+2. 一個電視節目的廣告主管有 7 支廣告，她需要從中選 1 支播放於節目開場、1 支播放於節目中段、1 支播放於節目結尾，請問共有幾種可能的排列方式？
+:::
+
+```{r ex4-43-44}
+# 範例 4-43
+n <- 5; r <- 3
+perm_5_3 <- factorial(n)/factorial(n-r)
+cat("\n範例 4-43：₅P₃ = 5!/(5-3)! = 5!/2! =", perm_5_3, "\n")
+
+# 範例 4-44：電視廣告
+n2 <- 7; r2 <- 3
+perm_7_3 <- factorial(n2)/factorial(n2-r2)
+cat("\n範例 4-44：₇P₃ = 7!/(7-3)! =", perm_7_3, "種安排 7 支廣告中 3 支的方式\n")
+```
+
+```{r,echo=TRUE}
+# 範例 4-43
+n <- 5; r <- 3
+factorial(n) / factorial(n-r)
+
+# 範例 4-44：電視廣告
+n2 <- 7; r2 <- 3
+factorial(n2) / factorial(n2-r2)
+```
+
+---
+
+## 範例 4-45：學校音樂劇
+
+::: {.callout-tip}
+## 問題
+一位導演從 9 個劇目中選 2 個——一個在秋季演出，一個在春季演出。共有幾種排列方式？
+:::
+
+```{r ex4-45}
+n <- 9; r <- 2
+perm <- factorial(n)/factorial(n-r)
+cat("₉P₂ = 9!/(9-2)! = 9!/7! =", perm, "種不同排列\n")
+```
+
+```{r,echo=TRUE}
+n <- 9; r <- 2
+factorial(n) / factorial(n-r)
+```
+
+---
+
+## 組合
+
+::: {.callout-note title="組合規則"}
+從 $n$ 個物件中選取 $r$ 個，**順序無關**：
+$$_nC_r = \frac{n!}{(n-r)!\, r!}$$
+:::
+
+**關鍵區別：** 在**排列**中，AB ≠ BA；在**組合**中，AB = BA。
+
+---
+
+## 範例 4-46：字母——排列 vs. 組合
+
+::: {.callout-tip}
+## 問題
+列出從 {A, B, C, D} 中選取 2 個字母的排列與組合。
+:::
+
+```{r ex4-46}
+letters4 <- c("A","B","C","D")
+# 排列：順序有關
+perms <- expand.grid(First=letters4, Second=letters4)
+perms <- perms[perms$First != perms$Second, ]
+perms$Perm <- paste0(perms$First, perms$Second)
+cat("排列（", nrow(perms), "種）：", paste(perms$Perm, collapse=", "), "\n\n")
+
+# 組合：順序無關
+combos <- t(combn(letters4, 2))
+combo_strings <- paste0(combos[,1], combos[,2])
+cat("組合（", length(combo_strings), "種）：", paste(combo_strings, collapse=", "), "\n")
+```
+
+```{r,echo=TRUE}
+n <- 4; r <- 2
+factorial(n) / factorial(n-r)
+```
+
+```{r,echo=TRUE}
+n <- 4; r <- 2
+factorial(n) / factorial(n-r) / factorial(r)
+```
+
+---
+
+## 範例 4-47 & 4-48：組合計算
+
+::: {.callout-tip}
+## 問題
+1. 從 4 個物件中每次取 2 個，共有幾種組合？
+
+2. 一位報紙編輯收到 8 本書待評論，他決定在報紙上刊登其中 3 篇評論，請問可以有幾種不同的選法？
+:::
+
+```{r ex4-47-48}
+cat("範例 4-47：\n")
+cat("₄C₂ = 4!/(4-2)!2! = 4!/(2!2!) =", choose(4,2), "\n\n")
+
+cat("範例 4-48：報紙編輯有 8 本書；選 3 本評論。\n")
+cat("₈C₃ = 8!/(8-3)!3! = 8!/(5!3!) =", choose(8,3), "\n")
+```
+
+```{r,echo=TRUE}
+# 範例 4-47
+choose(4,2)
+
+# 範例 4-48
+choose(8,3)
+```
+
+---
+
+## 範例 4-49：委員會選拔
+
+::: {.callout-tip}
+## 問題
+一個社團有 7 名女性和 5 名男性，要組成一個由 3 名女性和 2 名男性組成的委員會。共有幾種可能的組合？
+:::
+
+```{r ex4-49}
+women_choices <- choose(7, 3)
+men_choices <- choose(5, 2)
+total <- women_choices * men_choices
+
+cat("從 7 人中選 3 名女性：₇C₃ =", women_choices, "\n")
+cat("從 5 人中選 2 名男性：₅C₂ =", men_choices, "\n")
+cat("合計 = ₇C₃ × ₅C₂ =", women_choices, "×", men_choices, "=", total, "\n")
+```
+
+```{r,echo=TRUE}
+choose(7, 3)*choose(5, 2)
+```
+
+---
+
+## 計數規則摘要
+
+```{r counting-summary}
+summary_table <- data.frame(
+  Rule = c("基本計數原理","排列","組合"),
+  `使用時機` = c("獨立選擇的順序序列",
+                    "排列，順序有關",
+                    "選取，順序無關"),
+  Formula = c("k₁ × k₂ × ··· × kₙ",
+              "ₙPᵣ = n!/(n-r)!",
+              "ₙCᵣ = n!/[(n-r)!r!]")
+)
+knitr::kable(summary_table, caption="計數規則摘要")
+```
+
+# 第 4-5 節：機率與計數規則的綜合應用 {background-color="#2c4a6e"}
+
+---
+
+## 結合計數與機率
+
+::: {.callout-important title="解題策略"}
+利用計數規則分別確定**事件**和**樣本空間**中的結果數，再套用古典機率公式：
+$$P(E) = \frac{n(E)}{n(S)}$$
+:::
+
+---
+
+## 範例 4-50：四張 A
+
+::: {.callout-tip}
+## 問題
+從一副標準撲克牌中抽 5 張牌，求恰好抽到 4 張 A 的機率。
+:::
+
+```{r ex4-50}
+# 從 52 張牌中抽 5 張的總方式
+total_5card <- choose(52, 5)
+cat("5 張牌的總組合數：C(52,5) =", total_5card, "\n")
+
+# 得到 4 張 A 的方式：C(4,4) × C(48,1) = 1 × 48
+ways_4aces <- choose(4,4) * choose(48,1)
+cat("得到 4 張 A 的方式：C(4,4) × C(48,1) =", ways_4aces, "\n")
+
+p_4aces <- ways_4aces / total_5card
+cat("P(4 張 A) =", ways_4aces, "/", total_5card, "=", round(p_4aces, 6), "= 1/54145\n")
+```
+
+```{r,echo=TRUE}
+choose(4, 4)*choose(48, 1)/choose(52, 5)
+```
+
+---
+
+## 範例 4-51：瑕疵電晶體
+
+::: {.callout-tip}
+## 問題
+一個箱子有 24 個電晶體，其中 4 個有瑕疵。隨機賣出 4 個，求：
+
+1. P(恰好 2 個有瑕疵)
+
+2. P(沒有瑕疵品)
+
+3. P(全部都是瑕疵品)
+
+4. P(至少 1 個瑕疵品)
+:::
+
+```{r ex4-51}
+total_4 <- choose(24, 4)
+cat("從 24 個中選 4 個的總方式：C(24,4) =", total_4, "\n\n")
+
+# 1. 恰好 2 個瑕疵品：C(4,2) × C(20,2)
+a <- choose(4,2) * choose(20,2)
+cat("(a) P(恰好 2 個瑕疵品) = C(4,2)×C(20,2)/C(24,4) =",
+    a, "/", total_4, "=", round(a/total_4, 4), "\n")
+
+# 2. 沒有瑕疵品：C(20,4)
+b <- choose(20,4)
+cat("(b) P(沒有瑕疵品)      = C(20,4)/C(24,4) =",
+    b, "/", total_4, "=", round(b/total_4, 4), "\n")
+
+# 3. 全部都是瑕疵品：C(4,4)=1
+c_val <- choose(4,4)
+cat("(c) P(全部都是瑕疵品)  =", c_val, "/", total_4, "=", round(c_val/total_4, 8), "\n")
+
+# 4. 至少 1 個瑕疵品
+d_val <- 1 - b/total_4
+cat("(d) P(至少 1 個瑕疵品) = 1 -", round(b/total_4,4), "=", round(d_val,4), "\n")
+```
+
+---
+
+```{r,echo=TRUE}
+den <- choose(24,4)
+choose(4,2) * choose(20,2) / den
+choose(20,4) / den
+choose(4,4) / den
+1 - choose(20,4) / den
+```
+
+---
+
+## 範例 4-52：雜誌
+
+::: {.callout-tip}
+## 問題
+一家商店有 6 本《TV Graphic》和 8 本《Newstime》雜誌。兩位顧客各買一本，求 P(兩人各買一種不同雜誌)。
+:::
+
+```{r ex4-52}
+# 各買一本不同類型
+ways_event <- choose(6,1) * choose(8,1)
+ways_total <- choose(14,2)
+
+cat("選 1 本各類型的方式：C(6,1) × C(8,1) =", ways_event, "\n")
+cat("從 14 本中選 2 本的總方式：C(14,2) =", ways_total, "\n")
+cat("P(各一種) =", ways_event, "/", ways_total, "=", round(ways_event/ways_total, 4), "= 48/91\n")
+```
+
+```{r,echo=TRUE}
+choose(6,1) * choose(8,1) / choose(14,2)
+```
+
+---
+
+## 範例 4-53：密碼鎖
+
+::: {.callout-tip}
+## 問題
+一個密碼鎖使用 26 個英文字母，求 3 個字母的密碼恰好按順序為 ABC 的機率（允許重複）。
+:::
+
+```{r ex4-53}
+# 允許重複的有序組合總數：26^3
+total <- 26^3
+p_ABC <- 1 / total
+cat("允許重複的 3 字母組合總數：26³ =", total, "\n")
+cat("P(按順序為 ABC) = 1/", total, "=", round(p_ABC, 8), "\n")
+```
+
+```{r,echo=TRUE}
+1 / 26^3
+```
+
+---
+
+## 範例 4-54：網球錦標賽
+
+::: {.callout-tip}
+## 問題
+一個網球俱樂部有 8 對已婚夫妻。若隨機選 1 名男性和 1 名女性負責規劃錦標賽，求他們恰好是夫妻的機率。
+:::
+
+```{r ex4-54}
+# 總方式：8 名男性 × 8 名女性 = 64 種
+total_ways <- 8 * 8
+# 有利結果：8 對夫妻
+favorable <- 8
+p_married <- favorable / total_ways
+cat("選 1 名男性和 1 名女性的總方式：", total_ways, "\n")
+cat("有利結果（已婚夫妻）：", favorable, "\n")
+cat("P(已婚夫妻) =", favorable, "/", total_ways, "=", p_married, "= 1/8\n")
+```
+
+```{r,echo=TRUE}
+8 / (8 * 8)
+```
+
+---
+
+## 撲克牌手機率
+
+```{r poker, echo=FALSE}
+poker <- data.frame(
+  Hand = c("同花順","四條","葫蘆","同花","順子","三條","兩對","一對","不成牌"),
+  Ways = c(40,624,3744,5108,10200,54912,123552,1098240,1302540),
+  Probability = c(0.000015,0.000240,0.001441,0.001965,0.003925,
+                  0.021129,0.047539,0.422569,0.501177)
+)
+knitr::kable(poker, caption="5 張撲克牌的手機率", digits=6)
+```
+
+---
+
+## 第四章摘要
+
+::: {.callout-note title="重要公式"}
+| 概念 | 公式 |
+|---|---|
+| 古典機率 | $P(E) = n(E)/n(S)$ |
+| 經驗機率 | $P(E) = f/n$ |
+| 補集 | $P(\bar{E}) = 1 - P(E)$ |
+| 加法規則 1（互斥） | $P(A \text{ 或 } B) = P(A) + P(B)$ |
+| 加法規則 2 | $P(A \text{ 或 } B) = P(A) + P(B) - P(A \text{ 且 } B)$ |
+| 乘法規則 1（獨立） | $P(A \text{ 且 } B) = P(A) \cdot P(B)$ |
+| 乘法規則 2（相依） | $P(A \text{ 且 } B) = P(A) \cdot P(B\|A)$ |
+| 條件機率 | $P(B\|A) = P(A \text{ 且 } B)/P(A)$ |
+| 排列 | $_nP_r = n!/(n-r)!$ |
+| 組合 | $_nC_r = n!/[(n-r)!\,r!]$ |
+:::
+
+## 版權聲明
+
+-   **版權聲明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有權利均由原作者及出版商保留。
+
+-   **僅限非商業使用。** 本材料僅供教育目的使用，不得用於任何商業活動或營利目的。
+
+-   **適當引用。** 任何複製、散布或使用本材料時，均須適當引用原始資料來源。
