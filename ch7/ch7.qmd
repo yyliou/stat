@@ -146,7 +146,6 @@ A researcher wants to estimate the average number of days it takes to sell a Che
 
 A survey of 30 emergency room patients found an average waiting time of 174.3 minutes. The population standard deviation is known to be 46.5 minutes. Find the best point estimate and the **99% confidence interval** of the true mean waiting time.
 
-:::
 
 **Solution (Mathematical):**
 
@@ -203,17 +202,17 @@ $$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
 
 where E is the desired **margin of error**. Always round **up** to the next whole number.
 
-:::
 
 **What you need to know:**
 - The desired confidence level (determines $z_{\alpha/2}$)
 - The population standard deviation σ (or an estimate from a prior study)
 - The acceptable margin of error E
+:::
 
 ## Example 7-4 {#example-7-4}
+
 :::{.callout-warning}
 A scientist wants to estimate the average depth of a river. She wants to be **99% confident** that the estimate is accurate within **2 feet**. A previous study found σ = 4.33 feet. Find the minimum sample size needed.
-:::
 
 **Solution (Mathematical):**
 
@@ -230,11 +229,14 @@ ceiling(n_raw)  # Always round UP
 
 **Answer:** The scientist needs at least **32 measurements** to achieve the desired precision with 99% confidence.
 
+:::
+
 # Section 7-2: Confidence Intervals for the Mean When σ Is Unknown {background-color="#2c4a6e"}
 
 ## The t Distribution
 
 When σ is unknown, the sample standard deviation s is used as a substitute. However, this introduces additional uncertainty — especially for small samples. The appropriate distribution is the **Student's t distribution**.
+
 
 ::: {.callout-note}
 ## Characteristics of the t Distribution
@@ -247,7 +249,6 @@ When σ is unknown, the sample standard deviation s is used as a substitute. How
 1. Variance is greater than 1 (heavier tails)
 2. It is a **family of curves** indexed by **degrees of freedom** (d.f.)
 3. As d.f. increases, the t distribution approaches the standard normal
-:::
 :::
 ---
 
@@ -289,7 +290,6 @@ where $t_{\alpha/2}$ is from Table F with d.f. = n − 1.
 ## Decision Rule
 - **σ is known** → use $z_{\alpha/2}$ with σ in the formula (any n, if normal or $n \geq 30$)
 - **σ is unknown** → use $t_{\alpha/2}$ with s in the formula (normal population or $n \geq 30$)
-:::
 
 ```{r e7-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 knitr::kable(data.frame(
@@ -298,12 +298,14 @@ knitr::kable(data.frame(
   Use = c("z and σ", "z and σ", "t and s", "t and s")
 ), caption = "When to Use z vs. t")
 ```
+:::
 
 ## Example 7-5: Finding $t_{\alpha/2}$ {.smaller}
 
-::: {.callout-tip}
+
 
 ## Example 7-5 {#example-7-5}
+
 
 :::{.callout-warning}
 For a confidence interval, always use `qt(1 - alpha/2, df = n-1)`.
@@ -319,7 +321,6 @@ For a 95% CI: `qt(0.975, df = n-1)`.
 
 Ten randomly selected people reported their nightly sleep duration. The sample mean was 7.1 hours and the standard deviation was 0.78 hour. Find the **95% confidence interval** of the mean. Assume the variable is normally distributed.
 
-:::
 
 **Solution (Mathematical):**
 
@@ -375,7 +376,6 @@ $$\hat{p} = \frac{X}{n} \quad \text{(sample proportion)} \qquad \hat{q} = \frac{
 where X = number of units in the sample with the characteristic of interest, n = sample size.
 
 The population proportion is denoted **p** (and q = 1 − p).
-:::
 
 The sample proportion $\hat{p}$ is an unbiased, consistent, and relatively efficient estimator of p. It also serves as the best point estimate of p.
 
@@ -383,8 +383,10 @@ The sample proportion $\hat{p}$ is an unbiased, consistent, and relatively effic
 $$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}$$
 
 **Condition:** $n\hat{p} \geq 5$ and $n\hat{q} \geq 5$
+:::
 
 ## Example 7-8 {#example-7-8}
+
 
 :::{.callout-warning}
 ## Air-Conditioned Households
@@ -477,7 +479,6 @@ Always round **up** to the next whole number.
 ## Example 7-11 {#example-7-11}
 :::{.callout-warning}
 A researcher wishes to estimate with **95% confidence** the proportion of people who own a home computer, to within **2%** of the true proportion. A previous study showed that 40% had a computer at home. Find the minimum sample size needed.
-:::
 
 **Solution:**
 
@@ -492,10 +493,12 @@ n_raw
 ceiling(n_raw)
 ```
 
+:::
+
 ## Example 7-12 {#example-7-12}
+
 :::{.callout-warning}
 A researcher wishes to estimate the percentage of M&M's that are brown. He wants to be **95% confident** and accurate within **3%** of the true proportion. No prior estimate of $\hat{p}$ is available. Find the minimum sample size.
-:::
 
 **Solution:**
 
@@ -687,6 +690,7 @@ cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
 ```
 
 **Answer:** $15.0 < \sigma^2 < 76.3$; $3.87 < \sigma < 8.73$ dollars.
+:::
 
 ## Chapter 7 Summary {.smaller}
 
@@ -715,4 +719,3 @@ cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
 -   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
-:::

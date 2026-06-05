@@ -111,8 +111,6 @@ knitr::opts_chunk$set(fig.align = "center")
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
-
 ```{r e4-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 產生兩個骰子的樣本空間
 die1 <- 1:6
@@ -222,13 +220,24 @@ edges <- data.frame(
   y2=c(3,3,2,2,2,2,1,1,1,1,1,1,1,1)
 )
 
-ggplot() +
+dia <- ggplot() +
   geom_segment(data=edges, aes(x=x1,y=y1,xend=x2,yend=y2), color="steelblue") +
   geom_label(data=nodes, aes(x=x, y=y, label=label), size=3, fill="lightyellow") +
   theme_void() +
   labs(title="樹狀圖：三個孩子的性別") +
   theme(plot.title = element_text(hjust=0.5))
 ```
+
+:::
+
+---
+
+:::{.callout-tip}
+## 解題
+```{r e4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+dia
+```
+
 :::
 
 ## 古典機率
@@ -264,7 +273,6 @@ $$P(E) = \frac{n(E)}{n(S)} = \frac{\text{事件 } E \text{ 中的結果數}}{\te
 共有 2 張黑色 10（梅花 10、黑桃 10），牌的總數為 52。
 $$P(\text{黑色 10}) = \frac{2}{52} = \frac{1}{26}$$
 
-:::
 :::
 
 ## 範例 4-6 {#example-4-6}
@@ -457,8 +465,6 @@ $$P(E) = \frac{\text{事件 } E \text{ 的次數}}{\text{總次數}} = \frac{f}{
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
-
 ```{r e4-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 blood <- data.frame(
   Type = c("O","A","B","AB"),
@@ -494,10 +500,6 @@ cat("P(O 型或 B 型) =", p_O + p_B, "\n")
 
 :::{.callout-tip}
 ## 解題
-
-**R 程式**
-
-----
 
 ```{r e4-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 hospital <- data.frame(Days=3:7, Freq=c(15,32,56,19,5))
@@ -775,7 +777,7 @@ cat("                      =", p_int, "+", p_acc, "-", p_both, "=", p_or, "\n")
 
 ## 加法規則的文氏圖
 
-```{r e4-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e4-22-2, echo=F, warning=FALSE, out.width="80%", fig.align='center'}
 library(ggplot2)
 
 # 輔助函數：產生圓的座標
@@ -1274,9 +1276,10 @@ p_at_least_one <- 1 - p_none
 cat("P(沒有蝴蝶結領帶) = (0.97)⁴ =", round(p_none,4), "\n")
 cat("P(至少 1 條蝴蝶結領帶) = 1 -", round(p_none,4), "=", round(p_at_least_one,4), "\n")
 ```
+:::
 
 # 第 4-4 節：計數規則 {background-color="#2c4a6e"}
-:::
+
 
 ## 三種計數規則
 
@@ -1447,6 +1450,8 @@ factorial(5) / factorial(5-5)
 
 2. 一個電視節目的廣告主管有 7 支廣告，她需要從中選 1 支播放於節目開場、1 支播放於節目中段、1 支播放於節目結尾，請問共有幾種可能的排列方式？
 :::
+
+---
 
 ```{r e4-43-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 範例 4-43
@@ -1805,7 +1810,7 @@ cat("P(已婚夫妻) =", favorable, "/", total_ways, "=", p_married, "= 1/8\n")
 
 ## 撲克牌手機率
 
-```{r e4-54-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e4-54-3, echo=F, warning=FALSE, out.width="80%", fig.align='center'}
 poker <- data.frame(
   Hand = c("同花順","四條","葫蘆","同花","順子","三條","兩對","一對","不成牌"),
   Ways = c(40,624,3744,5108,10200,54912,123552,1098240,1302540),
@@ -1838,4 +1843,4 @@ knitr::kable(poker, caption="5 張撲克牌的手機率", digits=6)
 
 -   **僅限非商業使用。** 本材料僅供教育目的使用，不得用於任何商業活動或營利目的。
 
--   **適當引用。** 任何複製、散布或使用本材料時，均須適當引用原始資料來源。
+-   **適當引用。** 任何複製、散布或使用本材料時，均須適當引用原始??

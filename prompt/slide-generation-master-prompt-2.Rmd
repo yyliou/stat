@@ -1,0 +1,658 @@
+---
+title: "Master Specification for Auto-Generating Quarto Revealjs Statistics Slides"
+subtitle: "A complete, self-contained prompt for AI-assisted chapter slide generation"
+author: "Yu-You Liou"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+> **How to use this document.** Paste the whole file to the AI agent and say: *"Generate `chX.qmd` (and `chX-zh.qmd`) for Chapter X following this specification exactly."* The agent MUST read the document end-to-end before producing any slide content, and MUST run the validation checklist in Section 12 before returning a file. This specification is the single source of truth; it supersedes any conflicting habit or default.
+
+---
+
+# Context and Goals
+
+These slides accompany a university-level introductory statistics course based on **Bluman, A. G. (2011). *Elementary Statistics: A Step by Step Approach* (8th ed.). McGraw-Hill**. Each chapter is delivered as a Quarto Revealjs (`.qmd`) presentation that renders to a self-contained `.html` deck.
+
+Design goals, in priority order:
+
+1. **Structural correctness** — the deck must render without error and every callout box must be perfectly balanced (this is the single most common failure; see Section 5).
+2. **Pedagogical clarity** — definitions, rules, and worked R examples follow a fixed, predictable layout so students always know where to look.
+3. **Consistency across chapters** — `ch2`–`ch5` are the **clean reference standard**. When in doubt, match those files.
+4. **Bilingual parity** — every chapter has an English `chX.qmd` and a Traditional-Chinese `chX-zh.qmd` that are structurally identical (see Section 11).
+
+---
+
+# YAML Front Matter (fixed)
+
+Every slide file begins with the YAML header below. Modify **only**: `subtitle` (chapter number and title) and the language-switch link target (`chX-zh.html` in the English file, `chX.html` in the Chinese file). Everything else is fixed and must be reproduced verbatim, including indentation.
+
+````yaml
+---
+title: "Statistics"
+subtitle: "Chapter X: <Chapter Title>"
+author: "Yu-You Liou"
+institute: "Shih Chien University"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
+title-slide-attributes:
+  data-notes: ""
+include-after-body:
+  text: |
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="chX-zh.html"  style="color:#555;">[中文版由此去]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+---
+````
+
+> In the **Chinese** file, the link text becomes `[English version]` and the target becomes `chX.html`.
+
+Immediately after the YAML header, include the global setup chunk. Add only the libraries the chapter actually uses; `tidyverse` is always present.
+
+````````{r,eval= F}
+```{r setup, include=FALSE}
+library(tidyverse)
+# add only what the chapter needs, e.g.:
+# library(ggplot2)
+```
+````````
+
+> **Indentation warning.** The `format: revealjs:` block must keep its nested indentation. A known broken file (`ch-example.qmd`) lost the indentation under `revealjs:` so the options were ignored — do not replicate that. Verify the nesting matches the block above exactly.
+
+---
+
+# Overall Slide Sequence
+
+Slides must appear in this mandatory order:
+
+```
+Title slide (auto-generated from YAML)
+  ↓
+## Overview                         (theme paragraph + Section/Topics table)
+  ↓
+# Section X-1: <Name> {background-color="#2c4a6e"}   (divider)
+   ## content slides, definitions, rules, examples ...
+  ↓
+# Section X-2: <Name> {background-color="#2c4a6e"}
+   ...
+  ↓
+(additional sections)
+  ↓
+## Key Formulas      (only if the chapter has multiple central formulae)
+  ↓
+## Key Takeaways     (mandatory, penultimate)
+  ↓
+## Acknowledgement   (mandatory, final, fixed text)
+```
+
+Slides are separated by a bare horizontal rule: three hyphens `---` alone on a line. New top-level content opens with a `##` heading; a new section opens with a single `#` divider.
+
+---
+
+# The Overview Slide
+
+The slide right after the title is **Overview**: one short paragraph naming the chapter's central theme, followed by a two-column table summarizing each section.
+
+```markdown
+## Overview
+
+Chapter X introduces <one-sentence description of the chapter's central theme>.
+
+| Section | Topics |
+|---------|--------|
+| X-1     | <key topics of Section X-1> |
+| X-2     | <key topics of Section X-2> |
+| X-3     | <key topics of Section X-3> |
+```
+
+Rules:
+
+- The table has **exactly two columns**: `Section` and `Topics`. No more.
+- Keep the theme sentence to one line; bold the key phrase.
+- An optional `::: {.callout-note}` titled "Key Vocabulary" listing the chapter's core terms as a bullet list is permitted on the Overview slide (used in later chapters such as `ch8`), but the Section/Topics table is still required.
+
+---
+
+# Callout Boxes — THE CRITICAL RULE
+
+Callouts are the most error-prone element. The following rules are **non-negotiable** and are the #1 thing to verify before returning any file.
+
+## The closing rule
+
+**Every callout MUST be closed with its own `:::` before anything else begins.** A callout has exactly this shape:
+
+```markdown
+::: {.callout-xxx}
+## <Callout Title>
+
+<content>
+:::
+```
+
+You may open the next callout, the next `##` slide, or the next `# Section` divider **only after** the current callout's closing `:::` has appeared. Concretely, a closing `:::` is required before each of:
+
+- another `::: {.callout-...}` opener,
+- a slide separator `---`,
+- a `## ` slide heading,
+- a `# Section ...` divider.
+
+## Forbidden patterns (each caused real render breakage)
+
+1. **Missing close** — content runs straight into the next slide heading or the next section with no `:::`. (Most common; especially frequent in hypothesis-testing chapters where multi-step examples flow into `# Section` dividers.)
+2. **Extra/stray opener-adjacent `:::`** — an opener immediately followed by a spurious `:::`, e.g.:
+
+   ```markdown
+   ::: {.callout-note}
+   :::            <- WRONG: creates an empty callout, pushes title/content outside the box
+   ## Term
+   ```
+3. **Heading trapped inside a callout** — the closing `:::` placed *after* a `## ` slide heading, swallowing the next slide into the box. This does not show up as a count imbalance, so it must be checked structurally, not just by counting.
+4. **Orphan `:::`** — a lone `:::` with no matching opener (including stray bytes left from edits).
+
+## Style convention
+
+Write the opener as `::: {.callout-xxx}` (space after `:::`) and give the callout a `## ` titled heading on the next line, matching the `ch2`–`ch5` reference. The four callout types and their roles are fixed (Section 6). Do not mix in `###` headings inside callouts; use `## `.
+
+---
+
+# Callout Types and Their Roles
+
+Use exactly these four types for these purposes:
+
+| Type | Purpose |
+|------|---------|
+| `callout-note` | **Definitions** of terminology and key vocabulary |
+| `callout-important` | **Rules, guidelines, formulas, error tables** — formal/methodological content |
+| `callout-warning` | **Example problem statements**, and separately a **"Caution"** box for caveats/boundary conditions |
+| `callout-tip` | **Solutions** to worked examples (always titled `## Solution`) |
+
+## Definitions — `callout-note`
+
+```markdown
+::: {.callout-note}
+## Frequency Distribution
+
+A **frequency distribution** is a table that organizes data values (or ranges of values)
+along with the count of how often each value or range occurs in the dataset.
+:::
+```
+
+Bold the defined term; typeset any math in LaTeX (Section 9).
+
+## Rules / Guidelines / Error tables — `callout-important`
+
+```markdown
+::: {.callout-important}
+## Six Construction Guidelines
+
+1. Use between **5 and 20 classes** — enough to show pattern without excessive detail.
+2. The **class width** should be an odd number when possible so midpoints are whole numbers.
+3. Classes must be **mutually exclusive** — each value belongs to exactly one class.
+4. Classes must be **continuous** — no gaps, even if some classes have zero frequency.
+5. Classes must be **exhaustive** — every value falls into some class.
+6. Classes should be **equal in width** (except possibly the first or last).
+
+Formula: $\text{Class width} \approx \dfrac{\text{highest} - \text{lowest}}{\text{number of classes}}$
+:::
+```
+
+Decision tables (e.g., the Type I / Type II error matrix) also use `callout-important` with a Markdown table inside.
+
+---
+
+# Worked Examples
+
+Worked examples are the core of every chapter. They follow a strict question → solution layout with cross-navigation.
+
+## Question slide
+
+- Title carries a named anchor: `## Example X-Y {#example-X-Y}`.
+- The problem statement sits in a `callout-warning` box whose `## ` heading is the example's descriptive title.
+- Raw data laid out in rows/columns goes inside a **fenced code block with no language tag** (triple backticks) so spacing is preserved.
+- If a later example reuses this one's data/results, add a back-link at the bottom of the box.
+
+```markdown
+## Example X-Y {#example-X-Y}
+
+::: {.callout-warning}
+## <Example Title>
+
+<Problem statement.>
+
+```
+<raw data, aligned in columns>
+```
+
+Back to [Example X-Z](#example-X-Z)   <- only if cited elsewhere
+:::
+```
+
+## Solution slide(s)
+
+- Separate question from solution with a bare `---`.
+- Repeat `## Example X-Y` **without** re-declaring the anchor.
+- Put the solution in a `callout-tip` titled `## Solution`.
+- **Prefix each step with a bold descriptor** of what that slide does: `**Prepare data**`, `**Draw figure**`, `**Output figure**`, `**Check conditions**`, `**Step 1**`, etc.
+- If the solution spans multiple slides, add another `---`, repeat `## Example X-Y`, and open a fresh `callout-tip`. **Close every `callout-tip` before the next `---`.**
+
+```markdown
+---
+
+## Example X-Y
+
+::: {.callout-tip}
+## Solution
+
+**Prepare data**
+
+```{r eX-Y-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# R code
+```
+:::
+
+---
+
+## Example X-Y
+
+::: {.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r eX-Y-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# R code
+```
+:::
+```
+
+## R chunk label convention
+
+Labels follow `e<chapter>-<example>-<slide sequence>`, e.g. the 3rd slide of Example 2 in Chapter 2 is `e2-2-3`. **Labels must be globally unique within the file.** Duplicate labels break the render.
+
+## Caution boxes
+
+For a boundary condition, approximation caveat, or methodological warning, add a **separate** `callout-warning` titled `## Caution` (distinct from the problem statement box):
+
+```markdown
+::: {.callout-warning}
+## Caution
+
+Here $np = 5,\ nq = 5$ — exactly at the minimum threshold; the normal approximation may be less accurate for small $n$.
+:::
+```
+
+## Hypothesis-testing example pattern (Chapters 8+)
+
+Hypothesis-test examples use a numbered-step solution inside the `callout-tip`. State hypotheses with LaTeX, compute the test statistic in R, then decide:
+
+```markdown
+## Example 8-7 {#example-8-7}
+
+::: {.callout-warning}
+## z Test for a Mean
+
+A researcher claims the average wind speed in a city is 8 mph. A sample of 32 days
+gives $\bar{X} = 8.2$ mph, $\sigma = 0.6$. Use $\alpha = 0.05$.
+:::
+
+---
+
+## Example 8-7
+
+::: {.callout-tip}
+## Solution
+
+**Step 1.** $H_0:\ \mu = 8$ *(claim)*; $H_1:\ \mu \neq 8$ *(two-tailed)*.
+
+**Step 2 — compute the test value**
+
+```{r e8-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+xbar <- 8.2; mu <- 8; sigma <- 0.6; n <- 32
+z <- (xbar - mu) / (sigma / sqrt(n))
+round(z, 2)
+p_val <- 2 * (1 - pnorm(abs(z)))   # two-tailed P-value
+round(p_val, 4)
+```
+
+**Step 3.** Since $P = 0.0588 > \alpha = 0.05$, **do not reject $H_0$**.
+
+**Step 4.** There is not enough evidence to reject the claim that the average wind speed is 8 mph.
+:::
+```
+
+> **Reminder.** The `callout-warning` and `callout-tip` here are on different slides; each is closed by its own `:::` before the `---`. Never let a hypothesis-test example flow into the next `# Section` divider without closing its callout first.
+
+---
+
+# Cross-Example Navigation
+
+When a later example cites an earlier one, make the reference a hyperlink and add a reciprocal back-link in the cited example's question box.
+
+In the later example's statement:
+
+```markdown
+Using the blood type data from [Example 2-1](#example-2-1), construct a pie graph.
+```
+
+In the earlier (cited) example's `callout-warning`, before its closing `:::`:
+
+```markdown
+Back to [Example 2-5](#example-2-5)
+```
+
+This bidirectional linking lets readers jump between related examples in both directions.
+
+---
+
+# Mathematical Notation
+
+**All math — symbols, variables, expressions — must be LaTeX. Unicode math characters are prohibited.** This includes the hypothesis-testing symbols that are easy to type as Unicode.
+
+| Prohibited (Unicode) | Required (LaTeX) |
+|----------------------|------------------|
+| `n ≥ 30` | `$n \geq 30$` |
+| `μ`, `σ`, `α`, `β` | `$\mu$`, `$\sigma$`, `$\alpha$`, `$\beta$` |
+| `H₀`, `H₁` | `$H_0$`, `$H_1$` |
+| `X̄`, `x̄` | `$\bar{X}$`, `$\bar{x}$` |
+| `χ²`, `σ²` | `$\chi^2$`, `$\sigma^2$` |
+| `≠`, `≤`, `≥`, `×`, `°` | `$\neq$`, `$\leq$`, `$\geq$`, `$\times$`, `^\circ` |
+| `%` inside an equation | `$\% = \frac{f}{n}\times 100$` |
+
+Inline math uses `$...$`; display math uses `$$...$$`. Examples:
+
+```markdown
+The class width is $\text{Class width} \approx \dfrac{H - L}{k}$.
+
+$$\% = \frac{f}{n} \times 100$$
+```
+
+> Some existing chapter files still contain Unicode `H₀`, `α`, `χ²`, etc. Those are legacy and should be converted to LaTeX when touched; new files must be pure LaTeX from the start.
+
+---
+
+# R Code Standards
+
+Default chunk options for every R chunk unless a slide genuinely needs otherwise:
+
+```
+echo = T, warning = FALSE, out.width = "80%", fig.align = 'center'
+```
+
+Conventions:
+
+- Render tables with `knitr::kable(df, align = "c")`.
+- Build figures with `ggplot2`; prefer `theme_void()` / clean themes for charts like pie graphs.
+- Keep data vectors aligned in readable rows inside the chunk (mirrors the raw-data block on the question slide).
+- When a figure is heavy, split "build the object" and "print the object" across two slides using the `**Draw figure**` / `**Output figure**` step descriptors.
+- Every chunk label is unique (Section 7).
+
+---
+
+# Bilingual Workflow (`chX.qmd` + `chX-zh.qmd`)
+
+Each chapter ships in two structurally identical files:
+
+- `chX.qmd` — English. Language link: `[中文版由此去]` → `chX-zh.html`.
+- `chX-zh.qmd` — Traditional Chinese. Language link: `[English version]` → `chX.html`.
+
+Rules for the Chinese version:
+
+- Translate prose, slide titles, callout titles, Overview text, Key Takeaways, and example narrative into Traditional Chinese (Taiwan usage).
+- **Do not translate**: R code, chunk labels, variable names, anchors (`{#example-X-Y}`), LaTeX, the Acknowledgement block, or any YAML field except the language-link target.
+- Keep the **same slide count, same anchors, same example numbering, and same callout structure** so the two decks stay in lockstep.
+- The Acknowledgement slide text stays in English in both versions (it is a fixed copyright notice).
+
+---
+
+# Mandatory Closing Slides
+
+## Key Formulas (conditional)
+
+Include only if the chapter has several central formulae. Place it immediately before Key Takeaways.
+
+```markdown
+## Key Formulas
+
+::: {.callout-important}
+## Important Formulas
+
+$$\text{Class width} \approx \frac{\text{highest} - \text{lowest}}{\text{number of classes}}$$
+
+$$X_m = \frac{\text{lower limit} + \text{upper limit}}{2}$$
+
+$$\% = \frac{f}{n} \times 100$$
+:::
+```
+
+## Key Takeaways (mandatory, penultimate)
+
+Concise declarative statements, math in LaTeX:
+
+```markdown
+## Key Takeaways
+
+1. <First key insight.>
+2. <Second key insight.>
+3. The normal approximation to the binomial applies when $np \geq 5$ **and** $nq \geq 5$.
+```
+
+## Acknowledgement (mandatory, final, fixed text)
+
+Reproduce verbatim; do not alter:
+
+```markdown
+## Acknowledgement
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
+```
+
+---
+
+# Validation Checklist (run before returning the file)
+
+Before delivering any `.qmd`, verify ALL of the following. The callout checks are the highest priority — they have repeatedly broken real decks.
+
+**Callout integrity**
+
+- [ ] Every `::: {.callout-...}` has exactly one matching closing `:::`.
+- [ ] No callout opener is immediately followed by a stray `:::` (no empty callouts).
+- [ ] No `## ` slide heading or `# Section` divider is trapped *inside* a callout — every heading/divider sits *after* a closing `:::`.
+- [ ] No orphan `:::` (lone closer with no opener) and no stray NULL/control bytes.
+- [ ] Total `:::` count is even and balanced.
+
+**Structure**
+
+- [ ] YAML matches Section 2 exactly, including the nested indentation under `revealjs:`.
+- [ ] Order is: Title → Overview → Sections → (Key Formulas) → Key Takeaways → Acknowledgement.
+- [ ] Overview table has exactly two columns.
+- [ ] Section dividers use single `#` with `{background-color="#2c4a6e"}`.
+- [ ] Acknowledgement text is verbatim.
+
+**Examples & code**
+
+- [ ] Every example question slide has an anchor `{#example-X-Y}`; solution slides repeat the title without re-declaring the anchor.
+- [ ] All R chunk labels follow `e<ch>-<ex>-<seq>` and are globally unique.
+- [ ] Cited examples have reciprocal back-links.
+
+**Math**
+
+- [ ] No Unicode math characters anywhere; all math is LaTeX (`$...$` / `$$...$$`).
+
+**Bilingual (if producing both)**
+
+- [ ] `chX.qmd` and `chX-zh.qmd` have identical slide count, anchors, and callout structure; only prose/titles are translated; the language link target is correct in each.
+
+**Reference balance algorithm.** This Python check passes on all current clean chapters (`ch2`–`ch14`) with zero issues; reproduce its logic when self-checking. Note the two subtleties: (a) skip everything inside fenced code blocks so R comments like `# build the figure` are not mistaken for section dividers; (b) the **first** `## ` line right after a callout opener is the callout's *title* and is allowed — only a **second** `## ` inside the same open callout signals a trapped slide heading.
+
+```python
+import re, glob
+def check(f):
+    txt = open(f, encoding="utf-8", errors="replace").read()
+    depth = 0; title_seen = 0; in_fence = False; issues = []
+    for i, line in enumerate(txt.splitlines(), 1):
+        s = line.strip()
+        if s.startswith("```"):            # toggle code fence, skip its body
+            in_fence = not in_fence; continue
+        if in_fence:
+            continue
+        if re.match(r"^:::\s*\{\.callout", s):
+            if depth > 0:
+                issues.append((i, "opened a callout before closing the previous one"))
+            depth = 1; title_seen = 0
+        elif s == ":::":
+            if depth == 0:
+                issues.append((i, "orphan closing :::"))
+            depth = 0
+        elif depth == 1:
+            if s.startswith("## "):
+                title_seen += 1
+                if title_seen > 1:
+                    issues.append((i, "slide heading trapped inside callout"))
+            elif re.match(r"^#\s", s):
+                issues.append((i, "section divider trapped inside callout"))
+            elif s == "---":
+                issues.append((i, "--- slide separator inside an open callout"))
+    if depth != 0:
+        issues.append(("EOF", "file ends with a callout still open"))
+    return issues
+
+for f in sorted(glob.glob("ch*/ch*.qmd")):
+    iss = check(f)
+    if iss:
+        print(f, "->", iss)
+```
+
+If this reports anything, fix the file before returning it.
+
+---
+
+# Minimal Complete Skeleton
+
+````````{r,eval= F}
+---
+title: "Statistics"
+subtitle: "Chapter X: <Chapter Title>"
+... (full YAML per Section 2) ...
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+````````
+
+## Overview
+
+Chapter X introduces <central theme>.
+
+| Section | Topics |
+|---------|--------|
+| X-1 | ... |
+| X-2 | ... |
+
+# Section X-1: <Section Title> {background-color="#2c4a6e"}
+
+## <Content Slide Title>
+
+<Prose.>
+
+::: {.callout-note}
+## <Term>
+
+<Definition.>
+:::
+
+---
+
+## Example X-1 {#example-X-1}
+
+::: {.callout-warning}
+## <Example Title>
+
+<Problem statement.>
+:::
+
+---
+
+## Example X-1
+
+::: {.callout-tip}
+## Solution
+
+**Prepare data**
+
+```{r eX-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# R code
+```
+:::
+
+# Section X-2: <Section Title> {background-color="#2c4a6e"}
+
+## Key Formulas
+
+::: {.callout-important}
+## Important Formulas
+
+$$\text{Formula}$$
+:::
+
+## Key Takeaways
+
+1. ...
+2. ...
+
+## Acknowledgement
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
+````
+
+---
+
+# Rendering
+
+Render a single chapter, or all chapters at once:
+
+```bash
+quarto render "ch8/ch8.qmd"
+quarto render "ch*/ch*.qmd"
+```
+
+*End of specification. Generate the `.qmd` slide file(s) in strict accordance with every rule above, and run the Section 12 checklist before returning.*
