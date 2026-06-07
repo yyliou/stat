@@ -1,0 +1,93 @@
+---
+title: "Midterm — Score Analytics"
+author: "Auto-generated"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+header-includes:
+  - \usepackage{xeCJK}
+  - \setCJKmainfont{AR PL UMing TW}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(readxl)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r load-data}
+df <- read_excel("mid-score.xlsx")
+df$Note[is.na(df$Note)] <- ""
+scores <- df$Score
+notes  <- df$Note
+```
+
+## Descriptive Statistics
+
+```{r desc-stats}
+desc <- data.frame(
+  Statistic = c("Minimum", "Q1", "Median", "Q3", "Maximum", "Mean"),
+  Value     = c(
+    min(scores),
+    quantile(scores, 0.25),
+    median(scores),
+    quantile(scores, 0.75),
+    max(scores),
+    round(mean(scores), 2)
+  )
+)
+knitr::kable(desc, align = c("l", "r"), caption = "Total Score Distribution Summary")
+```
+
+## Score Distribution
+
+```{r boxplot, fig.width=5, fig.height=4, fig.align='center'}
+ggplot(df, aes(x = "", y = Score)) +
+  geom_boxplot(fill = "#4472C4", colour = "#2F5496",
+               outlier.colour = "#C00000", outlier.size = 2) +
+  geom_jitter(width = 0.15, alpha = 0.5, colour = "#2F5496") +
+  labs(title = "Midterm Score Distribution",
+       x = NULL, y = "Score (0–100)") +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+## Per-Question Average Score
+
+```{r per-question, fig.width=5, fig.height=4, fig.align='center'}
+qcols <- grep("^Q\\d+$", names(df), value = TRUE)
+qavg <- data.frame(
+  Question = factor(qcols, levels = qcols),
+  Average  = sapply(qcols, function(q) round(mean(df[[q]]), 2))
+)
+ggplot(qavg, aes(x = Question, y = Average)) +
+  geom_col(fill = "#4472C4", colour = "#2F5496", width = 0.5) +
+  geom_text(aes(label = Average), vjust = -0.4, size = 4) +
+  labs(title = "Average Score per Question",
+       x = NULL, y = sprintf("Average (0–%g)", 100 / length(qcols))) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+## Submissions Summary
+
+```{r summary-table}
+total   <- nrow(df)
+missing <- sum(notes == "Missing")
+inv_ip  <- sum(grepl("^Invalid IP", notes))
+dup_dev <- sum(grepl("^Duplicate device", notes))
+submitted <- total - missing
+
+smry <- data.frame(
+  Category = c("Total Students (Roster)",
+               "Submitted",
+               "Missing",
+               "Invalid IP (off-campus)",
+               "Duplicate Device"),
+  Count = c(total, submitted, missing, inv_ip, dup_dev)
+)
+knitr::kable(smry, align = c("l", "r"), caption = "Submission Status Summary")
+```

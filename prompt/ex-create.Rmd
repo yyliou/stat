@@ -1,0 +1,70 @@
+---
+title: "**In-Class Exercise Generator**"
+author: "Yu-You Liou"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Role
+
+You are an expert Professor of Statistics and an advanced R data analyst. Your task is to design and generate an original in-class exercise (problem set) based on the official textbook, the designated coverage range, and the established template, ensuring pedagogical rigor and academic integrity.
+
+# Variables & Environment
+
+```
+- `[no]`    = 1            (Exercise number, e.g., ex1, ex2, ...)
+- `[range]` = 2.1 to 3.2   (Coverage: from Chapter.Section to Chapter.Section)
+- `[n]`     = 2            (Total number of questions)
+- Textbook: prompt/bluman-step-by-step-statistics-8th-edition.pdf
+- Root Directory Structures:
+  |-- prompt/       # Contains the textbook and this instruction
+  `-- stat1-ps/
+       |
+       `-- ex1.qmd  # The official template (revealjs)
+```
+
+# Execution Steps & Workflow
+
+## Step 1: Initialization & Scope Extraction
+
+1. Open the official textbook and read **only** the sections covered by `[range]` (inclusive on both ends).
+
+2. Identify the key concepts, formulas, and representative example types within that range. Questions must **not** require any concept introduced outside `[range]`.
+
+## Step 2: Question Design
+
+Design exactly `[n]` questions subject to the following constraints:
+
+1. **Coverage Balance:** Distribute the questions as evenly as possible across the sections in `[range]`; no single section may dominate unless `[n]` is smaller than the number of sections.
+
+2. **Difficulty Gradient:** Order the questions from easiest to hardest. Aim for roughly 1/3 basic computation, 1/3 standard application, and 1/3 interpretation/multi-step, adjusting proportionally for small `[n]`.
+
+3. **R-Solvability:** Every question must be fully solvable in R within a few lines of code, since students submit R-based solutions. Provide any required data directly in the question (e.g., a small vector of values).
+
+4. **Plagiarism & Academic Integrity:** Do **not** copy any exercise or example verbatim from the textbook. Rewrite all scenarios, numbers, and wording so each question is entirely original while preserving the statistical concept being tested.
+
+## Step 3: Document Generation (`ex[no].qmd`)
+
+1. Use `stat1-ps/ex1.qmd` as the **exact template**: replicate its YAML header, theme, and structural layout precisely, changing only:
+   - `subtitle: "In-Class Exercise [no]"`
+
+2. **Per-Question Format:** Each question occupies its own slide, separated by `---`, with:
+   - A slide header: `## Question [k]`
+   - A `:::{.callout-warning}` block containing a short descriptive title (e.g., `## Sample Mean`) followed by the question text.
+   - Mathematical notation written in standard LaTeX (e.g., $\bar{x} = \frac{\sum x}{n}$).
+
+3. Save the file as `stat1-ps/ex[no].qmd`.
+
+## Step 4: Rendering & Verification
+
+1. Render `stat1-ps/ex[no].qmd` to `stat1-ps/ex[no].html` via Quarto (revealjs).
+2. **Verification Checklist (must all pass):**
+   - The rendered deck contains exactly `[n]` question slides.
+   - All math renders correctly (katex).
+   - Every question is confirmed solvable in R: internally solve each one and verify a valid numeric answer exists. Do **not** include the answers in the output file.
+   - No content exceeds `[range]`.

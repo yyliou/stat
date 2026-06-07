@@ -117,15 +117,22 @@ stat/
 |
 |-- stat2-ex/            # Statistics (2) student submissions (same structure)
 |
-|-- stat1-mid/           # Statistics (1) midterm examination materials
-|-- stat1-fin/           # Statistics (1) final examination materials
-|-- stat2-mid/           # Statistics (2) midterm examination materials
-|-- stat2-fin/           # Statistics (2) final examination materials
+|-- stat1-mid/           # Statistics (1) midterm materials and grading outputs
+|   |-- mid-score.xlsx   # Exam scoreboard (per-question scores)
+|   |-- stat.Rmd         # Analytics report source
+|   `-- stat.pdf         # Compiled analytics report
+|-- stat1-fin/           # Statistics (1) final materials and grading outputs
+|-- stat2-mid/           # Statistics (2) midterm materials and grading outputs
+|-- stat2-fin/           # Statistics (2) final materials and grading outputs
 |
 |-- stu1/                # Statistics (1) roster and grading outputs
 |   |-- [timestamp].xls  # Official roster exported from university system
-|   `-- ex[N]/
-|       |-- ex-score.xlsx
+|   |-- ex[N]/
+|   |   |-- ex-score.xlsx
+|   |   |-- stat.Rmd
+|   |   `-- stat.pdf
+|   `-- sem/             # Semester-aggregate outputs
+|       |-- sem-score.xlsx
 |       |-- stat.Rmd
 |       `-- stat.pdf
 |
@@ -140,8 +147,11 @@ stat/
 `-- prompt/              # AI-assisted prompt documents
     |-- slide-format.Rmd # Master specification for slide generation
     |-- prompt.Rmd       # Legacy slide generation prompt
-    |-- ex-review1.Rmd   # Grading prompt for Statistics (1)
-    |-- ex-review2.Rmd   # Grading prompt for Statistics (2)
+    |-- ex-create.Rmd    # In-class exercise generation prompt
+    |-- ex-review1.Rmd   # Exercise grading prompt for Statistics (1)
+    |-- ex-review2.Rmd   # Exercise grading prompt for Statistics (2)
+    |-- exam-review.Rmd  # Midterm/final exam auto-grading prompt
+    |-- sem-review.Rmd   # Semester grade aggregation prompt
     |-- render.txt       # Batch render command for all chapter slides
     |-- bluman-step-by-step-statistics-8th-edition.pdf  # Textbook
     `-- stat-system-guide.Rmd   # This document
@@ -357,7 +367,9 @@ print(uuid::UUIDgenerate())
 
 # Automated Grading System
 
-## Process Overview
+The system comprises three AI-driven grading pipelines: (1) in-class exercise grading (`ex-review1.Rmd` / `ex-review2.Rmd`), operating on PDF submissions; (2) examination grading (`exam-review.Rmd`), operating on Google Form responses; and (3) semester aggregation (`sem-review.Rmd`), which consolidates all components into the final grade.
+
+## Exercise Grading: Process Overview
 
 The grading pipeline consists of four sequential stages:
 
@@ -434,6 +446,70 @@ knitr::kable(df, booktabs = TRUE,
              caption = "Grading Note Code Reference")
 ```
 
+## Examination Grading Pipeline (`exam-review.Rmd`)
+
+Examinations are submitted online through a Google Form whose responses populate a Google Sheet with the fixed schema:
+
+```
+time | ip | user | id | name | q1 | q1ans | q2 | q2ans | ... | qN | qNans
+```
+
+where `qk` holds the student's R code for Question $k$ and `qkans` its reported output. The pipeline takes three parameters --- `[sheet]` (the Google Sheet URL), `[questions]` (the official question set with answers), and `[exam]` (`mid` or `fin`) --- plus the campus IP range constant `[campus-ip]`.
+
+```
+STAGE 1 | Data Acquisition and Roster Reconciliation
+         Download [sheet] as CSV; infer N from column pairs;
+         keep only the latest row per student ID.
+         Roster students with no submission -> Missing (Score = 0)
+
+STAGE 2 | Integrity Filtering (sequential; stops at first violation)
+         (i)  ip outside [campus-ip]
+              -> Invalid IP (off-campus) (Score = 0)
+         (ii) user value shared across different student IDs
+              -> Duplicate device (Score = 0; all implicated students)
+
+STAGE 3 | Per-Question Grading with Partial Credit
+         Total: 100 points, allocated equally across N questions.
+         Each question's score is recorded individually.
+         Partial-credit rubric:
+           Full -> correct method and matching answer
+           2/3  -> correct method/code, minor slip in reported answer
+           1/3  -> correct method, mis-transcribed input values
+           0    -> wrong method, irrelevant code, or blank
+
+STAGE 4 | Output Generation ([dir] = stat[N]-mid/ or stat[N]-fin/)
+         [dir]/[exam]-score.xlsx  <- Scoreboard (ID, Name, Q1..QN,
+                                     Score, Note)
+         [dir]/stat.Rmd           <- Analytics report source
+         [dir]/stat.pdf           <- Compiled analytics report
+```
+
+Compared to exercise grading, the exam analytics report adds a **per-question average-score bar chart**, and the submissions summary counts Invalid IP and Duplicate Device cases instead of Late/Plagiarism.
+
+## Semester Grade Aggregation (`sem-review.Rmd`)
+
+Run once per semester after all components are graded. Parameters: `[sem]` (1 or 2) and the component weights `[w-mid]`, `[w-fin]`, `[w-ex]` (must sum to 100; current syllabus values 32/32/36).
+
+```
+INPUT    stat[sem]-mid/mid-score.xlsx        (midterm)
+         stat[sem]-fin/fin-score.xlsx        (final)
+         stu[sem]/ex1..ex12/ex-score.xlsx    (12 exercises)
+
+COMPUTE  ExAvg = mean(Ex1..Ex12)
+         Total = w-mid/100 * Mid + w-fin/100 * Fin + w-ex/100 * ExAvg
+         (rounded to 2 decimals)
+
+OUTPUT   stu[sem]/sem/sem-score.xlsx
+           Columns: StudentID, Name, Ex1..Ex12, ExAvg, Mid, Fin,
+                    Total, Note
+         stu[sem]/sem/stat.Rmd + stat.pdf
+           Descriptive statistics of Total; boxplot; component-mean
+           bar chart; histogram (bin width 10); pass/fail summary
+           (Total >= 60); weights recap
+```
+
+Robustness rules: the roster is the master index (no student silently dropped); a missing component file or absent student contributes 0 and is flagged in `Note`; zero-score trigger reasons are carried over in compact form (e.g., `Mid: Invalid IP`); 3 randomly sampled Totals are re-computed by hand for verification.
+
 \newpage
 
 # Academic Integrity Mechanisms
@@ -487,14 +563,18 @@ The `prompt/` directory contains structured prompt documents for AI-assisted cou
 
 ```{r prompt-files}
 df <- data.frame(
-  File = c("slide-format.Rmd", "prompt.Rmd", "ex-review1.Rmd",
-           "ex-review2.Rmd", "render.txt",
+  File = c("slide-format.Rmd", "prompt.Rmd", "ex-create.Rmd",
+           "ex-review1.Rmd", "ex-review2.Rmd", "exam-review.Rmd",
+           "sem-review.Rmd", "render.txt",
            "bluman-...-8th-edition.pdf", "stat-system-guide.Rmd"),
   Purpose = c(
     "Master specification for AI-assisted slide generation (single source of truth; supersedes prompt.Rmd)",
     "Legacy slide generation prompt (retained for reference)",
+    "In-class exercise generation prompt (textbook-scoped, template-bound)",
     "Automated grading prompt for Statistics (1) exercises",
     "Automated grading prompt for Statistics (2) exercises",
+    "Midterm/final examination auto-grading prompt (Google Form pipeline)",
+    "Semester grade aggregation prompt (weighted total of all components)",
     "Batch quarto render command for all chapter slides",
     "Source textbook PDF used for slide generation",
     "This technical document"
@@ -517,7 +597,16 @@ knitr::kable(df, booktabs = TRUE,
 - **Reference standard:** Chapters `ch2`--`ch5` are the clean style reference.
 - **Validation checklist:** The agent must run the specification's built-in checklist before returning a file.
 
-## Grading Prompts (`ex-review1.Rmd`, `ex-review2.Rmd`)
+## Exercise Generation Prompt (`ex-create.Rmd`)
+
+Generates a new in-class exercise deck from the textbook. Parameters: `[no]` (exercise number), `[range]` (textbook coverage, Chapter.Section to Chapter.Section), and `[n]` (number of questions). Key directives:
+
+- Questions are scoped strictly to `[range]`, balanced across its sections, and ordered easiest to hardest.
+- Every question must be solvable in a few lines of R, with all required data given inline.
+- All wording and numbers must be original (no verbatim textbook reuse).
+- Output replicates `stat1-ps/ex1.qmd` exactly (one question per Reveal.js slide, callout-warning blocks) and is saved as `stat[N]-ps/ex[no].qmd`, then rendered to HTML with a built-in verification checklist.
+
+## Exercise Grading Prompts (`ex-review1.Rmd`, `ex-review2.Rmd`)
 
 Key components of the grading prompts:
 
@@ -526,6 +615,14 @@ Key components of the grading prompts:
 - Output format requirements: scoreboard column names, Rmd content sections, and PDF compilation.
 
 The two files are identical except for the directory targets (`stu1`/`stat1-ps`/`stat1-ex` vs. `stu2`/`stat2-ps`/`stat2-ex`).
+
+## Examination Grading Prompt (`exam-review.Rmd`)
+
+Parameters: `[sheet]` (Google Sheet URL of form responses), `[questions]` (official question set with answers), `[exam]` (`mid`/`fin`), and the constant `[campus-ip]`. Implements the four-stage examination pipeline described in the Automated Grading System section: CSV acquisition and roster reconciliation, integrity filtering (campus IP, duplicate device), per-question grading with the full/2-3/1-3/0 partial-credit rubric, and output to `stat[N]-mid/` or `stat[N]-fin/`.
+
+## Semester Aggregation Prompt (`sem-review.Rmd`)
+
+Parameters: `[sem]` (1/2) and weights `[w-mid]`, `[w-fin]`, `[w-ex]` (sum = 100). Consolidates the midterm, final, and 12 exercise scoreboards into `stu[sem]/sem/sem-score.xlsx` with the weighted Total, carries over zero-score reasons into the Note column, and produces the semester analytics report (`stat.Rmd`/`stat.pdf`).
 
 \newpage
 
@@ -552,7 +649,9 @@ The two files are identical except for the directory targets (`stu1`/`stat1-ps`/
 ## Weekly Problem Set Publication
 
 ```
-1. Create stat1-ps/exN.qmd (or stat2-ps/exN.qmd) in Reveal.js format.
+1. Create stat1-ps/exN.qmd (or stat2-ps/exN.qmd) in Reveal.js format,
+   either manually or by executing the AI generation prompt
+   (prompt/ex-create.Rmd) with [no], [range], and [n].
    Each slide corresponds to one question.
 
 2. Render the problem set:
@@ -576,6 +675,36 @@ The two files are identical except for the directory targets (`stu1`/`stat1-ps`/
 4. Verify analytics report: stu1/exN/stat.pdf
 
 5. Grades are published to students via the read-only pCloud link.
+```
+
+## Examination Grading
+
+```
+1. Conduct the exam online; responses collect in the Google Sheet.
+
+2. Execute the AI exam grading prompt (prompt/exam-review.Rmd) with
+   [sheet] set to the response sheet URL, [questions] set to the
+   official question set (with answers), and [exam] = mid or fin.
+
+3. Verify scoreboard: stat[N]-mid/mid-score.xlsx (or stat[N]-fin/
+   fin-score.xlsx) — per-question scores plus zero-score reasons.
+
+4. Verify analytics report: stat.pdf in the same directory.
+```
+
+## End-of-Semester Grade Aggregation
+
+```
+1. Confirm all 12 exercise scoreboards and both exam scoreboards exist.
+
+2. Execute the AI aggregation prompt (prompt/sem-review.Rmd) with
+   [sem] = 1 or 2 and the syllabus weights ([w-mid]/[w-fin]/[w-ex]
+   = 32/32/36).
+
+3. Verify stu[sem]/sem/sem-score.xlsx (row count = roster size) and
+   the semester analytics report stat.pdf.
+
+4. Submit final grades to the university system.
 ```
 
 ## Generating a New Lecture Chapter
@@ -728,7 +857,7 @@ df <- data.frame(
   Directory = c("web/", "ch2/-ch14/", "stat1-ps/", "stat2-ps/",
                 "stat1-ex/exN/", "stat2-ex/exN/",
                 "stat1-mid/, stat1-fin/", "stat2-mid/, stat2-fin/",
-                "stu1/exN/", "stu2/exN/",
+                "stu1/exN/", "stu2/exN/", "stu1/sem/, stu2/sem/",
                 "sylla/", "prompt/", "!-Archive/"),
   Purpose = c(
     "Website page sources (index, sylla, slide, prob, r) and RStudio project",
@@ -737,10 +866,11 @@ df <- data.frame(
     "Statistics (2) in-class exercise problem sets",
     "Statistics (1) student PDF submissions for exercise N",
     "Statistics (2) student PDF submissions for exercise N",
-    "Statistics (1) midterm/final examination materials",
-    "Statistics (2) midterm/final examination materials",
-    "Statistics (1) grading outputs (scoreboard, analytics report)",
-    "Statistics (2) grading outputs (scoreboard, analytics report)",
+    "Statistics (1) exam materials and grading outputs ([exam]-score.xlsx, stat.pdf)",
+    "Statistics (2) exam materials and grading outputs ([exam]-score.xlsx, stat.pdf)",
+    "Statistics (1) exercise grading outputs (scoreboard, analytics report)",
+    "Statistics (2) exercise grading outputs (scoreboard, analytics report)",
+    "Semester-aggregate scoreboard and analytics report",
     "Syllabus R Markdown source files",
     "AI prompts, master slide specification, textbook PDF",
     "Archive of retired materials"
