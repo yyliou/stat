@@ -48,10 +48,11 @@ This document describes the complete architecture and operational procedures of 
 df <- data.frame(
   Course = c("Statistics (1)", "Statistics (2)"),
   Code   = c("EIB-21E-01-A1", "EIB-21F-01-A1"),
+  Semester = c("Fall 2026", "Spring 2026"),
   Schedule = c("Tuesday, Periods 8-9 (15:10-17:00)",
                "Thursday, Periods 6-7 (13:10-15:00)"),
-  Room = c("L309", "L309"),
-  Chapters = c("Ch. 1-7", "Ch. 8-14")
+  Room = c("A207", "L309"),
+  Chapters = c("Ch. 1-7", "Ch. 8-12")
 )
 knitr::kable(df, booktabs = TRUE,
              caption = "Course Identification and Scheduling")
@@ -82,29 +83,44 @@ The system root (`stat/`) is organized as follows:
 ```
 stat/
 |-- _quarto.yml          # Quarto website global configuration
-|-- web.Rproj            # RStudio project file
-|-- styles.css           # Custom CSS stylesheet
-|-- index.qmd            # Homepage (course overview, examination regulations)
-|-- sylla.qmd            # Syllabus landing page (links to PDF syllabi)
-|-- slide.qmd            # Slide index page
-|-- prob.qmd             # Problem set page (submission requirements)
-|-- r.qmd                # R installation and usage guide
+|-- styles.css           # Custom CSS stylesheet (currently disabled in YAML)
+|-- index.html           # Published homepage (rendered output)
+|-- sylla.html           # Published syllabus landing page
+|-- slide.html           # Published slide index
+|-- prob.html            # Published problem set page
+|-- r.html               # Published R guide
+|-- site_libs/           # Quarto-generated site assets
+|
+|-- web/                 # Website page sources (qmd)
+|   |-- web.Rproj        # RStudio project file
+|   |-- index.qmd        # Homepage (course overview, exam regulations)
+|   |-- sylla.qmd        # Syllabus landing page (links to PDF syllabi)
+|   |-- slide.qmd        # Slide index page
+|   |-- prob.qmd         # Problem set page (template, submission links)
+|   `-- r.qmd            # R installation and usage guide
 |
 |-- ch2/ ... ch14/       # Per-chapter lecture slide directories
-|   `-- chN.qmd          # Quarto Reveal.js slide source for chapter N
+|   |-- chN.qmd          # English Reveal.js slide source
+|   |-- chN-zh.qmd       # Traditional-Chinese parallel version
+|   |-- bib.bib          # Chapter bibliography
+|   `-- logo.svg         # Slide logo asset
 |
 |-- stat1-ps/            # Statistics (1) problem sets
-|   |-- ex1.qmd          # Exercise 1 source (Reveal.js format)
-|   `-- ex1.html         # Compiled HTML for publication
+|   |-- exN.qmd          # Exercise source (Reveal.js format)
+|   `-- exN.html         # Compiled HTML for publication
 |
 |-- stat2-ps/            # Statistics (2) problem sets (same structure)
 |
 |-- stat1-ex/            # Statistics (1) student submissions
-|   |-- ex1/
-|   |   `-- ex1-[StudentID].pdf
-|   `-- ex2/ ... ex12/
+|   `-- ex1/ ... ex12/
+|       `-- exN-[StudentID].pdf
 |
 |-- stat2-ex/            # Statistics (2) student submissions (same structure)
+|
+|-- stat1-mid/           # Statistics (1) midterm examination materials
+|-- stat1-fin/           # Statistics (1) final examination materials
+|-- stat2-mid/           # Statistics (2) midterm examination materials
+|-- stat2-fin/           # Statistics (2) final examination materials
 |
 |-- stu1/                # Statistics (1) roster and grading outputs
 |   |-- [timestamp].xls  # Official roster exported from university system
@@ -116,24 +132,31 @@ stat/
 |-- stu2/                # Statistics (2) roster and grading outputs (same structure)
 |
 |-- sylla/               # Syllabus source files
-|   |-- stat1.Rmd / stat1.html
-|   `-- stat2.Rmd / stat2.html
+|   |-- stat1.Rmd / stat1.pdf
+|   `-- stat2.Rmd / stat2.pdf
+|
+|-- !-Archive/           # Archive of retired materials
 |
 `-- prompt/              # AI-assisted prompt documents
-    |-- prompt.Rmd       # Slide generation prompt (instructor use)
+    |-- slide-format.Rmd # Master specification for slide generation
+    |-- prompt.Rmd       # Legacy slide generation prompt
     |-- ex-review1.Rmd   # Grading prompt for Statistics (1)
     |-- ex-review2.Rmd   # Grading prompt for Statistics (2)
+    |-- render.txt       # Batch render command for all chapter slides
+    |-- bluman-step-by-step-statistics-8th-edition.pdf  # Textbook
     `-- stat-system-guide.Rmd   # This document
 ```
 
 ## Design Principles
 
-The directory structure adheres to four organizational principles:
+The directory structure adheres to six organizational principles:
 
-1. **One directory per chapter.** Directories `ch2/` through `ch14/` are self-contained units, facilitating independent version control and selective rendering.
-2. **Separation of problem sets and submissions.** `stat1-ps/` (instructor-authored questions) and `stat1-ex/` (student submissions) maintain distinct responsibilities and access patterns.
-3. **Co-location of rosters and grading outputs.** Each `stu2/` or `stu1/` directory holds both the official class roster and all automated grading artifacts, enabling single-location lookup.
-4. **Centralized prompt management.** All AI-assisted documents are isolated within `prompt/`, decoupled from pedagogical content.
+1. **One directory per chapter.** Directories `ch2/` through `ch14/` are self-contained units (sources, bibliography, logo, rendered output), facilitating independent version control and selective rendering.
+2. **Bilingual slide parity.** Every chapter maintains an English source (`chN.qmd`) and a structurally identical Traditional-Chinese version (`chN-zh.qmd`), cross-linked from the title slide.
+3. **Separation of page sources and published output.** Website page sources live in `web/`; rendered HTML is published from the repository root for GitHub Pages.
+4. **Separation of problem sets and submissions.** `stat1-ps/` (instructor-authored questions) and `stat1-ex/` (student submissions) maintain distinct responsibilities and access patterns.
+5. **Co-location of rosters and grading outputs.** Each `stu1/` or `stu2/` directory holds both the official class roster and all automated grading artifacts, enabling single-location lookup.
+6. **Centralized prompt management.** All AI-assisted documents, including the textbook PDF used as the generation source, are isolated within `prompt/`, decoupled from pedagogical content.
 
 \newpage
 
@@ -182,11 +205,12 @@ The course website is built as a **Quarto Website** project, governed by `_quart
 
 ```{r quarto-config}
 df <- data.frame(
-  Setting = c("output-dir", "Theme", "Navigation bar", "Slide format",
-              "Math rendering"),
+  Setting = c("output-dir", "Page sources", "Theme", "Navigation bar",
+              "Slide format", "Math rendering"),
   Value = c(". (HTML output at repository root for GitHub Pages)",
-            "Minty + custom brand CSS",
-            "Syllabus -> Slides -> Problem Sets -> R",
+            "web/ (index, sylla, slide, prob, r)",
+            "Minty + brand (styles.css currently disabled)",
+            "Syllabus -> Slides -> Problem sets -> R",
             "Reveal.js",
             "KaTeX")
 )
@@ -200,30 +224,43 @@ knitr::kable(df, booktabs = TRUE,
 
 ## File Format
 
-Each chapter's slides reside in `chN/chN.qmd` with the following YAML header:
+Each chapter's slides reside in `chN/chN.qmd` (English) and `chN/chN-zh.qmd` (Traditional Chinese). The YAML header is **fixed** by the master specification (`prompt/slide-format.Rmd`); only the subtitle and the language-switch link target may vary:
 
 ```yaml
 ---
-title: "Statistics 1"
+title: "Statistics"
 subtitle: "Chapter N: [Title]"
 author: "Yu-You Liou"
+institute: "Shih Chien University"
 date: "`r Sys.Date()`"
 format:
   revealjs:
     html-math-method: katex
-theme: serif
-footer: "Elementary Statistics: A Step by Step Approach"
-editor: visual
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
 ---
 ```
 
+The header additionally includes an `include-after-body` script and title-slide attributes that inject a language-switch link (`chN-zh.html` in the English file; `chN.html` in the Chinese file).
+
 ## Authoring Standards
 
-All slide content must conform to the following conventions:
+All slide content must conform to the master specification in `prompt/slide-format.Rmd`, which is the single source of truth. Key conventions:
 
 - Each slide begins with a level-2 heading (`##`).
 - Mathematical expressions use standard LaTeX syntax, e.g., `$\bar{x} = \frac{\sum x}{n}$`.
-- Definitions and key formulae are enclosed in Quarto callout blocks:
+- Definitions and key formulae are enclosed in Quarto callout blocks, which **must be perfectly balanced** (unbalanced callouts are the most common rendering failure):
 
 ```markdown
 ::: {.callout-note}
@@ -233,20 +270,26 @@ All slide content must conform to the following conventions:
 
 - Every textbook example provides two parallel solutions: (1) a complete algebraic derivation in LaTeX, and (2) an executable R implementation with displayed output.
 - All prose must be original; verbatim reproduction of textbook text is prohibited.
+- **Bilingual parity:** `chN.qmd` and `chN-zh.qmd` must be structurally identical, slide for slide.
+- Chapters `ch2/`--`ch5/` serve as the clean reference standard for layout and style.
 
 ## Generating a New Chapter
 
 ```
-Step 1. Duplicate the previous chapter directory:
-        cp -r ch2/ ch3/
+Step 1. Create the chapter directory with shared assets:
+        mkdir chN/ and copy bib.bib and logo.svg from an existing chapter.
 
-Step 2. Use the prompt in prompt/prompt.Rmd with an AI assistant
-        to generate content from the corresponding textbook chapter.
+Step 2. Provide prompt/slide-format.Rmd to an AI assistant and request
+        chN.qmd and chN-zh.qmd for the target textbook chapter
+        (textbook PDF available in prompt/). The agent must complete
+        the validation checklist in the specification before delivery.
 
-Step 3. Render in RStudio:
-        quarto render ch3/ch3.qmd
+Step 3. Render both language versions (see prompt/render.txt for
+        the batch command):
+        quarto render chN/chN.qmd
+        quarto render chN/chN-zh.qmd
 
-Step 4. Update the chapter index in slide.qmd.
+Step 4. Update the chapter index in web/slide.qmd.
 ```
 
 \newpage
@@ -274,15 +317,22 @@ Problem sets are authored as Reveal.js presentations (`stat1-ps/exN.qmd`), with 
 ---
 title: "Statistics 1"
 subtitle: "In-Class Exercise N"
+author: "Yu-You Liou"
+date: today
+institute: "Shih Chien University"
 format:
   revealjs:
     html-math-method: katex
 ---
 ```
 
+## Submission and Grade Distribution Channels
+
+Submission and grade lookup are handled through shared **pCloud** links published on the problem set page (`web/prob.qmd`): one upload link per course (students place the PDF in the matching `exN` folder, which syncs to `stat[N]-ex/exN/`), and one read-only link per course for checking grades.
+
 ## Submission Requirements
 
-Students must use the official template below and submit to `stat1-ex/exN/` using the exact naming convention `exN-[StudentID].pdf`.
+Students must use the official template below and upload to the course pCloud folder `exN/` (synced to `stat1-ex/exN/`) using the exact naming convention `exN-[StudentID].pdf`.
 
 ```r
 ---
@@ -318,14 +368,15 @@ STAGE 1 | Initialization and Roster Reconciliation
          as Missing (Score = 0)
 
 STAGE 2 | Compliance Filtering (sequential; stops at first violation)
-         (i)  Submission timestamp > deadline (UTC+8)
+         (i)  Submission timestamp > [deadline] (UTC+8)
               -> Late Submission (Score = 0)
          (ii) File is not PDF or does not match exN-[StudentID].pdf
               -> Incorrect File Name/Format (Score = 0)
          (iii) YAML missing title/author/date, or UUID chunk absent,
                or author field does not match submitting student ID
               -> Incorrect Internal Format (Score = 0)
-         (iv) UUID value identical to another submission
+         (iv) UUID value identical to another submission, or
+              invalid/forged UUID
               -> Plagiarism (Score = 0; all implicated students)
 
 STAGE 3 | Academic Content Grading
@@ -374,7 +425,7 @@ df <- data.frame(
     "File submitted after the official deadline",
     "File is not PDF or does not follow naming convention exN-[ID].pdf",
     "YAML header incomplete, author ID mismatch, or UUID chunk absent",
-    "UUID value matches that of one or more other submissions",
+    "UUID value matches another submission, or is invalid/forged",
     "Question N answer is incorrect or methodology is flawed"
   ),
   Score = c("0", "0", "0", "0", "0", "Partial deduction")
@@ -395,7 +446,7 @@ Every submission must execute and display output from the following R code block
 print(uuid::UUIDgenerate())
 ```
 
-`uuid::UUIDgenerate()` produces a Version 4 UUID (Universally Unique Identifier) on each invocation, e.g., `6d2b9fda-2d9b-48f3-84bc-f82eabc39b4d`. The grading system compares this value across all submissions for a given exercise. If two or more files share an identical UUID, all implicated students receive a score of zero with the note `Plagiarism`.
+`uuid::UUIDgenerate()` produces a Version 4 UUID (Universally Unique Identifier) on each invocation, e.g., `6d2b9fda-2d9b-48f3-84bc-f82eabc39b4d`. The grading system compares this value across all submissions for a given exercise. If two or more files share an identical UUID, or if a file's UUID is invalid or forged, all implicated students receive a score of zero with the note `Plagiarism`.
 
 **Important implementation notes:**
 
@@ -403,6 +454,8 @@ print(uuid::UUIDgenerate())
 - The `author` field in the YAML header must contain the submitting student's own ID. Use of another student's ID constitutes a format violation independent of the plagiarism check.
 
 ## Examination Regulations
+
+In alignment with the course's paperless policy, examinations are conducted online (a sample examination interface is linked from the course homepage). Examination materials are maintained in `stat1-mid/`, `stat1-fin/`, `stat2-mid/`, and `stat2-fin/`.
 
 ```{r exam-regs}
 df <- data.frame(
@@ -434,12 +487,16 @@ The `prompt/` directory contains structured prompt documents for AI-assisted cou
 
 ```{r prompt-files}
 df <- data.frame(
-  File = c("prompt.Rmd", "ex-review1.Rmd",
-           "ex-review2.Rmd", "stat-system-guide.Rmd"),
+  File = c("slide-format.Rmd", "prompt.Rmd", "ex-review1.Rmd",
+           "ex-review2.Rmd", "render.txt",
+           "bluman-...-8th-edition.pdf", "stat-system-guide.Rmd"),
   Purpose = c(
-    "Slide generation prompt: instructs AI to extract all textbook examples from a given chapter and render them with dual mathematical/R solutions",
+    "Master specification for AI-assisted slide generation (single source of truth; supersedes prompt.Rmd)",
+    "Legacy slide generation prompt (retained for reference)",
     "Automated grading prompt for Statistics (1) exercises",
     "Automated grading prompt for Statistics (2) exercises",
+    "Batch quarto render command for all chapter slides",
+    "Source textbook PDF used for slide generation",
     "This technical document"
   )
 )
@@ -447,24 +504,28 @@ knitr::kable(df, booktabs = TRUE,
              caption = "Prompt Directory File Inventory")
 ```
 
-## Slide Generation Prompt (`prompt.Rmd`)
+## Slide Generation Specification (`slide-format.Rmd`)
 
-Key directives encoded in the slide generation prompt:
+`slide-format.Rmd` is a complete, self-contained specification pasted to the AI agent together with the instruction *"Generate `chX.qmd` (and `chX-zh.qmd`) for Chapter X following this specification exactly."* Key directives:
 
-- **Role:** University-level statistics instructor.
+- **Fixed YAML front matter:** Only the subtitle and the language-switch link may vary; everything else is reproduced verbatim.
+- **Structural correctness first:** Decks must render without error; every callout block must be perfectly balanced (the most common failure mode).
 - **Exhaustive extraction:** Every example in the target chapter must be incorporated; summarization or omission is not permitted.
 - **Dual-solution requirement:** Each example must present (1) a full algebraic derivation in LaTeX and (2) executable R code with displayed output.
 - **Paraphrasing mandate:** All prose must be rewritten in original language; verbatim textbook reproduction is prohibited.
-- **Callout block usage:** Definitions, key formulae, and example prompts must be enclosed in appropriate callout blocks.
-- **Directory replication:** Output must mirror the established file structure (e.g., `ch3/ch3.qmd`).
+- **Bilingual parity:** Each chapter ships as a structurally identical English/Traditional-Chinese pair.
+- **Reference standard:** Chapters `ch2`--`ch5` are the clean style reference.
+- **Validation checklist:** The agent must run the specification's built-in checklist before returning a file.
 
 ## Grading Prompts (`ex-review1.Rmd`, `ex-review2.Rmd`)
 
 Key components of the grading prompts:
 
-- Definition of environment variables: `[no]`, timezone (UTC+8), and root directory structure.
+- Definition of environment variables: `[deadline]` (UTC+8), `[no]` (exercise number), and root directory structure.
 - Specification of all four grading stages with precise conditional logic.
 - Output format requirements: scoreboard column names, Rmd content sections, and PDF compilation.
+
+The two files are identical except for the directory targets (`stu1`/`stat1-ps`/`stat1-ex` vs. `stu2`/`stat2-ps`/`stat2-ex`).
 
 \newpage
 
@@ -474,15 +535,18 @@ Key components of the grading prompts:
 
 ```
 1. Export official class roster from the university administrative system.
-   Save to stu1/ (Statistics 1) or stu/ (Statistics 2).
+   Save to stu1/ (Statistics 1) or stu2/ (Statistics 2).
 
 2. Update sylla/stat1.Rmd and sylla/stat2.Rmd with the current
    semester's schedule and policies. Knit to PDF.
 
-3. Verify _quarto.yml navigation links and semester metadata.
+3. Verify _quarto.yml navigation links and semester metadata in
+   web/index.qmd and web/sylla.qmd.
 
-4. Rebuild the full website:
-   quarto render
+4. Create or empty the pCloud submission folders (ex1-ex12) and
+   confirm the upload/grade-lookup links in web/prob.qmd.
+
+5. Rebuild the website pages and republish.
 ```
 
 ## Weekly Problem Set Publication
@@ -494,44 +558,47 @@ Key components of the grading prompts:
 2. Render the problem set:
    quarto render stat1-ps/exN.qmd
 
-3. Update the problem set index in prob.qmd.
+3. Update the problem set index in web/prob.qmd.
 ```
 
 ## Weekly Submission Collection and Grading
 
 ```
-1. Students submit to: stat1-ex/exN/exN-[StudentID].pdf
+1. Students upload exN-[StudentID].pdf to the course pCloud folder,
+   which syncs to stat1-ex/exN/.
 
 2. Execute the AI grading prompt (prompt/ex-review1.Rmd) with
-   environment variable [no] set to the exercise number.
+   [no] set to the exercise number and [deadline] set to the
+   submission deadline (UTC+8).
 
 3. Verify generated scoreboard: stu1/exN/ex-score.xlsx
 
 4. Verify analytics report: stu1/exN/stat.pdf
+
+5. Grades are published to students via the read-only pCloud link.
 ```
 
 ## Generating a New Lecture Chapter
 
 ```
-1. Duplicate the previous chapter directory:
-   cp -r ch2/ ch3/
+1. Create chN/ and copy bib.bib and logo.svg from an existing chapter.
 
-2. Generate content using prompt/prompt.Rmd with an AI assistant,
-   referencing the corresponding textbook chapter.
+2. Generate chN.qmd and chN-zh.qmd using prompt/slide-format.Rmd
+   with an AI assistant, referencing the textbook PDF in prompt/.
 
-3. Review, edit, and finalize ch3/ch3.qmd in RStudio.
+3. Review, edit, and finalize both files in RStudio.
 
-4. Render:
-   quarto render ch3/ch3.qmd
+4. Render (batch command in prompt/render.txt):
+   quarto render 'ch*/ch*.qmd'
 
-5. Add the chapter link to slide.qmd.
+5. Add the chapter link to web/slide.qmd.
 ```
 
 ## Full-Site Publication (GitHub Pages)
 
 ```bash
-# From the stat/ root directory
-quarto render
+# Render updated pages/slides, e.g.
+quarto render 'ch*/ch*.qmd'
 
 # Commit and push to trigger GitHub Pages deployment
 git add .
@@ -572,11 +639,12 @@ knitr::kable(df, booktabs = TRUE,
 
 ```{r sched1}
 df <- data.frame(
-  Week = c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16),
-  Chapter = c("Ch. 1","Ch. 2","Ch. 3","Ch. 3","Ch. 4","Ch. 4",
+  Week = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,"17-18"),
+  Chapter = c("—","Ch. 1","Ch. 2","Ch. 3","Ch. 3","Ch. 4","Ch. 4",
               "—","—","Ch. 5","Ch. 5","Ch. 6","Ch. 6",
-              "Ch. 7","Ch. 7","—"),
+              "Ch. 7","Ch. 7","—","—"),
   Topic = c(
+    "Syllabus and Class Regulations",
     "The Nature of Probability and Statistics",
     "Frequency Distributions and Graphs",
     "Data Description",
@@ -591,11 +659,12 @@ df <- data.frame(
     "The Normal Distribution (continued)",
     "Confidence Intervals and Sample Size",
     "Confidence Intervals and Sample Size (continued)",
-    "Final Examination"
+    "Final Examination",
+    "Flexible Learning Weeks"
   ),
-  Exercise = c("ex1","ex2","ex3","ex4","ex5","ex6",
+  Exercise = c("—","ex1","ex2","ex3","ex4","ex5","ex6",
                "—","—","ex7","ex8","ex9","ex10",
-               "ex11","ex12","—")
+               "ex11","ex12","—","—")
 )
 knitr::kable(df, booktabs = TRUE,
              caption = "Statistics (1) Weekly Schedule and Exercise Mapping")
@@ -605,10 +674,11 @@ knitr::kable(df, booktabs = TRUE,
 
 ```{r sched2}
 df <- data.frame(
-  Week = c("2-4","5-6","7","8","9","10-11","12-13","14-15","16"),
-  Chapter = c("Ch. 8","Ch. 9","Ch. 10","—","—",
-              "Ch. 10","Ch. 11","Ch. 12","—"),
+  Week = c("1","2-4","5-6","7","8","9","10-11","12-13","14-15","16","17-18"),
+  Chapter = c("—","Ch. 8","Ch. 9","Ch. 10","—","—",
+              "Ch. 10","Ch. 11","Ch. 12","—","—"),
   Topic = c(
+    "Syllabus and Class Regulations",
     "Hypothesis Testing",
     "Testing the Difference Between Two Means, Two Proportions, and Two Variances",
     "Correlation and Regression",
@@ -617,14 +687,17 @@ df <- data.frame(
     "Correlation and Regression (continued)",
     "Other Chi-Square Tests",
     "Analysis of Variance",
-    "Final Examination"
+    "Final Examination",
+    "Flexible Learning Weeks"
   ),
-  Exercises = c("ex1-3","ex4-5","ex6","—","—",
-                "ex7-8","ex9-10","ex11-12","—")
+  Exercises = c("—","ex1-3","ex4-5","ex6","—","—",
+                "ex7-8","ex9-10","ex11-12","—","—")
 )
 knitr::kable(df, booktabs = TRUE,
              caption = "Statistics (2) Weekly Schedule and Exercise Mapping")
 ```
+
+> **Note:** Slide decks for Chapter 13 (Nonparametric Statistics) and Chapter 14 (Sampling and Simulation) are maintained in the repository and listed on the slide index as supplementary material, but are not part of the current Statistics (2) schedule.
 
 \newpage
 
@@ -636,7 +709,7 @@ knitr::kable(df, booktabs = TRUE,
 ---
 title: "Ex. 1"
 author: "A113290001"
-date: "2026-03-04"
+date: "2026-09-22"
 output: pdf_document
 ---
 ```
@@ -652,20 +725,25 @@ print(uuid::UUIDgenerate())
 
 ```{r dir-ref}
 df <- data.frame(
-  Directory = c("ch2/-ch14/", "stat1-ps/", "stat2-ps/",
+  Directory = c("web/", "ch2/-ch14/", "stat1-ps/", "stat2-ps/",
                 "stat1-ex/exN/", "stat2-ex/exN/",
-                "stu1/exN/", "stu/exN/",
-                "sylla/", "prompt/"),
+                "stat1-mid/, stat1-fin/", "stat2-mid/, stat2-fin/",
+                "stu1/exN/", "stu2/exN/",
+                "sylla/", "prompt/", "!-Archive/"),
   Purpose = c(
-    "Reveal.js lecture slide sources, one subdirectory per chapter",
+    "Website page sources (index, sylla, slide, prob, r) and RStudio project",
+    "Bilingual Reveal.js lecture slide sources, one subdirectory per chapter",
     "Statistics (1) in-class exercise problem sets",
     "Statistics (2) in-class exercise problem sets",
     "Statistics (1) student PDF submissions for exercise N",
     "Statistics (2) student PDF submissions for exercise N",
+    "Statistics (1) midterm/final examination materials",
+    "Statistics (2) midterm/final examination materials",
     "Statistics (1) grading outputs (scoreboard, analytics report)",
     "Statistics (2) grading outputs (scoreboard, analytics report)",
     "Syllabus R Markdown source files",
-    "AI-assisted prompt documents for slide generation and grading"
+    "AI prompts, master slide specification, textbook PDF",
+    "Archive of retired materials"
   )
 )
 knitr::kable(df, booktabs = TRUE,
