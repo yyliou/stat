@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="ch1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ch1_files/libs/quarto-html/tabby.min.js"></script>
+<script src="ch1_files/libs/quarto-html/popper.min.js"></script>
+<script src="ch1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="ch1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ch1_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="ch1_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Yu-You Liou">
+  <meta name="dcterms.date" content="2026-06-07">
+  <title>Statistics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ch1_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="ch1_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="ch1_files/libs/revealjs/dist/theme/quarto-2abc1c5b7b5c7eecd6137558e106e4c3.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+  <link href="ch1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="ch1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="ch1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="ch1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-notes="" class="quarto-title-block center">
+  <h1 class="title">Statistics</h1>
+  <p class="subtitle">Chapter 1: The Nature of Probability and Statistics</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Yu-You Liou 
+</div>
+        <p class="quarto-title-affiliation">
+            Shih Chien University
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-06-07</p>
+</section>
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
+<p>Chapter 1 introduces the <strong>fundamental nature of statistics</strong> — what statistics is, the kinds of data it works with, how data are collected, and how statistical results can be used or misused.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-1</td>
+<td>Descriptive and inferential statistics</td>
+</tr>
+<tr class="even">
+<td>1-2</td>
+<td>Variables and types of data</td>
+</tr>
+<tr class="odd">
+<td>1-3</td>
+<td>Data collection and sampling techniques</td>
+</tr>
+<tr class="even">
+<td>1-4</td>
+<td>Observational and experimental studies</td>
+</tr>
+<tr class="odd">
+<td>1-5</td>
+<td>Uses and misuses of statistics</td>
+</tr>
+<tr class="even">
+<td>1-6</td>
+<td>Computers and statistical software</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<section id="section-1-1-descriptive-and-inferential-statistics" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-1: Descriptive and Inferential Statistics</h1>
+
+</section>
+<section id="what-is-statistics" class="slide level2">
+<h2>What Is Statistics?</h2>
+<p>Statistics appears everywhere — sports records, opinion polls, medical findings, unemployment rates, weather forecasts. All of these begin with <strong>data</strong>: values that have been collected and must be organized before they can tell us anything.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Statistics</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Statistics</strong> is the science of conducting studies to <strong>collect, organize, summarize, analyze, and draw conclusions</strong> from data.</p>
+</div>
+</div>
+</div>
+<p>Three reasons to study statistics:</p>
+<ol type="1">
+<li>To <strong>read and interpret</strong> studies, charts, and statistical claims in everyday life and in your field.</li>
+<li>To <strong>conduct research</strong> — design studies, analyze data, and communicate results correctly.</li>
+<li>To become a <strong>better consumer and citizen</strong> — able to recognize when numbers inform and when they mislead.</li>
+</ol>
+</section>
+<section id="basic-vocabulary" class="slide level2">
+<h2>Basic Vocabulary</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Variables and Data</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>A <strong>variable</strong> is a characteristic or attribute that can assume different values.</li>
+<li><strong>Data</strong> are the values (measurements or observations) that variables assume.</li>
+<li>A collection of data values forms a <strong>data set</strong>; each individual value is a <strong>data value</strong> (or <strong>datum</strong>).</li>
+<li>Variables whose values are determined by chance are called <strong>random variables</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+<p>For instance, “blood type” is a variable; the observed values <code>A</code>, <code>B</code>, <code>AB</code>, <code>O</code> recorded from 25 inductees are the data; the entire list of 25 values is the data set.</p>
+</section>
+<section id="populations-and-samples" class="slide level2">
+<h2>Populations and Samples</h2>
+<p>In most studies it is impractical — sometimes impossible — to examine every subject of interest. Researchers therefore study a subgroup and generalize from it.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Population and Sample</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>A <strong>population</strong> consists of <strong>all</strong> subjects (human or otherwise) that are being studied.</li>
+<li>A <strong>sample</strong> is a <strong>subgroup</strong> of the population, selected to represent it.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Representativeness</strong></p>
+</div>
+<div class="callout-content">
+<p>Conclusions drawn from a sample are trustworthy only if the sample is <strong>representative</strong> of the population — ideally obtained by a chance (random) method. How to obtain such samples is the subject of Section 1-3.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-two-branches-of-statistics" class="slide level2">
+<h2>The Two Branches of Statistics</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Descriptive Statistics</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Descriptive statistics</strong> consists of the <strong>collection, organization, summarization, and presentation</strong> of data. It describes the situation as it is — averages, percentages, tables, and graphs computed from data actually observed.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Inferential Statistics</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Inferential statistics</strong> consists of <strong>generalizing from samples to populations</strong>, performing estimations and hypothesis tests, determining relationships among variables, and making predictions.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="probability-and-hypothesis-testing" class="slide level2">
+<h2>Probability and Hypothesis Testing</h2>
+<p>Inferential statistics rests on <strong>probability theory</strong>.</p>
+<ul>
+<li><strong>Probability</strong> is the chance that a particular event will occur — the mathematical language of uncertainty (Chapter 4).</li>
+<li><strong>Hypothesis testing</strong> is a decision-making process for evaluating claims about a population, based on information obtained from a sample (Chapter 8).</li>
+</ul>
+<p>Inferential statistics also studies <strong>relationships</strong> between variables (e.g., is smoking related to lung cancer?) and makes <strong>predictions</strong> (e.g., forecasting election results from a poll). Because samples never contain complete information, every inferential conclusion carries some uncertainty — which probability quantifies.</p>
+</section>
+<section id="example-1-1" class="slide level2">
+<h2>Example 1-1</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Descriptive or Inferential?</strong></p>
+</div>
+<div class="callout-content">
+<p>Determine whether each statement is an example of <strong>descriptive</strong> or <strong>inferential</strong> statistics.</p>
+<ol type="1">
+<li>The average jackpot of the five largest lottery payouts was $367 million.</li>
+<li>By 2040, the world population is projected to exceed 9 billion.</li>
+<li>A medical study suggests that drinking one cup of coffee daily <strong>may lower</strong> the risk of heart disease.</li>
+<li>Last semester, 12% of the students in this course received a grade of A.</li>
+<li>Based on a poll of 1,200 voters, candidate Lin is predicted to win 54% of the vote.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-1-1" class="slide level2">
+<h2>Example 1-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Statement</th>
+<th>Branch</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Descriptive</td>
+<td>Summarizes data actually observed (an average)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Inferential</td>
+<td>A prediction about a future, unobserved value</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Inferential</td>
+<td>Generalizes from a study sample to all people</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Descriptive</td>
+<td>Reports a percentage computed from complete records</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Inferential</td>
+<td>Uses a sample (1,200 voters) to estimate a population value</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<p>Whenever a number merely <strong>summarizes observed data</strong>, it is descriptive. Whenever it <strong>goes beyond the data</strong> — predicting, generalizing, or testing a claim — it is inferential.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-2" class="slide level2">
+<h2>Example 1-2</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Population, Sample, and Inference in R</strong></p>
+</div>
+<div class="callout-content">
+<p>A university has 10,000 students. We wish to know the average weekly study hours of <strong>all</strong> students (the population), but we can only survey 50 of them (a sample). Simulate this situation in R and compare the sample mean with the population mean.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-2-1" class="slide level2">
+<h2>Example 1-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a><span class="co"># The (normally unobservable) population: 10,000 students</span></span>
+<span id="cb1-4"><a href=""></a>population <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="co"># A random sample of 50 students</span></span>
+<span id="cb1-7"><a href=""></a>my_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(population, <span class="dv">50</span>)</span>
+<span id="cb1-8"><a href=""></a></span>
+<span id="cb1-9"><a href=""></a><span class="fu">c</span>(<span class="st">`</span><span class="at">Population mean (parameter)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(population),</span>
+<span id="cb1-10"><a href=""></a>  <span class="st">`</span><span class="at">Sample mean (statistic)</span><span class="st">`</span>     <span class="ot">=</span> <span class="fu">mean</span>(my_sample))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Population mean (parameter)     Sample mean (statistic) 
+                   15.01470                    14.81155 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-2-2" class="slide level2">
+<h2>Example 1-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Interpretation</strong></p>
+<p>The sample mean (a <strong>statistic</strong>) is close to, but not exactly equal to, the population mean (a <strong>parameter</strong>). Using the statistic to draw a conclusion about the parameter is the essence of <strong>inferential statistics</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">hours =</span> my_sample), <span class="fu">aes</span>(<span class="at">x =</span> hours)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(population), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sample of 50 Students (red line = population mean)"</span>,</span>
+<span id="cb3-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Weekly Study Hours"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1_files/figure-revealjs/e1-2-2-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="section-1-2-variables-and-types-of-data" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-2: Variables and Types of Data</h1>
+
+</section>
+<section id="classifying-variables" class="slide level2">
+<h2>Classifying Variables</h2>
+<p>Variables are classified in two complementary ways: by <strong>how they are measured</strong> (qualitative vs.&nbsp;quantitative) and, for quantitative variables, by <strong>the values they can assume</strong> (discrete vs.&nbsp;continuous).</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Qualitative</strong></td>
+<td>Categories: gender, blood type, religious preference, geographic location</td>
+</tr>
+<tr class="even">
+<td><strong>Quantitative — Discrete</strong></td>
+<td>Countable values: number of children, calls received, students in a class</td>
+</tr>
+<tr class="odd">
+<td><strong>Quantitative — Continuous</strong></td>
+<td>Measured values: height, weight, temperature, time</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qualitative-and-quantitative-variables" class="slide level2">
+<h2>Qualitative and Quantitative Variables</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Qualitative Variables</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Qualitative variables</strong> can be placed into <strong>distinct categories</strong> according to some characteristic or attribute. They are non-numeric in nature (even if coded with numbers, like ZIP codes).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Quantitative Variables</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Quantitative variables</strong> are <strong>numerical</strong> and can be <strong>ordered or ranked</strong>. Arithmetic operations (averaging, differencing) are meaningful for them.</p>
+</div>
+</div>
+</div>
+<p>A useful test: does the <em>average</em> of the values make sense? The average of heights does; the “average” of ZIP codes does not — ZIP code is qualitative despite its digits.</p>
+</section>
+<section id="discrete-and-continuous-variables" class="slide level2">
+<h2>Discrete and Continuous Variables</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Discrete Variables</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Discrete variables</strong> assume values that can be <strong>counted</strong> — a finite number of values, or a countable sequence (0, 1, 2, 3, …). Examples: number of phone calls received, number of children in a family.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Continuous Variables</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Continuous variables</strong> can assume <strong>infinitely many values between any two specific values</strong>. They are obtained by <strong>measuring</strong> and often include fractions and decimals. Examples: temperature, height, weight, time.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-3" class="slide level2">
+<h2>Example 1-3</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Classify Each Variable</strong></p>
+</div>
+<div class="callout-content">
+<p>Classify each variable as <strong>qualitative</strong> or <strong>quantitative</strong>. If quantitative, further classify it as <strong>discrete</strong> or <strong>continuous</strong>.</p>
+<ol type="1">
+<li>The number of text messages a student sends in one day</li>
+<li>The amount of water in a 2-liter bottle</li>
+<li>A student’s blood type</li>
+<li>The time it takes to run 100 meters</li>
+<li>The number of cars passing a toll booth per hour</li>
+<li>The color of cars in a parking lot</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-3-1" class="slide level2">
+<h2>Example 1-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type</th>
+<th>Subtype</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Text messages per day</td>
+<td>Quantitative</td>
+<td>Discrete (countable)</td>
+</tr>
+<tr class="even">
+<td>2. Water in a bottle</td>
+<td>Quantitative</td>
+<td>Continuous (measured)</td>
+</tr>
+<tr class="odd">
+<td>3. Blood type</td>
+<td>Qualitative</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>4. Time to run 100 m</td>
+<td>Quantitative</td>
+<td>Continuous (measured)</td>
+</tr>
+<tr class="odd">
+<td>5. Cars per hour</td>
+<td>Quantitative</td>
+<td>Discrete (countable)</td>
+</tr>
+<tr class="even">
+<td>6. Car color</td>
+<td>Qualitative</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<p>Ask two questions in order: <em>Is it numeric with meaningful arithmetic?</em> If not, it is qualitative. If yes, <em>is it counted or measured?</em> Counted → discrete; measured → continuous.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="boundaries-of-continuous-variables" class="slide level2">
+<h2>Boundaries of Continuous Variables</h2>
+<p>Because measuring devices have limited precision, continuous data must be <strong>rounded</strong>. A recorded value therefore represents an <strong>interval</strong> of true values.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Boundary Rule</strong></p>
+</div>
+<div class="callout-content">
+<p>A recorded value’s <strong>boundaries</strong> extend <strong>one-half unit below and above</strong> the recorded value, in the same units:</p>
+<p><span class="math display">\text{Boundaries} = \text{recorded value} \pm \tfrac{1}{2}\,(\text{measurement unit})</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Recorded value</th>
+<th>Measured to nearest</th>
+<th>Boundaries</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>86 °F</td>
+<td>degree</td>
+<td>85.5 – 86.5 °F</td>
+</tr>
+<tr class="even">
+<td>15 ml</td>
+<td>ml</td>
+<td>14.5 – 15.5 ml</td>
+</tr>
+<tr class="odd">
+<td>1.6 kg</td>
+<td>tenth of kg</td>
+<td>1.55 – 1.65 kg</td>
+</tr>
+<tr class="even">
+<td>3.18 s</td>
+<td>hundredth of s</td>
+<td>3.175 – 3.185 s</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-4" class="slide level2">
+<h2>Example 1-4</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Finding Class Boundaries</strong></p>
+</div>
+<div class="callout-content">
+<p>Find the boundaries of each measured value.</p>
+<ol type="1">
+<li>A patient’s temperature, recorded as 38.6 °C (nearest tenth of a degree)</li>
+<li>A package’s weight, recorded as 12 kg (nearest kg)</li>
+<li>A sprint time, recorded as 9.58 s (nearest hundredth of a second)</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-4-1" class="slide level2">
+<h2>Example 1-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.6</span>, <span class="dv">12</span>, <span class="fl">9.58</span>)</span>
+<span id="cb4-2"><a href=""></a>units  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.01</span>)</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb4-5"><a href=""></a>  <span class="at">Recorded =</span> values,</span>
+<span id="cb4-6"><a href=""></a>  <span class="at">Unit     =</span> units,</span>
+<span id="cb4-7"><a href=""></a>  <span class="at">Lower    =</span> values <span class="sc">-</span> units <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb4-8"><a href=""></a>  <span class="at">Upper    =</span> values <span class="sc">+</span> units <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb4-9"><a href=""></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Recorded</th>
+<th style="text-align: center;">Unit</th>
+<th style="text-align: center;">Lower</th>
+<th style="text-align: center;">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">38.60</td>
+<td style="text-align: center;">0.10</td>
+<td style="text-align: center;">38.550</td>
+<td style="text-align: center;">38.650</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12.00</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">11.500</td>
+<td style="text-align: center;">12.500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9.58</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">9.575</td>
+<td style="text-align: center;">9.585</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretation</strong></p>
+<p>Each recorded value actually stands for the <strong>interval</strong> between its boundaries. Boundaries are essential when constructing grouped frequency distributions in Chapter 2.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-four-levels-of-measurement" class="slide level2">
+<h2>The Four Levels of Measurement</h2>
+<p>In addition to being classified by type, variables are classified by <strong>how much information their values carry</strong>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Measurement Scales</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Nominal</strong> — mutually exclusive, <strong>unordered</strong> categories (gender, ZIP code, eye color).</li>
+<li><strong>Ordinal</strong> — categories that can be <strong>ranked</strong>, but differences between ranks are not meaningful (letter grades, judges’ rankings, S/M/L).</li>
+<li><strong>Interval</strong> — ordered with <strong>meaningful, equal differences</strong>, but <strong>no true zero</strong> (temperature in °F or °C, IQ scores).</li>
+<li><strong>Ratio</strong> — interval properties <strong>plus a true zero</strong>, so ratios are meaningful (height, weight, salary, time).</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="the-four-levels-compared" class="slide level2">
+<h2>The Four Levels Compared</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Order?</th>
+<th>Equal differences?</th>
+<th>True zero?</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nominal</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Blood type, nationality</td>
+</tr>
+<tr class="even">
+<td>Ordinal</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Grade (A–F), satisfaction rating</td>
+</tr>
+<tr class="odd">
+<td>Interval</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Temperature (°C), IQ</td>
+</tr>
+<tr class="even">
+<td>Ratio</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Height, weight, income</td>
+</tr>
+</tbody>
+</table>
+<p>A temperature of 0 °C does not mean “no heat” — so 40 °C is <strong>not</strong> “twice as hot” as 20 °C (interval). But a weight of 0 kg means no weight, and 40 kg <strong>is</strong> twice 20 kg (ratio).</p>
+</section>
+<section id="example-1-5" class="slide level2">
+<h2>Example 1-5</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Classify the Level of Measurement</strong></p>
+</div>
+<div class="callout-content">
+<p>Classify each variable according to its level of measurement.</p>
+<ol type="1">
+<li>Jersey numbers of basketball players</li>
+<li>Rankings of tennis players (1st, 2nd, 3rd, …)</li>
+<li>SAT scores</li>
+<li>Weights of newborn babies</li>
+<li>Course evaluation responses: poor / fair / good / excellent</li>
+<li>Body temperatures in °C</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-5-1" class="slide level2">
+<h2>Example 1-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Level</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Jersey numbers</td>
+<td>Nominal</td>
+<td>Numbers are labels only</td>
+</tr>
+<tr class="even">
+<td>2. Tennis rankings</td>
+<td>Ordinal</td>
+<td>Order matters; gaps not meaningful</td>
+</tr>
+<tr class="odd">
+<td>3. SAT scores</td>
+<td>Interval</td>
+<td>Equal differences; no true zero</td>
+</tr>
+<tr class="even">
+<td>4. Newborn weights</td>
+<td>Ratio</td>
+<td>True zero exists; ratios meaningful</td>
+</tr>
+<tr class="odd">
+<td>5. Evaluation responses</td>
+<td>Ordinal</td>
+<td>Ranked categories</td>
+</tr>
+<tr class="even">
+<td>6. Temperatures (°C)</td>
+<td>Interval</td>
+<td>0 °C is not “no temperature”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<p>The level of measurement determines which statistical methods are legitimate — e.g., computing a mean requires at least interval data.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="levels-of-measurement-in-r" class="slide level2">
+<h2>Levels of Measurement in R</h2>
+<p>R distinguishes these levels through data types:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>blood   <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"O"</span>, <span class="st">"B"</span>, <span class="st">"AB"</span>))                     <span class="co"># nominal</span></span>
+<span id="cb5-2"><a href=""></a>rating  <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"poor"</span>, <span class="st">"good"</span>, <span class="st">"excellent"</span>),</span>
+<span id="cb5-3"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"poor"</span>, <span class="st">"fair"</span>, <span class="st">"good"</span>, <span class="st">"excellent"</span>),</span>
+<span id="cb5-4"><a href=""></a>                  <span class="at">ordered =</span> <span class="cn">TRUE</span>)                              <span class="co"># ordinal</span></span>
+<span id="cb5-5"><a href=""></a>temp_c  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">36.5</span>, <span class="fl">37.0</span>, <span class="fl">38.2</span>)                                 <span class="co"># interval</span></span>
+<span id="cb5-6"><a href=""></a>weight  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.2</span>, <span class="fl">2.9</span>, <span class="fl">3.5</span>)                                    <span class="co"># ratio</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a><span class="fu">str</span>(blood); <span class="fu">str</span>(rating); <span class="fu">str</span>(temp_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 4 levels "A","AB","B","O": 1 4 3 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Ord.factor w/ 4 levels "poor"&lt;"fair"&lt;..: 1 3 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:3] 36.5 37 38.2</code></pre>
+</div>
+</div>
+<p>Nominal data become unordered <code>factor</code>s, ordinal data become <strong>ordered</strong> factors, and interval/ratio data are stored as <code>numeric</code>.</p>
+</section></section>
+<section>
+<section id="section-1-3-data-collection-and-sampling-techniques" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-3: Data Collection and Sampling Techniques</h1>
+
+</section>
+<section id="how-are-data-collected" class="slide level2">
+<h2>How Are Data Collected?</h2>
+<p>Data come from many sources: <strong>surveys</strong>, <strong>records</strong> (existing files and databases), <strong>direct observation</strong>, and <strong>experiments</strong>. Surveys are the most common, and are conducted in three main ways:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 26%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Survey method</th>
+<th>Advantages</th>
+<th>Disadvantages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Telephone</td>
+<td>Inexpensive; respondents more candid</td>
+<td>Excludes those without phones; tone of voice may influence answers</td>
+</tr>
+<tr class="even">
+<td>Mailed questionnaire</td>
+<td>Wide geographic coverage; anonymity</td>
+<td>Low response rates; questions may be misunderstood</td>
+</tr>
+<tr class="odd">
+<td>Personal interview</td>
+<td>In-depth responses</td>
+<td>Costly; interviewer bias possible</td>
+</tr>
+</tbody>
+</table>
+<p>Data can also be obtained by <strong>surveying records</strong> or by <strong>direct observation</strong> of situations.</p>
+</section>
+<section id="why-sample" class="slide level2">
+<h2>Why Sample?</h2>
+<p>Studying an entire population (a <strong>census</strong>) is usually impossible or impractical:</p>
+<ul>
+<li>Populations are often too <strong>large</strong> to enumerate.</li>
+<li>Testing may be <strong>destructive</strong> (crash-testing every car leaves no cars).</li>
+<li>Resources — <strong>time, money, personnel</strong> — are limited.</li>
+</ul>
+<p>To make valid inferences, samples should be <strong>unbiased</strong> — chosen by a chance method. Four basic methods follow; each is illustrated with R using a roster of 500 students.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href=""></a>roster <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-3"><a href=""></a>  <span class="at">id      =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>,</span>
+<span id="cb9-4"><a href=""></a>  <span class="at">college =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Business"</span>, <span class="st">"Design"</span>, <span class="st">"Culture"</span>, <span class="st">"Management"</span>, <span class="st">"Media"</span>),</span>
+<span id="cb9-5"><a href=""></a>                <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="random-sampling" class="slide level2">
+<h2>Random Sampling</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Random Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>random sample</strong> is selected so that <strong>every member of the population has an equal chance</strong> of being chosen — typically using random numbers.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># Select 10 students completely at random</span></span>
+<span id="cb10-2"><a href=""></a><span class="fu">sample</span>(roster<span class="sc">$</span>id, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 324 167 129 418 471 299 270 466 187 307</code></pre>
+</div>
+</div>
+<p>Historically this was done with <strong>random number tables</strong>; today software generates the random numbers.</p>
+</section>
+<section id="systematic-sampling" class="slide level2">
+<h2>Systematic Sampling</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Systematic Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>systematic sample</strong> numbers the population 1 to <span class="math inline">N</span>, picks a <strong>random starting point</strong>, then selects <strong>every <span class="math inline">k</span>th</strong> subject, where <span class="math inline">k \approx N/n</span>.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># N = 500, n = 10, so k = 50; random start between 1 and 50</span></span>
+<span id="cb12-2"><a href=""></a>start <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href=""></a><span class="fu">seq</span>(start, <span class="dv">500</span>, <span class="at">by =</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  33  83 133 183 233 283 333 383 433 483</code></pre>
+</div>
+</div>
+<p>Caution: if the population list has a <strong>periodic pattern</strong> that matches <span class="math inline">k</span>, the sample can be badly biased.</p>
+</section>
+<section id="stratified-sampling" class="slide level2">
+<h2>Stratified Sampling</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Stratified Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>stratified sample</strong> divides the population into <strong>strata</strong> (groups sharing a characteristic), then samples randomly <strong>within each stratum</strong>. This guarantees every subgroup is represented.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># Two students at random from each college</span></span>
+<span id="cb14-2"><a href=""></a>roster <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="fu">group_by</span>(college) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href=""></a>  <span class="fu">arrange</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+# Groups:   college [5]
+      id college   
+   &lt;int&gt; &lt;chr&gt;     
+ 1    85 Business  
+ 2    21 Business  
+ 3   254 Culture   
+ 4   274 Culture   
+ 5   107 Design    
+ 6   173 Design    
+ 7   379 Management
+ 8   385 Management
+ 9   437 Media     
+10   489 Media     </code></pre>
+</div>
+</div>
+</section>
+<section id="cluster-sampling" class="slide level2">
+<h2>Cluster Sampling</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Cluster Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>cluster sample</strong> divides the population into existing <strong>clusters</strong> (sections, blocks, schools), randomly selects <strong>whole clusters</strong>, and uses <strong>all members</strong> of the chosen clusters.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co"># 25 dormitory rooms of 20 students each; select 2 entire rooms</span></span>
+<span id="cb16-2"><a href=""></a>rooms  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">each =</span> <span class="dv">20</span>)</span>
+<span id="cb16-3"><a href=""></a>chosen <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>)</span>
+<span id="cb16-4"><a href=""></a>chosen</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14  5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">table</span>(rooms[rooms <span class="sc">%in%</span> chosen])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 5 14 
+20 20 </code></pre>
+</div>
+</div>
+<p>Clusters are convenient and cheap, but members of a cluster tend to resemble one another, which can reduce representativeness.</p>
+</section>
+<section id="other-sampling-methods" class="slide level2">
+<h2>Other Sampling Methods</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Convenience Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>convenience sample</strong> uses subjects that are <strong>readily available</strong> — shoppers at one mall, volunteers responding online. Results may be acceptable if the group is representative, but convenience samples are often <strong>biased</strong>.</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 34%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Key idea</th>
+<th>Main risk</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Random</td>
+<td>Equal chance for all</td>
+<td>Requires full population list</td>
+</tr>
+<tr class="even">
+<td>Systematic</td>
+<td>Every <span class="math inline">k</span>th subject</td>
+<td>Hidden periodic patterns</td>
+</tr>
+<tr class="odd">
+<td>Stratified</td>
+<td>Random within subgroups</td>
+<td>Must know strata in advance</td>
+</tr>
+<tr class="even">
+<td>Cluster</td>
+<td>All members of chosen clusters</td>
+<td>Clusters may be homogeneous</td>
+</tr>
+<tr class="odd">
+<td>Convenience</td>
+<td>Whoever is available</td>
+<td>Bias</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-1-6" class="slide level2">
+<h2>Example 1-6</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Identify the Sampling Method</strong></p>
+</div>
+<div class="callout-content">
+<p>State which sampling method was used in each scenario.</p>
+<ol type="1">
+<li>Out of 10 hospitals in a city, 3 are chosen at random, and <strong>all</strong> nurses in those hospitals are surveyed.</li>
+<li>A quality engineer tests <strong>every 100th</strong> bottle coming off a production line.</li>
+<li>A pollster uses a random number generator to pick 1,000 phone numbers from all listed numbers.</li>
+<li>A university surveys 50 freshmen, 50 sophomores, 50 juniors, and 50 seniors, each chosen at random within their class.</li>
+<li>A reporter interviews people walking past the station entrance.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-6-1" class="slide level2">
+<h2>Example 1-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Method</th>
+<th>Clue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Cluster</td>
+<td>Whole hospitals selected; everyone inside surveyed</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Systematic</td>
+<td>Every 100th item</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Random</td>
+<td>Random numbers; equal chance</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Stratified</td>
+<td>Random selection within each class level</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Convenience</td>
+<td>Whoever happens to pass by</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<p>The decisive questions are: <em>Were groups or individuals selected? Was chance used? Was selection done within subgroups or of whole subgroups?</em></p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="section-1-4-observational-and-experimental-studies" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-4: Observational and Experimental Studies</h1>
+
+</section>
+<section id="observational-studies" class="slide level2">
+<h2>Observational Studies</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Observational Study</strong></p>
+</div>
+<div class="callout-content">
+<p>In an <strong>observational study</strong>, the researcher merely <strong>observes</strong> what is happening or what has happened, and draws conclusions — <strong>without intervening</strong> or assigning treatments.</p>
+</div>
+</div>
+</div>
+<p><strong>Advantages:</strong> occurs in a natural setting; can use existing records; can study variables that would be <strong>unethical or impossible</strong> to assign (smoking, natural disasters).</p>
+<p><strong>Disadvantages:</strong> cannot establish <strong>cause and effect</strong>; exposed to <strong>confounding variables</strong>; recorded data may contain errors.</p>
+</section>
+<section id="experimental-studies" class="slide level2">
+<h2>Experimental Studies</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Experimental Study</strong></p>
+</div>
+<div class="callout-content">
+<p>In an <strong>experimental study</strong>, the researcher <strong>manipulates</strong> one variable (the treatment) and measures its effect on another, ideally with subjects <strong>randomly assigned</strong> to groups.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key Vocabulary</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Independent (explanatory) variable</strong> — the variable the researcher manipulates.</li>
+<li><strong>Dependent (outcome) variable</strong> — the variable measured as the result.</li>
+<li><strong>Treatment group</strong> — receives the treatment; <strong>control group</strong> — does not (may receive a <strong>placebo</strong>).</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Random assignment makes the groups comparable, so differences in the outcome can be attributed to the treatment — experiments <strong>can</strong> establish causation.</p>
+</section>
+<section id="confounding-and-other-effects" class="slide level2">
+<h2>Confounding and Other Effects</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Confounding Variable</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>confounding variable</strong> influences the dependent variable but <strong>cannot be separated</strong> from the independent variable. Example: if exercisers also change their diets, diet confounds the effect of exercise on weight loss.</p>
+</div>
+</div>
+</div>
+<p>Two famous behavioral effects:</p>
+<ul>
+<li><strong>Placebo effect</strong> — subjects improve merely because they <em>believe</em> they are being treated. Remedy: give the control group an inert placebo.</li>
+<li><strong>Hawthorne effect</strong> — subjects change behavior simply because they <em>know they are being studied</em> (first documented at the Hawthorne plant, 1924–1932).</li>
+</ul>
+</section>
+<section id="example-1-7" class="slide level2">
+<h2>Example 1-7</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Observational or Experimental?</strong></p>
+</div>
+<div class="callout-content">
+<p>For each study, decide whether it is observational or experimental. If experimental, identify the independent and dependent variables.</p>
+<ol type="1">
+<li>Researchers compare lung cancer rates between people who smoke and people who do not.</li>
+<li>Subjects are randomly assigned to drink either 0, 1, or 2 cups of coffee, and reaction times are then measured.</li>
+<li>A sociologist examines census records to study how household size changed from 1990 to 2020.</li>
+<li>Patients are randomly given a new drug or a placebo, and blood pressure is recorded after 8 weeks.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-7-1" class="slide level2">
+<h2>Example 1-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Study</th>
+<th>Type</th>
+<th>Independent var.</th>
+<th>Dependent var.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Observational</td>
+<td>— (smoking not assigned)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Experimental</td>
+<td>Cups of coffee</td>
+<td>Reaction time</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Observational</td>
+<td>— (existing records)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Experimental</td>
+<td>Drug vs.&nbsp;placebo</td>
+<td>Blood pressure</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation</strong></p>
+<p>The decisive question is whether the researcher <strong>assigned</strong> the values of the explanatory variable. Assignment (with randomization) → experimental; mere observation → observational.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="random-assignment-in-r" class="slide level2">
+<h2>Random Assignment in R</h2>
+<p>Randomly assigning 20 subjects to treatment and control groups:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb20-2"><a href=""></a>subjects <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb20-3"><a href=""></a>treatment <span class="ot">&lt;-</span> <span class="fu">sample</span>(subjects, <span class="dv">10</span>)   <span class="co"># 10 chosen at random</span></span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb20-6"><a href=""></a>  <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">"Treatment"</span>, <span class="st">"Control"</span>),</span>
+<span id="cb20-7"><a href=""></a>  <span class="at">Subjects =</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sort</span>(treatment), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb20-8"><a href=""></a>               <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">setdiff</span>(subjects, treatment)), <span class="at">collapse =</span> <span class="st">", "</span>))</span>
+<span id="cb20-9"><a href=""></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"l"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Subjects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Treatment</td>
+<td style="text-align: left;">1, 2, 4, 5, 7, 8, 10, 17, 18, 20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">3, 6, 9, 11, 12, 13, 14, 15, 16, 19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Randomization balances both the variables we can see <strong>and the ones we cannot</strong>, which is what makes causal conclusions possible.</p>
+</section></section>
+<section>
+<section id="section-1-5-uses-and-misuses-of-statistics" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-5: Uses and Misuses of Statistics</h1>
+
+</section>
+<section id="statistics-can-mislead" class="slide level2">
+<h2>Statistics Can Mislead</h2>
+<p>Almost all statistical misuse falls into a small number of patterns. Knowing them protects you both as a <strong>reader</strong> and as a <strong>producer</strong> of statistics:</p>
+<ol type="1">
+<li>Suspect samples</li>
+<li>Ambiguous averages</li>
+<li>Changing the subject</li>
+<li>Detached statistics</li>
+<li>Implied connections</li>
+<li>Misleading graphs</li>
+<li>Faulty survey questions</li>
+</ol>
+</section>
+<section id="suspect-samples-and-ambiguous-averages" class="slide level2">
+<h2>Suspect Samples and Ambiguous Averages</h2>
+<p><strong>Suspect samples.</strong> Was the sample large enough? Was it chosen by chance? <em>“Three out of four doctors surveyed recommend brand X”</em> — if only four doctors were surveyed, or if they volunteered, the claim is worthless.</p>
+<p><strong>Ambiguous averages.</strong> Four different statistics — <strong>mean, median, mode, midrange</strong> — can each be loosely called the “average” (Chapter 3). A writer can pick whichever number flatters the argument. Income reports commonly quote the mean (pulled up by a few very high earners) when the median tells a humbler story.</p>
+</section>
+<section id="changing-the-subject-and-detached-statistics" class="slide level2">
+<h2>Changing the Subject and Detached Statistics</h2>
+<p><strong>Changing the subject.</strong> The same facts, different numbers: a politician says spending increased <em>“only 3%”</em>; an opponent says it increased <em>“by $6,000,000.”</em> Both may be true — percentages and absolute values create very different impressions.</p>
+<p><strong>Detached statistics.</strong> A comparison with no baseline: <em>“This pain reliever works four times faster.”</em> Four times faster <strong>than what?</strong> A claim with no stated reference point cannot be evaluated.</p>
+</section>
+<section id="implied-connections-and-faulty-questions" class="slide level2">
+<h2>Implied Connections and Faulty Questions</h2>
+<p><strong>Implied connections.</strong> Hedge words smuggle in causation: <em>“Eating fish <strong>may help</strong> reduce your cholesterol.”</em> “May help” guarantees nothing, but readers remember “fish reduces cholesterol.”</p>
+<p><strong>Faulty survey questions.</strong> Small wording changes flip results:</p>
+<ul>
+<li><em>“Do you favor cutting wasteful government programs?”</em> vs.</li>
+<li><em>“Do you favor cutting programs such as health care and education?”</em></li>
+</ul>
+<p>Question <strong>order</strong>, loaded words, and social desirability all bias self-reported answers.</p>
+</section>
+<section id="example-1-8" class="slide level2">
+<h2>Example 1-8</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Misleading Graphs</strong></p>
+</div>
+<div class="callout-content">
+<p>Two cola brands have market shares of 45% (Brand A) and 47% (Brand B) — a difference of only 2 percentage points. Draw the same data twice: once with a <strong>truncated</strong> vertical axis and once with a proper axis starting at zero. Compare the impressions given.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-8-1" class="slide level2">
+<h2>Example 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve — the misleading version</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>cola <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Brand =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="at">Share =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">47</span>))</span>
+<span id="cb21-2"><a href=""></a></span>
+<span id="cb21-3"><a href=""></a><span class="fu">ggplot</span>(cola, <span class="fu">aes</span>(Brand, Share, <span class="at">fill =</span> Brand)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">44</span>, <span class="dv">48</span>)) <span class="sc">+</span></span>
+<span id="cb21-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Truncated Axis: B Looks Dominant"</span>,</span>
+<span id="cb21-7"><a href=""></a>       <span class="at">y =</span> <span class="st">"Market Share (%)"</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1_files/figure-revealjs/e1-8-1-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-8-2" class="slide level2">
+<h2>Example 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Solve — the honest version</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">ggplot</span>(cola, <span class="fu">aes</span>(Brand, Share, <span class="at">fill =</span> Brand)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Full Axis: The Difference Is Modest"</span>,</span>
+<span id="cb22-5"><a href=""></a>       <span class="at">y =</span> <span class="st">"Market Share (%)"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1_files/figure-revealjs/e1-8-2-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-8-3" class="slide level2">
+<h2>Example 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Interpretation</strong></p>
+<p>Both graphs plot <strong>exactly the same numbers</strong>, yet the truncated axis makes Brand B’s 2-point lead look like total dominance. When reading graphs, always check:</p>
+<ul>
+<li>Does the value axis <strong>start at zero</strong>?</li>
+<li>Are the axis units <strong>evenly spaced</strong>?</li>
+<li>Are picture symbols scaled by <strong>area/volume</strong> rather than height (a common exaggeration trick)?</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="section-1-6-computers-and-statistical-software" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 1-6: Computers and Statistical Software</h1>
+
+</section>
+<section id="the-role-of-computers" class="slide level2">
+<h2>The Role of Computers</h2>
+<p>Statistical computation that once required hours with a hand calculator and printed tables is now instantaneous. Common tools include graphing calculators, Excel, MINITAB, SPSS — and <strong>R</strong>, the language used throughout this course.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Machine Does Not Think</strong></p>
+</div>
+<div class="callout-content">
+<p>Software only <strong>performs the calculations</strong> it is asked to perform. The user must still choose the correct method, check its assumptions, and <strong>interpret</strong> the output. A computer will happily compute a meaningless average of ZIP codes.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="a-first-look-at-r" class="slide level2">
+<h2>A First Look at R</h2>
+<p>Everything in this course — tables, graphs, simulations, tests — is produced with short R scripts like this one:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb23-2"><a href=""></a>scores <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">10</span>)   <span class="co"># simulate 200 exam scores</span></span>
+<span id="cb23-3"><a href=""></a><span class="fu">summary</span>(scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  46.60   64.41   72.22   71.35   77.33   97.17 </code></pre>
+</div>
+</div>
+</section>
+<section id="a-first-look-at-r-1" class="slide level2">
+<h2>A First Look at R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(scores), <span class="fu">aes</span>(scores)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb25-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Simulated Exam Scores"</span>, <span class="at">x =</span> <span class="st">"Score"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb25-4"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch1_files/figure-revealjs/e1-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"></section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concept</th>
+<th>Key idea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Descriptive statistics</td>
+<td>Collecting, organizing, summarizing, presenting data</td>
+</tr>
+<tr class="even">
+<td>Inferential statistics</td>
+<td>Generalizing from samples to populations</td>
+</tr>
+<tr class="odd">
+<td>Population vs.&nbsp;sample</td>
+<td>All subjects vs.&nbsp;a representative subgroup</td>
+</tr>
+<tr class="even">
+<td>Qualitative vs.&nbsp;quantitative</td>
+<td>Categories vs.&nbsp;meaningful numbers</td>
+</tr>
+<tr class="odd">
+<td>Discrete vs.&nbsp;continuous</td>
+<td>Counted vs.&nbsp;measured values</td>
+</tr>
+<tr class="even">
+<td>Measurement levels</td>
+<td>Nominal, ordinal, interval, ratio</td>
+</tr>
+<tr class="odd">
+<td>Sampling methods</td>
+<td>Random, systematic, stratified, cluster (and convenience)</td>
+</tr>
+<tr class="even">
+<td>Observational vs.&nbsp;experimental</td>
+<td>Observe only vs.&nbsp;manipulate and randomize</td>
+</tr>
+<tr class="odd">
+<td>Misuses of statistics</td>
+<td>Suspect samples, ambiguous averages, misleading graphs, …</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-distinctions" class="slide level2">
+<h2>Key Distinctions</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important Distinctions</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\text{Boundaries} = \text{recorded value} \pm \tfrac{1}{2}\,(\text{measurement unit})</span></p>
+<ul>
+<li><strong>Descriptive</strong> summarizes what was observed; <strong>inferential</strong> generalizes beyond it.</li>
+<li>A <strong>parameter</strong> describes a population; a <strong>statistic</strong> describes a sample.</li>
+<li><strong>Interval</strong> scales lack a true zero; <strong>ratio</strong> scales have one.</li>
+<li>Only <strong>experiments</strong> (with random assignment) can establish cause and effect.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="key-takeaways" class="slide level2">
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong>Statistics</strong> — the science of collecting, organizing, summarizing, analyzing, and drawing conclusions from data</li>
+<li><strong>Variable / data / data set</strong> — a characteristic, its observed values, and their collection</li>
+<li><strong>Population / sample</strong> — all subjects of interest vs.&nbsp;the subgroup actually studied</li>
+<li><strong>Descriptive vs.&nbsp;inferential</strong> — describing data vs.&nbsp;generalizing from samples</li>
+<li><strong>Qualitative / quantitative; discrete / continuous</strong> — the two-step classification of variables</li>
+<li><strong>Nominal / ordinal / interval / ratio</strong> — the four levels of measurement</li>
+<li><strong>Random / systematic / stratified / cluster</strong> — the four basic chance sampling methods</li>
+<li><strong>Observational vs.&nbsp;experimental</strong> — only randomized experiments support causal claims</li>
+<li><strong>Misuses</strong> — suspect samples, ambiguous averages, detached statistics, misleading graphs</li>
+</ul>
+</section>
+<section id="acknowledgement" class="slide level2">
+<h2>Acknowledgement</h2>
+<ul>
+<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
+<li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Elementary Statistics: A Step by Step Approach</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="ch1_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="ch1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="ch1_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="ch1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":false,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"hideMissingTitles":true,"titleSelector":"h1"},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch1-zh.html"  style="color:#555;">[中文版由此去]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+    
+
+</body></html>

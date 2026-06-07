@@ -1,0 +1,833 @@
+---
+title: "Statistics"
+subtitle: "Chapter 1: The Nature of Probability and Statistics"
+author: "Yu-You Liou"
+institute: "Shih Chien University"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    html-math-method: katex
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    logo: "logo.svg"
+    editor: source
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
+title-slide-attributes:
+  data-notes: ""
+include-after-body:
+  text: |
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch1-zh.html"  style="color:#555;">[中文版由此去]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+## Overview
+Chapter 1 introduces the **fundamental nature of statistics** — what statistics is, the kinds of data it works with, how data are collected, and how statistical results can be used or misused.
+
+| Section | Topics |
+|---------|--------|
+| 1-1 | Descriptive and inferential statistics |
+| 1-2 | Variables and types of data |
+| 1-3 | Data collection and sampling techniques |
+| 1-4 | Observational and experimental studies |
+| 1-5 | Uses and misuses of statistics |
+| 1-6 | Computers and statistical software |
+
+# Section 1-1: Descriptive and Inferential Statistics {background-color="#2c4a6e"}
+
+## What Is Statistics?
+
+Statistics appears everywhere — sports records, opinion polls, medical findings, unemployment rates, weather forecasts. All of these begin with **data**: values that have been collected and must be organized before they can tell us anything.
+
+:::{.callout-note}
+## Statistics
+
+**Statistics** is the science of conducting studies to **collect, organize, summarize, analyze, and draw conclusions** from data.
+:::
+
+Three reasons to study statistics:
+
+1. To **read and interpret** studies, charts, and statistical claims in everyday life and in your field.
+2. To **conduct research** — design studies, analyze data, and communicate results correctly.
+3. To become a **better consumer and citizen** — able to recognize when numbers inform and when they mislead.
+
+## Basic Vocabulary
+
+:::{.callout-note}
+## Variables and Data
+
+- A **variable** is a characteristic or attribute that can assume different values.
+- **Data** are the values (measurements or observations) that variables assume.
+- A collection of data values forms a **data set**; each individual value is a **data value** (or **datum**).
+- Variables whose values are determined by chance are called **random variables**.
+:::
+
+For instance, "blood type" is a variable; the observed values `A`, `B`, `AB`, `O` recorded from 25 inductees are the data; the entire list of 25 values is the data set.
+
+## Populations and Samples
+
+In most studies it is impractical — sometimes impossible — to examine every subject of interest. Researchers therefore study a subgroup and generalize from it.
+
+:::{.callout-note}
+## Population and Sample
+
+- A **population** consists of **all** subjects (human or otherwise) that are being studied.
+- A **sample** is a **subgroup** of the population, selected to represent it.
+:::
+
+:::{.callout-important}
+## Representativeness
+
+Conclusions drawn from a sample are trustworthy only if the sample is **representative** of the population — ideally obtained by a chance (random) method. How to obtain such samples is the subject of Section 1-3.
+:::
+
+## The Two Branches of Statistics
+
+:::{.callout-note}
+## Descriptive Statistics
+
+**Descriptive statistics** consists of the **collection, organization, summarization, and presentation** of data. It describes the situation as it is — averages, percentages, tables, and graphs computed from data actually observed.
+:::
+
+:::{.callout-note}
+## Inferential Statistics
+
+**Inferential statistics** consists of **generalizing from samples to populations**, performing estimations and hypothesis tests, determining relationships among variables, and making predictions.
+:::
+
+## Probability and Hypothesis Testing
+
+Inferential statistics rests on **probability theory**.
+
+- **Probability** is the chance that a particular event will occur — the mathematical language of uncertainty (Chapter 4).
+- **Hypothesis testing** is a decision-making process for evaluating claims about a population, based on information obtained from a sample (Chapter 8).
+
+Inferential statistics also studies **relationships** between variables (e.g., is smoking related to lung cancer?) and makes **predictions** (e.g., forecasting election results from a poll). Because samples never contain complete information, every inferential conclusion carries some uncertainty — which probability quantifies.
+
+## Example 1-1 {#example-1-1}
+
+:::{.callout-warning}
+## Descriptive or Inferential?
+
+Determine whether each statement is an example of **descriptive** or **inferential** statistics.
+
+1. The average jackpot of the five largest lottery payouts was \$367 million.
+2. By 2040, the world population is projected to exceed 9 billion.
+3. A medical study suggests that drinking one cup of coffee daily **may lower** the risk of heart disease.
+4. Last semester, 12% of the students in this course received a grade of A.
+5. Based on a poll of 1,200 voters, candidate Lin is predicted to win 54% of the vote.
+:::
+
+## Example 1-1
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+| Statement | Branch | Reason |
+|-----------|--------|--------|
+| 1 | Descriptive | Summarizes data actually observed (an average) |
+| 2 | Inferential | A prediction about a future, unobserved value |
+| 3 | Inferential | Generalizes from a study sample to all people |
+| 4 | Descriptive | Reports a percentage computed from complete records |
+| 5 | Inferential | Uses a sample (1,200 voters) to estimate a population value |
+
+**Interpretation**
+
+Whenever a number merely **summarizes observed data**, it is descriptive. Whenever it **goes beyond the data** — predicting, generalizing, or testing a claim — it is inferential.
+:::
+
+## Example 1-2 {#example-1-2}
+
+:::{.callout-warning}
+## Population, Sample, and Inference in R
+
+A university has 10,000 students. We wish to know the average weekly study hours of **all** students (the population), but we can only survey 50 of them (a sample). Simulate this situation in R and compare the sample mean with the population mean.
+:::
+
+## Example 1-2
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e1-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(2026)
+
+# The (normally unobservable) population: 10,000 students
+population <- rnorm(10000, mean = 15, sd = 4)
+
+# A random sample of 50 students
+my_sample <- sample(population, 50)
+
+c(`Population mean (parameter)` = mean(population),
+  `Sample mean (statistic)`     = mean(my_sample))
+```
+:::
+
+## Example 1-2
+
+:::{.callout-tip}
+## Solution
+
+**Interpretation**
+
+The sample mean (a **statistic**) is close to, but not exactly equal to, the population mean (a **parameter**). Using the statistic to draw a conclusion about the parameter is the essence of **inferential statistics**.
+
+```{r e1-2-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(data.frame(hours = my_sample), aes(x = hours)) +
+  geom_histogram(bins = 10, fill = "steelblue", color = "white") +
+  geom_vline(xintercept = mean(population), linetype = "dashed", color = "red") +
+  labs(title = "Sample of 50 Students (red line = population mean)",
+       x = "Weekly Study Hours", y = "Frequency") +
+  theme_minimal()
+```
+:::
+
+# Section 1-2: Variables and Types of Data {background-color="#2c4a6e"}
+
+## Classifying Variables
+
+Variables are classified in two complementary ways: by **how they are measured** (qualitative vs. quantitative) and, for quantitative variables, by **the values they can assume** (discrete vs. continuous).
+
+| | |
+|---|---|
+| **Qualitative** | Categories: gender, blood type, religious preference, geographic location |
+| **Quantitative — Discrete** | Countable values: number of children, calls received, students in a class |
+| **Quantitative — Continuous** | Measured values: height, weight, temperature, time |
+
+## Qualitative and Quantitative Variables
+
+:::{.callout-note}
+## Qualitative Variables
+
+**Qualitative variables** can be placed into **distinct categories** according to some characteristic or attribute. They are non-numeric in nature (even if coded with numbers, like ZIP codes).
+:::
+
+:::{.callout-note}
+## Quantitative Variables
+
+**Quantitative variables** are **numerical** and can be **ordered or ranked**. Arithmetic operations (averaging, differencing) are meaningful for them.
+:::
+
+A useful test: does the *average* of the values make sense? The average of heights does; the "average" of ZIP codes does not — ZIP code is qualitative despite its digits.
+
+## Discrete and Continuous Variables
+
+:::{.callout-note}
+## Discrete Variables
+
+**Discrete variables** assume values that can be **counted** — a finite number of values, or a countable sequence (0, 1, 2, 3, ...). Examples: number of phone calls received, number of children in a family.
+:::
+
+:::{.callout-note}
+## Continuous Variables
+
+**Continuous variables** can assume **infinitely many values between any two specific values**. They are obtained by **measuring** and often include fractions and decimals. Examples: temperature, height, weight, time.
+:::
+
+## Example 1-3 {#example-1-3}
+
+:::{.callout-warning}
+## Classify Each Variable
+
+Classify each variable as **qualitative** or **quantitative**. If quantitative, further classify it as **discrete** or **continuous**.
+
+1. The number of text messages a student sends in one day
+2. The amount of water in a 2-liter bottle
+3. A student's blood type
+4. The time it takes to run 100 meters
+5. The number of cars passing a toll booth per hour
+6. The color of cars in a parking lot
+:::
+
+## Example 1-3
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+| Variable | Type | Subtype |
+|----------|------|---------|
+| 1. Text messages per day | Quantitative | Discrete (countable) |
+| 2. Water in a bottle | Quantitative | Continuous (measured) |
+| 3. Blood type | Qualitative | — |
+| 4. Time to run 100 m | Quantitative | Continuous (measured) |
+| 5. Cars per hour | Quantitative | Discrete (countable) |
+| 6. Car color | Qualitative | — |
+
+**Interpretation**
+
+Ask two questions in order: *Is it numeric with meaningful arithmetic?* If not, it is qualitative. If yes, *is it counted or measured?* Counted → discrete; measured → continuous.
+:::
+
+## Boundaries of Continuous Variables
+
+Because measuring devices have limited precision, continuous data must be **rounded**. A recorded value therefore represents an **interval** of true values.
+
+:::{.callout-important}
+## Boundary Rule
+
+A recorded value's **boundaries** extend **one-half unit below and above** the recorded value, in the same units:
+
+$$\text{Boundaries} = \text{recorded value} \pm \tfrac{1}{2}\,(\text{measurement unit})$$
+
+| Recorded value | Measured to nearest | Boundaries |
+|---------------|--------------------|------------|
+| 86 °F | degree | 85.5 – 86.5 °F |
+| 15 ml | ml | 14.5 – 15.5 ml |
+| 1.6 kg | tenth of kg | 1.55 – 1.65 kg |
+| 3.18 s | hundredth of s | 3.175 – 3.185 s |
+:::
+
+## Example 1-4 {#example-1-4}
+
+:::{.callout-warning}
+## Finding Class Boundaries
+
+Find the boundaries of each measured value.
+
+1. A patient's temperature, recorded as 38.6 °C (nearest tenth of a degree)
+2. A package's weight, recorded as 12 kg (nearest kg)
+3. A sprint time, recorded as 9.58 s (nearest hundredth of a second)
+:::
+
+## Example 1-4
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e1-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+values <- c(38.6, 12, 9.58)
+units  <- c(0.1, 1, 0.01)
+
+data.frame(
+  Recorded = values,
+  Unit     = units,
+  Lower    = values - units / 2,
+  Upper    = values + units / 2
+) |> knitr::kable(align = "c")
+```
+
+**Interpretation**
+
+Each recorded value actually stands for the **interval** between its boundaries. Boundaries are essential when constructing grouped frequency distributions in Chapter 2.
+:::
+
+## The Four Levels of Measurement
+
+In addition to being classified by type, variables are classified by **how much information their values carry**.
+
+:::{.callout-note}
+## Measurement Scales
+
+- **Nominal** — mutually exclusive, **unordered** categories (gender, ZIP code, eye color).
+- **Ordinal** — categories that can be **ranked**, but differences between ranks are not meaningful (letter grades, judges' rankings, S/M/L).
+- **Interval** — ordered with **meaningful, equal differences**, but **no true zero** (temperature in °F or °C, IQ scores).
+- **Ratio** — interval properties **plus a true zero**, so ratios are meaningful (height, weight, salary, time).
+:::
+
+## The Four Levels Compared
+
+| Level | Order? | Equal differences? | True zero? | Examples |
+|-------|--------|-------------------|------------|----------|
+| Nominal | No | No | No | Blood type, nationality |
+| Ordinal | Yes | No | No | Grade (A–F), satisfaction rating |
+| Interval | Yes | Yes | No | Temperature (°C), IQ |
+| Ratio | Yes | Yes | Yes | Height, weight, income |
+
+A temperature of 0 °C does not mean "no heat" — so 40 °C is **not** "twice as hot" as 20 °C (interval). But a weight of 0 kg means no weight, and 40 kg **is** twice 20 kg (ratio).
+
+## Example 1-5 {#example-1-5}
+
+:::{.callout-warning}
+## Classify the Level of Measurement
+
+Classify each variable according to its level of measurement.
+
+1. Jersey numbers of basketball players
+2. Rankings of tennis players (1st, 2nd, 3rd, ...)
+3. SAT scores
+4. Weights of newborn babies
+5. Course evaluation responses: poor / fair / good / excellent
+6. Body temperatures in °C
+:::
+
+## Example 1-5
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+| Variable | Level | Reason |
+|----------|-------|--------|
+| 1. Jersey numbers | Nominal | Numbers are labels only |
+| 2. Tennis rankings | Ordinal | Order matters; gaps not meaningful |
+| 3. SAT scores | Interval | Equal differences; no true zero |
+| 4. Newborn weights | Ratio | True zero exists; ratios meaningful |
+| 5. Evaluation responses | Ordinal | Ranked categories |
+| 6. Temperatures (°C) | Interval | 0 °C is not "no temperature" |
+
+**Interpretation**
+
+The level of measurement determines which statistical methods are legitimate — e.g., computing a mean requires at least interval data.
+:::
+
+## Levels of Measurement in R
+
+R distinguishes these levels through data types:
+
+```{r e1-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+blood   <- factor(c("A", "O", "B", "AB"))                     # nominal
+rating  <- factor(c("poor", "good", "excellent"),
+                  levels = c("poor", "fair", "good", "excellent"),
+                  ordered = TRUE)                              # ordinal
+temp_c  <- c(36.5, 37.0, 38.2)                                 # interval
+weight  <- c(3.2, 2.9, 3.5)                                    # ratio
+
+str(blood); str(rating); str(temp_c)
+```
+
+Nominal data become unordered `factor`s, ordinal data become **ordered** factors, and interval/ratio data are stored as `numeric`.
+
+# Section 1-3: Data Collection and Sampling Techniques {background-color="#2c4a6e"}
+
+## How Are Data Collected?
+
+Data come from many sources: **surveys**, **records** (existing files and databases), **direct observation**, and **experiments**. Surveys are the most common, and are conducted in three main ways:
+
+| Survey method | Advantages | Disadvantages |
+|---------------|-----------|---------------|
+| Telephone | Inexpensive; respondents more candid | Excludes those without phones; tone of voice may influence answers |
+| Mailed questionnaire | Wide geographic coverage; anonymity | Low response rates; questions may be misunderstood |
+| Personal interview | In-depth responses | Costly; interviewer bias possible |
+
+Data can also be obtained by **surveying records** or by **direct observation** of situations.
+
+## Why Sample?
+
+Studying an entire population (a **census**) is usually impossible or impractical:
+
+- Populations are often too **large** to enumerate.
+- Testing may be **destructive** (crash-testing every car leaves no cars).
+- Resources — **time, money, personnel** — are limited.
+
+To make valid inferences, samples should be **unbiased** — chosen by a chance method. Four basic methods follow; each is illustrated with R using a roster of 500 students.
+
+```{r s1-3-roster, echo=T}
+set.seed(1)
+roster <- tibble(
+  id      = 1:500,
+  college = rep(c("Business", "Design", "Culture", "Management", "Media"),
+                each = 100))
+```
+
+## Random Sampling
+
+:::{.callout-note}
+## Random Sample
+
+A **random sample** is selected so that **every member of the population has an equal chance** of being chosen — typically using random numbers.
+:::
+
+```{r e1-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# Select 10 students completely at random
+sample(roster$id, 10)
+```
+
+Historically this was done with **random number tables**; today software generates the random numbers.
+
+## Systematic Sampling
+
+:::{.callout-note}
+## Systematic Sample
+
+A **systematic sample** numbers the population 1 to $N$, picks a **random starting point**, then selects **every $k$th** subject, where $k \approx N/n$.
+:::
+
+```{r e1-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# N = 500, n = 10, so k = 50; random start between 1 and 50
+start <- sample(1:50, 1)
+seq(start, 500, by = 50)
+```
+
+Caution: if the population list has a **periodic pattern** that matches $k$, the sample can be badly biased.
+
+## Stratified Sampling
+
+:::{.callout-note}
+## Stratified Sample
+
+A **stratified sample** divides the population into **strata** (groups sharing a characteristic), then samples randomly **within each stratum**. This guarantees every subgroup is represented.
+:::
+
+```{r e1-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# Two students at random from each college
+roster |>
+  group_by(college) |>
+  slice_sample(n = 2) |>
+  arrange(college)
+```
+
+## Cluster Sampling
+
+:::{.callout-note}
+## Cluster Sample
+
+A **cluster sample** divides the population into existing **clusters** (sections, blocks, schools), randomly selects **whole clusters**, and uses **all members** of the chosen clusters.
+:::
+
+```{r e1-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# 25 dormitory rooms of 20 students each; select 2 entire rooms
+rooms  <- rep(1:25, each = 20)
+chosen <- sample(1:25, 2)
+chosen
+table(rooms[rooms %in% chosen])
+```
+
+Clusters are convenient and cheap, but members of a cluster tend to resemble one another, which can reduce representativeness.
+
+## Other Sampling Methods
+
+:::{.callout-note}
+## Convenience Sample
+
+A **convenience sample** uses subjects that are **readily available** — shoppers at one mall, volunteers responding online. Results may be acceptable if the group is representative, but convenience samples are often **biased**.
+:::
+
+| Method | Key idea | Main risk |
+|--------|----------|-----------|
+| Random | Equal chance for all | Requires full population list |
+| Systematic | Every $k$th subject | Hidden periodic patterns |
+| Stratified | Random within subgroups | Must know strata in advance |
+| Cluster | All members of chosen clusters | Clusters may be homogeneous |
+| Convenience | Whoever is available | Bias |
+
+## Example 1-6 {#example-1-6}
+
+:::{.callout-warning}
+## Identify the Sampling Method
+
+State which sampling method was used in each scenario.
+
+1. Out of 10 hospitals in a city, 3 are chosen at random, and **all** nurses in those hospitals are surveyed.
+2. A quality engineer tests **every 100th** bottle coming off a production line.
+3. A pollster uses a random number generator to pick 1,000 phone numbers from all listed numbers.
+4. A university surveys 50 freshmen, 50 sophomores, 50 juniors, and 50 seniors, each chosen at random within their class.
+5. A reporter interviews people walking past the station entrance.
+:::
+
+## Example 1-6
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+| Scenario | Method | Clue |
+|----------|--------|------|
+| 1 | Cluster | Whole hospitals selected; everyone inside surveyed |
+| 2 | Systematic | Every 100th item |
+| 3 | Random | Random numbers; equal chance |
+| 4 | Stratified | Random selection within each class level |
+| 5 | Convenience | Whoever happens to pass by |
+
+**Interpretation**
+
+The decisive questions are: *Were groups or individuals selected? Was chance used? Was selection done within subgroups or of whole subgroups?*
+:::
+
+# Section 1-4: Observational and Experimental Studies {background-color="#2c4a6e"}
+
+## Observational Studies
+
+:::{.callout-note}
+## Observational Study
+
+In an **observational study**, the researcher merely **observes** what is happening or what has happened, and draws conclusions — **without intervening** or assigning treatments.
+:::
+
+**Advantages:** occurs in a natural setting; can use existing records; can study variables that would be **unethical or impossible** to assign (smoking, natural disasters).
+
+**Disadvantages:** cannot establish **cause and effect**; exposed to **confounding variables**; recorded data may contain errors.
+
+## Experimental Studies
+
+:::{.callout-note}
+## Experimental Study
+
+In an **experimental study**, the researcher **manipulates** one variable (the treatment) and measures its effect on another, ideally with subjects **randomly assigned** to groups.
+:::
+
+:::{.callout-note}
+## Key Vocabulary
+
+- **Independent (explanatory) variable** — the variable the researcher manipulates.
+- **Dependent (outcome) variable** — the variable measured as the result.
+- **Treatment group** — receives the treatment; **control group** — does not (may receive a **placebo**).
+:::
+
+Random assignment makes the groups comparable, so differences in the outcome can be attributed to the treatment — experiments **can** establish causation.
+
+## Confounding and Other Effects
+
+:::{.callout-note}
+## Confounding Variable
+
+A **confounding variable** influences the dependent variable but **cannot be separated** from the independent variable. Example: if exercisers also change their diets, diet confounds the effect of exercise on weight loss.
+:::
+
+Two famous behavioral effects:
+
+- **Placebo effect** — subjects improve merely because they *believe* they are being treated. Remedy: give the control group an inert placebo.
+- **Hawthorne effect** — subjects change behavior simply because they *know they are being studied* (first documented at the Hawthorne plant, 1924–1932).
+
+## Example 1-7 {#example-1-7}
+
+:::{.callout-warning}
+## Observational or Experimental?
+
+For each study, decide whether it is observational or experimental. If experimental, identify the independent and dependent variables.
+
+1. Researchers compare lung cancer rates between people who smoke and people who do not.
+2. Subjects are randomly assigned to drink either 0, 1, or 2 cups of coffee, and reaction times are then measured.
+3. A sociologist examines census records to study how household size changed from 1990 to 2020.
+4. Patients are randomly given a new drug or a placebo, and blood pressure is recorded after 8 weeks.
+:::
+
+## Example 1-7
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+| Study | Type | Independent var. | Dependent var. |
+|-------|------|------------------|----------------|
+| 1 | Observational | — (smoking not assigned) | — |
+| 2 | Experimental | Cups of coffee | Reaction time |
+| 3 | Observational | — (existing records) | — |
+| 4 | Experimental | Drug vs. placebo | Blood pressure |
+
+**Interpretation**
+
+The decisive question is whether the researcher **assigned** the values of the explanatory variable. Assignment (with randomization) → experimental; mere observation → observational.
+:::
+
+## Random Assignment in R
+
+Randomly assigning 20 subjects to treatment and control groups:
+
+```{r e1-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(42)
+subjects <- 1:20
+treatment <- sample(subjects, 10)   # 10 chosen at random
+
+data.frame(
+  Group = c("Treatment", "Control"),
+  Subjects = c(paste(sort(treatment), collapse = ", "),
+               paste(sort(setdiff(subjects, treatment)), collapse = ", "))
+) |> knitr::kable(align = "l")
+```
+
+Randomization balances both the variables we can see **and the ones we cannot**, which is what makes causal conclusions possible.
+
+# Section 1-5: Uses and Misuses of Statistics {background-color="#2c4a6e"}
+
+## Statistics Can Mislead
+
+Almost all statistical misuse falls into a small number of patterns. Knowing them protects you both as a **reader** and as a **producer** of statistics:
+
+1. Suspect samples
+2. Ambiguous averages
+3. Changing the subject
+4. Detached statistics
+5. Implied connections
+6. Misleading graphs
+7. Faulty survey questions
+
+## Suspect Samples and Ambiguous Averages
+
+**Suspect samples.** Was the sample large enough? Was it chosen by chance? *"Three out of four doctors surveyed recommend brand X"* — if only four doctors were surveyed, or if they volunteered, the claim is worthless.
+
+**Ambiguous averages.** Four different statistics — **mean, median, mode, midrange** — can each be loosely called the "average" (Chapter 3). A writer can pick whichever number flatters the argument. Income reports commonly quote the mean (pulled up by a few very high earners) when the median tells a humbler story.
+
+## Changing the Subject and Detached Statistics
+
+**Changing the subject.** The same facts, different numbers: a politician says spending increased *"only 3%"*; an opponent says it increased *"by \$6,000,000."* Both may be true — percentages and absolute values create very different impressions.
+
+**Detached statistics.** A comparison with no baseline: *"This pain reliever works four times faster."* Four times faster **than what?** A claim with no stated reference point cannot be evaluated.
+
+## Implied Connections and Faulty Questions
+
+**Implied connections.** Hedge words smuggle in causation: *"Eating fish **may help** reduce your cholesterol."* "May help" guarantees nothing, but readers remember "fish reduces cholesterol."
+
+**Faulty survey questions.** Small wording changes flip results:
+
+- *"Do you favor cutting wasteful government programs?"* vs.
+- *"Do you favor cutting programs such as health care and education?"*
+
+Question **order**, loaded words, and social desirability all bias self-reported answers.
+
+## Example 1-8 {#example-1-8}
+
+:::{.callout-warning}
+## Misleading Graphs
+
+Two cola brands have market shares of 45% (Brand A) and 47% (Brand B) — a difference of only 2 percentage points. Draw the same data twice: once with a **truncated** vertical axis and once with a proper axis starting at zero. Compare the impressions given.
+:::
+
+## Example 1-8
+
+:::{.callout-tip}
+## Solution
+
+**Solve — the misleading version**
+
+```{r e1-8-1, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+cola <- data.frame(Brand = c("A", "B"), Share = c(45, 47))
+
+ggplot(cola, aes(Brand, Share, fill = Brand)) +
+  geom_col(show.legend = FALSE, width = 0.5) +
+  coord_cartesian(ylim = c(44, 48)) +
+  labs(title = "Truncated Axis: B Looks Dominant",
+       y = "Market Share (%)") +
+  theme_minimal()
+```
+:::
+
+## Example 1-8
+
+:::{.callout-tip}
+## Solution
+
+**Solve — the honest version**
+
+```{r e1-8-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(cola, aes(Brand, Share, fill = Brand)) +
+  geom_col(show.legend = FALSE, width = 0.5) +
+  coord_cartesian(ylim = c(0, 50)) +
+  labs(title = "Full Axis: The Difference Is Modest",
+       y = "Market Share (%)") +
+  theme_minimal()
+```
+:::
+
+## Example 1-8
+
+:::{.callout-tip}
+## Solution
+
+**Interpretation**
+
+Both graphs plot **exactly the same numbers**, yet the truncated axis makes Brand B's 2-point lead look like total dominance. When reading graphs, always check:
+
+- Does the value axis **start at zero**?
+- Are the axis units **evenly spaced**?
+- Are picture symbols scaled by **area/volume** rather than height (a common exaggeration trick)?
+:::
+
+# Section 1-6: Computers and Statistical Software {background-color="#2c4a6e"}
+
+## The Role of Computers
+
+Statistical computation that once required hours with a hand calculator and printed tables is now instantaneous. Common tools include graphing calculators, Excel, MINITAB, SPSS — and **R**, the language used throughout this course.
+
+:::{.callout-important}
+## The Machine Does Not Think
+
+Software only **performs the calculations** it is asked to perform. The user must still choose the correct method, check its assumptions, and **interpret** the output. A computer will happily compute a meaningless average of ZIP codes.
+:::
+
+## A First Look at R
+
+Everything in this course — tables, graphs, simulations, tests — is produced with short R scripts like this one:
+
+```{r e1-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(7)
+scores <- rnorm(200, mean = 70, sd = 10)   # simulate 200 exam scores
+summary(scores)
+```
+
+## A First Look at R
+
+```{r e1-6-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(data.frame(scores), aes(scores)) +
+  geom_histogram(bins = 15, fill = "steelblue", color = "white") +
+  labs(title = "Simulated Exam Scores", x = "Score", y = "Frequency") +
+  theme_minimal()
+```
+
+## Summary
+
+| Concept | Key idea |
+|---------|----------|
+| Descriptive statistics | Collecting, organizing, summarizing, presenting data |
+| Inferential statistics | Generalizing from samples to populations |
+| Population vs. sample | All subjects vs. a representative subgroup |
+| Qualitative vs. quantitative | Categories vs. meaningful numbers |
+| Discrete vs. continuous | Counted vs. measured values |
+| Measurement levels | Nominal, ordinal, interval, ratio |
+| Sampling methods | Random, systematic, stratified, cluster (and convenience) |
+| Observational vs. experimental | Observe only vs. manipulate and randomize |
+| Misuses of statistics | Suspect samples, ambiguous averages, misleading graphs, ... |
+
+## Key Distinctions
+
+:::{.callout-important}
+## Important Distinctions
+
+$$\text{Boundaries} = \text{recorded value} \pm \tfrac{1}{2}\,(\text{measurement unit})$$
+
+- **Descriptive** summarizes what was observed; **inferential** generalizes beyond it.
+- A **parameter** describes a population; a **statistic** describes a sample.
+- **Interval** scales lack a true zero; **ratio** scales have one.
+- Only **experiments** (with random assignment) can establish cause and effect.
+:::
+
+## Key Takeaways
+
+- **Statistics** — the science of collecting, organizing, summarizing, analyzing, and drawing conclusions from data
+- **Variable / data / data set** — a characteristic, its observed values, and their collection
+- **Population / sample** — all subjects of interest vs. the subgroup actually studied
+- **Descriptive vs. inferential** — describing data vs. generalizing from samples
+- **Qualitative / quantitative; discrete / continuous** — the two-step classification of variables
+- **Nominal / ordinal / interval / ratio** — the four levels of measurement
+- **Random / systematic / stratified / cluster** — the four basic chance sampling methods
+- **Observational vs. experimental** — only randomized experiments support causal claims
+- **Misuses** — suspect samples, ambiguous averages, detached statistics, misleading graphs
+
+## Acknowledgement
+
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
+
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
+                                                             

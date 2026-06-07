@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="ch1-zh_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ch1-zh_files/libs/quarto-html/tabby.min.js"></script>
+<script src="ch1-zh_files/libs/quarto-html/popper.min.js"></script>
+<script src="ch1-zh_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="ch1-zh_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ch1-zh_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="ch1-zh_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="劉昱佑">
+  <meta name="dcterms.date" content="2026-06-07">
+  <title>統計學</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ch1-zh_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="ch1-zh_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="ch1-zh_files/libs/revealjs/dist/theme/quarto-2abc1c5b7b5c7eecd6137558e106e4c3.css">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+  <link href="ch1-zh_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="ch1-zh_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="ch1-zh_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="ch1-zh_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-notes="" class="quarto-title-block center">
+  <h1 class="title">統計學</h1>
+  <p class="subtitle">第1章：機率與統計的本質</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+劉昱佑 
+</div>
+        <p class="quarto-title-affiliation">
+            實踐大學
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-06-07</p>
+</section>
+<section id="第1章概覽" class="slide level2">
+<h2>第1章概覽</h2>
+<p>第1章介紹<strong>統計學的基本性質</strong>——統計學是什麼、處理哪些類型的資料、資料如何收集，以及統計結果可能被如何正確使用或誤用。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1-1</td>
+<td>敘述統計與推論統計</td>
+</tr>
+<tr class="even">
+<td>1-2</td>
+<td>變數與資料類型</td>
+</tr>
+<tr class="odd">
+<td>1-3</td>
+<td>資料收集與抽樣方法</td>
+</tr>
+<tr class="even">
+<td>1-4</td>
+<td>觀察性研究與實驗性研究</td>
+</tr>
+<tr class="odd">
+<td>1-5</td>
+<td>統計的使用與誤用</td>
+</tr>
+<tr class="even">
+<td>1-6</td>
+<td>電腦與統計軟體</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<section id="第1-1節敘述統計與推論統計" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-1節：敘述統計與推論統計</h1>
+
+</section>
+<section id="什麼是統計學" class="slide level2">
+<h2>什麼是統計學？</h2>
+<p>統計無所不在——運動紀錄、民意調查、醫學研究、失業率、天氣預報。這一切都始於<strong>資料</strong>：被收集下來、必須先經過整理才能透露訊息的數值。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>統計學</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>統計學</strong>是一門透過研究來<strong>收集、組織、彙整、分析資料並從中得出結論</strong>的科學。</p>
+</div>
+</div>
+</div>
+<p>學習統計的三個理由：</p>
+<ol type="1">
+<li>能<strong>閱讀並理解</strong>日常生活與專業領域中的研究、圖表與統計主張。</li>
+<li>能<strong>進行研究</strong>——設計研究、分析資料、正確地傳達結果。</li>
+<li>成為<strong>更精明的消費者與公民</strong>——能分辨數字何時提供資訊、何時誤導大眾。</li>
+</ol>
+</section>
+<section id="基本詞彙" class="slide level2">
+<h2>基本詞彙</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>變數與資料</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>變數</strong>是可以取不同值的特徵或屬性。</li>
+<li><strong>資料</strong>是變數所取的值（測量值或觀測值）。</li>
+<li>一組資料值構成<strong>資料集</strong>；其中每個個別的值稱為<strong>資料值</strong>（datum）。</li>
+<li>取值由機遇決定的變數稱為<strong>隨機變數</strong>。</li>
+</ul>
+</div>
+</div>
+</div>
+<p>例如，「血型」是一個變數；從25名新兵記錄到的 <code>A</code>、<code>B</code>、<code>AB</code>、<code>O</code> 是資料；這25個值的完整清單就是資料集。</p>
+</section>
+<section id="母體與樣本" class="slide level2">
+<h2>母體與樣本</h2>
+<p>在大多數研究中，調查每一個研究對象通常不切實際，有時甚至不可能。因此研究者只研究其中一個子群體，再加以推廣。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>母體與樣本</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>母體</strong>是研究中<strong>所有</strong>研究對象（不限於人）的全體。</li>
+<li><strong>樣本</strong>是從母體中選出、用來代表母體的<strong>子群體</strong>。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>代表性</strong></p>
+</div>
+<div class="callout-content">
+<p>只有當樣本能<strong>代表</strong>母體時——理想上以機遇（隨機）方法抽得——由樣本得出的結論才值得信賴。如何取得這樣的樣本，是第1-3節的主題。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="統計學的兩大分支" class="slide level2">
+<h2>統計學的兩大分支</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>敘述統計</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>敘述統計</strong>包含資料的<strong>收集、組織、彙整與呈現</strong>。它描述「現況」——由實際觀測到的資料計算出的平均數、百分比、表格與圖形。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>推論統計</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>推論統計</strong>包含<strong>從樣本推廣到母體</strong>、進行估計與假設檢定、判斷變數間的關係，以及進行預測。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="機率與假設檢定" class="slide level2">
+<h2>機率與假設檢定</h2>
+<p>推論統計建立在<strong>機率論</strong>之上。</p>
+<ul>
+<li><strong>機率</strong>是特定事件發生的可能性——描述不確定性的數學語言（第4章）。</li>
+<li><strong>假設檢定</strong>是根據樣本資訊，對母體主張進行評估的決策程序（第8章）。</li>
+</ul>
+<p>推論統計也研究變數間的<strong>關係</strong>（例如：吸菸與肺癌有關嗎？），並進行<strong>預測</strong>（例如：由民調預測選舉結果）。由於樣本永遠無法包含完整資訊，每個推論結論都帶有不確定性——而機率正是用來量化這種不確定性的工具。</p>
+</section>
+<section id="example-1-1" class="slide level2">
+<h2>例 1-1</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>敘述統計還是推論統計？</strong></p>
+</div>
+<div class="callout-content">
+<p>判斷下列每個敘述屬於<strong>敘述統計</strong>還是<strong>推論統計</strong>。</p>
+<ol type="1">
+<li>史上最大的五次樂透頭獎平均為3.67億美元。</li>
+<li>預估到2040年，全球人口將超過90億。</li>
+<li>一項醫學研究指出，每天喝一杯咖啡<strong>可能降低</strong>心臟病風險。</li>
+<li>上學期本課程有12%的學生獲得A等成績。</li>
+<li>根據1,200位選民的民調，預測林候選人將獲得54%的選票。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-1" class="slide level2">
+<h2>例 1-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>敘述</th>
+<th>分支</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>敘述統計</td>
+<td>彙整實際觀測到的資料（一個平均數）</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>推論統計</td>
+<td>對未來、尚未觀測之值的預測</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>推論統計</td>
+<td>從研究樣本推廣到所有人</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>敘述統計</td>
+<td>由完整紀錄計算出的百分比</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>推論統計</td>
+<td>以樣本（1,200位選民）估計母體的值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>詮釋</strong></p>
+<p>只要數字僅僅<strong>彙整觀測到的資料</strong>，就是敘述統計；只要它<strong>超越資料本身</strong>——預測、推廣或檢定主張——就是推論統計。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-2" class="slide level2">
+<h2>例 1-2</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>用 R 認識母體、樣本與推論</strong></p>
+</div>
+<div class="callout-content">
+<p>某大學有10,000名學生。我們想知道<strong>全體</strong>學生（母體）每週平均讀書時數，但只能調查其中50人（樣本）。請在 R 中模擬此情境，並比較樣本平均數與母體平均數。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-2" class="slide level2">
+<h2>例 1-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a><span class="co"># （通常無法觀測的）母體：10,000名學生</span></span>
+<span id="cb1-4"><a href=""></a>population <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
+<span id="cb1-5"><a href=""></a></span>
+<span id="cb1-6"><a href=""></a><span class="co"># 隨機抽出的50名學生樣本</span></span>
+<span id="cb1-7"><a href=""></a>my_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(population, <span class="dv">50</span>)</span>
+<span id="cb1-8"><a href=""></a></span>
+<span id="cb1-9"><a href=""></a><span class="fu">c</span>(<span class="st">`</span><span class="at">母體平均數（參數）</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(population),</span>
+<span id="cb1-10"><a href=""></a>  <span class="st">`</span><span class="at">樣本平均數（統計量）</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(my_sample))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  母體平均數（參數） 樣本平均數（統計量） 
+            15.01470             14.81155 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-2-1" class="slide level2">
+<h2>例 1-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>詮釋</strong></p>
+<p>樣本平均數（<strong>統計量</strong>）接近但不完全等於母體平均數（<strong>參數</strong>）。利用統計量對參數下結論，正是<strong>推論統計</strong>的核心。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">hours =</span> my_sample), <span class="fu">aes</span>(<span class="at">x =</span> hours)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(population), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50名學生的樣本（紅線＝母體平均數）"</span>,</span>
+<span id="cb3-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"每週讀書時數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1-zh_files/figure-revealjs/e1-2-2-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="第1-2節變數與資料類型" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-2節：變數與資料類型</h1>
+
+</section>
+<section id="變數的分類" class="slide level2">
+<h2>變數的分類</h2>
+<p>變數有兩種互補的分類方式：依<strong>測量性質</strong>（質性 vs.&nbsp;量化），以及量化變數再依<strong>可能取值</strong>細分（離散 vs.&nbsp;連續）。</p>
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td><strong>質性變數</strong></td>
+<td>類別：性別、血型、宗教信仰、居住地區</td>
+</tr>
+<tr class="even">
+<td><strong>量化——離散</strong></td>
+<td>可數的值：子女數、來電次數、班級人數</td>
+</tr>
+<tr class="odd">
+<td><strong>量化——連續</strong></td>
+<td>測量的值：身高、體重、溫度、時間</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="質性變數與量化變數" class="slide level2">
+<h2>質性變數與量化變數</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>質性變數</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>質性變數</strong>可依某種特徵或屬性歸入<strong>不同類別</strong>。其本質是非數值的（即使以數字編碼，例如郵遞區號）。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>量化變數</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>量化變數</strong>是<strong>數值型</strong>的，可以<strong>排序或排名</strong>。對它們進行算術運算（求平均、相減）是有意義的。</p>
+</div>
+</div>
+</div>
+<p>一個實用的判斷法：這些值的<em>平均</em>有意義嗎？身高的平均有意義；郵遞區號的「平均」則沒有——郵遞區號雖由數字組成，仍屬質性變數。</p>
+</section>
+<section id="離散變數與連續變數" class="slide level2">
+<h2>離散變數與連續變數</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>離散變數</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>離散變數</strong>的取值可以<strong>計數</strong>——有限多個值，或可一一列舉的序列（0、1、2、3、…）。例如：來電次數、家庭子女數。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>連續變數</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>連續變數</strong>在任意兩個特定值之間可以取<strong>無限多個值</strong>。它們經由<strong>測量</strong>取得，常包含小數。例如：溫度、身高、體重、時間。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-3" class="slide level2">
+<h2>例 1-3</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>為每個變數分類</strong></p>
+</div>
+<div class="callout-content">
+<p>將下列變數分類為<strong>質性</strong>或<strong>量化</strong>；若為量化，再進一步分類為<strong>離散</strong>或<strong>連續</strong>。</p>
+<ol type="1">
+<li>學生一天傳送的簡訊則數</li>
+<li>一個2公升瓶中的水量</li>
+<li>學生的血型</li>
+<li>跑完100公尺所需的時間</li>
+<li>每小時通過收費站的車輛數</li>
+<li>停車場中汽車的顏色</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-3" class="slide level2">
+<h2>例 1-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>變數</th>
+<th>類型</th>
+<th>細分</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. 每日簡訊則數</td>
+<td>量化</td>
+<td>離散（可計數）</td>
+</tr>
+<tr class="even">
+<td>2. 瓶中水量</td>
+<td>量化</td>
+<td>連續（測量而得）</td>
+</tr>
+<tr class="odd">
+<td>3. 血型</td>
+<td>質性</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>4. 100公尺所需時間</td>
+<td>量化</td>
+<td>連續（測量而得）</td>
+</tr>
+<tr class="odd">
+<td>5. 每小時車輛數</td>
+<td>量化</td>
+<td>離散（可計數）</td>
+</tr>
+<tr class="even">
+<td>6. 汽車顏色</td>
+<td>質性</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>詮釋</strong></p>
+<p>依序問兩個問題：<em>它是具有意義算術運算的數值嗎？</em> 若否，為質性。若是，<em>它是計數還是測量而得？</em> 計數 → 離散；測量 → 連續。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="連續變數的界限" class="slide level2">
+<h2>連續變數的界限</h2>
+<p>由於測量工具的精確度有限，連續資料必須<strong>四捨五入</strong>。因此一個記錄值實際上代表一個<strong>真值區間</strong>。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>界限規則</strong></p>
+</div>
+<div class="callout-content">
+<p>記錄值的<strong>界限</strong>為記錄值<strong>上下各半個測量單位</strong>：</p>
+<p><span class="math display">\text{界限} = \text{記錄值} \pm \tfrac{1}{2}\,(\text{測量單位})</span></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>記錄值</th>
+<th>測量單位</th>
+<th>界限</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>86 °F</td>
+<td>度</td>
+<td>85.5 – 86.5 °F</td>
+</tr>
+<tr class="even">
+<td>15 ml</td>
+<td>毫升</td>
+<td>14.5 – 15.5 ml</td>
+</tr>
+<tr class="odd">
+<td>1.6 kg</td>
+<td>0.1公斤</td>
+<td>1.55 – 1.65 kg</td>
+</tr>
+<tr class="even">
+<td>3.18 s</td>
+<td>0.01秒</td>
+<td>3.175 – 3.185 s</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="example-1-4" class="slide level2">
+<h2>例 1-4</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>求測量值的界限</strong></p>
+</div>
+<div class="callout-content">
+<p>求下列各測量值的界限。</p>
+<ol type="1">
+<li>病人體溫，記錄為38.6 °C（精確到0.1度）</li>
+<li>包裹重量，記錄為12 kg（精確到1公斤）</li>
+<li>短跑成績，記錄為9.58秒（精確到0.01秒）</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-4" class="slide level2">
+<h2>例 1-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.6</span>, <span class="dv">12</span>, <span class="fl">9.58</span>)</span>
+<span id="cb4-2"><a href=""></a>units  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.01</span>)</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb4-5"><a href=""></a>  <span class="st">`</span><span class="at">記錄值</span><span class="st">`</span> <span class="ot">=</span> values,</span>
+<span id="cb4-6"><a href=""></a>  <span class="st">`</span><span class="at">單位</span><span class="st">`</span>   <span class="ot">=</span> units,</span>
+<span id="cb4-7"><a href=""></a>  <span class="st">`</span><span class="at">下界</span><span class="st">`</span>   <span class="ot">=</span> values <span class="sc">-</span> units <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb4-8"><a href=""></a>  <span class="st">`</span><span class="at">上界</span><span class="st">`</span>   <span class="ot">=</span> values <span class="sc">+</span> units <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb4-9"><a href=""></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">記錄值</th>
+<th style="text-align: center;">單位</th>
+<th style="text-align: center;">下界</th>
+<th style="text-align: center;">上界</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">38.60</td>
+<td style="text-align: center;">0.10</td>
+<td style="text-align: center;">38.550</td>
+<td style="text-align: center;">38.650</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12.00</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">11.500</td>
+<td style="text-align: center;">12.500</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9.58</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">9.575</td>
+<td style="text-align: center;">9.585</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>詮釋</strong></p>
+<p>每個記錄值實際上代表其界限之間的<strong>區間</strong>。界限是第2章建立分組次數分配時的關鍵概念。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="四種測量尺度" class="slide level2">
+<h2>四種測量尺度</h2>
+<p>除了依類型分類，變數也可依<strong>其值所攜帶的資訊量</strong>分類。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>測量尺度</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>名目尺度</strong>——互斥且<strong>無次序</strong>的類別（性別、郵遞區號、眼睛顏色）。</li>
+<li><strong>順序尺度</strong>——可以<strong>排名</strong>的類別，但名次之間的差距沒有意義（等第成績、評審名次、S/M/L）。</li>
+<li><strong>區間尺度</strong>——有次序且<strong>差距相等而有意義</strong>，但<strong>沒有真正的零點</strong>（華氏或攝氏溫度、智商）。</li>
+<li><strong>比率尺度</strong>——具備區間尺度的性質，<strong>且有真正的零點</strong>，因此比值有意義（身高、體重、薪資、時間）。</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="四種尺度的比較" class="slide level2">
+<h2>四種尺度的比較</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>尺度</th>
+<th>有次序？</th>
+<th>差距相等？</th>
+<th>有真零點？</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>名目</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+<td>血型、國籍</td>
+</tr>
+<tr class="even">
+<td>順序</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+<td>等第（A–F）、滿意度</td>
+</tr>
+<tr class="odd">
+<td>區間</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>溫度（°C）、智商</td>
+</tr>
+<tr class="even">
+<td>比率</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+<td>身高、體重、收入</td>
+</tr>
+</tbody>
+</table>
+<p>0 °C 並不表示「沒有熱」——所以40 °C <strong>不是</strong> 20 °C 的「兩倍熱」（區間尺度）。但0公斤確實表示沒有重量，40公斤<strong>是</strong> 20公斤的兩倍（比率尺度）。</p>
+</section>
+<section id="example-1-5" class="slide level2">
+<h2>例 1-5</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>判斷測量尺度</strong></p>
+</div>
+<div class="callout-content">
+<p>判斷下列各變數的測量尺度。</p>
+<ol type="1">
+<li>籃球員的球衣號碼</li>
+<li>網球選手的排名（第1、第2、第3、…）</li>
+<li>SAT 分數</li>
+<li>新生兒體重</li>
+<li>課程評量回覆：差／尚可／良好／優異</li>
+<li>攝氏體溫</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-5" class="slide level2">
+<h2>例 1-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>變數</th>
+<th>尺度</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. 球衣號碼</td>
+<td>名目</td>
+<td>數字僅是標籤</td>
+</tr>
+<tr class="even">
+<td>2. 網球排名</td>
+<td>順序</td>
+<td>次序有意義；名次差距無意義</td>
+</tr>
+<tr class="odd">
+<td>3. SAT 分數</td>
+<td>區間</td>
+<td>差距相等；無真零點</td>
+</tr>
+<tr class="even">
+<td>4. 新生兒體重</td>
+<td>比率</td>
+<td>有真零點；比值有意義</td>
+</tr>
+<tr class="odd">
+<td>5. 評量回覆</td>
+<td>順序</td>
+<td>有排序的類別</td>
+</tr>
+<tr class="even">
+<td>6. 攝氏體溫</td>
+<td>區間</td>
+<td>0 °C 不代表「沒有溫度」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>詮釋</strong></p>
+<p>測量尺度決定哪些統計方法是合法的——例如，計算平均數至少需要區間尺度的資料。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="測量尺度在-r-中的對應" class="slide level2">
+<h2>測量尺度在 R 中的對應</h2>
+<p>R 透過資料型態區分這些尺度：</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>blood   <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"O"</span>, <span class="st">"B"</span>, <span class="st">"AB"</span>))                     <span class="co"># 名目</span></span>
+<span id="cb5-2"><a href=""></a>rating  <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"poor"</span>, <span class="st">"good"</span>, <span class="st">"excellent"</span>),</span>
+<span id="cb5-3"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"poor"</span>, <span class="st">"fair"</span>, <span class="st">"good"</span>, <span class="st">"excellent"</span>),</span>
+<span id="cb5-4"><a href=""></a>                  <span class="at">ordered =</span> <span class="cn">TRUE</span>)                              <span class="co"># 順序</span></span>
+<span id="cb5-5"><a href=""></a>temp_c  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">36.5</span>, <span class="fl">37.0</span>, <span class="fl">38.2</span>)                                 <span class="co"># 區間</span></span>
+<span id="cb5-6"><a href=""></a>weight  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.2</span>, <span class="fl">2.9</span>, <span class="fl">3.5</span>)                                    <span class="co"># 比率</span></span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a><span class="fu">str</span>(blood); <span class="fu">str</span>(rating); <span class="fu">str</span>(temp_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 4 levels "A","AB","B","O": 1 4 3 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Ord.factor w/ 4 levels "poor"&lt;"fair"&lt;..: 1 3 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:3] 36.5 37 38.2</code></pre>
+</div>
+</div>
+<p>名目資料對應無次序的 <code>factor</code>，順序資料對應<strong>有序</strong>因子（ordered factor），區間／比率資料則以 <code>numeric</code> 儲存。</p>
+</section></section>
+<section>
+<section id="第1-3節資料收集與抽樣方法" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-3節：資料收集與抽樣方法</h1>
+
+</section>
+<section id="資料如何收集" class="slide level2">
+<h2>資料如何收集？</h2>
+<p>資料來源眾多：<strong>調查</strong>、<strong>既有紀錄</strong>（檔案與資料庫）、<strong>直接觀察</strong>與<strong>實驗</strong>。其中以調查最常見，主要有三種方式：</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>調查方式</th>
+<th>優點</th>
+<th>缺點</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>電話訪問</td>
+<td>成本低；受訪者較坦率</td>
+<td>排除沒有電話的人；語氣可能影響回答</td>
+</tr>
+<tr class="even">
+<td>郵寄問卷</td>
+<td>涵蓋範圍廣；具匿名性</td>
+<td>回收率低；問題可能被誤解</td>
+</tr>
+<tr class="odd">
+<td>面對面訪談</td>
+<td>可取得深入的回答</td>
+<td>成本高；可能有訪員偏誤</td>
+</tr>
+</tbody>
+</table>
+<p>資料也可以透過<strong>查閱既有紀錄</strong>或<strong>直接觀察</strong>情境取得。</p>
+</section>
+<section id="為什麼要抽樣" class="slide level2">
+<h2>為什麼要抽樣？</h2>
+<p>研究整個母體（<strong>普查</strong>）通常不可能或不切實際：</p>
+<ul>
+<li>母體往往<strong>太大</strong>，無法一一調查。</li>
+<li>檢測可能具<strong>破壞性</strong>（把每輛車都拿去撞擊測試，就沒有車了）。</li>
+<li><strong>時間、金錢、人力</strong>等資源有限。</li>
+</ul>
+<p>若要做出有效推論，樣本應該是<strong>無偏的</strong>——以機遇方法選出。以下介紹四種基本方法，並以一份500名學生的名冊在 R 中示範。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href=""></a>roster <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-3"><a href=""></a>  <span class="at">id      =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>,</span>
+<span id="cb9-4"><a href=""></a>  <span class="at">college =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"商學院"</span>, <span class="st">"設計學院"</span>, <span class="st">"文化學院"</span>, <span class="st">"管理學院"</span>, <span class="st">"傳播學院"</span>),</span>
+<span id="cb9-5"><a href=""></a>                <span class="at">each =</span> <span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="隨機抽樣" class="slide level2">
+<h2>隨機抽樣</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>隨機樣本</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>隨機樣本</strong>的選取方式使<strong>母體中每個成員被選中的機會均等</strong>——通常使用亂數。</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co"># 完全隨機選出10名學生</span></span>
+<span id="cb10-2"><a href=""></a><span class="fu">sample</span>(roster<span class="sc">$</span>id, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 324 167 129 418 471 299 270 466 187 307</code></pre>
+</div>
+</div>
+<p>過去使用<strong>亂數表</strong>進行，如今由軟體產生亂數。</p>
+</section>
+<section id="系統抽樣" class="slide level2">
+<h2>系統抽樣</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>系統樣本</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>系統樣本</strong>先將母體編號1至 <span class="math inline">N</span>，<strong>隨機選定起點</strong>後，每隔 <span class="math inline">k</span> 個選取一個，其中 <span class="math inline">k \approx N/n</span>。</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># N = 500，n = 10，故 k = 50；起點在1到50之間隨機決定</span></span>
+<span id="cb12-2"><a href=""></a>start <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href=""></a><span class="fu">seq</span>(start, <span class="dv">500</span>, <span class="at">by =</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  33  83 133 183 233 283 333 383 433 483</code></pre>
+</div>
+</div>
+<p>注意：若母體名單存在與 <span class="math inline">k</span> 吻合的<strong>週期性規律</strong>，樣本可能嚴重偏差。</p>
+</section>
+<section id="分層抽樣" class="slide level2">
+<h2>分層抽樣</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>分層樣本</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>分層樣本</strong>先將母體依某特徵劃分為<strong>層</strong>（strata），再<strong>在每一層內</strong>隨機抽樣。如此可確保每個子群體都有代表。</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># 從每個學院隨機抽出2名學生</span></span>
+<span id="cb14-2"><a href=""></a>roster <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href=""></a>  <span class="fu">group_by</span>(college) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href=""></a>  <span class="fu">arrange</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+# Groups:   college [5]
+      id college 
+   &lt;int&gt; &lt;chr&gt;   
+ 1   485 傳播學院
+ 2   421 傳播學院
+ 3    54 商學院  
+ 4    74 商學院  
+ 5   207 文化學院
+ 6   273 文化學院
+ 7   379 管理學院
+ 8   385 管理學院
+ 9   137 設計學院
+10   189 設計學院</code></pre>
+</div>
+</div>
+</section>
+<section id="群集抽樣" class="slide level2">
+<h2>群集抽樣</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>群集樣本</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>群集樣本</strong>先將母體劃分為既有的<strong>群集</strong>（班級、街區、學校），隨機選出<strong>整個群集</strong>，並調查所選群集的<strong>全部成員</strong>。</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co"># 25間宿舍房間，每間20名學生；隨機選出2整間</span></span>
+<span id="cb16-2"><a href=""></a>rooms  <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">each =</span> <span class="dv">20</span>)</span>
+<span id="cb16-3"><a href=""></a>chosen <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>)</span>
+<span id="cb16-4"><a href=""></a>chosen</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14  5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">table</span>(rooms[rooms <span class="sc">%in%</span> chosen])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 5 14 
+20 20 </code></pre>
+</div>
+</div>
+<p>群集抽樣方便又省錢，但同一群集的成員往往彼此相似，可能降低代表性。</p>
+</section>
+<section id="其他抽樣方法" class="slide level2">
+<h2>其他抽樣方法</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>便利樣本</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>便利樣本</strong>使用<strong>隨手可得</strong>的對象——某家商場的顧客、自願上網填答的人。若該群體恰好具代表性，結果或許可接受，但便利樣本通常<strong>有偏</strong>。</p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>方法</th>
+<th>核心概念</th>
+<th>主要風險</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>隨機抽樣</td>
+<td>人人機會均等</td>
+<td>需要完整的母體名單</td>
+</tr>
+<tr class="even">
+<td>系統抽樣</td>
+<td>每隔 <span class="math inline">k</span> 個取一個</td>
+<td>隱藏的週期性規律</td>
+</tr>
+<tr class="odd">
+<td>分層抽樣</td>
+<td>各層內隨機抽樣</td>
+<td>須事先知道分層資訊</td>
+</tr>
+<tr class="even">
+<td>群集抽樣</td>
+<td>選出整個群集的全部成員</td>
+<td>群集內部可能同質</td>
+</tr>
+<tr class="odd">
+<td>便利抽樣</td>
+<td>隨手可得的對象</td>
+<td>偏誤</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-1-6" class="slide level2">
+<h2>例 1-6</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>辨識抽樣方法</strong></p>
+</div>
+<div class="callout-content">
+<p>指出下列各情境使用的抽樣方法。</p>
+<ol type="1">
+<li>某市10家醫院中隨機選出3家，調查這些醫院的<strong>所有</strong>護理師。</li>
+<li>品管工程師檢驗生產線上<strong>每第100瓶</strong>產品。</li>
+<li>民調機構用亂數產生器，從所有登記電話號碼中選出1,000個。</li>
+<li>某大學分別從大一、大二、大三、大四各隨機抽出50名學生進行調查。</li>
+<li>記者在車站入口訪問路過的民眾。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-6" class="slide level2">
+<h2>例 1-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>情境</th>
+<th>方法</th>
+<th>線索</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>群集抽樣</td>
+<td>選出整家醫院；院內所有人都調查</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>系統抽樣</td>
+<td>每第100件</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>隨機抽樣</td>
+<td>使用亂數；機會均等</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>分層抽樣</td>
+<td>在各年級內隨機抽選</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>便利抽樣</td>
+<td>恰好路過的人</td>
+</tr>
+</tbody>
+</table>
+<p><strong>詮釋</strong></p>
+<p>關鍵問題是：<em>選的是群體還是個人？是否使用機遇？是在子群體內抽選，還是抽選整個子群體？</em></p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="第1-4節觀察性研究與實驗性研究" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-4節：觀察性研究與實驗性研究</h1>
+
+</section>
+<section id="觀察性研究" class="slide level2">
+<h2>觀察性研究</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>觀察性研究</strong></p>
+</div>
+<div class="callout-content">
+<p>在<strong>觀察性研究</strong>中，研究者僅<strong>觀察</strong>正在發生或已經發生的事，並據以得出結論——<strong>不介入</strong>、不指派處理。</p>
+</div>
+</div>
+</div>
+<p><strong>優點：</strong> 在自然情境中進行；可利用既有紀錄；可研究<strong>無法或不應人為指派</strong>的變數（吸菸、天然災害）。</p>
+<p><strong>缺點：</strong> 無法確立<strong>因果關係</strong>；易受<strong>干擾變數</strong>影響；既有紀錄可能有誤。</p>
+</section>
+<section id="實驗性研究" class="slide level2">
+<h2>實驗性研究</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>實驗性研究</strong></p>
+</div>
+<div class="callout-content">
+<p>在<strong>實驗性研究</strong>中，研究者<strong>操弄</strong>一個變數（處理），並測量其對另一變數的影響，理想上以<strong>隨機分派</strong>將受試者分組。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>關鍵詞彙</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>自變數（解釋變數）</strong>——研究者操弄的變數。</li>
+<li><strong>應變數（結果變數）</strong>——作為結果被測量的變數。</li>
+<li><strong>處理組</strong>——接受處理；<strong>控制組</strong>——不接受處理（可能接受<strong>安慰劑</strong>）。</li>
+</ul>
+</div>
+</div>
+</div>
+<p>隨機分派使兩組具有可比性，因此結果的差異可以歸因於處理——實驗<strong>能夠</strong>確立因果關係。</p>
+</section>
+<section id="干擾變數與其他效應" class="slide level2">
+<h2>干擾變數與其他效應</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>干擾變數</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>干擾變數</strong>會影響應變數，卻<strong>無法與自變數的影響分離</strong>。例如：若運動者同時也改變了飲食，飲食就干擾了運動對減重的效果。</p>
+</div>
+</div>
+</div>
+<p>兩個著名的行為效應：</p>
+<ul>
+<li><strong>安慰劑效應</strong>——受試者僅因<em>相信</em>自己正在接受治療而改善。對策：讓控制組服用無效的安慰劑。</li>
+<li><strong>霍桑效應</strong>——受試者僅因<em>知道自己被研究</em>而改變行為（最早記錄於霍桑工廠，1924–1932）。</li>
+</ul>
+</section>
+<section id="example-1-7" class="slide level2">
+<h2>例 1-7</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>觀察性還是實驗性？</strong></p>
+</div>
+<div class="callout-content">
+<p>判斷下列各研究屬於觀察性還是實驗性。若為實驗性，指出自變數與應變數。</p>
+<ol type="1">
+<li>研究者比較吸菸者與非吸菸者的肺癌發生率。</li>
+<li>受試者被隨機分派飲用0、1或2杯咖啡，然後測量反應時間。</li>
+<li>社會學家查閱人口普查紀錄，研究1990到2020年家庭規模的變化。</li>
+<li>病人被隨機給予新藥或安慰劑，8週後記錄血壓。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-7" class="slide level2">
+<h2>例 1-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>研究</th>
+<th>類型</th>
+<th>自變數</th>
+<th>應變數</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>觀察性</td>
+<td>—（吸菸並非被指派）</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>實驗性</td>
+<td>咖啡杯數</td>
+<td>反應時間</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>觀察性</td>
+<td>—（既有紀錄）</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>實驗性</td>
+<td>新藥 vs.&nbsp;安慰劑</td>
+<td>血壓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>詮釋</strong></p>
+<p>關鍵問題在於研究者是否<strong>指派</strong>了解釋變數的值。有指派（且隨機化）→ 實驗性；僅觀察 → 觀察性。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="在-r-中進行隨機分派" class="slide level2">
+<h2>在 R 中進行隨機分派</h2>
+<p>將20名受試者隨機分派到處理組與控制組：</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb20-2"><a href=""></a>subjects <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb20-3"><a href=""></a>treatment <span class="ot">&lt;-</span> <span class="fu">sample</span>(subjects, <span class="dv">10</span>)   <span class="co"># 隨機選出10人</span></span>
+<span id="cb20-4"><a href=""></a></span>
+<span id="cb20-5"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb20-6"><a href=""></a>  <span class="st">`</span><span class="at">組別</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"處理組"</span>, <span class="st">"控制組"</span>),</span>
+<span id="cb20-7"><a href=""></a>  <span class="st">`</span><span class="at">受試者</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sort</span>(treatment), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb20-8"><a href=""></a>               <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">setdiff</span>(subjects, treatment)), <span class="at">collapse =</span> <span class="st">", "</span>))</span>
+<span id="cb20-9"><a href=""></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"l"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">組別</th>
+<th style="text-align: left;">受試者</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">處理組</td>
+<td style="text-align: left;">1, 2, 4, 5, 7, 8, 10, 17, 18, 20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">控制組</td>
+<td style="text-align: left;">3, 6, 9, 11, 12, 13, 14, 15, 16, 19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>隨機化能同時平衡<strong>看得見與看不見</strong>的變數，這正是因果結論得以成立的原因。</p>
+</section></section>
+<section>
+<section id="第1-5節統計的使用與誤用" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-5節：統計的使用與誤用</h1>
+
+</section>
+<section id="統計可能誤導" class="slide level2">
+<h2>統計可能誤導</h2>
+<p>統計誤用幾乎都落在少數幾種固定模式裡。認識它們，能同時保護身為<strong>讀者</strong>與<strong>製作者</strong>的你：</p>
+<ol type="1">
+<li>可疑的樣本</li>
+<li>含糊的平均數</li>
+<li>偷換主題</li>
+<li>無所依附的統計量</li>
+<li>暗示性關聯</li>
+<li>誤導性圖形</li>
+<li>有缺陷的調查問題</li>
+</ol>
+</section>
+<section id="可疑的樣本與含糊的平均數" class="slide level2">
+<h2>可疑的樣本與含糊的平均數</h2>
+<p><strong>可疑的樣本。</strong> 樣本夠大嗎？是用機遇方法選的嗎？<em>「受訪醫師中有四分之三推薦X品牌」</em>——如果只訪問了四位醫師，或他們是自願受訪者，這個主張毫無價值。</p>
+<p><strong>含糊的平均數。</strong> <strong>平均數、中位數、眾數、全距中點</strong>這四種統計量都可以被籠統地稱為「平均」（第3章）。寫作者可以挑選對自己論點最有利的那一個。所得報導常引用平均數（被少數高所得者拉高），而中位數呈現的故事低調得多。</p>
+</section>
+<section id="偷換主題與無所依附的統計量" class="slide level2">
+<h2>偷換主題與無所依附的統計量</h2>
+<p><strong>偷換主題。</strong> 同樣的事實、不同的數字：政治人物說支出<em>「只增加3%」</em>；對手說支出<em>「增加了600萬元」</em>。兩者可能都是真的——百分比與絕對數值給人的印象截然不同。</p>
+<p><strong>無所依附的統計量。</strong> 沒有基準的比較：<em>「本止痛藥見效快四倍。」</em> 比<strong>什麼</strong>快四倍？沒有參照點的主張無從評估。</p>
+</section>
+<section id="暗示性關聯與有缺陷的調查問題" class="slide level2">
+<h2>暗示性關聯與有缺陷的調查問題</h2>
+<p><strong>暗示性關聯。</strong> 含糊措辭悄悄夾帶因果：<em>「吃魚<strong>可能有助於</strong>降低膽固醇。」</em>「可能有助於」其實什麼都沒保證，但讀者記住的是「吃魚降膽固醇」。</p>
+<p><strong>有缺陷的調查問題。</strong> 措辭的微小改變就能翻轉結果：</p>
+<ul>
+<li><em>「你贊成削減浪費的政府計畫嗎？」</em> vs.</li>
+<li><em>「你贊成削減諸如健保與教育的計畫嗎？」</em></li>
+</ul>
+<p>問題的<strong>順序</strong>、帶有立場的字眼與社會期許，都會使自填式回答產生偏差。</p>
+</section>
+<section id="example-1-8" class="slide level2">
+<h2>例 1-8</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>誤導性圖形</strong></p>
+</div>
+<div class="callout-content">
+<p>兩個可樂品牌的市占率分別為45%（A品牌）與47%（B品牌）——僅相差2個百分點。請將同一筆資料畫兩次：一次使用<strong>截斷的</strong>縱軸，一次使用從零開始的正確縱軸，並比較兩者給人的印象。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-8" class="slide level2">
+<h2>例 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題——誤導版</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>cola <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Brand =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="at">Share =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">47</span>))</span>
+<span id="cb21-2"><a href=""></a></span>
+<span id="cb21-3"><a href=""></a><span class="fu">ggplot</span>(cola, <span class="fu">aes</span>(Brand, Share, <span class="at">fill =</span> Brand)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">44</span>, <span class="dv">48</span>)) <span class="sc">+</span></span>
+<span id="cb21-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"截斷縱軸：B品牌看似遙遙領先"</span>,</span>
+<span id="cb21-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"品牌"</span>, <span class="at">y =</span> <span class="st">"市占率（%）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1-zh_files/figure-revealjs/e1-8-1-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-8-1" class="slide level2">
+<h2>例 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>解題——誠實版</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">ggplot</span>(cola, <span class="fu">aes</span>(Brand, Share, <span class="at">fill =</span> Brand)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"完整縱軸：差距其實不大"</span>,</span>
+<span id="cb22-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"品牌"</span>, <span class="at">y =</span> <span class="st">"市占率（%）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch1-zh_files/figure-revealjs/e1-8-2-1.png" class="quarto-figure quarto-figure-center" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="例-1-8-2" class="slide level2">
+<h2>例 1-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>詮釋</strong></p>
+<p>兩張圖畫的是<strong>完全相同的數字</strong>，但截斷的縱軸讓B品牌2個百分點的領先看起來像壓倒性優勢。閱讀圖形時務必檢查：</p>
+<ul>
+<li>數值軸是否<strong>從零開始</strong>？</li>
+<li>軸上的刻度是否<strong>等距</strong>？</li>
+<li>圖像符號是否被以<strong>面積／體積</strong>而非高度縮放（常見的誇大手法）？</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="第1-6節電腦與統計軟體" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第1-6節：電腦與統計軟體</h1>
+
+</section>
+<section id="電腦的角色" class="slide level2">
+<h2>電腦的角色</h2>
+<p>過去需要手搖計算器與紙本附表耗時數小時的統計計算，如今瞬間完成。常見工具包括繪圖計算機、Excel、MINITAB、SPSS——以及本課程全程使用的 <strong>R</strong> 語言。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>機器不會思考</strong></p>
+</div>
+<div class="callout-content">
+<p>軟體只會<strong>執行被要求的計算</strong>。使用者仍須選擇正確的方法、檢查其假設，並<strong>詮釋</strong>輸出結果。電腦會毫不猶豫地替你算出毫無意義的「郵遞區號平均數」。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="初識-r" class="slide level2">
+<h2>初識 R</h2>
+<p>本課程的一切——表格、圖形、模擬、檢定——都由像下面這樣的簡短 R 程式產生：</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb23-2"><a href=""></a>scores <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">10</span>)   <span class="co"># 模擬200筆考試成績</span></span>
+<span id="cb23-3"><a href=""></a><span class="fu">summary</span>(scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  46.60   64.41   72.22   71.35   77.33   97.17 </code></pre>
+</div>
+</div>
+</section>
+<section id="初識-r-1" class="slide level2">
+<h2>初識 R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(scores), <span class="fu">aes</span>(scores)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb25-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"模擬的考試成績"</span>, <span class="at">x =</span> <span class="st">"分數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch1-zh_files/figure-revealjs/e1-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:55.0%"></section>
+<section id="摘要" class="slide level2">
+<h2>摘要</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>概念</th>
+<th>核心想法</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>敘述統計</td>
+<td>收集、組織、彙整、呈現資料</td>
+</tr>
+<tr class="even">
+<td>推論統計</td>
+<td>從樣本推廣到母體</td>
+</tr>
+<tr class="odd">
+<td>母體 vs.&nbsp;樣本</td>
+<td>全體對象 vs.&nbsp;具代表性的子群體</td>
+</tr>
+<tr class="even">
+<td>質性 vs.&nbsp;量化</td>
+<td>類別 vs.&nbsp;有意義的數值</td>
+</tr>
+<tr class="odd">
+<td>離散 vs.&nbsp;連續</td>
+<td>計數的值 vs.&nbsp;測量的值</td>
+</tr>
+<tr class="even">
+<td>測量尺度</td>
+<td>名目、順序、區間、比率</td>
+</tr>
+<tr class="odd">
+<td>抽樣方法</td>
+<td>隨機、系統、分層、群集（與便利）</td>
+</tr>
+<tr class="even">
+<td>觀察性 vs.&nbsp;實驗性</td>
+<td>僅觀察 vs.&nbsp;操弄並隨機分派</td>
+</tr>
+<tr class="odd">
+<td>統計的誤用</td>
+<td>可疑樣本、含糊平均數、誤導圖形等</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="關鍵區別" class="slide level2">
+<h2>關鍵區別</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重要區別</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\text{界限} = \text{記錄值} \pm \tfrac{1}{2}\,(\text{測量單位})</span></p>
+<ul>
+<li><strong>敘述統計</strong>彙整觀測所得；<strong>推論統計</strong>推廣到觀測之外。</li>
+<li><strong>參數</strong>描述母體；<strong>統計量</strong>描述樣本。</li>
+<li><strong>區間尺度</strong>沒有真零點；<strong>比率尺度</strong>有。</li>
+<li>只有<strong>實驗</strong>（含隨機分派）能確立因果關係。</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="第1章關鍵詞彙" class="slide level2">
+<h2>第1章：關鍵詞彙</h2>
+<ul>
+<li><strong>統計學</strong>——收集、組織、彙整、分析資料並從中得出結論的科學</li>
+<li><strong>變數／資料／資料集</strong>——特徵、其觀測值，以及這些值的集合</li>
+<li><strong>母體／樣本</strong>——所有研究對象 vs.&nbsp;實際研究的子群體</li>
+<li><strong>敘述 vs.&nbsp;推論</strong>——描述資料 vs.&nbsp;從樣本推廣</li>
+<li><strong>質性／量化；離散／連續</strong>——變數的兩階段分類</li>
+<li><strong>名目／順序／區間／比率</strong>——四種測量尺度</li>
+<li><strong>隨機／系統／分層／群集</strong>——四種基本的機遇抽樣方法</li>
+<li><strong>觀察性 vs.&nbsp;實驗性</strong>——只有隨機化實驗能支持因果主張</li>
+<li><strong>誤用</strong>——可疑樣本、含糊平均數、無所依附的統計量、誤導性圖形</li>
+</ul>
+</section>
+<section id="版權聲明" class="slide level2">
+<h2>版權聲明</h2>
+<ul>
+<li><p><strong>版權聲明。</strong> 本教學材料改編自 <strong>Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>。所有版權歸原作者及出版商所有。</p></li>
+<li><p><strong>僅限非商業用途。</strong> 本材料嚴格用於教育目的，不得用於商業利益或盈利。</p></li>
+<li><p><strong>適當引用。</strong> 任何複製、散佈或使用本材料時，必須對原始來源提供適當引用。</p></li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="logo.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Elementary Statistics: A Step by Step Approach</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="ch1-zh_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="ch1-zh_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="ch1-zh_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="ch1-zh_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":false,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"hideMissingTitles":true,"titleSelector":"h1"},
+'smaller': true,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    Reveal.on('ready', function() {
+      var title = Reveal.getSlides()[0];
+      if (title) {
+        title.insertAdjacentHTML('beforeend',
+          '<p style="font-size:0.5em; margin-top:1.5em;">' +
+          '<a href="ch1.html"  style="color:#555;">[English version]</a>' +
+          '</p>');
+      }
+    });
+    </script>
+    
+
+</body></html>
