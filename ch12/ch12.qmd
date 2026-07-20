@@ -190,6 +190,13 @@ A researcher tests three techniques to reduce blood pressure: **medication**, **
 
 **Step 3b:** Grand mean: $\bar{X}_{GM} = \dfrac{116}{15} = 7.73$
 
+:::
+
+## Example 12-1
+
+:::{.callout-tip}
+## Solution (cont.)
+
 **Step 3c:** Between-group variance:
 $$s_B^2 = \frac{5(11.8-7.73)^2 + 5(3.8-7.73)^2 + 5(7.6-7.73)^2}{3-1} = \frac{160.13}{2} = 80.07$$
 
@@ -251,7 +258,7 @@ summary(result)
 
 **Visualization**
 
-```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
 ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -354,7 +361,7 @@ summary(result2)
 
 **Visualization**
 
-```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
 ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
@@ -541,7 +548,7 @@ TukeyHSD(bp_aov)
 
 **Visualization**
 
-```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.5}
 tukey_result <- TukeyHSD(bp_aov)
 plot(tukey_result, las = 1)
 ```
@@ -730,7 +737,15 @@ gas_data <- data.frame(
 cell_means <- gas_data %>%
   group_by(gas, auto) %>%
   summarise(mean_mpg = mean(mpg), .groups = "drop")
+```
+:::
 
+## Example 12-5
+
+:::{.callout-tip}
+## Solution (cont.)
+
+```{r e12-5-1-fig, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
 ggplot(cell_means, aes(x = gas, y = mean_mpg, color = auto, group = auto)) +
   geom_line(size = 1.2) +
   geom_point(size = 3) +
