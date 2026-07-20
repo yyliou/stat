@@ -4,6 +4,11 @@ subtitle: "第5章：離散機率分配"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -57,7 +62,7 @@ theme_set(
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## 第5章：離散機率分配
+## 本章概覽
 
 **本章涵蓋各節：**
 
@@ -77,7 +82,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 隨機變數
 
-::: {.callout-note}
+:::{.callout-note}
 ## 關鍵定義
 
 **隨機變數**是一種其值由機率實驗結果決定的變數。
@@ -99,7 +104,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 離散機率分配
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義
 
 **離散機率分配**包含離散隨機變數所有可能的值，以及其對應的機率。
@@ -112,7 +117,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 機率分配可以用表格、公式或圖形呈現。
 
-## 例題 5-1 {#example-5-1}
+## 範例 5-1 {#example-5-1}
 
 :::{.callout-warning}
 ## 擲骰子
@@ -120,7 +125,7 @@ knitr::opts_chunk$set(fig.align = "center")
 建構擲一顆公正骰子各點數結果的機率分配。
 :::
 
-## 例題 5-1
+## 範例 5-1
 
 :::{.callout-tip}
 ## 解題
@@ -141,7 +146,7 @@ knitr::kable(dist, caption = "機率分配：擲骰子")
 
 每個點數出現的機率相等，均為 $\frac{1}{6} \approx 0.167$。注意 $\sum P(X) = 1$。
 
-## 例題 5-2 {#example-5-2}
+## 範例 5-2 {#example-5-2}
 
 :::{.callout-warning}
 ## 拋擲三枚硬幣
@@ -149,7 +154,7 @@ knitr::kable(dist, caption = "機率分配：擲骰子")
 表示拋擲 3 枚公正硬幣時正面數的機率分配，並畫出圖形。
 :::
 
-## 例題 5-2
+## 範例 5-2
 
 :::{.callout-tip}
 ## 解題
@@ -172,7 +177,7 @@ ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
        x = "正面數 (X)", y = "P(X)")
 ```
 
-## 例題 5-3 {#example-5-3}
+## 範例 5-3 {#example-5-3}
 
 :::{.callout-warning}
 ## 棒球世界大賽
@@ -202,7 +207,7 @@ ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
        x = "比賽場次 (X)", y = "P(X)")
 ```
 
-## 例題 5-4 {#example-5-4}
+## 範例 5-4 {#example-5-4}
 
 :::{.callout-warning}
 ## 判斷有效分配
@@ -210,7 +215,7 @@ ggplot(dist, aes(x = factor(X), y = `P(X)`)) +
 判斷以下各項是否為有效的機率分配。
 :::
 
-## 例題 5-4
+## 範例 5-4
 
 :::{.callout-tip}
 ## 解題
@@ -240,7 +245,7 @@ d_X <- c(2, 4, 6); d_P <- c(-0.1, 0.6, 0.5)
 cat("(d) 有負機率:", any(d_P < 0), "→ 無效\n")
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 只有當**兩個**條件同時成立時，分配才有效：$\sum P(X) = 1$ **且**每個值均滿足 $0 \leq P(X) \leq 1$。
 :::
 
@@ -248,7 +253,7 @@ cat("(d) 有負機率:", any(d_P < 0), "→ 無效\n")
 
 ## 平均數、變異數與標準差的公式
 
-::: {.callout-note}
+:::{.callout-note}
 ## 公式
 
 **平均數（期望值）：**
@@ -263,7 +268,7 @@ $$\sigma = \sqrt{\sigma^2}$$
 
 平均數描述實驗的長期平均結果。變異數與標準差則衡量分配圍繞平均數的分散程度。
 
-## 例題 5-5 {#example-5-5}
+## 範例 5-5 {#example-5-5}
 
 :::{.callout-warning}
 ## 擲骰子
@@ -271,7 +276,7 @@ $$\sigma = \sqrt{\sigma^2}$$
 求擲一顆公正骰子時，出現點數的平均數。
 :::
 
-## 例題 5-5
+## 範例 5-5
 
 :::{.callout-tip}
 ## 解題
@@ -298,7 +303,7 @@ cat("平均數 μ =", mu)
 
 平均而言，有兩個孩子的家庭將有 **1 個女孩**。
 
-## 例題 5-7 {#example-5-7}
+## 範例 5-7 {#example-5-7}
 :::{.callout-warning}
 ## 問題
 拋擲 3 枚硬幣時，求正面數的平均數。
@@ -320,7 +325,7 @@ cat("平均數 μ =", mu)
 
 多次拋擲 3 枚硬幣，正面數的平均值為 **1.5**。
 
-## 例題 5-8 {#example-5-8}
+## 範例 5-8 {#example-5-8}
 :::{.callout-warning}
 ## 問題
 下列機率分配顯示美國成年人每年進行五晚以上旅行的次數。求平均數。
@@ -343,10 +348,10 @@ cat("平均數 μ =", mu, "次/年")
 
 美國成年人每年進行 5 晚以上旅行的平均次數約為 **1.34** 次。
 
-## 例題 5-9 {#example-5-9}
+## 範例 5-9 {#example-5-9}
 :::{.callout-warning}
 ## 問題
-求擲一顆公正骰子的機率分配之變異數與標準差（[例題 5-5](#example-5-5)）。
+求擲一顆公正骰子的機率分配之變異數與標準差（[範例 5-5](#example-5-5)）。
 :::
 
 ```{r e5-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
@@ -366,7 +371,7 @@ cat("μ =", mu, "\nσ² = Σ[X²·P(X)] - μ² =", round(sum(X^2*PX),4), "-", mu
     "\nσ =", round(sigma, 2))
 ```
 
-## 例題 5-10 {#example-5-10}
+## 範例 5-10 {#example-5-10}
 :::{.callout-warning}
 ## 問題
 袋中有 5 顆球，編號分別為 3、3、4、5、5。隨機選取一顆。求平均數、變異數與標準差。
@@ -383,7 +388,7 @@ knitr::kable(df)
 cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
 ```
 
-## 例題 5-11 {#example-5-11}
+## 範例 5-11 {#example-5-11}
 :::{.callout-warning}
 ## 問題
 下列機率分配顯示廣播叩應節目等候接線的呼叫者數。求平均數、變異數與標準差。
@@ -407,7 +412,7 @@ cat("μ =", mu, "| σ² =", round(sigma2, 4), "| σ =", round(sigma, 4))
 
 ## 期望值
 
-::: {.callout-note}
+:::{.callout-note}
 ## 期望值
 
 離散隨機變數的**期望值** $E(X)$ 等於其平均數：
@@ -416,12 +421,12 @@ $$E(X) = \mu = \sum X \cdot P(X)$$
 期望值用於評估賭博、投資及保險中的長期平均獲利或損失。
 :::
 
-::: {.callout-warning}
+:::{.callout-warning}
 ## 注意
 若 $E(X) < 0$，表示玩家或投資人長期預期將有**淨損失**。
 :::
 
-## 例題 5-12 {#example-5-12}
+## 範例 5-12 {#example-5-12}
 
 :::{.callout-warning}
 ## 抽獎彩券
@@ -441,7 +446,7 @@ cat("E(X) = $", round(EX, 4))
 
 期望值為**負值**，表示平均每張彩券玩家預期損失約 $0.35。
 
-## 例題 5-13 {#example-5-13}
+## 範例 5-13 {#example-5-13}
 
 :::{.callout-warning}
 ## 特殊骰子
@@ -449,7 +454,7 @@ cat("E(X) = $", round(EX, 4))
 某特殊骰子的六個面標示為 1、4、4、6、6、6。求擲此骰子的期望值。
 :::
 
-## 例題 5-13
+## 範例 5-13
 
 :::{.callout-tip}
 ## 解題
@@ -480,7 +485,7 @@ cat("較佳投資：", ifelse(EX > EY, "債券X", "債券Y"))
 
 ## 二項實驗
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義
 
 **二項實驗**須滿足以下四個條件：
@@ -495,7 +500,7 @@ cat("較佳投資：", ifelse(EX > EY, "債券X", "債券Y"))
 
 ## 二項分配的符號
 
-::: {.callout-note}
+:::{.callout-note}
 ## 符號說明
 
 | 符號 | 意義 |
@@ -512,7 +517,7 @@ cat("較佳投資：", ifelse(EX > EY, "債券X", "債券Y"))
 
 ## 二項機率公式
 
-::: {.callout-note}
+:::{.callout-note}
 ## 公式
 
 在二項實驗中，$n$ 次試驗中恰好 $X$ 次成功的機率為：
@@ -526,7 +531,7 @@ $$P(X) = \frac{n!}{(n-X)!\,X!} \cdot p^X \cdot q^{n-X}$$
 - $p^X$ 是 $X$ 次成功的機率
 - $q^{n-X}$ 是 $n - X$ 次失敗的機率
 
-## 例題 5-15：拋硬幣 {#example-5-15}
+## 範例 5-15：拋硬幣 {#example-5-15}
 
 :::{.callout-warning}
 ## 問題
@@ -544,11 +549,11 @@ cat("P(2次正面) = C(3,2) × (0.5)² × (0.5)¹ =",
 cat("\n以 dbinom 驗證:", dbinom(2, size = 3, prob = 0.5))
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 此拋硬幣問題滿足所有 4 個二項條件：固定 $n=3$ 次試驗、兩種結果（正/反），獨立拋擲，常數 $p=0.5$。
 :::
 
-## 例題 5-16 {#example-5-16}
+## 範例 5-16 {#example-5-16}
 :::{.callout-warning}
 ## 問題
 調查發現每 5 名美國人中有 1 名在任一特定月份曾看醫生。若隨機抽取 10 人，求恰好有 3 人上個月看過醫生的機率。
@@ -562,7 +567,7 @@ cat("P(3) = C(10,3) × (1/5)³ × (4/5)⁷ =", round(prob, 3))
 cat("\ndbinom 驗證:", round(dbinom(X, n, p), 3))
 ```
 
-## 例題 5-17 {#example-5-17}
+## 範例 5-17 {#example-5-17}
 :::{.callout-warning}
 ## 問題
 調查發現 30% 的青少年消費者從兼職工作獲得零用錢。若隨機抽取 5 名青少年，求**至少 3 名**有兼職工作的機率。
@@ -587,15 +592,15 @@ cat("P(至少3人) = P(3)+P(4)+P(5) =", round(total, 3))
 cat("\n驗證：1 - P(X ≤ 2) =", round(1 - pbinom(2, n, p), 3))
 ```
 
-## 例題 5-18 {#example-5-18}
+## 範例 5-18 {#example-5-18}
 
 :::{.callout-warning}
 ## 使用二項表
 
-使用二項機率表（表B）或 R 求解[例題 5-15](#example-5-15)（3 枚硬幣，P(恰好2次正面)）。
+使用二項機率表（表B）或 R 求解[範例 5-15](#example-5-15)（3 枚硬幣，P(恰好2次正面)）。
 :::
 
-## 例題 5-18
+## 範例 5-18
 
 :::{.callout-tip}
 ## 解題
@@ -620,7 +625,7 @@ dist <- data.frame(
 knitr::kable(dist, digits = 4, caption = "二項分配：n=3, p=0.5")
 ```
 
-## 例題 5-19 {#example-5-19}
+## 範例 5-19 {#example-5-19}
 
 :::{.callout-warning}
 ## 夜晚獨自在家的恐懼
@@ -651,7 +656,7 @@ c <- 1 - sum(dbinom(0:2, n, p))
 cat("(c) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(c, 4))
 ```
 
-## 例題 5-20 {#example-5-20}
+## 範例 5-20 {#example-5-20}
 
 :::{.callout-warning}
 ## 酒後駕車
@@ -659,7 +664,7 @@ cat("(c) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(c, 4))
 報告指出週末夜間單車輛交通死亡事故中，70% 涉及酒醉駕駛。若隨機抽取 15 件此類死亡事故，求恰好 12 件涉及酒醉駕駛的機率。
 :::
 
-## 例題 5-20
+## 範例 5-20
 
 :::{.callout-tip}
 ## 解題
@@ -676,7 +681,7 @@ $$\sigma = \sqrt{n \cdot p \cdot q}$$
 
 :::
 
-## 例題 5-21 {#example-5-21}
+## 範例 5-21 {#example-5-21}
 :::{.callout-warning}
 ## 問題
 拋一枚硬幣 4 次。求正面數的平均數、變異數與標準差。
@@ -701,7 +706,7 @@ sigma2_check <- sum(X^2 * PX) - mu_check^2
 cat("\n驗證：μ =", mu_check, "| σ² =", sigma2_check)
 ```
 
-## 例題 5-22 {#example-5-22}
+## 範例 5-22 {#example-5-22}
 
 :::{.callout-warning}
 ## 擲骰子 480 次
@@ -709,7 +714,7 @@ cat("\n驗證：μ =", mu_check, "| σ² =", sigma2_check)
 擲一顆骰子 480 次。求出現 3 點的平均數、變異數與標準差。
 :::
 
-## 例題 5-22
+## 範例 5-22
 
 :::{.callout-tip}
 ## 解題
@@ -730,7 +735,7 @@ cat("σ² = n·p·q =", sigma2, "\n")
 cat("σ = √σ² =", round(sigma, 1))
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 在 8000 名新生兒樣本中，平均預期有 **160** 對雙胞胎出生，$\sigma \approx 12.5$。
 :::
 
@@ -774,7 +779,7 @@ ggplot(df_all, aes(x = X, y = PX, fill = Label)) +
 
 ## 多項分配
 
-::: {.callout-note}
+:::{.callout-note}
 ## 公式
 
 若實驗有 $k$ 種可能結果 $E_1, E_2, \ldots, E_k$，其機率分別為 $p_1, p_2, \ldots, p_k$，且 $X_i$ 為 $n$ 次獨立試驗中結果 $E_i$ 發生的次數，則：
@@ -786,7 +791,7 @@ $$P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2
 
 多項分配是二項分配的推廣——二項分配是 $k = 2$ 的特殊情形。
 
-## 例題 5-24 {#example-5-24}
+## 範例 5-24 {#example-5-24}
 
 :::{.callout-warning}
 ## 休閒活動
@@ -794,7 +799,7 @@ $$P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2
 在某大城市，50% 的居民選擇看電影，30% 選擇晚餐加看戲，20% 選擇購物作為休閒活動。若隨機抽取 5 人，求 3 人計劃看電影、1 人看戲、1 人逛購物中心的機率。
 :::
 
-## 例題 5-24
+## 範例 5-24
 
 :::{.callout-tip}
 ## 解題
@@ -818,7 +823,7 @@ cat("X₁=2（0杯），X₂=4（1杯），X₃=1（2杯），X₄=1（3杯）\n
 cat("P(X) =", round(prob, 4))
 ```
 
-## 例題 5-26 {#example-5-26}
+## 範例 5-26 {#example-5-26}
 :::{.callout-warning}
 ## 問題
 箱中有 4 顆白球、3 顆紅球、3 顆藍球。選取一顆球，記錄顏色後放回。若選取 5 顆球，求 2 顆白球、2 顆紅球、1 顆藍球的機率。
@@ -839,7 +844,7 @@ cat("     =", round(prob, 4), "（= 81/625）")
 
 ## 卜瓦松分配
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義與公式
 
 **卜瓦松分配**適用於事件在連續時間、面積或體積區間內隨機發生的情況——尤其當 $n$ 大且 $p$ 小時。
@@ -853,7 +858,7 @@ $$P(X;\, \lambda) = \frac{e^{-\lambda}\, \lambda^X}{X!}, \quad X = 0, 1, 2, \ldo
 當 $\lambda = n \cdot p < 5$ 時，也可用於**近似二項分配**。
 :::
 
-## 例題 5-27 {#example-5-27}
+## 範例 5-27 {#example-5-27}
 :::{.callout-warning}
 ## 問題
 一份 500 頁的手稿含有 200 個隨機分布的打字錯誤。求某頁恰好有 3 個錯誤的機率。
@@ -872,7 +877,7 @@ cat("              =", round(exp(-lambda), 6), "×", lambda^X, "/", factorial(X)
 cat("\n以 dpois 驗證:", round(dpois(X, lambda), 4))
 ```
 
-## 例題 5-28 {#example-5-28}
+## 範例 5-28 {#example-5-28}
 :::{.callout-warning}
 ## 問題
 某銷售公司的免費電話平均每小時接到 3 通電話。求任意一小時內的以下機率：
@@ -901,7 +906,7 @@ c <- 1 - ppois(4, lambda)
 cat("(c) P(X ≥ 5) = 1 - P(X ≤ 4) =", round(c, 4))
 ```
 
-## 例題 5-29 {#example-5-29}
+## 範例 5-29 {#example-5-29}
 
 :::{.callout-warning}
 ## 卜瓦松近似二項
@@ -926,13 +931,13 @@ cat("精確二項：P(X=5)      =", round(prob_binom, 4), "\n")
 cat("差異：", round(abs(prob_pois - prob_binom), 4))
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 當 $\lambda = n \cdot p < 5$ 時，卜瓦松近似是可靠的。
 :::
 
 ## 超幾何分配
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義與公式
 
 **超幾何分配**適用於從含有兩種類型物件的有限母體中**不放回**抽樣的情況。
@@ -944,7 +949,7 @@ $$P(X) = \frac{C^a_X \cdot  C^b_{n-X}}{C^{a+b}_n}$$
 
 **與二項的主要差異：** 試驗是**相依的**（不放回）。
 
-## 例題 5-30 {#example-5-30}
+## 範例 5-30 {#example-5-30}
 
 :::{.callout-warning}
 ## 助理經理應聘者
@@ -952,7 +957,7 @@ $$P(X) = \frac{C^a_X \cdot  C^b_{n-X}}{C^{a+b}_n}$$
 10 人應聘餐廳助理經理職位：5 人是大學畢業生，5 人不是。若經理隨機抽取 3 人，求 3 人都是大學畢業生的機率。
 :::
 
-## 例題 5-30
+## 範例 5-30
 
 :::{.callout-tip}
 ## 解題
@@ -975,7 +980,7 @@ cat("       =", choose(a,X), "×", choose(b,n-X), "/", choose(a+b,n),
     "=", round(prob, 4), "（= 5/9）")
 ```
 
-## 例題 5-32 {#example-5-32}
+## 範例 5-32 {#example-5-32}
 :::{.callout-warning}
 ## 問題
 一批 12 個壓縮機槽中有 3 個瑕疵品。若隨機抽取 3 個進行檢驗，當發現 1 個或以上瑕疵品時即拒絕該批次，求該批次被拒絕的機率。
@@ -1023,7 +1028,7 @@ knitr::kable(summary_df, caption = "表5-1：離散分配摘要")
 
 ## 第5章摘要
 
-::: {.callout-note}
+:::{.callout-note}
 ## 重點整理
 
 - **離散機率分配**列出所有可能值及其機率；需滿足 $\sum P(X)=1$ 且 $0 \leq P(X) \leq 1$。

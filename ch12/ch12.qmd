@@ -4,6 +4,9 @@ subtitle: "Chapter 12: Analysis of Variance"
 author: "Yu-You Liou"
 institute: "Shih Chien University"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "Problem"
+  callout-important-title: "Key point"
 format:
   revealjs:
     html-math-method: katex
@@ -45,7 +48,7 @@ library(ggplot2)
 # Chapter 12: Analysis of Variance {background-color="#2c4a6e"}
 
 ## Overview
-::: {.callout-note}
+:::{.callout-note}
 ## Why ANOVA?
 When comparing **three or more group means**, using multiple t-tests is problematic:
 
@@ -62,7 +65,7 @@ When comparing **three or more group means**, using multiple t-tests is problema
 
 ## Historical Note
 
-::: {.callout-note}
+:::{.callout-note}
 ## Origin of ANOVA
 The methods of analysis of variance were developed by **R. A. Fisher** in the early 1920s.
 
@@ -75,7 +78,7 @@ ANOVA uses **variances** to make inferences about **means** — hence the name "
 
 ## Why Not Multiple t-Tests?
 
-::: {.callout-important}
+:::{.callout-important}
 ## Three Reasons to Avoid Multiple t-Tests
 1. **Ignores other groups:** Each pairwise comparison ignores the remaining groups
 2. **Inflated Type I error:** More comparisons = higher chance of false significance
@@ -86,7 +89,7 @@ The **F test** overcomes all three issues by comparing all means at once.
 
 ## Assumptions for One-Way ANOVA
 
-::: {.callout-important}
+:::{.callout-important}
 ## Assumptions
 1. Each population must be **normally or approximately normally distributed**
 2. All samples must be **independent** of one another
@@ -95,7 +98,7 @@ The **F test** overcomes all three issues by comparing all means at once.
 
 ## The Logic of ANOVA
 
-::: {.callout-note}
+:::{.callout-note}
 ## Two Variance Estimates
 | Estimate | What it measures |
 |----------|-----------------|
@@ -113,13 +116,13 @@ The F test for comparing means is always **right-tailed**.
 ## Hypotheses and Degrees of Freedom
 
 
-::: {.callout-note}
+:::{.callout-note}
 ## ANOVA Hypotheses
 $$H_0: \mu_1 = \mu_2 = \cdots = \mu_k$$
 $$H_1: \text{At least one mean differs from the others}$$
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## Degrees of Freedom
 $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
@@ -128,7 +131,7 @@ where $k$ = number of groups and $N = n_1 + n_2 + \cdots + n_k$
 
 ## ANOVA Computational Formulas
 
-::: {.callout-note}
+:::{.callout-note}
 ## Step-by-Step Procedure
 **Step 1:** Find the mean and variance of each sample: $(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)$
 
@@ -143,7 +146,7 @@ where $k$ = number of groups and $N = n_1 + n_2 + \cdots + n_k$
 
 ## ANOVA Summary Table
 
-::: {.callout-note}
+:::{.callout-note}
 ## Standard Summary Table Format
 | Source | SS | d.f. | MS | F |
 |--------|-----|------|-----|---|
@@ -377,7 +380,7 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
 
 ## Post-Hoc Tests: Overview
 
-::: {.callout-note}
+:::{.callout-note}
 ## Why Post-Hoc Tests?
 When the F test rejects $H_0$, we know **at least one mean differs**, but not **which pair(s)** differ.
 
@@ -393,7 +396,7 @@ Post-hoc tests make all pairwise comparisons after ANOVA:
 
 ## The Scheffé Test
 
-::: {.callout-note}
+:::{.callout-note}
 ## Scheffé Test Formula
 $$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}$$
 
@@ -470,7 +473,7 @@ for (p in pairs) {
 
 ## The Tukey Test
 
-::: {.callout-note}
+:::{.callout-note}
 ## Tukey Test Formula
 Used when **all sample sizes are equal**:
 
@@ -556,7 +559,7 @@ plot(tukey_result, las = 1)
 
 ## Scheffé vs. Tukey: Comparison
 
-::: {.callout-note}
+:::{.callout-note}
 ## When to Use Each Test
 
 | Feature | Scheffé | Tukey |
@@ -575,7 +578,7 @@ plot(tukey_result, las = 1)
 
 ## Introduction to Two-Way ANOVA
 
-::: {.callout-note}
+:::{.callout-note}
 ## Extension of One-Way ANOVA
 **One-way ANOVA:** One independent variable (factor)
 
@@ -589,7 +592,7 @@ Benefits of two-way ANOVA:
 
 ## Two-Way ANOVA: Design Structure
 
-::: {.callout-note}
+:::{.callout-note}
 ## Factorial Design Terminology
 - **Factor A** has $a$ levels
 - **Factor B** has $b$ levels
@@ -603,7 +606,7 @@ Example: Plant food type (A1, A2) $\times$ Soil type (I, II) → 4 groups
 
 ## Two-Way ANOVA: Three Hypotheses
 
-::: {.callout-note}
+:::{.callout-note}
 ## Hypotheses
 **1. Interaction effect:**
 $$H_0: \text{No interaction between factors A and B}$$
@@ -620,7 +623,7 @@ $$H_1: \text{At least one mean of B differs}$$
 
 ## Two-Way ANOVA: Assumptions
 
-::: {.callout-important}
+:::{.callout-important}
 ## Assumptions
 1. Populations must be **normally or approximately normally distributed**
 2. All samples must be **independent**
@@ -630,7 +633,7 @@ $$H_1: \text{At least one mean of B differs}$$
 
 ## Two-Way ANOVA: Summary Table
 
-::: {.callout-note}
+:::{.callout-note}
 ## General ANOVA Table
 | Source | SS | d.f. | MS | F |
 |--------|-----|------|-----|---|
@@ -776,7 +779,7 @@ summary(result5)
 
 ## Interpreting Interaction Effects
 
-::: {.callout-note}
+:::{.callout-note}
 ## Types of Interactions
 | Graph Pattern | Interaction Type | Interpretation |
 |--------------|-----------------|----------------|

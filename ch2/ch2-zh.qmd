@@ -4,6 +4,11 @@ subtitle: "第2章：次數分配與圖形"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -57,7 +62,7 @@ theme_set(
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## 第2章概覽
+## 本章概覽
 
 第2章介紹**組織與視覺化資料**的方法——從原始、未排序的觀測值，轉化為能呈現規律的結構化摘要。
 
@@ -91,7 +96,7 @@ knitr::opts_chunk$set(fig.align = "center")
 2. 統計每個類別的出現次數。
 3. 記錄次數並計算百分比：$\% = \frac{f}{n} \times 100$
 
-## 例 2-1 {#example-2-1}
+## 範例 2-1 {#example-2-1}
 
 :::{.callout-warning}
 ## 陸軍新兵的血型
@@ -107,7 +112,7 @@ AB A  O  B   A
 ```
 :::
 
-## 例 2-1
+## 範例 2-1
 
 :::{.callout-tip}
 ## 解題
@@ -128,12 +133,12 @@ knitr::kable(df, align = "c")
 ```
 :::
 
-## 例 2-1
+## 範例 2-1
 
 :::{.callout-tip}
 ## 解題
 
-**解讀**
+**詮釋**
 
 次數分配顯示，**O型**血是此樣本中最常見的血型，出現9次（36%）。**A型**出現5次（20%），**B型**出現6次（24%），**AB型**出現4次（16%）。
 
@@ -172,7 +177,7 @@ ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
 公式：$\text{組距} \approx \dfrac{\text{最大值} - \text{最小值}}{\text{組數}}$
 :::
 
-## 例 2-2 {#example-2-2}
+## 範例 2-2 {#example-2-2}
 
 :::{.callout-warning}
 ## 創紀錄高溫
@@ -188,7 +193,7 @@ ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
 ```
 :::
 
-## 例 2-2
+## 範例 2-2
 
 :::{.callout-tip}
 ## 解題
@@ -205,7 +210,7 @@ temps <- c(112,100,127,120,134,118,105,110,109,112,
            120,113,120,117,105,110,118,112,114,114)
 ```
 
-**繪製圖形**
+**視覺化**
 
 ```{r e2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 組距 = ceiling((134 - 100) / 7) = 5
@@ -233,7 +238,7 @@ knitr::kable(freq_table[, c("Class","Boundaries","Midpoint","Frequency","Cumulat
              align = "c")
 ```
 
-## 例 2-2
+## 範例 2-2
 
 :::{.callout-tip}
 ## 解題
@@ -255,7 +260,7 @@ ggplot(data.frame(temps), aes(x = temps)) +
 
 此方法保留精確數值，而非將其合併為區間。
 
-## 例 2-3 {#example-2-3}
+## 範例 2-3 {#example-2-3}
 
 :::{.callout-warning}
 ## 休旅車每加侖行駛英里數
@@ -269,7 +274,7 @@ ggplot(data.frame(temps), aes(x = temps)) +
 ```
 :::
 
-## 例 2-3
+## 範例 2-3
 
 :::{.callout-tip}
 ## 解題
@@ -284,7 +289,7 @@ mpg_data <- c(12,17,12,14,16,18,16,18,12,16,
               15,12,15,15,12,16,15,16,16,12)
 ```
 
-**繪製圖形**
+**視覺化**
 
 ```{r e2-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ungrouped <- data.frame(mpg_data) |>
@@ -337,16 +342,16 @@ knitr::kable(freq_table[, c("Class","Frequency","Cumulative")],
 **直方圖**是一種長條圖，橫軸表示組界，縱軸表示次數（或相對次數）。相鄰長條共用邊界——無間隔。
 :::
 
-## 例 2-4 {#example-2-4}
+## 範例 2-4 {#example-2-4}
 
 :::{.callout-warning}
 ## 創紀錄高溫的直方圖
 
-使用[例2-2](#example-2-2)的次數分配，繪製美國50州創紀錄高溫的直方圖。
+使用[範例 2-2](#example-2-2)的次數分配，繪製美國50州創紀錄高溫的直方圖。
 :::
 ---
 
-**解題步驟**（R）
+**R 程式**
 
 ```{r e2-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 ggplot(data.frame(temps), aes(x = temps)) +
@@ -364,16 +369,16 @@ ggplot(data.frame(temps), aes(x = temps)) +
 **次數多邊形**是折線圖，連接各直方圖長條頂端的**組中點**。折線在兩端延伸至距各端一個組距的橫軸位置，使多邊形「封閉」。
 :::
 
-## 例 2-5 {#example-2-5}
+## 範例 2-5 {#example-2-5}
 
 :::{.callout-warning}
 ## 次數多邊形
 
-使用[例2-2](#example-2-2)的創紀錄高溫資料，繪製次數多邊形。
+使用[範例 2-2](#example-2-2)的創紀錄高溫資料，繪製次數多邊形。
 :::
 ---
 
-**解題步驟**（R）
+**R 程式**
 
 ```{r e2-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 midpoints <- seq(102, 132, by = 5)
@@ -404,16 +409,16 @@ ggplot(poly_df, aes(x, y)) +
 **肩形圖**（累積次數圖）以橫軸的**上組界**對應縱軸的**累積次數**繪製。可用於判斷有多少觀測值落在某特定數值以下。
 :::
 
-## 例 2-6 {#example-2-6}
+## 範例 2-6 {#example-2-6}
 
 :::{.callout-warning}
 ## 創紀錄高溫的肩形圖
 
-使用[例2-2](#example-2-2)的創紀錄高溫分配，繪製肩形圖。
+使用[範例 2-2](#example-2-2)的創紀錄高溫分配，繪製肩形圖。
 :::
 ---
 
-**解題步驟**（R）
+**R 程式**
 
 ```{r e2-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 upper_bounds <- c(99.5, 104.5, 109.5, 114.5, 119.5, 124.5, 129.5, 134.5)
@@ -439,7 +444,7 @@ ggplot(ogive_df, aes(x, y)) +
 
 相對次數圖便於比較不同樣本大小的資料集。
 
-## 例 2-7 {#example-2-7}
+## 範例 2-7 {#example-2-7}
 
 :::{.callout-warning}
 ## 相對次數圖——每週跑步英里數
@@ -457,7 +462,7 @@ ggplot(ogive_df, aes(x, y)) +
 | 35.5–40.5 | 2 |
 :::
 
-## 例 2-7
+## 範例 2-7
 
 :::{.callout-tip}
 ## 解題
@@ -481,7 +486,7 @@ run_df <- data.frame(
 :::
 ---
 
-**繪製圖形**
+**視覺化**
 
 ```{r e2-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p1 <- ggplot(run_df, aes(x = mid, y = rel_f)) +
@@ -584,7 +589,7 @@ gridExtra::grid.arrange(p_bell, p_uni, p_right, p_left, p_bimod, p_u, ncol = 3)
 **長條圖**使用水平或垂直長條表示類別（質性）資料。每條長條的長度或高度對應該類別的次數或數值。與直方圖不同，長條間允許有間隔。
 :::
 
-## 例 2-8 {#example-2-8}
+## 範例 2-8 {#example-2-8}
 
 :::{.callout-warning}
 ## 大學一年級生的消費
@@ -599,7 +604,7 @@ gridExtra::grid.arrange(p_bell, p_uni, p_right, p_left, p_bimod, p_u, ncol = 3)
 | 鞋子 | $72 |
 :::
 
-## 例 2-8
+## 範例 2-8
 
 :::{.callout-tip}
 ## 解題
@@ -634,7 +639,7 @@ ggplot(spending, aes(x = reorder(category, -amount), y = amount, fill = category
 
 此名稱源自Vilfredo Pareto，他觀察到少數原因往往造成大多數影響（「80/20法則」）。
 
-## 例 2-9 {#example-2-9}
+## 範例 2-9 {#example-2-9}
 
 :::{.callout-warning}
 ## 五個城市的遊民人口
@@ -650,7 +655,7 @@ ggplot(spending, aes(x = reorder(category, -amount), y = amount, fill = category
 | 聖路易 | 1,485 |
 :::
 
-## 例 2-9
+## 範例 2-9
 
 :::{.callout-tip}
 ## 解題
@@ -685,7 +690,7 @@ ggplot(homeless, aes(x = city, y = count, fill = city)) +
 **時間序列圖**以縱軸表示量化變數，橫軸表示時間，繪製資料點並用線段連接，以強調隨時間的趨勢或規律。
 :::
 
-## 例 2-10 {#example-2-10}
+## 範例 2-10 {#example-2-10}
 
 :::{.callout-warning}
 ## 職場凶殺案（2003–2008）
@@ -697,7 +702,7 @@ ggplot(homeless, aes(x = city, y = count, fill = city)) +
 | 凶殺案數 | 632 | 559 | 567 | 540 | 628 | 517 |
 :::
 
-## 例 2-10
+## 範例 2-10
 
 :::{.callout-tip}
 ## 解題
@@ -741,7 +746,7 @@ $$\text{角度} = \frac{f}{n} \times 360°$$
 其中 $f$ 為類別次數，$n$ 為觀測值總數。
 :::
 
-## 例 2-11 {#example-2-11}
+## 範例 2-11 {#example-2-11}
 
 :::{.callout-warning}
 ## 超級盃零食偏好
@@ -757,7 +762,7 @@ $$\text{角度} = \frac{f}{n} \times 360°$$
 | 堅果 | 250萬 |
 :::
 
-## 例 2-11
+## 範例 2-11
 
 :::{.callout-tip}
 ## 解題
@@ -790,15 +795,15 @@ fig <- ggplot(snacks, aes(x = "", y = freq, fill = item)) +
 fig
 ```
 
-## 例 2-12 {#example-2-12}
+## 範例 2-12 {#example-2-12}
 
 :::{.callout-warning}
 ## 血型圓形圖
 
-使用[例2-1](#example-2-1)的血型資料，建立圓形圖。
+使用[範例 2-1](#example-2-1)的血型資料，建立圓形圖。
 :::
 
-## 例 2-12
+## 範例 2-12
 
 :::{.callout-tip}
 ## 解題
@@ -858,7 +863,7 @@ fig
 - 此圖類似於橫置的直方圖。
 :::
 
-## 例 2-13 {#example-2-13}
+## 範例 2-13 {#example-2-13}
 
 :::{.callout-warning}
 ## 門診中心的心電圖次數
@@ -873,7 +878,7 @@ fig
 ```
 :::
 
-## 例 2-13
+## 範例 2-13
 
 :::{.callout-tip}
 ## 解題
@@ -890,7 +895,7 @@ stem(cardio, scale = 2)
 分配**在30多次達到高峰**，20天中有7天記錄了31到36次心電圖。最小值為2，最大值為57。
 :::
 
-## 例 2-14 {#example-2-14}
+## 範例 2-14 {#example-2-14}
 
 :::{.callout-warning}
 ## 汽車竊盜——帶有組別的莖葉圖
@@ -904,7 +909,7 @@ stem(cardio, scale = 2)
 ```
 :::
 
-## 例 2-14
+## 範例 2-14
 
 :::{.callout-tip}
 ## 解題
@@ -925,7 +930,7 @@ graphics::stem(thefts, scale = 1)
 ```
 :::
 
-## 例 2-15 {#example-2-15}
+## 範例 2-15 {#example-2-15}
 
 :::{.callout-warning}
 ## 背對背莖葉圖
@@ -933,7 +938,7 @@ graphics::stem(thefts, scale = 1)
 比較兩個相關群組時，**背對背莖葉圖**在中央共用一列莖，一個群組的葉向左展開，另一個向右展開。這便於同時比較兩個分配的形狀、中心與離散程度。
 :::
 
-## 例 2-15
+## 範例 2-15
 
 :::{.callout-tip}
 ## 解題
@@ -945,7 +950,7 @@ graphics::stem(thefts, scale = 1)
 **費城：** 61, 40, 38, 32, 30, 58, 40, 40, 25, 30, 54, 40, 36, 30, 30, 53, 39, 36, 34, 33, 50, 38, 36, 39, 32
 :::
 
-## 例 2-15
+## 範例 2-15
 
 :::{.callout-tip}
 ## 解題
@@ -963,12 +968,12 @@ aplpack::stem.leaf.backback(atlanta,philly,
 ```
 :::
 
-## 例 2-15
+## 範例 2-15
 
 :::{.callout-tip}
 ## 解題
 
-**解讀**
+**詮釋**
 
 檢視背對背圖可發現幾個關鍵差異：
 

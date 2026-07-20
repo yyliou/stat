@@ -4,6 +4,9 @@ subtitle: "Chapter 10: Correlation and Regression"
 author: "Yu-You Liou"
 institute: "Shih Chien University"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "Problem"
+  callout-important-title: "Key point"
 format:
   revealjs:
     html-math-method: katex
@@ -58,7 +61,7 @@ This chapter addresses four key questions:
 
 ## Key Terms
 
-::: {.callout-note}
+:::{.callout-note}
 - **Independent variable (x):** The predictor variable — can be controlled or manipulated.
 - **Dependent variable (y):** The response variable — its value depends on x.
 - **Scatter plot:** A graph of ordered pairs (x, y) used to visually assess the relationship between two variables.
@@ -188,7 +191,7 @@ No clear pattern is visible — this suggests **little or no linear relationship
 
 ## The Pearson Correlation Coefficient
 
-::: {.callout-note}
+:::{.callout-note}
 The **Pearson product moment correlation coefficient** (r) measures the strength and direction of the linear relationship between two variables.
 
 $$r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}$$
@@ -304,7 +307,7 @@ cat("Very weak negative relationship — r is close to 0.\n")
 
 ## Testing the Significance of r
 
-::: {.callout-note}
+:::{.callout-note}
 To determine whether r reflects a true linear relationship (and not just sampling error), we test:
 
 $$H_0: \rho = 0 \quad H_1: \rho \neq 0$$
@@ -392,7 +395,7 @@ Always interpret a significant r cautiously and consider alternative explanation
 
 ## The Regression Line (Line of Best Fit)
 
-::: {.callout-note}
+:::{.callout-note}
 When r is significant, we can describe the linear relationship with the **regression line**:
 
 $$\hat{y} = a + bx$$
@@ -513,7 +516,7 @@ cat("Predicted revenue for 200,000 cars: $", round(pred, 3), "billion\n")
 ```
 :::
 
-::: {.callout-important}
+:::{.callout-important}
 **Caution:** Only predict within the range of observed x values. Extrapolation beyond the data is unreliable.
 :::
 
@@ -521,7 +524,7 @@ cat("Predicted revenue for 200,000 cars: $", round(pred, 3), "billion\n")
 
 ## Types of Variation
 
-::: {.callout-note}
+:::{.callout-note}
 The **total variation** in y can be decomposed:
 
 $$\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\hat{y} - \bar{y})^2}_{\text{Explained variation}} + \underbrace{\sum(y - \hat{y})^2}_{\text{Unexplained variation}}$$
@@ -532,7 +535,7 @@ $$\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\
 
 ## Coefficient of Determination
 
-::: {.callout-note}
+:::{.callout-note}
 $$r^2 = \frac{\text{Explained variation}}{\text{Total variation}}$$
 
 Equivalently, $r^2$ is obtained by **squaring the correlation coefficient**.
@@ -555,7 +558,7 @@ for (r in r_vals) {
 
 ## Standard Error of the Estimate
 
-::: {.callout-note}
+:::{.callout-note}
 The **standard error of the estimate** ($s_{est}$) measures the spread of observed y values around the regression line:
 
 $$s_{est} = \sqrt{\frac{\sum(y - \hat{y})^2}{n-2}}$$
@@ -658,7 +661,7 @@ cat("s_est (shortcut formula) =", round(sest_shortcut, 4), "\n")
 
 ## Prediction Interval
 
-::: {.callout-note}
+:::{.callout-note}
 A **prediction interval** provides a range within which a future individual y value is expected to fall for a given x:
 
 $$\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{X})^2}{n\sum x^2 - (\sum x)^2}}$$
@@ -733,7 +736,7 @@ If residuals are randomly scattered around 0, the linear model is appropriate.
 
 ## Multiple Regression Overview
 
-::: {.callout-note}
+:::{.callout-note}
 **Multiple regression** uses two or more independent variables to predict a single dependent variable:
 
 $$\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k$$
@@ -802,7 +805,7 @@ cat("Predicted state board score:", round(pred_score, 1), "\n")
 
 ## Multiple Correlation Coefficient R
 
-::: {.callout-note}
+:::{.callout-note}
 The **multiple correlation coefficient R** measures the strength of the relationship between all predictors and the dependent variable:
 
 $$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}$$
@@ -840,7 +843,7 @@ cat("Coefficient of multiple determination R² =", round(R^2, 4), "\n")
 
 ## F Test for Significance of R
 
-::: {.callout-note}
+:::{.callout-note}
 Test $H_0: \rho = 0$ vs $H_1: \rho \neq 0$ using:
 
 $$F = \frac{R^2/k}{(1-R^2)/(n-k-1)}$$

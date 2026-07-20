@@ -4,6 +4,9 @@ subtitle: "Chapter 7: Confidence Intervals and Sample Size"
 author: "Yu-You Liou"
 institute: "Shih Chien University"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "Problem"
+  callout-important-title: "Key point"
 format:
   revealjs:
     html-math-method: katex
@@ -61,12 +64,12 @@ This chapter introduces two types of estimates: **point estimates** (a single va
 
 ## Point Estimates vs. Interval Estimates
 
-::: {.callout-note}
+:::{.callout-note}
 ## Point Estimate
 A **point estimate** is a single numerical value used to estimate a population parameter. The best point estimate of the population mean μ is the sample mean $\bar{X}$.
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## Interval Estimate
 An **interval estimate** is a range of values used to estimate a parameter. It acknowledges that the sample mean will differ from μ due to sampling variability.
 :::
@@ -75,7 +78,7 @@ A point estimate alone gives no sense of accuracy. An interval estimate — pair
 
 ## Properties of a Good Estimator
 
-::: {.callout-important}
+:::{.callout-important}
 ## Three Properties of a Good Estimator
 1. **Unbiased**: The expected value of the estimator equals the true parameter
 2. **Consistent**: As sample size grows, the estimator converges to the true value
@@ -86,12 +89,12 @@ The sample mean $\bar{X}$ satisfies all three properties — it is the preferred
 
 ## Confidence Level and Confidence Interval
 
-::: {.callout-note}
+:::{.callout-note}
 ## Confidence Level
 The **confidence level** is the probability that the interval estimate will contain the true population parameter, assuming the estimation process is repeated many times.
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## Confidence Interval
 A **confidence interval** is a specific interval estimate of a parameter, determined from sample data and a chosen confidence level. Common levels: **90%, 95%, 99%**.
 :::
@@ -100,7 +103,7 @@ Higher confidence → wider interval. There is always a trade-off between precis
 
 ## Formula: Confidence Interval for μ (σ Known)
 
-::: {.callout-note}
+:::{.callout-note}
 ## CI Formula (σ Known)
 $$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
 
@@ -147,7 +150,7 @@ A researcher wants to estimate the average number of days it takes to sell a Che
 A survey of 30 emergency room patients found an average waiting time of 174.3 minutes. The population standard deviation is known to be 46.5 minutes. Find the best point estimate and the **99% confidence interval** of the true mean waiting time.
 
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 $$174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) < \mu < 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)$$
 $$174.3 - 21.9 < \mu < 174.3 + 21.9$$
@@ -214,7 +217,7 @@ where E is the desired **margin of error**. Always round **up** to the next whol
 :::{.callout-warning}
 A scientist wants to estimate the average depth of a river. She wants to be **99% confident** that the estimate is accurate within **2 feet**. A previous study found σ = 4.33 feet. Find the minimum sample size needed.
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 $z_{\alpha/2} = 2.58$, $E = 2$, $\sigma = 4.33$
 
@@ -238,7 +241,7 @@ ceiling(n_raw)  # Always round UP
 When σ is unknown, the sample standard deviation s is used as a substitute. However, this introduces additional uncertainty — especially for small samples. The appropriate distribution is the **Student's t distribution**.
 
 
-::: {.callout-note}
+:::{.callout-note}
 ## Characteristics of the t Distribution
 **Similar to the normal distribution:**
 1. Bell-shaped and symmetric about the mean
@@ -268,14 +271,14 @@ ggplot(df_plot, aes(x, y, color = dist, linetype = dist)) +
 
 ## Degrees of Freedom and the t Formula
 
-::: {.callout-note}
+:::{.callout-note}
 ## Degrees of Freedom
 For a confidence interval for the mean: **d.f. = n − 1**
 
 The degrees of freedom specify which t curve to use. In R: `qt(p, df = n-1)`
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## CI Formula (σ Unknown)
 $$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
 
@@ -286,7 +289,7 @@ where $t_{\alpha/2}$ is from Table F with d.f. = n − 1.
 
 ## When to Use z vs. t
 
-::: {.callout-important}
+:::{.callout-important}
 ## Decision Rule
 - **σ is known** → use $z_{\alpha/2}$ with σ in the formula (any n, if normal or $n \geq 30$)
 - **σ is unknown** → use $t_{\alpha/2}$ with s in the formula (normal population or $n \geq 30$)
@@ -322,7 +325,7 @@ For a 95% CI: `qt(0.975, df = n-1)`.
 Ten randomly selected people reported their nightly sleep duration. The sample mean was 7.1 hours and the standard deviation was 0.78 hour. Find the **95% confidence interval** of the mean. Assume the variable is normally distributed.
 
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 σ unknown, n = 10 < 30 → use t distribution. d.f. = 9, $t_{\alpha/2}$ = 2.262
 
@@ -369,7 +372,7 @@ cat("99% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
 
 ## Proportions
 
-::: {.callout-note}
+:::{.callout-note}
 ## Notation for Proportions
 $$\hat{p} = \frac{X}{n} \quad \text{(sample proportion)} \qquad \hat{q} = \frac{n-X}{n} = 1 - \hat{p}$$
 
@@ -401,7 +404,7 @@ In a recent survey of 150 households, 54 had central air conditioning. Find $\ha
 
 **Solve**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 $$\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%$$
 $$\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%$$
@@ -515,7 +518,7 @@ n_raw
 ceiling(n_raw)
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 ## Key Rule
 When $\hat{p}$ is unknown, always use $\hat{p} = 0.5$ — it produces the **largest possible** sample size, ensuring sufficient precision regardless of the true proportion.
 :::
@@ -526,7 +529,7 @@ When $\hat{p}$ is unknown, always use $\hat{p} = 0.5$ — it produces the **larg
 
 Confidence intervals for variances and standard deviations require a different distribution — the **chi-square** (χ²) distribution.
 
-::: {.callout-note}
+:::{.callout-note}
 ## Chi-Square Distribution Properties
 - Obtained from values of $(n-1)s^2/\sigma^2$ from normal populations
 - Cannot be negative; skewed to the right
@@ -556,13 +559,13 @@ ggplot(df_plot, aes(x, y, color = df)) +
 
 ## Formulas for Variance and Standard Deviation CIs
 
-::: {.callout-note}
+:::{.callout-note}
 ## Confidence Interval for a Variance
 $$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}}$$
 d.f. = n − 1
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## Confidence Interval for a Standard Deviation
 $$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}}$$
 :::
@@ -588,7 +591,7 @@ Find the values $\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$ for a **90% c
 
 **Solve**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 d.f. = 25 − 1 = 24
 
@@ -606,7 +609,7 @@ cat("chi-sq right =", round(chi_right, 3), "\n")
 cat("chi-sq left  =", round(chi_left, 3), "\n")
 ```
 
-::: {.callout-warning}
+:::{.callout-warning}
 ## Caution
 Note the counterintuitive naming: $\chi^2_{\text{right}}$ is the **larger** value used in the **denominator of the lower bound**, while $\chi^2_{\text{left}}$ is the **smaller** value used in the **denominator of the upper bound**.
 :::
@@ -626,7 +629,7 @@ Find the **95% confidence interval** for the variance and standard deviation of 
 
 **Solve**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 d.f. = 19; 95% CI → $\chi^2_{\text{right}} = 32.852$, $\chi^2_{\text{left}} = 8.907$
 

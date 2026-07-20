@@ -4,6 +4,9 @@ subtitle: "Chapter 6: The Normal Distribution"
 author: "Yu-You Liou"
 institute: "Shih Chien University"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "Problem"
+  callout-important-title: "Key point"
 format:
   revealjs:
     html-math-method: katex
@@ -57,7 +60,7 @@ The **normal distribution** is the most important and widely used continuous pro
 
 ## Properties of the Normal Distribution
 
-::: {.callout-note}
+:::{.callout-note}
 ## Definition
 A **normal distribution** is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the **mean** μ and **standard deviation** σ.
 :::
@@ -85,7 +88,7 @@ ggplot(df, aes(x, y)) +
 
 ## The Standard Normal Distribution
 
-::: {.callout-note}
+:::{.callout-note}
 ## Definition
 The **standard normal distribution** is a normal distribution with mean **μ = 0** and standard deviation **σ = 1**. Values on this distribution are called **z values** or **z scores**.
 :::
@@ -104,7 +107,7 @@ Areas are found using:
 - **Table E** (standard normal table) in textbook appendix
 - **R**: `pnorm(z)` gives P(Z < z)
 
-::: {.callout-important}
+:::{.callout-important}
 ## Key R Functions
 - `pnorm(z)` — area to the **left** of z
 - `1 - pnorm(z)` — area to the **right** of z
@@ -127,7 +130,7 @@ Find the area to the left of z = 2.06.
 
 **R implementation**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 - Look up z = 2.06 in Table E
 - Area = **0.9803**
@@ -168,7 +171,7 @@ Find the area to the right of z = −1.19.
 
 **R implementation**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 - Area to the left of z = −1.19: Table E gives 0.1170
 - Area to the right = 1 − 0.1170 = **0.8830**
@@ -210,7 +213,7 @@ Find the area between z = −1.37 and z = +1.68.
 
 **R implementation**
 
-**Solution (Mathematical):**
+**Mathematical solution**
 
 - Area left of z = 1.68: 0.9535
 - Area left of z = −1.37: 0.0853
@@ -257,17 +260,21 @@ Find the z value such that the area to the left is 0.7123.
 
 :::
 
-**Solution (Mathematical):**
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 - Search Table E for the area closest to 0.7123
 - The corresponding z value is **z = 0.56**
+:::
 
 ```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Find z given left-tail area = 0.7123
 qnorm(0.7123)
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 ## Key Rule
 `qnorm(p)` is the **inverse** of `pnorm(z)`. Use it whenever you need the z value for a given probability.
 :::
@@ -278,7 +285,7 @@ qnorm(0.7123)
 
 To find probabilities for a **non-standard** normal variable X (with mean μ and standard deviation σ):
 
-::: {.callout-note}
+:::{.callout-note}
 ## Formula
 $$z = \frac{X - \mu}{\sigma}$$
 
@@ -287,7 +294,7 @@ Convert X to a z score, then find the area using the standard normal.
 
 In R, use `pnorm(x, mean = μ, sd = σ)` directly — no conversion needed.
 
-::: {.callout-important}
+:::{.callout-important}
 ## Key Steps
 1. Identify μ and σ
 2. Draw a diagram and shade the desired region
@@ -300,11 +307,13 @@ In R, use `pnorm(x, mean = μ, sd = σ)` directly — no conversion needed.
 The average amount of money that Americans spend on summer travel is normally distributed with μ = $146.21 and σ = $29.44. Find the probability that a randomly selected American spends less than $160 on summer travel.
 :::
 
-**Solution:**
+:::{.callout-tip}
+## Solution
 
 $$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
 
 Area to the left of z = 0.47 → **0.6808** (68.08%)
+:::
 
 ```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 146.21; sigma <- 29.44
@@ -396,11 +405,15 @@ To qualify for a police academy, applicants are tested on their physical fitness
 
 :::
 
-**Solution (Mathematical):**
+:::{.callout-tip}
+## Solution
+
+**Mathematical solution**
 
 - Need the 90th percentile → find z such that P(Z < z) = 0.90
 - $z \approx 1.28$
 - X = μ + z·σ = 200 + 1.28(20) = **225.6 $\approx 226$**
+:::
 
 ```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 200; sigma <- 20
@@ -415,12 +428,14 @@ qnorm(0.90, mean = mu, sd = sigma)
 For a certain group, systolic blood pressure is normally distributed with μ = 120 and σ = 8. Find the range of pressures that includes the **middle 60%** of readings.
 :::
 
-**Solution:**
+:::{.callout-tip}
+## Solution
 
 - Middle 60% → 20% in each tail → find z for P(Z < z) = 0.20 and P(Z < z) = 0.80
 - $z_1 \approx -0.84$, $z_2 \approx 0.84$
 - X₁ = 120 + (−0.84)(8) = **113.28**
 - X₂ = 120 + (0.84)(8) = **126.72**
+:::
 
 ```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 120; sigma <- 8
@@ -454,7 +469,7 @@ pnorm(z, lower.tail = FALSE)
 The distribution of the duration of professional baseball games is **negatively skewed** with μ = 166 minutes and σ = 26 minutes. If a game is selected at random, find the probability that it lasts **less than 145 minutes**.
 :::
 
-::: {.callout-warning}
+:::{.callout-warning}
 ## Caution
 This distribution is **not** normal — it is negatively skewed. Applying normal distribution methods is only appropriate when the distribution is approximately normal. Here the answer is an approximation.
 :::
@@ -473,7 +488,7 @@ pnorm(145, mean = mu, sd = sigma)
 
 ## The Central Limit Theorem
 
-::: {.callout-note}
+:::{.callout-note}
 ## The Central Limit Theorem (CLT)
 As sample size **n** increases, the sampling distribution of the sample mean $\bar{X}$ approaches a **normal distribution**, regardless of the shape of the population distribution, provided n is sufficiently large (typically **$n \geq 30$**).
 
@@ -484,7 +499,7 @@ The **standard error** $\sigma_{\bar{X}} = \sigma/\sqrt{n}$ measures how much sa
 
 ## Applying the CLT
 
-::: {.callout-important}
+:::{.callout-important}
 ## z Score for Sample Means
 $$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 :::
@@ -563,7 +578,7 @@ pnorm(224, mean = mu, sd = se)
 
 **Answers:** (a) $\approx$ **58.71%**; (b) $\approx$ **92.22%**
 
-::: {.callout-important}
+:::{.callout-important}
 ## Key Insight
 The probability is much higher for the sample mean because the standard error (σ/√n) is smaller than σ — sample means are less variable than individual values.
 :::
@@ -574,7 +589,7 @@ The probability is much higher for the sample mean because the standard error (�
 
 The binomial distribution is exact but computationally intensive for large n. The normal distribution provides a convenient approximation.
 
-::: {.callout-note}
+:::{.callout-note}
 ## When to Use the Normal Approximation
 Use the normal approximation to the binomial when:
 $$np \geq 5 \quad \text{and} \quad nq \geq 5$$
@@ -586,7 +601,7 @@ $$\mu = np \qquad \sigma = \sqrt{npq}$$
 
 ## Correction for Continuity
 
-::: {.callout-important}
+:::{.callout-important}
 ## Correction for Continuity
 Since we are approximating a **discrete** distribution with a **continuous** one, add or subtract **0.5** from X:
 
@@ -673,7 +688,7 @@ A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** 
 **(b)** The normal approximation
 :::
 
-::: {.callout-warning}
+:::{.callout-warning}
 ## Caution
 Here np = 5, nq = 5 — these are exactly at the minimum threshold. The normal approximation may be less accurate for small n.
 :::

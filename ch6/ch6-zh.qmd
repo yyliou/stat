@@ -4,6 +4,11 @@ subtitle: "第六章：常態分佈"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -72,7 +77,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 常態分佈的性質
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義
 **常態分佈**是一種連續、對稱的鐘形分佈。曲線完全由**平均數** μ 與**標準差** σ 決定。
 :::
@@ -99,7 +104,7 @@ ggplot(df, aes(x, y)) +
 
 ## 標準常態分佈
 
-::: {.callout-note}
+:::{.callout-note}
 ## 定義
 **標準常態分佈**是平均數 **μ = 0**、標準差 **σ = 1** 的常態分佈。此分佈上的值稱為 **z 值**或 **z 分數**。
 :::
@@ -118,7 +123,7 @@ $$z = \frac{X - \mu}{\sigma}$$
 - **表 E**（標準常態表）——教科書附錄
 - **R**：`pnorm(z)` 計算 P(Z < z)
 
-::: {.callout-important}
+:::{.callout-important}
 ## 常用 R 函數
 - `pnorm(z)` — z **左側**面積
 - `1 - pnorm(z)` — z **右側**面積
@@ -141,7 +146,7 @@ $$z = \frac{X - \mu}{\sigma}$$
 
 **解題**
 
-**數學解法：**
+**數學解法**
 
 - 在表 E 中查找 z = 2.06
 - 面積 = **0.9803**
@@ -183,7 +188,7 @@ ggplot(df, aes(x, y)) +
 
 **解題**
 
-**數學解法：**
+**數學解法**
 
 - z = −1.19 左側面積：由表 E 得 0.1170
 - 右側面積 = 1 − 0.1170 = **0.8830**
@@ -226,7 +231,7 @@ ggplot(df, aes(x, y)) +
 
 **解題**
 
-**數學解法：**
+**數學解法**
 
 - z = 1.68 左側面積：0.9535
 - z = −1.37 左側面積：0.0853
@@ -273,10 +278,10 @@ ggplot(df, aes(x, y)) +
 求左側面積為 0.7123 所對應的 z 值。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+:::{.callout-tip}
+## 解題
 
-**數學解法：**
+**數學解法**
 
 - 在表 E 中搜尋最接近 0.7123 的面積
 - 對應的 z 值為 **z = 0.56**
@@ -287,7 +292,7 @@ ggplot(df, aes(x, y)) +
 qnorm(0.7123)
 ```
 
-::: {.callout-important}
+:::{.callout-important}
 ## 關鍵規則
 `qnorm(p)` 是 `pnorm(z)` 的**反函數**。當需要給定機率求 z 值時，使用此函數。
 :::
@@ -298,7 +303,7 @@ qnorm(0.7123)
 
 對於**非標準**常態變數 X（具有平均數 μ 與標準差 σ），求機率的方法：
 
-::: {.callout-note}
+:::{.callout-note}
 ## 公式
 $$z = \frac{X - \mu}{\sigma}$$
 
@@ -307,8 +312,8 @@ $$z = \frac{X - \mu}{\sigma}$$
 
 在 R 中，直接使用 `pnorm(x, mean = μ, sd = σ)` ——無需手動轉換。
 
-::: {.callout-important}
-## 解題步驟
+:::{.callout-important}
+## 解題
 1. 確認 μ 與 σ
 2. 畫圖並標示所求區域
 3. 將 X 轉換為 z（或直接使用 R）
@@ -321,8 +326,8 @@ $$z = \frac{X - \mu}{\sigma}$$
 美國人夏季旅遊消費金額呈常態分佈，μ = $146.21，σ = $29.44。隨機選取一位美國人，求其夏季旅遊消費**少於 $160** 的機率。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+:::{.callout-tip}
+## 解題
 
 $$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
 
@@ -416,10 +421,10 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 :::
 
-::: {.callout-tip}
-## 解題步驟
+:::{.callout-tip}
+## 解題
 
-**數學解法：**
+**數學解法**
 
 - 需求第 90 百分位數 → 找 z 使 P(Z < z) = 0.90
 - $z \approx 1.28$
@@ -440,8 +445,8 @@ qnorm(0.90, mean = mu, sd = sigma)
 某族群的收縮壓呈常態分佈，μ = 120，σ = 8。求包含**中間 60%** 讀數的血壓範圍。
 :::
 
-::: {.callout-tip}
-## 解題步驟
+:::{.callout-tip}
+## 解題
 
 - 中間 60% → 每尾各 20% → 找 z 使 P(Z < z) = 0.20 與 P(Z < z) = 0.80
 - $z_1 \approx -0.84$，$z_2 \approx 0.84$
@@ -484,7 +489,7 @@ pnorm(z, lower.tail = FALSE)
 職業棒球比賽時長的分佈呈**負偏態**，μ = 166 分鐘，σ = 26 分鐘。隨機選取一場比賽，求其時長**少於 145 分鐘**的機率。
 :::
 
-::: {.callout-important}
+:::{.callout-important}
 ## 注意
 此分佈**非**常態分佈——它呈負偏態。僅在分佈近似常態時，才適合使用常態分佈方法。此處答案為近似值。
 :::
@@ -503,7 +508,7 @@ pnorm(145, mean = mu, sd = sigma)
 
 ## 中央極限定理
 
-::: {.callout-note}
+:::{.callout-note}
 ## 中央極限定理（CLT）
 隨著樣本數 **n** 增大，樣本平均數 $\bar{X}$ 的抽樣分佈趨近於**常態分佈**，無論母體分佈的形狀為何，只要 n 足夠大（通常 **$n \geq 30$**）。
 
@@ -514,7 +519,7 @@ $$\mu_{\bar{X}} = \mu \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
 
 ## 應用中央極限定理
 
-::: {.callout-important}
+:::{.callout-important}
 ## 樣本平均數的 z 分數
 $$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 :::
@@ -611,7 +616,7 @@ pnorm(224, mean = mu, sd = se)
 
 **答案：** (a) $\approx$ **58.71%**；(b) $\approx$ **92.22%**
 
-::: {.callout-important}
+:::{.callout-important}
 ## 關鍵洞察
 樣本平均數的機率遠高於個體，因為標準誤（σ/√n）小於 σ——樣本平均數的變異性低於個別觀測值。
 :::
@@ -622,7 +627,7 @@ pnorm(224, mean = mu, sd = se)
 
 二項分佈雖然精確，但在 n 很大時計算繁瑣。常態分佈提供了一個方便的近似方法。
 
-::: {.callout-note}
+:::{.callout-note}
 ## 使用常態近似的條件
 當下列條件成立時，可使用常態近似二項分佈：
 $$np \geq 5 \quad \text{且} \quad nq \geq 5$$
@@ -634,7 +639,7 @@ $$\mu = np \qquad \sigma = \sqrt{npq}$$
 
 ## 連續修正
 
-::: {.callout-important}
+:::{.callout-important}
 ## 連續修正
 由於我們以**連續**分佈近似**離散**分佈，需在 X 上加減 **0.5**：
 
@@ -723,7 +728,7 @@ pbinom(26, n, p)
 **(b)** 常態近似
 :::
 
-::: {.callout-important}
+:::{.callout-important}
 ## 注意
 此處 np = 5，nq = 5——恰好在最低門檻。對小 n，常態近似的精確度可能較低。
 :::
@@ -758,7 +763,7 @@ pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
 
 ---
 
-::: {.callout-important}
+:::{.callout-important}
 ## 重點整理
 1. 常態分佈完全由 μ 與 σ 決定
 2. 將 X 轉換為 z 分數以使用標準常態表

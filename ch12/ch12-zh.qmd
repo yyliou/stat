@@ -4,6 +4,11 @@ subtitle: "第12章：變異數分析"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -57,9 +62,9 @@ theme_set(
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## 章節概觀
+## 本章概覽
 
-::: {.callout-note}
+:::{.callout-note}
 ## 為何要用 ANOVA？
 比較**三個或三個以上組別平均數**時，使用多次 t 檢定會有問題：
 
@@ -76,7 +81,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 歷史背景
 
-::: {.callout-note}
+:::{.callout-note}
 ## ANOVA 的起源
 變異數分析方法由 **R. A. Fisher** 在1920年代初期發展出來。
 
@@ -89,7 +94,7 @@ ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數�
 
 ## 為何不使用多次 t 檢定？
 
-::: {.callout-important}
+:::{.callout-important}
 ## 避免多次 t 檢定的三個原因
 1. **忽略其他組：** 每次兩兩比較都忽略了剩餘的組別
 2. **第一型錯誤率膨脹：** 比較次數越多，誤判顯著的機率越高
@@ -100,7 +105,7 @@ ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數�
 
 ## 單因子 ANOVA 的假設
 
-::: {.callout-important}
+:::{.callout-important}
 ## 假設條件
 1. 每個母體必須**服從常態分配或近似常態分配**
 2. 所有樣本必須**相互獨立**
@@ -109,7 +114,7 @@ ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數�
 
 ## ANOVA 的邏輯
 
-::: {.callout-note}
+:::{.callout-note}
 ## 兩種變異數估計量
 | 估計量 | 衡量什麼 |
 |--------|---------|
@@ -127,13 +132,13 @@ $$F = \frac{s_B^2}{s_W^2}$$
 ## 假設與自由度
 
 
-::: {.callout-note}
+:::{.callout-note}
 ## ANOVA 假設
 $$H_0: \mu_1 = \mu_2 = \cdots = \mu_k$$
 $$H_1: \text{至少有一個平均數與其他不同}$$
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## 自由度
 $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
@@ -142,7 +147,7 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
 ## ANOVA 計算公式
 
-::: {.callout-note}
+:::{.callout-note}
 ## 逐步計算程序
 **步驟一：** 求每個樣本的平均數和變異數：$(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)$
 
@@ -157,7 +162,7 @@ $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
 ## ANOVA 摘要表
 
-::: {.callout-note}
+:::{.callout-note}
 ## 標準摘要表格式
 | 來源 | SS | 自由度 | MS | F |
 |------|-----|--------|-----|---|
@@ -387,7 +392,7 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
 
 ## 事後檢定：概觀
 
-::: {.callout-note}
+:::{.callout-note}
 ## 為何需要事後檢定？
 當 F 檢定拒絕 $H_0$ 時，我們知道**至少有一個平均數不同**，但不知道是**哪幾個**不同。
 
@@ -403,7 +408,7 @@ ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
 
 ## Scheffé 檢定
 
-::: {.callout-note}
+:::{.callout-note}
 ## Scheffé 檢定公式
 $$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}$$
 
@@ -480,7 +485,7 @@ for (p in pairs) {
 
 ## Tukey 檢定
 
-::: {.callout-note}
+:::{.callout-note}
 ## Tukey 檢定公式
 當**所有樣本數相等**時使用：
 
@@ -566,7 +571,7 @@ plot(tukey_result, las = 1)
 
 ## Scheffé vs. Tukey：比較
 
-::: {.callout-note}
+:::{.callout-note}
 ## 各檢定的適用時機
 
 | 特性 | Scheffé | Tukey |
@@ -585,7 +590,7 @@ plot(tukey_result, las = 1)
 
 ## 二因子 ANOVA 簡介
 
-::: {.callout-note}
+:::{.callout-note}
 ## 單因子 ANOVA 的延伸
 **單因子 ANOVA：** 一個自變數（因子）
 
@@ -599,7 +604,7 @@ plot(tukey_result, las = 1)
 
 ## 二因子 ANOVA：設計結構
 
-::: {.callout-note}
+:::{.callout-note}
 ## 因子設計術語
 - **因子 A** 有 $a$ 個水準
 - **因子 B** 有 $b$ 個水準
@@ -613,7 +618,7 @@ plot(tukey_result, las = 1)
 
 ## 二因子 ANOVA：三個假設
 
-::: {.callout-note}
+:::{.callout-note}
 ## 假設
 **1. 交互作用效果：**
 $$H_0: \text{因子 A 與因子 B 之間無交互作用}$$
@@ -630,7 +635,7 @@ $$H_1: \text{至少有一個 B 的平均數不同}$$
 
 ## 二因子 ANOVA：假設條件
 
-::: {.callout-important}
+:::{.callout-important}
 ## 假設條件
 1. 母體必須**服從常態分配或近似常態分配**
 2. 所有樣本必須**相互獨立**
@@ -640,7 +645,7 @@ $$H_1: \text{至少有一個 B 的平均數不同}$$
 
 ## 二因子 ANOVA：摘要表
 
-::: {.callout-note}
+:::{.callout-note}
 ## 一般 ANOVA 表
 | 來源 | SS | 自由度 | MS | F |
 |------|-----|--------|-----|---|
@@ -779,7 +784,7 @@ summary(result5)
 
 ## 詮釋交互作用效果
 
-::: {.callout-note}
+:::{.callout-note}
 ## 交互作用的類型
 | 圖形樣式 | 交互作用類型 | 詮釋 |
 |---------|------------|------|
@@ -793,9 +798,9 @@ summary(result5)
 - 若線條不交叉 → **次序性**交互作用 → 可詮釋主效果
 :::
 
-## 第12章 總結
+## 第12章摘要
 
-::: {.callout-note}
+:::{.callout-note}
 ## 重點摘要
 
 **第12-1節 — 單因子 ANOVA：**

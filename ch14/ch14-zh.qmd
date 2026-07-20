@@ -4,6 +4,11 @@ subtitle: "第14章：抽樣與模擬"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -57,9 +62,9 @@ theme_set(
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## 本章概述
+## 本章概覽
 
-::: {.callout-note}
+:::{.callout-note}
 ## 為何研究抽樣與模擬？
 當母體規模過大無法完整研究時，研究者依賴**樣本**來推論母體。當真實實驗過於危險、昂貴或耗時時，**模擬**提供了安全且具成本效益的替代方案。
 
@@ -76,7 +81,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 為何使用樣本？
 
-::: {.callout-note}
+:::{.callout-note}
 ## 使用樣本的三個理由
 1. **節省時間與金錢** — 研究整個母體通常不切實際
 2. **使原本不可能的研究成為可能** — 例如：破壞性測試纜線強度後就沒東西可賣；血液膽固醇分析無法用盡所有血液
@@ -87,7 +92,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 四種基本抽樣方法
 
-::: {.callout-note}
+:::{.callout-note}
 ## 概覽
 | 方法 | 核心概念 |
 |------|----------|
@@ -99,7 +104,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 隨機抽樣
 
-::: {.callout-note}
+:::{.callout-note}
 ## 隨機抽樣
 母體的每個元素均編號，並使用隨機數字選取樣本。
 
@@ -112,7 +117,7 @@ knitr::opts_chunk$set(fig.align = "center")
 **正確方法：** 使用隨機數字表或電腦產生的隨機數字。
 :::
 
-## 例 14-1 {#example-14-1}
+## 範例 14-1 {#example-14-1}
 
 :::{.callout-warning}
 ## 電視節目採訪 — 隨機樣本
@@ -120,7 +125,7 @@ knitr::opts_chunk$set(fig.align = "center")
 一位電視節目製作人只能採訪 50 州中的 **10 位州長**。請使用隨機數字表，從 50 個州中選取隨機樣本 10 個州。
 :::
 
-## 例 14-1
+## 範例 14-1
 
 :::{.callout-tip}
 ## 解題
@@ -147,7 +152,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 :::
 
-## 例 14-1
+## 範例 14-1
 
 :::{.callout-tip}
 ## 解題
@@ -181,7 +186,7 @@ for (i in sort(sample_indices)) {
 
 ## 系統抽樣
 
-::: {.callout-note}
+:::{.callout-note}
 ## 系統抽樣
 1. 將母體所有元素編號
 2. 計算間隔 $k = N/n$（母體大小 ÷ 樣本大小）
@@ -193,7 +198,7 @@ for (i in sort(sample_indices)) {
 **注意：** 避免對具有與間隔 $k$ 相符週期性規律（例如男女交替）的列表使用系統抽樣。
 :::
 
-## 例 14-2 {#example-14-2}
+## 範例 14-2 {#example-14-2}
 
 :::{.callout-warning}
 ## 電視節目採訪 — 系統抽樣
@@ -201,7 +206,7 @@ for (i in sort(sample_indices)) {
 使用相同的 50 州母體，選取 10 個州的**系統樣本**。
 :::
 
-## 例 14-2
+## 範例 14-2
 
 :::{.callout-tip}
 ## 解題
@@ -227,7 +232,7 @@ $$4, 9, 14, 19, 24, 29, 34, 39, 44, 49$$
 
 :::
 
-## 例 14-2
+## 範例 14-2
 
 :::{.callout-tip}
 ## 解題
@@ -253,7 +258,7 @@ for (i in sys_indices) {
 
 ## 分層抽樣
 
-::: {.callout-note}
+:::{.callout-note}
 ## 分層抽樣
 母體依共同特徵（如性別、年級、地區）劃分為**層**（子群體）。再從**每個層**中分別抽取隨機樣本。
 
@@ -266,7 +271,7 @@ for (i in sys_indices) {
 **比例分層：** 各層的樣本大小與該層佔總母體的比例成正比。
 :::
 
-## 例 14-3 {#example-14-3}
+## 範例 14-3 {#example-14-3}
 
 :::{.callout-warning}
 ## 學生的分層樣本
@@ -280,7 +285,7 @@ for (i in sys_indices) {
 | 第 2 組 | 男性大二生（5 人） | 第 4 組 | 女性大二生（5 人） |
 :::
 
-## 例 14-3
+## 範例 14-3
 
 :::{.callout-tip}
 ## 解題
@@ -302,7 +307,7 @@ for (i in sys_indices) {
 
 :::
 
-## 例 14-3
+## 範例 14-3
 
 :::{.callout-tip}
 ## 解題
@@ -337,7 +342,7 @@ print(stratified)
 
 ## 集群抽樣
 
-::: {.callout-note}
+:::{.callout-note}
 ## 集群抽樣
 選取一個**自然存在的群體**（集群）作為樣本。可使用集群的全部成員，或從中抽取隨機子集。
 
@@ -350,7 +355,7 @@ print(stratified)
 
 ## 抽樣方法：綜合比較
 
-::: {.callout-note}
+:::{.callout-note}
 ## 一覽表
 
 | 方法 | 最適用情境 | 注意事項 |
@@ -367,7 +372,7 @@ print(stratified)
 
 ## 調查類型
 
-::: {.callout-note}
+:::{.callout-note}
 ## 兩種調查形式
 
 **訪員施測：** 由調查員以面對面、電話或在購物中心進行訪問。
@@ -379,7 +384,7 @@ print(stratified)
 
 ## 五種常見問卷缺失
 
-::: {.callout-important}
+:::{.callout-important}
 ## 請避免以下錯誤
 1. **偏頗問題** — 措辭引導受訪者朝特定方向回答
    *例：*「即使民調顯示瓊斯會輸，你還是會投票給他嗎？」
@@ -394,7 +399,7 @@ print(stratified)
 
 ## 其他調查偏誤
 
-::: {.callout-note}
+:::{.callout-note}
 ## 其他偏誤來源
 - **社會期許偏誤：** 受訪者回答他們認為訪員想聽的答案
 - **順從偏誤：** 部分人為避免衝突而同意任何陳述
@@ -409,7 +414,7 @@ print(stratified)
 
 ## 什麼是模擬？
 
-::: {.callout-note}
+:::{.callout-note}
 ## 模擬的定義
 **模擬技術**使用機率實驗，重現現實生活中過於昂貴、危險或耗時而無法直接研究的情境。
 
@@ -420,7 +425,7 @@ print(stratified)
 
 ## 蒙地卡羅法
 
-::: {.callout-note}
+:::{.callout-note}
 ## 蒙地卡羅法的六個步驟
 1. **列出** 實驗所有可能結果
 2. **分配機率** 給每個結果
@@ -434,7 +439,7 @@ print(stratified)
 
 ## 建立隨機數字對應關係
 
-::: {.callout-note}
+:::{.callout-note}
 ## 結果與數字對應範例
 
 | 實驗 | 結果 | 隨機數字 |
@@ -446,7 +451,7 @@ print(stratified)
 | 打鼾（20% 機率） | 打鼾 | 1,2；不打鼾→3–9,0 |
 :::
 
-## 例 14-4 {#example-14-4}
+## 範例 14-4 {#example-14-4}
 
 :::{.callout-warning}
 ## 打鼾模擬
@@ -454,7 +459,7 @@ print(stratified)
 根據美國疾管署資料，約 **20%** 的人在睡眠中打鼾。模擬 **20 人**的樣本，並確認有多少人打鼾。
 :::
 
-## 例 14-4
+## 範例 14-4
 
 :::{.callout-tip}
 ## 解題
@@ -474,7 +479,7 @@ $$7\ 2\ 7\ 4\ 8\ 2\ 2\ 3\ 6\ 1\ 6\ 0\ 4\ 6\ 1\ 5\ 5\ 3\ 8\ 9$$
 
 :::
 
-## 例 14-4
+## 範例 14-4
 
 :::{.callout-tip}
 ## 解題
@@ -497,7 +502,7 @@ cat("比例：", round(mean(snores), 3),
 ```
 :::
 
-## 例 14-5 {#example-14-5}
+## 範例 14-5 {#example-14-5}
 
 :::{.callout-warning}
 ## 網球賽模擬
@@ -517,7 +522,7 @@ Bill 的網球實力是 Mike 的**兩倍**。模擬他們之間的 **5 場比賽
 **結果：** Bill 贏 4 場，Mike 贏 1 場。
 :::
 
-## 例 14-5
+## 範例 14-5
 
 :::{.callout-tip}
 ## 解題
@@ -542,7 +547,7 @@ cat("Mike 獲勝：", sum(winners == "Mike"), "場\n")
 ```
 :::
 
-## 例 14-6 {#example-14-6}
+## 範例 14-6 {#example-14-6}
 
 :::{.callout-warning}
 ## 擲骰子直到出現 6
@@ -550,7 +555,7 @@ cat("Mike 獲勝：", sum(winners == "Mike"), "場\n")
 反覆擲骰子直到出現 **6** 為止。利用模擬，找出所需的**平均擲骰次數**。重複實驗 **20 次**。
 :::
 
-## 例 14-6
+## 範例 14-6
 
 :::{.callout-tip}
 ## 解題
@@ -571,7 +576,7 @@ $$E(X) = \frac{1}{p} = \frac{1}{1/6} = 6$$
 
 :::
 
-## 例 14-6
+## 範例 14-6
 
 :::{.callout-tip}
 ## 解題
@@ -599,7 +604,7 @@ cat("理論平均值（1/p = 6）：", 6, "\n")
 ```
 :::
 
-## 例 14-6
+## 範例 14-6
 
 :::{.callout-tip}
 ## 解題
@@ -634,7 +639,7 @@ ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
        x = "擲骰次數", y = "頻率")
 ```
 
-## 例 14-7 {#example-14-7}
+## 範例 14-7 {#example-14-7}
 
 :::{.callout-warning}
 ## 選取鑰匙
@@ -642,7 +647,7 @@ ggplot(data.frame(rolls = many_trials), aes(x = rolls)) +
 某人有 **4 把鑰匙**，其中只有一把能開鎖。她隨機逐一嘗試（不放回）直到找到正確鑰匙。求所需的**平均嘗試次數**。重複 **25 次**。
 :::
 
-## 例 14-7
+## 範例 14-7
 
 :::{.callout-tip}
 ## 解題
@@ -664,7 +669,7 @@ $$E(X) = \frac{n+1}{2} = \frac{4+1}{2} = 2.5$$
 
 :::
 
-## 例 14-7
+## 範例 14-7
 
 :::{.callout-tip}
 ## 解題
@@ -688,7 +693,7 @@ cat("理論平均值（(n+1)/2 = 2.5）：", 2.5, "\n")
 ```
 :::
 
-## 例 14-8 {#example-14-8}
+## 範例 14-8 {#example-14-8}
 
 :::{.callout-warning}
 ## 選取鈔票
@@ -696,7 +701,7 @@ cat("理論平均值（(n+1)/2 = 2.5）：", 2.5, "\n")
 一個箱子裡有 **5 張一美元**、**3 張五美元** 和 **2 張十美元**。某人隨機取出一張鈔票。求所取鈔票的**期望值**。重複實驗 **25 次**。
 :::
 
-## 例 14-8
+## 範例 14-8
 
 :::{.callout-tip}
 ## 解題
@@ -718,7 +723,7 @@ $$E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \$4.00$$
 
 :::
 
-## 例 14-8
+## 範例 14-8
 
 :::{.callout-tip}
 ## 解題
@@ -742,7 +747,7 @@ cat("理論 E(X)：$", sum(bills * probs), "\n")
 ```
 :::
 
-## 例 14-8
+## 範例 14-8
 
 :::{.callout-tip}
 ## 解題
@@ -766,7 +771,7 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
 
 ## 蒙地卡羅法：總結
 
-::: {.callout-note}
+:::{.callout-note}
 ## 關鍵重點
 
 | 步驟 | 動作 |
@@ -783,9 +788,9 @@ ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
 **現代應用：** NASA 飛行模擬器、電玩物理引擎、金融風險建模、藥物試驗設計、氣候建模。
 :::
 
-## 第14章總結
+## 第14章摘要
 
-::: {.callout-note}
+:::{.callout-note}
 ## 核心概念
 
 **第 14-1 節 — 抽樣：**

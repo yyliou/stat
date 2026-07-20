@@ -4,6 +4,11 @@ subtitle: "第十三章：無母數統計"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -59,7 +64,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 本章概覽
 
-::: {.callout-note}
+:::{.callout-note}
 ## 什麼是無母數方法？
 標準的母數檢定（z、t、F）要求母體呈**常態分配**。當此假設無法成立時，**無母數**（無分配假設）方法提供了有效的替代方案。
 
@@ -80,7 +85,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 無母數方法的優點
 
-::: {.callout-note}
+:::{.callout-note}
 ## 五大主要優點
 1. 當母體**非常態分配**時仍可使用
 2. 適用於**名目或順序**資料
@@ -91,21 +96,21 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 無母數方法的缺點
 
-::: {.callout-important}
+:::{.callout-important}
 ## 三大主要缺點
 1. 當常態假設成立時，**敏感度低於**母數方法——需要更大的差異才能拒絕 $H_0$
 2. **使用較少資訊**——例如符號檢定只記錄數值是否高於或低於中位數，而非差距大小
 3. **效率較低**——需要更大的樣本；例如符號檢定的效率僅約為 z 檢定的 60%
 :::
 
-::: {.callout-note}
+:::{.callout-note}
 ## 基本假設
 樣本必須為**隨機抽取**。使用兩個或多個樣本時，各樣本必須相互**獨立**（除非另有說明）。
 :::
 
 ## 資料排序
 
-::: {.callout-note}
+:::{.callout-note}
 ## 如何對資料排序
 將數值由小到大排列，依序賦予秩次 1、2、3、……
 
@@ -122,7 +127,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 符號檢定：概述
 
-::: {.callout-note}
+:::{.callout-note}
 ## 符號檢定的用途
 **符號檢定**用於檢定單一樣本的**中位數**，或比較兩個相依樣本（前後測）。
 
@@ -135,7 +140,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 符號檢定：臨界值與 z 公式
 
-::: {.callout-note}
+:::{.callout-note}
 **當 $n \leq 25$**
 使用**表 J**，$n$ = $+$ 與 $-$ 符號的總計數。若檢定值 $\leq$ 臨界值，則拒絕 $H_0$。
 
@@ -333,7 +338,7 @@ cat("決策:", ifelse(test_val <= 1, "拒絕 H0", "不拒絕 H0"), "\n")
 
 ## Wilcoxon 秩和檢定：概述
 
-::: {.callout-note}
+:::{.callout-note}
 ## 用途
 用於**兩個獨立樣本**且無法假設常態性的情況。是**獨立樣本 t 檢定**的無母數對應方法。
 
@@ -344,7 +349,7 @@ cat("決策:", ifelse(test_val <= 1, "拒絕 H0", "不拒絕 H0"), "\n")
 
 ## Wilcoxon 秩和檢定：公式
 
-::: {.callout-note}
+:::{.callout-note}
 ## 公式
 設 $n_1$ = 較小樣本大小，$n_2$ = 較大樣本大小，$R$ = 較小組的秩和。
 
@@ -446,7 +451,7 @@ $$z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}$$
 
 ## 帶號秩檢定步驟
 
-::: {.callout-note}
+:::{.callout-note}
 ## 逐步程序
 1. 計算差值 $D = X_B - X_A$；捨棄 $D = 0$ 的項目
 2. 對 **絕對值** $|D|$ 由小到大排秩（相同值取平均秩次）
@@ -546,7 +551,7 @@ cat("\n決策:", ifelse(ws <= 2, "拒絕 H0", "不拒絕 H0"), "\n")
 
 ## Kruskal-Wallis 檢定：概述
 
-::: {.callout-note}
+:::{.callout-note}
 ## 用途
 **單因子變異數分析（ANOVA）** 的無母數等效方法。在不要求常態性的情況下比較**三個或更多獨立組別**。
 
@@ -557,7 +562,7 @@ cat("\n決策:", ifelse(ws <= 2, "拒絕 H0", "不拒絕 H0"), "\n")
 
 ## Kruskal-Wallis 公式
 
-::: {.callout-note}
+:::{.callout-note}
 ## H 統計量
 $$H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \frac{R_k^2}{n_k}\right) - 3(N+1)$$
 
@@ -775,7 +780,7 @@ ggplot(df_bank, aes(x = rank(branches), y = rank(deposits))) +
 
 ## 連串檢定：概述
 
-::: {.callout-note}
+:::{.callout-note}
 ## 什麼是連串（Run）？
 **連串**是一段連續相同符號（字母或標籤）的最長序列——其前後緊接不同符號，或位於序列的開頭/結尾。
 
@@ -960,9 +965,9 @@ cat("決策:", ifelse(n_runs >= 5 & n_runs <= 15,
                     "拒絕 H0 — 年齡為非隨機"), "\n")
 ```
 
-## 第十三章摘要
+## 第13章摘要
 
-::: {.callout-note}
+:::{.callout-note}
 ## 無母數檢定快速參考
 
 | 檢定方法 | 節次 | 適用情境 | 對應母數方法 |
@@ -977,7 +982,7 @@ cat("決策:", ifelse(n_runs >= 5 & n_runs <= 15,
 
 ## 何時使用無母數檢定
 
-::: {.callout-important}
+:::{.callout-important}
 ## 決策指引
 
 - 當母數檢定的假設（常態性、等變異數）成立時，使用**母數**檢定——其檢定力較強
@@ -989,7 +994,7 @@ cat("決策:", ifelse(n_runs >= 5 & n_runs <= 15,
   - 檢定**隨機性**（連串檢定）
 :::
 
-## 致謝
+## 版權聲明
 
 -   **版權聲明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有權利由原作者及出版商保留。
 

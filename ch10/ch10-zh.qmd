@@ -4,6 +4,11 @@ subtitle: "第十章：相關與迴歸"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
+language:
+  callout-warning-title: "問題"
+  callout-tip-title: "解題"
+  callout-note-title: "說明"
+  callout-important-title: "重點"
 format:
   revealjs:
     html-math-method: katex
@@ -57,7 +62,7 @@ theme_set(
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## 第十章概覽
+## 本章概覽
 
 研究者常問：*兩個變數之間是否存在關係？若有，關係強度如何？*
 
@@ -74,7 +79,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 關鍵術語
 
-::: {.callout-note}
+:::{.callout-note}
 - **自變數（x）：** 預測變數——可被控制或操縱。
 - **依變數（y）：** 反應變數——其值取決於 x。
 - **散布圖：** 以有序對 (x, y) 繪製的圖形，用於直觀評估兩變數間的關係。
@@ -201,7 +206,7 @@ ggplot(df3, aes(x = age, y = wealth)) +
 
 ## 皮爾森相關係數
 
-::: {.callout-note}
+:::{.callout-note}
 **皮爾森積差相關係數**（r）衡量兩個變數之間線性關係的強度與方向。
 
 $$r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}$$
@@ -318,7 +323,7 @@ cat("極弱負向關係——r 接近 0。\n")
 
 ## 檢定 r 的顯著性
 
-::: {.callout-note}
+:::{.callout-note}
 為判斷 r 是否反映真實的線性關係（而非僅為抽樣誤差），我們進行假設檢定：
 
 $$H_0: \rho = 0 \quad H_1: \rho \neq 0$$
@@ -406,7 +411,7 @@ cat("決策：", ifelse(test$p.value < 0.05, "拒絕 H0", "不拒絕 H0"), "\n")
 
 ## 迴歸直線（最適直線）
 
-::: {.callout-note}
+:::{.callout-note}
 當 r 顯著時，可以用**迴歸直線**描述線性關係：
 
 $$\hat{y} = a + bx$$
@@ -552,7 +557,7 @@ cat("200,000 輛車的預測營收：$", round(pred, 3), "十億\n")
 ```
 :::
 
-::: {.callout-important}
+:::{.callout-important}
 **注意：** 預測應僅限於觀測 x 值的範圍內。超出資料範圍的外推並不可靠。
 :::
 
@@ -560,7 +565,7 @@ cat("200,000 輛車的預測營收：$", round(pred, 3), "十億\n")
 
 ## 變異的分解
 
-::: {.callout-note}
+:::{.callout-note}
 y 的**總變異**可以分解為：
 
 $$\underbrace{\sum(y - \bar{y})^2}_{\text{總變異}} = \underbrace{\sum(\hat{y} - \bar{y})^2}_{\text{已解釋變異}} + \underbrace{\sum(y - \hat{y})^2}_{\text{未解釋變異}}$$
@@ -571,7 +576,7 @@ $$\underbrace{\sum(y - \bar{y})^2}_{\text{總變異}} = \underbrace{\sum(\hat{y}
 
 ## 決定係數
 
-::: {.callout-note}
+:::{.callout-note}
 $$r^2 = \frac{\text{已解釋變異}}{\text{總變異}}$$
 
 等價地，$r^2$ 可由**相關係數平方**得到。
@@ -594,7 +599,7 @@ for (r in r_vals) {
 
 ## 估計標準誤
 
-::: {.callout-note}
+:::{.callout-note}
 **估計標準誤**（$s_{est}$）衡量觀測 y 值圍繞迴歸直線的離散程度：
 
 $$s_{est} = \sqrt{\frac{\sum(y - \hat{y})^2}{n-2}}$$
@@ -698,7 +703,7 @@ cat("s_est（捷徑公式）=", round(sest_shortcut, 4), "\n")
 
 ## 預測區間
 
-::: {.callout-note}
+:::{.callout-note}
 **預測區間**提供了在給定 x 值下，未來個別 y 值預期落入的範圍：
 
 $$\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{X})^2}{n\sum x^2 - (\sum x)^2}}$$
@@ -772,7 +777,7 @@ ggplot(df_resid, aes(x = x, y = residuals)) +
 
 ## 多元迴歸概覽
 
-::: {.callout-note}
+:::{.callout-note}
 **多元迴歸**使用兩個或更多自變數來預測單一依變數：
 
 $$\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k$$
@@ -841,7 +846,7 @@ cat("預測州立考試成績：", round(pred_score, 1), "\n")
 
 ## 多元相關係數 R
 
-::: {.callout-note}
+:::{.callout-note}
 **多元相關係數 R** 衡量所有預測變數與依變數之間關係的強度：
 
 $$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}$$
@@ -878,7 +883,7 @@ cat("多元決定係數 R² =", round(R^2, 4), "\n")
 
 ## R 顯著性的 F 檢定
 
-::: {.callout-note}
+:::{.callout-note}
 使用以下公式檢定 $H_0: \rho = 0$ 對 $H_1: \rho \neq 0$：
 
 $$F = \frac{R^2/k}{(1-R^2)/(n-k-1)}$$
@@ -950,7 +955,7 @@ cat("調整後 R² =", round(R2_adj, 4), "\n")
 ```
 :::
 
-## 第十章摘要
+## 第10章摘要
 
 | 概念 | 公式 | 用途 |
 |------|------|------|
