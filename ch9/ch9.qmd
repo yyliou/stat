@@ -371,7 +371,7 @@ where $\bar{D} = \dfrac{\sum D}{n}$ and $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)
 :::{.callout-warning}
 ## Bank Deposits
 
-A bank manager claims that deposits have decreased over the past 3 years. The following data (in millions) were recorded for 9 banks:
+A bank manager claims that deposits are greater today than they were 3 years ago. The following data (in millions) were recorded for 9 banks, where $D = (\text{3 yrs ago}) - (\text{today})$:
 
 | Bank | 3 yrs ago | Today | D |
 |------|-----------|-------|---|
@@ -397,6 +397,8 @@ At $\alpha$ = 0.05, test the claim.
 
 **Step 1:** $H_0$: $\mu_D = 0$ &nbsp;&nbsp; $H_1$: $\mu_D < 0$ (claim) — left-tailed
 
+Since $D = (\text{3 yrs ago}) - (\text{today})$, greater deposits today correspond to negative differences, i.e. $\mu_D < 0$.
+
 **Step 2:** d.f. = 8; CV = −1.860
 
 **Step 3:** D values: −0.6, −0.1, −1.1, 0.2, −1.3, −0.7, −0.1, −1.5, −0.6
@@ -413,7 +415,7 @@ $t = \dfrac{-0.644 - 0}{0.579/\sqrt{9}} = \dfrac{-0.644}{0.193} \approx -3.34$
 
 **Step 4:** −3.34 < −1.860 → **Reject $H_0$**
 
-**Step 5:** There is enough evidence to support the claim that deposits have decreased.
+**Step 5:** There is enough evidence to support the claim that deposits are greater today than they were 3 years ago.
 
 ## Example 9-6
 
@@ -426,7 +428,7 @@ $t = \dfrac{-0.644 - 0}{0.579/\sqrt{9}} = \dfrac{-0.644}{0.193} \approx -3.34$
 before <- c(1.2, 5.6, 7.1, 2.3, 4.0, 2.4, 1.7, 0.4, 0.9)
 today  <- c(1.8, 5.7, 8.2, 2.1, 5.3, 3.1, 1.8, 1.9, 1.5)
 
-D    <- before - today
+D    <- before - today   # D = 3 yrs ago - today; claim (greater today) means mu_D < 0
 Dbar <- mean(D)
 sD   <- sd(D)
 n    <- length(D)
@@ -439,6 +441,9 @@ cat("sD =", round(sD, 4), "\n")
 cat("t =", round(t_stat, 4), "\n")
 cat("Critical value =", round(cv, 3), "\n")
 cat("Decision:", ifelse(t_stat < cv, "Reject H0", "Do not reject H0"), "\n")
+cat("Conclusion:", ifelse(t_stat < cv,
+    "enough evidence that deposits are greater today",
+    "not enough evidence that deposits are greater today"), "\n")
 ```
 :::
 
@@ -535,13 +540,15 @@ Using Example 9-7 data, find a 90% confidence interval for $\mu$_D.
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Mathematical solution**
 
 **Solution:** d.f. = 5; $t_{0.05, 5} = 2.015$
 
 $$16.7 \pm 2.015 \cdot \frac{25.4}{\sqrt{6}} = 16.7 \pm 2.015(10.37) = 16.7 \pm 20.9$$
 
-$$\boxed{-4.19 < \mu_D < 37.59}$$
+$$\boxed{-4.2 < \mu_D < 37.6}$$
+
+(R gives $-4.22$ to $37.55$ from unrounded values.)
 
 Since the interval contains 0, we cannot conclude cholesterol levels changed significantly.
 :::
@@ -560,7 +567,6 @@ moe  <- qt(0.95, df) * sD / sqrt(n)
 
 cat("90% CI: (", round(Dbar - moe, 2), ",", round(Dbar + moe, 2), ")\n")
 ```
----
 
 # Section 9-4: Testing the Difference Between Proportions {background-color="#2c4a6e"}
 
@@ -604,7 +610,7 @@ A researcher wants to determine whether the influenza vaccination rate of nursin
 
 $\bar{p} = \frac{12+17}{34+24} = \frac{29}{58} = 0.5$; $\bar{q} = 0.5$
 
-$$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\right)}} = \frac{-0.355}{\sqrt{0.25(0.0706)}} = \frac{-0.355}{0.1328} \approx -2.67$$
+$$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\right)}} = \frac{-0.355}{\sqrt{0.25(0.0711)}} = \frac{-0.355}{0.1328} \approx -2.67$$
 
 **Step 4:** |−2.67| > 1.96 → **Reject $H_0$**
 
