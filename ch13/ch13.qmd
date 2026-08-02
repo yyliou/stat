@@ -412,12 +412,12 @@ cat("\nR =", R, "| mu_R =", mu_R, "| sigma_R =", round(sig_R,2))
 cat("\nz =", round(z_stat,3), "| Critical value = +/-1.96\n")
 ```
 
-## Example 13-4
+# Section 13-4: The Wilcoxon Signed-Rank Test {background-color="#2c4a6e"}
 
-:::{.callout-tip}
-## Solution
+## Wilcoxon Signed-Rank Test: Overview
 
-**Visualization**
+:::{.callout-note}
+## Purpose
 
 Used for **two dependent (paired) samples** when normality cannot be assumed. It is the nonparametric counterpart of the **paired t test**.
 
@@ -537,9 +537,14 @@ cat("\nDecision:", ifelse(ws <= 2, "Reject H0", "Fail to reject H0"), "\n")
 ## Purpose
 The nonparametric equivalent of **one-way ANOVA**. Compares **three or more independent groups** without requiring normality.
 
-- Each group must have at least **5** observations
+- For the chi-square approximation to be adequate, each sample should have at least **5** observations
 - The test statistic $H$ follows a **chi-square distribution** with $d.f. = k - 1$
 - This is always a **right-tailed** test
+:::
+
+:::{.callout-warning}
+## Caution
+The worked example below uses groups of only 4 observations to keep the ranking easy to follow; in practice, each sample should contain at least 5 observations for the chi-square approximation to be reliable.
 :::
 
 ## Kruskal-Wallis Formula
@@ -629,12 +634,12 @@ cat("\nH =", round(H, 3), "| Chi-sq critical (df=2) =", round(qchisq(0.95, 2), 3
 ```
 :::
 
-## Example 13-6
+# Section 13-6: Spearman Rank Correlation & the Runs Test {background-color="#2c4a6e"}
 
-:::{.callout-tip}
-## Solution
+## Spearman Rank Correlation: Overview
 
-**Visualization**
+:::{.callout-note}
+## Purpose
 
 The nonparametric equivalent of **Pearson's r**. Used when data are **ranked** or when normality cannot be assumed.
 
@@ -657,7 +662,7 @@ Use **Table L** for critical values when $n \leq 30$.
 
 Is there a significant relationship between the number of bank branches and total deposits (in billions) for a sample of 8 regional banks? At $\alpha = 0.05$.
 
-| Bank | Branches | Deposits ($B) |
+| Bank | Branches | Deposits ($B) |$
 |------|----------|---------------|
 | A | 209 | 23 |
 | B | 353 | 31 |
@@ -711,11 +716,9 @@ where $n^2-1 = 63$ and $n(n^2-1)=504$.
 :::{.callout-tip}
 ## Solution (cont.)
 
-**Step 4:** $0.857 > 0.738$ — but textbook gets $r_s = 0.657$ using slightly different ranks for deposits.
+**Step 4:** Since $r_s = 0.857 > 0.738$ → **Reject** $H_0$.
 
-Using textbook ranks: $\sum d^2 = 12$, $r_s = 1 - 72/504 = 0.857$ (some editions list $r_s = 0.657$ due to deposit rank ordering). Since $0.657 < 0.738$ → **Fail to reject** $H_0$.
-
-**Step 5:** Insufficient evidence of a linear relationship between branches and deposits.
+**Step 5:** There is a significant **monotonic (rank) association** between the number of branches and the amount of deposits. This agrees with the R output below ($\rho = 0.857$, P-value $\approx 0.0065$).
 :::
 
 ## Example 13-7
@@ -978,7 +981,7 @@ cat("Decision:", ifelse(n_runs >= 5 & n_runs <= 15,
 :::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

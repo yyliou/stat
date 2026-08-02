@@ -42,6 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(gridExtra)
 ```
 
 ## Overview
@@ -121,7 +122,7 @@ knitr::kable(df, align = "c")
 
 **Interpretation**
 
-The frequency distribution reveals that **Type O** is the most common blood type in this sample, occurring 9 times (36%). **Type A** appears 5 times (20%), **Type B** appears 6 times (24%), and **Type AB** appears 4 times (16%).
+The frequency distribution reveals that **Type O** is the most common blood type in this sample, occurring 9 times (36%). **Type A** appears 5 times (20%), **Type B** appears 7 times (28%), and **Type AB** appears 4 times (16%).
 
 ```{r e2-1-2, echo=T, warning=FALSE, out.width="50%", fig.align='center'}
 ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
@@ -164,7 +165,7 @@ Formula: $\text{Class width} \approx \dfrac{\text{highest value} - \text{lowest 
 :::{.callout-warning}
 ## Record High Temperatures
 
-The record high temperatures (°F) for each of the 50 U.S. states are listed below. Construct a grouped frequency distribution using 7 classes.
+The record high temperatures ($^\circ$F) for each of the 50 U.S. states are listed below. Construct a grouped frequency distribution using 7 classes.
 
 ```
 112 100 127 120 134 118 105 110 109 112
@@ -584,10 +585,10 @@ A survey of first-year college students reported average spending in four back-t
 
 | Category | Average Spending |
 |----------|-----------------|
-| Electronics/Computers | $728 |
-| Dorm Décor | $344 |
-| Clothing | $141 |
-| Shoes | $72 |
+| Electronics/Computers | $728 |$
+| Dorm Décor | $344 |$
+| Clothing | $141 |$
+| Shoes | $72 |$
 :::
 
 ## Example 2-8
@@ -730,7 +731,7 @@ The overall trend shows a **general decline** in workplace homicides over this p
 A **pie graph** (pie chart) is a circle divided into sectors, where each sector represents a category. The size of each sector is proportional to that category's share of the total.
 
 **Formula for sector angle:**
-$$\text{Degrees} = \frac{f}{n} \times 360°$$
+$$\text{Degrees} = \frac{f}{n} \times 360^\circ$$
 
 where $f$ is the category frequency and $n$ is the total number of observations.
 :::
@@ -802,7 +803,7 @@ Using the blood type data from [Example 2-1](#example-2-1), construct a pie grap
 ```{r e2-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 blood_pie <- data.frame(
   type = c("A","B","O","AB"),
-  freq = c(5, 6, 9, 4)
+  freq = c(5, 7, 9, 4)
 ) |>
   mutate(
     pct    = freq / sum(freq) * 100,
@@ -921,7 +922,7 @@ stem(thefts, scale = 1)
 
 ## Example 2-15 {#example-2-15}
 
-:::{.callout-warning}
+:::{.callout-note}
 ## Back-to-Back Stem and Leaf Plot
 
 When comparing two related groups, a **back-to-back stem and leaf plot** uses a shared column of stems in the center, with one group's leaves fanning left and the other's fanning right. This makes it easy to compare the shapes, centers, and spreads of both distributions simultaneously.
@@ -929,8 +930,8 @@ When comparing two related groups, a **back-to-back stem and leaf plot** uses a 
 
 ## Example 2-15
 
-:::{.callout-tip}
-## Solution
+:::{.callout-warning}
+## Tall Buildings in Atlanta and Philadelphia
 
 The number of stories in samples of tall buildings from Atlanta and Philadelphia are shown. Construct a back-to-back stem and leaf plot and compare the two distributions.
 
@@ -952,8 +953,20 @@ atlanta <- c(55,70,44,36,40,63,40,44,34,38,60,47,52,32,32,
 philly  <- c(61,40,38,32,30,58,40,40,25,30,54,40,36,30,30,
              53,39,36,34,33,50,38,36,39,32)
 
-aplpack::stem.leaf.backback(atlanta,philly,
-                            depths = F, m = 1)
+# Base-R back-to-back stem and leaf display (no extra packages needed):
+# left-group leaves fan out to the left, right-group leaves to the right.
+back_to_back <- function(left, right, lab_left, lab_right) {
+  stems <- seq(min(c(left, right)) %/% 10, max(c(left, right)) %/% 10)
+  lf <- sapply(stems, function(s)
+    paste(sort(left[left %/% 10 == s] %% 10, decreasing = TRUE), collapse = " "))
+  rf <- sapply(stems, function(s)
+    paste(sort(right[right %/% 10 == s] %% 10), collapse = " "))
+  w <- max(nchar(c(lf, lab_left)))
+  cat(sprintf("%*s | stem | %s", w, lab_left, lab_right), sep = "\n")
+  cat(sprintf("%*s |  %d   | %s", w, lf, stems, rf), sep = "\n")
+}
+
+back_to_back(atlanta, philly, "Atlanta", "Philadelphia")
 ```
 :::
 
@@ -996,7 +1009,7 @@ $$X_m = \frac{\text{lower limit} + \text{upper limit}}{2} \quad \text{(class mid
 
 $$\% = \frac{f}{n} \times 100 \quad \text{(percentage for each class)}$$
 
-$$\text{Degrees} = \frac{f}{n} \times 360° \quad \text{(pie chart sector)}$$
+$$\text{Degrees} = \frac{f}{n} \times 360$^\circ$ \quad \text{(pie chart sector)}$$
 :::
 
 ## Key Takeaways
@@ -1012,7 +1025,7 @@ $$\text{Degrees} = \frac{f}{n} \times 360° \quad \text{(pie chart sector)}$$
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

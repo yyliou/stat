@@ -266,13 +266,48 @@ Find the mean of the number of spots that appear when a fair die is rolled.
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+Each outcome $1, 2, \ldots, 6$ has probability $\frac{1}{6}$, so
 
-In a family of two children, find the mean number of girls.
+$$\mu = \sum X \cdot P(X) = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + \cdots + 6 \cdot \frac{1}{6} = \frac{21}{6} = 3.5$$
 
 :::
 
 ```{r e5-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+X <- 1:6
+PX <- rep(1/6, 6)
+mu <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = round(PX, 4), `X·P(X)` = round(X * PX, 4), check.names = FALSE)
+knitr::kable(df, caption = "Rolling a Die: Number of Spots")
+```
+
+----
+
+```{r e5-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cat("Mean μ =", mu)
+```
+
+When a die is tossed many times, the theoretical mean is **3.5** — even though the die can never show 3.5.
+
+## Example 5-6 {#example-5-6}
+
+:::{.callout-warning}
+## Children in a Family
+
+In a family with two children, find the mean of the number of children who will be girls.
+:::
+
+## Example 5-6
+
+:::{.callout-tip}
+## Solution
+
+The sample space is BB, BG, GB, GG, so $P(0) = \frac{1}{4}$, $P(1) = \frac{2}{4}$, $P(2) = \frac{1}{4}$.
+
+$$\mu = \sum X \cdot P(X) = 0 \cdot \frac{1}{4} + 1 \cdot \frac{2}{4} + 2 \cdot \frac{1}{4} = 1$$
+
+:::
+
+```{r e5-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:2
 PX <- c(1/4, 2/4, 1/4)
 mu <- sum(X * PX)
@@ -282,7 +317,7 @@ knitr::kable(df, caption = "Number of Girls in Two-Child Family")
 
 ----
 
-```{r e5-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e5-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("Mean μ =", mu)
 ```
 
@@ -412,12 +447,12 @@ If $E(X) < 0$, the player or investor expects a **net loss** in the long run.
 :::{.callout-warning}
 ## Winning Lottery Tickets
 
-A lottery offers one $1000 prize, two $500 prizes, and five $100 prizes. One thousand tickets are sold at $1 each. Find the expected value of a ticket.
+A lottery offers one $1000 prize, two $500 prizes, and five $100 prizes. One thousand tickets are sold at $3 each. Find the expected value of a ticket.
 :::
 ---
 
 ```{r e5-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- c(1000-1, 500-1, 100-1, -1)   # net gain
+X <- c(1000-3, 500-3, 100-3, -3)   # net gain
 PX <- c(1/1000, 2/1000, 5/1000, 992/1000)
 EX <- sum(X * PX)
 df <- data.frame(`Net Gain X` = X, `P(X)` = PX, `X·P(X)` = X*PX, check.names = FALSE)
@@ -425,7 +460,7 @@ knitr::kable(df)
 cat("E(X) = $", round(EX, 4))
 ```
 
-The expected value is **negative**, meaning a player can expect to lose about $0.35 per ticket on average.
+The expected value is **negative**, meaning a player can expect to lose about $0.50 per ticket on average.
 
 ## Example 5-13 {#example-5-13}
 
@@ -440,13 +475,41 @@ A special die has faces labeled 1, 4, 4, 6, 6, 6. Find the expected value when r
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+The die shows 6 spots on 3 sides, 4 spots on 2 sides, and 1 spot on 1 side, so $P(6) = \frac{3}{6}$, $P(4) = \frac{2}{6}$, and $P(1) = \frac{1}{6}$.
 
-An investor is considering two bonds. Bond X: 70% chance of earning $120, 30% chance of losing $40. Bond Y: 60% chance of earning $90, 40% chance of losing $30. Which bond has the better expected return?
+$$E(X) = 1 \cdot \frac{1}{6} + 4 \cdot \frac{2}{6} + 6 \cdot \frac{3}{6} = \frac{27}{6} = 4.5$$
 
 :::
 
 ```{r e5-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+X <- c(1, 4, 6)
+PX <- c(1/6, 2/6, 3/6)
+EX <- sum(X * PX)
+cat("E(X) =", EX)
+```
+
+Only 1, 4, or 6 spots can occur on a single roll, but over many rolls the average is **4.5**.
+
+## Example 5-14 {#example-5-14}
+
+:::{.callout-warning}
+## Bond Investment
+
+An investor is considering two bonds. Bond X: 70% chance of earning $120, 30% chance of losing $40. Bond Y: 60% chance of earning $90, 40% chance of losing $30. Which bond has the better expected return?
+:::
+
+## Example 5-14
+
+:::{.callout-tip}
+## Solution
+
+$$E(\text{Bond X}) = 120(0.70) + (-40)(0.30) = 84 - 12 = 72$$
+
+$$E(\text{Bond Y}) = 90(0.60) + (-30)(0.40) = 54 - 12 = 42$$
+
+:::
+
+```{r e5-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Bond X
 X_x <- c(120, -40); P_x <- c(0.70, 0.30)
 EX <- sum(X_x * P_x)
@@ -648,7 +711,27 @@ Reports indicate that 70% of single-vehicle traffic fatalities at night on weeke
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+Here $n = 15$, $p = 0.70$, and $X = 12$:
+
+$$P(12) = \frac{15!}{(15-12)!\,12!}(0.70)^{12}(0.30)^{3} \approx 0.170$$
+
+:::
+
+```{r e5-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 15; X <- 12; p <- 0.70; q <- 1 - p
+prob <- choose(n, X) * p^X * q^(n - X)
+cat("P(X = 12) = C(15,12) × (0.7)^12 × (0.3)^3 =", round(prob, 4))
+
+# Verification using dbinom
+cat("\nVerification via dbinom:", round(dbinom(12, 15, 0.7), 4))
+```
+
+The probability that exactly 12 of the 15 fatalities involve an intoxicated driver is about **0.17**.
+
+## Mean, Variance, and Standard Deviation for the Binomial Distribution
+
+:::{.callout-note}
+## Formulas
 
 $$\mu = n \cdot p$$
 
@@ -656,8 +739,7 @@ $$\sigma^2 = n \cdot p \cdot q$$
 
 $$\sigma = \sqrt{n \cdot p \cdot q}$$
 
-These are algebraically equivalent to the general formulas $\mu = \sum X \cdot P(X)$ and $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$.
-
+These are algebraically equivalent to the general formulas $\mu = \sum X \cdot P(X)$ and $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$, but are much simpler to use for binomial variables.
 :::
 
 ## Example 5-21 {#example-5-21}
@@ -697,13 +779,50 @@ A die is rolled 480 times. Find the mean, variance, and standard deviation for t
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+Getting a 3 is a success, so $n = 480$, $p = \frac{1}{6}$, and $q = \frac{5}{6}$:
 
-Approximately 2% of all American births result in twins. If a random sample of 8000 births is taken, find the mean, variance, and standard deviation of the number of twin births.
+$$\mu = n \cdot p = 480 \cdot \frac{1}{6} = 80$$
+
+$$\sigma^2 = n \cdot p \cdot q = 480 \cdot \frac{1}{6} \cdot \frac{5}{6} \approx 66.67$$
+
+$$\sigma = \sqrt{66.67} \approx 8.16$$
 
 :::
 
 ```{r e5-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 480; p <- 1/6; q <- 5/6
+mu <- n * p
+sigma2 <- n * p * q
+sigma <- sqrt(sigma2)
+cat("μ = n·p =", mu, "\n")
+cat("σ² = n·p·q =", round(sigma2, 2), "\n")
+cat("σ = √σ² =", round(sigma, 2))
+```
+
+## Example 5-23 {#example-5-23}
+
+:::{.callout-warning}
+## Likelihood of Twins
+
+Approximately 2% of all American births result in twins. If a random sample of 8000 births is taken, find the mean, variance, and standard deviation of the number of twin births.
+:::
+
+## Example 5-23
+
+:::{.callout-tip}
+## Solution
+
+This is a binomial situation with $n = 8000$, $p = 0.02$, and $q = 0.98$:
+
+$$\mu = n \cdot p = 8000 \cdot 0.02 = 160$$
+
+$$\sigma^2 = n \cdot p \cdot q = 8000 \cdot 0.02 \cdot 0.98 = 156.8$$
+
+$$\sigma = \sqrt{156.8} \approx 12.5$$
+
+:::
+
+```{r e5-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8000; p <- 0.02; q <- 0.98
 mu <- n * p
 sigma2 <- n * p * q
@@ -783,13 +902,43 @@ In a large city, 50% of residents choose a movie, 30% choose dinner and a play, 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+Here $n = 5$, $X_1 = 3$, $X_2 = 1$, $X_3 = 1$, $p_1 = 0.50$, $p_2 = 0.30$, and $p_3 = 0.20$:
 
-A coffee shop manager found that customers buy 0, 1, 2, or 3 cups of coffee with probabilities 0.3, 0.5, 0.15, and 0.05, respectively. If 8 customers enter, find the probability that 2 buy nothing, 4 buy 1 cup, 1 buys 2 cups, and 1 buys 3 cups.
+$$P(X) = \frac{5!}{3!\,1!\,1!}(0.50)^3(0.30)^1(0.20)^1 = 0.15$$
 
 :::
 
 ```{r e5-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 5
+X1 <- 3; X2 <- 1; X3 <- 1
+p1 <- 0.50; p2 <- 0.30; p3 <- 0.20
+
+prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)) *
+        p1^X1 * p2^X2 * p3^X3
+
+cat("P(X) = 5!/(3!·1!·1!) × (0.5)³ × (0.3)¹ × (0.2)¹ =", round(prob, 4))
+```
+
+## Example 5-25 {#example-5-25}
+
+:::{.callout-warning}
+## Coffee Shop Customers
+
+A coffee shop manager found that customers buy 0, 1, 2, or 3 cups of coffee with probabilities 0.3, 0.5, 0.15, and 0.05, respectively. If 8 customers enter, find the probability that 2 buy nothing, 4 buy 1 cup, 1 buys 2 cups, and 1 buys 3 cups.
+:::
+
+## Example 5-25
+
+:::{.callout-tip}
+## Solution
+
+Here $n = 8$, $X_1 = 2$, $X_2 = 4$, $X_3 = 1$, $X_4 = 1$, with $p_1 = 0.3$, $p_2 = 0.5$, $p_3 = 0.15$, and $p_4 = 0.05$:
+
+$$P(X) = \frac{8!}{2!\,4!\,1!\,1!}(0.3)^2(0.5)^4(0.15)^1(0.05)^1 \approx 0.0354$$
+
+:::
+
+```{r e5-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8
 X1 <- 2; X2 <- 4; X3 <- 1; X4 <- 1
 p1 <- 0.30; p2 <- 0.50; p3 <- 0.15; p4 <- 0.05
@@ -939,13 +1088,44 @@ Ten people apply for a restaurant assistant manager position: 5 are college grad
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+Here $a = 5$ college graduates, $b = 5$ nongraduates, $n = 3$, and $X = 3$:
 
-A study found that 2 out of 10 houses in a neighborhood have no insurance. If 5 houses are selected from 10, find the probability that exactly 1 is uninsured.
+$$P(3) = \frac{C^5_3 \cdot C^5_0}{C^{10}_3} = \frac{10 \cdot 1}{120} = \frac{1}{12} \approx 0.0833$$
 
 :::
 
 ```{r e5-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+a <- 5   # college graduates
+b <- 5   # nongraduates
+n <- 3; X <- 3
+
+prob <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
+cat("a = 5 (graduates), b = 5 (nongraduates), n = 3, X = 3\n")
+cat("P(X=3) = C(5,3)×C(5,0) / C(10,3)\n")
+cat("       =", choose(a,X), "×", choose(b,n-X), "/", choose(a+b,n),
+    "=", round(prob, 4), "(= 1/12)")
+```
+
+## Example 5-31 {#example-5-31}
+
+:::{.callout-warning}
+## House Insurance
+
+A study found that 2 out of 10 houses in a neighborhood have no insurance. If 5 houses are selected from 10, find the probability that exactly 1 is uninsured.
+:::
+
+## Example 5-31
+
+:::{.callout-tip}
+## Solution
+
+Here $a = 2$ uninsured houses, $b = 8$ insured houses, $n = 5$, and $X = 1$:
+
+$$P(1) = \frac{C^2_1 \cdot C^8_4}{C^{10}_5} = \frac{2 \cdot 70}{252} = \frac{140}{252} = \frac{5}{9} \approx 0.5556$$
+
+:::
+
+```{r e5-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 a <- 2   # uninsured
 b <- 8   # insured
 n <- 5; X <- 1
@@ -989,8 +1169,8 @@ summary_df <- data.frame(
   Formula = c(
     "$P(X) = C^n_X·p^x·q^{n-x}$",
     "$P(X) = n!/(X_1!·X_2!···X_k!)·p_1^{X_1}···p_k^{X_k}$",
-    "$P(X;λ) = e^-λ·λ^X/X!$",
-    "$P(X) = C^a_X·C^b_{n-X}/C^{a+b}_n)$"
+    "$P(X;λ) = e^{-λ}·λ^X/X!$",
+    "$P(X) = C^a_X·C^b_{n-X}/C^{a+b}_n$"
   ),
   `Use When` = c(
     "Fixed n trials; 2 outcomes; independent; constant p",
@@ -1016,7 +1196,7 @@ knitr::kable(summary_df, caption = "Table 5-1: Summary of Discrete Distributions
 - **Hypergeometric:** two outcomes, sampling without replacement.
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

@@ -43,6 +43,7 @@ include-after-body:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(gridExtra)
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -62,7 +63,7 @@ The **normal distribution** is the most important and widely used continuous pro
 
 :::{.callout-note}
 ## Definition
-A **normal distribution** is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the **mean** μ and **standard deviation** σ.
+A **normal distribution** is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the **mean** $\mu$ and **standard deviation** $\sigma$.
 :::
 
 **Key properties:**
@@ -71,7 +72,7 @@ A **normal distribution** is a continuous, symmetric, bell-shaped distribution o
 2. The mean, median, and mode are all **equal**
 3. The curve is continuous — it never touches the x-axis
 4. The total area under the curve equals **1**
-5. Approximately **68%** of values lie within 1σ of μ; **95%** within 2σ; **99.7%** within 3σ
+5. Approximately **68%** of values lie within 1$\sigma$ of $\mu$; **95%** within 2$\sigma$; **99.7%** within 3$\sigma$
 
 ---
 
@@ -90,7 +91,7 @@ ggplot(df, aes(x, y)) +
 
 :::{.callout-note}
 ## Definition
-The **standard normal distribution** is a normal distribution with mean **μ = 0** and standard deviation **σ = 1**. Values on this distribution are called **z values** or **z scores**.
+The **standard normal distribution** is a normal distribution with mean **$\mu$ = 0** and standard deviation **$\sigma$ = 1**. Values on this distribution are called **z values** or **z scores**.
 :::
 
 The **z score** converts any normal variable X to the standard normal:
@@ -254,22 +255,45 @@ Find the following probabilities for the standard normal distribution:
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-Find the z value such that the area to the left is 0.7123.
-
+- **(a)** P(0 < Z < 2.32) = area left of 2.32 minus area left of 0 = 0.9898 − 0.5000 = **0.4898**
+- **(b)** P(Z < 1.65) = area left of 1.65 = **0.9505**
+- **(c)** P(Z > 1.91) = 1 − area left of 1.91 = 1 − 0.9719 = **0.0281**
 :::
+
+```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# (a) P(0 < Z < 2.32)
+pnorm(2.32) - pnorm(0)
+
+# (b) P(Z < 1.65)
+pnorm(1.65)
+
+# (c) P(Z > 1.91)
+1 - pnorm(1.91)
+```
+
+## Example 6-5 {#example-6-5}
+
+:::{.callout-warning}
+## Finding a z Value for a Given Area
+
+Find the z value such that the area under the standard normal distribution curve between 0 and the z value is 0.2123.
+:::
+
+## Example 6-5
 
 :::{.callout-tip}
 ## Solution
 
 **Mathematical solution**
 
+- Add 0.5000 to the given area to get the cumulative left-tail area: 0.5000 + 0.2123 = 0.7123
 - Search Table E for the area closest to 0.7123
 - The corresponding z value is **z = 0.56**
 :::
 
-```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e6-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # Find z given left-tail area = 0.7123
 qnorm(0.7123)
 ```
@@ -283,7 +307,7 @@ qnorm(0.7123)
 
 ## Applying the Normal Distribution
 
-To find probabilities for a **non-standard** normal variable X (with mean μ and standard deviation σ):
+To find probabilities for a **non-standard** normal variable X (with mean $\mu$ and standard deviation $\sigma$):
 
 :::{.callout-note}
 ## Formula
@@ -292,11 +316,11 @@ $$z = \frac{X - \mu}{\sigma}$$
 Convert X to a z score, then find the area using the standard normal.
 :::
 
-In R, use `pnorm(x, mean = μ, sd = σ)` directly — no conversion needed.
+In R, use `pnorm(x, mean = mu, sd = sigma)` directly — no conversion needed.
 
 :::{.callout-important}
 ## Key Steps
-1. Identify μ and σ
+1. Identify $\mu$ and $\sigma$
 2. Draw a diagram and shade the desired region
 3. Convert X to z (or use R directly)
 4. Find the probability
@@ -304,7 +328,7 @@ In R, use `pnorm(x, mean = μ, sd = σ)` directly — no conversion needed.
 
 ## Example 6-6 {#example-6-6}
 :::{.callout-warning}
-The average amount of money that Americans spend on summer travel is normally distributed with μ = $146.21 and σ = $29.44. Find the probability that a randomly selected American spends less than $160 on summer travel.
+The average amount of money that Americans spend on summer travel is normally distributed with $\mu$ = $146.21 and \sigma  = $29.44. Find the probability that a randomly selected American spends less than $160 on summer travel.$
 :::
 
 :::{.callout-tip}
@@ -312,7 +336,7 @@ The average amount of money that Americans spend on summer travel is normally di
 
 $$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
 
-Area to the left of z = 0.47 → **0.6808** (68.08%)
+Area to the left of z = 0.47: table value **0.6808**; R gives **0.6803** (about 68%)
 :::
 
 ```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
@@ -330,7 +354,7 @@ ggplot(df, aes(x, y)) +
   geom_area(data = filter(df, x <= 160), aes(x, y),
             fill = "#2c4a6e", alpha = 0.4) +
   geom_vline(xintercept = 160, linetype = "dashed", color = "red") +
-  annotate("text", x = 140, y = 0.008, label = "68.08%", size = 5) +
+  annotate("text", x = 140, y = 0.008, label = "68.03%", size = 5) +
   labs(title = "P(X < 160): Summer Spending",
        subtitle = paste0("μ = ", mu, ", σ = ", sigma),
        x = "Amount ($)", y = "Density") +
@@ -342,7 +366,7 @@ ggplot(df, aes(x, y)) +
 :::{.callout-warning}
 ## Newspaper Recycling
 
-Each month, an American household generates an average of 28 pounds of newspaper for recycling, with σ = 2 pounds. Assume a normal distribution.
+Each month, an American household generates an average of 28 pounds of newspaper for recycling, with $\sigma$ = 2 pounds. Assume a normal distribution.
 
 **(a)** P(27 < X < 31)   **(b)** P(X > 30.2)
 :::
@@ -391,7 +415,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 :::{.callout-warning}
 ## Coffee Consumption
 
-The per-capita consumption of coffee is normally distributed with μ = 1.64 gallons per year and σ = 0.24 gallons. In a sample of 500 people, how many consume **less than 1 gallon** per year?
+The per-capita consumption of coffee is normally distributed with $\mu$ = 1.64 gallons per year and $\sigma$ = 0.24 gallons. In a sample of 500 people, how many consume **less than 1 gallon** per year?
 :::
 
 ## Example 6-8
@@ -399,11 +423,33 @@ The per-capita consumption of coffee is normally distributed with μ = 1.64 gall
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with μ = 200 and σ = 20. The top **10%** of applicants will be accepted. Find the minimum score needed.
+$$z = \frac{1 - 1.64}{0.24} = \frac{-0.64}{0.24} \approx -2.67$$
 
+- Area to the left of z = −2.67: **0.0038**
+- Number of people: $500 \times 0.0038 = 1.9$ → about **2 people**
 :::
+
+```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mu <- 1.64; sigma <- 0.24
+p <- pnorm(1, mean = mu, sd = sigma)
+p
+# Expected number among 500 people
+500 * p
+```
+
+**Answer:** Approximately **2** of the 500 people consume less than 1 gallon per year.
+
+## Example 6-9 {#example-6-9}
+
+:::{.callout-warning}
+## Police Academy Qualifications
+
+To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with $\mu$ = 200 and $\sigma$ = 20. The top **10%** of applicants will be accepted. Find the minimum score needed.
+:::
+
+## Example 6-9
 
 :::{.callout-tip}
 ## Solution
@@ -412,10 +458,10 @@ To qualify for a police academy, applicants are tested on their physical fitness
 
 - Need the 90th percentile → find z such that P(Z < z) = 0.90
 - $z \approx 1.28$
-- X = μ + z·σ = 200 + 1.28(20) = **225.6 $\approx 226$**
+- X = $\mu$ + z·$\sigma$ = 200 + 1.28(20) = **225.6 $\approx 226$**
 :::
 
-```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e6-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 200; sigma <- 20
 # Find the value X such that P(X > x) = 0.10
 qnorm(0.90, mean = mu, sd = sigma)
@@ -425,7 +471,7 @@ qnorm(0.90, mean = mu, sd = sigma)
 
 ## Example 6-10 {#example-6-10}
 :::{.callout-warning}
-For a certain group, systolic blood pressure is normally distributed with μ = 120 and σ = 8. Find the range of pressures that includes the **middle 60%** of readings.
+For a certain group, systolic blood pressure is normally distributed with $\mu$ = 120 and $\sigma$ = 8. Find the range of pressures that includes the **middle 60%** of readings.
 :::
 
 :::{.callout-tip}
@@ -433,8 +479,8 @@ For a certain group, systolic blood pressure is normally distributed with μ = 1
 
 - Middle 60% → 20% in each tail → find z for P(Z < z) = 0.20 and P(Z < z) = 0.80
 - $z_1 \approx -0.84$, $z_2 \approx 0.84$
-- X₁ = 120 + (−0.84)(8) = **113.28**
-- X₂ = 120 + (0.84)(8) = **126.72**
+- $X_1$ = 120 + (−0.84)(8) = **113.28**
+- $X_2$ = 120 + (0.84)(8) = **126.72**
 :::
 
 ```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
@@ -447,7 +493,7 @@ qnorm(0.80, mean = mu, sd = sigma)
 
 ## Example 6-11 {#example-6-11}
 :::{.callout-warning}
-A researcher claims that the distribution of technology inventories at warehouses is approximately normal with μ = 110,000 and σ = 15,000 units. A warehouse is selected at random. Find the probability that it has **more than 132,500 units**.
+A researcher claims that the distribution of technology inventories at warehouses is approximately normal with $\mu$ = 110,000 and $\sigma$ = 15,000 units. A warehouse is selected at random. Find the probability that it has **more than 132,500 units**.
 :::
 
 ```{r e6-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
@@ -466,7 +512,7 @@ pnorm(z, lower.tail = FALSE)
 
 ## Example 6-12 {#example-6-12}
 :::{.callout-warning}
-The distribution of the duration of professional baseball games is **negatively skewed** with μ = 166 minutes and σ = 26 minutes. If a game is selected at random, find the probability that it lasts **less than 145 minutes**.
+The distribution of the duration of professional baseball games is **negatively skewed** with $\mu$ = 166 minutes and $\sigma$ = 26 minutes. If a game is selected at random, find the probability that it lasts **less than 145 minutes**.
 :::
 
 :::{.callout-warning}
@@ -482,7 +528,7 @@ z
 pnorm(145, mean = mu, sd = sigma)
 ```
 
-**Note:** $z \approx -0.81$; P(X < 145) $\approx$ **0.2090** (approximately 20.9%). Since the data is skewed, this is only a rough estimate.
+**Note:** $z \approx -0.81$; table value 0.2090, R gives P(X < 145) $\approx$ **0.2096** (approximately 21%). Since the data is skewed, this is only a rough estimate.
 
 # Section 6-3: The Central Limit Theorem {background-color="#2c4a6e"}
 
@@ -504,7 +550,7 @@ The **standard error** $\sigma_{\bar{X}} = \sigma/\sqrt{n}$ measures how much sa
 $$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 :::
 
-**In R:** Use `pnorm(xbar, mean = μ, sd = σ/sqrt(n))`
+**In R:** Use `pnorm(xbar, mean = mu, sd = sigma/sqrt(n))`
 
 The CLT explains why the normal distribution is so central to statistics:
 
@@ -530,7 +576,7 @@ curve(dnorm(x, mean(pop), sd(pop)/sqrt(30)), add = TRUE,
 :::{.callout-warning}
 ## Children's TV Viewing
 
-Children in the United States watch an average of μ = 25 hours of TV per week, with σ = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.
+Children in the United States watch an average of $\mu$ = 25 hours of TV per week, with $\sigma$ = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.
 :::
 
 ## Example 6-13
@@ -538,13 +584,29 @@ Children in the United States watch an average of μ = 25 hours of TV per week, 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+$$z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94$$
 
-The average age of vehicles registered in the United States is μ = 96 months, with σ = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 < $\bar{X}$ < 100).
+P($\bar{X}$ > 26.3) = P(Z > 1.94) $\approx$ **0.0263** (2.63%)
 
 :::
 
 ```{r e6-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mu <- 25; sigma <- 3; n <- 20
+se <- sigma / sqrt(n)
+se
+
+# P(X-bar > 26.3)
+pnorm(26.3, mean = mu, sd = se, lower.tail = FALSE)
+```
+
+## Example 6-14 {#example-6-14}
+:::{.callout-warning}
+## Vehicle Ages
+
+The average age of vehicles registered in the United States is $\mu$ = 96 months, with $\sigma$ = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 < $\bar{X}$ < 100).
+:::
+
+```{r e6-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 mu <- 96; sigma <- 16; n <- 36
 se <- sigma / sqrt(n)
 se
@@ -559,7 +621,7 @@ The sample mean is very likely to fall in this range because the standard error 
 
 ## Example 6-15 {#example-6-15}
 :::{.callout-warning}
-The average annual meat consumption per person is μ = 218.4 pounds, σ = 25 pounds.
+The average annual meat consumption per person is $\mu$ = 218.4 pounds, $\sigma$ = 25 pounds.
 
 **(a)** Find P(X < 224) for a **single individual**.
 **(b)** Find P($\bar{X}$ < 224) for a **sample of n = 40** individuals.
@@ -576,11 +638,11 @@ se <- sigma / sqrt(n)
 pnorm(224, mean = mu, sd = se)
 ```
 
-**Answers:** (a) $\approx$ **58.71%**; (b) $\approx$ **92.22%**
+**Answers:** (a) table value 0.5871, R gives $\approx$ **0.5886** (58.86%); (b) table value 0.9222, R gives $\approx$ **0.9217** (92.17%)
 
 :::{.callout-important}
 ## Key Insight
-The probability is much higher for the sample mean because the standard error (σ/√n) is smaller than σ — sample means are less variable than individual values.
+The probability is much higher for the sample mean because the standard error ($\sigma$/√n) is smaller than $\sigma$ — sample means are less variable than individual values.
 :::
 
 # Section 6-4: The Normal Approximation to the Binomial Distribution {background-color="#2c4a6e"}
@@ -626,7 +688,7 @@ A survey found that 6% of American drivers read while driving. If 300 drivers ar
 
 - nq = 300(0.94) = 282 $\geq 5$ ✓
 
-**Parameters:** μ = np = 18, σ = $\sqrt{npq}$ = $\sqrt{300 \times 0.06 \times 0.94}$
+**Parameters:** $\mu$ = np = 18, $\sigma$ = $\sqrt{npq}$ = $\sqrt{300 \times 0.06 \times 0.94}$
 
 ```{r e6-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 300; p <- 0.06; q <- 1 - p
@@ -640,7 +702,7 @@ pnorm(25.5, mean = mu, sd = sigma) - pnorm(24.5, mean = mu, sd = sigma)
 dbinom(25, n, p)
 ```
 
-**Answer (normal approx.):** $\approx$ **0.0227** (2.27%); Exact binomial: $\approx 0.0220.$
+**Answer (normal approx.):** table value 0.0227, R gives $\approx$ **0.0229** (2.29%); Exact binomial: $\approx 0.0226.$
 
 ## Example 6-17 {#example-6-17}
 
@@ -655,17 +717,54 @@ Researchers found that 10% of people who bowl are widowed. If 200 bowlers are se
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Check:** np = 200(0.10) = 20 $\geq 5$, nq = 200(0.90) = 180 $\geq 5$ ✓
+
+**Parameters:** $\mu$ = np = 20, $\sigma$ = $\sqrt{200 \times 0.10 \times 0.90}$ = $\sqrt{18} \approx 4.24$
+
+With the continuity correction, $P(X \geq 10) = P(X > 9.5)$:
+
+$$z = \frac{9.5 - 20}{4.24} \approx -2.48$$
+
+$$P(X \geq 10) = 1 - 0.0066 = 0.9934$$
+:::
+
+```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 200; p <- 0.10; q <- 0.90
+mu <- n * p; sigma <- sqrt(n * p * q)
+cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
+
+# P(X >= 10) with continuity correction: P(X > 9.5)
+pnorm(9.5, mean = mu, sd = sigma, lower.tail = FALSE)
+
+# Exact binomial
+1 - pbinom(9, n, p)
+```
+
+**Answer:** table value 0.9934, R gives $\approx$ **0.9933** — it is almost certain that 10 or more bowlers are widowed.
+
+## Example 6-18 {#example-6-18}
+
+:::{.callout-warning}
+## Batting Averages
 
 In baseball, a .320 batting average means a player gets a hit 32% of the time. In 100 at-bats, find the probability of getting **26 or fewer** hits.
-
 :::
+
+## Example 6-18
+
+:::{.callout-tip}
+## Solution
 
 **Check:** np = 32 $\geq 5$, nq = 68 $\geq 5$ ✓
 
-**Parameters:** μ = 32, σ = $\sqrt{100 \times 0.32 \times 0.68}$
+**Parameters:** $\mu$ = 32, $\sigma$ = $\sqrt{100 \times 0.32 \times 0.68} \approx 4.66$
 
-```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+With the continuity correction, $P(X \leq 26) = P(X < 26.5)$:
+
+$$z = \frac{26.5 - 32}{4.66} \approx -1.18$$
+:::
+
+```{r e6-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 100; p <- 0.32; q <- 0.68
 mu <- n * p; sigma <- sqrt(n * p * q)
 cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
@@ -677,7 +776,7 @@ pnorm(26.5, mean = mu, sd = sigma)
 pbinom(26, n, p)
 ```
 
-**Answer (normal approx.):** $\approx$ **0.119** (11.9%); Exact: $\approx 0.116.$
+**Answer (normal approx.):** $\approx$ **0.119** (11.9%); Exact: $\approx 0.118.$
 
 ## Example 6-19 {#example-6-19}
 :::{.callout-warning}
@@ -706,7 +805,7 @@ dbinom(6, n, p)
 pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
 ```
 
-**Comparison:** Exact = **0.2051**; Normal approx. = **0.2034**
+**Comparison:** Exact = **0.2051**; Normal approx. = **0.2045** (a table-based hand calculation gives 0.2034)
 
 The approximation is quite close even for this borderline case.
 
@@ -717,20 +816,20 @@ The approximation is quite close even for this borderline case.
 | Standard normal area (left) | P(Z < z) | `pnorm(z)` |
 | Standard normal area (right) | 1 − P(Z < z) | `pnorm(z, lower.tail=FALSE)` |
 | Find z from area | — | `qnorm(p)` |
-| Non-standard normal | z = (X − μ)/σ | `pnorm(x, mean, sd)` |
-| Sample mean probability | z = (X̄ − μ)/(σ/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
-| Normal approx. to binomial | μ=np, σ=$\sqrt{npq}$ | ±0.5 correction |
+| Non-standard normal | z = (X − $\mu$)/$\sigma$ | `pnorm(x, mean, sd)` |
+| Sample mean probability | z = (X̄ − $\mu$)/($\sigma$/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
+| Normal approx. to binomial | $\mu$=np, $\sigma$=$\sqrt{npq}$ | $\pm$0.5 correction |
 
 ## Key Takeaways
 
-1. The normal distribution is fully described by μ and σ
+1. The normal distribution is fully described by $\mu$ and $\sigma$
 2. Convert to z scores to use the standard normal table
 3. The CLT guarantees that sample means are approximately normal for $n \geq 30$
 4. Use normal approximation to binomial when np $\geq 5$ **and** nq $\geq 5$
 5. Always apply the **correction for continuity** in the normal approximation
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

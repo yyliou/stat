@@ -1,6 +1,6 @@
 ---
 title: "統計學"
-subtitle: "第四章：機率與計數規則"
+subtitle: "第4章：機率與計數規則"
 author: "劉昱佑"
 institute: "實踐大學"
 date: "`r Sys.Date()`"
@@ -64,7 +64,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 本章概覽
 
-**第四章：機率與計數規則**
+**第4章：機率與計數規則**
 
 機率是統計推論的基礎。本章涵蓋：
 
@@ -277,11 +277,18 @@ $$P(E) = \frac{n(E)}{n(S)} = \frac{\text{事件 } E \text{ 中的結果數}}{\te
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**R 程式**
 
-共有 2 張黑色 10（梅花 10、黑桃 10），牌的總數為 52。
+```{r e4-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# Two black 10s: 10 of Clubs and 10 of Spades
+n_event <- 2   # black 10s
+n_sample <- 52 # total cards
+prob <- n_event / n_sample
+cat("P(black 10) =", n_event, "/", n_sample, "=", round(prob, 4), "=", "1/26\n")
+```
+
+**解題：** 共有 2 張黑色 10（梅花 10、黑桃 10），牌的總數為 52。
 $$P(\text{黑色 10}) = \frac{2}{52} = \frac{1}{26}$$
-
 :::
 
 ## 範例 4-6 {#example-4-6}
@@ -1479,6 +1486,11 @@ factorial(5) / factorial(5-5)
 
 ---
 
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
 ```{r e4-43-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 範例 4-43
 n <- 5; r <- 3
@@ -1500,6 +1512,7 @@ factorial(n) / factorial(n-r)
 n2 <- 7; r2 <- 3
 factorial(n2) / factorial(n2-r2)
 ```
+:::
 
 ## 範例 4-45 {#example-4-45}
 
@@ -1587,7 +1600,14 @@ factorial(n) / factorial(n-r) / factorial(r)
 2. 一位報紙編輯收到 8 本書待評論，他決定在報紙上刊登其中 3 篇評論，請問可以有幾種不同的選法？
 :::
 
-```{r e4-47-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+---
+
+:::{.callout-tip}
+## 解題
+
+**R 程式**
+
+```{r e4-46-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("範例 4-47：\n")
 cat("₄C₂ = 4!/(4-2)!2! = 4!/(2!2!) =", choose(4,2), "\n\n")
 
@@ -1595,13 +1615,14 @@ cat("範例 4-48：報紙編輯有 8 本書；選 3 本評論。\n")
 cat("₈C₃ = 8!/(8-3)!3! = 8!/(5!3!) =", choose(8,3), "\n")
 ```
 
-```{r e4-47-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e4-46-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 範例 4-47
 choose(4,2)
 
 # 範例 4-48
 choose(8,3)
 ```
+:::
 
 ## 範例 4-49 {#example-4-49}
 
@@ -1848,7 +1869,7 @@ poker <- data.frame(
 knitr::kable(poker, caption="5 張撲克牌的手機率", digits=6)
 ```
 
-## 第4章摘要
+## 重點整理
 
 :::{.callout-note}
 ## 重要公式
@@ -1866,10 +1887,10 @@ knitr::kable(poker, caption="5 張撲克牌的手機率", digits=6)
 | 組合 | $_nC_r = n!/[(n-r)!\,r!]$ |
 :::
 
-## 版權聲明
+## Acknowledgement
 
--   **版權聲明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有權利均由原作者及出版商保留。
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
--   **僅限非商業使用。** 本材料僅供教育目的使用，不得用於任何商業活動或營利目的。
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
--   **適當引用。** 任何複製、散布或使用本材料時，均須適當引用原始??
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

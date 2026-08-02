@@ -45,6 +45,7 @@ include-after-body:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(gridExtra)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -140,7 +141,7 @@ knitr::kable(df, align = "c")
 
 **詮釋**
 
-次數分配顯示，**O型**血是此樣本中最常見的血型，出現9次（36%）。**A型**出現5次（20%），**B型**出現6次（24%），**AB型**出現4次（16%）。
+次數分配顯示，**O型**血是此樣本中最常見的血型，出現9次（36%）。**A型**出現5次（20%），**B型**出現7次（28%），**AB型**出現4次（16%）。
 
 ```{r e2-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
@@ -182,7 +183,7 @@ ggplot(df, aes(x = reorder(Class, -Frequency), y = Frequency, fill = Class)) +
 :::{.callout-warning}
 ## 創紀錄高溫
 
-以下列出美國50個州的創紀錄高溫（°F）。使用7組建立分組次數分配。
+以下列出美國50個州的創紀錄高溫（$^\circ$F）。使用7組建立分組次數分配。
 
 ```
 112 100 127 120 134 118 105 110 109 112
@@ -598,10 +599,10 @@ gridExtra::grid.arrange(p_bell, p_uni, p_right, p_left, p_bimod, p_u, ncol = 3)
 
 | 類別 | 平均消費 |
 |----------|-----------------|
-| 電子產品/電腦 | $728 |
-| 宿舍裝飾 | $344 |
-| 服裝 | $141 |
-| 鞋子 | $72 |
+| 電子產品/電腦 | $728 |$
+| 宿舍裝飾 | $344 |$
+| 服裝 | $141 |$
+| 鞋子 | $72 |$
 :::
 
 ## 範例 2-8
@@ -741,7 +742,7 @@ fig
 **圓形圖**（餅圖）是一個分成若干扇形的圓，每個扇形代表一個類別。每個扇形的大小與該類別佔總體的比例成正比。
 
 **扇形角度公式：**
-$$\text{角度} = \frac{f}{n} \times 360°$$
+$$\text{角度} = \frac{f}{n} \times 360^\circ$$
 
 其中 $f$ 為類別次數，$n$ 為觀測值總數。
 :::
@@ -813,7 +814,7 @@ fig
 ```{r e2-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 blood_pie <- data.frame(
   type = c("A","B","O","AB"),
-  freq = c(5, 6, 9, 4)
+  freq = c(5, 7, 9, 4)
 ) |>
   mutate(
     pct    = freq / sum(freq) * 100,
@@ -932,7 +933,7 @@ graphics::stem(thefts, scale = 1)
 
 ## 範例 2-15 {#example-2-15}
 
-:::{.callout-warning}
+:::{.callout-note}
 ## 背對背莖葉圖
 
 比較兩個相關群組時，**背對背莖葉圖**在中央共用一列莖，一個群組的葉向左展開，另一個向右展開。這便於同時比較兩個分配的形狀、中心與離散程度。
@@ -940,8 +941,8 @@ graphics::stem(thefts, scale = 1)
 
 ## 範例 2-15
 
-:::{.callout-tip}
-## 解題
+:::{.callout-warning}
+## 亞特蘭大與費城的高樓
 
 以下為亞特蘭大與費城高樓樣本的樓層數。建立背對背莖葉圖並比較兩個分配。
 
@@ -963,8 +964,20 @@ atlanta <- c(55,70,44,36,40,63,40,44,34,38,60,47,52,32,32,
 philly  <- c(61,40,38,32,30,58,40,40,25,30,54,40,36,30,30,
              53,39,36,34,33,50,38,36,39,32)
 
-aplpack::stem.leaf.backback(atlanta,philly,
-                            depths = F, m = 1)
+# Base-R back-to-back stem and leaf display (no extra packages needed):
+# left-group leaves fan out to the left, right-group leaves to the right.
+back_to_back <- function(left, right, lab_left, lab_right) {
+  stems <- seq(min(c(left, right)) %/% 10, max(c(left, right)) %/% 10)
+  lf <- sapply(stems, function(s)
+    paste(sort(left[left %/% 10 == s] %% 10, decreasing = TRUE), collapse = " "))
+  rf <- sapply(stems, function(s)
+    paste(sort(right[right %/% 10 == s] %% 10), collapse = " "))
+  w <- max(nchar(c(lf, lab_left)))
+  cat(sprintf("%*s | stem | %s", w, lab_left, lab_right), sep = "\n")
+  cat(sprintf("%*s |  %d   | %s", w, lf, stems, rf), sep = "\n")
+}
+
+back_to_back(atlanta, philly, "Atlanta", "Philadelphia")
 ```
 :::
 
@@ -1007,10 +1020,10 @@ $$X_m = \frac{\text{下限} + \text{上限}}{2} \quad \text{（組中點）}$$
 
 $$\% = \frac{f}{n} \times 100 \quad \text{（各組百分比）}$$
 
-$$\text{角度} = \frac{f}{n} \times 360° \quad \text{（圓形圖扇形）}$$
+$$\text{角度} = \frac{f}{n} \times 360$^\circ$ \quad \text{（圓形圖扇形）}$$
 :::
 
-## 第2章：關鍵詞彙
+## 重點整理
 
 - **原始資料**——收集後尚未處理的未組織觀測值
 - **次數分配**——將資料值/組別與其計數配對的表格
@@ -1021,10 +1034,10 @@ $$\text{角度} = \frac{f}{n} \times 360° \quad \text{（圓形圖扇形）}$$
 - **莖葉圖**——以圖形形式保留個別數值的資料展示
 - **分配形狀**——次數分配的整體規律（對稱、偏斜、雙峰等）
 
-## 版權聲明
+## Acknowledgement
 
--   **版權聲明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有版權歸原作者及出版商所有。
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
--   **僅限非商業用途。** 本材料嚴格用於教育目的，不得用於商業利益或盈利。
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
--   **適當引用。** 任何複製、散佈或使用本材料時，必須對原始來源提供適當引用。
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

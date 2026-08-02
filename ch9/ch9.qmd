@@ -50,7 +50,7 @@ Researchers often need to **compare two groups** rather than test a single param
 
 This chapter covers hypothesis tests and confidence intervals for:
 
-- **Two means** (z test when σ known; t test when σ unknown; paired t test for dependent samples)
+- **Two means** (z test when $\sigma$ known; t test when $\sigma$ unknown; paired t test for dependent samples)
 - **Two proportions** (z test)
 - **Two variances** (F test)
 
@@ -64,7 +64,7 @@ This chapter covers hypothesis tests and confidence intervals for:
 **Requirements for the z test (two means):**
 
 - Both samples are random and independent
-- Population standard deviations σ₁ and σ₂ are **known**
+- Population standard deviations $\sigma_1$ and $\sigma_2$ are **known**
 - If n < 30, populations should be approximately normal
 :::
 
@@ -90,7 +90,7 @@ A travel agent claims hotel rooms in New Orleans cost more on average than those
 | New Orleans | \$88.42 | \$5.62 | 50 |
 | Phoenix | \$80.61 | \$4.83 | 50 |
 
-Test the claim at α = 0.05.
+Test the claim at $\alpha$ = 0.05.
 :::
 
 ## Example 9-1
@@ -100,14 +100,14 @@ Test the claim at α = 0.05.
 
 **Mathematical solution**
 
-**Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: μ₁ > μ₂ (claim) — right-tailed
+**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1$ > $\mu_2$ (claim) — right-tailed
 
-**Step 2:** CV = +1.645 (α = 0.05, right-tailed)
+**Step 2:** CV = +1.645 ($\alpha$ = 0.05, right-tailed)
 
 **Step 3:**
 $$z = \frac{88.42 - 80.61}{\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}}} = \frac{7.81}{\sqrt{0.6317 + 0.4674}} = \frac{7.81}{1.048} \approx 7.45$$
 
-**Step 4:** 7.45 > 1.645 → **Reject H₀**
+**Step 4:** 7.45 > 1.645 → **Reject $H_0$**
 
 **Step 5:** There is sufficient evidence to support the claim that hotel rooms in New Orleans cost more than those in Phoenix.
 :::
@@ -145,7 +145,7 @@ A researcher hypothesizes that male college students are offered more online spo
 - Males: $\bar{X}_1 = 8.6$, $\sigma_1 = 3.3$, $n_1 = 50$
 - Females: $\bar{X}_2 = 7.9$, $\sigma_2 = 3.3$, $n_2 = 50$
 
-At α = 0.10, test the claim using the P-value method.
+At $\alpha$ = 0.10, test the claim using the P-value method.
 :::
 
 ## Example 9-2
@@ -155,16 +155,16 @@ At α = 0.10, test the claim using the P-value method.
 
 **Mathematical solution**
 
-**Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: μ₁ > μ₂ (claim) — right-tailed
+**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1$ > $\mu_2$ (claim) — right-tailed
 
-**Step 2:** α = 0.10
+**Step 2:** $\alpha$ = 0.10
 
 **Step 3:**
 $$z = \frac{8.6 - 7.9}{\sqrt{\dfrac{3.3^2}{50} + \dfrac{3.3^2}{50}}} = \frac{0.7}{\sqrt{0.2178 + 0.2178}} = \frac{0.7}{0.6600} \approx 1.06$$
 
 **P-value** = P(z > 1.06) = 1 − 0.8554 = **0.1446**
 
-**Step 4:** 0.1446 > 0.10 → **Do not reject H₀**
+**Step 4:** 0.1446 > 0.10 → **Do not reject $H_0$**
 
 **Step 5:** There is not enough evidence to support the claim that males are offered more online sports choices.
 :::
@@ -190,7 +190,7 @@ cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 ```
 :::
 
-## Confidence Interval for μ₁ − μ₂ (σ Known)
+## Confidence Interval for $\mu_1$ − $\mu_2$ ($\sigma$ Known)
 
 :::{.callout-note}
 $$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
@@ -201,7 +201,7 @@ $$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigm
 :::{.callout-warning}
 ## 95% CI for Hotel Room Costs
 
-Using the data from [Example 9-1](#example-9-1), find a 95% confidence interval for μ₁ − μ₂.
+Using the data from [Example 9-1](#example-9-1), find a 95% confidence interval for $\mu_1$ − $\mu_2$.
 :::
 
 ## Example 9-3
@@ -209,18 +209,40 @@ Using the data from [Example 9-1](#example-9-1), find a 95% confidence interval 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
+With $z_{\alpha/2} = 1.96$:
+
+$$(88.42 - 80.61) \pm 1.96\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}} = 7.81 \pm 2.05$$
+
+$$5.76 < \mu_1 - \mu_2 < 9.86$$
+
+Since the interval does not contain 0, this agrees with the decision in Example 9-1 to reject $H_0$.
+
+```{r e9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+x1 <- 88.42; x2 <- 80.61
+s1 <- 5.62;  s2 <- 4.83
+n1 <- 50;    n2 <- 50
+
+moe <- qnorm(0.975) * sqrt(s1^2/n1 + s2^2/n2)
+cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+```
+:::
+
+# Section 9-2: Testing the Difference Between Two Means of Independent Samples Using the t Test {background-color="#2c4a6e"}
+
+## t Test for Two Independent Means ($\sigma$ Unknown)
+
+:::{.callout-note}
 Use the **t test** when:
 
 - Samples are independent and random
-- Population standard deviations σ₁ and σ₂ are **unknown**
+- Population standard deviations $\sigma_1$ and $\sigma_2$ are **unknown**
 - Both populations are approximately normally distributed
 
 $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
 
 **Degrees of freedom:** $d.f. = \min(n_1-1,\; n_2-1)$ *(conservative method)*
-
 :::
 
 ## Example 9-4 {#example-9-4}
@@ -236,7 +258,7 @@ A researcher wants to determine whether farm sizes in Indiana and Greene countie
 | $s$ | 38 | 12 |
 | $n$ | 8 | 10 |
 
-At α = 0.05, test whether the means differ.
+At $\alpha$ = 0.05, test whether the means differ.
 :::
 
 ## Example 9-4
@@ -246,14 +268,14 @@ At α = 0.05, test whether the means differ.
 
 **Mathematical solution**
 
-**Step 1:** H₀: μ₁ = μ₂ &nbsp;&nbsp; H₁: $\mu_1 \neq \mu_2$ (claim) — two-tailed
+**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1 \neq \mu_2$ (claim) — two-tailed
 
-**Step 2:** d.f. = min(8−1, 10−1) = 7; CV = ±2.365
+**Step 2:** d.f. = min(8−1, 10−1) = 7; CV = $\pm$2.365
 
 **Step 3:**
 $$t = \frac{191 - 199}{\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}}} = \frac{-8}{\sqrt{180.5 + 14.4}} = \frac{-8}{\sqrt{194.9}} \approx -0.573$$
 
-**Step 4:** |−0.573| < 2.365 → **Do not reject H₀**
+**Step 4:** |−0.573| < 2.365 → **Do not reject $H_0$**
 
 **Step 5:** There is not enough evidence to conclude that farm sizes differ between the two counties.
 :::
@@ -283,7 +305,7 @@ cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n"
 ```
 :::
 
-## Confidence Interval for μ₁ − μ₂ (σ Unknown)
+## Confidence Interval for $\mu_1$ − $\mu_2$ ($\sigma$ Unknown)
 
 :::{.callout-note}
 $$(\bar{X}_1 - \bar{X}_2) - t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
@@ -296,7 +318,7 @@ where $d.f. = \min(n_1-1,\; n_2-1)$
 :::{.callout-warning}
 ## 95% CI for Farm Sizes
 
-Using the data from [Example 9-4](#example-9-4), construct a 95% confidence interval for μ₁ − μ₂.
+Using the data from [Example 9-4](#example-9-4), construct a 95% confidence interval for $\mu_1$ − $\mu_2$.
 :::
 
 ## Example 9-5
@@ -304,8 +326,34 @@ Using the data from [Example 9-4](#example-9-4), construct a 95% confidence inte
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
+With d.f. = min(8−1, 10−1) = 7 and the table value $t_{\alpha/2} = 2.365$:
+
+$$(191 - 199) \pm 2.365\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}} = -8 \pm 33.02$$
+
+$$-41.02 < \mu_1 - \mu_2 < 25.02$$
+
+(Using the exact $t_{0.025,\,7} = 2.3646$, R gives $-41.01 < \mu_1 - \mu_2 < 25.01$.)
+
+Since 0 is contained in the interval, this agrees with the decision in Example 9-4 to not reject $H_0$.
+
+```{r e9-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+x1 <- 191; x2 <- 199
+s1 <- 38;  s2 <- 12
+n1 <- 8;   n2 <- 10
+
+df  <- min(n1 - 1, n2 - 1)
+moe <- qt(0.975, df) * sqrt(s1^2/n1 + s2^2/n2)
+cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+```
+:::
+
+# Section 9-3: Testing the Difference Between Two Means (Dependent Samples) {background-color="#2c4a6e"}
+
+## Dependent (Paired) Samples
+
+:::{.callout-note}
 Samples are **dependent** (paired) when:
 
 - The same subjects are measured twice (before/after)
@@ -316,7 +364,6 @@ Samples are **dependent** (paired) when:
 $$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad d.f. = n - 1$$
 
 where $\bar{D} = \dfrac{\sum D}{n}$ and $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)^2}{n(n-1)}}$
-
 :::
 
 ## Example 9-6 {#example-9-6}
@@ -338,7 +385,7 @@ A bank manager claims that deposits have decreased over the past 3 years. The fo
 | 8 | 0.4 | 1.9 | −1.5 |
 | 9 | 0.9 | 1.5 | −0.6 |
 
-At α = 0.05, test the claim.
+At $\alpha$ = 0.05, test the claim.
 :::
 
 ## Example 9-6
@@ -348,31 +395,25 @@ At α = 0.05, test the claim.
 
 **Mathematical solution**
 
-**Step 1:** H₀: μ_D = 0 &nbsp;&nbsp; H₁: μ_D < 0 (claim) — left-tailed
+**Step 1:** $H_0$: $\mu_D = 0$ &nbsp;&nbsp; $H_1$: $\mu_D < 0$ (claim) — left-tailed
 
 **Step 2:** d.f. = 8; CV = −1.860
 
-**Step 3:** ΣD = −9.73 − (0.6+0.1+1.1−0.2+1.3+0.7+0.1+1.5+0.6) → wait, let me compute:
+**Step 3:** D values: −0.6, −0.1, −1.1, 0.2, −1.3, −0.7, −0.1, −1.5, −0.6
 
-D values: −0.6, −0.1, −1.1, 0.2, −1.3, −0.7, −0.1, −1.5, −0.6
+$\sum D = -5.8$, so $\bar{D} = \dfrac{-5.8}{9} \approx -0.644$
 
-$\bar{D} = \frac{-9.73}{9} \approx -1.081$
+$\sum D^2$ = 0.36+0.01+1.21+0.04+1.69+0.49+0.01+2.25+0.36 = 6.42
 
-ΣD² = 0.36+0.01+1.21+0.04+1.69+0.49+0.01+2.25+0.36 = 6.42
+$s_D = \sqrt{\dfrac{9(6.42) - (-5.8)^2}{9(8)}} = \sqrt{\dfrac{57.78 - 33.64}{72}} \approx 0.579$
 
-$s_D = \sqrt{\frac{9(6.42) - (-9.73)^2}{9(8)}} = \sqrt{\frac{57.78 - 94.67}{72}}$...
-
-Recalculate: ΣD = −4.8; $\bar{D} = -4.8/9 \approx -0.533$...
-
-Using textbook values: $\bar{D} = -1.081$, $s_D = 1.937$
-
-$t = \frac{-1.081 - 0}{1.937/\sqrt{9}} = \frac{-1.081}{0.646} \approx -1.67$
+$t = \dfrac{-0.644 - 0}{0.579/\sqrt{9}} = \dfrac{-0.644}{0.193} \approx -3.34$
 :::
 ---
 
-**Step 4:** −1.67 > −1.860 → **Do not reject H₀**
+**Step 4:** −3.34 < −1.860 → **Reject $H_0$**
 
-**Step 5:** There is not enough evidence to support the claim that deposits have decreased.
+**Step 5:** There is enough evidence to support the claim that deposits have decreased.
 
 ## Example 9-6
 
@@ -417,7 +458,7 @@ A researcher claims that a mineral supplement affects cholesterol levels. Six su
 | 5 | 172 | 173 | −1 |
 | 6 | 244 | 228 | 16 |
 
-At α = 0.10, test the claim that cholesterol levels changed.
+At $\alpha$ = 0.10, test the claim that cholesterol levels changed.
 :::
 
 ## Example 9-7
@@ -427,19 +468,19 @@ At α = 0.10, test the claim that cholesterol levels changed.
 
 **Mathematical solution**
 
-**Step 1:** H₀: μ_D = 0 &nbsp;&nbsp; H₁: μ_D $\neq 0$ (claim) — two-tailed
+**Step 1:** $H_0$: $\mu$_D = 0 &nbsp;&nbsp; $H_1$: $\mu$_D $\neq 0$ (claim) — two-tailed
 
-**Step 2:** d.f. = 5; CV = ±2.015
+**Step 2:** d.f. = 5; CV = $\pm$2.015
 
-**Step 3:** ΣD = 100, $\bar{D} = 100/6 = 16.7$
+**Step 3:** $\sum D$ = 100, $\bar{D} = 100/6 = 16.7$
 
-ΣD² = 400 + 4225 + 4 + 4 + 1 + 256 = 4890
+$\sum D^2$ = 400 + 4225 + 4 + 4 + 1 + 256 = 4890
 
 $s_D = \sqrt{\frac{6(4890) - 100^2}{6(5)}} = \sqrt{\frac{29340 - 10000}{30}} = \sqrt{644.67} \approx 25.4$
 
 $t = \frac{16.7}{25.4/\sqrt{6}} = \frac{16.7}{10.37} \approx 1.610$
 
-**Step 4:** |1.610| < 2.015 → **Do not reject H₀**
+**Step 4:** |1.610| < 2.015 → **Do not reject $H_0$**
 
 **Step 5:** There is not enough evidence to support the claim that the supplement affects cholesterol levels.
 :::
@@ -473,7 +514,7 @@ cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n"
 ```
 :::
 
-## Confidence Interval for μ_D (Dependent Samples)
+## Confidence Interval for $\mu$_D (Dependent Samples)
 
 :::{.callout-note}
 $$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\frac{s_D}{\sqrt{n}}$$
@@ -486,7 +527,7 @@ where $d.f. = n - 1$
 :::{.callout-warning}
 ## 90% CI for Cholesterol Change
 
-Using Example 9-7 data, find a 90% confidence interval for μ_D.
+Using Example 9-7 data, find a 90% confidence interval for $\mu$_D.
 :::
 
 ## Example 9-8
@@ -540,7 +581,7 @@ $$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\df
 :::{.callout-warning}
 ## Vaccination Rates in Nursing Homes
 
-A researcher wants to determine whether the influenza vaccination rate of nursing home residents is the same for small and large homes. At α = 0.05, test the claim.
+A researcher wants to determine whether the influenza vaccination rate of nursing home residents is the same for small and large homes. At $\alpha$ = 0.05, test the claim.
 
 | | Small | Large |
 |--|-------|-------|
@@ -555,9 +596,9 @@ A researcher wants to determine whether the influenza vaccination rate of nursin
 
 **Mathematical solution**
 
-**Step 1:** H₀: p₁ = p₂ (claim) &nbsp;&nbsp; H₁: $p_1 \neq p_2$ — two-tailed
+**Step 1:** $H_0$: $p_1$ = $p_2$ (claim) &nbsp;&nbsp; $H_1$: $p_1 \neq p_2$ — two-tailed
 
-**Step 2:** CV = ±1.96
+**Step 2:** CV = $\pm$1.96
 
 **Step 3:** $\hat{p}_1 = 12/34 = 0.353$; $\hat{p}_2 = 17/24 = 0.708$
 
@@ -565,7 +606,7 @@ $\bar{p} = \frac{12+17}{34+24} = \frac{29}{58} = 0.5$; $\bar{q} = 0.5$
 
 $$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\right)}} = \frac{-0.355}{\sqrt{0.25(0.0706)}} = \frac{-0.355}{0.1328} \approx -2.67$$
 
-**Step 4:** |−2.67| > 1.96 → **Reject H₀**
+**Step 4:** |−2.67| > 1.96 → **Reject $H_0$**
 
 **Step 5:** There is enough evidence to reject the claim that vaccination rates are the same for small and large nursing homes.
 :::
@@ -603,7 +644,7 @@ cat("Decision:", ifelse(abs(z) > cv, "Reject H0", "Do not reject H0"), "\n")
 :::{.callout-warning}
 ## Texting While Driving
 
-A survey found that 29% of drivers this year text while driving, versus 17% last year. Each sample included 1000 drivers. At α = 0.01, test the claim that the proportion has increased.
+A survey found that 29% of drivers this year text while driving, versus 17% last year. Each sample included 1000 drivers. At $\alpha$ = 0.01, test the claim that the proportion has increased.
 :::
 
 ## Example 9-10
@@ -611,9 +652,9 @@ A survey found that 29% of drivers this year text while driving, versus 17% last
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-**Step 1:** H₀: p₁ = p₂ &nbsp;&nbsp; H₁: p₁ > p₂ (claim) — right-tailed
+**Step 1:** $H_0$: $p_1$ = $p_2$ &nbsp;&nbsp; $H_1$: $p_1$ > $p_2$ (claim) — right-tailed
 
 **Step 2:** CV = +2.33
 
@@ -621,7 +662,7 @@ A survey found that 29% of drivers this year text while driving, versus 17% last
 
 $$z = \frac{0.29 - 0.17}{\sqrt{0.23(0.77)\left(\frac{1}{1000}+\frac{1}{1000}\right)}} = \frac{0.12}{\sqrt{0.0003542}} = \frac{0.12}{0.01882} \approx 6.38$$
 
-**Step 4:** 6.38 > 2.33 → **Reject H₀**
+**Step 4:** 6.38 > 2.33 → **Reject $H_0$**
 
 **Step 5:** There is sufficient evidence to support the claim that texting while driving has increased.
 :::
@@ -652,7 +693,7 @@ cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
 ```
 :::
 
-## Confidence Interval for p₁ − p₂
+## Confidence Interval for $p_1$ − $p_2$
 
 :::{.callout-note}
 $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}} < p_1-p_2 < (\hat{p}_1-\hat{p}_2) + z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
@@ -663,7 +704,7 @@ $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac
 :::{.callout-warning}
 ## 95% CI for Vaccination Rate Difference
 
-Using Example 9-9 data, find a 95% confidence interval for p₁ − p₂.
+Using Example 9-9 data, find a 95% confidence interval for $p_1$ − $p_2$.
 :::
 
 ## Example 9-11
@@ -671,8 +712,34 @@ Using Example 9-9 data, find a 95% confidence interval for p₁ − p₂.
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
+$\hat{p}_1 = 12/34 \approx 0.353$, $\hat{q}_1 = 0.647$; &nbsp; $\hat{p}_2 = 17/24 \approx 0.708$, $\hat{q}_2 = 0.292$
+
+$$(0.353 - 0.708) \pm 1.96\sqrt{\dfrac{0.353(0.647)}{34} + \dfrac{0.708(0.292)}{24}} \approx -0.355 \pm 0.243$$
+
+$$-0.598 < p_1 - p_2 < -0.113$$
+
+(Values shown are rounded; R keeps full precision.) Since the interval does not contain 0, this agrees with the decision in Example 9-9 to reject $H_0$.
+
+```{r e9-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+x1 <- 12; n1 <- 34
+x2 <- 17; n2 <- 24
+
+phat1 <- x1/n1; qhat1 <- 1 - phat1
+phat2 <- x2/n2; qhat2 <- 1 - phat2
+
+diff <- phat1 - phat2
+moe  <- qnorm(0.975) * sqrt(phat1*qhat1/n1 + phat2*qhat2/n2)
+cat("95% CI: (", round(diff - moe, 3), ",", round(diff + moe, 3), ")\n")
+```
+:::
+
+# Section 9-5: Testing the Difference Between Two Variances {background-color="#2c4a6e"}
+
+## Characteristics of the F Distribution
+
+:::{.callout-note}
 The **F distribution** is used to compare two variances from independent, normally distributed populations.
 
 **Characteristics:**
@@ -680,7 +747,6 @@ The **F distribution** is used to compare two variances from independent, normal
 - The distribution is positively skewed
 - The mean $\approx 1$
 - It is a family of curves indexed by two degrees of freedom: numerator (d.f.N.) and denominator (d.f.D.)
-
 :::
 
 ## F Test Formula
@@ -703,7 +769,7 @@ where $s_1^2$ is always the **larger** variance (placed in the numerator).
 
 :::{.callout-important}
 1. Always place the **larger variance** in the numerator
-2. For a **two-tailed** test, divide α by 2 and use the right-tail critical value
+2. For a **two-tailed** test, divide $\alpha$ by 2 and use the right-tail critical value
 3. If standard deviations are given, **square them** to get variances
 4. If d.f. not in the table, use the next **smaller** d.f.
 :::
@@ -713,7 +779,7 @@ where $s_1^2$ is always the **larger** variance (placed in the numerator).
 :::{.callout-warning}
 ## Finding a Critical Value (Right-Tailed)
 
-Find the critical value for a right-tailed F test when α = 0.05, d.f.N. = 15, d.f.D. = 21.
+Find the critical value for a right-tailed F test when $\alpha$ = 0.05, d.f.N. = 15, d.f.D. = 21.
 :::
 
 ## Example 9-12
@@ -721,9 +787,9 @@ Find the critical value for a right-tailed F test when α = 0.05, d.f.N. = 15, d
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-**Solution:** Use the α = 0.05 table. Look up d.f.N. = 15 (column) and d.f.D. = 21 (row).
+**Solution:** Use the $\alpha$ = 0.05 table. Look up d.f.N. = 15 (column) and d.f.D. = 21 (row).
 
 $$F_{CV} = 2.18$$
 :::
@@ -751,7 +817,7 @@ cat("Critical value (right-tailed, alpha=0.05):", round(cv, 4), "\n")
 :::{.callout-warning}
 ## Finding a Critical Value (Two-Tailed)
 
-Find the critical value for a two-tailed F test with α = 0.05 when the sample size from which the numerator variance was obtained was 21 and the denominator variance was from n = 12.
+Find the critical value for a two-tailed F test with $\alpha$ = 0.05 when the sample size from which the numerator variance was obtained was 21 and the denominator variance was from n = 12.
 :::
 
 ## Example 9-13
@@ -759,9 +825,9 @@ Find the critical value for a two-tailed F test with α = 0.05 when the sample s
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-**Solution:** Two-tailed → use α/2 = 0.025 table.
+**Solution:** Two-tailed → use $\alpha$/2 = 0.025 table.
 
 d.f.N. = 21 − 1 = 20, d.f.D. = 12 − 1 = 11
 
@@ -791,7 +857,7 @@ cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
 :::{.callout-warning}
 ## Heart Rates of Smokers
 
-A researcher wants to determine whether the variance in heart rates (beats per minute) differs between smokers and nonsmokers. At α = 0.05, test the claim.
+A researcher wants to determine whether the variance in heart rates (beats per minute) differs between smokers and nonsmokers. At $\alpha$ = 0.05, test the claim.
 
 | | Smokers | Nonsmokers |
 |--|---------|-----------|
@@ -806,15 +872,15 @@ A researcher wants to determine whether the variance in heart rates (beats per m
 
 **Mathematical solution**
 
-**Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: $\sigma_1^2 \neq \sigma_2^2$ (claim) — two-tailed
+**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2 \neq \sigma_2^2$ (claim) — two-tailed
 
-**Step 2:** Use α/2 = 0.025 table.
+**Step 2:** Use $\alpha$/2 = 0.025 table.
 d.f.N. = 26 − 1 = 25; d.f.D. = 18 − 1 = 17 → CV = 2.56 (use d.f.N. = 24)
 
 **Step 3:**
 $$F = \frac{s_1^2}{s_2^2} = \frac{36}{10} = 3.6$$
 
-**Step 4:** 3.6 > 2.56 → **Reject H₀**
+**Step 4:** 3.6 > 2.56 → **Reject $H_0$**
 
 **Step 5:** There is sufficient evidence to support the claim that the variance in heart rates differs between smokers and nonsmokers.
 :::
@@ -848,7 +914,7 @@ cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
 :::{.callout-warning}
 ## Waiting Time to See a Doctor
 
-At a first hospital the standard deviation of emergency room waiting times is 32 minutes (n = 16); at a second hospital it is 28 minutes (n = 18). At α = 0.01, test whether the first hospital has greater variation.
+At a first hospital the standard deviation of emergency room waiting times is 32 minutes (n = 16); at a second hospital it is 28 minutes (n = 18). At $\alpha$ = 0.01, test whether the first hospital has greater variation.
 :::
 
 ## Example 9-15
@@ -856,16 +922,16 @@ At a first hospital the standard deviation of emergency room waiting times is 32
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Mathematical solution**
 
-**Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: σ₁² > σ₂² (claim) — right-tailed
+**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2$ > $\sigma_2^2$ (claim) — right-tailed
 
 **Step 2:** d.f.N. = 15, d.f.D. = 17 → CV = 3.31
 
 **Step 3:**
 $$F = \frac{32^2}{28^2} = \frac{1024}{784} \approx 1.306$$
 
-**Step 4:** 1.306 < 3.31 → **Do not reject H₀**
+**Step 4:** 1.306 < 3.31 → **Do not reject $H_0$**
 
 **Step 5:** There is not enough evidence to support the claim that the first hospital has greater variation in waiting times.
 :::
@@ -898,7 +964,7 @@ cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
 :::{.callout-warning}
 ## Airport Passengers (P-value Method)
 
-A CEO hypothesizes that the variance in annual passenger counts is greater for American airports than for foreign airports. At α = 0.10, test the claim using the P-value method.
+A CEO hypothesizes that the variance in annual passenger counts is greater for American airports than for foreign airports. At $\alpha$ = 0.10, test the claim using the P-value method.
 
 **American** (millions): 36.8, 72.4, 60.5, 73.5, 61.2, 40.1
 **Foreign** (millions): 60.7, 42.7, 51.2, 38.6
@@ -911,7 +977,7 @@ A CEO hypothesizes that the variance in annual passenger counts is greater for A
 
 **Mathematical solution**
 
-**Step 1:** H₀: σ₁² = σ₂² &nbsp;&nbsp; H₁: σ₁² > σ₂² (claim) — right-tailed
+**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2$ > $\sigma_2^2$ (claim) — right-tailed
 
 **Step 2:** Compute variances:
 $$s_1^2 = 246.38 \quad s_2^2 = 95.87$$
@@ -921,9 +987,9 @@ $$F = \frac{246.38}{95.87} \approx 2.57$$
 
 d.f.N. = 5, d.f.D. = 3
 
-From the F table at α = 0.10: F = 5.31. Since 2.57 < 5.31, **P-value > 0.10** (actual P $\approx 0.234$)
+From the F table at $\alpha$ = 0.10: F = 5.31. Since 2.57 < 5.31, **P-value > 0.10** (actual P $\approx 0.234$)
 
-**Step 4:** Do not reject H₀
+**Step 4:** Do not reject $H_0$
 
 **Step 5:** There is not enough evidence to support the claim that American airports have greater variance in passenger counts.
 :::
@@ -958,14 +1024,14 @@ cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
 
 | Situation | Test | Statistic |
 |-----------|------|-----------|
-| Two means, σ known, independent | z test | $z = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}$ |
-| Two means, σ unknown, independent | t test | $t = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{s_1^2/n_1+s_2^2/n_2}}$, d.f. = min(n₁−1, n₂−1) |
+| Two means, $\sigma$ known, independent | z test | $z = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}$ |
+| Two means, $\sigma$ unknown, independent | t test | $t = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{s_1^2/n_1+s_2^2/n_2}}$, d.f. = min($n_1$−1, $n_2$−1) |
 | Two means, dependent samples | Paired t | $t = \frac{\bar{D}}{s_D/\sqrt{n}}$, d.f. = n−1 |
 | Two proportions | z test | $z = \frac{\hat{p}_1-\hat{p}_2}{\sqrt{\bar{p}\bar{q}(1/n_1+1/n_2)}}$ |
 | Two variances | F test | $F = s_1^2/s_2^2$ (larger in numerator) |
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

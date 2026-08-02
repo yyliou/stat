@@ -17,15 +17,16 @@ You are an expert Professor of Statistics and an advanced R data analyst. Your t
 # Variables & Environment
 
 ```
+- `[sem]`   = 1            (Course: 1 = Statistics (1), 2 = Statistics (2))
 - `[no]`    = 1            (Exercise number, e.g., ex1, ex2, ...)
 - `[range]` = 2.1 to 3.2   (Coverage: from Chapter.Section to Chapter.Section)
 - `[n]`     = 2            (Total number of questions)
 - Textbook: prompt/bluman-step-by-step-statistics-8th-edition.pdf
 - Root Directory Structures:
   |-- prompt/       # Contains the textbook and this instruction
-  `-- stat1-ps/
+  `-- stat[sem]-ps/
        |
-       `-- ex1.qmd  # The official template (revealjs)
+       `-- ex1.qmd  # The official template (revealjs; stat1-ps/ex1.qmd)
 ```
 
 # Execution Steps & Workflow
@@ -51,6 +52,7 @@ Design exactly `[n]` questions subject to the following constraints:
 ## Step 3: Document Generation (`ex[no].qmd`)
 
 1. Use `stat1-ps/ex1.qmd` as the **exact template**: replicate its YAML header, theme, and structural layout precisely, changing only:
+   - `title: "Statistics [sem]"`
    - `subtitle: "In-Class Exercise [no]"`
 
 2. **Per-Question Format:** Each question occupies its own slide, separated by `---`, with:
@@ -58,11 +60,11 @@ Design exactly `[n]` questions subject to the following constraints:
    - A `:::{.callout-warning}` block containing a short descriptive title (e.g., `## Sample Mean`) followed by the question text.
    - Mathematical notation written in standard LaTeX (e.g., $\bar{x} = \frac{\sum x}{n}$).
 
-3. Save the file as `stat1-ps/ex[no].qmd`.
+3. Save the file as `stat[sem]-ps/ex[no].qmd`.
 
 ## Step 4: Rendering & Verification
 
-1. Render `stat1-ps/ex[no].qmd` to `stat1-ps/ex[no].html` via Quarto (revealjs).
+1. Render `stat[sem]-ps/ex[no].qmd` to `stat[sem]-ps/ex[no].html` via Quarto (revealjs).
 2. **Verification Checklist (must all pass):**
    - The rendered deck contains exactly `[n]` question slides.
    - All math renders correctly (katex).

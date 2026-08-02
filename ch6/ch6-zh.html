@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-07-20">
+  <meta name="dcterms.date" content="2026-08-02">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -214,7 +214,7 @@
 
 <section id="title-slide" data-notes="" class="quarto-title-block center">
   <h1 class="title">統計學</h1>
-  <p class="subtitle">第六章：常態分佈</p>
+  <p class="subtitle">第6章：常態分佈</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -227,7 +227,7 @@
     </div>
 </div>
 
-  <p class="date">2026-07-20</p>
+  <p class="date">2026-08-02</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
@@ -256,7 +256,7 @@
 <p><strong>定義</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>常態分佈</strong>是一種連續、對稱的鐘形分佈。曲線完全由<strong>平均數</strong> μ 與<strong>標準差</strong> σ 決定。</p>
+<p><strong>常態分佈</strong>是一種連續、對稱的鐘形分佈。曲線完全由<strong>平均數</strong> <span class="math inline">\mu</span> 與<strong>標準差</strong> <span class="math inline">\sigma</span> 決定。</p>
 </div>
 </div>
 </div>
@@ -266,7 +266,7 @@
 <li>平均數、中位數、眾數三者<strong>相等</strong></li>
 <li>曲線為連續曲線——永遠不碰觸 x 軸</li>
 <li>曲線下方的總面積等於 <strong>1</strong></li>
-<li>約 <strong>68%</strong> 的數值落在 μ ± 1σ 內；<strong>95%</strong> 落在 μ ± 2σ 內；<strong>99.7%</strong> 落在 μ ± 3σ 內</li>
+<li>約 <strong>68%</strong> 的數值落在 <span class="math inline">\mu</span> <span class="math inline">\pm</span> 1<span class="math inline">\sigma</span> 內；<strong>95%</strong> 落在 <span class="math inline">\mu</span> <span class="math inline">\pm</span> 2<span class="math inline">\sigma</span> 內；<strong>99.7%</strong> 落在 <span class="math inline">\mu</span> <span class="math inline">\pm</span> 3<span class="math inline">\sigma</span> 內</li>
 </ol>
 </section>
 <section class="slide level2">
@@ -293,7 +293,7 @@
 <p><strong>定義</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>標準常態分佈</strong>是平均數 <strong>μ = 0</strong>、標準差 <strong>σ = 1</strong> 的常態分佈。此分佈上的值稱為 <strong>z 值</strong>或 <strong>z 分數</strong>。</p>
+<p><strong>標準常態分佈</strong>是平均數 <strong><span class="math inline">\mu</span> = 0</strong>、標準差 <strong><span class="math inline">\sigma</span> = 1</strong> 的常態分佈。此分佈上的值稱為 <strong>z 值</strong>或 <strong>z 分數</strong>。</p>
 </div>
 </div>
 </div>
@@ -357,7 +357,6 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
 <p><strong>數學解法</strong></p>
 <ul>
 <li>在表 E 中查找 z = 2.06</li>
@@ -417,7 +416,6 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
 <p><strong>數學解法</strong></p>
 <ul>
 <li>z = −1.19 左側面積：由表 E 得 0.1170</li>
@@ -481,7 +479,6 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
 <p><strong>數學解法</strong></p>
 <ul>
 <li>z = 1.68 左側面積：0.9535</li>
@@ -542,11 +539,51 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
-<p>求左側面積為 0.7123 所對應的 z 值。</p>
+<p><strong>數學解法</strong></p>
+<ul>
+<li><strong>(a)</strong> P(0 &lt; Z &lt; 2.32) = 2.32 左側面積減去 0 左側面積 = 0.9898 − 0.5000 = <strong>0.4898</strong></li>
+<li><strong>(b)</strong> P(Z &lt; 1.65) = 1.65 左側面積 = <strong>0.9505</strong></li>
+<li><strong>(c)</strong> P(Z &gt; 1.91) = 1 − 1.91 左側面積 = 1 − 0.9719 = <strong>0.0281</strong></li>
+</ul>
 </div>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># (a) P(0 &lt; Z &lt; 2.32)</span></span>
+<span id="cb13-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">2.32</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4898296</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="co"># (b) P(Z &lt; 1.65)</span></span>
+<span id="cb15-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.65</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9505285</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># (c) P(Z &gt; 1.91)</span></span>
+<span id="cb17-2"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">1.91</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02806661</code></pre>
+</div>
+</div>
+</section>
+<section id="example-6-5" class="slide level2">
+<h2>範例 6-5</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>由面積求 z 值</strong></p>
+</div>
+<div class="callout-content">
+<p>求一個 z 值，使標準常態分佈曲線下 0 與該 z 值之間的面積為 0.2123。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-6-5" class="slide level2">
+<h2>範例 6-5</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -558,6 +595,7 @@
 <div class="callout-content">
 <p><strong>數學解法</strong></p>
 <ul>
+<li>將給定面積加上 0.5000，得累積（左尾）面積：0.5000 + 0.2123 = 0.7123</li>
 <li>在表 E 中搜尋最接近 0.7123 的面積</li>
 <li>對應的 z 值為 <strong>z = 0.56</strong></li>
 </ul>
@@ -565,8 +603,8 @@
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># 左尾面積 = 0.7123，求 z 值</span></span>
-<span id="cb13-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.7123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co"># 左尾面積 = 0.7123，求 z 值</span></span>
+<span id="cb19-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.7123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5601165</code></pre>
 </div>
@@ -592,7 +630,7 @@
 </section>
 <section id="應用常態分佈" class="slide level2">
 <h2>應用常態分佈</h2>
-<p>對於<strong>非標準</strong>常態變數 X（具有平均數 μ 與標準差 σ），求機率的方法：</p>
+<p>對於<strong>非標準</strong>常態變數 X（具有平均數 <span class="math inline">\mu</span> 與標準差 <span class="math inline">\sigma</span>），求機率的方法：</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -607,7 +645,7 @@
 </div>
 </div>
 </div>
-<p>在 R 中，直接使用 <code>pnorm(x, mean = μ, sd = σ)</code> ——無需手動轉換。</p>
+<p>在 R 中，直接使用 <code>pnorm(x, mean = mu, sd = sigma)</code> ——無需手動轉換。</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -618,7 +656,7 @@
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>確認 μ 與 σ</li>
+<li>確認 <span class="math inline">\mu</span> 與 <span class="math inline">\sigma</span></li>
 <li>畫圖並標示所求區域</li>
 <li>將 X 轉換為 z（或直接使用 R）</li>
 <li>求機率</li>
@@ -638,7 +676,7 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>美國人夏季旅遊消費金額呈常態分佈，μ = $146.21，σ = $29.44。隨機選取一位美國人，求其夏季旅遊消費<strong>少於 $160</strong> 的機率。</p>
+<p>美國人夏季旅遊消費金額呈常態分佈，<span class="math inline">\mu</span> = $146.21，= $29.44。隨機選取一位美國人，求其夏季旅遊消費**少於 <span class="math inline">160** 的機率。</span></p>
 </div>
 </div>
 </div>
@@ -652,13 +690,13 @@
 </div>
 <div class="callout-content">
 <p><span class="math display">z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47</span></p>
-<p>z = 0.47 左側面積 → <strong>0.6808</strong>（68.08%）</p>
+<p>z = 0.47 左側面積：查表值 <strong>0.6808</strong>；R 計算得 <strong>0.6803</strong>（約 68%）</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">146.21</span>; sigma <span class="ot">&lt;-</span> <span class="fl">29.44</span></span>
-<span id="cb15-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">160</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">146.21</span>; sigma <span class="ot">&lt;-</span> <span class="fl">29.44</span></span>
+<span id="cb21-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">160</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6802544</code></pre>
 </div>
@@ -667,17 +705,17 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb17-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
-<span id="cb17-3"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&lt;=</span> <span class="dv">160</span>), <span class="fu">aes</span>(x, y),</span>
-<span id="cb17-6"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">160</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">140</span>, <span class="at">y =</span> <span class="fl">0.008</span>, <span class="at">label =</span> <span class="st">"68.08%"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb17-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P(X &lt; 160)：夏季旅遊消費"</span>,</span>
-<span id="cb17-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"μ = "</span>, mu, <span class="st">", σ = "</span>, sigma),</span>
-<span id="cb17-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"金額（$）"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb23-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
+<span id="cb23-3"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&lt;=</span> <span class="dv">160</span>), <span class="fu">aes</span>(x, y),</span>
+<span id="cb23-6"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">160</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb23-8"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">140</span>, <span class="at">y =</span> <span class="fl">0.008</span>, <span class="at">label =</span> <span class="st">"68.03%"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P(X &lt; 160)：夏季旅遊消費"</span>,</span>
+<span id="cb23-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"μ = "</span>, mu, <span class="st">", σ = "</span>, sigma),</span>
+<span id="cb23-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"金額（$）"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/e6-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -692,7 +730,7 @@
 <p><strong>報紙回收</strong></p>
 </div>
 <div class="callout-content">
-<p>美國家庭每月平均產生 28 磅的廢報紙供回收，σ = 2 磅，假設呈常態分佈。</p>
+<p>美國家庭每月平均產生 28 磅的廢報紙供回收，<span class="math inline">\sigma</span> = 2 磅，假設呈常態分佈。</p>
 <p><strong>(a)</strong> P(27 &lt; X &lt; 31) <strong>(b)</strong> P(X &gt; 30.2)</p>
 </div>
 </div>
@@ -711,15 +749,15 @@
 <div class="callout-content">
 <p><strong>R 程式</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">28</span>; sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a><span class="co"># (a) P(27 &lt; X &lt; 31)</span></span>
-<span id="cb18-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">31</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">27</span>, mu, sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">28</span>; sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb24-2"><a href=""></a></span>
+<span id="cb24-3"><a href=""></a><span class="co"># (a) P(27 &lt; X &lt; 31)</span></span>
+<span id="cb24-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">31</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">27</span>, mu, sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6246553</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="co"># (b) P(X &gt; 30.2)</span></span>
-<span id="cb20-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">30.2</span>, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co"># (b) P(X &gt; 30.2)</span></span>
+<span id="cb26-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">30.2</span>, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1356661</code></pre>
 </div>
@@ -732,19 +770,19 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb22-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
-<span id="cb22-3"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb22-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb22-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="dv">27</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">31</span>),</span>
-<span id="cb22-6"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb22-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(27 &lt; X &lt; 31)"</span>, <span class="at">x =</span> <span class="st">"磅"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb22-8"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb22-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb22-10"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="fl">30.2</span>),</span>
-<span id="cb22-11"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#c0392b"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb22-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 30.2)"</span>, <span class="at">x =</span> <span class="st">"磅"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb22-13"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb28-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
+<span id="cb28-3"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="dv">27</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">31</span>),</span>
+<span id="cb28-6"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb28-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(27 &lt; X &lt; 31)"</span>, <span class="at">x =</span> <span class="st">"磅"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
+<span id="cb28-8"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb28-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-10"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="fl">30.2</span>),</span>
+<span id="cb28-11"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#c0392b"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb28-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 30.2)"</span>, <span class="at">x =</span> <span class="st">"磅"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
+<span id="cb28-13"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/e6-7-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -759,7 +797,7 @@
 <p><strong>咖啡消費量</strong></p>
 </div>
 <div class="callout-content">
-<p>每人每年的咖啡消費量呈常態分佈，μ = 1.64 加侖，σ = 0.24 加侖。在 500 人的樣本中，有多少人每年消費<strong>少於 1 加侖</strong>？</p>
+<p>每人每年的咖啡消費量呈常態分佈，<span class="math inline">\mu</span> = 1.64 加侖，<span class="math inline">\sigma</span> = 0.24 加侖。在 500 人的樣本中，有多少人每年消費<strong>少於 1 加侖</strong>？</p>
 </div>
 </div>
 </div>
@@ -775,11 +813,48 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
-<p>報考警察學院的申請者需接受體能測試，成績呈常態分佈，μ = 200，σ = 20。成績排名前 <strong>10%</strong> 的申請者將被錄取。求最低錄取分數。</p>
+<p><strong>數學解法</strong></p>
+<p><span class="math display">z = \frac{1 - 1.64}{0.24} = \frac{-0.64}{0.24} \approx -2.67</span></p>
+<ul>
+<li>z = −2.67 左側面積：<strong>0.0038</strong></li>
+<li>人數：<span class="math inline">500 \times 0.0038 = 1.9</span> → 約 <strong>2 人</strong></li>
+</ul>
 </div>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">1.64</span>; sigma <span class="ot">&lt;-</span> <span class="fl">0.24</span></span>
+<span id="cb29-2"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb29-3"><a href=""></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.003830381</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># 500 人中的預期人數</span></span>
+<span id="cb31-2"><a href=""></a><span class="dv">500</span> <span class="sc">*</span> p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.91519</code></pre>
+</div>
+</div>
+<p><strong>答案：</strong> 500 人中約有 <strong>2 人</strong>每年消費少於 1 加侖。</p>
+</section>
+<section id="example-6-9" class="slide level2">
+<h2>範例 6-9</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>警察學院資格</strong></p>
+</div>
+<div class="callout-content">
+<p>報考警察學院的申請者需接受體能測試，成績呈常態分佈，<span class="math inline">\mu</span> = 200，<span class="math inline">\sigma</span> = 20。成績排名前 <strong>10%</strong> 的申請者將被錄取。求最低錄取分數。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-6-9" class="slide level2">
+<h2>範例 6-9</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -793,15 +868,15 @@
 <ul>
 <li>需求第 90 百分位數 → 找 z 使 P(Z &lt; z) = 0.90</li>
 <li><span class="math inline">z \approx 1.28</span></li>
-<li>X = μ + z·σ = 200 + 1.28(20) = <strong>225.6 <span class="math inline">\approx 226</span></strong></li>
+<li>X = <span class="math inline">\mu</span> + z·<span class="math inline">\sigma</span> = 200 + 1.28(20) = <strong>225.6 <span class="math inline">\approx 226</span></strong></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span>; sigma <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb23-2"><a href=""></a><span class="co"># 求 X 使 P(X &gt; x) = 0.10</span></span>
-<span id="cb23-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span>; sigma <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb33-2"><a href=""></a><span class="co"># 求 X 使 P(X &gt; x) = 0.10</span></span>
+<span id="cb33-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 225.631</code></pre>
 </div>
@@ -819,7 +894,7 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>某族群的收縮壓呈常態分佈，μ = 120，σ = 8。求包含<strong>中間 60%</strong> 讀數的血壓範圍。</p>
+<p>某族群的收縮壓呈常態分佈，<span class="math inline">\mu</span> = 120，<span class="math inline">\sigma</span> = 8。求包含<strong>中間 60%</strong> 讀數的血壓範圍。</p>
 </div>
 </div>
 </div>
@@ -835,20 +910,20 @@
 <ul>
 <li>中間 60% → 每尾各 20% → 找 z 使 P(Z &lt; z) = 0.20 與 P(Z &lt; z) = 0.80</li>
 <li><span class="math inline">z_1 \approx -0.84</span>，<span class="math inline">z_2 \approx 0.84</span></li>
-<li>X₁ = 120 + (−0.84)(8) = <strong>113.28</strong></li>
-<li>X₂ = 120 + (0.84)(8) = <strong>126.72</strong></li>
+<li><span class="math inline">X_1</span> = 120 + (−0.84)(8) = <strong>113.28</strong></li>
+<li><span class="math inline">X_2</span> = 120 + (0.84)(8) = <strong>126.72</strong></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">120</span>; sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb25-2"><a href=""></a><span class="co"># 中間 60% 的上下界</span></span>
-<span id="cb25-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.20</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">120</span>; sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb35-2"><a href=""></a><span class="co"># 中間 60% 的上下界</span></span>
+<span id="cb35-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.20</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 113.267</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.80</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.80</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 126.733</code></pre>
 </div>
@@ -866,25 +941,25 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者聲稱倉庫的科技庫存量呈近似常態分佈，μ = 110,000 單位，σ = 15,000 單位。隨機選取一座倉庫，求其庫存量<strong>超過 132,500 單位</strong>的機率。</p>
+<p>研究者聲稱倉庫的科技庫存量呈近似常態分佈，<span class="math inline">\mu</span> = 110,000 單位，<span class="math inline">\sigma</span> = 15,000 單位。隨機選取一座倉庫，求其庫存量<strong>超過 132,500 單位</strong>的機率。</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">110000</span>; sigma <span class="ot">&lt;-</span> <span class="dv">15000</span></span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a><span class="co"># P(X &gt; 132500)</span></span>
-<span id="cb29-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">132500</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">110000</span>; sigma <span class="ot">&lt;-</span> <span class="dv">15000</span></span>
+<span id="cb39-2"><a href=""></a></span>
+<span id="cb39-3"><a href=""></a><span class="co"># P(X &gt; 132500)</span></span>
+<span id="cb39-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">132500</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0668072</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># 對應的 z 分數</span></span>
-<span id="cb31-2"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">132500</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
-<span id="cb31-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># 對應的 z 分數</span></span>
+<span id="cb41-2"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">132500</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
+<span id="cb41-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0668072</code></pre>
 </div>
@@ -902,7 +977,7 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>職業棒球比賽時長的分佈呈<strong>負偏態</strong>，μ = 166 分鐘，σ = 26 分鐘。隨機選取一場比賽，求其時長<strong>少於 145 分鐘</strong>的機率。</p>
+<p>職業棒球比賽時長的分佈呈<strong>負偏態</strong>，<span class="math inline">\mu</span> = 166 分鐘，<span class="math inline">\sigma</span> = 26 分鐘。隨機選取一場比賽，求其時長<strong>少於 145 分鐘</strong>的機率。</p>
 </div>
 </div>
 </div>
@@ -920,19 +995,19 @@
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">166</span>; sigma <span class="ot">&lt;-</span> <span class="dv">26</span></span>
-<span id="cb35-2"><a href=""></a><span class="co"># 近似機率（視為常態處理）</span></span>
-<span id="cb35-3"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">145</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
-<span id="cb35-4"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">166</span>; sigma <span class="ot">&lt;-</span> <span class="dv">26</span></span>
+<span id="cb45-2"><a href=""></a><span class="co"># 近似機率（視為常態處理）</span></span>
+<span id="cb45-3"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">145</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
+<span id="cb45-4"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.8076923</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">145</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">145</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2096339</code></pre>
 </div>
 </div>
-<p><strong>注意：</strong> <span class="math inline">z \approx -0.81</span>；P(X &lt; 145) <span class="math inline">\approx</span> <strong>0.2090</strong>（約 20.9%）。由於資料呈偏態，此僅為粗略估計。</p>
+<p><strong>注意：</strong> <span class="math inline">z \approx -0.81</span>；查表值 0.2090，R 計算得 P(X &lt; 145) <span class="math inline">\approx</span> <strong>0.2096</strong>（約 21%）。由於資料呈偏態，此僅為粗略估計。</p>
 </section></section>
 <section>
 <section id="第-6-3-節中央極限定理" class="title-slide slide level1 center" data-background-color="#2c4a6e">
@@ -972,7 +1047,7 @@
 </div>
 </div>
 </div>
-<p><strong>在 R 中：</strong> 使用 <code>pnorm(xbar, mean = μ, sd = σ/sqrt(n))</code></p>
+<p><strong>在 R 中：</strong> 使用 <code>pnorm(xbar, mean = mu, sd = sigma/sqrt(n))</code></p>
 <p>中央極限定理說明為何常態分佈在統計學中如此核心：</p>
 <ul>
 <li>調查結果、民調平均數、樣本統計量均趨向常態</li>
@@ -982,15 +1057,15 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co"># 中央極限定理示範：從偏態分佈抽樣</span></span>
-<span id="cb39-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb39-3"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="at">rate =</span> <span class="fl">0.5</span>)  <span class="co"># 偏態母體</span></span>
-<span id="cb39-4"><a href=""></a>sample_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, <span class="dv">30</span>)))</span>
-<span id="cb39-5"><a href=""></a><span class="fu">hist</span>(sample_means, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"#2c4a6e"</span>,</span>
-<span id="cb39-6"><a href=""></a>     <span class="at">main =</span> <span class="st">"樣本平均數的抽樣分佈（n=30）"</span>,</span>
-<span id="cb39-7"><a href=""></a>     <span class="at">xlab =</span> <span class="st">"樣本平均數"</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb39-8"><a href=""></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="fu">mean</span>(pop), <span class="fu">sd</span>(pop)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)), <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb39-9"><a href=""></a>      <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="co"># 中央極限定理示範：從偏態分佈抽樣</span></span>
+<span id="cb49-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb49-3"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="at">rate =</span> <span class="fl">0.5</span>)  <span class="co"># 偏態母體</span></span>
+<span id="cb49-4"><a href=""></a>sample_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, <span class="dv">30</span>)))</span>
+<span id="cb49-5"><a href=""></a><span class="fu">hist</span>(sample_means, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"#2c4a6e"</span>,</span>
+<span id="cb49-6"><a href=""></a>     <span class="at">main =</span> <span class="st">"樣本平均數的抽樣分佈（n=30）"</span>,</span>
+<span id="cb49-7"><a href=""></a>     <span class="at">xlab =</span> <span class="st">"樣本平均數"</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-8"><a href=""></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="fu">mean</span>(pop), <span class="fu">sd</span>(pop)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)), <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb49-9"><a href=""></a>      <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/e6-12-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -1005,7 +1080,7 @@
 <p><strong>兒童收視時間</strong></p>
 </div>
 <div class="callout-content">
-<p>美國兒童每週平均收看電視 μ = 25 小時，σ = 3 小時。隨機抽取 n = 20 名兒童，求樣本平均數超過 26.3 小時的機率。</p>
+<p>美國兒童每週平均收看電視 <span class="math inline">\mu</span> = 25 小時，<span class="math inline">\sigma</span> = 3 小時。隨機抽取 n = 20 名兒童，求樣本平均數超過 26.3 小時的機率。</p>
 </div>
 </div>
 </div>
@@ -1021,21 +1096,20 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
 <p><span class="math display">z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94</span></p>
-<p>P(<span class="math inline">\bar{X}</span> &gt; 26.3) = P(Z &gt; 1.94) <span class="math inline">\approx</span> <strong>0.0262</strong>（2.62%）</p>
+<p>P(<span class="math inline">\bar{X}</span> &gt; 26.3) = P(Z &gt; 1.94) <span class="math inline">\approx</span> <strong>0.0263</strong>（2.63%）</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">25</span>; sigma <span class="ot">&lt;-</span> <span class="dv">3</span>; n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb40-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb40-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">25</span>; sigma <span class="ot">&lt;-</span> <span class="dv">3</span>; n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb50-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb50-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6708204</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="co"># P(X-bar &gt; 26.3)</span></span>
-<span id="cb42-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.3</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="co"># P(X-bar &gt; 26.3)</span></span>
+<span id="cb52-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.3</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02631615</code></pre>
 </div>
@@ -1052,19 +1126,19 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>美國登記車輛的平均車齡為 μ = 96 個月，σ = 16 個月，假設分佈近似常態。隨機抽取 n = 36 輛車，求 P(90 &lt; <span class="math inline">\bar{X}</span> &lt; 100)。</p>
+<p>美國登記車輛的平均車齡為 <span class="math inline">\mu</span> = 96 個月，<span class="math inline">\sigma</span> = 16 個月，假設分佈近似常態。隨機抽取 n = 36 輛車，求 P(90 &lt; <span class="math inline">\bar{X}</span> &lt; 100)。</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">96</span>; sigma <span class="ot">&lt;-</span> <span class="dv">16</span>; n <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb44-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb44-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">96</span>; sigma <span class="ot">&lt;-</span> <span class="dv">16</span>; n <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb54-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb54-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.666667</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="co"># P(90 &lt; X-bar &lt; 100)</span></span>
-<span id="cb46-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="co"># P(90 &lt; X-bar &lt; 100)</span></span>
+<span id="cb56-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9209683</code></pre>
 </div>
@@ -1083,27 +1157,27 @@
 <p><strong>問題</strong></p>
 </div>
 <div class="callout-content">
-<p>每人每年平均肉類消費量 μ = 218.4 磅，σ = 25 磅。</p>
+<p>每人每年平均肉類消費量 <span class="math inline">\mu</span> = 218.4 磅，<span class="math inline">\sigma</span> = 25 磅。</p>
 <p><strong>(a)</strong> 求<strong>單一個體</strong> P(X &lt; 224) <strong>(b)</strong> 求 <strong>n = 40</strong> 人樣本的 P(<span class="math inline">\bar{X}</span> &lt; 224)</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">218.4</span>; sigma <span class="ot">&lt;-</span> <span class="dv">25</span>; n <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb48-2"><a href=""></a></span>
-<span id="cb48-3"><a href=""></a><span class="co"># (a) 個體：P(X &lt; 224)</span></span>
-<span id="cb48-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">218.4</span>; sigma <span class="ot">&lt;-</span> <span class="dv">25</span>; n <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb58-2"><a href=""></a></span>
+<span id="cb58-3"><a href=""></a><span class="co"># (a) 個體：P(X &lt; 224)</span></span>
+<span id="cb58-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5886213</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="co"># (b) 樣本平均數：P(X-bar &lt; 224)，n = 40</span></span>
-<span id="cb50-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb50-3"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="co"># (b) 樣本平均數：P(X-bar &lt; 224)，n = 40</span></span>
+<span id="cb60-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb60-3"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9217147</code></pre>
 </div>
 </div>
-<p><strong>答案：</strong> (a) <span class="math inline">\approx</span> <strong>58.71%</strong>；(b) <span class="math inline">\approx</span> <strong>92.22%</strong></p>
+<p><strong>答案：</strong> (a) 查表值 0.5871，R 計算得 <span class="math inline">\approx</span> <strong>0.5886</strong>（58.86%）；(b) 查表值 0.9222，R 計算得 <span class="math inline">\approx</span> <strong>0.9217</strong>（92.17%）</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1113,7 +1187,7 @@
 <p><strong>關鍵洞察</strong></p>
 </div>
 <div class="callout-content">
-<p>樣本平均數的機率遠高於個體，因為標準誤（σ/√n）小於 σ——樣本平均數的變異性低於個別觀測值。</p>
+<p>樣本平均數的機率遠高於個體，因為標準誤（<span class="math inline">\sigma</span>/√n）小於 <span class="math inline">\sigma</span>——樣本平均數的變異性低於個別觀測值。</p>
 </div>
 </div>
 </div>
@@ -1210,26 +1284,26 @@
 <li><p>np = 300(0.06) = 18 <span class="math inline">\geq 5</span> ✓</p></li>
 <li><p>nq = 300(0.94) = 282 <span class="math inline">\geq 5</span> ✓</p></li>
 </ul>
-<p><strong>參數：</strong> μ = np = 18，σ = <span class="math inline">\sqrt{npq}</span> = <span class="math inline">\sqrt{300 \times 0.06 \times 0.94}</span></p>
+<p><strong>參數：</strong> <span class="math inline">\mu</span> = np = 18，<span class="math inline">\sigma</span> = <span class="math inline">\sqrt{npq}</span> = <span class="math inline">\sqrt{300 \times 0.06 \times 0.94}</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>; p <span class="ot">&lt;-</span> <span class="fl">0.06</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
-<span id="cb52-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb52-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>; p <span class="ot">&lt;-</span> <span class="fl">0.06</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
+<span id="cb62-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb62-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 18   sigma = 4.1134 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="co"># 常態近似：P(X = 25) ≈ P(24.5 &lt; X &lt; 25.5)</span></span>
-<span id="cb54-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">25.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">24.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="co"># 常態近似：P(X = 25) ≈ P(24.5 &lt; X &lt; 25.5)</span></span>
+<span id="cb64-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">25.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">24.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02290202</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="co"># 精確二項機率</span></span>
-<span id="cb56-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">25</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="co"># 精確二項機率</span></span>
+<span id="cb66-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">25</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02263092</code></pre>
 </div>
 </div>
-<p><strong>答案（常態近似）：</strong> <span class="math inline">\approx</span> <strong>0.0227</strong>（2.27%）；精確二項值：<span class="math inline">\approx 0.0220</span>。</p>
+<p><strong>答案（常態近似）：</strong> 查表值 0.0227，R 計算得 <span class="math inline">\approx</span> <strong>0.0229</strong>（2.29%）；精確二項值：<span class="math inline">\approx 0.0226</span>。</p>
 </section>
 <section id="example-6-17" class="slide level2">
 <h2>範例 6-17</h2>
@@ -1258,32 +1332,87 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
+<p><strong>驗證條件：</strong> np = 200(0.10) = 20 <span class="math inline">\geq 5</span>，nq = 200(0.90) = 180 <span class="math inline">\geq 5</span> ✓</p>
+<p><strong>參數：</strong> <span class="math inline">\mu</span> = np = 20，<span class="math inline">\sigma</span> = <span class="math inline">\sqrt{200 \times 0.10 \times 0.90}</span> = <span class="math inline">\sqrt{18} \approx 4.24</span></p>
+<p>套用連續修正，<span class="math inline">P(X \geq 10) = P(X &gt; 9.5)</span>：</p>
+<p><span class="math display">z = \frac{9.5 - 20}{4.24} \approx -2.48</span></p>
+<p><span class="math display">P(X \geq 10) = 1 - 0.0066 = 0.9934</span></p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">200</span>; p <span class="ot">&lt;-</span> <span class="fl">0.10</span>; q <span class="ot">&lt;-</span> <span class="fl">0.90</span></span>
+<span id="cb68-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb68-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mu = 20   sigma = 4.2426 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a><span class="co"># P(X &gt;= 10) 含連續修正：P(X &gt; 9.5)</span></span>
+<span id="cb70-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">9.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9933358</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="co"># 精確二項機率</span></span>
+<span id="cb72-2"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">9</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9964714</code></pre>
+</div>
+</div>
+<p><strong>答案：</strong> 查表值 0.9934，R 計算得 <span class="math inline">\approx</span> <strong>0.9933</strong>——200 名保齡球員中有 10 人以上喪偶幾乎是必然的。</p>
+</section>
+<section id="example-6-18" class="slide level2">
+<h2>範例 6-18</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>打擊率</strong></p>
+</div>
+<div class="callout-content">
 <p>在棒球中，打擊率 .320 表示打者有 32% 的機率安打。在 100 次打席中，求安打次數<strong>26 次或以下</strong>的機率。</p>
 </div>
 </div>
 </div>
+</section>
+<section id="範例-6-18" class="slide level2">
+<h2>範例 6-18</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
 <p><strong>驗證條件：</strong> np = 32 <span class="math inline">\geq 5</span>，nq = 68 <span class="math inline">\geq 5</span> ✓</p>
-<p><strong>參數：</strong> μ = 32，σ = <span class="math inline">\sqrt{100 \times 0.32 \times 0.68}</span></p>
+<p><strong>參數：</strong> <span class="math inline">\mu</span> = 32，<span class="math inline">\sigma</span> = <span class="math inline">\sqrt{100 \times 0.32 \times 0.68} \approx 4.66</span></p>
+<p>套用連續修正，<span class="math inline">P(X \leq 26) = P(X &lt; 26.5)</span>：</p>
+<p><span class="math display">z = \frac{26.5 - 32}{4.66} \approx -1.18</span></p>
+</div>
+</div>
+</div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; p <span class="ot">&lt;-</span> <span class="fl">0.32</span>; q <span class="ot">&lt;-</span> <span class="fl">0.68</span></span>
-<span id="cb58-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb58-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; p <span class="ot">&lt;-</span> <span class="fl">0.32</span>; q <span class="ot">&lt;-</span> <span class="fl">0.68</span></span>
+<span id="cb74-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb74-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 32   sigma = 4.6648 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="co"># P(X &lt;= 26) 含連續修正：P(X &lt; 26.5)</span></span>
-<span id="cb60-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="co"># P(X &lt;= 26) 含連續修正：P(X &lt; 26.5)</span></span>
+<span id="cb76-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1191886</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="co"># 精確二項機率</span></span>
-<span id="cb62-2"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">26</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="co"># 精確二項機率</span></span>
+<span id="cb78-2"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">26</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1180158</code></pre>
 </div>
 </div>
-<p><strong>答案（常態近似）：</strong> <span class="math inline">\approx</span> <strong>0.119</strong>（11.9%）；精確值：<span class="math inline">\approx 0.116</span>。</p>
+<p><strong>答案（常態近似）：</strong> <span class="math inline">\approx</span> <strong>0.119</strong>（11.9%）；精確值：<span class="math inline">\approx 0.118</span>。</p>
 </section>
 <section id="example-6-19" class="slide level2">
 <h2>範例 6-19</h2>
@@ -1319,28 +1448,28 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb64-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb64-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, sigma, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb80-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb80-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, sigma, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 5   sigma = 1.581139 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="co"># (a) 精確二項機率</span></span>
-<span id="cb66-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">6</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a><span class="co"># (a) 精確二項機率</span></span>
+<span id="cb82-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">6</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2050781</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="co"># (b) 含連續修正的常態近似</span></span>
-<span id="cb68-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">6.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a><span class="co"># (b) 含連續修正的常態近似</span></span>
+<span id="cb84-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">6.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.204524</code></pre>
 </div>
 </div>
-<p><strong>比較：</strong> 精確值 = <strong>0.2051</strong>；常態近似 = <strong>0.2034</strong></p>
+<p><strong>比較：</strong> 精確值 = <strong>0.2051</strong>；常態近似 = <strong>0.2045</strong>（以查表手算則得 0.2034）</p>
 <p>即使在此邊界情況下，近似值仍相當接近。</p>
 </section>
-<section id="第六章摘要" class="slide level2 smaller">
-<h2>第六章摘要</h2>
+<section id="第6章摘要" class="slide level2 smaller">
+<h2>第6章摘要</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 30%">
@@ -1372,18 +1501,18 @@
 </tr>
 <tr class="even">
 <td>非標準常態</td>
-<td>z = (X − μ)/σ</td>
+<td>z = (X − <span class="math inline">\mu</span>)/<span class="math inline">\sigma</span></td>
 <td><code>pnorm(x, mean, sd)</code></td>
 </tr>
 <tr class="odd">
 <td>樣本平均數機率</td>
-<td>z = (X̄ − μ)/(σ/√n)</td>
+<td>z = (X̄ − <span class="math inline">\mu</span>)/(<span class="math inline">\sigma</span>/√n)</td>
 <td><code>pnorm(xbar, mean, sd/sqrt(n))</code></td>
 </tr>
 <tr class="even">
 <td>二項分佈的常態近似</td>
-<td>μ=np，σ=<span class="math inline">\sqrt{npq}</span></td>
-<td>±0.5 連續修正</td>
+<td><span class="math inline">\mu</span>=np，<span class="math inline">\sigma</span>=<span class="math inline">\sqrt{npq}</span></td>
+<td>$$0.5 連續修正</td>
 </tr>
 </tbody>
 </table>
@@ -1400,7 +1529,7 @@
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>常態分佈完全由 μ 與 σ 決定</li>
+<li>常態分佈完全由 <span class="math inline">\mu</span> 與 <span class="math inline">\sigma</span> 決定</li>
 <li>將 X 轉換為 z 分數以使用標準常態表</li>
 <li>中央極限定理保證當 <span class="math inline">n \geq 30</span> 時，樣本平均數近似常態</li>
 <li>當 np <span class="math inline">\geq 5</span> <strong>且</strong> nq <span class="math inline">\geq 5</span> 時，使用常態近似二項分佈</li>
@@ -1410,12 +1539,12 @@
 </div>
 </div>
 </section>
-<section id="版權聲明" class="slide level2">
-<h2>版權聲明</h2>
+<section id="acknowledgement" class="slide level2">
+<h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>版權聲明。</strong> 本教學素材改編自 <strong>Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>。所有著作權由原著作者及出版社保留。</p></li>
-<li><p><strong>僅限非商業用途。</strong> 本素材嚴格限於教育目的，不得用於商業盈利。</p></li>
-<li><p><strong>適當標注來源。</strong> 任何複製、散佈或使用本素材，均須適當標注原始來源。</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
+<li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>
 
 </section></section>

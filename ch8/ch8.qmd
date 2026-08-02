@@ -50,12 +50,12 @@ library(ggplot2)
 Statistical **hypothesis testing** is a decision-making procedure used to evaluate a claim about a population parameter.
 
 :::{.callout-note}
-### Key Vocabulary
+## Key Vocabulary
 
 - **Statistical hypothesis**: A conjecture about a population parameter
-- **Null hypothesis (H₀)**: States no difference or no effect — the status quo
-- **Alternative hypothesis (H₁)**: The research claim; what we try to support
-- **Test value**: A computed statistic used to decide between H₀ and H₁
+- **Null hypothesis ($H_0$)**: States no difference or no effect — the status quo
+- **Alternative hypothesis ($H_1$)**: The research claim; what we try to support
+- **Test value**: A computed statistic used to decide between $H_0$ and $H_1$
 :::
 
 ## Chapter Sections
@@ -64,7 +64,7 @@ Statistical **hypothesis testing** is a decision-making procedure used to evalua
 - **8-2** z Test for a Mean
 - **8-3** t Test for a Mean
 - **8-4** z Test for a Proportion
-- **8-5** χ² Test for a Variance or Standard Deviation
+- **8-5** $\chi^2$ Test for a Variance or Standard Deviation
 - **8-6** Additional Topics Regarding Hypothesis Testing
 
 # Section 8-1: Steps in Hypothesis Testing {background-color="#2c4a6e"}
@@ -72,16 +72,16 @@ Statistical **hypothesis testing** is a decision-making procedure used to evalua
 ## Null and Alternative Hypotheses
 
 :::{.callout-note}
-### Hypothesis Structure
+**Hypothesis Structure**
 
-- **H₀** (null hypothesis): Contains equality ($=$, $\leq$, $\geq$)
-- **H₁** (alternative/research hypothesis): Contains inequality ($\neq$, $<$, $>$)
-- The **claim** may be in either H₀ or H₁
+- **$H_0$** (null hypothesis): Contains equality ($=$, $\leq$, $\geq$)
+- **$H_1$** (alternative/research hypothesis): Contains inequality ($\neq$, $<$, $>$)
+- The **claim** may be in either $H_0$ or $H_1$
 :::
 
 The direction of the alternative hypothesis determines the **type of test**:
 
-| H₁ contains | Test type |
+| $H_1$ contains | Test type |
 |---|---|
 | > | Right-tailed |
 | < | Left-tailed |
@@ -90,25 +90,25 @@ The direction of the alternative hypothesis determines the **type of test**:
 ## Types of Errors
 
 :::{.callout-important}
-### Type I and Type II Errors
+**Type I and Type II Errors**
 
-| Decision | H₀ True | H₀ False |
+| Decision | $H_0$ True | $H_0$ False |
 |---|---|---|
-| Reject H₀ | **Type I error** (α) | Correct decision (1 − β) |
-| Do not reject H₀ | Correct decision (1 − α) | **Type II error** (β) |
+| Reject $H_0$ | **Type I error** ($\alpha$) | Correct decision (1 − $\beta$) |
+| Do not reject $H_0$ | Correct decision (1 − $\alpha$) | **Type II error** ($\beta$) |
 
-- **α** = P(Type I error) = level of significance
-- **β** = P(Type II error)
-- Common values of α: 0.10, 0.05, 0.01
+- **$\alpha$** = P(Type I error) = level of significance
+- **$\beta$** = P(Type II error)
+- Common values of $\alpha$: 0.10, 0.05, 0.01
 :::
 
 ## Critical Region and Critical Value
 
 :::{.callout-note}
-### Key Terms
+**Key Terms**
 
-- **Critical (rejection) region**: Range of values that lead to rejecting H₀
-- **Noncritical region**: Range of values that lead to not rejecting H₀
+- **Critical (rejection) region**: Range of values that lead to rejecting $H_0$
+- **Noncritical region**: Range of values that lead to not rejecting $H_0$
 - **Critical value**: Boundary separating the two regions
 :::
 
@@ -117,7 +117,7 @@ The direction of the alternative hypothesis determines the **type of test**:
 :::{.callout-warning}
 ## Stating Hypotheses
 
-State H₀ and H₁ for each claim:
+State $H_0$ and $H_1$ for each claim:
 
 **(a)** A researcher claims newborns weigh more than 8.6 lb on average.
 
@@ -131,43 +131,55 @@ State H₀ and H₁ for each claim:
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**(a)** $H_0$: $\mu = 8.6$ and $H_1$: $\mu > 8.6$ *(claim; right-tailed)*
+
+**(b)** $H_0$: $\mu = 18$ and $H_1$: $\mu < 18$ *(claim; left-tailed)*
+
+**(c)** $H_0$: $\mu = 73$ and $H_1$: $\mu \neq 73$ *(claim; two-tailed)*
+:::
+
+## Example 8-2 {#example-8-2}
+
+:::{.callout-warning}
+## Finding Critical Values
 
 Find the critical value(s) for each situation:
 
-**(a)** Left-tailed, α = 0.10
-**(b)** Two-tailed, α = 0.02
-**(c)** Right-tailed, α = 0.005
+**(a)** Left-tailed, $\alpha$ = 0.10
+**(b)** Two-tailed, $\alpha$ = 0.02
+**(c)** Right-tailed, $\alpha$ = 0.005
+:::
 
+## Example 8-2
 
-```{r e8-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# (a) Left-tailed, α = 0.10
+:::{.callout-tip}
+## Solution
+
+```{r e8-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+# (a) Left-tailed, alpha = 0.10
 qnorm(0.10)
 
-# (b) Two-tailed, α = 0.02 → α/2 = 0.01 on each side
+# (b) Two-tailed, alpha = 0.02 -> alpha/2 = 0.01 on each side
 qnorm(0.01)  # left; right is +2.326
 
-# (c) Right-tailed, α = 0.005
+# (c) Right-tailed, alpha = 0.005
 qnorm(1 - 0.005)
 ```
-:::
----
-
-**Answers:**
 
 - (a) CV = **−1.28** (left-tailed)
-- (b) CV = **±2.33** (two-tailed)
+- (b) CV = **$\pm$2.33** (two-tailed)
 - (c) CV = **+2.58** (right-tailed)
+:::
 
 ## Five-Step Hypothesis Testing Procedure
 
 :::{.callout-important}
-### Traditional Method
+**Traditional Method**
 
 1. **State** the hypotheses and identify the claim
 2. **Find** the critical value(s) from the appropriate table
 3. **Compute** the test value
-4. **Make** the decision (reject or do not reject H₀)
+4. **Make** the decision (reject or do not reject $H_0$)
 5. **Summarize** the results in plain language
 :::
 
@@ -176,12 +188,12 @@ qnorm(1 - 0.005)
 ## The z Test for a Mean
 
 :::{.callout-note}
-### Formula
+**Formula**
 
 $$z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$$
 
 **Requirements:**
-- Population standard deviation σ is **known**
+- Population standard deviation $\sigma$ is **known**
 - If n < 30, the population must be approximately normally distributed
 :::
 
@@ -192,7 +204,7 @@ Use the standard normal (z) distribution to find critical values and P-values.
 :::{.callout-warning}
 ## Days on Dealers' Lots (Traditional)
 
-A researcher claims that cars sit on dealers' lots more than 29 days on average. A random sample of 30 cars gives X̄ = 30.1 days; σ = 3.8. Use α = 0.05.
+A researcher claims that cars sit on dealers' lots more than 29 days on average. A random sample of 30 cars gives X̄ = 30.1 days; $\sigma$ = 3.8. Use $\alpha$ = 0.05.
 :::
 
 ## Example 8-3
@@ -200,33 +212,59 @@ A researcher claims that cars sit on dealers' lots more than 29 days on average.
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\mu$ = 29 and $H_1$: $\mu$ > 29 *(claim; right-tailed)*
 
-A researcher claims the average price of men's athletic shoes is less than $80. A sample of 36 shoes gives X̄ = $75, σ = $19.2. Use α = 0.10.
+**Step 2:** CV = +1.65
 
+**Step 3:**
+$$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} = \frac{30.1 - 29}{3.8/\sqrt{30}} \approx 1.59$$
 
-**Step 1:** H₀: μ = 80 and H₁: μ < 80 *(claim; left-tailed)*
+```{r e8-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+xbar <- 30.1; mu <- 29; sigma <- 3.8; n <- 30
+z <- (xbar - mu) / (sigma / sqrt(n))
+round(z, 2)
+```
+
+**Step 4:** Since 1.59 < 1.65 (does not fall in critical region), **do not reject $H_0$**.
+
+**Step 5:** There is not enough evidence to support the claim that the mean time is greater than 29 days.
+:::
+
+## Example 8-4 {#example-8-4}
+
+:::{.callout-warning}
+## Costs of Men's Athletic Shoes
+
+A researcher claims the average price of men's athletic shoes is less than \$80. A sample of 36 shoes gives $\bar{X}$ = \$75, $\sigma$ = \$19.2. Use $\alpha$ = 0.10.
+:::
+
+## Example 8-4
+
+:::{.callout-tip}
+## Solution
+
+**Step 1:** $H_0$: $\mu$ = 80 and $H_1$: $\mu$ < 80 *(claim; left-tailed)*
 
 **Step 2:** CV = −1.28
 
-```{r e8-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e8-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 75; mu <- 80; sigma <- 19.2; n <- 36
 z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
 ```
 
-**Step 4:** Since −1.56 < −1.28 (falls in critical region), **reject H₀**.
+**Step 4:** Since −1.56 < −1.28 (falls in critical region), **reject $H_0$**.
 
-**Step 5:** There is enough evidence to support the claim that the average price is less than $80.
+**Step 5:** There is enough evidence to support the claim that the average price is less than \$80.
 :::
 
 ## Example 8-5 {#example-8-5}
 :::{.callout-warning}
-A researcher claims the average rehabilitation cost for stroke patients differs from $24,672. A sample of 35 patients gives X̄ = $26,343, σ = $3251. Use α = 0.01.
+A researcher claims the average rehabilitation cost for stroke patients differs from $24,672. A sample of 35 patients gives X̄ = $26,343, $\sigma$ = $3251. Use \alpha  = 0.01.$
 
-**Step 1:** H₀: μ = 24672 and H₁: $\mu \neq 24672$ *(claim; two-tailed)*
+**Step 1:** $H_0$: $\mu$ = 24672 and $H_1$: $\mu \neq 24672$ *(claim; two-tailed)*
 
-**Step 2:** CV = ±2.58
+**Step 2:** CV = $\pm$2.58
 
 ```{r e8-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 26343; mu <- 24672; sigma <- 3251; n <- 35
@@ -234,20 +272,20 @@ z <- (xbar - mu) / (sigma / sqrt(n))
 round(z, 2)
 ```
 
-**Step 4:** Since 3.04 > 2.58 (falls in critical region), **reject H₀**.
+**Step 4:** Since 3.04 > 2.58 (falls in critical region), **reject $H_0$**.
 
-**Step 5:** There is enough evidence to conclude that the rehabilitation cost differs from $24,672.
+**Step 5:** There is enough evidence to conclude that the rehabilitation cost differs from $24,672.$
 
 :::
 
 ## The P-Value Method
 
 :::{.callout-note}
-### P-Value Decision Rule
+**P-Value Decision Rule**
 
-- Compute the **P-value**: the probability of obtaining a test statistic at least as extreme as the one computed, assuming H₀ is true
-- **If P-value $\leq \alpha$ → reject H₀**
-- **If P-value > α → do not reject H₀**
+- Compute the **P-value**: the probability of obtaining a test statistic at least as extreme as the one computed, assuming $H_0$ is true
+- **If P-value $\leq \alpha$ → reject $H_0$**
+- **If P-value > $\alpha$ → do not reject $H_0$**
 
 Steps:
 1. State hypotheses and identify claim
@@ -259,9 +297,9 @@ Steps:
 
 ## Example 8-6 {#example-8-6}
 :::{.callout-warning}
-A researcher claims average tuition exceeds $5700. A sample of 36 schools gives X̄ = $5950, σ = $659. Use α = 0.05.
+A researcher claims average tuition exceeds $5700. A sample of 36 schools gives X̄ = $5950, $\sigma$ = $659. Use \alpha  = 0.05.$
 
-**Step 1:** H₀: μ = 5700 and H₁: μ > 5700 *(claim; right-tailed)*
+**Step 1:** $H_0$: $\mu$ = 5700 and $H_1$: $\mu$ > 5700 *(claim; right-tailed)*
 
 ```{r e8-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 5950; mu <- 5700; sigma <- 659; n <- 36
@@ -273,17 +311,17 @@ p_val <- 1 - pnorm(z)
 round(p_val, 4)
 ```
 
-**Step 4:** Since P = 0.0113 < α = 0.05, **reject H₀**.
+**Step 4:** Since P = 0.0114 < $\alpha$ = 0.05, **reject $H_0$**.
 
-**Step 5:** There is enough evidence to support the claim that average tuition exceeds $5700.
+**Step 5:** There is enough evidence to support the claim that average tuition exceeds $5700.$
 
 :::
 
 ## Example 8-7 {#example-8-7}
 :::{.callout-warning}
-A researcher claims the average wind speed in a city is 8 mph. A sample of 32 days gives X̄ = 8.2 mph, σ = 0.6. Use α = 0.05.
+A researcher claims the average wind speed in a city is 8 mph. A sample of 32 days gives X̄ = 8.2 mph, $\sigma$ = 0.6. Use $\alpha$ = 0.05.
 
-**Step 1:** H₀: μ = 8 *(claim)* and H₁: $\mu \neq 8$ *(two-tailed)*
+**Step 1:** $H_0$: $\mu$ = 8 *(claim)* and $H_1$: $\mu \neq 8$ *(two-tailed)*
 
 ```{r e8-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 8.2; mu <- 8; sigma <- 0.6; n <- 32
@@ -295,7 +333,7 @@ p_val <- 2 * (1 - pnorm(abs(z)))
 round(p_val, 4)
 ```
 
-**Step 4:** Since P = 0.0588 > α = 0.05, **do not reject H₀**.
+**Step 4:** Since P = 0.0593 > $\alpha$ = 0.05, **do not reject $H_0$**.
 
 **Step 5:** There is not enough evidence to reject the claim that the average wind speed is 8 mph.
 
@@ -306,45 +344,45 @@ round(p_val, 4)
 ## The t Test for a Mean
 
 :::{.callout-note}
-### Formula
+**Formula**
 
 $$t = \frac{\bar{X} - \mu}{s / \sqrt{n}}, \quad \text{d.f.} = n - 1$$
 
 **Use when:**
-- σ is **unknown** (use sample s instead)
+- $\sigma$ is **unknown** (use sample s instead)
 - If n < 30, the population must be approximately normally distributed
 :::
 
 Critical values come from the **t distribution** with n − 1 degrees of freedom.
 
-## Examples 8-8 through 8-11: Finding t Critical Values {.smaller} {#example-8-8}
+## Examples 8-8 through 8-11: Finding t Critical Values {#example-8-8 .smaller}
 
 :::{.callout-warning}
-### Problem
+**Problem**
 Find the t critical value for each:
 
-- **8-8**: α = 0.05, d.f. = 16, right-tailed
-- **8-9**: α = 0.01, d.f. = 22, left-tailed
-- **8-10**: α = 0.10, d.f. = 18, two-tailed
-- **8-11**: α = 0.05, d.f. = 28, right-tailed
+- **8-8**: $\alpha$ = 0.05, d.f. = 16, right-tailed
+- **8-9**: $\alpha$ = 0.01, d.f. = 22, left-tailed
+- **8-10**: $\alpha$ = 0.10, d.f. = 18, two-tailed
+- **8-11**: $\alpha$ = 0.05, d.f. = 28, right-tailed
 :::
 ---
 
-```{r e8-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e8-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 qt(1 - 0.05, df = 16)   # 8-8: right-tailed
 qt(0.01, df = 22)        # 8-9: left-tailed
 qt(1 - 0.10/2, df = 18) # 8-10: two-tailed (±)
 qt(1 - 0.05, df = 28)   # 8-11: right-tailed
 ```
 
-**Answers:** +1.746 | −2.508 | ±1.734 | +1.701
+**Answers:** +1.746 | −2.508 | $\pm$1.734 | +1.701
 
 ## Example 8-12 {#example-8-12}
 
 :::{.callout-warning}
 ## Hospital Infections (Traditional)
 
-A hospital administrator claims the average number of infections per week is 16.3. A sample of 10 weeks gives X̄ = 17.7, s = 1.8. At α = 0.05, is there enough evidence to reject the claim?
+A hospital administrator claims the average number of infections per week is 16.3. A sample of 10 weeks gives X̄ = 17.7, s = 1.8. At $\alpha$ = 0.05, is there enough evidence to reject the claim?
 :::
 
 ## Example 8-12
@@ -352,18 +390,43 @@ A hospital administrator claims the average number of infections per week is 16.
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\mu$ = 16.3 *(claim)* and $H_1$: $\mu \neq 16.3$ *(two-tailed)*
 
-A researcher claims the average salary for substitute teachers in a region is less than $60/day. Data: 60, 56, 60, 55, 70, 55, 60, 55. Use α = 0.10.
+**Step 2:** d.f. = 9; CV = $\pm$2.262
 
+**Step 3:**
+$$t = \frac{\bar{X} - \mu}{s/\sqrt{n}} = \frac{17.7 - 16.3}{1.8/\sqrt{10}} \approx 2.46$$
+
+```{r e8-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+xbar <- 17.7; mu <- 16.3; s <- 1.8; n <- 10
+t <- (xbar - mu) / (s / sqrt(n))
+round(t, 2)
+qt(1 - 0.05/2, df = n - 1)  # critical value
+```
+
+**Step 4:** Since 2.46 > 2.262 (falls in critical region), **reject $H_0$**.
+
+**Step 5:** There is enough evidence to reject the claim that the average number of infections per week is 16.3.
 :::
----
 
-**Step 1:** H₀: μ = 60 and H₁: μ < 60 *(claim; left-tailed)*
+## Example 8-13 {#example-8-13}
+
+:::{.callout-warning}
+## Substitute Teachers' Salaries
+
+A researcher claims the average salary for substitute teachers in a region is less than \$60/day. Data: 60, 56, 60, 55, 70, 55, 60, 55. Use $\alpha$ = 0.10.
+:::
+
+## Example 8-13
+
+:::{.callout-tip}
+## Solution
+
+**Step 1:** $H_0$: $\mu$ = 60 and $H_1$: $\mu$ < 60 *(claim; left-tailed)*
 
 **Step 2:** d.f. = 7; CV = −1.415
 
-```{r e8-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e8-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data <- c(60, 56, 60, 55, 70, 55, 60, 55)
 n <- length(data)
 xbar <- mean(data); s <- sd(data)
@@ -372,14 +435,15 @@ cat("X-bar:", round(xbar, 2), "  s:", round(s, 2), "  t:", round(t, 3))
 qt(0.10, df = 7)  # critical value
 ```
 
-**Step 4:** Since −0.624 > −1.415 (does not fall in critical region), **do not reject H₀**.
+**Step 4:** Since −0.626 > −1.415 (does not fall in critical region), **do not reject $H_0$**.
 
-**Step 5:** There is not enough evidence to support the claim that the average salary is less than $60.
+**Step 5:** There is not enough evidence to support the claim that the average salary is less than \$60.
+:::
 
-## Examples 8-14 & 8-15: P-Value Intervals for t {.smaller} {#example-8-14}
+## Examples 8-14 & 8-15: P-Value Intervals for t {#example-8-14 .smaller}
 
 :::{.callout-warning}
-### Problem
+**Problem**
 Determine the P-value interval using Table F (t table):
 
 - **8-14**: t = 2.056, n = 11, right-tailed
@@ -388,7 +452,7 @@ Determine the P-value interval using Table F (t table):
 
 ---
 
-```{r e8-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e8-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-14: right-tailed, df = 10
 p14 <- pt(2.056, df = 10, lower.tail = FALSE)
 cat("8-14 P-value:", round(p14, 4), " → Interval: 0.025 < P < 0.05\n")
@@ -399,7 +463,7 @@ cat("8-15 P-value:", round(p15, 4), " → Interval: 0.02 < P < 0.05")
 ```
 
 :::{.callout-note}
-From the t table, locate d.f. row, find where test statistic falls, and read off the corresponding α values as bounds for the P-value.
+From the t table, locate d.f. row, find where test statistic falls, and read off the corresponding $\alpha$ values as bounds for the P-value.
 :::
 
 ## Example 8-16 {#example-8-16}
@@ -407,7 +471,7 @@ From the t table, locate d.f. row, find where test statistic falls, and read off
 :::{.callout-warning}
 ## Jogger's Oxygen Uptake (P-Value)
 
-A researcher claims that joggers' maximum oxygen uptake exceeds 36.7 mL/kg/min. A sample of 15 joggers gives X̄ = 40.6, s = 6. Use α = 0.05.
+A researcher claims that joggers' maximum oxygen uptake exceeds 36.7 mL/kg/min. A sample of 15 joggers gives X̄ = 40.6, s = 6. Use $\alpha$ = 0.05.
 :::
 
 ## Example 8-16
@@ -415,7 +479,32 @@ A researcher claims that joggers' maximum oxygen uptake exceeds 36.7 mL/kg/min. 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\mu$ = 36.7 and $H_1$: $\mu$ > 36.7 *(claim; right-tailed)*
+
+**Step 2:**
+$$t = \frac{\bar{X} - \mu}{s/\sqrt{n}} = \frac{40.6 - 36.7}{6/\sqrt{15}} \approx 2.517$$
+
+**Step 3:** d.f. = 14; from Table F, 2.517 falls between 2.145 and 2.624, so **0.01 < P < 0.025**.
+
+```{r e8-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+xbar <- 40.6; mu <- 36.7; s <- 6; n <- 15
+t <- (xbar - mu) / (s / sqrt(n))
+round(t, 3)
+p_val <- pt(t, df = n - 1, lower.tail = FALSE)
+round(p_val, 4)
+```
+
+**Step 4:** Since P $\approx$ 0.0123 < $\alpha$ = 0.05, **reject $H_0$**.
+
+**Step 5:** There is enough evidence to support the claim that joggers' maximum oxygen uptake exceeds 36.7 mL/kg/min.
+:::
+
+# Section 8-4: z Test for a Proportion {background-color="#2c4a6e"}
+
+## The z Test for a Proportion
+
+:::{.callout-note}
+**Formula**
 
 $$z = \frac{\hat{p} - p}{\sqrt{pq/n}}$$
 
@@ -425,16 +514,15 @@ where $\hat{p} = X/n$ (sample proportion), $p$ = hypothesized population proport
 - Random sample
 - Binomial conditions satisfied
 - np $\geq 5$ and nq $\geq 5$
-
 :::
 
 ## Example 8-17 {#example-8-17}
 :::{.callout-warning}
-A dietitian claims 60% of people try to avoid trans fats. A survey of 200 people finds 128 trying to avoid them. At α = 0.05, is there enough evidence to reject the claim?
+A dietitian claims 60% of people try to avoid trans fats. A survey of 200 people finds 128 trying to avoid them. At $\alpha$ = 0.05, is there enough evidence to reject the claim?
 
-**Step 1:** H₀: p = 0.60 *(claim)* and H₁: p $\neq 0.60$ *(two-tailed)*
+**Step 1:** $H_0$: p = 0.60 *(claim)* and $H_1$: p $\neq 0.60$ *(two-tailed)*
 
-**Step 2:** CV = ±1.96
+**Step 2:** CV = $\pm$1.96
 
 ```{r e8-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 128; n <- 200; p <- 0.60; q <- 1 - p
@@ -443,7 +531,7 @@ z <- (p_hat - p) / sqrt(p * q / n)
 cat("p-hat:", p_hat, "  z:", round(z, 2))
 ```
 
-**Step 4:** Since 1.15 is between −1.96 and +1.96, **do not reject H₀**.
+**Step 4:** Since 1.15 is between −1.96 and +1.96, **do not reject $H_0$**.
 
 **Step 5:** There is not enough evidence to reject the claim that 60% of people try to avoid trans fats.
 
@@ -451,11 +539,11 @@ cat("p-hat:", p_hat, "  z:", round(z, 2))
 
 ## Example 8-18 {#example-8-18}
 :::{.callout-warning}
-In 2000, 60% said the Family and Medical Leave Act was very easy to use. A researcher thinks this percentage has changed. A sample of 100 people finds p̂ = 53% found it easy. At α = 0.01, has the percentage changed?
+In 2000, 60% said the Family and Medical Leave Act was very easy to use. A researcher thinks this percentage has changed. A sample of 100 people finds p̂ = 53% found it easy. At $\alpha$ = 0.01, has the percentage changed?
 
-**Step 1:** H₀: p = 0.60 and H₁: p $\neq 0.60$ *(claim; two-tailed)*
+**Step 1:** $H_0$: p = 0.60 and $H_1$: p $\neq 0.60$ *(claim; two-tailed)*
 
-**Step 2:** CV = ±2.58
+**Step 2:** CV = $\pm$2.58
 
 ```{r e8-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 p_hat <- 0.53; p <- 0.60; q <- 0.40; n <- 100
@@ -463,7 +551,7 @@ z <- (p_hat - p) / sqrt(p * q / n)
 round(z, 2)
 ```
 
-**Step 4:** Since −1.43 is in the noncritical region (between ±2.58), **do not reject H₀**.
+**Step 4:** Since −1.43 is in the noncritical region (between $\pm$2.58), **do not reject $H_0$**.
 
 **Step 5:** There is not enough evidence to support the claim that the percentage has changed.
 
@@ -471,9 +559,9 @@ round(z, 2)
 
 ## Example 8-19 {#example-8-19}
 :::{.callout-warning}
-A claim states at least 77% of the population opposes replacing $1 bills with $1 coins. A sample of 80 people finds 55 opposed. At α = 0.01, test the claim.
+A claim states at least 77% of the population opposes replacing $1 bills with $1 coins. A sample of 80 people finds 55 opposed. At $\alpha$ = 0.01, test the claim.
 
-**Step 1:** H₀: p = 0.77 *(claim)* and H₁: p < 0.77 *(left-tailed)*
+**Step 1:** $H_0$: p = 0.77 *(claim)* and $H_1$: p < 0.77 *(left-tailed)*
 
 **Step 2:** CV = −2.33
 
@@ -484,7 +572,7 @@ z <- (p_hat - p) / sqrt(p * q / n)
 cat("p-hat:", round(p_hat, 4), "  z:", round(z, 2))
 ```
 
-**Step 4:** Since −1.75 > −2.33 (does not fall in critical region), **do not reject H₀**.
+**Step 4:** Since −1.75 > −2.33 (does not fall in critical region), **do not reject $H_0$**.
 
 **Step 5:** There is not enough evidence to reject the claim that at least 77% of the population opposes replacing $1 bills with $1 coins.
 
@@ -492,9 +580,9 @@ cat("p-hat:", round(p_hat, 4), "  z:", round(z, 2))
 
 ## Example 8-20 {#example-8-20}
 :::{.callout-warning}
-An attorney claims more than 25% of all lawyers advertise. A sample of 200 lawyers finds 63 who advertised. At α = 0.05, is there enough evidence to support the claim?
+An attorney claims more than 25% of all lawyers advertise. A sample of 200 lawyers finds 63 who advertised. At $\alpha$ = 0.05, is there enough evidence to support the claim?
 
-**Step 1:** H₀: p = 0.25 and H₁: p > 0.25 *(claim; right-tailed)*
+**Step 1:** $H_0$: p = 0.25 and $H_1$: p > 0.25 *(claim; right-tailed)*
 
 ```{r e8-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 63; n <- 200; p <- 0.25; q <- 0.75
@@ -506,18 +594,18 @@ p_val <- 1 - pnorm(z)
 cat("  P-value:", round(p_val, 4))
 ```
 
-**Step 4:** Since P $\approx 0.017$ < α = 0.05, **reject H₀**.
+**Step 4:** Since P $\approx 0.017$ < $\alpha$ = 0.05, **reject $H_0$**.
 
 **Step 5:** There is enough evidence to support the claim that more than 25% of lawyers advertise.
 
 :::
 
-# Section 8-5: χ² Test for a Variance or Standard Deviation {background-color="#2c4a6e"}
+# Section 8-5: $\chi^2$ Test for a Variance or Standard Deviation {background-color="#2c4a6e"}
 
 ## The Chi-Square Test for Variance
 
 :::{.callout-note}
-### Formula
+**Formula**
 
 $$\chi^2 = \frac{(n-1)s^2}{\sigma^2}, \quad \text{d.f.} = n - 1$$
 
@@ -526,22 +614,22 @@ $$\chi^2 = \frac{(n-1)s^2}{\sigma^2}, \quad \text{d.f.} = n - 1$$
 - Population is normally distributed
 - Observations are independent
 
-**Three test types:** right-tailed (σ² > value), left-tailed (σ² < value), two-tailed ($\sigma^2 \neq$ value)
+**Three test types:** right-tailed ($\sigma^2$ > value), left-tailed ($\sigma^2$ < value), two-tailed ($\sigma^2 \neq$ value)
 :::
 
-## Examples 8-21 through 8-23: Finding χ² Critical Values {.smaller} {#example-8-21}
+## Examples 8-21 through 8-23: Finding $\chi^2$ Critical Values {#example-8-21 .smaller}
 
 :::{.callout-warning}
-### Problem
+**Problem**
 Find the critical chi-square value(s):
 
-- **8-21**: d.f. = 15, α = 0.05, right-tailed
-- **8-22**: d.f. = 10, α = 0.05, left-tailed
-- **8-23**: d.f. = 22, α = 0.05, two-tailed
+- **8-21**: d.f. = 15, $\alpha$ = 0.05, right-tailed
+- **8-22**: d.f. = 10, $\alpha$ = 0.05, left-tailed
+- **8-23**: d.f. = 22, $\alpha$ = 0.05, two-tailed
 :::
 ---
 
-```{r e8-20-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e8-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-21: right-tailed
 qchisq(1 - 0.05, df = 15)
 
@@ -564,7 +652,7 @@ qchisq(0.025, df = 22)       # left CV
 :::{.callout-warning}
 ## Variation of Test Scores (Traditional)
 
-An instructor claims the variance in her class of 23 students (s² = 198) is less than the population variance (σ² = 225). At α = 0.05, is there enough evidence to support the claim?
+An instructor claims the variance in her class of 23 students ($s^2$ = 198) is less than the population variance ($\sigma^2$ = 225). At $\alpha$ = 0.05, is there enough evidence to support the claim?
 :::
 
 ## Example 8-24
@@ -572,18 +660,43 @@ An instructor claims the variance in her class of 23 students (s² = 198) is les
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\sigma^2$ = 225 and $H_1$: $\sigma^2$ < 225 *(claim; left-tailed)*
 
-A hospital administrator claims the standard deviation of outpatient surgery patients per day is greater than 8. A random sample of 15 days gives data below. At α = 0.10, test the claim.
+**Step 2:** d.f. = 22; CV = 12.338
 
-Data: 25, 30, 5, 15, 18, 42, 16, 9, 10, 12, 12, 38, 8, 14, 27
-
-:::
----
-
-**Step 1:** H₀: σ = 8 and H₁: σ > 8 *(claim; right-tailed)*
+**Step 3:**
+$$\chi^2 = \frac{(n-1)s^2}{\sigma^2} = \frac{(23-1)(198)}{225} = 19.36$$
 
 ```{r e8-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 23; s2 <- 198; sigma2 <- 225
+chi2 <- (n - 1) * s2 / sigma2
+round(chi2, 2)
+qchisq(0.05, df = n - 1)  # CV (left-tailed)
+```
+
+**Step 4:** Since 19.36 > 12.338 (does not fall in critical region), **do not reject $H_0$**.
+
+**Step 5:** There is not enough evidence to support the claim that the variation in test scores is less than the population variance.
+:::
+
+## Example 8-25 {#example-8-25}
+
+:::{.callout-warning}
+## Outpatient Surgery
+
+A hospital administrator claims the standard deviation of outpatient surgery patients per day is greater than 8. A random sample of 15 days gives data below. At $\alpha$ = 0.10, test the claim.
+
+Data: 25, 30, 5, 15, 18, 42, 16, 9, 10, 12, 12, 38, 8, 14, 27
+:::
+
+## Example 8-25
+
+:::{.callout-tip}
+## Solution
+
+**Step 1:** $H_0$: $\sigma$ = 8 and $H_1$: $\sigma$ > 8 *(claim; right-tailed)*
+
+```{r e8-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 data <- c(25, 30, 5, 15, 18, 42, 16, 9, 10, 12, 12, 38, 8, 14, 27)
 n <- length(data); s <- sd(data)
 cat("s =", round(s, 1))
@@ -594,16 +707,17 @@ cat("  chi² =", round(chi2, 2))
 qchisq(1 - 0.10, df = n - 1)  # CV
 ```
 
-**Step 4:** Since 27.44 > 21.064, **reject H₀**.
+**Step 4:** Since 27.45 > 21.064, **reject $H_0$**.
 
 **Step 5:** There is enough evidence to support the claim that the standard deviation is greater than 8.
+:::
 
 ## Example 8-26 {#example-8-26}
 
 :::{.callout-warning}
 ## Nicotine Content of Cigarettes (Traditional)
 
-A manufacturer claims the variance in nicotine content is 0.644. A sample of 20 cigarettes has s = 1.00. At α = 0.05, is there enough evidence to reject the claim?
+A manufacturer claims the variance in nicotine content is 0.644. A sample of 20 cigarettes has s = 1.00. At $\alpha$ = 0.05, is there enough evidence to reject the claim?
 :::
 
 ## Example 8-26
@@ -611,15 +725,38 @@ A manufacturer claims the variance in nicotine content is 0.644. A sample of 20 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\sigma^2$ = 0.644 *(claim)* and $H_1$: $\sigma^2 \neq 0.644$ *(two-tailed)*
 
-Find the P-value interval:
+**Step 2:** d.f. = 19; CVs = 8.907 and 32.852
 
-- **8-27**: χ² = 19.274, n = 8, right-tailed
-- **8-28**: χ² = 3.823, n = 13, left-tailed
-
+**Step 3:**
+$$\chi^2 = \frac{(n-1)s^2}{\sigma^2} = \frac{(20-1)(1.00)^2}{0.644} \approx 29.50$$
 
 ```{r e8-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 20; s <- 1.00; sigma2 <- 0.644
+chi2 <- (n - 1) * s^2 / sigma2
+round(chi2, 2)
+qchisq(0.025, df = n - 1)      # left CV
+qchisq(1 - 0.025, df = n - 1)  # right CV
+```
+
+**Step 4:** Since 8.907 < 29.50 < 32.852 (falls in noncritical region), **do not reject $H_0$**.
+
+**Step 5:** There is not enough evidence to reject the claim that the variance of the nicotine content is 0.644.
+:::
+
+## Examples 8-27 & 8-28: P-Value Intervals for $\chi^2$ {#example-8-27 .smaller}
+
+:::{.callout-warning}
+**Problem**
+Find the P-value interval:
+
+- **8-27**: $\chi^2$ = 19.274, n = 8, right-tailed
+- **8-28**: $\chi^2$ = 3.823, n = 13, left-tailed
+:::
+---
+
+```{r e8-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 8-27: right-tailed, df = 7
 p27 <- pchisq(19.274, df = 7, lower.tail = FALSE)
 cat("8-27 P-value:", round(p27, 4), " → Interval: 0.005 < P < 0.01\n")
@@ -628,15 +765,14 @@ cat("8-27 P-value:", round(p27, 4), " → Interval: 0.005 < P < 0.01\n")
 p28 <- pchisq(3.823, df = 12, lower.tail = TRUE)
 cat("8-28 P-value:", round(p28, 4), " → Interval: 0.01 < P < 0.025")
 ```
-:::
 
 ## Example 8-29 {#example-8-29}
 :::{.callout-warning}
-The standard deviation for car inspection time is known to be 16.8 min. A sample of 24 cars gives s = 12.5 min. At α = 0.05, has the standard deviation changed?
+The standard deviation for car inspection time is known to be 16.8 min. A sample of 24 cars gives s = 12.5 min. At $\alpha$ = 0.05, has the standard deviation changed?
 :::
 ---
 
-**Step 1:** H₀: σ = 16.8 and H₁: σ $\neq 16.8$ *(claim; two-tailed)*
+**Step 1:** $H_0$: $\sigma$ = 16.8 and $H_1$: $\sigma$ $\neq 16.8$ *(claim; two-tailed)*
 
 ```{r e8-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 24; s <- 12.5; sigma <- 16.8
@@ -649,7 +785,7 @@ p_two <- 2 * p_left  # test statistic on left side
 cat("P-value ≈", round(p_two, 4), " → Interval: 0.05 < P < 0.10")
 ```
 
-**Step 4:** Since P > α = 0.05, **do not reject H₀**.
+**Step 4:** Since P > $\alpha$ = 0.05, **do not reject $H_0$**.
 
 **Step 5:** There is not enough evidence to conclude that the standard deviation of inspection time has changed.
 
@@ -658,12 +794,12 @@ cat("P-value ≈", round(p_two, 4), " → Interval: 0.05 < P < 0.10")
 ## Confidence Intervals and Hypothesis Testing
 
 :::{.callout-note}
-### Key Relationship
+**Key Relationship**
 
 For two-tailed hypothesis tests:
 
-- If H₀ is **rejected** at α → the (1 − α)·100% confidence interval will **NOT** contain the hypothesized value
-- If H₀ is **not rejected** at α → the (1 − α)·100% confidence interval **WILL** contain the hypothesized value
+- If $H_0$ is **rejected** at $\alpha$ → the (1 − $\alpha$)·100% confidence interval will **NOT** contain the hypothesized value
+- If $H_0$ is **not rejected** at $\alpha$ → the (1 − $\alpha$)·100% confidence interval **WILL** contain the hypothesized value
 
 This means a hypothesis test and confidence interval at the same level lead to the **same conclusion**.
 :::
@@ -673,7 +809,7 @@ This means a hypothesis test and confidence interval at the same level lead to t
 :::{.callout-warning}
 ## Sugar Production
 
-Sugar bags are supposed to contain 5 lb. A sample of 50 bags gives X̄ = 4.6 lb, s = 0.7. At α = 0.05, is there evidence the bags differ from 5 lb? Also find the 95% CI.
+Sugar bags are supposed to contain 5 lb. A sample of 50 bags gives X̄ = 4.6 lb, s = 0.7. At $\alpha$ = 0.05, is there evidence the bags differ from 5 lb? Also find the 95% CI.
 :::
 
 ## Example 8-30
@@ -681,14 +817,45 @@ Sugar bags are supposed to contain 5 lb. A sample of 50 bags gives X̄ = 4.6 lb,
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1:** $H_0$: $\mu$ = 5 and $H_1$: $\mu \neq 5$ *(claim; two-tailed)*
 
-A researcher claims hogs fed a special diet will average 200 lb. A sample of 10 hogs gives X̄ = 198.2, s = 3.3. At α = 0.05, can the claim be rejected? Find the 95% CI.
+**Step 2:** d.f. = 49; CV = $\pm$2.010
 
-
-**Step 1:** H₀: μ = 200 *(claim)* and H₁: $\mu \neq 200$ *(two-tailed)*
+**Step 3:**
+$$t = \frac{\bar{X} - \mu}{s/\sqrt{n}} = \frac{4.6 - 5}{0.7/\sqrt{50}} \approx -4.04$$
 
 ```{r e8-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+xbar <- 4.6; mu <- 5; s <- 0.7; n <- 50; alpha <- 0.05
+t_val <- (xbar - mu) / (s / sqrt(n))
+cat("t =", round(t_val, 2))
+
+t_crit <- qt(1 - alpha/2, df = n - 1)
+cat("  CV = ±", round(t_crit, 3))
+
+# 95% CI
+ME <- t_crit * s / sqrt(n)
+cat("  95% CI: (", round(xbar - ME, 1), ",", round(xbar + ME, 1), ")")
+```
+
+**Decision:** |−4.04| > 2.010 → **reject $H_0$**. The 95% CI (4.4, 4.8) does **not** contain $\mu$ = 5, confirming the rejection: there is enough evidence that the bags differ from 5 lb.
+:::
+
+## Example 8-31 {#example-8-31}
+
+:::{.callout-warning}
+## Hog Weights
+
+A researcher claims hogs fed a special diet will average 200 lb. A sample of 10 hogs gives $\bar{X}$ = 198.2, s = 3.3. At $\alpha$ = 0.05, can the claim be rejected? Find the 95% CI.
+:::
+
+## Example 8-31
+
+:::{.callout-tip}
+## Solution
+
+**Step 1:** $H_0$: $\mu$ = 200 *(claim)* and $H_1$: $\mu \neq 200$ *(two-tailed)*
+
+```{r e8-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 xbar <- 198.2; mu <- 200; s <- 3.3; n <- 10; alpha <- 0.05
 t_val <- (xbar - mu) / (s / sqrt(n))
 cat("t =", round(t_val, 2))
@@ -701,57 +868,57 @@ ME <- t_crit * s / sqrt(n)
 cat("  95% CI: (", round(xbar - ME, 1), ",", round(xbar + ME, 1), ")")
 ```
 
-**Decision:** |−1.72| < 2.262 → **do not reject H₀**.
+**Decision:** |−1.72| < 2.262 → **do not reject $H_0$**.
 
-The 95% CI (195.8, 200.6) **contains** μ = 200, confirming we cannot reject the claim.
+The 95% CI (195.8, 200.6) **contains** $\mu$ = 200, confirming we cannot reject the claim.
 :::
 
 ## Type II Error and the Power of a Test
 
 :::{.callout-note}
-### Power of a Test
+**Power of a Test**
 
 $$\text{Power} = 1 - \beta$$
 
-where β = P(Type II error) = probability of failing to reject a false H₀
+where $\beta$ = P(Type II error) = probability of failing to reject a false $H_0$
 
 **Increasing power:**
-- Increase α (raises sensitivity but increases Type I error risk)
+- Increase $\alpha$ (raises sensitivity but increases Type I error risk)
 - Increase sample size n (reduces standard error, most reliable method)
 
-**Practical note:** Failing to reject H₀ does not prove it true — the test may simply lack sufficient power to detect a real difference.
+**Practical note:** Failing to reject $H_0$ does not prove it true — the test may simply lack sufficient power to detect a real difference.
 :::
 
 ## Summary of Decision Rules
 
 :::{.callout-note}
-### Traditional vs. P-Value Method
+**Traditional vs. P-Value Method**
 
 **Traditional:** Compare test value to critical value from table
 
-**P-value:** Compare computed P-value to α
+**P-value:** Compare computed P-value to $\alpha$
 
-- **Reject H₀** if test value in critical region *or* P-value $\leq \alpha$
-- **Do not reject H₀** otherwise
+- **Reject $H_0$** if test value in critical region *or* P-value $\leq \alpha$
+- **Do not reject $H_0$** otherwise
 
-**Confidence Interval Method (two-tailed only):** If CI contains the hypothesized value → do not reject H₀; if it does not → reject H₀
+**Confidence Interval Method (two-tailed only):** If CI contains the hypothesized value → do not reject $H_0$; if it does not → reject $H_0$
 :::
 
 ## Key Takeaways
 
 :::{.callout-important}
-### Key Tests
+**Key Tests**
 
 | Situation | Test | Formula |
 |---|---|---|
-| μ, σ known | z test | $z = \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}$ |
-| μ, σ unknown | t test | $t = \frac{\bar{X}-\mu}{s/\sqrt{n}}$ |
+| $\mu$, $\sigma$ known | z test | $z = \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}$ |
+| $\mu$, $\sigma$ unknown | t test | $t = \frac{\bar{X}-\mu}{s/\sqrt{n}}$ |
 | Proportion p | z test | $z = \frac{\hat{p}-p}{\sqrt{pq/n}}$ |
-| Variance σ² | χ² test | $\chi^2 = \frac{(n-1)s^2}{\sigma^2}$ |
+| Variance $\sigma^2$ | $\chi^2$ test | $\chi^2 = \frac{(n-1)s^2}{\sigma^2}$ |
 :::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

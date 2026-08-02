@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-07-20">
+  <meta name="dcterms.date" content="2026-08-02">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-07-20</p>
+  <p class="date">2026-08-02</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -256,7 +256,7 @@ Yu-You Liou
 <p><strong>Definition</strong></p>
 </div>
 <div class="callout-content">
-<p>A <strong>normal distribution</strong> is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the <strong>mean</strong> μ and <strong>standard deviation</strong> σ.</p>
+<p>A <strong>normal distribution</strong> is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the <strong>mean</strong> <span class="math inline">\mu</span> and <strong>standard deviation</strong> <span class="math inline">\sigma</span>.</p>
 </div>
 </div>
 </div>
@@ -266,7 +266,7 @@ Yu-You Liou
 <li>The mean, median, and mode are all <strong>equal</strong></li>
 <li>The curve is continuous — it never touches the x-axis</li>
 <li>The total area under the curve equals <strong>1</strong></li>
-<li>Approximately <strong>68%</strong> of values lie within 1σ of μ; <strong>95%</strong> within 2σ; <strong>99.7%</strong> within 3σ</li>
+<li>Approximately <strong>68%</strong> of values lie within 1<span class="math inline">\sigma</span> of <span class="math inline">\mu</span>; <strong>95%</strong> within 2<span class="math inline">\sigma</span>; <strong>99.7%</strong> within 3<span class="math inline">\sigma</span></li>
 </ol>
 </section>
 <section class="slide level2">
@@ -294,7 +294,7 @@ Yu-You Liou
 <p><strong>Definition</strong></p>
 </div>
 <div class="callout-content">
-<p>The <strong>standard normal distribution</strong> is a normal distribution with mean <strong>μ = 0</strong> and standard deviation <strong>σ = 1</strong>. Values on this distribution are called <strong>z values</strong> or <strong>z scores</strong>.</p>
+<p>The <strong>standard normal distribution</strong> is a normal distribution with mean <strong><span class="math inline">\mu</span> = 0</strong> and standard deviation <strong><span class="math inline">\sigma</span> = 1</strong>. Values on this distribution are called <strong>z values</strong> or <strong>z scores</strong>.</p>
 </div>
 </div>
 </div>
@@ -546,11 +546,51 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Solve</strong></p>
-<p>Find the z value such that the area to the left is 0.7123.</p>
+<p><strong>Mathematical solution</strong></p>
+<ul>
+<li><strong>(a)</strong> P(0 &lt; Z &lt; 2.32) = area left of 2.32 minus area left of 0 = 0.9898 − 0.5000 = <strong>0.4898</strong></li>
+<li><strong>(b)</strong> P(Z &lt; 1.65) = area left of 1.65 = <strong>0.9505</strong></li>
+<li><strong>(c)</strong> P(Z &gt; 1.91) = 1 − area left of 1.91 = 1 − 0.9719 = <strong>0.0281</strong></li>
+</ul>
 </div>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># (a) P(0 &lt; Z &lt; 2.32)</span></span>
+<span id="cb13-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">2.32</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4898296</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="co"># (b) P(Z &lt; 1.65)</span></span>
+<span id="cb15-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.65</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9505285</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># (c) P(Z &gt; 1.91)</span></span>
+<span id="cb17-2"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">1.91</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02806661</code></pre>
+</div>
+</div>
+</section>
+<section id="example-6-5" class="slide level2">
+<h2>Example 6-5</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Finding a z Value for a Given Area</strong></p>
+</div>
+<div class="callout-content">
+<p>Find the z value such that the area under the standard normal distribution curve between 0 and the z value is 0.2123.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-6-5-1" class="slide level2">
+<h2>Example 6-5</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -562,6 +602,7 @@ Yu-You Liou
 <div class="callout-content">
 <p><strong>Mathematical solution</strong></p>
 <ul>
+<li>Add 0.5000 to the given area to get the cumulative left-tail area: 0.5000 + 0.2123 = 0.7123</li>
 <li>Search Table E for the area closest to 0.7123</li>
 <li>The corresponding z value is <strong>z = 0.56</strong></li>
 </ul>
@@ -569,8 +610,8 @@ Yu-You Liou
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># Find z given left-tail area = 0.7123</span></span>
-<span id="cb13-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.7123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="co"># Find z given left-tail area = 0.7123</span></span>
+<span id="cb19-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.7123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5601165</code></pre>
 </div>
@@ -596,7 +637,7 @@ Yu-You Liou
 </section>
 <section id="applying-the-normal-distribution" class="slide level2">
 <h2>Applying the Normal Distribution</h2>
-<p>To find probabilities for a <strong>non-standard</strong> normal variable X (with mean μ and standard deviation σ):</p>
+<p>To find probabilities for a <strong>non-standard</strong> normal variable X (with mean <span class="math inline">\mu</span> and standard deviation <span class="math inline">\sigma</span>):</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -611,7 +652,7 @@ Yu-You Liou
 </div>
 </div>
 </div>
-<p>In R, use <code>pnorm(x, mean = μ, sd = σ)</code> directly — no conversion needed.</p>
+<p>In R, use <code>pnorm(x, mean = mu, sd = sigma)</code> directly — no conversion needed.</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -622,7 +663,7 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>Identify μ and σ</li>
+<li>Identify <span class="math inline">\mu</span> and <span class="math inline">\sigma</span></li>
 <li>Draw a diagram and shade the desired region</li>
 <li>Convert X to z (or use R directly)</li>
 <li>Find the probability</li>
@@ -642,7 +683,7 @@ Yu-You Liou
 <p><strong>Problem</strong></p>
 </div>
 <div class="callout-content">
-<p>The average amount of money that Americans spend on summer travel is normally distributed with μ = $146.21 and σ = $29.44. Find the probability that a randomly selected American spends less than $160 on summer travel.</p>
+<p>The average amount of money that Americans spend on summer travel is normally distributed with <span class="math inline">\mu</span> = $146.21 and = $29.44. Find the probability that a randomly selected American spends less than <span class="math inline">160 on summer travel.</span></p>
 </div>
 </div>
 </div>
@@ -656,13 +697,13 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <p><span class="math display">z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47</span></p>
-<p>Area to the left of z = 0.47 → <strong>0.6808</strong> (68.08%)</p>
+<p>Area to the left of z = 0.47: table value <strong>0.6808</strong>; R gives <strong>0.6803</strong> (about 68%)</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">146.21</span>; sigma <span class="ot">&lt;-</span> <span class="fl">29.44</span></span>
-<span id="cb15-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">160</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">146.21</span>; sigma <span class="ot">&lt;-</span> <span class="fl">29.44</span></span>
+<span id="cb21-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">160</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6802544</code></pre>
 </div>
@@ -671,18 +712,18 @@ Yu-You Liou
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb17-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
-<span id="cb17-3"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&lt;=</span> <span class="dv">160</span>), <span class="fu">aes</span>(x, y),</span>
-<span id="cb17-6"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb17-7"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">160</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb17-8"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">140</span>, <span class="at">y =</span> <span class="fl">0.008</span>, <span class="at">label =</span> <span class="st">"68.08%"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb17-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P(X &lt; 160): Summer Spending"</span>,</span>
-<span id="cb17-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"μ = "</span>, mu, <span class="st">", σ = "</span>, sigma),</span>
-<span id="cb17-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"Amount ($)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb17-12"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb23-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
+<span id="cb23-3"><a href=""></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&lt;=</span> <span class="dv">160</span>), <span class="fu">aes</span>(x, y),</span>
+<span id="cb23-6"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">160</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb23-8"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">140</span>, <span class="at">y =</span> <span class="fl">0.008</span>, <span class="at">label =</span> <span class="st">"68.03%"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"P(X &lt; 160): Summer Spending"</span>,</span>
+<span id="cb23-10"><a href=""></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"μ = "</span>, mu, <span class="st">", σ = "</span>, sigma),</span>
+<span id="cb23-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"Amount ($)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb23-12"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6_files/figure-revealjs/e6-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -697,7 +738,7 @@ Yu-You Liou
 <p><strong>Newspaper Recycling</strong></p>
 </div>
 <div class="callout-content">
-<p>Each month, an American household generates an average of 28 pounds of newspaper for recycling, with σ = 2 pounds. Assume a normal distribution.</p>
+<p>Each month, an American household generates an average of 28 pounds of newspaper for recycling, with <span class="math inline">\sigma</span> = 2 pounds. Assume a normal distribution.</p>
 <p><strong>(a)</strong> P(27 &lt; X &lt; 31) <strong>(b)</strong> P(X &gt; 30.2)</p>
 </div>
 </div>
@@ -716,15 +757,15 @@ Yu-You Liou
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">28</span>; sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb18-2"><a href=""></a></span>
-<span id="cb18-3"><a href=""></a><span class="co"># (a) P(27 &lt; X &lt; 31)</span></span>
-<span id="cb18-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">31</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">27</span>, mu, sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">28</span>; sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb24-2"><a href=""></a></span>
+<span id="cb24-3"><a href=""></a><span class="co"># (a) P(27 &lt; X &lt; 31)</span></span>
+<span id="cb24-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">31</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">27</span>, mu, sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6246553</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="co"># (b) P(X &gt; 30.2)</span></span>
-<span id="cb20-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">30.2</span>, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co"># (b) P(X &gt; 30.2)</span></span>
+<span id="cb26-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">30.2</span>, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1356661</code></pre>
 </div>
@@ -737,21 +778,21 @@ Yu-You Liou
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb22-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
-<span id="cb22-3"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb22-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb22-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="dv">27</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">31</span>),</span>
-<span id="cb22-6"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb22-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(27 &lt; X &lt; 31)"</span>, <span class="at">x =</span> <span class="st">"Pounds"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb22-8"><a href=""></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb22-9"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb22-10"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb22-11"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="fl">30.2</span>),</span>
-<span id="cb22-12"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#c0392b"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb22-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 30.2)"</span>, <span class="at">x =</span> <span class="st">"Pounds"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb22-14"><a href=""></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb22-15"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb28-2"><a href=""></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
+<span id="cb28-3"><a href=""></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="dv">27</span> <span class="sc">&amp;</span> x <span class="sc">&lt;=</span> <span class="dv">31</span>),</span>
+<span id="cb28-6"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb28-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(27 &lt; X &lt; 31)"</span>, <span class="at">x =</span> <span class="st">"Pounds"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb28-8"><a href=""></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb28-9"><a href=""></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb28-10"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-11"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(df, x <span class="sc">&gt;=</span> <span class="fl">30.2</span>),</span>
+<span id="cb28-12"><a href=""></a>            <span class="fu">aes</span>(x, y), <span class="at">fill =</span> <span class="st">"#c0392b"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb28-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 30.2)"</span>, <span class="at">x =</span> <span class="st">"Pounds"</span>, <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href=""></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb28-15"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6_files/figure-revealjs/e6-7-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -766,7 +807,7 @@ Yu-You Liou
 <p><strong>Coffee Consumption</strong></p>
 </div>
 <div class="callout-content">
-<p>The per-capita consumption of coffee is normally distributed with μ = 1.64 gallons per year and σ = 0.24 gallons. In a sample of 500 people, how many consume <strong>less than 1 gallon</strong> per year?</p>
+<p>The per-capita consumption of coffee is normally distributed with <span class="math inline">\mu</span> = 1.64 gallons per year and <span class="math inline">\sigma</span> = 0.24 gallons. In a sample of 500 people, how many consume <strong>less than 1 gallon</strong> per year?</p>
 </div>
 </div>
 </div>
@@ -782,11 +823,48 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Solve</strong></p>
-<p>To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with μ = 200 and σ = 20. The top <strong>10%</strong> of applicants will be accepted. Find the minimum score needed.</p>
+<p><strong>Mathematical solution</strong></p>
+<p><span class="math display">z = \frac{1 - 1.64}{0.24} = \frac{-0.64}{0.24} \approx -2.67</span></p>
+<ul>
+<li>Area to the left of z = −2.67: <strong>0.0038</strong></li>
+<li>Number of people: <span class="math inline">500 \times 0.0038 = 1.9</span> → about <strong>2 people</strong></li>
+</ul>
 </div>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">1.64</span>; sigma <span class="ot">&lt;-</span> <span class="fl">0.24</span></span>
+<span id="cb29-2"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb29-3"><a href=""></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.003830381</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Expected number among 500 people</span></span>
+<span id="cb31-2"><a href=""></a><span class="dv">500</span> <span class="sc">*</span> p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.91519</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong> Approximately <strong>2</strong> of the 500 people consume less than 1 gallon per year.</p>
+</section>
+<section id="example-6-9" class="slide level2">
+<h2>Example 6-9</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Police Academy Qualifications</strong></p>
+</div>
+<div class="callout-content">
+<p>To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with <span class="math inline">\mu</span> = 200 and <span class="math inline">\sigma</span> = 20. The top <strong>10%</strong> of applicants will be accepted. Find the minimum score needed.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-6-9-1" class="slide level2">
+<h2>Example 6-9</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -800,15 +878,15 @@ Yu-You Liou
 <ul>
 <li>Need the 90th percentile → find z such that P(Z &lt; z) = 0.90</li>
 <li><span class="math inline">z \approx 1.28</span></li>
-<li>X = μ + z·σ = 200 + 1.28(20) = <strong>225.6 <span class="math inline">\approx 226</span></strong></li>
+<li>X = <span class="math inline">\mu</span> + z·<span class="math inline">\sigma</span> = 200 + 1.28(20) = <strong>225.6 <span class="math inline">\approx 226</span></strong></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span>; sigma <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb23-2"><a href=""></a><span class="co"># Find the value X such that P(X &gt; x) = 0.10</span></span>
-<span id="cb23-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">200</span>; sigma <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb33-2"><a href=""></a><span class="co"># Find the value X such that P(X &gt; x) = 0.10</span></span>
+<span id="cb33-3"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 225.631</code></pre>
 </div>
@@ -826,7 +904,7 @@ Yu-You Liou
 <p><strong>Problem</strong></p>
 </div>
 <div class="callout-content">
-<p>For a certain group, systolic blood pressure is normally distributed with μ = 120 and σ = 8. Find the range of pressures that includes the <strong>middle 60%</strong> of readings.</p>
+<p>For a certain group, systolic blood pressure is normally distributed with <span class="math inline">\mu</span> = 120 and <span class="math inline">\sigma</span> = 8. Find the range of pressures that includes the <strong>middle 60%</strong> of readings.</p>
 </div>
 </div>
 </div>
@@ -842,19 +920,19 @@ Yu-You Liou
 <ul>
 <li>Middle 60% → 20% in each tail → find z for P(Z &lt; z) = 0.20 and P(Z &lt; z) = 0.80</li>
 <li><span class="math inline">z_1 \approx -0.84</span>, <span class="math inline">z_2 \approx 0.84</span></li>
-<li>X₁ = 120 + (−0.84)(8) = <strong>113.28</strong></li>
-<li>X₂ = 120 + (0.84)(8) = <strong>126.72</strong></li>
+<li><span class="math inline">X_1</span> = 120 + (−0.84)(8) = <strong>113.28</strong></li>
+<li><span class="math inline">X_2</span> = 120 + (0.84)(8) = <strong>126.72</strong></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">120</span>; sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb25-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.20</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">120</span>; sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb35-2"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.20</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 113.267</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.80</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.80</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 126.733</code></pre>
 </div>
@@ -872,25 +950,25 @@ Yu-You Liou
 <p><strong>Problem</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher claims that the distribution of technology inventories at warehouses is approximately normal with μ = 110,000 and σ = 15,000 units. A warehouse is selected at random. Find the probability that it has <strong>more than 132,500 units</strong>.</p>
+<p>A researcher claims that the distribution of technology inventories at warehouses is approximately normal with <span class="math inline">\mu</span> = 110,000 and <span class="math inline">\sigma</span> = 15,000 units. A warehouse is selected at random. Find the probability that it has <strong>more than 132,500 units</strong>.</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">110000</span>; sigma <span class="ot">&lt;-</span> <span class="dv">15000</span></span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a><span class="co"># P(X &gt; 132500)</span></span>
-<span id="cb29-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">132500</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">110000</span>; sigma <span class="ot">&lt;-</span> <span class="dv">15000</span></span>
+<span id="cb39-2"><a href=""></a></span>
+<span id="cb39-3"><a href=""></a><span class="co"># P(X &gt; 132500)</span></span>
+<span id="cb39-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">132500</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0668072</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="co"># Equivalent z-score</span></span>
-<span id="cb31-2"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">132500</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
-<span id="cb31-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># Equivalent z-score</span></span>
+<span id="cb41-2"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">132500</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
+<span id="cb41-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0668072</code></pre>
 </div>
@@ -908,7 +986,7 @@ Yu-You Liou
 <p><strong>Problem</strong></p>
 </div>
 <div class="callout-content">
-<p>The distribution of the duration of professional baseball games is <strong>negatively skewed</strong> with μ = 166 minutes and σ = 26 minutes. If a game is selected at random, find the probability that it lasts <strong>less than 145 minutes</strong>.</p>
+<p>The distribution of the duration of professional baseball games is <strong>negatively skewed</strong> with <span class="math inline">\mu</span> = 166 minutes and <span class="math inline">\sigma</span> = 26 minutes. If a game is selected at random, find the probability that it lasts <strong>less than 145 minutes</strong>.</p>
 </div>
 </div>
 </div>
@@ -926,19 +1004,19 @@ Yu-You Liou
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">166</span>; sigma <span class="ot">&lt;-</span> <span class="dv">26</span></span>
-<span id="cb35-2"><a href=""></a><span class="co"># Approximate probability (treating as normal)</span></span>
-<span id="cb35-3"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">145</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
-<span id="cb35-4"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">166</span>; sigma <span class="ot">&lt;-</span> <span class="dv">26</span></span>
+<span id="cb45-2"><a href=""></a><span class="co"># Approximate probability (treating as normal)</span></span>
+<span id="cb45-3"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">145</span> <span class="sc">-</span> mu) <span class="sc">/</span> sigma</span>
+<span id="cb45-4"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.8076923</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">145</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">145</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2096339</code></pre>
 </div>
 </div>
-<p><strong>Note:</strong> <span class="math inline">z \approx -0.81</span>; P(X &lt; 145) <span class="math inline">\approx</span> <strong>0.2090</strong> (approximately 20.9%). Since the data is skewed, this is only a rough estimate.</p>
+<p><strong>Note:</strong> <span class="math inline">z \approx -0.81</span>; table value 0.2090, R gives P(X &lt; 145) <span class="math inline">\approx</span> <strong>0.2096</strong> (approximately 21%). Since the data is skewed, this is only a rough estimate.</p>
 </section></section>
 <section>
 <section id="section-6-3-the-central-limit-theorem" class="title-slide slide level1 center" data-background-color="#2c4a6e">
@@ -978,7 +1056,7 @@ Yu-You Liou
 </div>
 </div>
 </div>
-<p><strong>In R:</strong> Use <code>pnorm(xbar, mean = μ, sd = σ/sqrt(n))</code></p>
+<p><strong>In R:</strong> Use <code>pnorm(xbar, mean = mu, sd = sigma/sqrt(n))</code></p>
 <p>The CLT explains why the normal distribution is so central to statistics:</p>
 <ul>
 <li>Survey results, poll averages, sample statistics all tend toward normality</li>
@@ -988,15 +1066,15 @@ Yu-You Liou
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="co"># CLT demonstration: sampling from a skewed distribution</span></span>
-<span id="cb39-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb39-3"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="at">rate =</span> <span class="fl">0.5</span>)  <span class="co"># skewed population</span></span>
-<span id="cb39-4"><a href=""></a>sample_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, <span class="dv">30</span>)))</span>
-<span id="cb39-5"><a href=""></a><span class="fu">hist</span>(sample_means, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"#2c4a6e"</span>,</span>
-<span id="cb39-6"><a href=""></a>     <span class="at">main =</span> <span class="st">"Sampling Distribution of X-bar (n=30)"</span>,</span>
-<span id="cb39-7"><a href=""></a>     <span class="at">xlab =</span> <span class="st">"Sample Mean"</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb39-8"><a href=""></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="fu">mean</span>(pop), <span class="fu">sd</span>(pop)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)), <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb39-9"><a href=""></a>      <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="co"># CLT demonstration: sampling from a skewed distribution</span></span>
+<span id="cb49-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb49-3"><a href=""></a>pop <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10000</span>, <span class="at">rate =</span> <span class="fl">0.5</span>)  <span class="co"># skewed population</span></span>
+<span id="cb49-4"><a href=""></a>sample_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, <span class="dv">30</span>)))</span>
+<span id="cb49-5"><a href=""></a><span class="fu">hist</span>(sample_means, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"#2c4a6e"</span>,</span>
+<span id="cb49-6"><a href=""></a>     <span class="at">main =</span> <span class="st">"Sampling Distribution of X-bar (n=30)"</span>,</span>
+<span id="cb49-7"><a href=""></a>     <span class="at">xlab =</span> <span class="st">"Sample Mean"</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb49-8"><a href=""></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="fu">mean</span>(pop), <span class="fu">sd</span>(pop)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">30</span>)), <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb49-9"><a href=""></a>      <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6_files/figure-revealjs/e6-12-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -1011,7 +1089,7 @@ Yu-You Liou
 <p><strong>Children’s TV Viewing</strong></p>
 </div>
 <div class="callout-content">
-<p>Children in the United States watch an average of μ = 25 hours of TV per week, with σ = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.</p>
+<p>Children in the United States watch an average of <span class="math inline">\mu</span> = 25 hours of TV per week, with <span class="math inline">\sigma</span> = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.</p>
 </div>
 </div>
 </div>
@@ -1027,20 +1105,49 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Solve</strong></p>
-<p>The average age of vehicles registered in the United States is μ = 96 months, with σ = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 &lt; <span class="math inline">\bar{X}</span> &lt; 100).</p>
+<p><span class="math display">z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94</span></p>
+<p>P(<span class="math inline">\bar{X}</span> &gt; 26.3) = P(Z &gt; 1.94) <span class="math inline">\approx</span> <strong>0.0263</strong> (2.63%)</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">96</span>; sigma <span class="ot">&lt;-</span> <span class="dv">16</span>; n <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb40-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb40-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">25</span>; sigma <span class="ot">&lt;-</span> <span class="dv">3</span>; n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb50-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb50-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6708204</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="co"># P(X-bar &gt; 26.3)</span></span>
+<span id="cb52-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.3</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02631615</code></pre>
+</div>
+</div>
+</section>
+<section id="example-6-14" class="slide level2">
+<h2>Example 6-14</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Vehicle Ages</strong></p>
+</div>
+<div class="callout-content">
+<p>The average age of vehicles registered in the United States is <span class="math inline">\mu</span> = 96 months, with <span class="math inline">\sigma</span> = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 &lt; <span class="math inline">\bar{X}</span> &lt; 100).</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">96</span>; sigma <span class="ot">&lt;-</span> <span class="dv">16</span>; n <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb54-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb54-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.666667</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="co"># P(90 &lt; X-bar &lt; 100)</span></span>
-<span id="cb42-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="co"># P(90 &lt; X-bar &lt; 100)</span></span>
+<span id="cb56-2"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">90</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9209683</code></pre>
 </div>
@@ -1059,27 +1166,27 @@ Yu-You Liou
 <p><strong>Problem</strong></p>
 </div>
 <div class="callout-content">
-<p>The average annual meat consumption per person is μ = 218.4 pounds, σ = 25 pounds.</p>
+<p>The average annual meat consumption per person is <span class="math inline">\mu</span> = 218.4 pounds, <span class="math inline">\sigma</span> = 25 pounds.</p>
 <p><strong>(a)</strong> Find P(X &lt; 224) for a <strong>single individual</strong>. <strong>(b)</strong> Find P(<span class="math inline">\bar{X}</span> &lt; 224) for a <strong>sample of n = 40</strong> individuals.</p>
 </div>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">218.4</span>; sigma <span class="ot">&lt;-</span> <span class="dv">25</span>; n <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb44-2"><a href=""></a></span>
-<span id="cb44-3"><a href=""></a><span class="co"># (a) Individual: P(X &lt; 224)</span></span>
-<span id="cb44-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fl">218.4</span>; sigma <span class="ot">&lt;-</span> <span class="dv">25</span>; n <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb58-2"><a href=""></a></span>
+<span id="cb58-3"><a href=""></a><span class="co"># (a) Individual: P(X &lt; 224)</span></span>
+<span id="cb58-4"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.5886213</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="co"># (b) Sample mean: P(X-bar &lt; 224), n = 40</span></span>
-<span id="cb46-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb46-3"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="co"># (b) Sample mean: P(X-bar &lt; 224), n = 40</span></span>
+<span id="cb60-2"><a href=""></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb60-3"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">224</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9217147</code></pre>
 </div>
 </div>
-<p><strong>Answers:</strong> (a) <span class="math inline">\approx</span> <strong>58.71%</strong>; (b) <span class="math inline">\approx</span> <strong>92.22%</strong></p>
+<p><strong>Answers:</strong> (a) table value 0.5871, R gives <span class="math inline">\approx</span> <strong>0.5886</strong> (58.86%); (b) table value 0.9222, R gives <span class="math inline">\approx</span> <strong>0.9217</strong> (92.17%)</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1089,7 +1196,7 @@ Yu-You Liou
 <p><strong>Key Insight</strong></p>
 </div>
 <div class="callout-content">
-<p>The probability is much higher for the sample mean because the standard error (σ/√n) is smaller than σ — sample means are less variable than individual values.</p>
+<p>The probability is much higher for the sample mean because the standard error (<span class="math inline">\sigma</span>/√n) is smaller than <span class="math inline">\sigma</span> — sample means are less variable than individual values.</p>
 </div>
 </div>
 </div>
@@ -1186,26 +1293,26 @@ Yu-You Liou
 <li><p>np = 300(0.06) = 18 <span class="math inline">\geq 5</span> ✓</p></li>
 <li><p>nq = 300(0.94) = 282 <span class="math inline">\geq 5</span> ✓</p></li>
 </ul>
-<p><strong>Parameters:</strong> μ = np = 18, σ = <span class="math inline">\sqrt{npq}</span> = <span class="math inline">\sqrt{300 \times 0.06 \times 0.94}</span></p>
+<p><strong>Parameters:</strong> <span class="math inline">\mu</span> = np = 18, <span class="math inline">\sigma</span> = <span class="math inline">\sqrt{npq}</span> = <span class="math inline">\sqrt{300 \times 0.06 \times 0.94}</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>; p <span class="ot">&lt;-</span> <span class="fl">0.06</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
-<span id="cb48-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb48-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>; p <span class="ot">&lt;-</span> <span class="fl">0.06</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p</span>
+<span id="cb62-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb62-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 18   sigma = 4.1134 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="co"># Normal approximation: P(X = 25) ≈ P(24.5 &lt; X &lt; 25.5)</span></span>
-<span id="cb50-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">25.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">24.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="co"># Normal approximation: P(X = 25) ≈ P(24.5 &lt; X &lt; 25.5)</span></span>
+<span id="cb64-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">25.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">24.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02290202</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="co"># Exact binomial</span></span>
-<span id="cb52-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">25</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="co"># Exact binomial</span></span>
+<span id="cb66-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">25</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02263092</code></pre>
 </div>
 </div>
-<p><strong>Answer (normal approx.):</strong> <span class="math inline">\approx</span> <strong>0.0227</strong> (2.27%); Exact binomial: <span class="math inline">\approx 0.0220.</span></p>
+<p><strong>Answer (normal approx.):</strong> table value 0.0227, R gives <span class="math inline">\approx</span> <strong>0.0229</strong> (2.29%); Exact binomial: <span class="math inline">\approx 0.0226.</span></p>
 </section>
 <section id="example-6-17" class="slide level2">
 <h2>Example 6-17</h2>
@@ -1234,32 +1341,87 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Solve</strong></p>
+<p><strong>Check:</strong> np = 200(0.10) = 20 <span class="math inline">\geq 5</span>, nq = 200(0.90) = 180 <span class="math inline">\geq 5</span> ✓</p>
+<p><strong>Parameters:</strong> <span class="math inline">\mu</span> = np = 20, <span class="math inline">\sigma</span> = <span class="math inline">\sqrt{200 \times 0.10 \times 0.90}</span> = <span class="math inline">\sqrt{18} \approx 4.24</span></p>
+<p>With the continuity correction, <span class="math inline">P(X \geq 10) = P(X &gt; 9.5)</span>:</p>
+<p><span class="math display">z = \frac{9.5 - 20}{4.24} \approx -2.48</span></p>
+<p><span class="math display">P(X \geq 10) = 1 - 0.0066 = 0.9934</span></p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">200</span>; p <span class="ot">&lt;-</span> <span class="fl">0.10</span>; q <span class="ot">&lt;-</span> <span class="fl">0.90</span></span>
+<span id="cb68-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb68-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mu = 20   sigma = 4.2426 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a><span class="co"># P(X &gt;= 10) with continuity correction: P(X &gt; 9.5)</span></span>
+<span id="cb70-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">9.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9933358</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="co"># Exact binomial</span></span>
+<span id="cb72-2"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">9</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9964714</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong> table value 0.9934, R gives <span class="math inline">\approx</span> <strong>0.9933</strong> — it is almost certain that 10 or more bowlers are widowed.</p>
+</section>
+<section id="example-6-18" class="slide level2">
+<h2>Example 6-18</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Batting Averages</strong></p>
+</div>
+<div class="callout-content">
 <p>In baseball, a .320 batting average means a player gets a hit 32% of the time. In 100 at-bats, find the probability of getting <strong>26 or fewer</strong> hits.</p>
 </div>
 </div>
 </div>
+</section>
+<section id="example-6-18-1" class="slide level2">
+<h2>Example 6-18</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
 <p><strong>Check:</strong> np = 32 <span class="math inline">\geq 5</span>, nq = 68 <span class="math inline">\geq 5</span> ✓</p>
-<p><strong>Parameters:</strong> μ = 32, σ = <span class="math inline">\sqrt{100 \times 0.32 \times 0.68}</span></p>
+<p><strong>Parameters:</strong> <span class="math inline">\mu</span> = 32, <span class="math inline">\sigma</span> = <span class="math inline">\sqrt{100 \times 0.32 \times 0.68} \approx 4.66</span></p>
+<p>With the continuity correction, <span class="math inline">P(X \leq 26) = P(X &lt; 26.5)</span>:</p>
+<p><span class="math display">z = \frac{26.5 - 32}{4.66} \approx -1.18</span></p>
+</div>
+</div>
+</div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; p <span class="ot">&lt;-</span> <span class="fl">0.32</span>; q <span class="ot">&lt;-</span> <span class="fl">0.68</span></span>
-<span id="cb54-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb54-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>; p <span class="ot">&lt;-</span> <span class="fl">0.32</span>; q <span class="ot">&lt;-</span> <span class="fl">0.68</span></span>
+<span id="cb74-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb74-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, <span class="fu">round</span>(sigma, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 32   sigma = 4.6648 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="co"># P(X &lt;= 26) with continuity correction: P(X &lt; 26.5)</span></span>
-<span id="cb56-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="co"># P(X &lt;= 26) with continuity correction: P(X &lt; 26.5)</span></span>
+<span id="cb76-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">26.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1191886</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="co"># Exact binomial</span></span>
-<span id="cb58-2"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">26</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="co"># Exact binomial</span></span>
+<span id="cb78-2"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">26</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1180158</code></pre>
 </div>
 </div>
-<p><strong>Answer (normal approx.):</strong> <span class="math inline">\approx</span> <strong>0.119</strong> (11.9%); Exact: <span class="math inline">\approx 0.116.</span></p>
+<p><strong>Answer (normal approx.):</strong> <span class="math inline">\approx</span> <strong>0.119</strong> (11.9%); Exact: <span class="math inline">\approx 0.118.</span></p>
 </section>
 <section id="example-6-19" class="slide level2">
 <h2>Example 6-19</h2>
@@ -1295,24 +1457,24 @@ Yu-You Liou
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb60-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
-<span id="cb60-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, sigma, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>; p <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb80-2"><a href=""></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p; sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n <span class="sc">*</span> p <span class="sc">*</span> q)</span>
+<span id="cb80-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"mu ="</span>, mu, <span class="st">"  sigma ="</span>, sigma, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>mu = 5   sigma = 1.581139 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="co"># (a) Exact binomial</span></span>
-<span id="cb62-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">6</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a><span class="co"># (a) Exact binomial</span></span>
+<span id="cb82-2"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">6</span>, n, p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2050781</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="co"># (b) Normal approximation with continuity correction</span></span>
-<span id="cb64-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">6.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a><span class="co"># (b) Normal approximation with continuity correction</span></span>
+<span id="cb84-2"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">6.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.5</span>, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.204524</code></pre>
 </div>
 </div>
-<p><strong>Comparison:</strong> Exact = <strong>0.2051</strong>; Normal approx. = <strong>0.2034</strong></p>
+<p><strong>Comparison:</strong> Exact = <strong>0.2051</strong>; Normal approx. = <strong>0.2045</strong> (a table-based hand calculation gives 0.2034)</p>
 <p>The approximation is quite close even for this borderline case.</p>
 </section>
 <section id="chapter-6-summary" class="slide level2 smaller">
@@ -1348,18 +1510,18 @@ Yu-You Liou
 </tr>
 <tr class="even">
 <td>Non-standard normal</td>
-<td>z = (X − μ)/σ</td>
+<td>z = (X − <span class="math inline">\mu</span>)/<span class="math inline">\sigma</span></td>
 <td><code>pnorm(x, mean, sd)</code></td>
 </tr>
 <tr class="odd">
 <td>Sample mean probability</td>
-<td>z = (X̄ − μ)/(σ/√n)</td>
+<td>z = (X̄ − <span class="math inline">\mu</span>)/(<span class="math inline">\sigma</span>/√n)</td>
 <td><code>pnorm(xbar, mean, sd/sqrt(n))</code></td>
 </tr>
 <tr class="even">
 <td>Normal approx. to binomial</td>
-<td>μ=np, σ=<span class="math inline">\sqrt{npq}</span></td>
-<td>±0.5 correction</td>
+<td><span class="math inline">\mu</span>=np, <span class="math inline">\sigma</span>=<span class="math inline">\sqrt{npq}</span></td>
+<td>$$0.5 correction</td>
 </tr>
 </tbody>
 </table>
@@ -1367,7 +1529,7 @@ Yu-You Liou
 <section id="key-takeaways" class="slide level2">
 <h2>Key Takeaways</h2>
 <ol type="1">
-<li>The normal distribution is fully described by μ and σ</li>
+<li>The normal distribution is fully described by <span class="math inline">\mu</span> and <span class="math inline">\sigma</span></li>
 <li>Convert to z scores to use the standard normal table</li>
 <li>The CLT guarantees that sample means are approximately normal for <span class="math inline">n \geq 30</span></li>
 <li>Use normal approximation to binomial when np <span class="math inline">\geq 5</span> <strong>and</strong> nq <span class="math inline">\geq 5</span></li>
@@ -1377,7 +1539,7 @@ Yu-You Liou
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

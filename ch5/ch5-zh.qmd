@@ -281,13 +281,48 @@ $$\sigma = \sqrt{\sigma^2}$$
 :::{.callout-tip}
 ## 解題
 
-**解題**
+每個點數 $1, 2, \ldots, 6$ 出現的機率均為 $\frac{1}{6}$，因此
 
-在有兩個孩子的家庭中，求女孩平均數。
+$$\mu = \sum X \cdot P(X) = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + \cdots + 6 \cdot \frac{1}{6} = \frac{21}{6} = 3.5$$
 
 :::
 
 ```{r e5-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+X <- 1:6
+PX <- rep(1/6, 6)
+mu <- sum(X * PX)
+df <- data.frame(X = X, `P(X)` = round(PX, 4), `X·P(X)` = round(X * PX, 4), check.names = FALSE)
+knitr::kable(df, caption = "擲骰子：出現點數")
+```
+
+----
+
+```{r e5-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cat("平均數 μ =", mu)
+```
+
+多次擲骰子時，理論平均數為 **3.5**——即使骰子永遠不會出現 3.5 點。
+
+## 範例 5-6 {#example-5-6}
+
+:::{.callout-warning}
+## 家庭中的孩子
+
+在有兩個孩子的家庭中，求孩子為女孩人數的平均數。
+:::
+
+## 範例 5-6
+
+:::{.callout-tip}
+## 解題
+
+樣本空間為 男男、男女、女男、女女，故 $P(0) = \frac{1}{4}$、$P(1) = \frac{2}{4}$、$P(2) = \frac{1}{4}$。
+
+$$\mu = \sum X \cdot P(X) = 0 \cdot \frac{1}{4} + 1 \cdot \frac{2}{4} + 2 \cdot \frac{1}{4} = 1$$
+
+:::
+
+```{r e5-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 X <- 0:2
 PX <- c(1/4, 2/4, 1/4)
 mu <- sum(X * PX)
@@ -297,7 +332,7 @@ knitr::kable(df, caption = "兩個孩子家庭的女孩數")
 
 ----
 
-```{r e5-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e5-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cat("平均數 μ =", mu)
 ```
 
@@ -431,12 +466,12 @@ $$E(X) = \mu = \sum X \cdot P(X)$$
 :::{.callout-warning}
 ## 抽獎彩券
 
-某抽獎活動提供一個 $1000 的獎項、兩個 $500 的獎項及五個 $100 的獎項。共售出 1000 張彩券，每張 $1。求一張彩券的期望值。
+某抽獎活動提供一個 $1000 的獎項、兩個 $500 的獎項及五個 $100 的獎項。共售出 1000 張彩券，每張 $3。求一張彩券的期望值。
 :::
 ---
 
 ```{r e5-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- c(1000-1, 500-1, 100-1, -1)   # 淨獲利
+X <- c(1000-3, 500-3, 100-3, -3)   # 淨獲利
 PX <- c(1/1000, 2/1000, 5/1000, 992/1000)
 EX <- sum(X * PX)
 df <- data.frame(`淨獲利 X` = X, `P(X)` = PX, `X·P(X)` = X*PX, check.names = FALSE)
@@ -444,7 +479,7 @@ knitr::kable(df)
 cat("E(X) = $", round(EX, 4))
 ```
 
-期望值為**負值**，表示平均每張彩券玩家預期損失約 $0.35。
+期望值為**負值**，表示平均每張彩券玩家預期損失約 $0.50。
 
 ## 範例 5-13 {#example-5-13}
 
@@ -459,13 +494,41 @@ cat("E(X) = $", round(EX, 4))
 :::{.callout-tip}
 ## 解題
 
-**解題**
+此骰子有 3 面為 6 點、2 面為 4 點、1 面為 1 點，故 $P(6) = \frac{3}{6}$、$P(4) = \frac{2}{6}$、$P(1) = \frac{1}{6}$。
 
-投資人考慮兩種債券。債券X：70% 機率獲利 $120，30% 機率損失 $40。債券Y：60% 機率獲利 $90，40% 機率損失 $30。哪種債券的期望報酬較好？
+$$E(X) = 1 \cdot \frac{1}{6} + 4 \cdot \frac{2}{6} + 6 \cdot \frac{3}{6} = \frac{27}{6} = 4.5$$
 
 :::
 
 ```{r e5-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+X <- c(1, 4, 6)
+PX <- c(1/6, 2/6, 3/6)
+EX <- sum(X * PX)
+cat("E(X) =", EX)
+```
+
+單次擲骰只可能出現 1、4 或 6 點，但長期而言其平均值為 **4.5**。
+
+## 範例 5-14 {#example-5-14}
+
+:::{.callout-warning}
+## 債券投資
+
+投資人考慮兩種債券。債券X：70% 機率獲利 $120，30% 機率損失 $40。債券Y：60% 機率獲利 $90，40% 機率損失 $30。哪種債券的期望報酬較好？
+:::
+
+## 範例 5-14
+
+:::{.callout-tip}
+## 解題
+
+$$E(\text{債券X}) = 120(0.70) + (-40)(0.30) = 84 - 12 = 72$$
+
+$$E(\text{債券Y}) = 90(0.60) + (-30)(0.40) = 54 - 12 = 42$$
+
+:::
+
+```{r e5-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 # 債券 X
 X_x <- c(120, -40); P_x <- c(0.70, 0.30)
 EX <- sum(X_x * P_x)
@@ -669,7 +732,27 @@ cat("(c) P(X ≥ 3) = 1 - P(X ≤ 2) =", round(c, 4))
 :::{.callout-tip}
 ## 解題
 
-**解題**
+此處 $n = 15$、$p = 0.70$、$X = 12$：
+
+$$P(12) = \frac{15!}{(15-12)!\,12!}(0.70)^{12}(0.30)^{3} \approx 0.170$$
+
+:::
+
+```{r e5-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 15; X <- 12; p <- 0.70; q <- 1 - p
+prob <- choose(n, X) * p^X * q^(n - X)
+cat("P(X = 12) = C(15,12) × (0.7)^12 × (0.3)^3 =", round(prob, 4))
+
+# 使用 dbinom 驗證
+cat("\n以 dbinom 驗證:", round(dbinom(12, 15, 0.7), 4))
+```
+
+15 件死亡事故中恰好 12 件涉及酒醉駕駛的機率約為 **0.17**。
+
+## 二項分配的平均數、變異數與標準差
+
+:::{.callout-note}
+## 公式
 
 $$\mu = n \cdot p$$
 
@@ -677,8 +760,7 @@ $$\sigma^2 = n \cdot p \cdot q$$
 
 $$\sigma = \sqrt{n \cdot p \cdot q}$$
 
-這些公式在代數上等同於一般公式 $\mu = \sum X \cdot P(X)$ 與 $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$。
-
+這些公式在代數上等同於一般公式 $\mu = \sum X \cdot P(X)$ 與 $\sigma^2 = \sum[X^2 \cdot P(X)] - \mu^2$，但對二項變數而言使用起來簡便許多。
 :::
 
 ## 範例 5-21 {#example-5-21}
@@ -719,13 +801,50 @@ cat("\n驗證：μ =", mu_check, "| σ² =", sigma2_check)
 :::{.callout-tip}
 ## 解題
 
-**解題**
+出現 3 點視為成功，故 $n = 480$、$p = \frac{1}{6}$、$q = \frac{5}{6}$：
 
-約 2% 的美國新生兒為雙胞胎。若隨機抽取 8000 名新生兒，求雙胞胎出生數的平均數、變異數與標準差。
+$$\mu = n \cdot p = 480 \cdot \frac{1}{6} = 80$$
+
+$$\sigma^2 = n \cdot p \cdot q = 480 \cdot \frac{1}{6} \cdot \frac{5}{6} \approx 66.67$$
+
+$$\sigma = \sqrt{66.67} \approx 8.16$$
 
 :::
 
 ```{r e5-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 480; p <- 1/6; q <- 5/6
+mu <- n * p
+sigma2 <- n * p * q
+sigma <- sqrt(sigma2)
+cat("μ = n·p =", mu, "\n")
+cat("σ² = n·p·q =", round(sigma2, 2), "\n")
+cat("σ = √σ² =", round(sigma, 2))
+```
+
+## 範例 5-23 {#example-5-23}
+
+:::{.callout-warning}
+## 雙胞胎的可能性
+
+約 2% 的美國新生兒為雙胞胎。若隨機抽取 8000 名新生兒，求雙胞胎出生數的平均數、變異數與標準差。
+:::
+
+## 範例 5-23
+
+:::{.callout-tip}
+## 解題
+
+此為二項情境，$n = 8000$、$p = 0.02$、$q = 0.98$：
+
+$$\mu = n \cdot p = 8000 \cdot 0.02 = 160$$
+
+$$\sigma^2 = n \cdot p \cdot q = 8000 \cdot 0.02 \cdot 0.98 = 156.8$$
+
+$$\sigma = \sqrt{156.8} \approx 12.5$$
+
+:::
+
+```{r e5-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8000; p <- 0.02; q <- 0.98
 mu <- n * p
 sigma2 <- n * p * q
@@ -804,13 +923,43 @@ $$P(X) = \frac{n!}{X_1!\, X_2!\, X_3!\, \cdots\, X_k!} \cdot p_1^{X_1} \cdot p_2
 :::{.callout-tip}
 ## 解題
 
-**解題**
+此處 $n = 5$、$X_1 = 3$、$X_2 = 1$、$X_3 = 1$，且 $p_1 = 0.50$、$p_2 = 0.30$、$p_3 = 0.20$：
 
-咖啡廳經理發現顧客購買 0、1、2 或 3 杯咖啡的機率分別為 0.3、0.5、0.15 及 0.05。若有 8 名顧客進入，求 2 人什麼都不買、4 人買 1 杯、1 人買 2 杯、1 人買 3 杯的機率。
+$$P(X) = \frac{5!}{3!\,1!\,1!}(0.50)^3(0.30)^1(0.20)^1 = 0.15$$
 
 :::
 
 ```{r e5-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n <- 5
+X1 <- 3; X2 <- 1; X3 <- 1
+p1 <- 0.50; p2 <- 0.30; p3 <- 0.20
+
+prob <- factorial(n) / (factorial(X1)*factorial(X2)*factorial(X3)) *
+        p1^X1 * p2^X2 * p3^X3
+
+cat("P(X) = 5!/(3!·1!·1!) × (0.5)³ × (0.3)¹ × (0.2)¹ =", round(prob, 4))
+```
+
+## 範例 5-25 {#example-5-25}
+
+:::{.callout-warning}
+## 咖啡廳顧客
+
+咖啡廳經理發現顧客購買 0、1、2 或 3 杯咖啡的機率分別為 0.3、0.5、0.15 及 0.05。若有 8 名顧客進入，求 2 人什麼都不買、4 人買 1 杯、1 人買 2 杯、1 人買 3 杯的機率。
+:::
+
+## 範例 5-25
+
+:::{.callout-tip}
+## 解題
+
+此處 $n = 8$、$X_1 = 2$、$X_2 = 4$、$X_3 = 1$、$X_4 = 1$，且 $p_1 = 0.3$、$p_2 = 0.5$、$p_3 = 0.15$、$p_4 = 0.05$：
+
+$$P(X) = \frac{8!}{2!\,4!\,1!\,1!}(0.3)^2(0.5)^4(0.15)^1(0.05)^1 \approx 0.0354$$
+
+:::
+
+```{r e5-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 n <- 8
 X1 <- 2; X2 <- 4; X3 <- 1; X4 <- 1
 p1 <- 0.30; p2 <- 0.50; p3 <- 0.15; p4 <- 0.05
@@ -962,13 +1111,44 @@ $$P(X) = \frac{C^a_X \cdot  C^b_{n-X}}{C^{a+b}_n}$$
 :::{.callout-tip}
 ## 解題
 
-**解題**
+此處 $a = 5$（大學畢業生）、$b = 5$（非畢業生）、$n = 3$、$X = 3$：
 
-研究發現某社區 10 棟房屋中有 2 棟沒有保險。若從 10 棟中抽取 5 棟，求恰好 1 棟未投保的機率。
+$$P(3) = \frac{C^5_3 \cdot C^5_0}{C^{10}_3} = \frac{10 \cdot 1}{120} = \frac{1}{12} \approx 0.0833$$
 
 :::
 
 ```{r e5-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+a <- 5   # 大學畢業生
+b <- 5   # 非畢業生
+n <- 3; X <- 3
+
+prob <- choose(a, X) * choose(b, n - X) / choose(a + b, n)
+cat("a = 5（畢業生），b = 5（非畢業生），n = 3，X = 3\n")
+cat("P(X=3) = C(5,3)×C(5,0) / C(10,3)\n")
+cat("       =", choose(a,X), "×", choose(b,n-X), "/", choose(a+b,n),
+    "=", round(prob, 4), "（= 1/12）")
+```
+
+## 範例 5-31 {#example-5-31}
+
+:::{.callout-warning}
+## 房屋保險
+
+研究發現某社區 10 棟房屋中有 2 棟沒有保險。若從 10 棟中抽取 5 棟，求恰好 1 棟未投保的機率。
+:::
+
+## 範例 5-31
+
+:::{.callout-tip}
+## 解題
+
+此處 $a = 2$（未投保）、$b = 8$（已投保）、$n = 5$、$X = 1$：
+
+$$P(1) = \frac{C^2_1 \cdot C^8_4}{C^{10}_5} = \frac{2 \cdot 70}{252} = \frac{140}{252} = \frac{5}{9} \approx 0.5556$$
+
+:::
+
+```{r e5-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 a <- 2   # 未投保
 b <- 8   # 已投保
 n <- 5; X <- 1
@@ -1041,10 +1221,10 @@ knitr::kable(summary_df, caption = "表5-1：離散分配摘要")
 - **超幾何分配：** 兩種結果，不放回抽樣。
 :::
 
-## 版權聲明
+## Acknowledgement
 
--   **版權聲明。** 本教學素材改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有版權由原作者與出版商保留。
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
--   **僅限非商業使用。** 本素材嚴格限於教育目的，不得用於商業獲利。
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
--   **正確引用。** 任何複製、散布或使用本素材者，必須對原始來源提供適當引用。
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.

@@ -296,7 +296,7 @@ cat("n =", length(fees), "（偶數）→ 第",
 cat("中位數：", median(fees), "\n")
 ```
 
-有8個值（偶數），中位數為排序後第4與第5個值的平均：$\frac{10+12}{2}$ = **$11**。
+有8個值（偶數），中位數為排序後第4與第5個值的平均：$\frac{10+12}{2}$ = **$11**。$
 :::
 
 ## 範例 3-6 & 3-7：較大資料集的中位數 {#example-3-6}
@@ -380,7 +380,8 @@ bonuses <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
 
 mode_tbl <- sort(table(bonuses), decreasing = TRUE)
 print(mode_tbl)
-cat("眾數：$", names(mode_tbl)[1], "百萬\n")
+modes <- names(mode_tbl)[mode_tbl == max(mode_tbl)]
+cat("眾數：", paste0("$", modes, " 百萬", collapse = " 與 "), "\n")
 ```
 
 2和10均出現3次 → 資料集為**雙峰**：**200萬與1,000萬美元**。
@@ -402,7 +403,7 @@ mode_tbl <- sort(table(reactors), decreasing = TRUE)
 print(mode_tbl)
 ```
 
-**104** 出現5次，**109** 出現6次 → 雙峰：**104與109**。
+**104** 出現5次，**109** 出現5次 → 雙峰：**104與109**。
 
 ## 範例 3-12 {#example-3-12}
 
@@ -465,7 +466,7 @@ cat("眾數：無眾數（所有值均不同）\n")
 
 ---
 
-**平均數（$15,333）**被$45,000的離群值拉高。**中位數（$10,500）**更能代表典型薪資。
+**平均數（$15,333）**被$45,000的離群值拉高。**中位數（$10,500）**更能代表典型薪資。$
 
 :::{.callout-warning}
 ## 存在離群值時
@@ -690,7 +691,7 @@ cat("最高薪資：$", max(salaries), "\n")
 cat("全距：$", max(salaries) - min(salaries), "\n")
 ```
 
-全距為 **$85,000**——受老闆薪資強烈影響。
+全距為 **$85,000**——受老闆薪資強烈影響。$
 :::
 
 ## 母體變異數與標準差
@@ -1005,9 +1006,9 @@ cat("最小百分比：1 - 1/k^2 =", pct, "%\n")
 
 | 區間 | 資料的近似百分比 |
 |----------|----------------------|
-| $\bar{X} \pm 1s$ | $\approx 68%$ |
-| $\bar{X} \pm 2s$ | $\approx 95%$ |
-| $\bar{X} \pm 3s$ | $\approx 99.7%$ |
+| $\bar{X} \pm 1s$ | $\approx 68\%$ |
+| $\bar{X} \pm 2s$ | $\approx 95\%$ |
+| $\bar{X} \pm 3s$ | $\approx 99.7\%$ |
 :::
 
 ---
@@ -1077,10 +1078,11 @@ z_hist <- (30 - 25) / 5
 
 cat("微積分z分數：", z_calc, "\n")
 cat("歷史z分數：", z_hist, "\n")
-cat("\n兩個z分數相等（1.5）→ 相對表現相同。\n")
+cat("\n微積分z分數（1.5）> 歷史z分數（1.0）\n")
+cat("→ 她在微積分考試的相對表現較好。\n")
 ```
 
-兩個分數均高出各自平均數1.5個標準差——**相對位置相同**。
+微積分分數高出其平均數1.5個標準差，而歷史分數僅高出其平均數1.0個標準差——**她在微積分考試的相對表現較好**。
 :::
 
 ## 範例 3-30 {#example-3-30}
@@ -1189,7 +1191,7 @@ ggplot(df_bp, aes(x=upper, y=cum_pct)) +
 
 ---
 
-```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e3-31-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 scores <- c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10)
 n <- length(scores)
 
@@ -1539,7 +1541,7 @@ knitr::kable(summary_df, caption="五數摘要比較")
 ```
 
 :::{.callout-note}
-**解讀：** 乳酪替代品的**中位數**鈉含量較高（265 vs 200 mg），**變異性較低**（IQR = 85 vs 207 mg）。真實乳酪資料較分散，且略呈正偏。
+**解讀：** 乳酪替代品的**中位數**鈉含量較高（265 vs 200 mg），**變異性較低**（IQR = 62.5 vs 178.75 mg）。真實乳酪資料較分散，且略呈正偏。
 :::
 
 ## 摘要：第3章一覽
@@ -1574,7 +1576,7 @@ knitr::kable(summary_df, caption="五數摘要比較")
 **經驗法則** ——鐘形分配68/95/99.7%落在1/2/3個標準差內
 :::
 
-## 摘要：第3章一覽（續）
+## 重點整理
 
 :::{.callout-note}
 ## 第3-3節：位置的測量
@@ -1602,10 +1604,10 @@ knitr::kable(summary_df, caption="五數摘要比較")
 **傳統統計量**（平均數、標準差）**不具抗拒性**
 :::
 
-## 版權聲明
+## Acknowledgement
 
--   **版權聲明。** 本教學材料改編自 **Bluman, A. G. (2011). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**。所有版權歸原作者及出版商所有。
+-   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
 
--   **僅限非商業用途。** 本材料嚴格用於教育目的，不得用於商業利益或盈利。
+-   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
--   **適當引用。** 任何複製、散佈或使用本材料時，必須對原始來源提供適當引用。
+-   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
