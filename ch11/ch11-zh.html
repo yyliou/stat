@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-08-02">
+  <meta name="dcterms.date" content="2026-08-03">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@
     </div>
 </div>
 
-  <p class="date">2026-08-02</p>
+  <p class="date">2026-08-03</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
@@ -721,19 +721,24 @@
 <span id="cb28-10"><a href=""></a>O <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span> <span class="sc">+</span> <span class="dv">4</span>)             <span class="co"># 合併最後兩組（E &lt; 5）</span></span>
 <span id="cb28-11"><a href=""></a>E <span class="ot">&lt;-</span> <span class="fu">c</span>(E[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], E[<span class="dv">5</span>] <span class="sc">+</span> E[<span class="dv">6</span>])</span>
 <span id="cb28-12"><a href=""></a>chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((O <span class="sc">-</span> E)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> E)</span>
-<span id="cb28-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"平均數 ="</span>, <span class="fu">round</span>(xbar, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"mean ="</span>, <span class="fu">round</span>(xbar, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>平均數 = 123.4   s = 17.03 </code></pre>
+<pre><code>mean = 123.4   s = 17.03 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"卡方值 ="</span>, <span class="fu">round</span>(chi2, <span class="dv">3</span>), <span class="st">"  臨界值 ="</span>, <span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">2</span>), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">3</span>), <span class="st">"  CV ="</span>, <span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">2</span>), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>卡方值 = 6.788   臨界值 = 5.991 </code></pre>
+<pre><code>chi-square = 6.788   CV = 5.991 </code></pre>
 </div>
 </div>
 <p>R 求得 <span class="math inline">\chi^2 \approx 6.788</span>（使用未四捨五入的面積）；手算值 6.797 的差異僅來自查表面積的四捨五入。</p>
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="第11-2節列聯表檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第11-2節：列聯表檢定</h1>
+
 </section>
 <section id="列聯表" class="slide level2">
 <h2>列聯表</h2>
@@ -971,6 +976,7 @@ C   162.31     89.73      131.96</code></pre>
 <p><strong>步驟二：</strong> 自由度 = (2−1)(3−1) = 2；CV = 4.605</p>
 <p><strong>步驟三：</strong> 期望值： <span class="math display">E_{\text{男, 低}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{男, 中}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots</span></p>
 <p><span class="math display">\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}</span></p>
+<p>（手算值 0.283 使用四捨五入後的期望次數；R 求得 0.281）</p>
 <p><strong>步驟四：</strong> 0.283 &lt; 4.605 → <strong>不拒絕 <span class="math inline">H_0</span></strong></p>
 <p><strong>步驟五：</strong> 沒有足夠的證據得出飲酒量與性別有關的結論。</p>
 </div>
@@ -1071,7 +1077,7 @@ Female 13.87    15.07 12.06</code></pre>
 <th>&lt;$30K</th>
 <th>$30K–$74.9K</th>
 <th>$75K–$99.9K</th>
-<th>$100K</th>
+<th><span class="math inline">\geq</span> $100K</th>
 <th>合計</th>
 </tr>
 </thead>
