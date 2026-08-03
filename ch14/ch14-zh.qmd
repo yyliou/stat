@@ -752,20 +752,34 @@ cat("理論 E(X)：$", sum(bills * probs), "\n")
 :::{.callout-tip}
 ## 解題
 
-**視覺化**
+**繪製圖形**
 
-```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
+```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 many_draws <- sample(bills, size = 1000,
                      replace = TRUE, prob = probs)
 
-ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
+p148 <- ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
   geom_bar(fill = c("gold","steelblue","darkgreen"), alpha = 0.85) +
   geom_hline(yintercept = 1000 * probs, linetype = "dashed",
              color = c("gold3","steelblue4","darkgreen"),
              linewidth = 0.8) +
   labs(title = "鈔票抽取模擬（1000 次試驗）",
        x = "鈔票面額（$）", y = "頻率")
+```
+:::
+
+---
+
+## 範例 14-8
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形**
+
+```{r e14-8-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
+p148
 ```
 :::
 

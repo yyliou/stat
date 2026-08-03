@@ -647,6 +647,8 @@ ceiling(n_raw)
 
 ---
 
+**繪製圖形**
+
 ```{r e7-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(0, 40, length.out = 300)
 df_plot <- data.frame(
@@ -654,11 +656,21 @@ df_plot <- data.frame(
   y = c(dchisq(x, 1), dchisq(x, 4), dchisq(x, 9), dchisq(x, 15)),
   df = rep(c("df=1","df=4","df=9","df=15"), each = 300)
 )
-ggplot(df_plot, aes(x, y, color = df)) +
+p <- ggplot(df_plot, aes(x, y, color = df)) +
   geom_line(linewidth = 1) +
   coord_cartesian(ylim = c(0, 0.5)) +
   labs(title = "卡方曲線族",
        x = expression(chi^2), y = "密度", color = "自由度")
+```
+
+---
+
+## 卡方分配
+
+**輸出圖形**
+
+```{r e7-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+p
 ```
 
 ## 變異數與標準差信賴區間的公式

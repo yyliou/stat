@@ -360,10 +360,12 @@ pnorm(160, mean = mu, sd = sigma)
 
 ---
 
+**繪製圖形**
+
 ```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
 df <- data.frame(x = x, y = dnorm(x, mu, sigma))
-ggplot(df, aes(x, y)) +
+p <- ggplot(df, aes(x, y)) +
   geom_line(color = "#2c4a6e", linewidth = 1) +
   geom_area(data = filter(df, x <= 160), aes(x, y),
             fill = "#2c4a6e", alpha = 0.4) +
@@ -372,6 +374,16 @@ ggplot(df, aes(x, y)) +
   labs(title = "P(X < 160)：夏季旅遊消費",
        subtitle = paste0("μ = ", mu, ", σ = ", sigma),
        x = "金額（$）", y = "密度")
+```
+
+---
+
+## 範例 6-6
+
+**輸出圖形**
+
+```{r e6-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+p
 ```
 
 ## 範例 6-7 {#example-6-7}

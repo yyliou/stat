@@ -353,6 +353,12 @@ data.frame(
   `上界`   = values + units / 2
 ) |> knitr::kable(align = "c")
 ```
+:::
+
+---
+
+:::{.callout-tip}
+## 解題
 
 **詮釋**
 
@@ -669,11 +675,19 @@ set.seed(42)
 subjects <- 1:20
 treatment <- sample(subjects, 10)   # 隨機選出10人
 
-data.frame(
+groups_df <- data.frame(
   `組別` = c("處理組", "控制組"),
   `受試者` = c(paste(sort(treatment), collapse = ", "),
                paste(sort(setdiff(subjects, treatment)), collapse = ", "))
-) |> knitr::kable(align = "l")
+)
+```
+
+---
+
+**輸出結果**
+
+```{r e1-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+groups_df |> knitr::kable(align = "l")
 ```
 
 隨機化能同時平衡**看得見與看不見**的變數，這正是因果結論得以成立的原因。

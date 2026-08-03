@@ -392,7 +392,6 @@ A **naturally occurring group** (cluster) is selected as the sample. All members
   - *Closed-ended:* Choose from given options — easy to tally but limits response
 :::
 
----
 
 # Section 14-3: Simulation Techniques and the Monte Carlo Method {background-color="#2c4a6e"}
 
@@ -734,19 +733,33 @@ cat("Theoretical E(X): $", sum(bills * probs), "\n")
 :::{.callout-tip}
 ## Solution
 
-**Visualization**
+**Draw figure**
 
-```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
+```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(33)
 many_draws <- sample(bills, size = 1000, replace = TRUE, prob = probs)
 
-ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
+p148 <- ggplot(data.frame(value = many_draws), aes(x = factor(value))) +
   geom_bar(fill = c("gold","steelblue","darkgreen"), alpha = 0.85) +
   geom_hline(yintercept = 1000 * probs, linetype = "dashed",
              color = c("gold3","steelblue4","darkgreen"), linewidth = 0.8) +
   labs(title = "Bill Selection Simulation (1000 trials)",
        x = "Bill Value ($)", y = "Frequency") +
   theme_minimal()
+```
+:::
+
+---
+
+## Example 14-8
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e14-8-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
+p148
 ```
 :::
 

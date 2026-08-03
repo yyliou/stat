@@ -334,6 +334,12 @@ data.frame(
   Upper    = values + units / 2
 ) |> knitr::kable(align = "c")
 ```
+:::
+
+---
+
+:::{.callout-tip}
+## Solution
 
 **Interpretation**
 
@@ -650,11 +656,19 @@ set.seed(42)
 subjects <- 1:20
 treatment <- sample(subjects, 10)   # 10 chosen at random
 
-data.frame(
+groups_df <- data.frame(
   Group = c("Treatment", "Control"),
   Subjects = c(paste(sort(treatment), collapse = ", "),
                paste(sort(setdiff(subjects, treatment)), collapse = ", "))
-) |> knitr::kable(align = "l")
+)
+```
+
+---
+
+**Output**
+
+```{r e1-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+groups_df |> knitr::kable(align = "l")
 ```
 
 Randomization balances both the variables we can see **and the ones we cannot**, which is what makes causal conclusions possible.
