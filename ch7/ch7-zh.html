@@ -1186,6 +1186,7 @@
 </section>
 <section class="slide level2">
 
+<p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
 <span id="cb57-2"><a href=""></a>df_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1193,14 +1194,21 @@
 <span id="cb57-4"><a href=""></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dchisq</span>(x, <span class="dv">1</span>), <span class="fu">dchisq</span>(x, <span class="dv">4</span>), <span class="fu">dchisq</span>(x, <span class="dv">9</span>), <span class="fu">dchisq</span>(x, <span class="dv">15</span>)),</span>
 <span id="cb57-5"><a href=""></a>  <span class="at">df =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"df=1"</span>,<span class="st">"df=4"</span>,<span class="st">"df=9"</span>,<span class="st">"df=15"</span>), <span class="at">each =</span> <span class="dv">300</span>)</span>
 <span id="cb57-6"><a href=""></a>)</span>
-<span id="cb57-7"><a href=""></a><span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(x, y, <span class="at">color =</span> df)) <span class="sc">+</span></span>
+<span id="cb57-7"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(x, y, <span class="at">color =</span> df)) <span class="sc">+</span></span>
 <span id="cb57-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb57-9"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="sc">+</span></span>
 <span id="cb57-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"卡方曲線族"</span>,</span>
 <span id="cb57-11"><a href=""></a>       <span class="at">x =</span> <span class="fu">expression</span>(chi<span class="sc">^</span><span class="dv">2</span>), <span class="at">y =</span> <span class="st">"密度"</span>, <span class="at">color =</span> <span class="st">"自由度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="卡方分配-1" class="slide level2">
+<h2>卡方分配</h2>
+<p><strong>輸出圖形</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch7-zh_files/figure-revealjs/e7-12-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<img data-src="ch7-zh_files/figure-revealjs/e7-12-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="變異數與標準差信賴區間的公式" class="slide level2">
 <h2>變異數與標準差信賴區間的公式</h2>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -1273,14 +1281,14 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">25</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb58-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># upper critical value</span></span>
-<span id="cb58-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)   <span class="co"># lower critical value</span></span>
-<span id="cb58-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">25</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb59-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># upper critical value</span></span>
+<span id="cb59-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)   <span class="co"># lower critical value</span></span>
+<span id="cb59-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq right = 36.415 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq left  = 13.848 </code></pre>
 </div>
@@ -1337,25 +1345,25 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>; s <span class="ot">&lt;-</span> <span class="fl">1.6</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb62-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> df)</span>
-<span id="cb62-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> df)</span>
-<span id="cb62-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>; s <span class="ot">&lt;-</span> <span class="fl">1.6</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb63-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> df)</span>
+<span id="cb63-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> df)</span>
+<span id="cb63-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq right = 32.852 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq left  = 8.907 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_right</span>
-<span id="cb66-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_left</span>
-<span id="cb66-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_right</span>
+<span id="cb67-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_left</span>
+<span id="cb67-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>95% CI for variance: ( 1.5 , 5.5 )</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">1</span>), <span class="st">","</span>,</span>
-<span id="cb68-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">1</span>), <span class="st">","</span>,</span>
+<span id="cb69-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>95% CI for std dev:  ( 1.2 , 2.3 )</code></pre>
 </div>
@@ -1400,32 +1408,32 @@
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>tickets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">59</span>, <span class="dv">54</span>, <span class="dv">53</span>, <span class="dv">52</span>, <span class="dv">51</span>, <span class="dv">39</span>, <span class="dv">49</span>, <span class="dv">46</span>, <span class="dv">49</span>, <span class="dv">48</span>)</span>
-<span id="cb70-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(tickets)</span>
-<span id="cb70-3"><a href=""></a>s2 <span class="ot">&lt;-</span> <span class="fu">var</span>(tickets); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(tickets)</span>
-<span id="cb70-4"><a href=""></a>df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb70-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"  s² ="</span>, <span class="fu">round</span>(s2, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>tickets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">59</span>, <span class="dv">54</span>, <span class="dv">53</span>, <span class="dv">52</span>, <span class="dv">51</span>, <span class="dv">39</span>, <span class="dv">49</span>, <span class="dv">46</span>, <span class="dv">49</span>, <span class="dv">48</span>)</span>
+<span id="cb71-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(tickets)</span>
+<span id="cb71-3"><a href=""></a>s2 <span class="ot">&lt;-</span> <span class="fu">var</span>(tickets); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(tickets)</span>
+<span id="cb71-4"><a href=""></a>df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb71-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"  s² ="</span>, <span class="fu">round</span>(s2, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>n = 10   s² = 28.2   s = 5.31 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># 90% CI</span></span>
-<span id="cb72-2"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)</span>
-<span id="cb72-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># 90% CI</span></span>
+<span id="cb73-2"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)</span>
+<span id="cb73-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq right = 16.919 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>chi-sq left  = 3.325 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_right</span>
-<span id="cb76-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_left</span>
-<span id="cb76-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_right</span>
+<span id="cb77-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_left</span>
+<span id="cb77-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>90% CI for variance: ( 15 , 76.4 )</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">2</span>), <span class="st">","</span>,</span>
-<span id="cb78-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">2</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">2</span>), <span class="st">","</span>,</span>
+<span id="cb79-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">2</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>90% CI for std dev:  ( 3.87 , 8.74 )</code></pre>
 </div>

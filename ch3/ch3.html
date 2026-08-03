@@ -2294,9 +2294,10 @@ Conclusion: Advertisements are more variable.</code></pre>
 </section>
 <section class="slide level2">
 
+<p><strong>Draw figure</strong></p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="dv">480</span>; sigma <span class="ot">&lt;-</span> <span class="dv">90</span></span>
-<span id="cb123-2"><a href=""></a><span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">500</span>),</span>
+<span id="cb123-2"><a href=""></a>p_emp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span><span class="sc">*</span>sigma, mu <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>sigma, <span class="at">length.out =</span> <span class="dv">500</span>),</span>
 <span id="cb123-3"><a href=""></a>       <span class="at">y =</span> <span class="fu">dnorm</span>(x, mu, sigma)) <span class="sc">|&gt;</span></span>
 <span id="cb123-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
 <span id="cb123-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
@@ -2309,9 +2310,16 @@ Conclusion: Advertisements are more variable.</code></pre>
 <span id="cb123-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Empirical Rule (mu=480, sigma=90)"</span>,</span>
 <span id="cb123-13"><a href=""></a>       <span class="at">x=</span><span class="st">"Score"</span>, <span class="at">y=</span><span class="st">"Density"</span>) <span class="sc">+</span></span>
 <span id="cb123-14"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>Output figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href=""></a>p_emp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch3_files/figure-revealjs/e3-28-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section></section>
+<img data-src="ch3_files/figure-revealjs/e3-28-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section></section>
 <section>
 <section id="section-3-3-measures-of-position" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 3-3: Measures of Position</h1>
@@ -2379,23 +2387,23 @@ Conclusion: Advertisements are more variable.</code></pre>
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href=""></a>z_calc <span class="ot">&lt;-</span> (<span class="dv">65</span> <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">/</span> <span class="dv">10</span></span>
-<span id="cb124-2"><a href=""></a>z_hist <span class="ot">&lt;-</span> (<span class="dv">30</span> <span class="sc">-</span> <span class="dv">25</span>) <span class="sc">/</span> <span class="dv">5</span></span>
-<span id="cb124-3"><a href=""></a></span>
-<span id="cb124-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Calculus z-score:"</span>, z_calc, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href=""></a>z_calc <span class="ot">&lt;-</span> (<span class="dv">65</span> <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb125-2"><a href=""></a>z_hist <span class="ot">&lt;-</span> (<span class="dv">30</span> <span class="sc">-</span> <span class="dv">25</span>) <span class="sc">/</span> <span class="dv">5</span></span>
+<span id="cb125-3"><a href=""></a></span>
+<span id="cb125-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Calculus z-score:"</span>, z_calc, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Calculus z-score: 1.5 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"History z-score:"</span>, z_hist, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"History z-score:"</span>, z_hist, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>History z-score: 1 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Calculus z-score (1.5) &gt; History z-score (1.0)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Calculus z-score (1.5) &gt; History z-score (1.0)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Calculus z-score (1.5) &gt; History z-score (1.0)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"→ she performed relatively better on the calculus test.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"→ she performed relatively better on the calculus test.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>→ she performed relatively better on the calculus test.</code></pre>
 </div>
@@ -2458,18 +2466,18 @@ Calculus z-score (1.5) &gt; History z-score (1.0)</code></pre>
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href=""></a>z_A <span class="ot">&lt;-</span> (<span class="dv">38</span> <span class="sc">-</span> <span class="dv">40</span>) <span class="sc">/</span> <span class="dv">5</span></span>
-<span id="cb132-2"><a href=""></a>z_B <span class="ot">&lt;-</span> (<span class="dv">94</span> <span class="sc">-</span> <span class="dv">100</span>) <span class="sc">/</span> <span class="dv">10</span></span>
-<span id="cb132-3"><a href=""></a></span>
-<span id="cb132-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Test A z-score:"</span>, z_A, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href=""></a>z_A <span class="ot">&lt;-</span> (<span class="dv">38</span> <span class="sc">-</span> <span class="dv">40</span>) <span class="sc">/</span> <span class="dv">5</span></span>
+<span id="cb133-2"><a href=""></a>z_B <span class="ot">&lt;-</span> (<span class="dv">94</span> <span class="sc">-</span> <span class="dv">100</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb133-3"><a href=""></a></span>
+<span id="cb133-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Test A z-score:"</span>, z_A, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Test A z-score: -0.4 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Test B z-score:"</span>, z_B, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Test B z-score:"</span>, z_B, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Test B z-score: -0.6 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
@@ -2566,14 +2574,14 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a>upper <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">104.5</span>, <span class="fl">119.5</span>, <span class="fl">134.5</span>, <span class="fl">149.5</span>, <span class="fl">164.5</span>, <span class="fl">179.5</span>)</span>
-<span id="cb138-2"><a href=""></a>freq  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span>, <span class="dv">4</span>)</span>
-<span id="cb138-3"><a href=""></a>cum_f <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(freq)</span>
-<span id="cb138-4"><a href=""></a>cum_pct <span class="ot">&lt;-</span> (cum_f <span class="sc">/</span> <span class="fu">sum</span>(freq)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb138-5"><a href=""></a></span>
-<span id="cb138-6"><a href=""></a>df_bp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(upper, cum_f, cum_pct)</span>
-<span id="cb138-7"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df_bp, <span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Upper Boundary"</span>,<span class="st">"Cumulative Freq"</span>,<span class="st">"Cumulative %"</span>),</span>
-<span id="cb138-8"><a href=""></a>             <span class="at">caption=</span><span class="st">"Systolic Blood Pressure — Percentile Table"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href=""></a>upper <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">104.5</span>, <span class="fl">119.5</span>, <span class="fl">134.5</span>, <span class="fl">149.5</span>, <span class="fl">164.5</span>, <span class="fl">179.5</span>)</span>
+<span id="cb139-2"><a href=""></a>freq  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span>, <span class="dv">4</span>)</span>
+<span id="cb139-3"><a href=""></a>cum_f <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(freq)</span>
+<span id="cb139-4"><a href=""></a>cum_pct <span class="ot">&lt;-</span> (cum_f <span class="sc">/</span> <span class="fu">sum</span>(freq)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb139-5"><a href=""></a></span>
+<span id="cb139-6"><a href=""></a>df_bp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(upper, cum_f, cum_pct)</span>
+<span id="cb139-7"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df_bp, <span class="at">col.names=</span><span class="fu">c</span>(<span class="st">"Upper Boundary"</span>,<span class="st">"Cumulative Freq"</span>,<span class="st">"Cumulative %"</span>),</span>
+<span id="cb139-8"><a href=""></a>             <span class="at">caption=</span><span class="st">"Systolic Blood Pressure — Percentile Table"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <caption>Systolic Blood Pressure — Percentile Table</caption>
@@ -2626,12 +2634,12 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href=""></a><span class="fu">ggplot</span>(df_bp, <span class="fu">aes</span>(<span class="at">x=</span>upper, <span class="at">y=</span>cum_pct)) <span class="sc">+</span></span>
-<span id="cb139-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#2c4a6e"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb139-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">"#2c4a6e"</span>) <span class="sc">+</span></span>
-<span id="cb139-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Percentile Graph — Systolic Blood Pressure"</span>,</span>
-<span id="cb139-5"><a href=""></a>       <span class="at">x=</span><span class="st">"Blood Pressure (mm Hg)"</span>, <span class="at">y=</span><span class="st">"Cumulative Percentage"</span>) <span class="sc">+</span></span>
-<span id="cb139-6"><a href=""></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a><span class="fu">ggplot</span>(df_bp, <span class="fu">aes</span>(<span class="at">x=</span>upper, <span class="at">y=</span>cum_pct)) <span class="sc">+</span></span>
+<span id="cb140-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">"#2c4a6e"</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb140-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">"#2c4a6e"</span>) <span class="sc">+</span></span>
+<span id="cb140-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Percentile Graph — Systolic Blood Pressure"</span>,</span>
+<span id="cb140-5"><a href=""></a>       <span class="at">x=</span><span class="st">"Blood Pressure (mm Hg)"</span>, <span class="at">y=</span><span class="st">"Cumulative Percentage"</span>) <span class="sc">+</span></span>
+<span id="cb140-6"><a href=""></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch3_files/figure-revealjs/e3-31-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -2655,23 +2663,23 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">10</span>)</span>
-<span id="cb140-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(scores)</span>
-<span id="cb140-3"><a href=""></a></span>
-<span id="cb140-4"><a href=""></a>prank <span class="ot">&lt;-</span> <span class="cf">function</span>(x, data) {</span>
-<span id="cb140-5"><a href=""></a>  below <span class="ot">&lt;-</span> <span class="fu">sum</span>(data <span class="sc">&lt;</span> x)</span>
-<span id="cb140-6"><a href=""></a>  ((below <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">length</span>(data)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb140-7"><a href=""></a>}</span>
-<span id="cb140-8"><a href=""></a></span>
-<span id="cb140-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted scores:"</span>, <span class="fu">paste</span>(<span class="fu">sort</span>(scores), <span class="at">collapse=</span><span class="st">", "</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href=""></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">10</span>)</span>
+<span id="cb141-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(scores)</span>
+<span id="cb141-3"><a href=""></a></span>
+<span id="cb141-4"><a href=""></a>prank <span class="ot">&lt;-</span> <span class="cf">function</span>(x, data) {</span>
+<span id="cb141-5"><a href=""></a>  below <span class="ot">&lt;-</span> <span class="fu">sum</span>(data <span class="sc">&lt;</span> x)</span>
+<span id="cb141-6"><a href=""></a>  ((below <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">length</span>(data)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb141-7"><a href=""></a>}</span>
+<span id="cb141-8"><a href=""></a></span>
+<span id="cb141-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted scores:"</span>, <span class="fu">paste</span>(<span class="fu">sort</span>(scores), <span class="at">collapse=</span><span class="st">", "</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sorted scores: 2, 3, 5, 6, 8, 10, 12, 15, 18, 20 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Percentile rank of 12:"</span>, <span class="fu">prank</span>(<span class="dv">12</span>, scores), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Percentile rank of 12:"</span>, <span class="fu">prank</span>(<span class="dv">12</span>, scores), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Percentile rank of 12: 65 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Percentile rank of 6:"</span>, <span class="fu">prank</span>(<span class="dv">6</span>, scores), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Percentile rank of 6:"</span>, <span class="fu">prank</span>(<span class="dv">6</span>, scores), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Percentile rank of 6: 35 </code></pre>
 </div>
@@ -2700,29 +2708,29 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href=""></a>scores_sorted <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">10</span>))</span>
-<span id="cb146-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(scores_sorted)</span>
-<span id="cb146-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted scores:"</span>, scores_sorted, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href=""></a>scores_sorted <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">10</span>))</span>
+<span id="cb147-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(scores_sorted)</span>
+<span id="cb147-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted scores:"</span>, scores_sorted, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sorted scores: 2 3 5 6 8 10 12 15 18 20 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href=""></a><span class="co"># 25th percentile</span></span>
-<span id="cb148-2"><a href=""></a>c25 <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">25</span> <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb148-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"c for 25th percentile:"</span>, c25, <span class="st">"(not whole → round up to 3)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href=""></a><span class="co"># 25th percentile</span></span>
+<span id="cb149-2"><a href=""></a>c25 <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">25</span> <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb149-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"c for 25th percentile:"</span>, c25, <span class="st">"(not whole → round up to 3)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>c for 25th percentile: 2.5 (not whole → round up to 3)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Value at position 3:"</span>, scores_sorted[<span class="dv">3</span>], <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Value at position 3:"</span>, scores_sorted[<span class="dv">3</span>], <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Value at position 3: 5 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href=""></a><span class="co"># 60th percentile</span></span>
-<span id="cb152-2"><a href=""></a>c60 <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">60</span> <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb152-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"c for 60th percentile:"</span>, c60, <span class="st">"(whole number → average positions 6 and 7)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href=""></a><span class="co"># 60th percentile</span></span>
+<span id="cb153-2"><a href=""></a>c60 <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="dv">60</span> <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb153-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"c for 60th percentile:"</span>, c60, <span class="st">"(whole number → average positions 6 and 7)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>c for 60th percentile: 6 (whole number → average positions 6 and 7)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Average of positions 6 and 7:"</span>, (scores_sorted[<span class="dv">6</span>] <span class="sc">+</span> scores_sorted[<span class="dv">7</span>])<span class="sc">/</span><span class="dv">2</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Average of positions 6 and 7:"</span>, (scores_sorted[<span class="dv">6</span>] <span class="sc">+</span> scores_sorted[<span class="dv">7</span>])<span class="sc">/</span><span class="dv">2</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average of positions 6 and 7: 11 </code></pre>
 </div>
@@ -2826,9 +2834,9 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">12</span>, <span class="dv">50</span>, <span class="dv">22</span>, <span class="dv">18</span>)</span>
-<span id="cb156-2"><a href=""></a>xs <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
-<span id="cb156-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted data:"</span>, xs, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">12</span>, <span class="dv">50</span>, <span class="dv">22</span>, <span class="dv">18</span>)</span>
+<span id="cb157-2"><a href=""></a>xs <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
+<span id="cb157-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted data:"</span>, xs, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sorted data: 5 6 12 13 15 18 22 50 </code></pre>
 </div>
@@ -2840,27 +2848,27 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href=""></a>Q2 <span class="ot">&lt;-</span> <span class="fu">median</span>(xs)</span>
-<span id="cb158-2"><a href=""></a>lower <span class="ot">&lt;-</span> xs[xs <span class="sc">&lt;</span> Q2]</span>
-<span id="cb158-3"><a href=""></a>upper <span class="ot">&lt;-</span> xs[xs <span class="sc">&gt;</span> Q2]</span>
-<span id="cb158-4"><a href=""></a></span>
-<span id="cb158-5"><a href=""></a>Q1 <span class="ot">&lt;-</span> <span class="fu">median</span>(lower)</span>
-<span id="cb158-6"><a href=""></a>Q3 <span class="ot">&lt;-</span> <span class="fu">median</span>(upper)</span>
-<span id="cb158-7"><a href=""></a>IQR_val <span class="ot">&lt;-</span> Q3 <span class="sc">-</span> Q1</span>
-<span id="cb158-8"><a href=""></a></span>
-<span id="cb158-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"Q2 (median):"</span>, Q2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb159"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href=""></a>Q2 <span class="ot">&lt;-</span> <span class="fu">median</span>(xs)</span>
+<span id="cb159-2"><a href=""></a>lower <span class="ot">&lt;-</span> xs[xs <span class="sc">&lt;</span> Q2]</span>
+<span id="cb159-3"><a href=""></a>upper <span class="ot">&lt;-</span> xs[xs <span class="sc">&gt;</span> Q2]</span>
+<span id="cb159-4"><a href=""></a></span>
+<span id="cb159-5"><a href=""></a>Q1 <span class="ot">&lt;-</span> <span class="fu">median</span>(lower)</span>
+<span id="cb159-6"><a href=""></a>Q3 <span class="ot">&lt;-</span> <span class="fu">median</span>(upper)</span>
+<span id="cb159-7"><a href=""></a>IQR_val <span class="ot">&lt;-</span> Q3 <span class="sc">-</span> Q1</span>
+<span id="cb159-8"><a href=""></a></span>
+<span id="cb159-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"Q2 (median):"</span>, Q2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Q2 (median): 14 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Lower half:"</span>, lower, <span class="st">"→ Q1 ="</span>, Q1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Lower half:"</span>, lower, <span class="st">"→ Q1 ="</span>, Q1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Lower half: 5 6 12 13 → Q1 = 9 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Upper half:"</span>, upper, <span class="st">"→ Q3 ="</span>, Q3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Upper half:"</span>, upper, <span class="st">"→ Q3 ="</span>, Q3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Upper half: 15 18 22 50 → Q3 = 20 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"IQR:"</span>, IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"IQR:"</span>, IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>IQR: 11 </code></pre>
 </div>
@@ -2920,13 +2928,13 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">22</span>, <span class="dv">50</span>)</span>
-<span id="cb166-2"><a href=""></a></span>
-<span id="cb166-3"><a href=""></a>Q1 <span class="ot">&lt;-</span> <span class="dv">9</span>; Q3 <span class="ot">&lt;-</span> <span class="dv">20</span>  <span class="co"># from Example 3-36</span></span>
-<span id="cb166-4"><a href=""></a>IQR_val <span class="ot">&lt;-</span> Q3 <span class="sc">-</span> Q1</span>
-<span id="cb166-5"><a href=""></a></span>
-<span id="cb166-6"><a href=""></a>lower_fence <span class="ot">&lt;-</span> Q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR_val</span>
-<span id="cb166-7"><a href=""></a>upper_fence <span class="ot">&lt;-</span> Q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR_val</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">22</span>, <span class="dv">50</span>)</span>
+<span id="cb167-2"><a href=""></a></span>
+<span id="cb167-3"><a href=""></a>Q1 <span class="ot">&lt;-</span> <span class="dv">9</span>; Q3 <span class="ot">&lt;-</span> <span class="dv">20</span>  <span class="co"># from Example 3-36</span></span>
+<span id="cb167-4"><a href=""></a>IQR_val <span class="ot">&lt;-</span> Q3 <span class="sc">-</span> Q1</span>
+<span id="cb167-5"><a href=""></a></span>
+<span id="cb167-6"><a href=""></a>lower_fence <span class="ot">&lt;-</span> Q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR_val</span>
+<span id="cb167-7"><a href=""></a>upper_fence <span class="ot">&lt;-</span> Q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR_val</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -2935,28 +2943,28 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Q1:"</span>, Q1, <span class="st">"  Q3:"</span>, Q3, <span class="st">"  IQR:"</span>, IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Q1:"</span>, Q1, <span class="st">"  Q3:"</span>, Q3, <span class="st">"  IQR:"</span>, IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Q1: 9   Q3: 20   IQR: 11 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"1.5 × IQR:"</span>, <span class="fl">1.5</span> <span class="sc">*</span> IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"1.5 × IQR:"</span>, <span class="fl">1.5</span> <span class="sc">*</span> IQR_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1.5 × IQR: 16.5 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Lower fence:"</span>, lower_fence, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb172"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Lower fence:"</span>, lower_fence, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Lower fence: -7.5 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Upper fence:"</span>, upper_fence, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb174"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Upper fence:"</span>, upper_fence, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Upper fence: 36.5 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href=""></a>outliers <span class="ot">&lt;-</span> x[x <span class="sc">&lt;</span> lower_fence <span class="sc">|</span> x <span class="sc">&gt;</span> upper_fence]</span>
-<span id="cb175-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"Values outside fences:"</span>, outliers, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb176"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href=""></a>outliers <span class="ot">&lt;-</span> x[x <span class="sc">&lt;</span> lower_fence <span class="sc">|</span> x <span class="sc">&gt;</span> upper_fence]</span>
+<span id="cb176-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"Values outside fences:"</span>, outliers, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Values outside fences: 50 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Conclusion: 50 is an outlier.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb178"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Conclusion: 50 is an outlier.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Conclusion: 50 is an outlier.</code></pre>
 </div>
@@ -3092,15 +3100,15 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <div class="callout-content">
 <p><strong>R implementation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href=""></a>meteorites <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>, <span class="dv">47</span>, <span class="dv">164</span>, <span class="dv">296</span>, <span class="dv">30</span>, <span class="dv">215</span>, <span class="dv">138</span>, <span class="dv">78</span>, <span class="dv">48</span>, <span class="dv">39</span>)</span>
-<span id="cb179-2"><a href=""></a>xs <span class="ot">&lt;-</span> <span class="fu">sort</span>(meteorites)</span>
-<span id="cb179-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted:"</span>, xs, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb180"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href=""></a>meteorites <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>, <span class="dv">47</span>, <span class="dv">164</span>, <span class="dv">296</span>, <span class="dv">30</span>, <span class="dv">215</span>, <span class="dv">138</span>, <span class="dv">78</span>, <span class="dv">48</span>, <span class="dv">39</span>)</span>
+<span id="cb180-2"><a href=""></a>xs <span class="ot">&lt;-</span> <span class="fu">sort</span>(meteorites)</span>
+<span id="cb180-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Sorted:"</span>, xs, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sorted: 30 39 47 48 78 89 138 164 215 296 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href=""></a>five_num <span class="ot">&lt;-</span> <span class="fu">fivenum</span>(meteorites)</span>
-<span id="cb181-2"><a href=""></a><span class="fu">names</span>(five_num) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Min"</span>,<span class="st">"Q1"</span>,<span class="st">"Median"</span>,<span class="st">"Q3"</span>,<span class="st">"Max"</span>)</span>
-<span id="cb181-3"><a href=""></a><span class="fu">print</span>(five_num)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href=""></a>five_num <span class="ot">&lt;-</span> <span class="fu">fivenum</span>(meteorites)</span>
+<span id="cb182-2"><a href=""></a><span class="fu">names</span>(five_num) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Min"</span>,<span class="st">"Q1"</span>,<span class="st">"Median"</span>,<span class="st">"Q3"</span>,<span class="st">"Max"</span>)</span>
+<span id="cb182-3"><a href=""></a><span class="fu">print</span>(five_num)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min     Q1 Median     Q3    Max 
   30.0   47.0   83.5  164.0  296.0 </code></pre>
@@ -3113,10 +3121,10 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href=""></a><span class="fu">boxplot</span>(meteorites, <span class="at">horizontal=</span><span class="cn">TRUE</span>,</span>
-<span id="cb183-2"><a href=""></a>        <span class="at">main=</span><span class="st">"Meteorites Found in 10 U.S. States"</span>,</span>
-<span id="cb183-3"><a href=""></a>        <span class="at">xlab=</span><span class="st">"Number of Meteorites"</span>,</span>
-<span id="cb183-4"><a href=""></a>        <span class="at">col=</span><span class="st">"#8db4d6"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href=""></a><span class="fu">boxplot</span>(meteorites, <span class="at">horizontal=</span><span class="cn">TRUE</span>,</span>
+<span id="cb184-2"><a href=""></a>        <span class="at">main=</span><span class="st">"Meteorites Found in 10 U.S. States"</span>,</span>
+<span id="cb184-3"><a href=""></a>        <span class="at">xlab=</span><span class="st">"Number of Meteorites"</span>,</span>
+<span id="cb184-4"><a href=""></a>        <span class="at">col=</span><span class="st">"#8db4d6"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch3_files/figure-revealjs/e3-38-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><p>The distribution is <strong>positively skewed</strong> — the right whisker extends much farther than the left.</p>
@@ -3133,14 +3141,14 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 </div>
 <div class="callout-content">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href=""></a>meteorites <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>, <span class="dv">47</span>, <span class="dv">164</span>, <span class="dv">296</span>, <span class="dv">30</span>, <span class="dv">215</span>, <span class="dv">138</span>, <span class="dv">78</span>, <span class="dv">48</span>, <span class="dv">39</span>)</span>
-<span id="cb184-2"><a href=""></a></span>
-<span id="cb184-3"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> meteorites), <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> x)) <span class="sc">+</span></span>
-<span id="cb184-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"#8db4d6"</span>, <span class="at">color=</span><span class="st">"#2c4a6e"</span>, <span class="at">width=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb184-5"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb184-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Boxplot: Meteorites Found in 10 U.S. States"</span>,</span>
-<span id="cb184-7"><a href=""></a>       <span class="at">y=</span><span class="st">"Number of Meteorites"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb184-8"><a href=""></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href=""></a>meteorites <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>, <span class="dv">47</span>, <span class="dv">164</span>, <span class="dv">296</span>, <span class="dv">30</span>, <span class="dv">215</span>, <span class="dv">138</span>, <span class="dv">78</span>, <span class="dv">48</span>, <span class="dv">39</span>)</span>
+<span id="cb185-2"><a href=""></a></span>
+<span id="cb185-3"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> meteorites), <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> x)) <span class="sc">+</span></span>
+<span id="cb185-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"#8db4d6"</span>, <span class="at">color=</span><span class="st">"#2c4a6e"</span>, <span class="at">width=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb185-5"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb185-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Boxplot: Meteorites Found in 10 U.S. States"</span>,</span>
+<span id="cb185-7"><a href=""></a>       <span class="at">y=</span><span class="st">"Number of Meteorites"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb185-8"><a href=""></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -3183,30 +3191,30 @@ Conclusion: Test A score is relatively higher (z = -0.4 &gt; -0.6)</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href=""></a>real  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">310</span>, <span class="dv">420</span>, <span class="dv">45</span>, <span class="dv">40</span>, <span class="dv">220</span>, <span class="dv">240</span>, <span class="dv">180</span>, <span class="dv">90</span>)</span>
-<span id="cb185-2"><a href=""></a>sub   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">270</span>, <span class="dv">180</span>, <span class="dv">250</span>, <span class="dv">290</span>, <span class="dv">130</span>, <span class="dv">260</span>, <span class="dv">340</span>, <span class="dv">310</span>)</span>
-<span id="cb185-3"><a href=""></a></span>
-<span id="cb185-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Real cheese five-number summary:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb186"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href=""></a>real  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">310</span>, <span class="dv">420</span>, <span class="dv">45</span>, <span class="dv">40</span>, <span class="dv">220</span>, <span class="dv">240</span>, <span class="dv">180</span>, <span class="dv">90</span>)</span>
+<span id="cb186-2"><a href=""></a>sub   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">270</span>, <span class="dv">180</span>, <span class="dv">250</span>, <span class="dv">290</span>, <span class="dv">130</span>, <span class="dv">260</span>, <span class="dv">340</span>, <span class="dv">310</span>)</span>
+<span id="cb186-3"><a href=""></a></span>
+<span id="cb186-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"Real cheese five-number summary:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Real cheese five-number summary:</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href=""></a><span class="fu">print</span>(<span class="fu">fivenum</span>(real))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb188"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href=""></a><span class="fu">print</span>(<span class="fu">fivenum</span>(real))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  40.0  67.5 200.0 275.0 420.0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Cheese substitute five-number summary:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Cheese substitute five-number summary:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Cheese substitute five-number summary:</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href=""></a><span class="fu">print</span>(<span class="fu">fivenum</span>(sub))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href=""></a><span class="fu">print</span>(<span class="fu">fivenum</span>(sub))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 130 215 265 300 340</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href=""></a>df_cheese <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb193-2"><a href=""></a>  <span class="at">sodium =</span> <span class="fu">c</span>(real, sub),</span>
-<span id="cb193-3"><a href=""></a>  <span class="at">type   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Real Cheese"</span>,<span class="st">"Cheese Substitute"</span>), <span class="at">each=</span><span class="dv">8</span>)</span>
-<span id="cb193-4"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href=""></a>df_cheese <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb194-2"><a href=""></a>  <span class="at">sodium =</span> <span class="fu">c</span>(real, sub),</span>
+<span id="cb194-3"><a href=""></a>  <span class="at">type   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Real Cheese"</span>,<span class="st">"Cheese Substitute"</span>), <span class="at">each=</span><span class="dv">8</span>)</span>
+<span id="cb194-4"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -3215,13 +3223,13 @@ Cheese substitute five-number summary:</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href=""></a><span class="fu">ggplot</span>(df_cheese, <span class="fu">aes</span>(<span class="at">x=</span>type, <span class="at">y=</span>sodium, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
-<span id="cb194-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb194-3"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb194-4"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"#2c4a6e"</span>,<span class="st">"#8db4d6"</span>)) <span class="sc">+</span></span>
-<span id="cb194-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Sodium Content: Real Cheese vs. Cheese Substitute"</span>,</span>
-<span id="cb194-6"><a href=""></a>       <span class="at">y=</span><span class="st">"Sodium (mg)"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb194-7"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href=""></a><span class="fu">ggplot</span>(df_cheese, <span class="fu">aes</span>(<span class="at">x=</span>type, <span class="at">y=</span>sodium, <span class="at">fill=</span>type)) <span class="sc">+</span></span>
+<span id="cb195-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb195-3"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb195-4"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"#2c4a6e"</span>,<span class="st">"#8db4d6"</span>)) <span class="sc">+</span></span>
+<span id="cb195-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Sodium Content: Real Cheese vs. Cheese Substitute"</span>,</span>
+<span id="cb195-6"><a href=""></a>       <span class="at">y=</span><span class="st">"Sodium (mg)"</span>, <span class="at">x=</span><span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb195-7"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch3_files/figure-revealjs/e3-39-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -3238,18 +3246,18 @@ Cheese substitute five-number summary:</code></pre>
 <div class="callout-content">
 <p><strong>Interpretation</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href=""></a>real <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">310</span>, <span class="dv">420</span>, <span class="dv">45</span>, <span class="dv">40</span>, <span class="dv">220</span>, <span class="dv">240</span>, <span class="dv">180</span>, <span class="dv">90</span>)</span>
-<span id="cb195-2"><a href=""></a>sub  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">270</span>, <span class="dv">180</span>, <span class="dv">250</span>, <span class="dv">290</span>, <span class="dv">130</span>, <span class="dv">260</span>, <span class="dv">340</span>, <span class="dv">310</span>)</span>
-<span id="cb195-3"><a href=""></a></span>
-<span id="cb195-4"><a href=""></a>summary_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb195-5"><a href=""></a>  <span class="at">Measure =</span> <span class="fu">c</span>(<span class="st">"Minimum"</span>,<span class="st">"Q1"</span>,<span class="st">"Median"</span>,<span class="st">"Q3"</span>,<span class="st">"Maximum"</span>,<span class="st">"IQR"</span>),</span>
-<span id="cb195-6"><a href=""></a>  <span class="st">`</span><span class="at">Real Cheese</span><span class="st">`</span>    <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">min</span>(real), <span class="fu">quantile</span>(real,<span class="fl">0.25</span>), <span class="fu">median</span>(real),</span>
-<span id="cb195-7"><a href=""></a>                       <span class="fu">quantile</span>(real,<span class="fl">0.75</span>), <span class="fu">max</span>(real),</span>
-<span id="cb195-8"><a href=""></a>                       <span class="fu">IQR</span>(real)),</span>
-<span id="cb195-9"><a href=""></a>  <span class="st">`</span><span class="at">Cheese Sub</span><span class="st">`</span>     <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">min</span>(sub), <span class="fu">quantile</span>(sub,<span class="fl">0.25</span>), <span class="fu">median</span>(sub),</span>
-<span id="cb195-10"><a href=""></a>                       <span class="fu">quantile</span>(sub,<span class="fl">0.75</span>), <span class="fu">max</span>(sub),</span>
-<span id="cb195-11"><a href=""></a>                       <span class="fu">IQR</span>(sub))</span>
-<span id="cb195-12"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href=""></a>real <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">310</span>, <span class="dv">420</span>, <span class="dv">45</span>, <span class="dv">40</span>, <span class="dv">220</span>, <span class="dv">240</span>, <span class="dv">180</span>, <span class="dv">90</span>)</span>
+<span id="cb196-2"><a href=""></a>sub  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">270</span>, <span class="dv">180</span>, <span class="dv">250</span>, <span class="dv">290</span>, <span class="dv">130</span>, <span class="dv">260</span>, <span class="dv">340</span>, <span class="dv">310</span>)</span>
+<span id="cb196-3"><a href=""></a></span>
+<span id="cb196-4"><a href=""></a>summary_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb196-5"><a href=""></a>  <span class="at">Measure =</span> <span class="fu">c</span>(<span class="st">"Minimum"</span>,<span class="st">"Q1"</span>,<span class="st">"Median"</span>,<span class="st">"Q3"</span>,<span class="st">"Maximum"</span>,<span class="st">"IQR"</span>),</span>
+<span id="cb196-6"><a href=""></a>  <span class="st">`</span><span class="at">Real Cheese</span><span class="st">`</span>    <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">min</span>(real), <span class="fu">quantile</span>(real,<span class="fl">0.25</span>), <span class="fu">median</span>(real),</span>
+<span id="cb196-7"><a href=""></a>                       <span class="fu">quantile</span>(real,<span class="fl">0.75</span>), <span class="fu">max</span>(real),</span>
+<span id="cb196-8"><a href=""></a>                       <span class="fu">IQR</span>(real)),</span>
+<span id="cb196-9"><a href=""></a>  <span class="st">`</span><span class="at">Cheese Sub</span><span class="st">`</span>     <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">min</span>(sub), <span class="fu">quantile</span>(sub,<span class="fl">0.25</span>), <span class="fu">median</span>(sub),</span>
+<span id="cb196-10"><a href=""></a>                       <span class="fu">quantile</span>(sub,<span class="fl">0.75</span>), <span class="fu">max</span>(sub),</span>
+<span id="cb196-11"><a href=""></a>                       <span class="fu">IQR</span>(sub))</span>
+<span id="cb196-12"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -3258,7 +3266,7 @@ Cheese substitute five-number summary:</code></pre>
 <section class="slide level2">
 
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(summary_df, <span class="at">caption=</span><span class="st">"Five-Number Summary Comparison"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb197"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(summary_df, <span class="at">caption=</span><span class="st">"Five-Number Summary Comparison"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top">
 <caption>Five-Number Summary Comparison</caption>
