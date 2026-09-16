@@ -1,0 +1,68 @@
+---
+title: "Statistics 2"
+subtitle: "In-Class Exercise 12"
+author: "Yu-You Liou"
+date: today
+institute: "Shih Chien University"
+format:
+  revealjs:
+    html-math-method: katex
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
+editor: source
+---
+
+## Question 1
+
+:::{.callout-warning}
+## Tukey Test
+
+Use the teaching-method data from Exercise 11 and the model `fit <- aov(scores ~ method, data = dta)`.
+
+1. Run `TukeyHSD(fit)`.
+2. List the pairs of methods whose mean scores differ significantly at $\alpha=0.05$.
+3. Explain in one sentence how you read the result from the confidence interval of each pair.
+:::
+
+---
+
+## Question 2
+
+:::{.callout-warning}
+## Why Not Repeated t Tests?
+
+1. With three groups, how many pairwise $t$ tests would be needed?
+2. If each test is carried out at $\alpha=0.05$, the probability of making at least one Type I error is $1-(1-0.05)^{m}$, where $m$ is the number of tests. Compute it in R.
+3. Explain in one sentence why ANOVA followed by the Tukey test is preferred.
+:::
+
+---
+
+## Question 3
+
+:::{.callout-warning}
+## Two-Way ANOVA
+
+A study measured plant growth under two levels of light and two types of fertiliser, with three plants in each combination.
+
+```r
+growth <- c(12, 14, 13, 18, 20, 19,
+            15, 16, 14, 25, 27, 26)
+light  <- factor(rep(c("Low", "High"), each = 6))
+fert   <- factor(rep(rep(c("A", "B"), each = 3), 2))
+plants <- data.frame(light, fert, growth)
+```
+
+1. Fit the model with `aov(growth ~ light * fert, data = plants)` and read `summary()`.
+2. Report whether each main effect is significant at $\alpha=0.05$.
+3. Is the interaction significant? Explain in one sentence what an interaction would mean here.
+:::

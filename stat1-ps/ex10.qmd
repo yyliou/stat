@@ -1,0 +1,67 @@
+---
+title: "Statistics 1"
+subtitle: "In-Class Exercise 10"
+author: "Yu-You Liou"
+date: today
+institute: "Shih Chien University"
+format:
+  revealjs:
+    html-math-method: katex
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
+editor: source
+---
+
+## Question 1
+
+:::{.callout-warning}
+## The Central Limit Theorem
+
+A population has $\mu=50$ and $\sigma=12$. A sample of $n=36$ is drawn.
+
+1. State the mean and the standard error of $\bar{X}$.
+2. Find $P(\bar{X}>53)$ with `pnorm()`.
+3. Explain in one sentence why $P(\bar{X}>53)$ is much smaller than $P(X>53)$ for a single observation.
+:::
+
+---
+
+## Question 2
+
+:::{.callout-warning}
+## Seeing the Central Limit Theorem
+
+The exponential distribution is strongly skewed to the right.
+
+```r
+set.seed(2026)
+means <- replicate(1000, mean(rexp(30, rate = 0.5)))
+```
+
+1. Draw a histogram of `means` with `ggplot()` and `geom_histogram()`.
+2. Report `mean(means)` and `sd(means)`.
+3. The population mean is $1/0.5=2$ and the population standard deviation is also 2. Compare `sd(means)` with $\sigma/\sqrt{n}$ and comment in one sentence.
+:::
+
+---
+
+## Question 3
+
+:::{.callout-warning}
+## Normal Approximation to the Binomial
+
+In a city, 30% of households own an electric vehicle. A sample of 200 households is taken.
+
+1. Verify that $np\ge5$ and $nq\ge5$.
+2. Find $P(X\ge70)$ using the normal approximation with the continuity correction 69.5.
+3. Compute the exact binomial probability with `sum(dbinom(70:200, 200, 0.30))` and compare the two answers.
+:::

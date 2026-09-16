@@ -1,0 +1,73 @@
+---
+title: "Statistics 2"
+subtitle: "In-Class Exercise 11"
+author: "Yu-You Liou"
+date: today
+institute: "Shih Chien University"
+format:
+  revealjs:
+    html-math-method: katex
+    smaller: true
+    theme: serif
+    footer: "Elementary Statistics: A Step by Step Approach"
+    slide-number: true
+    scrollable: false
+    transition: "none"
+    menu:
+      useTextContentForMissingTitles: false
+      hideMissingTitles: true
+      side: 'left'
+      titleSelector: 'h1'
+editor: source
+---
+
+## Data for Questions 1 to 3
+
+Three teaching methods were compared. The values are final scores.
+
+```r
+scores <- c(78, 82, 75, 80, 77,
+            85, 88, 91, 86, 90,
+            72, 70, 76, 69, 74)
+method <- factor(rep(c("Lecture", "Flipped", "Online"), each = 5))
+dta    <- data.frame(method, scores)
+```
+
+---
+
+## Question 1
+
+:::{.callout-warning}
+## Describing the Groups
+
+1. Report the mean and the standard deviation of each method.
+2. Draw a boxplot with `ggplot()` and `geom_boxplot()`, and overlay the individual scores with `geom_jitter()`.
+3. Which method appears to perform best?
+:::
+
+---
+
+## Question 2
+
+:::{.callout-warning}
+## One-Way ANOVA
+
+Test the claim that the three methods have different mean scores at $\alpha=0.05$.
+
+1. State $H_0$ and $H_1$.
+2. Fit the model with `fit <- aov(scores ~ method, data = dta)` and read the table with `summary(fit)`.
+3. Report $F$, the two degrees of freedom, and the $P$-value, then state the decision.
+:::
+
+---
+
+## Question 3
+
+:::{.callout-warning}
+## Verifying F by Hand
+
+1. Compute the grand mean and the sum of squares between groups $SS_B=\sum n_i(\bar{X}_i-\bar{X}_{GM})^2$.
+2. Compute the sum of squares within groups $SS_W=\sum(n_i-1)s_i^2$.
+3. Compute $MS_B=SS_B/(k-1)$ and $MS_W=SS_W/(N-k)$, then $F=MS_B/MS_W$.
+4. Confirm that your result matches the $F$ value in Question 2.
+:::
