@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,56 +227,138 @@
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
+<p>第13章介紹<strong>無母數</strong>（無分配假設）方法——當常態性假設無法成立、資料屬於名目或順序尺度，或所檢定的假設與母體參數無關時，可以使用的統計檢定。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>13-1</td>
+<td>母數與無母數檢定的比較；優點與缺點；排序與同分規則</td>
+</tr>
+<tr class="even">
+<td>13-2</td>
+<td>單樣本符號檢定（中位數）；表 A-10；大樣本 <span class="math inline">z</span>；成對樣本符號檢定</td>
+</tr>
+<tr class="odd">
+<td>13-3</td>
+<td>兩獨立樣本的 Wilcoxon 等級和檢定；<span class="math inline">R</span>、<span class="math inline">\mu_R</span>、<span class="math inline">\sigma_R</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="本章概覽續" class="slide level2">
+<h2>本章概覽（續）</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>13-4</td>
+<td>兩相依樣本的 Wilcoxon 符號等級檢定；<span class="math inline">w_s</span>；<span class="math inline">n &gt; 30</span> 的 <span class="math inline">z</span> 公式</td>
+</tr>
+<tr class="even">
+<td>13-5</td>
+<td>Kruskal-Wallis（<span class="math inline">H</span>）檢定；卡方近似，<span class="math inline">\text{d.f.} = k - 1</span></td>
+</tr>
+<tr class="odd">
+<td>13-6</td>
+<td>Spearman 等級相關 <span class="math inline">r_s</span>；隨機性的連串檢定 <span class="math inline">G</span>；大樣本 <span class="math inline">z</span> 公式</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="本章學習目標" class="slide level2">
+<h2>本章學習目標</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>讀完本章後，你應該能夠</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>說出無母數方法的優點與缺點。</li>
+<li>使用符號檢定進行假設檢定。</li>
+<li>使用 Wilcoxon 等級和檢定進行假設檢定。</li>
+<li>使用符號等級檢定進行假設檢定。</li>
+<li>使用 Kruskal-Wallis 檢定進行假設檢定。</li>
+<li>計算 Spearman 等級相關係數。</li>
+<li>使用連串檢定進行假設檢定。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="導論" class="slide level2">
+<h2>導論</h2>
+<p><span class="math inline">z</span>、<span class="math inline">t</span>、<span class="math inline">F</span> 等統計檢定稱為<strong>母數檢定</strong>。它們是針對平均數、變異數、比例等母體參數的檢定，並且對抽樣所來自的母體有所假設——其中一項假設就是這些母體呈常態分配。</p>
+<p>但如果某個假設檢定情境中的母體<strong>不是</strong>常態分配呢？統計學家為此發展出一支稱為<strong>無母數統計</strong>或<strong>無分配假設統計</strong>的方法。無母數統計也可以用來檢定與 <span class="math inline">\mu</span>、<span class="math inline">\sigma</span>、<span class="math inline">p</span> 等特定母體參數無關的假設。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>什麼是無母數方法？</strong></p>
+<p><strong>無母數統計檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>標準的母數檢定（z、t、F）要求母體呈<strong>常態分配</strong>。當此假設無法成立時，<strong>無母數</strong>（無分配假設）方法提供了有效的替代方案。</p>
-<p>這些方法也可以用來檢定<strong>不涉及</strong>特定母體參數（如 <span class="math inline">\mu</span>、<span class="math inline">\sigma</span> 或 <span class="math inline">p</span>）的假設。</p>
+<p>當常態性的假設無法滿足時，<strong>無母數統計檢定</strong>用來檢定關於母體參數的假設。</p>
 </div>
 </div>
 </div>
-<p><strong>本章主題：</strong></p>
-<ul>
-<li><strong>13-1：</strong> 無母數方法的優點與缺點</li>
-<li><strong>13-2：</strong> 符號檢定</li>
-<li><strong>13-3：</strong> Wilcoxon 秩和檢定</li>
-<li><strong>13-4：</strong> Wilcoxon 帶號秩檢定</li>
-<li><strong>13-5：</strong> Kruskal-Wallis 檢定</li>
-<li><strong>13-6：</strong> Spearman 等級相關係數與連串檢定</li>
-</ul>
+</section>
+<section id="本章涵蓋的方法" class="slide level2">
+<h2>本章涵蓋的方法</h2>
+<p>體育記者可能想知道兩位裁判對 10 位奧運跳水選手的評分排名之間是否有關聯；社會學家可能想確認男性與女性報名某個戒毒復健計畫的順序是否隨機。這些情境所使用的統計檢定就是無母數（無分配假設）檢定。</p>
+<p>本章說明的無母數檢定包括<strong>符號檢定</strong>、<strong>Wilcoxon 等級和檢定</strong>、<strong>Wilcoxon 符號等級檢定</strong>、<strong>Kruskal-Wallis 檢定</strong>與<strong>連串檢定</strong>；此外也介紹用來判斷等級之間關聯的統計量——<strong>Spearman 等級相關係數</strong>。</p>
 </section>
 <section>
-<section id="第-13-1-節無母數方法的優點與缺點" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-1 節：無母數方法的優點與缺點</h1>
+<section id="第13-1節無母數方法的優點與缺點" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-1節：無母數方法的優點與缺點</h1>
 
 </section>
 <section id="無母數方法的優點" class="slide level2">
 <h2>無母數方法的優點</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<p>當常態性的假設無法滿足時，無母數檢定與統計量可以取代其母數版本（<span class="math inline">z</span>、<span class="math inline">t</span>、<span class="math inline">F</span>）。但<strong>不要</strong>因此就認為無母數統計一定比母數統計好——使用無母數方法有優點，也有缺點。</p>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>五大主要優點</strong></p>
+<p><strong>六項優點</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>當母體<strong>非常態分配</strong>時仍可使用</li>
-<li>適用於<strong>名目或順序</strong>資料</li>
-<li>可檢定<strong>不涉及特定母體參數</strong>的假設</li>
-<li>計算通常比母數方法<strong>更簡單</strong></li>
-<li>通常<strong>容易理解</strong>與詮釋</li>
+<li>當變數<strong>不呈常態分配</strong>時仍可用來檢定母體參數。</li>
+<li>可用於<strong>名目或順序尺度</strong>的資料。</li>
+<li>可用來檢定<strong>與母體參數無關</strong>的假設。</li>
+<li>在某些情況下，<strong>計算比</strong>母數版本<strong>容易</strong>。</li>
+<li><strong>容易理解</strong>。</li>
+<li>需要滿足的<strong>假設條件較少</strong>，而且這些假設<strong>比較容易驗證</strong>。</li>
 </ol>
 </div>
 </div>
@@ -290,85 +372,283 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>三大主要缺點</strong></p>
+<p><strong>三項缺點</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>當常態假設成立時，<strong>敏感度低於</strong>母數方法——需要更大的差異才能拒絕 <span class="math inline">H_0</span></li>
-<li><strong>使用較少資訊</strong>——例如符號檢定只記錄數值是否高於或低於中位數，而非差距大小</li>
-<li><strong>效率較低</strong>——需要更大的樣本；例如符號檢定的效率僅約為 z 檢定的 60%</li>
+<li>當母數方法的假設條件成立時，無母數方法<strong>較不敏感</strong>。因此需要更大的差異才能拒絕虛無假設。</li>
+<li>無母數檢定所<strong>運用的資訊較少</strong>。例如符號檢定只要求研究者判斷資料值在中位數之上或之下，而不管高出或低於中位數<strong>多少</strong>。</li>
+<li>當母數方法的假設條件成立時，無母數方法<strong>效率較低</strong>——必須以較大的樣本數來彌補資訊的流失。無母數的符號檢定大約只有其母數版本（<span class="math inline">z</span> 檢定）的 <strong>60% 效率</strong>：符號檢定需要 100 個樣本，才能得到 <span class="math inline">z</span> 檢定用 60 個樣本就能得到的結果。</li>
 </ol>
 </div>
 </div>
 </div>
-<div class="callout callout-note callout-titled callout-style-default">
+</section>
+<section id="兩類方法如何選擇" class="slide level2">
+<h2>兩類方法如何選擇</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>基本假設</strong></p>
+<p><strong>注意</strong></p>
 </div>
 <div class="callout-content">
-<p>樣本必須為<strong>隨機抽取</strong>。使用兩個或多個樣本時，各樣本必須相互<strong>獨立</strong>（除非另有說明）。</p>
+<p>既然無母數方法有優點也有缺點，研究者在選用時就應該<strong>謹慎</strong>。如果母數方法的假設條件<strong>可以</strong>滿足，就應優先採用母數方法；當母數方法的假設條件<strong>無法</strong>滿足時，無母數方法才是分析資料的有力工具。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>無母數統計的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本必須是<strong>隨機抽取</strong>的。</li>
+<li>若使用兩個以上的樣本，除非另有說明，各樣本之間必須<strong>互相獨立</strong>。</li>
+</ol>
 </div>
 </div>
 </div>
 </section>
-<section id="資料排序" class="slide level2">
-<h2>資料排序</h2>
+<section id="排序" class="slide level2">
+<h2>排序</h2>
+<p>許多無母數檢定都涉及資料的<strong>排序</strong>。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>如何對資料排序</strong></p>
+<p><strong>排序</strong></p>
 </div>
 <div class="callout-content">
-<p>將數值由小到大排列，依序賦予秩次 1、2、3、……</p>
-<p><strong>並列（Ties）：</strong> 當兩個或多個數值相等時，將其原本應占的秩次取<strong>平均值</strong>分配給各個相同數值。</p>
-<p><strong>範例：</strong> 數值 3、6、6、8、10 - 3 → 秩次 1 - 6、6 → 並列秩次 2 與 3 → 各得秩次 <strong>2.5</strong> - 8 → 秩次 4 - 10 → 秩次 5</p>
+<p><strong>排序</strong>是依照某種評分尺度，把一個資料值在資料序列中定出位置。排序屬於<strong>順序</strong>尺度的變數。</p>
 </div>
+</div>
+</div>
+<p>某位評審用 1 到 10 的量尺替五位演講者評分，1 分最好、10 分最差。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>演講者</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>評分</td>
+<td>8</td>
+<td>6</td>
+<td>10</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>演講者 E 分數最低（1 分），排名第一；D 次低（3 分），排名第二，其餘依此類推。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>演講者</th>
+<th>E</th>
+<th>D</th>
+<th>B</th>
+<th>A</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>評分</td>
+<td>1</td>
+<td>3</td>
+<td>6</td>
+<td>8</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>名次</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="有同分時的排序" class="slide level2">
+<h2>有同分時的排序</h2>
+<p>假設兩位以上的演講者得到相同分數：</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>演講者</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>評分</td>
+<td>8</td>
+<td>6</td>
+<td>10</td>
+<td>6</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>同分的處理規則</strong></p>
+</div>
+<div class="callout-content">
+<p>名次同分時，必須採用這些<strong>名次的平均數</strong>。此處 D 與 B 並列第 2、第 3 名，兩人的名次都是</p>
+<p><span class="math display">\frac{2 + 3}{2} = \frac{5}{2} = 2.5</span></p>
+</div>
+</div>
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>演講者</th>
+<th>E</th>
+<th>D</th>
+<th>B</th>
+<th>A</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>評分</td>
+<td>3</td>
+<td>6</td>
+<td>6</td>
+<td>8</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>名次</td>
+<td>1</td>
+<td>2.5</td>
+<td>2.5</td>
+<td>4</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>資料常常本來就是名次。P 值方法僅限於常態或卡方分配的檢定。</p>
+</section>
+<section id="排序的-r-實作" class="slide level2">
+<h2>排序的 R 實作</h2>
+<p><strong>準備資料</strong>——<code>rank()</code> 由小到大排序，並且預設把同分者指定為這些名次的<strong>平均數</strong>，正好就是上述規則。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>rating <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">8</span>, <span class="at">B =</span> <span class="dv">6</span>, <span class="at">C =</span> <span class="dv">10</span>, <span class="at">D =</span> <span class="dv">6</span>, <span class="at">E =</span> <span class="dv">3</span>)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">rank</span>(rating)                       <span class="co"># ties.method = "average" is the default</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B   C   D   E 
+4.0 2.5 5.0 2.5 1.0 </code></pre>
+</div>
+</div>
+<p>兩位得 6 分的演講者原本會占據第 2 與第 3 名，所以各得名次 2.5。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">sort</span>(rating)                       <span class="co"># the data array, lowest to highest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> E  B  D  A  C 
+ 3  6  6  8 10 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">rank</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>))            <span class="co"># the same ranking, values only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.0 2.5 2.5 4.0 5.0</code></pre>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-13-2-節符號檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-2 節：符號檢定</h1>
+<section id="第13-2節符號檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-2節：符號檢定</h1>
 
 </section>
-<section id="符號檢定概述" class="slide level2">
-<h2>符號檢定：概述</h2>
+<section id="單一樣本符號檢定" class="slide level2">
+<h2>單一樣本符號檢定</h2>
+<p>最簡單的無母數檢定是<strong>單一樣本的符號檢定</strong>，用來檢定某個樣本所對應的中位數值。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>符號檢定的用途</strong></p>
+<p><strong>單一樣本符號檢定</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>符號檢定</strong>用於檢定單一樣本的<strong>中位數</strong>，或比較兩個相依樣本（前後測）。</p>
-<p><strong>單一樣本檢定程序：</strong> - 將每個觀測值與假設中位數比較 - 賦予符號：高於為 <span class="math inline">+</span>，低於為 <span class="math inline">-</span>，相等為 <span class="math inline">0</span> - <strong>檢定值</strong> = <span class="math inline">+</span> 與 <span class="math inline">-</span> 符號中<strong>較小</strong>的計數 - 使用<strong>表 J</strong>（<span class="math inline">n \leq 25</span>）或 z 近似法（<span class="math inline">n \geq 26</span>）</p>
+<p><strong>單一樣本符號檢定</strong>是用來檢定<strong>母體中位數</strong>數值的無母數檢定。</p>
 </div>
 </div>
 </div>
+<p>研究者先對母體中位數假設一個特定數值，接著抽取隨機樣本，並把每個資料值與這個假設中位數比較。</p>
+<ul>
+<li>資料值<strong>高於</strong>假設中位數，給一個<strong>正號</strong>。</li>
+<li>資料值<strong>低於</strong>假設中位數，給一個<strong>負號</strong>。</li>
+<li>資料值<strong>恰好等於</strong>假設中位數，給 <strong>0</strong>。</li>
+</ul>
+<p>若 <span class="math inline">H_0</span> 為真，正號個數應與負號個數大致相等；若 <span class="math inline">H_0</span> 不為真，正號或負號的個數就會明顯偏多。</p>
 </section>
-<section id="符號檢定臨界值與-z-公式" class="slide level2">
-<h2>符號檢定：臨界值與 z 公式</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="符號檢定的檢定統計量" class="slide level2">
+<h2>符號檢定的檢定統計量</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>說明</strong></p>
+<p><strong>符號檢定的檢定統計量</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>當 <span class="math inline">n \leq 25</span></strong> 使用<strong>表 J</strong>，<span class="math inline">n</span> = <span class="math inline">+</span> 與 <span class="math inline">-</span> 符號的總計數。若檢定值 <span class="math inline">\leq</span> 臨界值，則拒絕 <span class="math inline">H_0</span>。</p>
-<p><strong>當 <span class="math inline">n \geq 26</span> — z 近似法</strong> <span class="math display">z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2}</span></p>
-<p>其中 <span class="math inline">X</span> = <span class="math inline">+</span> 或 <span class="math inline">-</span> 符號中較小的計數，<span class="math inline">n</span> = 樣本大小。 使用表 E 查臨界值。</p>
+<p>若 <span class="math inline">n \leq 25</span>，檢定統計量是<strong>正號與負號中個數較少者</strong>。當 <span class="math inline">n &gt; 25</span> 時，檢定統計量為</p>
+<p><span class="math display">z = \frac{(X + 0.5) - 0.5n}{\sqrt{n} / 2}</span></p>
+<p>其中 <span class="math inline">X</span> 是正號與負號中個數較少者，<span class="math inline">n</span> 是正號與負號的總個數。</p>
+</div>
+</div>
+</div>
+<ul>
+<li>當 <span class="math inline">n \leq 25</span> 時，由<strong>表 A-10</strong> 查臨界值。在給定的 <span class="math inline">\alpha</span> 下，若檢定統計量<strong>小於或等於</strong>臨界值就拒絕 <span class="math inline">H_0</span>。表 A-10 的數值來自 <span class="math inline">p = 0.5</span> 的二項分配。</li>
+<li>當 <span class="math inline">n &gt; 25</span> 時，使用常態近似並查<strong>表 A-4</strong>。此時 <span class="math inline">\mu = np = 0.5n</span>，且因為 <span class="math inline">p = q = 0.5</span>，<span class="math inline">\sigma = \sqrt{npq} = \sqrt{n(0.5)(0.5)} = \sqrt{n}/2</span>。</li>
+</ul>
+</section>
+<section id="程序表進行符號檢定" class="slide level2">
+<h2>程序表：進行符號檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 求臨界值。<span class="math inline">n \leq 25</span> 時查<strong>表 A-10</strong>，<span class="math inline">n &gt; 25</span> 時查<strong>表 A-4</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -381,12 +661,14 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>刨冰銷售量</strong></p>
+<p><strong>夜市攤位的每日飲料訂單數</strong></p>
 </div>
 <div class="callout-content">
-<p>一家商店老闆假設每天刨冰銷售量的<strong>中位數</strong>為 <strong>40</strong> 份。抽取 20 天的樣本如下：</p>
-<p>18, 43, <strong>40</strong>, 16, 22, 30, 29, 32, 37, 36, 39, 34, 39, 45, 28, 36, <strong>40</strong>, 34, 39, 52</p>
-<p>在 <span class="math inline">\alpha = 0.05</span> 下，檢定老闆的主張。</p>
+<p>台北某夜市珍奶攤的老闆主張，攤位每天完成的飲料訂單中位數是 45 筆。為檢定此主張，工讀生隨機抽出 20 個營業日，記錄每天完成的訂單筆數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，檢定「每日完成訂單數的中位數為 45」這項主張。</p>
+<pre><code>52   48   51   50   70
+47   39   53   60   37
+27   46   54   49   51
+45   58   46   45   47</code></pre>
 </div>
 </div>
 </div>
@@ -402,14 +684,14 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0: MD = 40</span>（主張）；<span class="math inline">H_1: MD \neq 40</span></p>
-<p><strong>步驟 2：</strong> 將每個數值與 40 比較並賦予符號： <span class="math display">-, +, 0, -, -, -, -, -, -, -, -, -, -, +, -, -, 0, -, -, +</span></p>
-<p>去除兩個 0 → <span class="math inline">n = 18</span>；正號：<strong>3</strong> 個，負號：<strong>15</strong> 個</p>
-<p>由表 J：<span class="math inline">n = 18</span>，<span class="math inline">\alpha = 0.05</span>（雙尾）→ 臨界值 = <strong>4</strong></p>
-<p><strong>步驟 3：</strong> 檢定值 = min(3, 15) = <strong>3</strong></p>
-<p><strong>步驟 4：</strong> <span class="math inline">3 \leq 4</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 有足夠證據拒絕中位數為 40 的主張。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：中位數 <span class="math inline">= 45</span> <em>（主張）</em>；<span class="math inline">H_1</span>：中位數 <span class="math inline">\neq 45</span>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。將每個資料值減去假設中位數 45：高於 45 者給 <span class="math inline">+</span>，低於 45 者給 <span class="math inline">-</span>，等於 45 者給 <span class="math inline">0</span>。例如 <span class="math inline">52 - 45 = +7</span>，所以 52 給 <span class="math inline">+</span>；<span class="math inline">27 - 45 = -18</span>，所以 27 給 <span class="math inline">-</span>；<span class="math inline">45 - 45 = 0</span>，所以 45 給 <span class="math inline">0</span>。</p>
+<pre><code>+    +    +    +    +
++    -    +    +    -
+-    +    +    +    +
+0    +    +    0    +</code></pre>
+<p>因為 <span class="math inline">n \leq 25</span>，查<strong>表 A-10</strong>。此處 <span class="math inline">n = 20 - 2 = 18</span>（有兩個 0），<span class="math inline">\alpha = 0.05</span>；雙尾檢定的臨界值是 <strong>4</strong>。</p>
 </div>
 </div>
 </div>
@@ -425,36 +707,50 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3 的 R 實作</strong>——數出正負號的個數，以較少者作為檢定統計量。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>snow <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">43</span>,<span class="dv">40</span>,<span class="dv">16</span>,<span class="dv">22</span>,<span class="dv">30</span>,<span class="dv">29</span>,<span class="dv">32</span>,<span class="dv">37</span>,<span class="dv">36</span>,<span class="dv">39</span>,<span class="dv">34</span>,<span class="dv">39</span>,<span class="dv">45</span>,<span class="dv">28</span>,<span class="dv">36</span>,<span class="dv">40</span>,<span class="dv">34</span>,<span class="dv">39</span>,<span class="dv">52</span>)</span>
-<span id="cb1-2"><a href=""></a>median_hyp <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(snow <span class="sc">-</span> median_hyp)</span>
-<span id="cb1-5"><a href=""></a>signs <span class="ot">&lt;-</span> signs[signs <span class="sc">!=</span> <span class="dv">0</span>]  <span class="co"># 去除零值</span></span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a>n_pos <span class="ot">&lt;-</span> <span class="fu">sum</span>(signs <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb1-8"><a href=""></a>n_neg <span class="ot">&lt;-</span> <span class="fu">sum</span>(signs <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
-<span id="cb1-9"><a href=""></a>n     <span class="ot">&lt;-</span> <span class="fu">length</span>(signs)</span>
-<span id="cb1-10"><a href=""></a>test_val <span class="ot">&lt;-</span> <span class="fu">min</span>(n_pos, n_neg)</span>
-<span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a><span class="fu">cat</span>(<span class="st">"正號數:"</span>, n_pos, <span class="st">"| 負號數:"</span>, n_neg, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>daily_orders <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">52</span>, <span class="dv">48</span>, <span class="dv">51</span>, <span class="dv">50</span>, <span class="dv">70</span>,</span>
+<span id="cb9-2"><a href=""></a>                  <span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">53</span>, <span class="dv">60</span>, <span class="dv">37</span>,</span>
+<span id="cb9-3"><a href=""></a>                  <span class="dv">27</span>, <span class="dv">46</span>, <span class="dv">54</span>, <span class="dv">49</span>, <span class="dv">51</span>,</span>
+<span id="cb9-4"><a href=""></a>                  <span class="dv">45</span>, <span class="dv">58</span>, <span class="dv">46</span>, <span class="dv">45</span>, <span class="dv">47</span>)</span>
+<span id="cb9-5"><a href=""></a>signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(daily_orders <span class="sc">-</span> <span class="dv">45</span>)</span>
+<span id="cb9-6"><a href=""></a>sign_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">plus =</span> <span class="fu">sum</span>(signs <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">minus =</span> <span class="fu">sum</span>(signs <span class="sc">&lt;</span> <span class="dv">0</span>))</span>
+<span id="cb9-7"><a href=""></a>sign_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>正號數: 3 | 負號數: 15 </code></pre>
+<pre><code> plus minus 
+   15     3 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"| 檢定值 ="</span>, test_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(sign_counts), <span class="at">test_statistic =</span> <span class="fu">min</span>(sign_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n = 18 | 檢定值 = 3 </code></pre>
+<pre><code>             n test_statistic 
+            18              3 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"臨界值（表 J，n=18，alpha=0.05，雙尾）: 4</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-1-2" class="slide level2">
+<h2>範例 13-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做成決策。把檢定統計量 3 與臨界值 4 比較。若檢定統計量<strong>小於或等於</strong>臨界值就拒絕 <span class="math inline">H_0</span>。此處 <span class="math inline">3 &lt; 4</span>，所以<strong>拒絕虛無假設</strong>。</p>
+<p><strong>步驟 5.</strong> 總結結果。有足夠證據拒絕「每日完成飲料訂單數的中位數為 45」這項主張。</p>
+<p><strong>P 值.</strong> 表 A-10 的臨界值來自 <span class="math inline">p = 0.5</span> 的二項分配，因此精確的 P 值就是一個二項機率。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">binom.test</span>(<span class="fu">min</span>(sign_counts), <span class="fu">sum</span>(sign_counts), <span class="at">p =</span> <span class="fl">0.5</span>)<span class="sc">$</span>p.value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>臨界值（表 J，n=18，alpha=0.05，雙尾）: 4</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"決策:"</span>, <span class="fu">ifelse</span>(test_val <span class="sc">&lt;=</span> <span class="dv">4</span>, <span class="st">"拒絕 H0"</span>, <span class="st">"不拒絕 H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>決策: 拒絕 H0 </code></pre>
+<pre><code>[1] 0.007537842</code></pre>
 </div>
 </div>
+<p><span class="math inline">P = 0.0075 &lt; 0.05</span>，與傳統方法拒絕 <span class="math inline">H_0</span> 的決策一致。</p>
 </div>
 </div>
 </div>
@@ -467,11 +763,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>外裔居民年齡（大樣本）</strong></p>
+<p><strong>物流中心每日出貨包裹數</strong></p>
 </div>
 <div class="callout-content">
-<p>美國外裔居民的中位年齡被主張至少為 <strong>36.4 歲</strong>。在 <span class="math inline">n = 50</span> 名居民的樣本中，有 <strong>21</strong> 人年齡超過 36.4 歲。在 <span class="math inline">\alpha = 0.05</span> 下，檢定此主張。</p>
-<p><span class="math display">H_0: MD \geq 36.4 \text{（主張）} \qquad H_1: MD &lt; 36.4</span></p>
+<p>某物流分析師假設桃園一座跨境電商物流中心每日出貨包裹數的中位數為 500 件。隨機抽出 40 天，其中有 15 天的出貨量少於 500 件<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，檢定「每日出貨包裹數的中位數為 500」這項主張。</p>
+<p>回到 <a href="#/example-13-3">Example 13-3</a></p>
 </div>
 </div>
 </div>
@@ -487,14 +783,11 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p>由於 <span class="math inline">n = 50 \geq 26</span>，使用 <strong>z 近似法</strong>。</p>
-<p>正號（年齡超過 36.4）：21；負號（年齡低於 36.4）：29</p>
-<p><span class="math inline">X</span> = 較小計數 = <strong>21</strong>（使用 21 因為是左尾檢定——檢查超過 36.4 的人數是否偏少）</p>
-<p><span class="math display">z = \frac{(X + 0.5) - n/2}{\sqrt{n}/2} = \frac{(21 + 0.5) - 25}{\sqrt{50}/2} = \frac{-3.5}{3.536} = -0.99</span></p>
-<p><strong>步驟 4：</strong> 臨界值（左尾，<span class="math inline">\alpha = 0.05</span>）：<span class="math inline">-1.65</span></p>
-<p>由於 <span class="math inline">-0.99 &gt; -1.65</span> → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據拒絕中位年齡至少為 36.4 歲的主張。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：中位數 <span class="math inline">= 500</span> <em>（主張）</em>；<span class="math inline">H_1</span>：中位數 <span class="math inline">\neq 500</span>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。因為 <span class="math inline">\alpha = 0.05</span>、<span class="math inline">n = 40</span> 且為雙尾檢定，由表 A-4 得臨界值為 <span class="math inline">+1.96</span> 與 <span class="math inline">-1.96</span>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。有 15 天低於 500 件，所以有 <span class="math inline">40 - 15 = 25</span> 天為 500 件以上。<span class="math inline">X</span> 取 15 與 25 中<strong>較小</strong>者，故 <span class="math inline">X = 15</span>。</p>
+<p><span class="math display">z = \frac{(X + 0.5) - 0.5n}{\sqrt{n}/2} = \frac{(15 + 0.5) - 0.5(40)}{\sqrt{40}/2} = -1.42</span></p>
 </div>
 </div>
 </div>
@@ -510,33 +803,76 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3 的 R 實作</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>n       <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb9-2"><a href=""></a>n_above <span class="ot">&lt;-</span> <span class="dv">21</span></span>
-<span id="cb9-3"><a href=""></a>n_below <span class="ot">&lt;-</span> n <span class="sc">-</span> n_above  <span class="co"># 29</span></span>
-<span id="cb9-4"><a href=""></a>X       <span class="ot">&lt;-</span> <span class="fu">min</span>(n_above, n_below)  <span class="co"># 21</span></span>
-<span id="cb9-5"><a href=""></a></span>
-<span id="cb9-6"><a href=""></a>z_stat <span class="ot">&lt;-</span> ((X <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">-</span> n<span class="sc">/</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="fu">sqrt</span>(n)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb9-7"><a href=""></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.05</span>)  <span class="co"># 左尾檢定</span></span>
-<span id="cb9-8"><a href=""></a></span>
-<span id="cb9-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"X（較小計數）="</span>, X, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>n_days    <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb15-2"><a href=""></a>n_below   <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb15-3"><a href=""></a>x_smaller <span class="ot">&lt;-</span> <span class="fu">min</span>(n_below, n_days <span class="sc">-</span> n_below)</span>
+<span id="cb15-4"><a href=""></a>z_statistic <span class="ot">&lt;-</span> ((x_smaller <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> n_days) <span class="sc">/</span> (<span class="fu">sqrt</span>(n_days) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb15-5"><a href=""></a><span class="fu">round</span>(z_statistic, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>X（較小計數）= 21 </code></pre>
+<pre><code>[1] -1.42</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"z 檢定值 ="</span>, <span class="fu">round</span>(z_stat, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>z 檢定值 = -0.99 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"z 臨界值 ="</span>, <span class="fu">round</span>(z_crit, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>z 臨界值 = -1.645 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"決策:"</span>, <span class="fu">ifelse</span>(z_stat <span class="sc">&lt;</span> z_crit, <span class="st">"拒絕 H0"</span>, <span class="st">"不拒絕 H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>決策: 不拒絕 H0 </code></pre>
+<pre><code>[1] -1.96  1.96</code></pre>
 </div>
 </div>
+<p><strong>步驟 4.</strong> 做成決策。檢定統計量 <span class="math inline">-1.42</span> 大於 <span class="math inline">-1.96</span>，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據拒絕「每日出貨包裹數的中位數為 500」這項主張。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="x-要取哪一個個數" class="slide level2">
+<h2><span class="math inline">X</span> 要取哪一個個數？</h2>
+<p>假設研究者主張某市住宅屋齡的中位數為 40 年，而在 100 戶的隨機樣本中有 68 戶屋齡超過 40 年。此時會有 68 個正號與 32 個負號，所以 <span class="math inline">X = 32</span>——兩者中較小的那一個。</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>因為符號檢定取正負號中<strong>個數較少</strong>者，所以這個檢定不是<strong>雙尾</strong>檢定就是<strong>左尾</strong>檢定。雙尾檢定時，臨界值取自標準常態分配的左側。若要做<strong>右尾</strong>符號檢定，公式改為</p>
+<p><span class="math display">z = \frac{(X - 0.5) - 0.5n}{\sqrt{n}/2}</span></p>
+<p>而且 <span class="math inline">X</span> 改取正負號中<strong>個數較多</strong>者。此時假設為 <span class="math inline">H_0</span>：中位數 <span class="math inline">= k</span>、<span class="math inline">H_1</span>：中位數 <span class="math inline">&gt; k</span>，臨界值取自 <span class="math inline">z</span> 分配的右側。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="成對樣本符號檢定" class="slide level2">
+<h2>成對樣本符號檢定</h2>
+<p>符號檢定也可以比較兩個<strong>相依</strong>樣本，例如前測—後測。母體為常態時使用 <span class="math inline">t</span> 檢定（第9-4節）；常態性條件無法滿足時，就使用無母數的符號檢定。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>成對樣本符號檢定</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>成對樣本符號檢定</strong>是在樣本為<strong>相依</strong>時，用來檢定兩個<strong>母體中位數</strong>之差的無母數檢定。</p>
+</div>
+</div>
+</div>
+<p><span class="math inline">X_B</span> 是處理<strong>前</strong>的數值，<span class="math inline">X_A</span> 是處理<strong>後</strong>的數值。計算差 <span class="math inline">X_B - X_A</span> 並給每個答案一個正號或負號，<strong>0 則予以忽略</strong>。此檢定可以是左尾、右尾或雙尾，程序與單一樣本符號檢定相同。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>成對樣本符號檢定的兩項假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本是<strong>隨機</strong>的。</li>
+<li>變數是<strong>相依</strong>（成對）的。</li>
+</ol>
 </div>
 </div>
 </div>
@@ -549,79 +885,68 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>游泳者耳部感染（配對符號檢定）</strong></p>
+<p><strong>導入新揀貨系統前後的揀錯件數</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者認為耳塞可以減少耳部感染。十名游泳者在使用耳塞<strong>前後</strong>的感染次數如下。在 <span class="math inline">\alpha = 0.05</span> 下，檢定耳塞是否有效減少感染。</p>
+<p>某倉儲主管認為，若以燈號揀貨系統取代紙本揀貨單，每班的揀錯件數可以減少。挑選 10 位揀貨員，分別記錄系統導入前一個班次與導入後一個班次的揀錯件數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，主管能否推論新系統減少了揀錯件數？</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>游泳者</th>
-<th>使用前</th>
-<th>使用後</th>
-<th>符號（前 − 後）</th>
+<th>揀貨員</th>
+<th>導入前，<span class="math inline">X_B</span></th>
+<th>導入後，<span class="math inline">X_A</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>A</td>
-<td>3</td>
-<td>2</td>
-<td>+</td>
+<td>6</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td>B</td>
-<td>0</td>
-<td>1</td>
-<td>−</td>
+<td>2</td>
+<td>3</td>
 </tr>
 <tr class="odd">
 <td>C</td>
+<td>7</td>
 <td>5</td>
-<td>4</td>
-<td>+</td>
 </tr>
 <tr class="even">
 <td>D</td>
-<td>4</td>
-<td>0</td>
-<td>+</td>
+<td>5</td>
+<td>1</td>
 </tr>
 <tr class="odd">
 <td>E</td>
+<td>4</td>
 <td>2</td>
-<td>1</td>
-<td>+</td>
 </tr>
 <tr class="even">
 <td>F</td>
-<td>4</td>
+<td>6</td>
 <td>3</td>
-<td>+</td>
 </tr>
 <tr class="odd">
 <td>G</td>
 <td>3</td>
 <td>1</td>
-<td>+</td>
 </tr>
 <tr class="even">
 <td>H</td>
+<td>8</td>
 <td>5</td>
-<td>3</td>
-<td>+</td>
 </tr>
 <tr class="odd">
 <td>I</td>
-<td>2</td>
-<td>2</td>
-<td>0</td>
+<td>4</td>
+<td>4</td>
 </tr>
 <tr class="even">
 <td>J</td>
-<td>1</td>
-<td>3</td>
-<td>−</td>
+<td>2</td>
+<td>5</td>
 </tr>
 </tbody>
 </table>
@@ -640,89 +965,180 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 耳塞不能減少感染；<span class="math inline">H_1:</span> 耳塞能減少感染（主張）</p>
-<p><strong>步驟 2：</strong> 差值符號（前 − 後）：+、−、+、+、+、+、+、+、0、−</p>
-<p>去除 0 → <span class="math inline">n = 9</span>；正號：<strong>7</strong> 個，負號：<strong>2</strong> 個</p>
-<p>由表 J：<span class="math inline">n = 9</span>，<span class="math inline">\alpha = 0.05</span>（單尾）→ 臨界值 = <strong>1</strong></p>
-<p><strong>步驟 3：</strong> 檢定值 = 較小值 = <strong>2</strong></p>
-<p><strong>步驟 4：</strong> <span class="math inline">2 &gt; 1</span> → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據顯示耳塞減少了感染次數。</p>
-<p><strong>備註：</strong> 資料確實偏向對立假設（正號較多），但在此小樣本下差異不夠顯著。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：揀錯件數不會減少。</p>
+<p><span class="math inline">H_1</span>：揀錯件數會減少 <em>（主張）</em>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。以導入前的值 <span class="math inline">X_B</span> 減去導入後的值 <span class="math inline">X_A</span>，並記錄每個差的符號。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>揀貨員</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+<th>J</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>差的符號</td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">-</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">+</span></td>
+<td><span class="math inline">0</span></td>
+<td><span class="math inline">-</span></td>
+</tr>
+</tbody>
+</table>
+<p>查<strong>表 A-10</strong>，<span class="math inline">n = 9</span>（正負號的總個數；0 不計入），<span class="math inline">\alpha = 0.05</span> 單尾，最多只能有 <strong>1</strong> 個負號才能拒絕 <span class="math inline">H_0</span>，因為 1 是 <span class="math inline">\alpha = 0.05</span> 那一欄中最小的項。</p>
 </div>
 </div>
 </div>
 </section>
 <section id="範例-13-3-1" class="slide level2">
 <h2>範例 13-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3 的 R 實作</strong>——因為 <span class="math inline">n \leq 25</span>，檢定統計量取兩個符號個數中較小者。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb17-2"><a href=""></a>after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a>diff_signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(before <span class="sc">-</span> after)</span>
-<span id="cb17-5"><a href=""></a>diff_signs <span class="ot">&lt;-</span> diff_signs[diff_signs <span class="sc">!=</span> <span class="dv">0</span>]</span>
-<span id="cb17-6"><a href=""></a></span>
-<span id="cb17-7"><a href=""></a>n_pos <span class="ot">&lt;-</span> <span class="fu">sum</span>(diff_signs <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb17-8"><a href=""></a>n_neg <span class="ot">&lt;-</span> <span class="fu">sum</span>(diff_signs <span class="sc">&lt;</span> <span class="dv">0</span>)</span>
-<span id="cb17-9"><a href=""></a>n     <span class="ot">&lt;-</span> <span class="fu">length</span>(diff_signs)</span>
-<span id="cb17-10"><a href=""></a>test_val <span class="ot">&lt;-</span> <span class="fu">min</span>(n_pos, n_neg)</span>
-<span id="cb17-11"><a href=""></a></span>
-<span id="cb17-12"><a href=""></a><span class="fu">cat</span>(<span class="st">"正號數:"</span>, n_pos, <span class="st">"| 負號數:"</span>, n_neg, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>errors_before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb19-2"><a href=""></a>errors_after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb19-3"><a href=""></a>signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(errors_before <span class="sc">-</span> errors_after)</span>
+<span id="cb19-4"><a href=""></a>sign_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">plus =</span> <span class="fu">sum</span>(signs <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">minus =</span> <span class="fu">sum</span>(signs <span class="sc">&lt;</span> <span class="dv">0</span>))</span>
+<span id="cb19-5"><a href=""></a>sign_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>正號數: 7 | 負號數: 2 </code></pre>
+<pre><code> plus minus 
+    7     2 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"| 檢定值 ="</span>, test_val, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(sign_counts), <span class="at">test_statistic =</span> <span class="fu">min</span>(sign_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n = 9 | 檢定值 = 2 </code></pre>
+<pre><code>             n test_statistic 
+             9              2 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"臨界值（表 J，n=9，alpha=0.05，單尾）: 1</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>臨界值（表 J，n=9，alpha=0.05，單尾）: 1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"決策:"</span>, <span class="fu">ifelse</span>(test_val <span class="sc">&lt;=</span> <span class="dv">1</span>, <span class="st">"拒絕 H0"</span>, <span class="st">"不拒絕 H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>決策: 不拒絕 H0 </code></pre>
+<p><strong>步驟 4.</strong> 做成決策。把檢定統計量 2 與臨界值 1 比較。此處 <span class="math inline">2 &gt; 1</span>，所以<strong>不拒絕</strong> <span class="math inline">H_0</span>。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據支持「燈號揀貨系統減少了揀錯件數」這項主張。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="檢定之前先推理" class="slide level2">
+<h2>檢定之前先推理</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>進行<strong>單尾</strong>符號檢定時，研究者必須先仔細檢視資料，判斷資料是否<strong>支持虛無假設</strong>。如果資料支持 <span class="math inline">H_0</span>，就沒有必要做這個檢定。</p>
+<p>在範例 13-3 中，<span class="math inline">H_0</span> 主張揀錯件數不會減少。如果負號多於正號，資料就是支持 <span class="math inline">H_0</span>，因為這代表導入前的值 <span class="math inline">X_B</span> 多半小於導入後的值 <span class="math inline">X_A</span>，研究者到此就可以停止。範例 13-3 的正號占多數，所以才繼續進行檢定程序。</p>
+<p>當樣本數為 <strong>26 以上</strong>時，就像<a href="#/example-13-2">範例 13-2</a>那樣使用常態近似。</p>
+</div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-13-3-節wilcoxon-秩和檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-3 節：Wilcoxon 秩和檢定</h1>
+<section id="第13-3節wilcoxon-等級和檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-3節：Wilcoxon 等級和檢定</h1>
 
 </section>
-<section id="wilcoxon-秩和檢定概述" class="slide level2">
-<h2>Wilcoxon 秩和檢定：概述</h2>
+<section id="為什麼要用等級" class="slide level2">
+<h2>為什麼要用等級？</h2>
+<p>符號檢定不考慮資料的<strong>大小</strong>：不論一個數值低於中位數 1 分還是 100 分，都只得到一個負號。<strong>Wilcoxon 檢定</strong>則透過等級把差異的大小納入考量。</p>
+<p>本章的兩種檢定是：用於<em>獨立</em>樣本的 <strong>Wilcoxon 等級和檢定</strong>（本節），以及用於<em>相依</em>樣本的 <strong>Wilcoxon 符號等級檢定</strong>（第13-4節）。兩者都用來比較分配。其母數版本分別是獨立樣本的 <span class="math inline">z</span> 與 <span class="math inline">t</span> 檢定，以及相依樣本的 <span class="math inline">t</span> 檢定。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>用途</strong></p>
+<p><strong>Wilcoxon 等級和檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>用於<strong>兩個獨立樣本</strong>且無法假設常態性的情況。是<strong>獨立樣本 t 檢定</strong>的無母數對應方法。</p>
-<p>兩個樣本的大小均須 <span class="math inline">\geq 10</span>。</p>
-<p><strong>概念：</strong> 將兩樣本合併，對所有數值統一排秩，再比較秩和。若兩組有差異，某組的秩次會持續高於另一組。</p>
+<p><strong>Wilcoxon 等級和檢定</strong>（有時稱為 <strong>Mann-Whitney 檢定</strong>）是利用等級來判斷兩個<strong>獨立</strong>樣本是否取自具有<strong>相同分配</strong>之母體的無母數檢定。</p>
+</div>
+</div>
+</div>
+<p>在此檢定中，兩個樣本的資料值會被<strong>合併後一起排序</strong>。若 <span class="math inline">H_0</span> 為真，兩個樣本中的數值所得到的等級應該差不多，因此等級和也應該接近。若等級和相差很大，就表示兩個分配並不相同，<span class="math inline">H_0</span> 應被拒絕。</p>
+</section>
+<section id="假設條件與公式" class="slide level2">
+<h2>假設條件與公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Wilcoxon 等級和檢定的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本是<strong>隨機</strong>且彼此<strong>獨立</strong>的。</li>
+<li>每個樣本的大小都必須<strong>大於或等於 10</strong>。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>獨立樣本的 Wilcoxon 等級和檢定公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">z = \frac{R - \mu_R}{\sigma_R} \qquad \text{其中} \qquad \mu_R = \frac{n_1(n_1 + n_2 + 1)}{2}, \qquad \sigma_R = \sqrt{\frac{n_1 n_2 (n_1 + n_2 + 1)}{12}}</span></p>
+<ul>
+<li><span class="math inline">R</span> = 樣本數<strong>較小</strong>那一組（<span class="math inline">n_1</span>）的等級和</li>
+<li><span class="math inline">n_1</span> = 較小的樣本數，<span class="math inline">n_2</span> = 較大的樣本數</li>
+<li><span class="math inline">n_1 \geq 10</span> 且 <span class="math inline">n_2 \geq 10</span></li>
+</ul>
+<p>若兩個樣本一樣大，任一個都可以當作 <span class="math inline">n_1</span>。臨界值查<strong>表 A-4</strong>。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="wilcoxon-秩和檢定公式" class="slide level2">
-<h2>Wilcoxon 秩和檢定：公式</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="程序表wilcoxon-等級和檢定" class="slide level2">
+<h2>程序表：Wilcoxon 等級和檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>公式</strong></p>
+<p><strong>五個步驟</strong></p>
 </div>
 <div class="callout-content">
-<p>設 <span class="math inline">n_1</span> = 較小樣本大小，<span class="math inline">n_2</span> = 較大樣本大小，<span class="math inline">R</span> = 較小組的秩和。</p>
-<p><span class="math display">\mu_R = \frac{n_1(n_1 + n_2 + 1)}{2} \qquad \sigma_R = \sqrt{\frac{n_1 n_2 (n_1 + n_2 + 1)}{12}}</span></p>
-<p><span class="math display">z = \frac{R - \mu_R}{\sigma_R}</span></p>
-<p>使用表 E 查臨界值（標準常態）。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 求臨界值。查<strong>表 A-4</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;a. 合併兩個樣本的資料，依大小排列並給每個數值一個等級。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;b. 把樣本數較小那一組的等級加總。（若兩組樣本數相同，任選一組即可。）</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;c.&nbsp;代入 <span class="math inline">\mu_R</span>、<span class="math inline">\sigma_R</span> 與 <span class="math inline">z</span> 的公式。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -735,24 +1151,12 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>障礙賽完成時間</strong></p>
+<p><strong>兩座物流中心的揀貨時間</strong></p>
 </div>
 <div class="callout-content">
-<p>兩個獨立組別（陸軍：<span class="math inline">n=12</span>，海軍陸戰隊：<span class="math inline">n=11</span>）完成一段障礙賽。在 <span class="math inline">\alpha = 0.05</span> 下，檢定兩組完成時間是否有差異。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>陸軍</th>
-<th>15 18 16 17 13 22 24 17 19 21 26 28</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>海軍陸戰隊</td>
-<td>14 9 16 19 10 12 11 8 15 18 25</td>
-</tr>
-</tbody>
-</table>
+<p>某營運團隊分別從公司的高雄物流中心與桃園物流中心各抽出一組獨立的隨機訂單明細樣本，記錄揀取每一筆明細所需的秒數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，兩座物流中心的揀貨時間是否有差異？</p>
+<pre><code>高雄    58   60   63   72   74   76   78   88   92   96  125
+桃園    69   79   84   88   93   99  106  112  120  131  140  152</code></pre>
 </div>
 </div>
 </div>
@@ -768,15 +1172,110 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 兩組時間無差異；<span class="math inline">H_1:</span> 有差異（主張）</p>
-<p><strong>步驟 2：</strong> 雙尾，<span class="math inline">\alpha = 0.05</span> → <span class="math inline">z_{crit} = \pm 1.96</span></p>
-<p><strong>步驟 3：</strong> 合併 23 個數值並排秩，再加總海軍陸戰隊（<span class="math inline">n_1 = 11</span>）的秩次：</p>
-<p><span class="math display">R = 1+2+3+4+5+7+8.5+10.5+14.5+16.5+21 = 93</span></p>
-<p><span class="math display">\mu_R = \frac{11(11+12+1)}{2} = 132 \qquad \sigma_R = \sqrt{\frac{11 \cdot 12 \cdot 24}{12}} = 16.2</span></p>
-<p><span class="math display">z = \frac{93 - 132}{16.2} = -2.41</span></p>
-<p><strong>步驟 4：</strong> <span class="math inline">|-2.41| &gt; 1.96</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 有足夠證據顯示兩組時間存在差異。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：兩座物流中心的揀貨時間沒有差異。</p>
+<p><span class="math inline">H_1</span>：兩座物流中心的揀貨時間有差異 <em>（主張）</em>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。因為 <span class="math inline">\alpha = 0.05</span> 且為雙尾檢定，由表 A-4 得臨界值為 <span class="math inline">+1.96</span> 與 <span class="math inline">-1.96</span>。</p>
+<p><strong>步驟 3a.</strong> 把兩組資料合併、由小到大排列，並為每個值排等級（K = 高雄，T = 桃園）。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>秒數</th>
+<th>58</th>
+<th>60</th>
+<th>63</th>
+<th>69</th>
+<th>72</th>
+<th>74</th>
+<th>76</th>
+<th>78</th>
+<th>79</th>
+<th>84</th>
+<th>88</th>
+<th>88</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>中心</td>
+<td>K</td>
+<td>K</td>
+<td>K</td>
+<td>T</td>
+<td>K</td>
+<td>K</td>
+<td>K</td>
+<td>K</td>
+<td>T</td>
+<td>T</td>
+<td>K</td>
+<td>T</td>
+</tr>
+<tr class="even">
+<td>等級</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11.5</td>
+<td>11.5</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>秒數</th>
+<th>92</th>
+<th>93</th>
+<th>96</th>
+<th>99</th>
+<th>106</th>
+<th>112</th>
+<th>120</th>
+<th>125</th>
+<th>131</th>
+<th>140</th>
+<th>152</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>中心</td>
+<td>K</td>
+<td>T</td>
+<td>K</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>K</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+</tr>
+<tr class="even">
+<td>等級</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -792,95 +1291,185 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3b.</strong> 高雄的樣本數較小，所以把高雄的等級加總。</p>
+<p><span class="math display">R = 1 + 2 + 3 + 5 + 6 + 7 + 8 + 11.5 + 13 + 15 + 20 = 91.5</span></p>
+<p><strong>步驟 3c.</strong> 以 <span class="math inline">n_1 = 11</span>、<span class="math inline">n_2 = 12</span> 代入公式。</p>
+<p><span class="math display">\mu_R = \frac{11(11 + 12 + 1)}{2} = 132 \qquad \sigma_R = \sqrt{\frac{(11)(12)(11 + 12 + 1)}{12}} = \sqrt{264} = 16.248</span></p>
+<p><span class="math display">z = \frac{R - \mu_R}{\sigma_R} = \frac{91.5 - 132}{16.248} = -2.493</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-4-2" class="slide level2">
+<h2>範例 13-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3 的 R 實作</strong>——<code>rank()</code> 會重現上面的等級，包含同分值 88 取平均等級的做法。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>army    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">18</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">13</span>,<span class="dv">22</span>,<span class="dv">24</span>,<span class="dv">17</span>,<span class="dv">19</span>,<span class="dv">21</span>,<span class="dv">26</span>,<span class="dv">28</span>)</span>
-<span id="cb25-2"><a href=""></a>marines <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">19</span>,<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">15</span>,<span class="dv">18</span>,<span class="dv">25</span>)</span>
-<span id="cb25-3"><a href=""></a></span>
-<span id="cb25-4"><a href=""></a><span class="co"># Wilcoxon 秩和檢定（Mann-Whitney 檢定）</span></span>
-<span id="cb25-5"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(army, marines, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-6"><a href=""></a><span class="fu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>kaohsiung <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">58</span>, <span class="dv">60</span>, <span class="dv">63</span>, <span class="dv">72</span>, <span class="dv">74</span>, <span class="dv">76</span>, <span class="dv">78</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">96</span>, <span class="dv">125</span>)</span>
+<span id="cb24-2"><a href=""></a>taoyuan   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">79</span>, <span class="dv">84</span>, <span class="dv">88</span>, <span class="dv">93</span>, <span class="dv">99</span>, <span class="dv">106</span>, <span class="dv">112</span>, <span class="dv">120</span>, <span class="dv">131</span>, <span class="dv">140</span>, <span class="dv">152</span>)</span>
+<span id="cb24-3"><a href=""></a>centre <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Kaohsiung"</span>, <span class="st">"Taoyuan"</span>), <span class="fu">c</span>(<span class="fu">length</span>(kaohsiung), <span class="fu">length</span>(taoyuan)))</span>
+<span id="cb24-4"><a href=""></a>ranks  <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="fu">c</span>(kaohsiung, taoyuan))</span>
+<span id="cb24-5"><a href=""></a>n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(kaohsiung)</span>
+<span id="cb24-6"><a href=""></a>n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(taoyuan)</span>
+<span id="cb24-7"><a href=""></a>rank_sum       <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks[centre <span class="sc">==</span> <span class="st">"Kaohsiung"</span>])</span>
+<span id="cb24-8"><a href=""></a>mu_rank_sum    <span class="ot">&lt;-</span> n1 <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb24-9"><a href=""></a>sigma_rank_sum <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n1 <span class="sc">*</span> n2 <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb24-10"><a href=""></a>z_statistic    <span class="ot">&lt;-</span> (rank_sum <span class="sc">-</span> mu_rank_sum) <span class="sc">/</span> sigma_rank_sum</span>
+<span id="cb24-11"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">R =</span> rank_sum, <span class="at">mu_R =</span> mu_rank_sum,</span>
+<span id="cb24-12"><a href=""></a>        <span class="at">sigma_R =</span> sigma_rank_sum, <span class="at">z =</span> z_statistic), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-    Wilcoxon rank sum exact test
-
-data:  army and marines
-W = 105, p-value = 0.01475
-alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre><code>      R    mu_R sigma_R       z 
+ 91.500 132.000  16.248  -2.493 </code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># 手動計算 z 值</span></span>
-<span id="cb27-2"><a href=""></a>all_times <span class="ot">&lt;-</span> <span class="fu">c</span>(army, marines)</span>
-<span id="cb27-3"><a href=""></a>groups    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Army"</span>,<span class="dv">12</span>), <span class="fu">rep</span>(<span class="st">"Marine"</span>,<span class="dv">11</span>))</span>
-<span id="cb27-4"><a href=""></a>ranks_all <span class="ot">&lt;-</span> <span class="fu">rank</span>(all_times)</span>
-<span id="cb27-5"><a href=""></a></span>
-<span id="cb27-6"><a href=""></a>R  <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks_all[groups <span class="sc">==</span> <span class="st">"Marine"</span>])  <span class="co"># 較小組</span></span>
-<span id="cb27-7"><a href=""></a>n1 <span class="ot">&lt;-</span> <span class="dv">11</span>; n2 <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb27-8"><a href=""></a>mu_R <span class="ot">&lt;-</span> n1<span class="sc">*</span>(n1<span class="sc">+</span>n2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb27-9"><a href=""></a>sig_R <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n1<span class="sc">*</span>n2<span class="sc">*</span>(n1<span class="sc">+</span>n2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">12</span>)</span>
-<span id="cb27-10"><a href=""></a>z_stat <span class="ot">&lt;-</span> (R <span class="sc">-</span> mu_R) <span class="sc">/</span> sig_R</span>
-<span id="cb27-11"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">R ="</span>, R, <span class="st">"| mu_R ="</span>, mu_R, <span class="st">"| sigma_R ="</span>, <span class="fu">round</span>(sig_R,<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-R = 93 | mu_R = 132 | sigma_R = 16.25</code></pre>
+<section id="範例-13-4-3" class="slide level2">
+<h2>範例 13-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">z ="</span>, <span class="fu">round</span>(z_stat,<span class="dv">3</span>), <span class="st">"| 臨界值 = +/-1.96</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做成決策。因為 <span class="math inline">-2.493 &lt; -1.96</span>，所以<strong>拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。有足夠證據支持「兩座物流中心的揀貨時間有差異」這項主張。</p>
+<p><strong>P 值.</strong> 本檢定為雙尾，所以 P 值是 <span class="math inline">z = -2.493</span> 左側面積的兩倍。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z_statistic), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0127</code></pre>
+</div>
+</div>
+<p>因為 <span class="math inline">P = 0.0127 &lt; 0.05</span>，拒絕 <span class="math inline">H_0</span>，與傳統方法的決策一致。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="等級和檢定的-r-實作" class="slide level2">
+<h2>等級和檢定的 R 實作</h2>
+<p>R 的 <code>wilcox.test()</code> 報告的是 Mann-Whitney <span class="math inline">U</span> 統計量而非等級和 <span class="math inline">R</span>。兩個統計量帶有相同的訊息：<span class="math inline">U = R - \dfrac{n_1(n_1+1)}{2} = 91.5 - 66 = 25.5</span>。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">wilcox.test</span>(kaohsiung, taoyuan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-z = -2.4 | 臨界值 = +/-1.96</code></pre>
+    Wilcoxon rank sum test with continuity correction
+
+data:  kaohsiung and taoyuan
+W = 25.5, p-value = 0.0138
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>這裡教的手算採用單純的常態近似，既沒有同分校正也沒有連續性校正，得到 <span class="math inline">P = 0.0127</span>。<code>wilcox.test()</code> 預設會做連續性校正，因此報告 <span class="math inline">P = 0.0138</span>。兩個 P 值都遠小於 <span class="math inline">\alpha = 0.05</span>，決策不變。</p>
+</div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-13-4-節wilcoxon-帶號秩檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-4 節：Wilcoxon 帶號秩檢定</h1>
+<section id="第13-4節wilcoxon-符號等級檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-4節：Wilcoxon 符號等級檢定</h1>
 
 </section>
-<section id="wilcoxon-帶號秩檢定概述" class="slide level2">
-<h2>Wilcoxon 帶號秩檢定：概述</h2>
+<section id="wilcoxon-符號等級檢定" class="slide level2">
+<h2>Wilcoxon 符號等級檢定</h2>
+<p>當樣本是<strong>相依</strong>的（例如對同一批受試者做前後測），就可以用 Wilcoxon 符號等級檢定取代相依樣本的 <span class="math inline">t</span> 檢定。這個檢定同樣不要求常態性條件。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>用途</strong></p>
+<p><strong>Wilcoxon 符號等級檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>用於<strong>兩個相依（配對）樣本</strong>且無法假設常態性的情況。是<strong>配對 t 檢定</strong>的無母數對應方法。</p>
-<p>與符號檢定不同，此方法同時考量每個差值的<strong>大小</strong>，而非僅有方向。</p>
-<p><span class="math inline">n \leq 30</span> 時：使用<strong>表 K</strong> 查臨界值。</p>
-<p><span class="math inline">n &gt; 30</span> 時：使用 z 近似法： <span class="math display">z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}</span> 其中 <span class="math inline">w_s</span> = 絕對秩和中較小的那個。</p>
+<p><strong>Wilcoxon 符號等級檢定</strong>是用來檢定兩個<strong>相依</strong>樣本是否取自具有<strong>相同分配</strong>之兩個母體的無母數檢定。</p>
 </div>
 </div>
 </div>
-</section>
-<section id="帶號秩檢定步驟" class="slide level2">
-<h2>帶號秩檢定步驟</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>逐步程序</strong></p>
+<p><strong>Wilcoxon 符號等級檢定的假設條件</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>計算差值 <span class="math inline">D = X_B - X_A</span>；捨棄 <span class="math inline">D = 0</span> 的項目</li>
-<li>對 <strong>絕對值</strong> <span class="math inline">|D|</span> 由小到大排秩（相同值取平均秩次）</li>
-<li>根據 <span class="math inline">D</span> 的正負，將符號還原給各秩次（<span class="math inline">+</span> 或 <span class="math inline">-</span>）</li>
-<li>分別加總正秩次（<span class="math inline">W^+</span>）與負秩次（<span class="math inline">W^-</span>）</li>
-<li><strong>檢定值</strong> <span class="math inline">w_s</span> = <span class="math inline">|W^+|</span> 與 <span class="math inline">|W^-|</span> 中較小者</li>
-<li>若 <span class="math inline">w_s \leq</span> 表 K 的臨界值，則拒絕 <span class="math inline">H_0</span></li>
+<li>成對資料取自<strong>隨機樣本</strong>。</li>
+<li><strong>差</strong>的母體分配大致<strong>對稱</strong>。</li>
 </ol>
+</div>
+</div>
+</div>
+</section>
+<section id="檢定統計量-w_s" class="slide level2">
+<h2>檢定統計量 <span class="math inline">w_s</span></h2>
+<p>當 <span class="math inline">n \leq 30</span> 時，求 Wilcoxon 符號等級檢定之檢定統計量 <span class="math inline">w_s</span> 的方法是：</p>
+<ul>
+<li>對每一對資料之差的<strong>絕對值</strong>排定等級；</li>
+<li>依原本差的正負，給每個等級一個 <span class="math inline">+</span> 或 <span class="math inline">-</span> 號；</li>
+<li><strong>分別</strong>加總正等級與負等級；</li>
+<li>取兩個和的<strong>絕對值中較小者</strong>作為檢定統計量 <span class="math inline">w_s</span>。</li>
+</ul>
+<p>當 <span class="math inline">n \leq 30</span> 時由<strong>表 A-11</strong> 查臨界值：用臨界值所在的欄搭配 <span class="math inline">n</span> 所在的列。</p>
+</section>
+<section id="檢定統計量-w_s-1" class="slide level2">
+<h2>檢定統計量 <span class="math inline">w_s</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>大樣本：<span class="math inline">n &gt; 30</span></strong></p>
+</div>
+<div class="callout-content">
+<p>當 <span class="math inline">n &gt; 30</span> 時，可用常態分配近似 Wilcoxon 分配，並沿用<strong>表 A-4</strong> 中 <span class="math inline">z</span> 檢定的臨界值：</p>
+<p><span class="math display">z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}</span></p>
+<p>其中 <span class="math inline">n</span> = 差不為 0 的配對數，<span class="math inline">w_s</span> = 符號等級和之絕對值中較小者。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="程序表wilcoxon-符號等級檢定" class="slide level2">
+<h2>程序表：Wilcoxon 符號等級檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 求臨界值。<span class="math inline">n \leq 30</span> 時查<strong>表 A-11</strong>，<span class="math inline">n &gt; 30</span> 時查<strong>表 A-4</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。當 <span class="math inline">n \leq 30</span> 時：(a) 製作含 <span class="math inline">X_B</span>、<span class="math inline">X_A</span>、<span class="math inline">D = X_B - X_A</span>、<span class="math inline">|D|</span>、等級與符號等級等欄位的表格；(b) 求各差；(c) 求每個差的絕對值；(d) 把絕對值由小到大排定等級；(e) 依差的正負給每個等級加上符號；(f) 分別加總正等級與負等級；(g) 取兩個和的絕對值中較小者作為 <span class="math inline">w_s</span>。當 <span class="math inline">n &gt; 30</span> 時，改用 <span class="math inline">z</span> 公式與表 A-4。</p>
+<p><strong>步驟 4.</strong> 做成決策。<strong>若檢定統計量小於或等於臨界值就拒絕 <span class="math inline">H_0</span>。</strong></p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -893,53 +1482,53 @@ z = -2.4 | 臨界值 = +/-1.96</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>商店竊盜事件</strong></p>
+<p><strong>新增語音自助選單前後的客訴件數</strong></p>
 </div>
 <div class="callout-content">
-<p>一家百貨公司將保全人員加倍。連續 7 天的每日竊盜件數（增加前與增加後）如下。在 <span class="math inline">\alpha = 0.05</span> 下，是否有足夠證據顯示事件件數發生改變？</p>
+<p>某客服中心主管想了解，在客服專線新增語音自助選單後，每日升級處理的客訴件數是否會改變。分別記錄新增選單前 7 天，以及隔週對應 7 天的升級客訴件數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，是否有足夠證據支持「新增選單前後的升級客訴件數有差異」這項主張？</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>星期</th>
-<th>增加前</th>
-<th>增加後</th>
+<th>之前</th>
+<th>之後</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>一</td>
+<td>週一</td>
+<td>9</td>
 <td>7</td>
-<td>5</td>
 </tr>
 <tr class="even">
-<td>二</td>
-<td>2</td>
-<td>3</td>
-</tr>
-<tr class="odd">
-<td>三</td>
-<td>3</td>
+<td>週二</td>
 <td>4</td>
-</tr>
-<tr class="even">
-<td>四</td>
-<td>6</td>
-<td>3</td>
+<td>5</td>
 </tr>
 <tr class="odd">
-<td>五</td>
+<td>週三</td>
 <td>5</td>
-<td>1</td>
+<td>6</td>
 </tr>
 <tr class="even">
-<td>六</td>
+<td>週四</td>
 <td>8</td>
-<td>6</td>
+<td>5</td>
 </tr>
 <tr class="odd">
-<td>日</td>
-<td>12</td>
-<td>4</td>
+<td>週五</td>
+<td>7</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>週六</td>
+<td>10</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>週日</td>
+<td>14</td>
+<td>6</td>
 </tr>
 </tbody>
 </table>
@@ -958,81 +1547,101 @@ z = -2.4 | 臨界值 = +/-1.96</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 竊盜件數無差異；<span class="math inline">H_1:</span> 有差異（主張）</p>
-<p><strong>步驟 2：</strong> 由表 K，<span class="math inline">n = 7</span>，<span class="math inline">\alpha = 0.05</span>（雙尾）→ 臨界值 = <strong>2</strong></p>
-<p><strong>步驟 3：</strong> 計算差值、絕對值、秩次及帶號秩次：</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：新增選單前後的升級客訴件數沒有差異。</p>
+<p><span class="math inline">H_1</span>：新增選單前後的升級客訴件數有差異 <em>（主張）</em>。</p>
+<p><strong>步驟 2.</strong> 因為 <span class="math inline">n \leq 30</span>，查<strong>表 A-11</strong>：<span class="math inline">n = 7</span>、<span class="math inline">\alpha = 0.05</span> 雙尾檢定的臨界值是 <strong>2</strong>。</p>
+<p><strong>步驟 3.</strong> 建立差 <span class="math inline">D = X_B - X_A</span>、絕對值、等級與帶號等級的表。</p>
 <table class="caption-top">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>星期</th>
-<th>D</th>
-<th>|D|</th>
-<th>秩次</th>
-<th>帶號秩次</th>
+<th>之前，<span class="math inline">X_B</span></th>
+<th>之後，<span class="math inline">X_A</span></th>
+<th><span class="math inline">D</span></th>
+<th><span class="math inline">\lvert D \rvert</span></th>
+<th>等級</th>
+<th>帶號等級</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>一</td>
+<td>週一</td>
+<td>9</td>
+<td>7</td>
 <td>2</td>
 <td>2</td>
 <td>3.5</td>
-<td>+3.5</td>
+<td><span class="math inline">+3.5</span></td>
 </tr>
 <tr class="even">
-<td>二</td>
-<td>−1</td>
+<td>週二</td>
+<td>4</td>
+<td>5</td>
+<td><span class="math inline">-1</span></td>
 <td>1</td>
 <td>1.5</td>
-<td>−1.5</td>
+<td><span class="math inline">-1.5</span></td>
 </tr>
 <tr class="odd">
-<td>三</td>
-<td>−1</td>
+<td>週三</td>
+<td>5</td>
+<td>6</td>
+<td><span class="math inline">-1</span></td>
 <td>1</td>
 <td>1.5</td>
-<td>−1.5</td>
+<td><span class="math inline">-1.5</span></td>
 </tr>
 <tr class="even">
-<td>四</td>
+<td>週四</td>
+<td>8</td>
+<td>5</td>
 <td>3</td>
 <td>3</td>
 <td>5</td>
-<td>+5</td>
+<td><span class="math inline">+5</span></td>
 </tr>
 <tr class="odd">
-<td>五</td>
+<td>週五</td>
+<td>7</td>
+<td>3</td>
 <td>4</td>
 <td>4</td>
 <td>6</td>
-<td>+6</td>
+<td><span class="math inline">+6</span></td>
 </tr>
 <tr class="even">
-<td>六</td>
+<td>週六</td>
+<td>10</td>
+<td>8</td>
 <td>2</td>
 <td>2</td>
 <td>3.5</td>
-<td>+3.5</td>
+<td><span class="math inline">+3.5</span></td>
 </tr>
 <tr class="odd">
-<td>日</td>
+<td>週日</td>
+<td>14</td>
+<td>6</td>
 <td>8</td>
 <td>8</td>
 <td>7</td>
-<td>+7</td>
+<td><span class="math inline">+7</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
-<p><span class="math inline">W^+ = 3.5+5+6+3.5+7 = 25</span>；<span class="math inline">W^- = 1.5+1.5 = 3</span>；<span class="math inline">w_s = 3</span></p>
-<p><strong>步驟 4：</strong> <span class="math inline">3 &gt; 2</span> → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據顯示增加保全人員後竊盜件數有所改變。</p>
 </section>
 <section id="範例-13-5-1" class="slide level2">
 <h2>範例 13-5</h2>
@@ -1045,111 +1654,139 @@ z = -2.4 | 臨界值 = +/-1.96</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3 (f)、(g).</strong> 分別加總正等級與負等級，取絕對值較小者。</p>
+<p><span class="math display">\text{正等級和} = (+3.5) + (+5) + (+6) + (+3.5) + (+7) = +25</span></p>
+<p><span class="math display">\text{負等級和} = (-1.5) + (-1.5) = -3 \qquad \Rightarrow \qquad w_s = \lvert -3 \rvert = 3</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">12</span>)</span>
-<span id="cb31-2"><a href=""></a>after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">4</span>)</span>
-<span id="cb31-3"><a href=""></a></span>
-<span id="cb31-4"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(before, after, <span class="at">paired =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb31-5"><a href=""></a>                      <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb31-6"><a href=""></a><span class="fu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>complaints_before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">14</span>)</span>
+<span id="cb30-2"><a href=""></a>complaints_after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>,  <span class="dv">8</span>,  <span class="dv">6</span>)</span>
+<span id="cb30-3"><a href=""></a>differences  <span class="ot">&lt;-</span> complaints_before <span class="sc">-</span> complaints_after</span>
+<span id="cb30-4"><a href=""></a>signed_ranks <span class="ot">&lt;-</span> <span class="fu">sign</span>(differences) <span class="sc">*</span> <span class="fu">rank</span>(<span class="fu">abs</span>(differences))</span>
+<span id="cb30-5"><a href=""></a>rank_sums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">positive =</span> <span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&gt;</span> <span class="dv">0</span>]),</span>
+<span id="cb30-6"><a href=""></a>               <span class="at">negative =</span> <span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&lt;</span> <span class="dv">0</span>]))</span>
+<span id="cb30-7"><a href=""></a>rank_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>positive negative 
+      25       -3 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(differences), <span class="at">w_s =</span> <span class="fu">min</span>(<span class="fu">abs</span>(rank_sums)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  n w_s 
+  7   3 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-5-2" class="slide level2">
+<h2>範例 13-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做成決策。若檢定統計量小於或等於臨界值就拒絕 <span class="math inline">H_0</span>。此處 <span class="math inline">3 &gt; 2</span>，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。在 <span class="math inline">\alpha = 0.05</span> 下沒有足夠證據支持「新增選單前後的升級客訴件數有差異」這項主張。因此新增語音自助選單大概沒有改變升級客訴的件數。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">wilcox.test</span>(complaints_before, complaints_after, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon signed rank test with continuity correction
 
-data:  before and after
+data:  complaints_before and complaints_after
 V = 25, p-value = 0.07488
 alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
+<p>R 報告 <span class="math inline">V = 25</span>，也就是<strong>正</strong>等級之和；而 <span class="math inline">w_s = 3</span> 則是兩個和中較小者。P 值 <span class="math inline">0.0749 &gt; 0.05</span>，導出相同的決策。</p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># 手動計算帶號秩次</span></span>
-<span id="cb33-2"><a href=""></a>D      <span class="ot">&lt;-</span> before <span class="sc">-</span> after</span>
-<span id="cb33-3"><a href=""></a>D_nz   <span class="ot">&lt;-</span> D[D <span class="sc">!=</span> <span class="dv">0</span>]</span>
-<span id="cb33-4"><a href=""></a>abs_D  <span class="ot">&lt;-</span> <span class="fu">abs</span>(D_nz)</span>
-<span id="cb33-5"><a href=""></a>ranks  <span class="ot">&lt;-</span> <span class="fu">rank</span>(abs_D)</span>
-<span id="cb33-6"><a href=""></a>signed <span class="ot">&lt;-</span> <span class="fu">sign</span>(D_nz) <span class="sc">*</span> ranks</span>
-<span id="cb33-7"><a href=""></a></span>
-<span id="cb33-8"><a href=""></a>W_pos <span class="ot">&lt;-</span> <span class="fu">sum</span>(signed[signed <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
-<span id="cb33-9"><a href=""></a>W_neg <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">sum</span>(signed[signed <span class="sc">&lt;</span> <span class="dv">0</span>]))</span>
-<span id="cb33-10"><a href=""></a>ws    <span class="ot">&lt;-</span> <span class="fu">min</span>(W_pos, W_neg)</span>
-<span id="cb33-11"><a href=""></a></span>
-<span id="cb33-12"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">W+ ="</span>, W_pos, <span class="st">"| W- ="</span>, W_neg, <span class="st">"| ws ="</span>, ws)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-W+ = 25 | W- = 3 | ws = 3</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">臨界值（表 K，n=7，alpha=0.05）: 2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-臨界值（表 K，n=7，alpha=0.05）: 2</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">決策:"</span>, <span class="fu">ifelse</span>(ws <span class="sc">&lt;=</span> <span class="dv">2</span>, <span class="st">"拒絕 H0"</span>, <span class="st">"不拒絕 H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-決策: 不拒絕 H0 </code></pre>
-</div>
-</div>
+<section id="符號等級檢定的道理" class="slide level2">
+<h2>符號等級檢定的道理</h2>
+<p>以減重飲食為例。如果這套飲食有效，多數人的後測體重會小於前測體重。以前測減後測時，多數符號會是<strong>正</strong>的，而<strong>負</strong>等級和的絕對值會<strong>很小</strong>——很可能小於表 A-11 的臨界值，於是拒絕 <span class="math inline">H_0</span>。</p>
+<p>如果這套飲食<strong>無效</strong>，有些人變重、有些人變輕、有些人差不多。此時正等級和與負等級和的絕對值會大致相等，各約為所有等級總和的一半。兩者中較小的絕對值仍會<strong>大於</strong>臨界值，於是不拒絕 <span class="math inline">H_0</span>。</p>
 </section></section>
 <section>
-<section id="第-13-5-節kruskal-wallis-檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-5 節：Kruskal-Wallis 檢定</h1>
+<section id="第13-5節kruskal-wallis-檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-5節：Kruskal-Wallis 檢定</h1>
 
 </section>
-<section id="kruskal-wallis-檢定概述" class="slide level2">
-<h2>Kruskal-Wallis 檢定：概述</h2>
+<section id="kruskal-wallis-檢定" class="slide level2">
+<h2>Kruskal-Wallis 檢定</h2>
+<p>變異數分析用 <span class="math inline">F</span> 檢定比較三個以上母體的平均數。ANOVA 的假設條件是各母體呈<strong>常態分配</strong>且<strong>母體變異數相等</strong>。當這些假設無法滿足時，可以用無母數的 Kruskal-Wallis 檢定（有時稱為 <strong><span class="math inline">H</span> 檢定</strong>）來比較三個以上的平均數。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>用途</strong></p>
+<p><strong>Kruskal-Wallis 檢定</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>單因子變異數分析（ANOVA）</strong> 的無母數等效方法。在不要求常態性的情況下比較<strong>三個或更多獨立組別</strong>。</p>
-<ul>
-<li>為使卡方近似足夠準確，每組樣本至少應有 <strong>5</strong> 個觀測值</li>
-<li>檢定統計量 <span class="math inline">H</span> 服從自由度 <span class="math inline">d.f. = k - 1</span> 的<strong>卡方分配</strong></li>
-<li>此檢定永遠是<strong>右尾</strong>檢定</li>
-</ul>
+<p><strong>Kruskal-Wallis 檢定</strong>是用來判斷<strong>三個以上</strong>的樣本是否取自具有<strong>相同分配</strong>之母體的無母數檢定。</p>
 </div>
 </div>
 </div>
-<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>注意</strong></p>
+<p><strong>Kruskal-Wallis 檢定的假設條件</strong></p>
 </div>
 <div class="callout-content">
-<p>下方的範例為了讓排秩過程容易理解，每組僅使用 4 個觀測值；實務上，每組樣本至少應有 5 個觀測值，卡方近似才可靠。</p>
+<ol type="1">
+<li>至少有<strong>三個</strong>隨機樣本。</li>
+<li>每個樣本的大小都必須<strong>至少為 5</strong>。</li>
+</ol>
 </div>
 </div>
 </div>
+<p>當每個樣本數都在 5 以上時，其分配可用自由度 <span class="math inline">\text{d.f.} = k - 1</span> 的<strong>卡方</strong>分配近似，其中 <span class="math inline">k</span> 為組數。</p>
 </section>
-<section id="kruskal-wallis-公式" class="slide level2">
-<h2>Kruskal-Wallis 公式</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="h-統計量" class="slide level2">
+<h2><span class="math inline">H</span> 統計量</h2>
+<p>在 Kruskal-Wallis 檢定中，先把所有資料值視為一個整體加以排序，再把等級依組拆開並計算 <span class="math inline">H</span> 公式，這個公式近似等級的變異數。若各樣本來自不同母體，等級和會有差異、<span class="math inline">H</span> 會<strong>很大</strong>，於是拒絕 <span class="math inline">H_0</span>；若來自同一母體，等級和會相近、<span class="math inline">H</span> 會<strong>很小</strong>。本檢定一律是<strong>右尾檢定</strong>，臨界值由自由度 <span class="math inline">\text{d.f.} = k - 1</span> 的<strong>表 A-6</strong>（卡方表）查得。</p>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>H 統計量</strong></p>
+<p><strong>Kruskal-Wallis 檢定公式</strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \frac{R_k^2}{n_k}\right) - 3(N+1)</span></p>
-<p>其中： - <span class="math inline">R_i</span> = 第 <span class="math inline">i</span> 組的秩和 - <span class="math inline">n_i</span> = 第 <span class="math inline">i</span> 組的樣本大小 - <span class="math inline">N = n_1 + n_2 + \cdots + n_k</span> - <span class="math inline">k</span> = 組數</p>
-<p><strong>臨界值：</strong> 由表 G 查自由度 <span class="math inline">d.f. = k - 1</span> 的 <span class="math inline">\chi^2</span> 值。若 <span class="math inline">H &gt; \chi^2_{crit}</span>，則拒絕 <span class="math inline">H_0</span>。</p>
+<p>其中 <span class="math inline">R_i</span> = 第 <span class="math inline">i</span> 個樣本的等級和，<span class="math inline">n_i</span> = 第 <span class="math inline">i</span> 個樣本的大小，<span class="math inline">N = n_1 + n_2 + \cdots + n_k</span>，<span class="math inline">k</span> = 樣本組數。</p>
+<p>由於是右尾檢定，當檢定統計量<strong>大於或等於</strong>臨界值時拒絕 <span class="math inline">H_0</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="程序表kruskal-wallis-檢定" class="slide level2">
+<h2>程序表：Kruskal-Wallis 檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 求臨界值。查卡方表<strong>表 A-6</strong>，自由度 <span class="math inline">\text{d.f.} = k - 1</span>（<span class="math inline">k</span> 為組數）。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。(a) 把資料由小到大排列並給每個數值一個等級。(b) 求每一組的等級和。(c) 代入 <span class="math inline">H</span> 公式。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -1162,41 +1799,16 @@ W+ = 25 | W- = 3 | ws = 3</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>醫院感染數</strong></p>
+<p><strong>三家空運業者的運送時間</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者檢視三組醫院的感染件數。在 <span class="math inline">\alpha = 0.05</span> 下，檢定各組感染分佈是否相同。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>A 組</th>
-<th>B 組</th>
-<th>C 組</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>557</td>
-<td>476</td>
-<td>105</td>
-</tr>
-<tr class="even">
-<td>315</td>
-<td>232</td>
-<td>110</td>
-</tr>
-<tr class="odd">
-<td>920</td>
-<td>80</td>
-<td>167</td>
-</tr>
-<tr class="even">
-<td>178</td>
-<td>116</td>
-<td>155</td>
-</tr>
-</tbody>
-</table>
+<p>某貿易法遵團隊比較台北—東京航線上的三家空運業者。從每家業者隨機抽出 5 批貨，記錄其門到門的運送時數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，是否有足夠證據主張三家業者的運送時間不同？</p>
+<pre><code>業者 A     業者 B     業者 C
+  38.9       28.6       25.4
+  42.8       31.2       27.1
+  44.1       34.0       29.8
+  46.5       37.6       32.5
+  49.3       41.2       35.3</code></pre>
 </div>
 </div>
 </div>
@@ -1212,81 +1824,89 @@ W+ = 25 | W- = 3 | ws = 3</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 各組感染分佈無差異（主張）；<span class="math inline">H_1:</span> 分佈有差異</p>
-<p><strong>步驟 2：</strong> <span class="math inline">d.f. = k - 1 = 2</span>；臨界值 = <span class="math inline">5.991</span></p>
-<p><strong>步驟 3：</strong> 合併 12 個數值並排秩：</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：三家業者的運送時間沒有差異。</p>
+<p><span class="math inline">H_1</span>：三家業者的運送時間有差異 <em>（主張）</em>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。查表 A-6，<span class="math inline">\text{d.f.} = k - 1 = 3 - 1 = 2</span>、<span class="math inline">\alpha = 0.05</span>，臨界值是 <strong>5.991</strong>。</p>
+<p><strong>步驟 3a.</strong> 把所有資料由小到大排列，並為每個值排等級。</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>數值</th>
-<th>組別</th>
-<th>秩次</th>
-<th>數值</th>
-<th>組別</th>
-<th>秩次</th>
-<th>數值</th>
-<th>組別</th>
-<th>秩次</th>
+<th>時數</th>
+<th>25.4</th>
+<th>27.1</th>
+<th>28.6</th>
+<th>29.8</th>
+<th>31.2</th>
+<th>32.5</th>
+<th>34.0</th>
+<th>35.3</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>80</td>
+<td>業者</td>
+<td>C</td>
+<td>C</td>
 <td>B</td>
+<td>C</td>
+<td>B</td>
+<td>C</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td>等級</td>
 <td>1</td>
-<td>105</td>
-<td>C</td>
 <td>2</td>
-<td>110</td>
-<td>C</td>
 <td>3</td>
-</tr>
-<tr class="even">
-<td>116</td>
-<td>B</td>
 <td>4</td>
-<td>155</td>
-<td>C</td>
 <td>5</td>
-<td>167</td>
-<td>C</td>
 <td>6</td>
-</tr>
-<tr class="odd">
-<td>178</td>
-<td>A</td>
 <td>7</td>
-<td>232</td>
-<td>B</td>
 <td>8</td>
-<td>315</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>時數</th>
+<th>37.6</th>
+<th>38.9</th>
+<th>41.2</th>
+<th>42.8</th>
+<th>44.1</th>
+<th>46.5</th>
+<th>49.3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>業者</td>
+<td>B</td>
 <td>A</td>
-<td>9</td>
+<td>B</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
 </tr>
 <tr class="even">
-<td>476</td>
-<td>B</td>
+<td>等級</td>
+<td>9</td>
 <td>10</td>
-<td>557</td>
-<td>A</td>
 <td>11</td>
-<td>920</td>
-<td>A</td>
 <td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
-<p><span class="math inline">R_A = 7+9+11+12 = 39</span>；<span class="math inline">R_B = 1+4+8+10 = 23</span>；<span class="math inline">R_C = 2+3+5+6 = 16</span></p>
-<p><span class="math display">H = \frac{12}{12 \cdot 13}\left(\frac{39^2}{4} + \frac{23^2}{4} + \frac{16^2}{4}\right) - 3(13) = 5.346</span></p>
-<p><strong>步驟 4：</strong> <span class="math inline">5.346 &lt; 5.991</span> → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據顯示各醫院組別的感染數有所差異。</p>
 </section>
 <section id="範例-13-6-1" class="slide level2">
 <h2>範例 13-6</h2>
@@ -1299,69 +1919,166 @@ W+ = 25 | W- = 3 | ws = 3</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3b.</strong> 求每家業者的等級和。</p>
+<p><span class="math display">R_1 = 10 + 12 + 13 + 14 + 15 = 64 \qquad R_2 = 3 + 5 + 7 + 9 + 11 = 35</span></p>
+<p><span class="math display">R_3 = 1 + 2 + 4 + 6 + 8 = 21</span></p>
+<p><strong>步驟 3c.</strong> 以 <span class="math inline">N = 15</span>、<span class="math inline">n_1 = n_2 = n_3 = 5</span> 代入公式。</p>
+<p><span class="math display">H = \frac{12}{15(15+1)}\left(\frac{64^2}{5} + \frac{35^2}{5} + \frac{21^2}{5}\right) - 3(15+1) = 9.62</span></p>
+<p><strong>步驟 4.</strong> 做成決策。檢定統計量 <span class="math inline">9.62</span> 大於 <span class="math inline">5.991</span>，所以<strong>拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。有足夠證據支持「三家業者的運送時間有差異」這項主張。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-6-2" class="slide level2">
+<h2>範例 13-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3 的 R 實作</strong>——<code>kruskal.test()</code> 會把合併後的資料排等級並直接回傳 <span class="math inline">H</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>infect <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">557</span>,<span class="dv">315</span>,<span class="dv">920</span>,<span class="dv">178</span>, <span class="dv">476</span>,<span class="dv">232</span>,<span class="dv">80</span>,<span class="dv">116</span>, <span class="dv">105</span>,<span class="dv">110</span>,<span class="dv">167</span>,<span class="dv">155</span>)</span>
-<span id="cb39-2"><a href=""></a>group  <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>), <span class="at">each =</span> <span class="dv">4</span>))</span>
-<span id="cb39-3"><a href=""></a></span>
-<span id="cb39-4"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">kruskal.test</span>(infect <span class="sc">~</span> group)</span>
-<span id="cb39-5"><a href=""></a><span class="fu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>transit_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.9</span>, <span class="fl">42.8</span>, <span class="fl">44.1</span>, <span class="fl">46.5</span>, <span class="fl">49.3</span>,</span>
+<span id="cb37-2"><a href=""></a>                   <span class="fl">28.6</span>, <span class="fl">31.2</span>, <span class="fl">34.0</span>, <span class="fl">37.6</span>, <span class="fl">41.2</span>,</span>
+<span id="cb37-3"><a href=""></a>                   <span class="fl">25.4</span>, <span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">32.5</span>, <span class="fl">35.3</span>)</span>
+<span id="cb37-4"><a href=""></a>carrier <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
+<span id="cb37-5"><a href=""></a><span class="fu">tapply</span>(<span class="fu">rank</span>(transit_hours), carrier, sum)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> A  B  C 
+64 35 21 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">kruskal.test</span>(transit_hours <span class="sc">~</span> carrier)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kruskal-Wallis rank sum test
 
-data:  infect by group
-Kruskal-Wallis chi-squared = 5.3462, df = 2, p-value = 0.06904</code></pre>
+data:  transit_hours by carrier
+Kruskal-Wallis chi-squared = 9.62, df = 2, p-value = 0.008148</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="co"># 手動計算 H</span></span>
-<span id="cb41-2"><a href=""></a>N      <span class="ot">&lt;-</span> <span class="fu">length</span>(infect)</span>
-<span id="cb41-3"><a href=""></a>ranks  <span class="ot">&lt;-</span> <span class="fu">rank</span>(infect)</span>
-<span id="cb41-4"><a href=""></a>R_A    <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks[group <span class="sc">==</span> <span class="st">"A"</span>])</span>
-<span id="cb41-5"><a href=""></a>R_B    <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks[group <span class="sc">==</span> <span class="st">"B"</span>])</span>
-<span id="cb41-6"><a href=""></a>R_C    <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks[group <span class="sc">==</span> <span class="st">"C"</span>])</span>
-<span id="cb41-7"><a href=""></a>n_each <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb41-8"><a href=""></a></span>
-<span id="cb41-9"><a href=""></a>H <span class="ot">&lt;-</span> (<span class="dv">12</span><span class="sc">/</span>(N<span class="sc">*</span>(N<span class="sc">+</span><span class="dv">1</span>))) <span class="sc">*</span> (R_A<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n_each <span class="sc">+</span> R_B<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n_each <span class="sc">+</span> R_C<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n_each) <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>(N<span class="sc">+</span><span class="dv">1</span>)</span>
-<span id="cb41-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">各組秩和：A ="</span>, R_A, <span class="st">"B ="</span>, R_B, <span class="st">"C ="</span>, R_C)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>臨界值為 <code>qchisq(0.95, df = 2)</code> <span class="math inline">= 5.991</span>，P 值為 <span class="math inline">0.0081</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-6-3" class="slide level2">
+<h2>範例 13-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong><span class="math inline">H</span> 公式的手算版本.</strong> 程序表上的公式可以寫成一個簡短的函式，再與內建檢定互相驗證。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>kruskal_h <span class="ot">&lt;-</span> <span class="cf">function</span>(values, groups) {</span>
+<span id="cb41-2"><a href=""></a>  rank_sums   <span class="ot">&lt;-</span> <span class="fu">tapply</span>(<span class="fu">rank</span>(values), groups, sum)</span>
+<span id="cb41-3"><a href=""></a>  group_sizes <span class="ot">&lt;-</span> <span class="fu">tapply</span>(values, groups, length)</span>
+<span id="cb41-4"><a href=""></a>  n_total     <span class="ot">&lt;-</span> <span class="fu">length</span>(values)</span>
+<span id="cb41-5"><a href=""></a>  <span class="dv">12</span> <span class="sc">/</span> (n_total <span class="sc">*</span> (n_total <span class="sc">+</span> <span class="dv">1</span>)) <span class="sc">*</span> <span class="fu">sum</span>(rank_sums<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> group_sizes) <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> (n_total <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb41-6"><a href=""></a>}</span>
+<span id="cb41-7"><a href=""></a><span class="fu">kruskal_h</span>(transit_hours, carrier)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-各組秩和：A = 39 B = 23 C = 16</code></pre>
+<pre><code>[1] 9.62</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">H ="</span>, <span class="fu">round</span>(H, <span class="dv">3</span>), <span class="st">"| 卡方臨界值（df=2）="</span>, <span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">2</span>), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">unname</span>(<span class="fu">kruskal.test</span>(transit_hours <span class="sc">~</span> carrier)<span class="sc">$</span>statistic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-H = 5.346 | 卡方臨界值（df=2）= 5.991 </code></pre>
+<pre><code>[1] 9.62</code></pre>
 </div>
 </div>
+<p>本例的運送時數沒有同分，所以手算公式與 <code>kruskal.test()</code> 的結果完全相同。</p>
 </div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-13-6-節spearman-等級相關係數與連串檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 13-6 節：Spearman 等級相關係數與連串檢定</h1>
+<section id="第13-6節spearman-等級相關係數與連串檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第13-6節：Spearman 等級相關係數與連串檢定</h1>
 
 </section>
-<section id="spearman-等級相關概述" class="slide level2">
-<h2>Spearman 等級相關：概述</h2>
+<section id="spearman-等級相關係數" class="slide level2">
+<h2>Spearman 等級相關係數</h2>
+<p>第10章用介於 <span class="math inline">-1</span> 與 <span class="math inline">+1</span> 之間的 Pearson 相關係數判斷兩個變數是否<strong>線性相關</strong>。該處檢定 <span class="math inline">\rho = 0</span> 需假設母體呈<strong>常態分配</strong>；若此假設無法滿足而資料可排定等級，就改用無母數版本。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>用途</strong></p>
+<p><strong>Spearman 等級相關係數</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Pearson r</strong> 的無母數等效方法。當資料為<strong>排序資料</strong>或無法假設常態性時使用。</p>
-<p><span class="math display">r_s = 1 - \frac{6\sum d^2}{n(n^2 - 1)}</span></p>
-<p>其中 <span class="math inline">d</span> = 配對秩次的差值，<span class="math inline">n</span> = 資料對數。</p>
+<p><strong>Spearman 等級相關係數</strong>（記為 <span class="math inline">r_s</span>）是利用<strong>等級</strong>來判斷兩個變數之間是否有關聯的無母數統計量。</p>
+</div>
+</div>
+</div>
+<p>計算較為簡單：分別對兩組資料排定等級，求等級差，再由這些差算出 <span class="math inline">r_s</span>。</p>
 <ul>
-<li><span class="math inline">r_s = +1</span>：秩次完全正向一致</li>
-<li><span class="math inline">r_s = -1</span>：秩次完全反向一致</li>
-<li><span class="math inline">r_s \approx 0</span>：秩次無關聯</li>
+<li>若兩組資料的等級<strong>完全相同</strong>，<span class="math inline">r_s = +1</span>。</li>
+<li>若兩組資料的等級<strong>完全相反</strong>，<span class="math inline">r_s = -1</span>。</li>
+<li>若兩組等級之間<strong>沒有關聯</strong>，<span class="math inline">r_s</span> 會接近 0。</li>
 </ul>
-<p><span class="math inline">n \leq 30</span> 時，使用<strong>表 L</strong> 查臨界值。</p>
+</section>
+<section id="公式與假設" class="slide level2">
+<h2>公式與假設</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Spearman 等級相關係數的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本為<strong>隨機樣本</strong>。</li>
+<li>資料由<strong>同一個個體上所取得的兩個測量或觀察值</strong>構成。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Spearman 等級相關係數的計算公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)}</span></p>
+<p>其中 <span class="math inline">d</span> = 等級差，<span class="math inline">n</span> = 配對資料的組數。</p>
+<p>此公式適用於等級<strong>沒有同分</strong>的情形；若有同分，改用第10章的 Pearson 公式套用在等級上：</p>
+<p><span class="math display">r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{\left[n\sum x^2 - (\sum x)^2\right]\left[n\sum y^2 - (\sum y)^2\right]}}</span></p>
+</div>
+</div>
+</div>
+<p>檢定 <span class="math inline">r_s</span> 時，<span class="math inline">n \leq 30</span> 查<strong>表 A-12</strong>；<span class="math inline">n</span> 更大時用常態分配。本書一律採<strong>雙尾</strong>：<span class="math inline">H_0: \rho = 0</span>、<span class="math inline">H_1: \rho \neq 0</span>，其中 <span class="math inline">\rho</span> 為母體相關係數。</p>
+</section>
+<section id="程序表求-r_s-並檢定其顯著性" class="slide level2">
+<h2>程序表：求 <span class="math inline">r_s</span> 並檢定其顯著性</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設。</p>
+<p><strong>步驟 2.</strong> 求臨界值。</p>
+<p><strong>步驟 3.</strong> 求檢定統計量。(a) 分別對兩組資料排定等級。(b) 對每一配對相減求等級差（<span class="math inline">X_1 - X_2</span>）。(c) 把差平方。(d) 求平方和。(e) 代入公式 <span class="math inline">r_s = 1 - \dfrac{6\sum d^2}{n(n^2-1)}</span>。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -1374,61 +2091,19 @@ H = 5.346 | 卡方臨界值（df=2）= 5.991 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>銀行分行數與存款</strong></p>
+<p><strong>供應商的下單量與品質稽核分數</strong></p>
 </div>
 <div class="callout-content">
-<p>對於 8 家地區性銀行，分行數與存款總額（十億元）之間是否有顯著關聯？<span class="math inline">\alpha = 0.05</span>。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>銀行</th>
-<th>分行數</th>
-<th>存款（十億元）</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>209</td>
-<td>23</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>353</td>
-<td>31</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>19</td>
-<td>7</td>
-</tr>
-<tr class="even">
-<td>D</td>
-<td>201</td>
-<td>12</td>
-</tr>
-<tr class="odd">
-<td>E</td>
-<td>344</td>
-<td>26</td>
-</tr>
-<tr class="even">
-<td>F</td>
-<td>132</td>
-<td>5</td>
-</tr>
-<tr class="odd">
-<td>G</td>
-<td>401</td>
-<td>24</td>
-</tr>
-<tr class="even">
-<td>H</td>
-<td>126</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
+<p>某採購主管想了解供應商每年取得的下單量是否與該供應商的品質稽核分數有關。挑選 8 家供應商，記錄年下單量（千單位）與稽核分數（滿分 100）<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，下單量與稽核分數之間是否有顯著的線性關係？</p>
+<pre><code>供應商     年下單量     稽核分數
+   A           24           81
+   B           52           72
+   C           45           61
+   D           31           93
+   E           18           78
+   F           37           75
+   G           76           88
+   H           68           68</code></pre>
 </div>
 </div>
 </div>
@@ -1444,9 +2119,105 @@ H = 5.346 | 卡方臨界值（df=2）= 5.991 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0: \rho_s = 0</span>；<span class="math inline">H_1: \rho_s \neq 0</span></p>
-<p><strong>步驟 2：</strong> 由表 L，<span class="math inline">n = 8</span>，<span class="math inline">\alpha = 0.05</span>（雙尾）→ 臨界值 = <strong>0.738</strong></p>
+<p><strong>步驟 1.</strong> 陳述假設：<span class="math inline">H_0: \rho = 0</span>，<span class="math inline">H_1: \rho \neq 0</span>。</p>
+<p><strong>步驟 2.</strong> 求臨界值。查<strong>表 A-12</strong>，<span class="math inline">n = 8</span>、<span class="math inline">\alpha = 0.05</span>，臨界值為 <span class="math inline">\pm 0.738</span>。</p>
+<p><strong>步驟 3a 與 3b.</strong> 為兩組資料各自排等級，再相減。令 <span class="math inline">X_1</span> 為下單量的等級，<span class="math inline">X_2</span> 為稽核分數的等級。</p>
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>供應商</th>
+<th>年下單量</th>
+<th><span class="math inline">X_1</span></th>
+<th>稽核分數</th>
+<th><span class="math inline">X_2</span></th>
+<th><span class="math inline">d = X_1 - X_2</span></th>
+<th><span class="math inline">d^2</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>24</td>
+<td>2</td>
+<td>81</td>
+<td>6</td>
+<td><span class="math inline">-4</span></td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>52</td>
+<td>6</td>
+<td>72</td>
+<td>3</td>
+<td>3</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>45</td>
+<td>5</td>
+<td>61</td>
+<td>1</td>
+<td>4</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>31</td>
+<td>3</td>
+<td>93</td>
+<td>8</td>
+<td><span class="math inline">-5</span></td>
+<td>25</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>18</td>
+<td>1</td>
+<td>78</td>
+<td>5</td>
+<td><span class="math inline">-4</span></td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td>37</td>
+<td>4</td>
+<td>75</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td>76</td>
+<td>8</td>
+<td>88</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td>68</td>
+<td>7</td>
+<td>68</td>
+<td>2</td>
+<td>5</td>
+<td>25</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1459,82 +2230,30 @@ H = 5.346 | 卡方臨界值（df=2）= 5.991 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題（續）</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 3：</strong> 對各變數排秩，計算差值：</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>銀行</th>
-<th>秩次(X)</th>
-<th>秩次(Y)</th>
-<th><span class="math inline">d</span></th>
-<th><span class="math inline">d^2</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>4</td>
-<td>4</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>2</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>8</td>
-<td>6</td>
-<td>2</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td>D</td>
-<td>5</td>
-<td>5</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<td>E</td>
-<td>3</td>
-<td>2</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>F</td>
-<td>6</td>
-<td>7</td>
-<td>−1</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>G</td>
-<td>1</td>
-<td>3</td>
-<td>−2</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td>H</td>
-<td>7</td>
-<td>8</td>
-<td>−1</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-<p><span class="math inline">\sum d^2 = 12</span></p>
-<p><span class="math display">r_s = 1 - \frac{6(12)}{8(64-1)} = 1 - \frac{72}{504} = 0.857</span></p>
-<p>其中 <span class="math inline">n^2-1 = 63</span>，<span class="math inline">n(n^2-1)=504</span>。</p>
+<p><strong>步驟 3c 至 3e.</strong> 把差平方、加總平方和，再代入公式。</p>
+<p><span class="math display">\sum d^2 = 16 + 9 + 16 + 25 + 16 + 0 + 1 + 25 = 108</span></p>
+<p><span class="math display">r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)} = 1 - \frac{6(108)}{8(8^2 - 1)} = 1 - \frac{648}{504} = -0.286</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>suppliers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-2"><a href=""></a>  <span class="at">supplier     =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],</span>
+<span id="cb46-3"><a href=""></a>  <span class="at">order_volume =</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">31</span>, <span class="dv">18</span>, <span class="dv">37</span>, <span class="dv">76</span>, <span class="dv">68</span>),</span>
+<span id="cb46-4"><a href=""></a>  <span class="at">audit_score  =</span> <span class="fu">c</span>(<span class="dv">81</span>, <span class="dv">72</span>, <span class="dv">61</span>, <span class="dv">93</span>, <span class="dv">78</span>, <span class="dv">75</span>, <span class="dv">88</span>, <span class="dv">68</span>))</span>
+<span id="cb46-5"><a href=""></a>rank_diff <span class="ot">&lt;-</span> <span class="fu">rank</span>(suppliers<span class="sc">$</span>order_volume) <span class="sc">-</span> <span class="fu">rank</span>(suppliers<span class="sc">$</span>audit_score)</span>
+<span id="cb46-6"><a href=""></a>n_pairs   <span class="ot">&lt;-</span> <span class="fu">nrow</span>(suppliers)</span>
+<span id="cb46-7"><a href=""></a>r_s <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> <span class="fu">sum</span>(rank_diff<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n_pairs <span class="sc">*</span> (n_pairs<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb46-8"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_d2 =</span> <span class="fu">sum</span>(rank_diff<span class="sc">^</span><span class="dv">2</span>), <span class="at">r_s =</span> r_s), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> sum_d2     r_s 
+108.000  -0.286 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">round</span>(<span class="fu">cor</span>(suppliers<span class="sc">$</span>order_volume, suppliers<span class="sc">$</span>audit_score, <span class="at">method =</span> <span class="st">"spearman"</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.286</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1547,117 +2266,60 @@ H = 5.346 | 卡方臨界值（df=2）= 5.991 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題（續）</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 4：</strong> 由於 <span class="math inline">r_s = 0.857 &gt; 0.738</span> → <strong>拒絕</strong> <span class="math inline">H_0</span>。</p>
-<p><strong>步驟 5：</strong> 分行數與存款總額之間存在顯著的<strong>單調（等級）關聯</strong>。此結論與下方 R 輸出一致（<span class="math inline">\rho = 0.857</span>，P 值 <span class="math inline">\approx 0.0065</span>）。</p>
+<p><strong>步驟 4.</strong> 做成決策。因為 <span class="math inline">-0.286 &gt; -0.738</span>，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據說供應商的下單量與品質稽核分數之間存在線性關係。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="範例-13-7-3" class="slide level2">
-<h2>範例 13-7</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>R 程式</strong></p>
+<section id="spearman-等級相關的-r-實作" class="slide level2">
+<h2>Spearman 等級相關的 R 實作</h2>
+<p><strong>繪製圖形</strong>——把兩組<strong>等級</strong>互相對照作圖，就能看出為什麼 <span class="math inline">r_s</span> 接近 0：這些點並沒有一致往上或往下的趨勢。這裡直接沿用範例 13-7 建立的資料框。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>branches <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">209</span>, <span class="dv">353</span>, <span class="dv">19</span>, <span class="dv">201</span>, <span class="dv">344</span>, <span class="dv">132</span>, <span class="dv">401</span>, <span class="dv">126</span>)</span>
-<span id="cb45-2"><a href=""></a>deposits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">31</span>, <span class="dv">7</span>, <span class="dv">12</span>, <span class="dv">26</span>, <span class="dv">5</span>, <span class="dv">24</span>, <span class="dv">4</span>)  <span class="co"># 注意：銀行 H 為 4 非 5</span></span>
-<span id="cb45-3"><a href=""></a></span>
-<span id="cb45-4"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">cor.test</span>(branches, deposits, <span class="at">method =</span> <span class="st">"spearman"</span>,</span>
-<span id="cb45-5"><a href=""></a>                   <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb45-6"><a href=""></a><span class="fu">print</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Spearman's rank correlation rho
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>p_rank <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(suppliers, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">rank</span>(order_volume), <span class="at">y =</span> <span class="fu">rank</span>(audit_score))) <span class="sc">+</span></span>
+<span id="cb50-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb50-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> supplier), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb50-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb50-5"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb50-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"八家供應商下單量與稽核分數的等級"</span>,</span>
+<span id="cb50-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"年下單量的等級"</span>, <span class="at">y =</span> <span class="st">"品質稽核分數的等級"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="spearman-等級相關的-r-實作-1" class="slide level2">
+<h2>Spearman 等級相關的 R 實作</h2>
+<p><strong>輸出圖形</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>p_rank</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
-data:  branches and deposits
-S = 12, p-value = 0.00653
-alternative hypothesis: true rho is not equal to 0
-sample estimates:
-      rho 
-0.8571429 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="co"># 手動計算</span></span>
-<span id="cb47-2"><a href=""></a>d2 <span class="ot">&lt;-</span> (<span class="fu">rank</span>(branches) <span class="sc">-</span> <span class="fu">rank</span>(deposits))<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb47-3"><a href=""></a>n  <span class="ot">&lt;-</span> <span class="fu">length</span>(branches)</span>
-<span id="cb47-4"><a href=""></a>rs <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span><span class="fu">sum</span>(d2) <span class="sc">/</span> (n<span class="sc">*</span>(n<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb47-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">d^2 總和 ="</span>, <span class="fu">sum</span>(d2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-d^2 總和 = 12</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Spearman rs ="</span>, <span class="fu">round</span>(rs, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Spearman rs = 0.857 </code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="範例-13-7-4" class="slide level2">
-<h2>範例 13-7</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>視覺化</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>df_bank <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">branches =</span> branches, <span class="at">deposits =</span> deposits)</span>
-<span id="cb51-2"><a href=""></a></span>
-<span id="cb51-3"><a href=""></a><span class="fu">ggplot</span>(df_bank, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">rank</span>(branches), <span class="at">y =</span> <span class="fu">rank</span>(deposits))) <span class="sc">+</span></span>
-<span id="cb51-4"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb51-5"><a href=""></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb51-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Spearman 等級相關：分行數 vs. 存款"</span>,</span>
-<span id="cb51-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"分行數秩次"</span>, <span class="at">y =</span> <span class="st">"存款秩次"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ch13-zh_files/figure-revealjs/e13-7-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="連串檢定概述" class="slide level2">
-<h2>連串檢定：概述</h2>
+<img data-src="ch13-zh_files/figure-revealjs/s13-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="連串檢定" class="slide level2">
+<h2>連串檢定</h2>
+<p>抽樣時我們假定樣本是<strong>隨機</strong>抽取的。但要怎麼知道樣本資料真的是隨機的呢？其中一個方法就是使用<strong>連串檢定</strong>。在使用之前，必須先會判斷一個事件序列中有幾個<strong>連串</strong>。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>什麼是連串（Run）？</strong></p>
+<p><strong>連串</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>連串</strong>是一段連續相同符號（字母或標籤）的最長序列——其前後緊接不同符號，或位於序列的開頭/結尾。</p>
-<p><strong>用途：</strong> 檢定一組觀測值的序列是否具有<strong>隨機性</strong>。</p>
-<ul>
-<li>連串<strong>太少</strong> → 資料呈集中分佈（非隨機）</li>
-<li>連串<strong>太多</strong> → 資料過於規律地交替出現（非隨機）</li>
-</ul>
-<p>使用<strong>表 M</strong>（雙尾，<span class="math inline">\alpha = 0.05</span>）來查可接受的連串數範圍。</p>
+<p><strong>連串</strong>（run）是一段相同字母的連續出現，其前後若不是不同的字母，就是什麼都沒有（也就是序列的開頭或結尾）。</p>
 </div>
 </div>
 </div>
+</section>
+<section id="序列中連串的計算" class="slide level2">
+<h2>序列中連串的計算</h2>
+<p>考慮一位研究者訪問 20 個人做調查，以 M 代表男性、F 代表女性。</p>
+<pre><code>Situation 1    M M M M M M M M M M F F F F F F F F F F
+Situation 2    F M F M F M F M F M F M F M F M F M F M
+Situation 3    F F F M M F M F M M F F M M F F M M M F</code></pre>
+<p>情境 1 看起來不隨機——先選了 10 位男性，再選 10 位女性；它只有 <strong>2 個連串</strong>。情境 2 看起來也不隨機——研究者似乎是男女交替選取；它有 <strong>20 個連串</strong>，每個字母自成一個連串。情境 3 看起來可能是隨機的；它有 <strong>11 個連串</strong>。三種情境中都是 <span class="math inline">n_1 = 10</span>、<span class="math inline">n_2 = 10</span>，並以 <span class="math inline">G</span> 表示連串數。</p>
 </section>
 <section id="example-13-8" class="slide level2">
 <h2>範例 13-8</h2>
@@ -1667,13 +2329,14 @@ Spearman rs = 0.857 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>計算連串數</strong></p>
+<p><strong>連串的個數</strong></p>
 </div>
 <div class="callout-content">
-<p>計算以下每個序列的連串數。</p>
-<p><strong>a.</strong> M M F F F M F F</p>
-<p><strong>b.</strong> H T H H H</p>
-<p><strong>c.</strong> A B A A A B B A B B B</p>
+<p>求出下列各序列的連串個數以及 <span class="math inline">n_1</span> 與 <span class="math inline">n_2</span> 的值。</p>
+<pre><code>a.   D D D X X D D X          (D = 內銷訂單，X = 外銷訂單)
+b.   L L E L E E E E L L      (E = 早班，L = 晚班)
+c.   C C P P C P P P C C P    (C = 現金，P = 刷卡)</code></pre>
+<p>回到 <a href="#/example-13-9">Example 13-9</a></p>
 </div>
 </div>
 </div>
@@ -1689,34 +2352,126 @@ Spearman rs = 0.857 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
-<p><strong>a.</strong> MM | FFF | M | FF → <strong>4 個連串</strong></p>
-<p><strong>b.</strong> H | T | HHH → <strong>3 個連串</strong></p>
-<p><strong>c.</strong> A | B | AAA | BB | A | BBB → <strong>6 個連串</strong></p>
+<p><strong>a.</strong> 共有<strong>四</strong>個連串：<code>DDD | XX | DD | X</code>。其中有五個 D 與三個 X，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 3</span>。</p>
+<p><strong>b.</strong> 共有<strong>五</strong>個連串：<code>LL | E | L | EEEE | LL</code>。其中有五個 E 與五個 L，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 5</span>。</p>
+<p><strong>c.</strong> 共有<strong>六</strong>個連串：<code>CC | PP | C | PPP | CC | P</code>。其中有五個 C 與六個 P，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 6</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>count_runs <span class="ot">&lt;-</span> <span class="cf">function</span>(seq) {</span>
-<span id="cb52-2"><a href=""></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(seq)</span>
-<span id="cb52-3"><a href=""></a>  <span class="cf">if</span> (n <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="dv">0</span>)</span>
-<span id="cb52-4"><a href=""></a>  <span class="fu">sum</span>(seq[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> seq[<span class="sc">-</span>n]) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb52-5"><a href=""></a>}</span>
-<span id="cb52-6"><a href=""></a></span>
-<span id="cb52-7"><a href=""></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>)</span>
-<span id="cb52-8"><a href=""></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>,<span class="st">"T"</span>,<span class="st">"H"</span>,<span class="st">"H"</span>,<span class="st">"H"</span>)</span>
-<span id="cb52-9"><a href=""></a>d <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>,<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>,<span class="st">"B"</span>)</span>
-<span id="cb52-10"><a href=""></a></span>
-<span id="cb52-11"><a href=""></a><span class="fu">cat</span>(<span class="st">"a 的連串數:"</span>, <span class="fu">count_runs</span>(a), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>a 的連串數: 4 </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>count_runs <span class="ot">&lt;-</span> <span class="cf">function</span>(sequence) {</span>
+<span id="cb54-2"><a href=""></a>  <span class="fu">sum</span>(sequence[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> sequence[<span class="sc">-</span><span class="fu">length</span>(sequence)]) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb54-3"><a href=""></a>}</span>
+<span id="cb54-4"><a href=""></a>run_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
+<span id="cb54-5"><a href=""></a>  letters_used <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(text, <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb54-6"><a href=""></a>  counts <span class="ot">&lt;-</span> <span class="fu">table</span>(letters_used)</span>
+<span id="cb54-7"><a href=""></a>  <span class="fu">c</span>(<span class="at">runs =</span> <span class="fu">count_runs</span>(letters_used), <span class="at">n1 =</span> counts[[<span class="dv">1</span>]], <span class="at">n2 =</span> counts[[<span class="dv">2</span>]])</span>
+<span id="cb54-8"><a href=""></a>}</span>
+<span id="cb54-9"><a href=""></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"DDDXXDDX"</span>, <span class="st">"LLELEEEELL"</span>, <span class="st">"CCPPCPPPCCP"</span>), run_summary) <span class="sc">|&gt;</span></span>
+<span id="cb54-10"><a href=""></a>  <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
+<span id="cb54-11"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">runs</th>
+<th style="text-align: center;">n1</th>
+<th style="text-align: center;">n2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DDDXXDDX</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LLELEEEELL</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CCPPCPPPCCP</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"b 的連串數:"</span>, <span class="fu">count_runs</span>(b), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>b 的連串數: 3 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"c 的連串數:"</span>, <span class="fu">count_runs</span>(d), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>c 的連串數: 6 </code></pre>
 </div>
 </div>
+</div>
+</div>
+</section>
+<section id="隨機性的連串檢定" class="slide level2">
+<h2>隨機性的連串檢定</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>隨機性連串檢定</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>隨機性連串檢定</strong>是用來判斷一個資料序列是否隨機出現的無母數檢定。</p>
+</div>
+</div>
+</div>
+<p>這個檢定看的是<strong>連串數</strong>，而不是各字母出現的次數：資料若是隨機抽取的，連串數既不應該<strong>太少</strong>，也不應該<strong>太多</strong>。連串檢定不管每一類各被選了幾個，也不管某個連串裡有幾個元素。</p>
+<p>當資料是<strong>數值</strong>時，用<strong>中位數</strong>來決定連串：先求中位數，凡高於中位數者標為 <strong>A</strong>，低於中位數者標為 <strong>B</strong>，<strong>等於中位數的資料值一律略去</strong>。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>隨機性連串檢定的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本資料必須<strong>依照抽取的先後順序</strong>排列。</li>
+<li>每個字母、數字或事件都能歸入<strong>兩個互斥類別之一</strong>。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="檢定統計量與臨界值" class="slide level2">
+<h2>檢定統計量與臨界值</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>連串檢定之檢定統計量公式</strong></p>
+</div>
+<div class="callout-content">
+<p>當 <span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時，以連串數 <span class="math inline">G</span> 作為檢定統計量。當 <span class="math inline">n_1 &gt; 20</span> 或 <span class="math inline">n_2 &gt; 20</span> 時，改用</p>
+<p><span class="math display">z = \frac{G - \mu_G}{\sigma_G} \qquad \text{其中} \qquad \mu_G = \frac{2 n_1 n_2}{n_1 + n_2} + 1, \qquad \sigma_G = \sqrt{\frac{2 n_1 n_2 (2 n_1 n_2 - n_1 - n_2)}{(n_1 + n_2)^2 (n_1 + n_2 - 1)}}</span></p>
+</div>
+</div>
+</div>
+<p>當 <span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時，臨界值查<strong>表 A-13</strong>；該表的數值是<strong>雙尾檢定、<span class="math inline">\alpha = 0.05</span></strong> 的結果。例如 12 位男性與 8 位女性的樣本，連串數在 <strong>7 到 15</strong> 之間都視為隨機；若連串數為 6 以下或 16 以上，樣本大概就不是隨機的，應拒絕 <span class="math inline">H_0</span>。此時臨界值為 6 與 16。</p>
+</section>
+<section id="程序表連串檢定" class="slide level2">
+<h2>程序表：連串檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 求臨界值。<span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時查<strong>表 A-13</strong>；<span class="math inline">n_1 &gt; 20</span> 或 <span class="math inline">n_2 &gt; 20</span> 時查<strong>表 A-4</strong>。</p>
+<p><strong>步驟 3.</strong> 求檢定統計量。<span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時以連串數 <span class="math inline">G</span> 為檢定統計量，否則用 <span class="math inline">z = \dfrac{G - \mu_G}{\sigma_G}</span>。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -1729,11 +2484,11 @@ Spearman rs = 0.857 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>火車乘客的性別</strong></p>
+<p><strong>內銷訂單與外銷訂單</strong></p>
 </div>
 <div class="callout-content">
-<p>一名列車長觀察 25 名上車乘客：<strong>FFFMMFFFFMFMMMFFFFMMFFFMM</strong></p>
-<p>在 <span class="math inline">\alpha = 0.05</span> 下，檢定乘客上車順序是否為隨機。</p>
+<p>某貿易公司的業務助理想了解內銷與外銷訂單在一個班次中是否隨機出現。她記錄早上進來的前 25 筆訂單，其中 D 代表內銷訂單、E 代表外銷訂單<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下檢定其隨機性。</p>
+<pre><code>D D D E E D D D D E D E E E D D D D E E D D D E E</code></pre>
 </div>
 </div>
 </div>
@@ -1749,14 +2504,44 @@ Spearman rs = 0.857 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 乘客以隨機順序上車（主張）；<span class="math inline">H_1:</span> 非隨機</p>
-<p><strong>步驟 2：</strong> 辨識連串：</p>
-<p>FFF | MM | FFFF | M | F | MMM | FFFF | MM | FFF | MM → <strong>10 個連串</strong></p>
-<p><span class="math inline">n_1</span>（女性）= 15；<span class="math inline">n_2</span>（男性）= 10</p>
-<p><strong>步驟 3：</strong> 由表 M，<span class="math inline">n_1 = 15</span>，<span class="math inline">n_2 = 10</span> → 可接受範圍：<strong>7 至 18</strong></p>
-<p><strong>步驟 4：</strong> 10 落在 [7, 18] 之內 → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據顯示上車順序為非隨機。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：訂單依類型隨機出現 <em>（主張）</em>。</p>
+<p><span class="math inline">H_1</span>：訂單並非依類型隨機出現。</p>
+<p><strong>步驟 2.</strong> 求臨界值。共有 10 個 E 與 15 個 D，所以 <span class="math inline">n_1 = 10</span>、<span class="math inline">n_2 = 15</span>。查<strong>表 A-13</strong>，<span class="math inline">\alpha = 0.05</span>，臨界值是 <strong>7</strong> 與 <strong>18</strong>：若 <span class="math inline">G \leq 7</span> 或 <span class="math inline">G \geq 18</span> 就拒絕 <span class="math inline">H_0</span>。</p>
+<p><strong>步驟 3.</strong> 把字母排成連串以求檢定統計量。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>連串</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>類型</td>
+<td>DDD</td>
+<td>EE</td>
+<td>DDDD</td>
+<td>E</td>
+<td>D</td>
+<td>EEE</td>
+<td>DDDD</td>
+<td>EE</td>
+<td>DDD</td>
+<td>EE</td>
+</tr>
+</tbody>
+</table>
+<p>共有 <strong>10 個連串</strong>。</p>
 </div>
 </div>
 </div>
@@ -1772,33 +2557,19 @@ Spearman rs = 0.857 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3 的 R 實作</strong>——<code>count_runs()</code> 已在 <a href="#/example-13-8">Example 13-8</a> 定義。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>passengers <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="st">"FFFMMFFFFMFMMMFFFFMMFFFMM"</span>, <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb58-2"><a href=""></a></span>
-<span id="cb58-3"><a href=""></a>n_F    <span class="ot">&lt;-</span> <span class="fu">sum</span>(passengers <span class="sc">==</span> <span class="st">"F"</span>)</span>
-<span id="cb58-4"><a href=""></a>n_M    <span class="ot">&lt;-</span> <span class="fu">sum</span>(passengers <span class="sc">==</span> <span class="st">"M"</span>)</span>
-<span id="cb58-5"><a href=""></a>n_runs <span class="ot">&lt;-</span> <span class="fu">count_runs</span>(passengers)</span>
-<span id="cb58-6"><a href=""></a></span>
-<span id="cb58-7"><a href=""></a><span class="fu">cat</span>(<span class="st">"女性（n1）="</span>, n_F, <span class="st">"| 男性（n2）="</span>, n_M, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>order_types <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="st">"DDDEEDDDDEDEEEDDDDEEDDDEE"</span>, <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb56-2"><a href=""></a><span class="fu">c</span>(<span class="at">n1_export =</span> <span class="fu">sum</span>(order_types <span class="sc">==</span> <span class="st">"E"</span>),</span>
+<span id="cb56-3"><a href=""></a>  <span class="at">n2_domestic =</span> <span class="fu">sum</span>(order_types <span class="sc">==</span> <span class="st">"D"</span>),</span>
+<span id="cb56-4"><a href=""></a>  <span class="at">G =</span> <span class="fu">count_runs</span>(order_types))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>女性（n1）= 15 | 男性（n2）= 10 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"連串數 ="</span>, n_runs, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>連串數 = 10 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"臨界範圍（表 M，n1=15，n2=10，alpha=0.05）: [7, 18]</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>臨界範圍（表 M，n1=15，n2=10，alpha=0.05）: [7, 18]</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"決策:"</span>, <span class="fu">ifelse</span>(n_runs <span class="sc">&gt;=</span> <span class="dv">7</span> <span class="sc">&amp;</span> n_runs <span class="sc">&lt;=</span> <span class="dv">18</span>,</span>
-<span id="cb64-2"><a href=""></a>                    <span class="st">"不拒絕 H0 — 資料顯示為隨機"</span>,</span>
-<span id="cb64-3"><a href=""></a>                    <span class="st">"拒絕 H0 — 資料為非隨機"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>決策: 不拒絕 H0 — 資料顯示為隨機 </code></pre>
+<pre><code>  n1_export n2_domestic           G 
+         10          15          10 </code></pre>
 </div>
 </div>
+<p><strong>步驟 4.</strong> 做成決策。連串個數為 10，既不小於等於 7，也不大於等於 18，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據拒絕「訂單依類型隨機出現」這項假設。</p>
 </div>
 </div>
 </div>
@@ -1811,11 +2582,12 @@ Spearman rs = 0.857 </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>藥物戒治計畫參與者年齡</strong></p>
+<p><strong>每日出貨箱數</strong></p>
 </div>
 <div class="callout-content">
-<p>二十人依以下年齡順序加入藥物戒治計畫： 18, 36, 19, 22, 25, 44, 23, 27, 27, 35, 19, 43, 37, 32, 28, 43, 46, 19, 20, 22</p>
-<p>在 <span class="math inline">\alpha = 0.05</span> 下，檢定年齡是否隨機出現。</p>
+<p>某主管記錄一家小型電商倉庫連續 20 個營業日的每日出貨箱數<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，檢定「依日期先後排列的每日出貨箱數是隨機出現的」這項主張。</p>
+<pre><code>48, 74, 45, 52, 57, 86, 54, 62, 62, 78,
+41, 84, 76, 68, 66, 88, 92, 45, 50, 55</code></pre>
 </div>
 </div>
 </div>
@@ -1831,15 +2603,14 @@ Spearman rs = 0.857 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟 1：</strong> <span class="math inline">H_0:</span> 年齡隨機出現（主張）；<span class="math inline">H_1:</span> 非隨機</p>
-<p><strong>步驟 2：</strong> - 排序後的年齡：18 19 19 19 20 22 22 23 25 <strong>27</strong> <strong>27</strong> 28 32 35 36 37 43 43 44 46 - 中位數 = 27（第 10 與第 11 個值的平均） - 將每個年齡替換：A（高於 27）、B（低於 27）；捨棄等於 27 的值</p>
-<p>替換後序列（捨棄 27 後）： B A B B B A B A B | A A A A A A | B B B</p>
-<p><strong>步驟 3：</strong> 連串：B | A | BBB | A | B | A | B | AAAAAA | BBB → <strong>9 個連串</strong></p>
-<p><span class="math inline">n_1 = n_2 = 9</span>（捨棄 27 後，9 個高於中位數，9 個低於中位數）</p>
-<p><strong>步驟 4：</strong> 表 M，<span class="math inline">n_1 = n_2 = 9</span> → 可接受範圍：<strong>[5, 15]</strong></p>
-<p>由於 9 落在 [5, 15] 之內 → <strong>不拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟 5：</strong> 沒有足夠證據顯示年齡為非隨機。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：依日期先後排列的每日出貨箱數是隨機出現的 <em>（主張）</em>。</p>
+<p><span class="math inline">H_1</span>：依日期先後排列的每日出貨箱數不是隨機出現的。</p>
+<p><strong>步驟 2.</strong> 求臨界值。先把資料由小到大排列：</p>
+<pre><code>41 45 45 48 50 52 54 55 57 62 62 66 68 74 76 78 84 86 88 92</code></pre>
+<p>中位數是 <strong>62</strong>。在<strong>原始</strong>序列中，高於中位數者換成 <strong>A</strong>、低於中位數者換成 <strong>B</strong>，等於中位數者刪除。得到的字母序列為</p>
+<pre><code>B A B B B A B  A B A A A A A A  B B B</code></pre>
+<p>其中有 9 個 A 與 9 個 B。查表 A-13，<span class="math inline">n_1 = 9</span>、<span class="math inline">n_2 = 9</span>、<span class="math inline">\alpha = 0.05</span> 時，連串個數要<strong>小於等於 5</strong> 或<strong>大於等於 15</strong> 才拒絕 <span class="math inline">H_0</span>。</p>
 </div>
 </div>
 </div>
@@ -1855,138 +2626,330 @@ Spearman rs = 0.857 </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3.</strong> 由字母序列求連串個數。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>連串</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>字母</td>
+<td>B</td>
+<td>A</td>
+<td>BBB</td>
+<td>A</td>
+<td>B</td>
+<td>A</td>
+<td>B</td>
+<td>AAAAAA</td>
+<td>BBB</td>
+</tr>
+</tbody>
+</table>
+<p>連串個數為 <span class="math inline">G = 9</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">36</span>,<span class="dv">19</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">44</span>,<span class="dv">23</span>,<span class="dv">27</span>,<span class="dv">27</span>,<span class="dv">35</span>,<span class="dv">19</span>,<span class="dv">43</span>,<span class="dv">37</span>,<span class="dv">32</span>,<span class="dv">28</span>,<span class="dv">43</span>,<span class="dv">46</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">22</span>)</span>
-<span id="cb66-2"><a href=""></a>med  <span class="ot">&lt;-</span> <span class="fu">median</span>(ages)</span>
-<span id="cb66-3"><a href=""></a></span>
-<span id="cb66-4"><a href=""></a>labels <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(ages <span class="sc">&gt;</span> med, <span class="st">"A"</span>, <span class="fu">ifelse</span>(ages <span class="sc">&lt;</span> med, <span class="st">"B"</span>, <span class="cn">NA</span>))</span>
-<span id="cb66-5"><a href=""></a>labels <span class="ot">&lt;-</span> labels[<span class="sc">!</span><span class="fu">is.na</span>(labels)]  <span class="co"># 捨棄等於中位數的值</span></span>
-<span id="cb66-6"><a href=""></a></span>
-<span id="cb66-7"><a href=""></a>n_A    <span class="ot">&lt;-</span> <span class="fu">sum</span>(labels <span class="sc">==</span> <span class="st">"A"</span>)</span>
-<span id="cb66-8"><a href=""></a>n_B    <span class="ot">&lt;-</span> <span class="fu">sum</span>(labels <span class="sc">==</span> <span class="st">"B"</span>)</span>
-<span id="cb66-9"><a href=""></a>n_runs <span class="ot">&lt;-</span> <span class="fu">count_runs</span>(labels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a>cartons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">74</span>, <span class="dv">45</span>, <span class="dv">52</span>, <span class="dv">57</span>, <span class="dv">86</span>, <span class="dv">54</span>, <span class="dv">62</span>, <span class="dv">62</span>, <span class="dv">78</span>,</span>
+<span id="cb61-2"><a href=""></a>             <span class="dv">41</span>, <span class="dv">84</span>, <span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">66</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>)</span>
+<span id="cb61-3"><a href=""></a>median_cartons <span class="ot">&lt;-</span> <span class="fu">median</span>(cartons)</span>
+<span id="cb61-4"><a href=""></a>above_below <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cartons <span class="sc">&gt;</span> median_cartons, <span class="st">"A"</span>, <span class="st">"B"</span>)[cartons <span class="sc">!=</span> median_cartons]</span>
+<span id="cb61-5"><a href=""></a>median_cartons</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 62</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="fu">paste</span>(above_below, <span class="at">collapse =</span> <span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B A B B B A B A B A A A A A A B B B"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">c</span>(<span class="at">n1 =</span> <span class="fu">sum</span>(above_below <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">n2 =</span> <span class="fu">sum</span>(above_below <span class="sc">==</span> <span class="st">"B"</span>),</span>
+<span id="cb65-2"><a href=""></a>  <span class="at">G =</span> <span class="fu">count_runs</span>(above_below))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n1 n2  G 
+ 9  9  9 </code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"中位數 ="</span>, med, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>中位數 = 27 </code></pre>
+<section id="範例-13-10-2" class="slide level2">
+<h2>範例 13-10</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"高於中位數（A）="</span>, n_A, <span class="st">"| 低於中位數（B）="</span>, n_B, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>高於中位數（A）= 9 | 低於中位數（B）= 9 </code></pre>
+<p><strong>解題</strong></p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"序列:"</span>, <span class="fu">paste</span>(labels, <span class="at">collapse=</span><span class="st">" "</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>序列: B A B B B A B A B A A A A A A B B B </code></pre>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做成決策。連串個數為 9，落在臨界值 5 與 15 之間，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據拒絕「每日出貨箱數是隨機出現的」這項假設。</p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"連串數 ="</span>, n_runs, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>連串數 = 9 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"臨界範圍（表 M，n1=9，n2=9）: [5, 15]</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>臨界範圍（表 M，n1=9，n2=9）: [5, 15]</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"決策:"</span>, <span class="fu">ifelse</span>(n_runs <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">&amp;</span> n_runs <span class="sc">&lt;=</span> <span class="dv">15</span>,</span>
-<span id="cb77-2"><a href=""></a>                    <span class="st">"不拒絕 H0 — 年齡顯示為隨機"</span>,</span>
-<span id="cb77-3"><a href=""></a>                    <span class="st">"拒絕 H0 — 年齡為非隨機"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>決策: 不拒絕 H0 — 年齡顯示為隨機 </code></pre>
 </div>
 </div>
 </section>
-<section id="何時使用無母數檢定" class="slide level2">
-<h2>何時使用無母數檢定</h2>
+<section id="example-13-11" class="slide level2">
+<h2>範例 13-11</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>外銷訂艙的目的地區域</strong></p>
+</div>
+<div class="callout-content">
+<p>台北某承攬業者記錄連續 45 筆外銷訂艙的目的地區域，其中 A 代表亞洲、N 代表北美<em>（模擬資料）</em>。在 <span class="math inline">\alpha = 0.05</span> 下，能否推論這串目的地的出現順序是隨機的？</p>
+<pre><code>A A A A N N N N N A A A A A N A A A N A N A A A
+N N A A N A N N N N A N A A A A A N N N N</code></pre>
+<p>此處 <span class="math inline">n_1</span>（北美）<span class="math inline">= 20</span>、<span class="math inline">n_2</span>（亞洲）<span class="math inline">= 25</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-11" class="slide level2">
+<h2>範例 13-11</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：目的地隨機出現 <em>（主張）</em>；<span class="math inline">H_1</span>：目的地並非隨機出現。</p>
+<p><strong>步驟 2.</strong> 求臨界值。因為 <span class="math inline">n_1 &gt; 20</span> 或 <span class="math inline">n_2 &gt; 20</span>，改查<strong>表 A-4</strong>。<span class="math inline">\alpha = 0.05</span> 時臨界值為 <span class="math inline">\pm 1.96</span>。</p>
+<p><strong>步驟 3.</strong> 求檢定統計量。數出連串個數得 <span class="math inline">G = 18</span>。</p>
+<p><span class="math display">\mu_G = \frac{2 n_1 n_2}{n_1 + n_2} + 1 = \frac{2(20)(25)}{20 + 25} + 1 = 23.222</span></p>
+<p><span class="math display">\sigma_G = \sqrt{\frac{2(20)(25)\left[2(20)(25) - 20 - 25\right]}{(20+25)^2(20+25-1)}} = \sqrt{\frac{955{,}000}{89{,}100}} = \sqrt{10.718} = 3.274</span></p>
+<p><span class="math display">z = \frac{G - \mu_G}{\sigma_G} = \frac{18 - 23.222}{3.274} = -1.595</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-11-1" class="slide level2">
+<h2>範例 13-11</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3 的 R 實作</strong>——沿用同一個 <code>count_runs()</code> 輔助函式，且相除之前不做任何四捨五入。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>destinations <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="fu">paste0</span>(<span class="st">"AAAANNNNNAAAAANAAANANAAA"</span>,</span>
+<span id="cb68-2"><a href=""></a>                                <span class="st">"NNAANANNNNANAAAAANNNN"</span>), <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb68-3"><a href=""></a>n1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(destinations <span class="sc">==</span> <span class="st">"N"</span>)</span>
+<span id="cb68-4"><a href=""></a>n2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(destinations <span class="sc">==</span> <span class="st">"A"</span>)</span>
+<span id="cb68-5"><a href=""></a>runs <span class="ot">&lt;-</span> <span class="fu">count_runs</span>(destinations)</span>
+<span id="cb68-6"><a href=""></a>mu_runs    <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">/</span> (n1 <span class="sc">+</span> n2) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb68-7"><a href=""></a>sigma_runs <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">-</span> n1 <span class="sc">-</span> n2) <span class="sc">/</span></span>
+<span id="cb68-8"><a href=""></a>                   ((n1 <span class="sc">+</span> n2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb68-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n1 =</span> n1, <span class="at">n2 =</span> n2, <span class="at">G =</span> runs, <span class="at">mu_G =</span> mu_runs, <span class="at">sigma_G =</span> sigma_runs,</span>
+<span id="cb68-10"><a href=""></a>        <span class="at">z =</span> (runs <span class="sc">-</span> mu_runs) <span class="sc">/</span> sigma_runs), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     n1      n2       G    mu_G sigma_G       z 
+ 20.000  25.000  18.000  23.222   3.274  -1.595 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-13-11-2" class="slide level2">
+<h2>範例 13-11</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做成決策。因為 <span class="math inline">-1.96 &lt; -1.595</span>，所以<strong>不拒絕</strong>虛無假設。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據拒絕「目的地的出現順序是隨機的」這項主張。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="無母數檢定及其對應的母數檢定" class="slide level2">
+<h2>無母數檢定及其對應的母數檢定</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>決策指引</strong></p>
+<p><strong>本章各檢定總覽</strong></p>
 </div>
 <div class="callout-content">
-<ul>
-<li>當母數檢定的假設（常態性、等變異數）成立時，使用<strong>母數</strong>檢定——其檢定力較強</li>
-<li>以下情況使用<strong>無母數</strong>檢定：
-<ul>
-<li>母體明顯非常態分配</li>
-<li>資料為<strong>順序或名目</strong>尺度</li>
-<li>小樣本且無法保證常態性</li>
-<li>假設涉及<strong>中位數</strong>而非平均數</li>
-<li>檢定<strong>隨機性</strong>（連串檢定）</li>
-</ul></li>
-</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>無母數檢定</th>
+<th>母數檢定</th>
+<th>適用情形</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>單一樣本符號檢定（13-2）</td>
+<td><span class="math inline">z</span> 或 <span class="math inline">t</span> 檢定</td>
+<td>單一樣本</td>
+</tr>
+<tr class="even">
+<td>成對樣本符號檢定（13-2）</td>
+<td><span class="math inline">z</span> 或 <span class="math inline">t</span> 檢定</td>
+<td>兩相依樣本</td>
+</tr>
+<tr class="odd">
+<td>Wilcoxon 等級和檢定（13-3）</td>
+<td><span class="math inline">z</span> 或 <span class="math inline">t</span> 檢定</td>
+<td>兩獨立樣本</td>
+</tr>
+<tr class="even">
+<td>Wilcoxon 符號等級檢定（13-4）</td>
+<td><span class="math inline">t</span> 檢定</td>
+<td>兩相依樣本</td>
+</tr>
+<tr class="odd">
+<td>Kruskal-Wallis 檢定（13-5）</td>
+<td>ANOVA</td>
+<td>三組以上獨立樣本</td>
+</tr>
+<tr class="even">
+<td>Spearman 等級相關係數（13-6）</td>
+<td>Pearson 相關係數</td>
+<td>變數之間的關聯</td>
+</tr>
+<tr class="odd">
+<td>連串檢定（13-6）</td>
+<td>無</td>
+<td>隨機性</td>
+</tr>
+</tbody>
+</table>
+<p>當母數檢定的假設條件<strong>可以</strong>滿足時，應該採用母數檢定而非其無母數版本。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要名詞" class="slide level2">
+<h2>重要名詞</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>第13章詞彙</strong></p>
+</div>
+<div class="callout-content">
+<p>無分配假設統計（distribution-free statistics）· Kruskal-Wallis 檢定（Kruskal-Wallis test）· 無母數統計（nonparametric statistics）· 成對樣本符號檢定（paired-sample sign test）· 母數檢定（parametric tests）· 排序（ranking）· 連串（run）· 隨機性連串檢定（runs test for randomness）· 符號檢定（sign test）· Spearman 等級相關係數（Spearman rank correlation coefficient）· Wilcoxon 等級和檢定（Wilcoxon rank sum test）· Wilcoxon 符號等級檢定（Wilcoxon signed-rank test）</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重要公式</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>符號檢定</strong>的 <span class="math inline">z</span> 檢定統計量公式，其中 <span class="math inline">n</span> 為樣本數（大於 25），<span class="math inline">X</span> 為正號或負號中個數較少者：</p>
+<p><span class="math display">z = \frac{(X + 0.5) - 0.5n}{\sqrt{n}/2}</span></p>
+<p><strong>Wilcoxon 等級和檢定</strong>公式，其中 <span class="math inline">R</span> 為樣本數較小那一組（<span class="math inline">n_1</span>）的等級和，且 <span class="math inline">n_1 \geq 10</span>、<span class="math inline">n_2 \geq 10</span>：</p>
+<p><span class="math display">z = \frac{R - \mu_R}{\sigma_R}, \qquad \mu_R = \frac{n_1(n_1 + n_2 + 1)}{2}, \qquad \sigma_R = \sqrt{\frac{n_1 n_2 (n_1 + n_2 + 1)}{12}}</span></p>
+<p><strong>Wilcoxon 符號等級檢定</strong>公式，其中 <span class="math inline">n</span> 為差不為 0 的配對數（<span class="math inline">n \geq 30</span>），<span class="math inline">w_s</span> 為符號等級和之絕對值中較小者：</p>
+<p><span class="math display">z = \frac{w_s - \dfrac{n(n+1)}{4}}{\sqrt{\dfrac{n(n+1)(2n+1)}{24}}}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式-2" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重要公式</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Kruskal-Wallis 檢定</strong>公式，其中 <span class="math inline">R_i</span> 為第 <span class="math inline">i</span> 個樣本的等級和，<span class="math inline">n_i</span> 為第 <span class="math inline">i</span> 個樣本的大小，<span class="math inline">N = n_1 + n_2 + \cdots + n_k</span>，<span class="math inline">k</span> 為樣本組數：</p>
+<p><span class="math display">H = \frac{12}{N(N+1)}\left(\frac{R_1^2}{n_1} + \frac{R_2^2}{n_2} + \cdots + \frac{R_k^2}{n_k}\right) - 3(N+1)</span></p>
+<p><strong>Spearman 等級相關係數</strong>公式，其中 <span class="math inline">d</span> 為等級差，<span class="math inline">n</span> 為配對資料組數：</p>
+<p><span class="math display">r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)}</span></p>
+<p><strong>連串檢定</strong>的檢定統計量公式。當 <span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時以連串數 <span class="math inline">G</span> 為檢定統計量；當 <span class="math inline">n_1 &gt; 20</span> 或 <span class="math inline">n_2 &gt; 20</span> 時，改用</p>
+<p><span class="math display">z = \frac{G - \mu_G}{\sigma_G}, \qquad \mu_G = \frac{2 n_1 n_2}{n_1 + n_2} + 1, \qquad \sigma_G = \sqrt{\frac{2 n_1 n_2 (2 n_1 n_2 - n_1 - n_2)}{(n_1 + n_2)^2 (n_1 + n_2 - 1)}}</span></p>
 </div>
 </div>
 </div>
 </section>
 <section id="重點整理" class="slide level2">
 <h2>重點整理</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>無母數檢定快速參考</strong></p>
+<p><strong>重點</strong></p>
 </div>
 <div class="callout-content">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>檢定方法</th>
-<th>節次</th>
-<th>適用情境</th>
-<th>對應母數方法</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>符號檢定</td>
-<td>13-2</td>
-<td>中位數；前後測</td>
-<td>z 或 t 檢定</td>
-</tr>
-<tr class="even">
-<td>Wilcoxon 秩和檢定</td>
-<td>13-3</td>
-<td>兩個獨立樣本</td>
-<td>獨立樣本 t 檢定</td>
-</tr>
-<tr class="odd">
-<td>Wilcoxon 帶號秩檢定</td>
-<td>13-4</td>
-<td>兩個相依樣本</td>
-<td>配對 t 檢定</td>
-</tr>
-<tr class="even">
-<td>Kruskal-Wallis 檢定</td>
-<td>13-5</td>
-<td>三個或更多組別</td>
-<td>單因子 ANOVA</td>
-</tr>
-<tr class="odd">
-<td>Spearman <span class="math inline">r_s</span></td>
-<td>13-6</td>
-<td>秩次間的相關</td>
-<td>Pearson r</td>
-</tr>
-<tr class="even">
-<td>連串檢定</td>
-<td>13-6</td>
-<td>隨機性檢定</td>
-<td>無</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li><strong>母數檢定</strong>（<span class="math inline">z</span>、<span class="math inline">t</span>、<span class="math inline">F</span>）是針對母體參數的檢定，並假設母體呈常態分配；當此假設無法滿足時，改用<strong>無母數</strong>（<strong>無分配假設</strong>）方法</li>
+<li>無母數方法有<strong>六項優點</strong>——不需常態性、可用於名目或順序資料、可檢定與參數無關的假設、計算較簡單、容易理解、假設條件較少也較好驗證——以及<strong>三項缺點</strong>：較不敏感、運用的資訊較少、效率較低（符號檢定約為 <span class="math inline">z</span> 檢定的 60% 效率）</li>
+<li><strong>同分時取這些名次的平均數作為等級</strong></li>
+<li><strong>符號檢定</strong>檢定<strong>中位數</strong>：<span class="math inline">n \leq 25</span> 時以正負號中個數較少者為檢定統計量（表 A-10），<span class="math inline">n &gt; 25</span> 時用 <span class="math inline">z = \dfrac{(X+0.5) - 0.5n}{\sqrt{n}/2}</span>（表 A-4）；值為 0 者一律捨去</li>
+<li><strong>成對樣本符號檢定</strong>以 <span class="math inline">X_B - X_A</span> 的正負號比較兩個<strong>相依</strong>樣本</li>
+<li><strong>Wilcoxon 等級和檢定</strong>比較兩個<strong>獨立</strong>樣本（<span class="math inline">n_1 \geq 10</span> 且 <span class="math inline">n_2 \geq 10</span>），使用 <span class="math inline">R</span>、<span class="math inline">\mu_R</span>、<span class="math inline">\sigma_R</span> 與表 A-4</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="重點整理-1" class="slide level2">
+<h2>重點整理</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重點</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Wilcoxon 符號等級檢定</strong>比較兩個<strong>相依</strong>樣本；<span class="math inline">w_s</span> 為較小的絕對等級和，<span class="math inline">n \leq 30</span> 時與表 A-11 比較，當 <span class="math inline">w_s \leq</span> 臨界值時拒絕 <span class="math inline">H_0</span></li>
+<li><strong>Kruskal-Wallis <span class="math inline">H</span> 檢定</strong>比較三組以上、每組至少 5 個觀察值的獨立樣本；一律是<strong>右尾檢定</strong>，自由度 <span class="math inline">\text{d.f.} = k - 1</span></li>
+<li><strong>Spearman 等級相關係數</strong> <span class="math inline">r_s</span> 介於 <span class="math inline">-1</span> 與 <span class="math inline">+1</span> 之間，<span class="math inline">n \leq 30</span> 時以表 A-12 檢定</li>
+<li><strong>連串檢定</strong>檢定<strong>隨機性</strong>：連串太少或太多都會導致拒絕 <span class="math inline">H_0</span>；<span class="math inline">n_1 \leq 20</span> 且 <span class="math inline">n_2 \leq 20</span> 時用 <span class="math inline">G</span> 與表 A-13，否則用 <span class="math inline">z</span> 公式與表 A-4</li>
+<li>當母數方法的假設條件<strong>可以</strong>滿足時，優先採用母數檢定</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1994,7 +2957,8 @@ Spearman rs = 0.857 </code></pre>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

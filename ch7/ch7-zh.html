@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,30 +227,125 @@
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
-<p><strong>涵蓋章節：</strong></p>
-<ul>
-<li><strong>7-1</strong> <span class="math inline">\sigma</span> 已知時母體平均數的信賴區間</li>
-<li><strong>7-2</strong> <span class="math inline">\sigma</span> 未知時母體平均數的信賴區間</li>
-<li><strong>7-3</strong> 比例的信賴區間與樣本大小</li>
-<li><strong>7-4</strong> 變異數與標準差的信賴區間</li>
-</ul>
+<p>第7章談的是<strong>估計</strong>——以樣本統計量估計母體參數，並附上信賴水準與所需的樣本大小。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>7-1</td>
+<td>估計；點估計；良好估計式的性質；區間估計；信賴水準與信賴區間；臨界值 <span class="math inline">z_{\alpha/2}</span>；誤差界限</td>
+</tr>
+<tr class="even">
+<td>7-2</td>
+<td><span class="math inline">\sigma</span> 已知時平均數的信賴區間；假設條件；四捨五入規則；最小樣本大小</td>
+</tr>
+<tr class="odd">
+<td>7-3</td>
+<td><span class="math inline">t</span> 分配；自由度；<span class="math inline">\sigma</span> 未知時平均數的信賴區間；<span class="math inline">z</span> 與 <span class="math inline">t</span> 的取捨</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section class="slide level2">
-
-<p><strong>估計</strong>是利用樣本資料來近似母體參數值的過程。由於從整個母體蒐集資料通常不切實際，我們依賴樣本統計量——估計量——來推論母體的樣貌。</p>
-<p>本章介紹兩種估計類型：<strong>點估計</strong>（單一數值）與<strong>區間估計</strong>（一組合理值的範圍）。此外，本章也探討一個重要的實務問題：<em>我們需要多大的樣本？</em></p>
+<section id="本章概覽續" class="slide level2">
+<h2>本章概覽（續）</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>7-4</td>
+<td>樣本比例 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span>；比例的信賴區間；最小樣本大小</td>
+</tr>
+<tr class="even">
+<td>7-5</td>
+<td>卡方分配；變異數與標準差的信賴區間</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="本章學習目標" class="slide level2">
+<h2>本章學習目標</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>讀完本章後，你應該能夠</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>求 <span class="math inline">\sigma</span> 已知時母體平均數的信賴區間。</li>
+<li>決定求母體平均數信賴區間所需的最小樣本大小。</li>
+<li>求 <span class="math inline">\sigma</span> 未知時母體平均數的信賴區間。</li>
+<li>求母體比例的信賴區間。</li>
+<li>決定求母體比例信賴區間所需的最小樣本大小。</li>
+<li>求變異數與標準差的信賴區間。</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section>
-<section id="第-7-1-節sigma-已知時母體平均數的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 7-1 節：<span class="math inline">\sigma</span> 已知時母體平均數的信賴區間</h1>
+<section id="第7-1節信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第7-1節：信賴區間</h1>
 
 </section>
-<section id="點估計與區間估計" class="slide level2">
-<h2>點估計與區間估計</h2>
+<section id="估計" class="slide level2">
+<h2>估計</h2>
+<p>推論統計的一個面向是<strong>估計</strong>：由樣本所得的資訊推估參數值的過程。</p>
+<p>我們以樣本測度（統計量）估計母體測度（參數）——以樣本平均數估計母體平均數，以樣本比例估計母體比例。這樣使用的統計量稱為<strong>估計式</strong>。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>估計</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>估計</strong>是由樣本所獲得的資訊推估某一參數值的過程。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>本章各項程序的共同假設</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本必須是<strong>隨機抽取</strong>的。</li>
+<li>樣本大小 <span class="math inline">n \geq 30</span>，<strong>或</strong>當 <span class="math inline">n &lt; 30</span> 時母體為常態或近似常態分配。</li>
+</ol>
+<p>第二項假設可用第6章的方法檢查：看直方圖是否呈鐘形、檢查有無離群值，並觀察常態分位圖上的點是否接近一直線。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="點估計" class="slide level2">
+<h2>點估計</h2>
+<p>某大學校長隨機抽取 100 名學生，算得平均年齡為 22.3 歲。若據此推斷<strong>全體</strong>學生的平均年齡為 22.3 歲，這就是一個<strong>點估計</strong>。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -260,10 +355,31 @@
 <p><strong>點估計</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>點估計</strong>是用來估計母體參數的單一數值。母體平均數 <span class="math inline">\mu</span> 的最佳點估計量為樣本平均數 <span class="math inline">\bar{X}</span>。</p>
+<p><strong>點估計</strong>是對某一參數所做的單一數值估計。母體平均數 <span class="math inline">\mu</span> 的最佳點估計是樣本平均數 <span class="math inline">\bar{X}</span>。</p>
 </div>
 </div>
 </div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>良好估計式的三項性質</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>估計式應為<strong>不偏估計式</strong>——由特定大小的樣本所得各估計值的期望值（平均數）等於被估計的參數。</li>
+<li>估計式應具<strong>一致性</strong>——隨著樣本數增加，估計式的值會趨近被估計的參數值。</li>
+<li>估計式應為<strong>相對有效估計式</strong>——在所有可用來估計該參數的統計量中，它的變異數最小。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="區間估計" class="slide level2">
+<h2>區間估計</h2>
+<p>由於抽樣誤差，樣本平均數幾乎總是與母體平均數有些差距，而且我們<strong>無從知道</strong>某一個點估計離 <span class="math inline">\mu</span> 有多近。正因如此，統計學家偏好使用區間估計。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -273,32 +389,12 @@
 <p><strong>區間估計</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>區間估計</strong>是用來估計參數的一個數值範圍。它承認樣本平均數會因抽樣變異而與 <span class="math inline">\mu</span> 有所不同。</p>
+<p>某一參數的<strong>區間估計</strong>是用來估計該參數的一個區間或一段數值範圍。這個估計可能包含、也可能不包含被估計的參數值。</p>
 </div>
 </div>
 </div>
-<p>單獨的點估計無法提供精確度的概念。區間估計——搭配<strong>信賴水準</strong>——告訴我們估計的可靠程度。</p>
-</section>
-<section id="良好估計量的性質" class="slide level2">
-<h2>良好估計量的性質</h2>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>良好估計量的三項性質</strong></p>
-</div>
-<div class="callout-content">
-<ol type="1">
-<li><strong>不偏性</strong>：估計量的期望值等於真實參數值</li>
-<li><strong>一致性</strong>：隨著樣本大小增加，估計量收斂至真實值</li>
-<li><strong>相對有效性</strong>：在所有不偏估計量中，其變異數最小</li>
-</ol>
-</div>
-</div>
-</div>
-<p>樣本平均數 <span class="math inline">\bar{X}</span> 滿足所有三項性質——它是 <span class="math inline">\mu</span> 的首選估計量。</p>
+<p>全體學生平均年齡的區間估計可能是 <span class="math inline">21.9 &lt; \mu &lt; 22.7</span>，或 <span class="math inline">22.3 \pm 0.4</span> 歲；比例的區間估計可能是 <span class="math inline">0.107 &lt; p &lt; 0.113</span>，或 <span class="math inline">11\% \pm 0.3\%</span>。</p>
+<p>信賴區間也可以用括號寫成 <span class="math inline">(21.9,\ 22.7)</span> 與 <span class="math inline">(10.7\%,\ 11.3\%)</span>。</p>
 </section>
 <section id="信賴水準與信賴區間" class="slide level2">
 <h2>信賴水準與信賴區間</h2>
@@ -311,7 +407,7 @@
 <p><strong>信賴水準</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>信賴水準</strong>是指在重複估計的過程中，區間估計將包含真實母體參數的機率。</p>
+<p>某一參數區間估計的<strong>信賴水準</strong>，是指在抽取大量樣本、並對同一參數重複進行估計程序的前提下，該區間估計包含此參數的機率。</p>
 </div>
 </div>
 </div>
@@ -324,71 +420,201 @@
 <p><strong>信賴區間</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>信賴區間</strong>是根據樣本資料與選定的信賴水準所決定的參數特定區間估計。常見水準：<strong>90%、95%、99%</strong>。</p>
+<p><strong>信賴區間</strong>是利用樣本所得資料、並搭配指定的信賴水準所決定的特定區間估計。</p>
 </div>
 </div>
 </div>
-<p>信賴水準越高 → 區間越寬。精確度與確定性之間永遠存在取捨關係。</p>
+<p>常用的信賴區間有三種：<strong>90%</strong>、<strong>95%</strong> 與 <strong>99%</strong> 信賴區間。</p>
 </section>
-<section id="公式mu-的信賴區間sigma-已知" class="slide level2">
-<h2>公式：<span class="math inline">\mu</span> 的信賴區間（<span class="math inline">\sigma</span> 已知）</h2>
+<section id="信賴水準與信賴區間-1" class="slide level2">
+<h2>信賴水準與信賴區間</h2>
+<p>母體的平均數或比例是一個固定值。由某一個樣本建構出的信賴區間，不是包含該參數、就是不包含。若對某特定大小的<strong>所有可能樣本</strong>都建構 95% 信賴區間，其中有 95% 會包含該母體參數。</p>
+<p>若要更有信心——由 95% 提高到 99%——就必須把區間<strong>加寬</strong>。大學生平均年齡的 99% 信賴區間可能是 <span class="math inline">21.7 &lt; \mu &lt; 22.9</span>，或 <span class="math inline">22.3 \pm 0.6</span>。這其中存在取捨。</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>信賴水準描述的是<strong>程序</strong>的長期表現，而不是某一個特定區間。區間一旦算出來，參數不是在裡面、就是不在裡面。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="臨界值-z_alpha2" class="slide level2">
+<h2>臨界值 <span class="math inline">z_{\alpha/2}</span></h2>
+<p>希臘字母 <span class="math inline">\alpha</span> 代表標準常態分配曲線<strong>兩側尾端</strong>的總面積，<span class="math inline">\alpha/2</span> 則代表<strong>每一側</strong>尾端的面積。<span class="math inline">z_{\alpha/2}</span> 稱為<strong>臨界值</strong>。</p>
+<p>所述的信賴水準即為 <span class="math inline">1 - \alpha</span> 的百分比：</p>
+<ul>
+<li>95% 信賴區間：<span class="math inline">\alpha = 0.05</span>，因為 <span class="math inline">1 - 0.05 = 0.95</span></li>
+<li>99% 信賴區間：<span class="math inline">\alpha = 0.01</span>，因為 <span class="math inline">1 - 0.01 = 0.99</span></li>
+</ul>
+</section>
+<section id="臨界值-z_alpha2-1" class="slide level2">
+<h2>臨界值 <span class="math inline">z_{\alpha/2}</span></h2>
+<p>表 A-4 是查出這些臨界值的紙本途徑，<code>qnorm()</code> 則是 R 的途徑。95% 信賴區間取 <span class="math inline">z_{\alpha/2} = 1.960</span>，99% 信賴區間取 <span class="math inline">z_{\alpha/2} = 2.576</span>。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>confidence_level <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)</span>
+<span id="cb1-2"><a href=""></a>critical_z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> confidence_level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">Confidence =</span> <span class="fu">paste0</span>(confidence_level <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>),</span>
+<span id="cb1-5"><a href=""></a>                        <span class="at">alpha =</span> <span class="dv">1</span> <span class="sc">-</span> confidence_level,</span>
+<span id="cb1-6"><a href=""></a>                        <span class="at">z =</span> <span class="fu">round</span>(critical_z, <span class="dv">3</span>)), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Confidence</th>
+<th style="text-align: center;">alpha</th>
+<th style="text-align: center;">z</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">90%</td>
+<td style="text-align: center;">0.10</td>
+<td style="text-align: center;">1.645</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">95%</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">1.960</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">99%</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">2.576</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="誤差界限" class="slide level2">
+<h2>誤差界限</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>信賴區間公式（<span class="math inline">\sigma</span> 已知）</strong></p>
+<p><strong>誤差界限</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>誤差界限</strong>（也稱為<strong>估計的最大誤差</strong>）是參數的點估計值與該參數真值之間最大的可能差距。</p>
+</div>
+</div>
+</div>
+<p>在學生年齡的例子中，信賴區間為 <span class="math inline">21.9 &lt; \mu &lt; 22.7</span> 或 <span class="math inline">22.3 \pm 0.4</span>，誤差界限即為 <strong>0.4</strong>。在比例區間 <span class="math inline">10.7\% &lt; p &lt; 11.3\%</span> 或 <span class="math inline">11\% \pm 0.3\%</span> 中，誤差界限為 <strong>0.003</strong>，即 0.3%。</p>
+<p>對某一特定的 <span class="math inline">\alpha</span>（例如 <span class="math inline">\alpha = 0.05</span>），有 95% 的樣本平均數或樣本比例會落在母體平均數或母體比例兩側此一誤差值之內。</p>
+</section>
+<section id="以-r-呈現-95-信賴區間" class="slide level2">
+<h2>以 R 呈現 95% 信賴區間</h2>
+<p><strong>Prepare data</strong>——自 <span class="math inline">\mu = 50</span>、<span class="math inline">\sigma = 10</span> 的母體重複抽取 <span class="math inline">n = 25</span> 的樣本。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb2-2"><a href=""></a>pop_mean <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb2-3"><a href=""></a>pop_sd <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb2-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb2-5"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> pop_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb2-6"><a href=""></a></span>
+<span id="cb2-7"><a href=""></a>intervals <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-8"><a href=""></a>  <span class="at">sample_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>,</span>
+<span id="cb2-9"><a href=""></a>  <span class="at">sample_mean =</span> <span class="fu">replicate</span>(<span class="dv">40</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(sample_size, pop_mean, pop_sd)))) <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">lower =</span> sample_mean <span class="sc">-</span> margin_error,</span>
+<span id="cb2-11"><a href=""></a>         <span class="at">upper =</span> sample_mean <span class="sc">+</span> margin_error,</span>
+<span id="cb2-12"><a href=""></a>         <span class="at">result =</span> <span class="fu">if_else</span>(lower <span class="sc">&lt;=</span> pop_mean <span class="sc">&amp;</span> pop_mean <span class="sc">&lt;=</span> upper,</span>
+<span id="cb2-13"><a href=""></a>                          <span class="st">"contains mu"</span>, <span class="st">"misses mu"</span>))</span>
+<span id="cb2-14"><a href=""></a><span class="fu">sum</span>(intervals<span class="sc">$</span>result <span class="sc">==</span> <span class="st">"contains mu"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 38</code></pre>
+</div>
+</div>
+</section>
+<section id="以-r-呈現-95-信賴區間-1" class="slide level2">
+<h2>以 R 呈現 95% 信賴區間</h2>
+<p><strong>Draw figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">ggplot</span>(intervals, <span class="fu">aes</span>(<span class="at">x =</span> sample_id, <span class="at">y =</span> sample_mean, <span class="at">color =</span> result)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> pop_mean, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"40 個樣本平均數的 95% 信賴區間"</span>,</span>
+<span id="cb4-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"樣本"</span>, <span class="at">y =</span> <span class="st">"樣本平均數"</span>, <span class="at">color =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch7-zh_files/figure-revealjs/s7-1-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>約有 95% 的區間包含 <span class="math inline">\mu</span>；未包含的那些，正是抽樣變異必須付出的代價。</p>
+</section></section>
+<section>
+<section id="第7-2節sigma-已知時母體平均數的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第7-2節：<span class="math inline">\sigma</span> 已知時母體平均數的信賴區間</h1>
+
+</section>
+<section id="假設條件與公式" class="slide level2">
+<h2>假設條件與公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span class="math inline">\sigma</span> 已知時求平均數信賴區間的假設</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本是隨機樣本。</li>
+<li><span class="math inline">n \geq 30</span>，或當 <span class="math inline">n &lt; 30</span> 時母體為常態分配。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>穩健</strong></p>
+</div>
+<div class="callout-content">
+<p>當變數的分配可以稍微偏離常態、卻仍能得到有效結論時，該統計方法稱為<strong>穩健</strong>的。</p>
+</div>
+</div>
+</div>
+<p>估計母體平均數時應使用<strong>樣本平均數</strong>：從同一母體重複抽樣時，樣本平均數的變動小於中位數或眾數。</p>
+</section>
+<section id="假設條件與公式-1" class="slide level2">
+<h2>假設條件與公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span class="math inline">\sigma</span> 已知時母體平均數信賴區間的公式</strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) &lt; \mu &lt; \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)</span></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>信賴水準</th>
-<th><span class="math inline">z_{\alpha/2}</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>90%</td>
-<td>1.65</td>
-</tr>
-<tr class="even">
-<td>95%</td>
-<td>1.96</td>
-</tr>
-<tr class="odd">
-<td>99%</td>
-<td>2.58</td>
-</tr>
-</tbody>
-</table>
-<p>其中 <span class="math inline">E = z_{\alpha/2}(\sigma/\sqrt{n})</span> 稱為<strong>誤差邊界</strong>。</p>
+<p>90% 信賴區間取 <span class="math inline">z_{\alpha/2} = 1.645</span>；95% 信賴區間取 <span class="math inline">z_{\alpha/2} = 1.960</span>；99% 信賴區間取 <span class="math inline">z_{\alpha/2} = 2.576</span>。</p>
+<p>其中 <span class="math inline">z_{\alpha/2}\left(\sigma/\sqrt{n}\right)</span> 即為<strong>誤差界限</strong>。</p>
 </div>
 </div>
 </div>
-<p><strong>假設條件：</strong></p>
-<ol type="1">
-<li><p>隨機樣本；</p></li>
-<li><p><span class="math inline">n \geq 30</span>，或若 n &lt; 30 則母體為常態分配。</p></li>
-</ol>
-</section>
-<section class="slide level2">
-
-<p><strong>在 R 中求 z 值</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>((<span class="dv">1</span><span class="fl">-.9</span>) <span class="sc">/</span> <span class="dv">2</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.64</code></pre>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>((<span class="dv">1</span><span class="fl">-.95</span>) <span class="sc">/</span> <span class="dv">2</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.96</code></pre>
+<p><strong>平均數信賴區間的四捨五入規則</strong></p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>((<span class="dv">1</span><span class="fl">-.99</span>) <span class="sc">/</span> <span class="dv">2</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.58</code></pre>
+<div class="callout-content">
+<p>以<strong>原始資料</strong>計算母體平均數的信賴區間時，取到比原始資料<strong>多一位</strong>小數。</p>
+<p>以<strong>樣本平均數與標準差</strong>計算時，取到與所給平均數<strong>相同位數</strong>的小數。</p>
+</div>
 </div>
 </div>
 </section>
@@ -400,10 +626,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>銷售 Aveo 所需天數</strong></p>
+<p><strong>台北飛大阪的空運運送時間</strong></p>
 </div>
 <div class="callout-content">
-<p>一位研究人員想估計銷售一輛雪佛蘭 Aveo 平均所需的天數。抽取 50 輛汽車的樣本，其在展示場停留的平均時間為 54 天。假設母體標準差為 6.0 天。求母體平均數的最佳點估計及 <strong>95% 信賴區間</strong>。</p>
+<p>某台北承攬業者的物流分析師想估計由桃園運往大阪之空運貨件的平均運送時間（小時）。隨機抽取 49 批貨件，平均運送時間為 34.0 小時。公司歷年紀錄顯示母體標準差為 2.8 小時。求平均數的最佳點估計，以及母體平均數的 <strong>95% 信賴區間</strong>。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -419,27 +646,44 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p>最佳點估計為 <span class="math inline">\bar{X}</span> = <strong>54 天</strong>。95% 信賴區間使用 <span class="math inline">z_{\alpha/2}</span> = 1.96：</p>
-<p><span class="math display">54 - 1.96\left(\frac{6.0}{\sqrt{50}}\right) &lt; \mu &lt; 54 + 1.96\left(\frac{6.0}{\sqrt{50}}\right)</span> <span class="math display">54 - 1.7 &lt; \mu &lt; 54 + 1.7</span> <span class="math display">\mathbf{52.3 &lt; \mu &lt; 55.7}</span></p>
+<p><strong>步驟 1</strong> 平均數的最佳點估計為 <strong>34.0 小時</strong>。</p>
+<p><strong>步驟 2</strong> 95% 信賴區間取 <span class="math inline">z_{\alpha/2} = 1.96</span>。</p>
+<p><span class="math display">34.0 - 1.96\left(\frac{2.8}{\sqrt{49}}\right) &lt; \mu &lt; 34.0 + 1.96\left(\frac{2.8}{\sqrt{49}}\right)</span> <span class="math display">34.0 - 0.8 &lt; \mu &lt; 34.0 + 0.8</span> <span class="math display">\mathbf{33.2 &lt; \mu &lt; 34.8}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-1-1" class="slide level2">
+<h2>範例 7-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="dv">54</span>; sigma <span class="ot">&lt;-</span> <span class="fl">6.0</span>; n <span class="ot">&lt;-</span> <span class="dv">50</span>; z <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
-<span id="cb7-2"><a href=""></a>E <span class="ot">&lt;-</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb7-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Point estimate:"</span>, xbar, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">34.0</span></span>
+<span id="cb5-2"><a href=""></a>pop_sd <span class="ot">&lt;-</span> <span class="fl">2.8</span></span>
+<span id="cb5-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">49</span></span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> pop_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb5-6"><a href=""></a><span class="fu">round</span>(margin_error, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Point estimate: 54 </code></pre>
+<pre><code>[1] 0.8</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI: ("</span>, <span class="fu">round</span>(xbar <span class="sc">-</span> E, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(xbar <span class="sc">+</span> E, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(sample_mean <span class="sc">-</span> margin_error, sample_mean <span class="sc">+</span> margin_error), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI: ( 52.3 , 55.7 )</code></pre>
+<pre><code>[1] 33.2 34.8</code></pre>
 </div>
 </div>
-<p><strong>解讀：</strong> 根據 50 輛汽車的樣本，我們有 95% 的把握，母體平均數落在 52.3 至 55.7 天之間。</p>
+<p>根據 49 批貨件的樣本，我們有 <strong>95% 的信心</strong>認為 33.2 至 34.8 小時這個區間包含母體平均運送時間。</p>
+</div>
+</div>
+</div>
 </section>
 <section id="example-7-2" class="slide level2">
 <h2>範例 7-2</h2>
@@ -449,10 +693,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>急診室等候時間</strong></p>
+<p><strong>跨境電商的訂單金額</strong></p>
 </div>
 <div class="callout-content">
-<p>一項針對 30 位急診室病患的調查發現，平均等候時間為 174.3 分鐘。母體標準差已知為 46.5 分鐘。求真實平均等候時間的最佳點估計及 <strong>99% 信賴區間</strong>。</p>
+<p>某跨境電商團隊想知道台灣賣家寄往海外之訂單的平均金額（美元），隨機抽取 64 筆訂單，樣本平均數為 84.5 美元。假設母體標準差為 12.0 美元。求平均數的最佳點估計，以及母體平均數的 <strong>99% 信賴區間</strong>。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -468,49 +713,101 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p><span class="math display">174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) &lt; \mu &lt; 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)</span> <span class="math display">174.3 - 21.9 &lt; \mu &lt; 174.3 + 21.9</span> <span class="math display">\mathbf{152.4 &lt; \mu &lt; 196.2}</span></p>
+<p><strong>步驟 1</strong> 母體平均數的最佳點估計為 <strong>84.5 美元</strong>。</p>
+<p><strong>步驟 2</strong> 99% 信賴區間取 <span class="math inline">z_{\alpha/2} = 2.576</span>。</p>
+<p><span class="math display">84.5 - 2.576\left(\frac{12.0}{\sqrt{64}}\right) &lt; \mu &lt; 84.5 + 2.576\left(\frac{12.0}{\sqrt{64}}\right)</span> <span class="math display">84.5 - 3.9 &lt; \mu &lt; 84.5 + 3.9</span> <span class="math display">\mathbf{80.6 &lt; \mu &lt; 88.4}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-2-1" class="slide level2">
+<h2>範例 7-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fl">174.3</span>; sigma <span class="ot">&lt;-</span> <span class="fl">46.5</span>; n <span class="ot">&lt;-</span> <span class="dv">30</span>; z <span class="ot">&lt;-</span> <span class="fl">2.58</span></span>
-<span id="cb11-2"><a href=""></a>E <span class="ot">&lt;-</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb11-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Point estimate:"</span>, xbar, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">84.5</span></span>
+<span id="cb9-2"><a href=""></a>pop_sd <span class="ot">&lt;-</span> <span class="fl">12.0</span></span>
+<span id="cb9-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">64</span></span>
+<span id="cb9-4"><a href=""></a></span>
+<span id="cb9-5"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.995</span>) <span class="sc">*</span> pop_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb9-6"><a href=""></a><span class="fu">round</span>(margin_error, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Point estimate: 174.3 </code></pre>
+<pre><code>[1] 3.9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"99% CI: ("</span>, <span class="fu">round</span>(xbar <span class="sc">-</span> E, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(xbar <span class="sc">+</span> E, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(sample_mean <span class="sc">-</span> margin_error, sample_mean <span class="sc">+</span> margin_error), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>99% CI: ( 152.4 , 196.2 )</code></pre>
+<pre><code>[1] 80.6 88.4</code></pre>
 </div>
 </div>
-<p><strong>解讀：</strong> 我們有 99% 的把握，急診室真實平均等候時間介於 152.4 至 196.2 分鐘之間。</p>
+<p>我們有 <strong>99% 的信心</strong>認為，跨境訂單的平均金額介於 80.6 至 88.4 美元之間。</p>
+</div>
+</div>
+</div>
 </section>
-<section id="求其他-z_alpha2-值" class="slide level2">
-<h2>求其他 <span class="math inline">z_{\alpha/2}</span> 值</h2>
-<p>對於 90%、95%、99% 以外的信賴水準，<span class="math inline">z_{\alpha/2}</span> 的求法如下：</p>
+<section id="求其他的-z_alpha2-值" class="slide level2">
+<h2>求其他的 <span class="math inline">z_{\alpha/2}</span> 值</h2>
+<p>統計上有時會用到 90%、95%、99% 以外的信賴水準。以 <strong>98%</strong> 信賴區間為例，求 <span class="math inline">z_{\alpha/2}</span> 的步驟是：</p>
 <ol type="1">
-<li>將信賴水準轉換為小數：例如 98% → 0.98</li>
-<li>求 <span class="math inline">\alpha = 1 - 0.98 = 0.02</span>，故 <span class="math inline">\alpha/2 = 0.01</span></li>
-<li>每尾面積為 0.01；在表 E 中查 1 − 0.01 = 0.9900</li>
-<li>對應的 z 值為 <strong>2.33</strong></li>
+<li>把 98% 化為 0.98，求 <span class="math inline">\alpha = 1 - 0.98 = 0.02</span>。</li>
+<li>除以 2：<span class="math inline">\alpha/2 = 0.02/2 = 0.01</span>。</li>
+<li>以 <span class="math inline">1.0000 - 0.01 = 0.9900</span> 在表 A-4 中查出對應的 <span class="math inline">z</span> 值；<code>qnorm(0.99)</code> 回傳同一個臨界值 <span class="math inline">z_{\alpha/2} = \mathbf{2.326}</span>。</li>
 </ol>
+</section>
+<section id="求其他的-z_alpha2-值-1" class="slide level2">
+<h2>求其他的 <span class="math inline">z_{\alpha/2}</span> 值</h2>
+<p>求信賴區間時，公式中只取<strong>正的</strong> <span class="math inline">z</span> 值。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="co"># 常見信賴水準對應的 z_alpha/2</span></span>
-<span id="cb15-2"><a href=""></a>conf_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.98</span>, <span class="fl">0.99</span>)</span>
-<span id="cb15-3"><a href=""></a>z_vals <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> conf_levels)<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb15-4"><a href=""></a><span class="fu">data.frame</span>(<span class="at">Confidence =</span> <span class="fu">paste0</span>(conf_levels<span class="sc">*</span><span class="dv">100</span>, <span class="st">"%"</span>),</span>
-<span id="cb15-5"><a href=""></a>           <span class="at">z_alpha2 =</span> <span class="fu">round</span>(z_vals, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  Confidence z_alpha2
-1        90%    1.645
-2        95%    1.960
-3        98%    2.326
-4        99%    2.576</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>confidence_level <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.94</span>, <span class="fl">0.95</span>, <span class="fl">0.98</span>, <span class="fl">0.99</span>)</span>
+<span id="cb13-2"><a href=""></a>tail_area <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> confidence_level) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">Confidence =</span> <span class="fu">paste0</span>(confidence_level <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>),</span>
+<span id="cb13-5"><a href=""></a>                        <span class="at">alpha_half =</span> tail_area,</span>
+<span id="cb13-6"><a href=""></a>                        <span class="at">z =</span> <span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> tail_area), <span class="dv">3</span>)), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Confidence</th>
+<th style="text-align: center;">alpha_half</th>
+<th style="text-align: center;">z</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">90%</td>
+<td style="text-align: center;">0.050</td>
+<td style="text-align: center;">1.645</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">94%</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">1.881</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">95%</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">1.960</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">98%</td>
+<td style="text-align: center;">0.010</td>
+<td style="text-align: center;">2.326</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">99%</td>
+<td style="text-align: center;">0.005</td>
+<td style="text-align: center;">2.576</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
@@ -522,11 +819,21 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>信用合作社資產</strong></p>
+<p><strong>高雄港的貨櫃停留時間</strong></p>
 </div>
 <div class="callout-content">
-<p>下列資料為賓州西南部 30 家信用合作社的資產（單位：百萬美元）樣本。假設 <span class="math inline">\sigma</span> = 14.405，求平均數的 <strong>90% 信賴區間</strong>。</p>
-<p>12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25, 1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78, 16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76</p>
+<p>以下資料是高雄港 30 只進口貨櫃停留時間（單位：小時）的隨機樣本。假設母體標準差為 12.6 小時，求平均數的 <strong>90% 信賴區間</strong>。</p>
+<pre><code>36.42    28.15    51.70
+19.83    44.26    33.08
+62.55    25.71    40.19
+47.63    30.94    22.38
+55.02    38.47    29.66
+43.81    26.50    58.24
+34.75    49.12    21.07
+31.89    45.33    27.46
+53.18    37.62    24.91
+41.05    32.27    46.88</code></pre>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -542,55 +849,69 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p>樣本平均數 <span class="math inline">\bar{X}</span> = 11.091。90% 信賴區間使用 <span class="math inline">z_{\alpha/2}</span> = 1.65（查表值；R 給出更精確的 1.645）：</p>
-<p><span class="math display">11.091 - 1.65\left(\frac{14.405}{\sqrt{30}}\right) &lt; \mu &lt; 11.091 + 1.65\left(\frac{14.405}{\sqrt{30}}\right)</span> <span class="math display">11.091 - 4.339 &lt; \mu &lt; 11.091 + 4.339</span> <span class="math display">\mathbf{6.752 &lt; \mu &lt; 15.430}</span></p>
+<p><strong>步驟 1</strong> 求資料的平均數：<span class="math inline">\bar{X} = 38.002</span> 小時。母體標準差為 12.6 小時。</p>
+<p><strong>步驟 2</strong> 求 <span class="math inline">\alpha/2</span>。90% 信賴區間下 <span class="math inline">\alpha = 1 - 0.90 = 0.10</span>，故 <span class="math inline">\alpha/2 = 0.10/2 = 0.05</span>。</p>
+<p><strong>步驟 3</strong> 求 <span class="math inline">z_{\alpha/2}</span>。臨界值左側的面積為 <span class="math inline">1 - 0.05 = 0.9500</span>，即表 A-4 中要查的那一欄；<code>qnorm(0.95)</code> 回傳同一個臨界值 <span class="math inline">z_{\alpha/2} = \mathbf{1.645}</span>。</p>
+<p><strong>步驟 4</strong> 代入公式。</p>
+<p><span class="math display">38.002 - 1.645\left(\frac{12.6}{\sqrt{30}}\right) &lt; \mu &lt; 38.002 + 1.645\left(\frac{12.6}{\sqrt{30}}\right)</span> <span class="math display">38.002 - 3.784 &lt; \mu &lt; 38.002 + 3.784</span> <span class="math display">\mathbf{34.218 &lt; \mu &lt; 41.786}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>assets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">12.23</span>, <span class="fl">16.56</span>, <span class="fl">4.39</span>, <span class="fl">2.89</span>, <span class="fl">1.24</span>, <span class="fl">2.17</span>, <span class="fl">13.19</span>, <span class="fl">9.16</span>, <span class="fl">1.42</span>, <span class="fl">73.25</span>,</span>
-<span id="cb17-2"><a href=""></a>            <span class="fl">1.91</span>, <span class="fl">14.64</span>, <span class="fl">11.59</span>, <span class="fl">6.69</span>, <span class="fl">1.06</span>, <span class="fl">8.74</span>, <span class="fl">3.17</span>, <span class="fl">18.13</span>, <span class="fl">7.92</span>, <span class="fl">4.78</span>,</span>
-<span id="cb17-3"><a href=""></a>            <span class="fl">16.85</span>, <span class="fl">40.22</span>, <span class="fl">2.42</span>, <span class="fl">21.58</span>, <span class="fl">5.01</span>, <span class="fl">1.47</span>, <span class="fl">12.24</span>, <span class="fl">2.27</span>, <span class="fl">12.77</span>, <span class="fl">2.76</span>)</span>
-<span id="cb17-4"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(assets); sigma <span class="ot">&lt;-</span> <span class="fl">14.405</span>; n <span class="ot">&lt;-</span> <span class="fu">length</span>(assets)</span>
-<span id="cb17-5"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fl">1.65</span>   <span class="co"># 查表值；qnorm(0.95) 給出 1.645</span></span>
-<span id="cb17-6"><a href=""></a>E <span class="ot">&lt;-</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb17-7"><a href=""></a><span class="fu">cat</span>(<span class="st">"X-bar ="</span>, <span class="fu">round</span>(xbar, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>X-bar = 11.091 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI: ("</span>, <span class="fu">round</span>(xbar <span class="sc">-</span> E, <span class="dv">3</span>), <span class="st">","</span>, <span class="fu">round</span>(xbar <span class="sc">+</span> E, <span class="dv">3</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>90% CI: ( 6.751 , 15.43 )</code></pre>
-</div>
-</div>
-<p><strong>解讀：</strong> 我們有 90% 的把握，所有信用合作社的平均資產介於 $6.752 百萬至 $15.430 百萬之間。</p>
-</section>
-<section id="估計平均數所需的樣本大小" class="slide level2">
-<h2>估計平均數所需的樣本大小</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="範例-7-3-1" class="slide level2">
+<h2>範例 7-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>公式</strong></p>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>dwell_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">36.42</span>, <span class="fl">28.15</span>, <span class="fl">51.70</span>, <span class="fl">19.83</span>, <span class="fl">44.26</span>, <span class="fl">33.08</span>, <span class="fl">62.55</span>, <span class="fl">25.71</span>, <span class="fl">40.19</span>, <span class="fl">47.63</span>,</span>
+<span id="cb15-2"><a href=""></a>                 <span class="fl">30.94</span>, <span class="fl">22.38</span>, <span class="fl">55.02</span>, <span class="fl">38.47</span>, <span class="fl">29.66</span>, <span class="fl">43.81</span>, <span class="fl">26.50</span>, <span class="fl">58.24</span>, <span class="fl">34.75</span>, <span class="fl">49.12</span>,</span>
+<span id="cb15-3"><a href=""></a>                 <span class="fl">21.07</span>, <span class="fl">31.89</span>, <span class="fl">45.33</span>, <span class="fl">27.46</span>, <span class="fl">53.18</span>, <span class="fl">37.62</span>, <span class="fl">24.91</span>, <span class="fl">41.05</span>, <span class="fl">32.27</span>, <span class="fl">46.88</span>)</span>
+<span id="cb15-4"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(dwell_hours)</span>
+<span id="cb15-5"><a href=""></a>pop_sd <span class="ot">&lt;-</span> <span class="fl">12.6</span></span>
+<span id="cb15-6"><a href=""></a></span>
+<span id="cb15-7"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="sc">*</span> pop_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(dwell_hours))</span>
+<span id="cb15-8"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> sample_mean, <span class="at">margin =</span> margin_error), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean margin 
+38.002  3.784 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(sample_mean <span class="sc">-</span> margin_error, sample_mean <span class="sc">+</span> margin_error), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34.218 41.786</code></pre>
+</div>
+</div>
+<p>根據 30 只貨櫃的樣本，我們有 <strong>90% 的信心</strong>認為，所有進口貨櫃停留時間的母體平均數介於 34.218 小時與 41.786 小時之間。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="估計平均數所需的樣本大小" class="slide level2">
+<h2>估計平均數所需的樣本大小</h2>
+<p>究竟要多大的樣本才能做出準確的估計？答案取決於三件事：<strong>誤差界限</strong>、<strong>母體標準差</strong>與<strong>信賴程度</strong>。</p>
+<p>此公式由誤差界限公式 <span class="math inline">E = z_{\alpha/2}\left(\sigma/\sqrt{n}\right)</span> 解 <span class="math inline">n</span> 而得：</p>
+<p><span class="math display">E\sqrt{n} = z_{\alpha/2}\,\sigma \quad \Longrightarrow \quad \sqrt{n} = \frac{z_{\alpha/2} \cdot \sigma}{E}</span></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>母體平均數區間估計所需最小樣本大小的公式</strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2</span></p>
-<p>其中 E 為期望的<strong>誤差邊界</strong>。計算結果一律<strong>無條件進位</strong>至最近的整數。</p>
+<p>其中 <span class="math inline">E</span> 為誤差界限。必要時將答案<strong>無條件進位</strong>成整數：只要結果有小數部分，就取下一個整數作為樣本大小 <span class="math inline">n</span>。</p>
 </div>
 </div>
 </div>
-<p><strong>所需資訊：</strong></p>
-<ul>
-<li>期望的信賴水準（決定 <span class="math inline">z_{\alpha/2}</span>）</li>
-<li>母體標準差 <span class="math inline">\sigma</span>（或來自先前研究的估計值）</li>
-<li>可接受的誤差邊界 E</li>
-</ul>
 </section>
 <section id="example-7-4" class="slide level2">
 <h2>範例 7-4</h2>
@@ -600,71 +921,140 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>問題</strong></p>
+<p><strong>外送時間所需的樣本大小</strong></p>
 </div>
 <div class="callout-content">
-<p>一位科學家想估計某河流的平均深度。她希望以 <strong>99% 的信賴水準</strong>，估計誤差在 <strong>2 英尺</strong>以內。先前研究發現 <span class="math inline">\sigma</span> = 4.33 英尺。求所需的最小樣本大小。</p>
-<p><strong>解題步驟（數學）：</strong></p>
-<p><span class="math inline">z_{\alpha/2} = 2.58</span>，<span class="math inline">E = 2</span>，<span class="math inline">\sigma = 4.33</span></p>
-<p><span class="math display">n = \left(\frac{2.58 \times 4.33}{2}\right)^2 = \left(\frac{11.17}{2}\right)^2 = (5.585)^2 = 31.2 \rightarrow \mathbf{n = 32}</span></p>
+<p>台中某外送平台的營運主管想估計每筆訂單的平均外送時間，誤差要在 <strong>2 分鐘</strong>之內，並希望有 <strong>99% 的信心</strong>。先前的研究顯示標準差為 4.5 分鐘。她應該抽取幾筆訂單？</p>
+<p><em>（模擬資料）</em></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-7-4" class="slide level2">
+<h2>範例 7-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p>由於 <span class="math inline">\alpha = 0.01</span>（即 <span class="math inline">1 - 0.99</span>），<span class="math inline">z_{\alpha/2} = 2.576</span>，<span class="math inline">E = 2</span>。代入公式。</p>
+<p><span class="math display">n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2 = \left[\frac{(2.576)(4.5)}{2}\right]^2 = 33.59</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fl">2.58</span>; sigma <span class="ot">&lt;-</span> <span class="fl">4.33</span>; E <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb21-2"><a href=""></a>n_raw <span class="ot">&lt;-</span> (z <span class="sc">*</span> sigma <span class="sc">/</span> E)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb21-3"><a href=""></a>n_raw</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>pop_sd <span class="ot">&lt;-</span> <span class="fl">4.5</span></span>
+<span id="cb19-2"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>required_n <span class="ot">&lt;-</span> (<span class="fu">qnorm</span>(<span class="fl">0.995</span>) <span class="sc">*</span> pop_sd <span class="sc">/</span> margin_error)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb19-5"><a href=""></a><span class="fu">round</span>(required_n, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 31.20004</code></pre>
+<pre><code>[1] 33.59</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">ceiling</span>(n_raw)  <span class="co"># 一律無條件進位</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">ceiling</span>(required_n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 32</code></pre>
+<pre><code>[1] 34</code></pre>
 </div>
 </div>
-<p><strong>答案：</strong> 科學家至少需要 <strong>32 次測量</strong>，才能以 99% 的信賴水準達到所需精確度。</p>
+<p>進位後得 <strong>34</strong>。若要有 99% 的信心使估計值與真正平均數相差在 2 分鐘之內，該主管至少須抽取 34 筆訂單。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="關於樣本大小的補充" class="slide level2">
+<h2>關於樣本大小的補充</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>統計上多數情況採四捨五入；但決定樣本大小時，一律<strong>無條件進位</strong>到下一個整數。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>實務要點</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>當母體很大或為無限母體、或採放回抽樣時，<strong>母體大小與樣本大小的計算無關</strong>。</li>
+<li>公式需要 <span class="math inline">\sigma</span>。若 <span class="math inline">\sigma</span> 未知，可用先前樣本的標準差 <span class="math inline">s</span> 估計，或以<strong>全距除以 4</strong> 估計。</li>
+<li>區間估計常以文字敘述呈現：「兩人家庭每週平均花費 84 美元購買食品雜貨，在 95% 信心下誤差在 3 美元以內」，即 <span class="math inline">81 &lt; \mu &lt; 87</span>。</li>
+</ul>
 </div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-7-2-節sigma-未知時母體平均數的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 7-2 節：<span class="math inline">\sigma</span> 未知時母體平均數的信賴區間</h1>
+<section id="第7-3節sigma-未知時母體平均數的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第7-3節：<span class="math inline">\sigma</span> 未知時母體平均數的信賴區間</h1>
 
 </section>
 <section id="t-分配" class="slide level2">
-<h2>t 分配</h2>
-<p>當 <span class="math inline">\sigma</span> 未知時，以樣本標準差 s 作為替代。然而，這會引入額外的不確定性——尤其是小樣本時。適用的分配為 <strong>Student’s t 分配</strong>。</p>
+<h2><span class="math inline">t</span> 分配</h2>
+<p>多數情況下 <span class="math inline">\sigma</span> 並不知道，必須以樣本標準差 <span class="math inline">s</span> 估計。使用 <span class="math inline">s</span> 時——尤其樣本數較小時——需要比 <span class="math inline">z_{\alpha/2}</span> <strong>更大</strong>的臨界值，才能維持所述的信賴水準。這些值來自 <strong>Student’s <span class="math inline">t</span> 分配</strong>。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>t 分配的特性</strong></p>
+<p><strong><span class="math inline">t</span> 分配的特性</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>與常態分配相似：</strong> 1. 鐘形且對稱於平均數 2. 平均數、中位數與眾數皆等於 0 3. 曲線永不觸及 x 軸</p>
-<p><strong>與常態分配的差異：</strong> 1. 變異數大於 1（尾部較厚） 2. 它是以<strong>自由度</strong>（d.f.）為索引的<strong>曲線族</strong> 3. 隨著自由度增加，t 分配趨近標準常態分配</p>
+<p><strong>與標準常態分配相似之處：</strong></p>
+<ol type="1">
+<li>呈鐘形。</li>
+<li>對平均數左右對稱。</li>
+<li>平均數、中位數與眾數皆為 0，且位於分配的中央。</li>
+<li>曲線趨近但永不接觸 <span class="math inline">x</span> 軸。</li>
+</ol>
+<p><strong>與標準常態分配相異之處：</strong></p>
+<ol type="1">
+<li>變異數大於 1。</li>
+<li><span class="math inline">t</span> 分配其實是依自由度而定的<strong>一族曲線</strong>，自由度與樣本大小有關。</li>
+<li>隨著樣本數增加，<span class="math inline">t</span> 分配趨近標準常態分配。</li>
+</ol>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="t-分配曲線族" class="slide level2">
+<h2><span class="math inline">t</span> 分配曲線族</h2>
+<p><strong>Prepare data</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb25-2"><a href=""></a>df_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb25-3"><a href=""></a>  <span class="at">x =</span> <span class="fu">rep</span>(x, <span class="dv">3</span>),</span>
-<span id="cb25-4"><a href=""></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dnorm</span>(x), <span class="fu">dt</span>(x, <span class="at">df =</span> <span class="dv">5</span>), <span class="fu">dt</span>(x, <span class="at">df =</span> <span class="dv">20</span>)),</span>
-<span id="cb25-5"><a href=""></a>  <span class="at">dist =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Normal (z)"</span>, <span class="st">"t (df=5)"</span>, <span class="st">"t (df=20)"</span>), <span class="at">each =</span> <span class="dv">300</span>)</span>
-<span id="cb25-6"><a href=""></a>)</span>
-<span id="cb25-7"><a href=""></a><span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(x, y, <span class="at">color =</span> dist, <span class="at">linetype =</span> dist)) <span class="sc">+</span></span>
-<span id="cb25-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb25-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"常態分配與 t 分配的比較"</span>,</span>
-<span id="cb25-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"數值"</span>, <span class="at">y =</span> <span class="st">"密度"</span>, <span class="at">color =</span> <span class="st">"分配"</span>, <span class="at">linetype =</span> <span class="st">"分配"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>grid_x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb23-2"><a href=""></a></span>
+<span id="cb23-3"><a href=""></a>t_curves <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb23-4"><a href=""></a>  <span class="at">x =</span> <span class="fu">rep</span>(grid_x, <span class="dv">3</span>),</span>
+<span id="cb23-5"><a href=""></a>  <span class="at">density =</span> <span class="fu">c</span>(<span class="fu">dnorm</span>(grid_x), <span class="fu">dt</span>(grid_x, <span class="at">df =</span> <span class="dv">5</span>), <span class="fu">dt</span>(grid_x, <span class="at">df =</span> <span class="dv">20</span>)),</span>
+<span id="cb23-6"><a href=""></a>  <span class="at">curve =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"z curve"</span>, <span class="st">"t for d.f. = 5"</span>, <span class="st">"t for d.f. = 20"</span>),</span>
+<span id="cb23-7"><a href=""></a>              <span class="at">each =</span> <span class="fu">length</span>(grid_x)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="t-分配曲線族-1" class="slide level2">
+<h2><span class="math inline">t</span> 分配曲線族</h2>
+<p><strong>Draw figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">ggplot</span>(t_curves, <span class="fu">aes</span>(x, density, <span class="at">color =</span> curve, <span class="at">linetype =</span> curve)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"t 分配曲線族"</span>,</span>
+<span id="cb24-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"數值"</span>, <span class="at">y =</span> <span class="st">"機率密度"</span>, <span class="at">color =</span> <span class="st">""</span>, <span class="at">linetype =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch7-zh_files/figure-revealjs/e7-4-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
-<section id="自由度與-t-公式" class="slide level2">
-<h2>自由度與 t 公式</h2>
+<img data-src="ch7-zh_files/figure-revealjs/s7-3-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="自由度" class="slide level2">
+<h2>自由度</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -674,104 +1064,80 @@
 <p><strong>自由度</strong></p>
 </div>
 <div class="callout-content">
-<p>對於平均數的信賴區間：<strong>d.f. = n − 1</strong></p>
-<p>自由度決定應使用哪條 t 曲線。在 R 中：<code>qt(p, df = n-1)</code></p>
+<p><strong>自由度</strong>是在算出某一樣本統計量之後，仍可自由變動的數值個數；當一個分配是由一族曲線構成時，自由度告訴研究者該用哪一條曲線。</p>
 </div>
 </div>
 </div>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>信賴區間公式（<span class="math inline">\sigma</span> 未知）</strong></p>
-</div>
-<div class="callout-content">
-<p><span class="math display">\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) &lt; \mu &lt; \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)</span></p>
-<p>其中 <span class="math inline">t_{\alpha/2}</span> 取自表 F，自由度 d.f. = n − 1。</p>
-</div>
-</div>
-</div>
-<p><strong>假設條件：</strong> (1) 隨機樣本；(2) <span class="math inline">n \geq 30</span>，或若 n &lt; 30 則母體近似常態分配。</p>
-</section>
-<section id="何時使用-z-與-t" class="slide level2">
-<h2>何時使用 z 與 t</h2>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>決策規則</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li><strong><span class="math inline">\sigma</span> 已知</strong> → 使用 <span class="math inline">z_{\alpha/2}</span> 並以 <span class="math inline">\sigma</span> 代入公式（若常態分配或 <span class="math inline">n \geq 30</span>）</li>
-<li><strong><span class="math inline">\sigma</span> 未知</strong> → 使用 <span class="math inline">t_{\alpha/2}</span> 並以 s 代入公式（常態母體或 <span class="math inline">n \geq 30</span>）</li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb26-2"><a href=""></a>  <span class="at">Condition =</span> <span class="fu">c</span>(<span class="st">"σ known, n ≥ 30"</span>, <span class="st">"σ known, n &lt; 30 (normal pop.)"</span>,</span>
-<span id="cb26-3"><a href=""></a>                <span class="st">"σ unknown, n ≥ 30"</span>, <span class="st">"σ unknown, n &lt; 30 (normal pop.)"</span>),</span>
-<span id="cb26-4"><a href=""></a>  <span class="at">Use =</span> <span class="fu">c</span>(<span class="st">"z and σ"</span>, <span class="st">"z and σ"</span>, <span class="st">"t and s"</span>, <span class="st">"t and s"</span>)</span>
-<span id="cb26-5"><a href=""></a>), <span class="at">caption =</span> <span class="st">"When to Use z vs. t"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>When to Use z vs.&nbsp;t</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Condition</th>
-<th style="text-align: left;">Use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">σ known, n ≥ 30</td>
-<td style="text-align: left;">z and σ</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">σ known, n &lt; 30 (normal pop.)</td>
-<td style="text-align: left;">z and σ</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">σ unknown, n ≥ 30</td>
-<td style="text-align: left;">t and s</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">σ unknown, n &lt; 30 (normal pop.)</td>
-<td style="text-align: left;">t and s</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="example-7-5" class="slide level2 smaller">
-<h2>範例 7-5：求 <span class="math inline">t_{\alpha/2}</span></h2>
+<p>若 5 個數值的平均數是 10，則其中 4 個可以自由變動；一旦前 4 個確定，第 5 個就必須是特定的數，好讓總和等於 50。因此 <span class="math inline">\text{d.f.} = 5 - 1 = 4</span>。</p>
+<p>自由度以 <strong>d.f.</strong> 表示。求平均數的信賴區間時，<span class="math inline">\text{d.f.} = n - 1</span>。（本書後面某些檢定的自由度<em>不是</em> <span class="math inline">n - 1</span>。）</p>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>問題</strong></p>
+<p><strong>注意</strong></p>
 </div>
 <div class="callout-content">
-<p>當樣本大小 n = 22 時，求 <strong>95% 信賴區間</strong>的 <span class="math inline">t_{\alpha/2}</span> 值。</p>
-<p><strong>解題步驟（數學）：</strong></p>
-<p>d.f. = 22 − 1 = 21。在表 F 第 21 列的 95% 欄查值。</p>
-<p><strong><span class="math inline">t_{\alpha/2} = 2.080</span></strong></p>
+<p><span class="math inline">t_{\alpha/2}</span> 取自表 A-5 最上方標示 <strong>Confidence Intervals</strong> 的那一列；標示 <em>One tail</em> 與 <em>Two tails</em> 的兩列屬於第8章，此處不可使用。當自由度大於 30 且落在兩個表列值之間時，查表的慣例是<strong>無條件捨去</strong>到較小的表列值（較保守的作法）：d.f. = 68 視為 65。此慣例只是查表的輔助；<code>qt()</code> 接受確切的自由度，兩者不一致時，投影片一律採用 R 算出的值。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-7-5" class="slide level2">
+<h2>範例 7-5</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>查出 <span class="math inline">t</span> 臨界值</strong></p>
+</div>
+<div class="callout-content">
+<p>樣本大小為 18 時，求 <strong>95% 信賴區間</strong>的 <span class="math inline">t_{\alpha/2}</span> 值。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-7-5" class="slide level2">
+<h2>範例 7-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\text{d.f.} = 18 - 1 = 17</span>。在表 A-5 左欄找到 17，並在標示 <strong>Confidence Intervals</strong> 的列中找到 95%；<code>qt(0.975, df = 17)</code> 回傳同一個臨界值 <span class="math inline">t_{\alpha/2} = \mathbf{2.110}</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># t_alpha/2 for 95% CI with df = 21</span></span>
-<span id="cb27-2"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">21</span>)   <span class="co"># upper tail area = alpha/2 = 0.025</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">18</span></span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.079614</code></pre>
+<pre><code>[1] 2.11</code></pre>
 </div>
 </div>
+<p>在 R 中，信賴區間的臨界值一律是 <code>qt(1 - alpha/2, df = n - 1)</code>；95% 信賴區間即 <code>qt(0.975, df = n - 1)</code>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sigma-未知時平均數的公式" class="slide level2">
+<h2><span class="math inline">\sigma</span> 未知時平均數的公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span class="math inline">\sigma</span> 未知時母體平均數信賴區間的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) &lt; \mu &lt; \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)</span></p>
+<p>自由度為 <span class="math inline">n - 1</span>。</p>
 </div>
 </div>
 </div>
@@ -781,10 +1147,13 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>重要規則</strong></p>
+<p><strong><span class="math inline">\sigma</span> 未知時求平均數信賴區間的假設</strong></p>
 </div>
 <div class="callout-content">
-<p>對於信賴區間，一律使用 <code>qt(1 - alpha/2, df = n-1)</code>。 對於 95% CI：<code>qt(0.975, df = n-1)</code>。</p>
+<ol type="1">
+<li>樣本是隨機樣本。</li>
+<li><span class="math inline">n \geq 30</span>，或當 <span class="math inline">n &lt; 30</span> 時母體為常態分配。</li>
+</ol>
 </div>
 </div>
 </div>
@@ -797,10 +1166,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>睡眠時間</strong></p>
+<p><strong>台北商務旅館的平日住房率</strong></p>
 </div>
 <div class="callout-content">
-<p>10 位隨機受訪者報告了其每晚睡眠時數。樣本平均數為 7.1 小時，標準差為 0.78 小時。假設變數服從常態分配，求平均數的 <strong>95% 信賴區間</strong>。</p>
+<p>隨機抽取 16 家台北商務旅館，平日平均住房率為 72.4%，樣本標準差為 6.8 個百分點。假設該變數為常態分配，求平日住房率之母體平均數的 <strong>95% 信賴區間</strong>。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -816,26 +1186,42 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p><span class="math inline">\sigma</span> 未知，n = 10 &lt; 30 → 使用 t 分配。d.f. = 9，<span class="math inline">t_{\alpha/2}</span> = 2.262</p>
-<p><span class="math display">7.1 - 2.262\left(\frac{0.78}{\sqrt{10}}\right) &lt; \mu &lt; 7.1 + 2.262\left(\frac{0.78}{\sqrt{10}}\right)</span> <span class="math display">7.1 - 0.56 &lt; \mu &lt; 7.1 + 0.56</span> <span class="math display">\mathbf{6.54 &lt; \mu &lt; 7.66}</span></p>
+<p><span class="math inline">\bar{X} = 72.4</span>、<span class="math inline">s = 6.8</span>、<span class="math inline">n = 16</span>。</p>
+<p>由於 <span class="math inline">\sigma</span> 未知而必須以 <span class="math inline">s</span> 取代，因此使用 <span class="math inline">t</span> 分配。自由度為 15 時，<span class="math inline">t_{\alpha/2} = 2.131</span>。</p>
+<p><span class="math display">72.4 - 2.131\left(\frac{6.8}{\sqrt{16}}\right) &lt; \mu &lt; 72.4 + 2.131\left(\frac{6.8}{\sqrt{16}}\right)</span> <span class="math display">72.4 - 3.6 &lt; \mu &lt; 72.4 + 3.6</span> <span class="math display">\mathbf{68.8 &lt; \mu &lt; 76.0}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fl">7.1</span>; s <span class="ot">&lt;-</span> <span class="fl">0.78</span>; n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb29-2"><a href=""></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb29-3"><a href=""></a>E <span class="ot">&lt;-</span> t_crit <span class="sc">*</span> s <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb29-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"t_alpha/2 ="</span>, <span class="fu">round</span>(t_crit, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>t_alpha/2 = 2.262 </code></pre>
+<section id="範例-7-6-1" class="slide level2">
+<h2>範例 7-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI: ("</span>, <span class="fu">round</span>(xbar <span class="sc">-</span> E, <span class="dv">2</span>), <span class="st">","</span>, <span class="fu">round</span>(xbar <span class="sc">+</span> E, <span class="dv">2</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">72.4</span></span>
+<span id="cb27-2"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">6.8</span></span>
+<span id="cb27-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb27-4"><a href=""></a></span>
+<span id="cb27-5"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb27-6"><a href=""></a><span class="fu">round</span>(margin_error, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI: ( 6.54 , 7.66 )</code></pre>
+<pre><code>[1] 3.6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(sample_mean <span class="sc">-</span> margin_error, sample_mean <span class="sc">+</span> margin_error), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 68.8 76.0</code></pre>
+</div>
+</div>
+<p>我們有 <strong>95% 的信心</strong>認為，台北商務旅館平日住房率的母體平均數介於 68.8% 與 76.0% 之間。</p>
+</div>
 </div>
 </div>
 </section>
@@ -847,63 +1233,164 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>蠟燭引發的住宅火災</strong></p>
+<p><strong>夜市攤位的月營業額</strong></p>
 </div>
 <div class="callout-content">
-<p>下列資料為連續 7 年中，每年因蠟燭引發的住宅火災次數。求每年蠟燭引發住宅火災平均次數的 <strong>99% 信賴區間</strong>。</p>
-<p>5460, 5900, 6090, 6310, 7160, 8440, 9930</p>
+<p>以下資料是某夜市飲料攤位月營業額（單位：新台幣千元）隨機抽取 7 個月的樣本。求月營業額之平均數的 <strong>99% 信賴區間</strong>。</p>
+<pre><code>268    292    305    318    331    347    384</code></pre>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-7" class="slide level2">
+<h2>範例 7-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1</strong> 求資料的平均數與標準差：<span class="math inline">\bar{X} = 320.7</span>，<span class="math inline">s = 38.0</span>。</p>
+<p><strong>步驟 2</strong> 求 99% 信賴區間、<span class="math inline">\text{d.f.} = 6</span> 的 <span class="math inline">t_{\alpha/2}</span>。表 A-5 與 <code>qt(0.995, df = 6)</code> 都給出 <strong>3.707</strong>。</p>
+<p><strong>步驟 3</strong> 代入公式求解。</p>
+<p><span class="math display">320.7 - 3.707\left(\frac{38.0}{\sqrt{7}}\right) &lt; \mu &lt; 320.7 + 3.707\left(\frac{38.0}{\sqrt{7}}\right)</span> <span class="math display">320.7 - 53.2 &lt; \mu &lt; 320.7 + 53.2</span> <span class="math display">\mathbf{267.5 &lt; \mu &lt; 373.9}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-7-7-1" class="slide level2">
+<h2>範例 7-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>fires <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5460</span>, <span class="dv">5900</span>, <span class="dv">6090</span>, <span class="dv">6310</span>, <span class="dv">7160</span>, <span class="dv">8440</span>, <span class="dv">9930</span>)</span>
-<span id="cb33-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(fires)</span>
-<span id="cb33-3"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(fires); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(fires)</span>
-<span id="cb33-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"  X-bar ="</span>, <span class="fu">round</span>(xbar, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>monthly_revenue <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">268</span>, <span class="dv">292</span>, <span class="dv">305</span>, <span class="dv">318</span>, <span class="dv">331</span>, <span class="dv">347</span>, <span class="dv">384</span>)</span>
+<span id="cb32-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="fu">length</span>(monthly_revenue)</span>
+<span id="cb32-3"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(monthly_revenue)</span>
+<span id="cb32-4"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(monthly_revenue)</span>
+<span id="cb32-5"><a href=""></a></span>
+<span id="cb32-6"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.995</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb32-7"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> sample_mean, <span class="at">sd =</span> sample_sd, <span class="at">margin =</span> margin_error), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n = 7   X-bar = 7041.4   s = 1610.3 </code></pre>
+<pre><code>  mean     sd margin 
+ 320.7   38.0   53.2 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.995</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)   <span class="co"># 99% CI</span></span>
-<span id="cb35-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"t_alpha/2 (df=6) ="</span>, <span class="fu">round</span>(t_crit, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(sample_mean <span class="sc">-</span> margin_error, sample_mean <span class="sc">+</span> margin_error), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>t_alpha/2 (df=6) = 3.707 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>E <span class="ot">&lt;-</span> t_crit <span class="sc">*</span> s <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb37-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"99% CI: ("</span>, <span class="fu">round</span>(xbar <span class="sc">-</span> E, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(xbar <span class="sc">+</span> E, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>99% CI: ( 4785 , 9297.9 )</code></pre>
+<pre><code>[1] 267.5 373.9</code></pre>
 </div>
 </div>
-<p><strong>答案：</strong> <span class="math inline">4785.2 &lt; \mu &lt; 9297.6</span> 次/年（R 以未捨入數值計算得 4785.0 與 9297.9）。根據 7 年的資料，我們有 99% 的把握，真實平均值落在此範圍內。</p>
+<p>根據 7 個月的樣本，我們有 <strong>99% 的信心</strong>認為，該攤位月營業額的母體平均數介於 267.5 千元與 373.9 千元之間。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="該用-z-還是-t" class="slide level2">
+<h2>該用 <span class="math inline">z</span> 還是 <span class="math inline">t</span></h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>判斷準則（圖 7-8）</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong><span class="math inline">\sigma</span> 已知嗎？</strong> 已知：公式中使用 <span class="math inline">z_{\alpha/2}</span> 與 <span class="math inline">\sigma</span>。</li>
+<li><strong><span class="math inline">\sigma</span> 已知嗎？</strong> 未知：公式中使用 <span class="math inline">t_{\alpha/2}</span> 與 <span class="math inline">s</span>。</li>
+</ul>
+<p>無論哪一種情形，若 <span class="math inline">n &lt; 30</span>，該變數都必須為常態分配。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="該用-z-還是-t-1" class="slide level2">
+<h2>該用 <span class="math inline">z</span> 還是 <span class="math inline">t</span></h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb36-2"><a href=""></a>  <span class="at">Situation =</span> <span class="fu">c</span>(<span class="st">"sigma known, n &gt;= 30"</span>, <span class="st">"sigma known, n &lt; 30 (normal)"</span>,</span>
+<span id="cb36-3"><a href=""></a>                <span class="st">"sigma unknown, n &gt;= 30"</span>, <span class="st">"sigma unknown, n &lt; 30 (normal)"</span>),</span>
+<span id="cb36-4"><a href=""></a>  <span class="at">Use =</span> <span class="fu">c</span>(<span class="st">"z and sigma"</span>, <span class="st">"z and sigma"</span>, <span class="st">"t and s"</span>, <span class="st">"t and s"</span>),</span>
+<span id="cb36-5"><a href=""></a>  <span class="at">R =</span> <span class="fu">c</span>(<span class="st">"qnorm(1 - alpha/2)"</span>, <span class="st">"qnorm(1 - alpha/2)"</span>,</span>
+<span id="cb36-6"><a href=""></a>        <span class="st">"qt(1 - alpha/2, df = n - 1)"</span>, <span class="st">"qt(1 - alpha/2, df = n - 1)"</span>)),</span>
+<span id="cb36-7"><a href=""></a>  <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 17%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Situation</th>
+<th style="text-align: center;">Use</th>
+<th style="text-align: center;">R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">sigma known, n &gt;= 30</td>
+<td style="text-align: center;">z and sigma</td>
+<td style="text-align: center;">qnorm(1 - alpha/2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">sigma known, n &lt; 30 (normal)</td>
+<td style="text-align: center;">z and sigma</td>
+<td style="text-align: center;">qnorm(1 - alpha/2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">sigma unknown, n &gt;= 30</td>
+<td style="text-align: center;">t and s</td>
+<td style="text-align: center;">qt(1 - alpha/2, df = n - 1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">sigma unknown, n &lt; 30 (normal)</td>
+<td style="text-align: center;">t and s</td>
+<td style="text-align: center;">qt(1 - alpha/2, df = n - 1)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section></section>
 <section>
-<section id="第-7-3-節比例的信賴區間與樣本大小" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 7-3 節：比例的信賴區間與樣本大小</h1>
+<section id="第7-4節比例的信賴區間與樣本大小" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第7-4節：比例的信賴區間與樣本大小</h1>
 
 </section>
 <section id="比例" class="slide level2">
 <h2>比例</h2>
+<p><strong>比例</strong>代表整體中的一部分，可以用分數、小數或百分比表示。若某快遞在台北配送的包裹中有 12% 送往超商取貨點，則 <span class="math inline">12\% = 0.12 = \frac{12}{100} = \frac{3}{25}</span>，而隨機抽出一件包裹送往超商取貨點的機率為 0.12。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>比例的符號表示</strong></p>
+<p><strong>比例的符號</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">\hat{p} = \frac{X}{n} \quad \text{（樣本比例）} \qquad \hat{q} = \frac{n-X}{n} = 1 - \hat{p}</span></p>
-<p>其中 X = 樣本中具有感興趣特性的單位數，n = 樣本大小。</p>
-<p>母體比例以 <strong>p</strong> 表示（且 q = 1 − p）。</p>
-<p>樣本比例 <span class="math inline">\hat{p}</span> 是 p 的不偏、一致且相對有效的估計量，也是 p 的最佳點估計量。</p>
-<p><strong>信賴區間公式：</strong> <span class="math display">\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} &lt; p &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}</span></p>
-<p><strong>條件：</strong> <span class="math inline">n\hat{p} \geq 5</span> 且 <span class="math inline">n\hat{q} \geq 5</span></p>
+<p><span class="math display">p = \text{母體比例} \qquad \hat{p} = \text{樣本比例（讀作 "p hat"）}</span></p>
+<p>樣本比例為</p>
+<p><span class="math display">\hat{p} = \frac{X}{n} \qquad \text{且} \qquad \hat{q} = \frac{n - X}{n} \quad \text{或} \quad \hat{q} = 1 - \hat{p}</span></p>
+<p>其中 <span class="math inline">X</span> 為樣本中具有所關切特徵的單位數，<span class="math inline">n</span> 為樣本大小。</p>
 </div>
 </div>
 </div>
+<p>當 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span> 以小數或分數表示時，<span class="math inline">\hat{p} + \hat{q} = 1</span>；以百分比表示時，<span class="math inline">\hat{p} + \hat{q} = 100\%</span>。母體亦然：<span class="math inline">p + q = 1</span>。</p>
 </section>
 <section id="example-7-8" class="slide level2">
 <h2>範例 7-8</h2>
@@ -913,10 +1400,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>裝有冷氣的家庭</strong></p>
+<p><strong>超商取貨</strong></p>
 </div>
 <div class="callout-content">
-<p>在一項針對 150 個家庭的近期調查中，54 個家庭裝有中央冷氣。求 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span>，其中 <span class="math inline">\hat{p}</span> 為裝有中央冷氣的家庭比例。</p>
+<p>隨機抽取某台灣電商平台的 180 位網購消費者，其中 63 人選擇超商取貨而非宅配到府。求 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span>，其中 <span class="math inline">\hat{p}</span> 為選擇超商取貨的消費者比例。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -932,24 +1420,86 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p><span class="math display">\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%</span> <span class="math display">\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%</span></p>
+<p>本例中 <span class="math inline">X = 63</span>、<span class="math inline">n = 180</span>。</p>
+<p><span class="math display">\hat{p} = \frac{X}{n} = \frac{63}{180} = 0.35 = 35\%</span> <span class="math display">\hat{q} = \frac{n - X}{n} = \frac{180 - 63}{180} = \frac{117}{180} = 0.65 = 65\%</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>pickup_count <span class="ot">&lt;-</span> <span class="dv">63</span></span>
+<span id="cb37-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">180</span></span>
+<span id="cb37-3"><a href=""></a></span>
+<span id="cb37-4"><a href=""></a>p_hat <span class="ot">&lt;-</span> pickup_count <span class="sc">/</span> sample_size</span>
+<span id="cb37-5"><a href=""></a><span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">q_hat =</span> <span class="dv">1</span> <span class="sc">-</span> p_hat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p_hat q_hat 
+ 0.35  0.65 </code></pre>
+</div>
+</div>
+<p>因此有 <strong>65%</strong> 的消費者選擇宅配到府。</p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">54</span>; n <span class="ot">&lt;-</span> <span class="dv">150</span></span>
-<span id="cb39-2"><a href=""></a>p_hat <span class="ot">&lt;-</span> X <span class="sc">/</span> n</span>
-<span id="cb39-3"><a href=""></a>q_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_hat</span>
-<span id="cb39-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"p-hat ="</span>, p_hat, <span class="st">"  q-hat ="</span>, q_hat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>p-hat = 0.36   q-hat = 0.64 </code></pre>
+<section id="比例的信賴區間" class="slide level2">
+<h2>比例的信賴區間</h2>
+<p><span class="math inline">p</span> 的點估計使用樣本比例 <span class="math inline">\hat{p}</span>，它是不偏、一致且相對有效的估計式。當樣本數不超過母體的 5% 時，<span class="math inline">\hat{p}</span> 的抽樣分配近似常態，其平均數為 <span class="math inline">p</span>、標準差為 <span class="math inline">\sqrt{pq/n}</span>。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>比例信賴區間的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} &lt; p &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}</span></p>
+<p>適用條件為 <span class="math inline">n\hat{p}</span> 與 <span class="math inline">n\hat{q}</span> 皆大於或等於 5。其誤差界限為 <span class="math inline">E = z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}</span>。</p>
 </div>
 </div>
-<p>這給出最佳點估計：<strong>36%</strong> 的家庭裝有中央冷氣。</p>
+</div>
+</section>
+<section id="比例的信賴區間-1" class="slide level2">
+<h2>比例的信賴區間</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>求母體比例信賴區間的假設</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本是隨機樣本。</li>
+<li>滿足二項實驗的各項條件（見第5章）。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>比例信賴區間的四捨五入規則</strong></p>
+</div>
+<div class="callout-content">
+<p>取到<strong>小數第三位</strong>。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>題目若直接給出某個百分比，將其化為小數後即為 <span class="math inline">\hat{p}</span>。若申請者中有 12% 為男性，則 <span class="math inline">\hat{p} = 0.12</span>。</p>
+</div>
+</div>
+</div>
 </section>
 <section id="example-7-9" class="slide level2">
 <h2>範例 7-9</h2>
@@ -959,10 +1509,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>支付大學學費</strong></p>
+<p><strong>桃園機場的轉機體驗</strong></p>
 </div>
 <div class="callout-content">
-<p>一項針對 1404 位受訪者的調查發現，323 位學生透過學生貸款支付學費。求真實比例（透過學生貸款支付學費的學生比例）的 <strong>90% 信賴區間</strong>。</p>
+<p>桃園國際機場的旅客調查抽取 1250 位轉機旅客，其中 375 位認為轉機體驗「非常好」。求認為轉機體驗非常好之旅客真實比例的 <strong>90% 信賴區間</strong>。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -978,31 +1529,51 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟：</strong></p>
-<p><span class="math inline">\hat{p} = 323/1404 = 0.230</span>，<span class="math inline">\hat{q} = 0.770</span>，<span class="math inline">z_{\alpha/2} = 1.65</span></p>
-<p><span class="math display">0.230 \pm 1.65\sqrt{\frac{(0.230)(0.770)}{1404}} = 0.230 \pm 0.019</span> <span class="math display">\mathbf{0.211 &lt; p &lt; 0.249}</span></p>
-<p>（下界查表捨入為 0.211；R 以未捨入數值計算得 0.212。）</p>
+<p><strong>步驟 1</strong> 求 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span>。</p>
+<p><span class="math display">\hat{p} = \frac{X}{n} = \frac{375}{1250} = 0.30 \qquad \hat{q} = 1 - \hat{p} = 1.00 - 0.30 = 0.70</span></p>
+<p><strong>步驟 2</strong> 求臨界值。<span class="math inline">\alpha = 1 - 0.90 = 0.10</span>，故 <span class="math inline">\alpha/2 = 0.05</span>，<span class="math inline">z_{\alpha/2} = 1.645</span>。</p>
+<p><strong>步驟 3</strong> 代入公式。</p>
+<p><span class="math display">0.30 - 1.645\sqrt{\frac{(0.30)(0.70)}{1250}} &lt; p &lt; 0.30 + 1.645\sqrt{\frac{(0.30)(0.70)}{1250}}</span> <span class="math display">0.30 - 0.021 &lt; p &lt; 0.30 + 0.021</span> <span class="math display">\mathbf{0.279 &lt; p &lt; 0.321} \qquad \text{或} \qquad 27.9\% &lt; p &lt; 32.1\%</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-9-1" class="slide level2">
+<h2>範例 7-9</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">323</span>; n <span class="ot">&lt;-</span> <span class="dv">1404</span></span>
-<span id="cb41-2"><a href=""></a>p_hat <span class="ot">&lt;-</span> X <span class="sc">/</span> n; q_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_hat</span>
-<span id="cb41-3"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>)   <span class="co"># 90% CI</span></span>
-<span id="cb41-4"><a href=""></a>E <span class="ot">&lt;-</span> z <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> q_hat <span class="sc">/</span> n)</span>
-<span id="cb41-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"p-hat ="</span>, <span class="fu">round</span>(p_hat, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>excellent_count <span class="ot">&lt;-</span> <span class="dv">375</span></span>
+<span id="cb39-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">1250</span></span>
+<span id="cb39-3"><a href=""></a></span>
+<span id="cb39-4"><a href=""></a>p_hat <span class="ot">&lt;-</span> excellent_count <span class="sc">/</span> sample_size</span>
+<span id="cb39-5"><a href=""></a><span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">n_p_hat =</span> sample_size <span class="sc">*</span> p_hat, <span class="at">n_q_hat =</span> sample_size <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>p-hat = 0.23 </code></pre>
+<pre><code>  p_hat n_p_hat n_q_hat 
+    0.3   375.0   875.0 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI: ("</span>, <span class="fu">round</span>(p_hat <span class="sc">-</span> E, <span class="dv">3</span>), <span class="st">","</span>, <span class="fu">round</span>(p_hat <span class="sc">+</span> E, <span class="dv">3</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> sample_size)</span>
+<span id="cb41-2"><a href=""></a><span class="fu">round</span>(margin_error, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>90% CI: ( 0.212 , 0.249 )</code></pre>
+<pre><code>[1] 0.021</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(p_hat <span class="sc">-</span> margin_error, p_hat <span class="sc">+</span> margin_error), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.279 0.321</code></pre>
 </div>
 </div>
-<p><strong>解讀：</strong> 我們有 90% 的把握，透過學生貸款支付學費的學生比例介於 <strong>21.1%</strong> 至 <strong>24.9%</strong> 之間。</p>
+<p>我們有 <strong>90% 的信心</strong>認為，認為轉機體驗非常好的旅客比例介於 27.9% 與 32.1% 之間。</p>
+</div>
+</div>
+</div>
 </section>
 <section id="example-7-10" class="slide level2">
 <h2>範例 7-10</h2>
@@ -1012,10 +1583,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>宗教書籍</strong></p>
+<p><strong>向海外賣家購物</strong></p>
 </div>
 <div class="callout-content">
-<p>一項針對 1721 人的調查發現，15.9% 的人在基督教書店購買宗教書籍。求在該書店購買宗教書籍的真實人口比例的 <strong>95% 信賴區間</strong>。</p>
+<p>一項針對台灣 2400 位網購消費者的調查顯示，64% 在過去一年中至少向海外賣家買過一件商品。求向海外賣家購物之真實比例的 <strong>90% 信賴區間</strong>。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -1031,49 +1603,139 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p><span class="math inline">\hat{p} = 0.159</span>，<span class="math inline">\hat{q} = 0.841</span>，<span class="math inline">z_{\alpha/2} = 1.96</span></p>
-<p><span class="math display">0.159 \pm 1.96\sqrt{\frac{(0.159)(0.841)}{1721}} = 0.159 \pm 0.017</span> <span class="math display">\mathbf{0.142 &lt; p &lt; 0.176}</span></p>
+<p><strong>步驟 1</strong> 求 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span>。本例已直接給出 <span class="math inline">\hat{p}</span>：64%，即 0.64。故 <span class="math inline">\hat{q} = 1 - 0.64 = 0.36</span>。</p>
+<p><strong>步驟 2</strong> 求臨界值。<span class="math inline">\alpha = 1 - 0.90 = 0.10</span>，故 <span class="math inline">\alpha/2 = 0.05</span>，<span class="math inline">z_{\alpha/2} = 1.645</span>。</p>
+<p><strong>步驟 3</strong> 代入公式。</p>
+<p><span class="math display">0.64 - 1.645\sqrt{\frac{(0.64)(0.36)}{2400}} &lt; p &lt; 0.64 + 1.645\sqrt{\frac{(0.64)(0.36)}{2400}}</span> <span class="math display">0.64 - 0.016 &lt; p &lt; 0.64 + 0.016</span> <span class="math display">\mathbf{0.624 &lt; p &lt; 0.656} \qquad \text{或} \qquad 62.4\% &lt; p &lt; 65.6\%</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.159</span>; n <span class="ot">&lt;-</span> <span class="dv">1721</span></span>
-<span id="cb45-2"><a href=""></a>q_hat <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_hat</span>
-<span id="cb45-3"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)   <span class="co"># 95% CI</span></span>
-<span id="cb45-4"><a href=""></a>E <span class="ot">&lt;-</span> z <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> q_hat <span class="sc">/</span> n)</span>
-<span id="cb45-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"p-hat ="</span>, p_hat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>p-hat = 0.159 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI: ("</span>, <span class="fu">round</span>(p_hat <span class="sc">-</span> E, <span class="dv">3</span>), <span class="st">","</span>, <span class="fu">round</span>(p_hat <span class="sc">+</span> E, <span class="dv">3</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>95% CI: ( 0.142 , 0.176 )</code></pre>
-</div>
-</div>
-<p><strong>解讀：</strong> 我們有 95% 的把握，在基督教書店購買宗教書籍的人口比例介於 <strong>14.2%</strong> 至 <strong>17.6%</strong> 之間。</p>
-</section>
-<section id="估計比例所需的樣本大小" class="slide level2">
-<h2>估計比例所需的樣本大小</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="範例-7-10-1" class="slide level2">
+<h2>範例 7-10</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>公式</strong></p>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.64</span></span>
+<span id="cb45-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">2400</span></span>
+<span id="cb45-3"><a href=""></a></span>
+<span id="cb45-4"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> sample_size)</span>
+<span id="cb45-5"><a href=""></a><span class="fu">round</span>(margin_error, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.016</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(p_hat <span class="sc">-</span> margin_error, p_hat <span class="sc">+</span> margin_error), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.624 0.656</code></pre>
+</div>
+</div>
+<p>我們有 <strong>90% 的信心</strong>認為，向海外賣家購物的真實百分比介於 62.4% 與 65.6% 之間。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="比例所需的樣本大小" class="slide level2">
+<h2>比例所需的樣本大小</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>母體比例區間估計所需最小樣本大小的公式</strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2</span></p>
-<ul>
-<li>若有 <span class="math inline">\hat{p}</span> 的先驗估計，則使用之</li>
-<li>若無先驗估計，使用 <span class="math inline">\hat{p} = 0.5</span>（最大化 n，給出最保守的估計）</li>
-</ul>
-<p>計算結果一律<strong>無條件進位</strong>至最近的整數。</p>
+<p>必要時<strong>無條件進位</strong>成整數。</p>
 </div>
+</div>
+</div>
+<p>需要分成兩種情況考慮：</p>
+<ol type="1">
+<li>若已有 <span class="math inline">\hat{p}</span> 的某個近似值（例如來自先前的研究），即以該值代入公式。</li>
+<li>若沒有 <span class="math inline">\hat{p}</span> 的任何近似值，則取 <span class="math inline">\hat{p} = 0.5</span>。因為 <span class="math inline">\hat{p} = \hat{q} = 0.5</span> 時乘積 <span class="math inline">\hat{p}\hat{q}</span> 最大，如此可確保樣本夠大、預測足夠準確。</li>
+</ol>
+<p>第二種作法的缺點是可能得到比實際所需更大的樣本。</p>
+</section>
+<section id="比例所需的樣本大小-1" class="slide level2">
+<h2>比例所需的樣本大小</h2>
+<p><strong>準備資料</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb49-2"><a href=""></a>pq_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">p_hat =</span> p_hat, <span class="at">q_hat =</span> <span class="dv">1</span> <span class="sc">-</span> p_hat,</span>
+<span id="cb49-3"><a href=""></a>                       <span class="at">p_times_q =</span> <span class="fu">round</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>乘積 <span class="math inline">\hat{p}\hat{q}</span> 在 <span class="math inline">\hat{p} = \hat{q} = 0.5</span> 時最大；採用最大值可在既定的誤差界限與信賴區間下，得到最大可能的 <span class="math inline">n</span>。</p>
+</section>
+<section id="比例所需的樣本大小-2" class="slide level2">
+<h2>比例所需的樣本大小</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pq_table, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">p_hat</th>
+<th style="text-align: center;">q_hat</th>
+<th style="text-align: center;">p_times_q</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">0.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">0.7</td>
+<td style="text-align: center;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">0.6</td>
+<td style="text-align: center;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.6</td>
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.7</td>
+<td style="text-align: center;">0.3</td>
+<td style="text-align: center;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">0.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">0.9</td>
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">0.09</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
@@ -1085,25 +1747,44 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>問題</strong></p>
+<p><strong>結帳使用行動支付</strong></p>
 </div>
 <div class="callout-content">
-<p>一位研究人員希望以 <strong>95% 的信賴水準</strong>，估計擁有家用電腦的人口比例，且誤差在真實比例的 <strong>2%</strong> 以內。先前研究顯示有 40% 的人家中有電腦。求所需的最小樣本大小。</p>
-<p><strong>解題步驟：</strong></p>
-<p><span class="math inline">z_{\alpha/2} = 1.96</span>，<span class="math inline">E = 0.02</span>，<span class="math inline">\hat{p} = 0.40</span>，<span class="math inline">\hat{q} = 0.60</span></p>
-<p><span class="math display">n = (0.40)(0.60)\left(\frac{1.96}{0.02}\right)^2 = (0.24)(9604) = 2304.96 \rightarrow \mathbf{n = 2305}</span></p>
+<p>某市場研究團隊想以 <strong>95% 的信心</strong>估計台灣網購消費者結帳時使用行動支付的比例。先前的研究顯示有 65% 的消費者這麼做。團隊希望誤差在真實比例的 <strong>3%</strong> 之內。求所需的最小樣本大小。</p>
+<p><em>（模擬資料）</em></p>
+<p>接續<a href="#/example-7-12">範例 7-12</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-7-11" class="slide level2">
+<h2>範例 7-11</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p>由於 <span class="math inline">z_{\alpha/2} = 1.960</span>、<span class="math inline">E = 0.03</span>、<span class="math inline">\hat{p} = 0.65</span>、<span class="math inline">\hat{q} = 0.35</span>，因此</p>
+<p><span class="math display">n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.65)(0.35)\left(\frac{1.960}{0.03}\right)^2 = 971.04</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.40</span>; q_hat <span class="ot">&lt;-</span> <span class="fl">0.60</span>; z <span class="ot">&lt;-</span> <span class="fl">1.96</span>; E <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
-<span id="cb49-2"><a href=""></a>n_raw <span class="ot">&lt;-</span> p_hat <span class="sc">*</span> q_hat <span class="sc">*</span> (z <span class="sc">/</span> E)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb49-3"><a href=""></a>n_raw</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.65</span></span>
+<span id="cb51-2"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb51-3"><a href=""></a></span>
+<span id="cb51-4"><a href=""></a>required_n <span class="ot">&lt;-</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">*</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">/</span> margin_error)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb51-5"><a href=""></a><span class="fu">round</span>(required_n, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2304.96</code></pre>
+<pre><code>[1] 971.04</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">ceiling</span>(n_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">ceiling</span>(required_n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2305</code></pre>
+<pre><code>[1] 972</code></pre>
 </div>
 </div>
+<p>進位後為須訪問 <strong>972</strong> 位消費者。</p>
 </div>
 </div>
 </div>
@@ -1116,129 +1797,136 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>問題</strong></p>
+<p><strong>沒有先前研究時</strong></p>
 </div>
 <div class="callout-content">
-<p>一位研究人員想估計棕色 M&amp;M 巧克力的百分比。他希望以 <strong>95% 的信賴水準</strong>，誤差在真實比例的 <strong>3%</strong> 以內。目前沒有 <span class="math inline">\hat{p}</span> 的先驗估計。求最小樣本大小。</p>
-<p><strong>解題步驟：</strong></p>
-<p>由於 <span class="math inline">\hat{p}</span> 未知，使用 <span class="math inline">\hat{p} = \hat{q} = 0.5</span></p>
-<p><span class="math display">n = (0.5)(0.5)\left(\frac{1.96}{0.03}\right)^2 = (0.25)(4268.4) = 1067.1 \rightarrow \mathbf{n = 1068}</span></p>
+<p>承<a href="#/example-7-11">範例 7-11</a>，假設先前並未做過任何研究，因此沒有 <span class="math inline">\hat{p}</span> 的近似值。求誤差在真實比例 <strong>3%</strong> 之內所需的最小樣本大小。</p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q_hat <span class="ot">&lt;-</span> <span class="fl">0.5</span>; z <span class="ot">&lt;-</span> <span class="fl">1.96</span>; E <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
-<span id="cb53-2"><a href=""></a>n_raw <span class="ot">&lt;-</span> p_hat <span class="sc">*</span> q_hat <span class="sc">*</span> (z <span class="sc">/</span> E)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb53-3"><a href=""></a>n_raw</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1067.111</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">ceiling</span>(n_raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1068</code></pre>
-</div>
-</div>
-<div class="callout callout-important callout-titled callout-style-default">
+<section id="範例-7-12" class="slide level2">
+<h2>範例 7-12</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>重要規則</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p>當 <span class="math inline">\hat{p}</span> 未知時，一律使用 <span class="math inline">\hat{p} = 0.5</span>——這會產生<strong>最大可能的</strong>樣本大小，確保無論真實比例為何，精確度都足夠。</p>
+<p>此處不知道 <span class="math inline">\hat{p}</span> 與 <span class="math inline">\hat{q}</span> 的值，因此取 <span class="math inline">\hat{p} = 0.5</span>、<span class="math inline">\hat{q} = 0.5</span>，並以 <span class="math inline">E = 0.03</span>、<span class="math inline">z_{\alpha/2} = 1.960</span> 代入。</p>
+<p><span class="math display">n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.5)(0.5)\left(\frac{1.960}{0.03}\right)^2 = 1067.07</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb55-2"><a href=""></a>margin_error <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb55-3"><a href=""></a></span>
+<span id="cb55-4"><a href=""></a>required_n <span class="ot">&lt;-</span> p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">*</span> (<span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">/</span> margin_error)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb55-5"><a href=""></a><span class="fu">round</span>(required_n, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1067.07</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">ceiling</span>(required_n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1068</code></pre>
+</div>
+</div>
+<p>因此在 <span class="math inline">\hat{p}</span> 未知時須訪問 <strong>1068</strong> 位消費者——比 <span class="math inline">\hat{p}</span> 已知時多了 96 位。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="比例所需的樣本大小-3" class="slide level2">
+<h2>比例所需的樣本大小</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>決定樣本大小時，<strong>母體的大小無關緊要</strong>。只需要信賴程度與誤差界限兩項資訊即可決定。</p>
 </div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="第-7-4-節變異數與標準差的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第 7-4 節：變異數與標準差的信賴區間</h1>
+<section id="第7-5節變異數與標準差的信賴區間" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第7-5節：變異數與標準差的信賴區間</h1>
 
 </section>
 <section id="卡方分配" class="slide level2">
 <h2>卡方分配</h2>
-<p>變異數與標準差的信賴區間需要不同的分配——<strong>卡方</strong>（<span class="math inline">\chi^2</span>）分配。</p>
+<p>在統計上，變數的變異數與標準差和平均數同等重要。製造必須互相接合的水管時，管徑的變異必須夠小；製造藥品時，藥錠中藥量的變異數決定病患能否獲得正確劑量。</p>
+<p>要計算這類信賴區間，需要一個新的分配：<strong>卡方分配</strong>，記為 <span class="math inline">\chi^2</span>（希臘字母 chi，讀作「kai」）。當由變異數為 <span class="math inline">\sigma^2</span> 的常態母體隨機抽樣時，<span class="math inline">(n-1)s^2/\sigma^2</span> 的各個值即構成卡方分配。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>卡方分配的性質</strong></p>
+<p><strong>卡方分配的特性</strong></p>
 </div>
 <div class="callout-content">
-<ul>
-<li>由常態母體的 <span class="math inline">(n-1)s^2/\sigma^2</span> 值所得</li>
-<li>不能為負值；向右偏斜</li>
-<li>以<strong>自由度</strong>（d.f. = n − 1）為索引的曲線族</li>
-<li>每條曲線下的總面積 = 1</li>
-<li>隨著自由度增加（約 100 以上），趨近於對稱</li>
-</ul>
-<p><strong>與 z 和 t 的主要差異：</strong> 卡方分配<strong>不對稱</strong>，因此需要兩個獨立的臨界值（<span class="math inline">\chi^2_{\text{右}}</span> 和 <span class="math inline">\chi^2_{\text{左}}</span>）。</p>
+<ol type="1">
+<li>所有卡方值都大於或等於 0。</li>
+<li>卡方分配是依自由度而定的<strong>一族曲線</strong>。</li>
+<li>每一條卡方分配曲線下的面積等於 1。</li>
+<li>卡方分配為<strong>右偏</strong>。</li>
+</ol>
+<p>自由度約達 100 時，卡方分配會變得相當對稱。</p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<p><strong>繪製圖形</strong></p>
+<section id="卡方分配曲線族" class="slide level2">
+<h2>卡方分配曲線族</h2>
+<p><strong>Prepare data</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
-<span id="cb57-2"><a href=""></a>df_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb57-3"><a href=""></a>  <span class="at">x =</span> <span class="fu">rep</span>(x, <span class="dv">4</span>),</span>
-<span id="cb57-4"><a href=""></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dchisq</span>(x, <span class="dv">1</span>), <span class="fu">dchisq</span>(x, <span class="dv">4</span>), <span class="fu">dchisq</span>(x, <span class="dv">9</span>), <span class="fu">dchisq</span>(x, <span class="dv">15</span>)),</span>
-<span id="cb57-5"><a href=""></a>  <span class="at">df =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"df=1"</span>,<span class="st">"df=4"</span>,<span class="st">"df=9"</span>,<span class="st">"df=15"</span>), <span class="at">each =</span> <span class="dv">300</span>)</span>
-<span id="cb57-6"><a href=""></a>)</span>
-<span id="cb57-7"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(x, y, <span class="at">color =</span> df)) <span class="sc">+</span></span>
-<span id="cb57-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb57-9"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb57-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"卡方曲線族"</span>,</span>
-<span id="cb57-11"><a href=""></a>       <span class="at">x =</span> <span class="fu">expression</span>(chi<span class="sc">^</span><span class="dv">2</span>), <span class="at">y =</span> <span class="st">"密度"</span>, <span class="at">color =</span> <span class="st">"自由度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>chi_curves <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(<span class="at">df =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">15</span>),</span>
+<span id="cb59-2"><a href=""></a>                          <span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="at">length.out =</span> <span class="dv">400</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">density =</span> <span class="fu">dchisq</span>(x, df),</span>
+<span id="cb59-4"><a href=""></a>         <span class="at">curve =</span> <span class="fu">fct_inorder</span>(<span class="fu">paste</span>(<span class="st">"d.f. ="</span>, df)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="卡方分配-1" class="slide level2">
-<h2>卡方分配</h2>
-<p><strong>輸出圖形</strong></p>
+<section id="卡方分配曲線族-1" class="slide level2">
+<h2>卡方分配曲線族</h2>
+<p><strong>Draw figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">ggplot</span>(chi_curves, <span class="fu">aes</span>(x, density, <span class="at">color =</span> curve)) <span class="sc">+</span></span>
+<span id="cb60-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb60-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb60-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"卡方分配曲線族"</span>,</span>
+<span id="cb60-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"卡方值"</span>, <span class="at">y =</span> <span class="st">"機率密度"</span>, <span class="at">color =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch7-zh_files/figure-revealjs/e7-12-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
-<section id="變異數與標準差信賴區間的公式" class="slide level2">
-<h2>變異數與標準差信賴區間的公式</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<img data-src="ch7-zh_files/figure-revealjs/s7-5-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="查出兩個臨界值" class="slide level2">
+<h2>查出兩個臨界值</h2>
+<p>由於卡方分配<strong>不對稱</strong>，公式中要使用兩個不同的值：<span class="math inline">\chi^2_{\text{left}}</span> 與 <span class="math inline">\chi^2_{\text{right}}</span>。</p>
+<p>表 A-6 的左欄為自由度，最上一列為臨界值<strong>右側的面積</strong>。以 95% 信賴區間為例：</p>
+<ol type="1">
+<li>把 95% 化為小數並以 1 減去：<span class="math inline">1 - 0.95 = 0.05</span>。</li>
+<li>除以 2：<span class="math inline">\alpha/2 = 0.05/2 = 0.025</span>。此欄給出 <span class="math inline">\chi^2_{\text{right}}</span>。</li>
+<li>以 1 減去 <span class="math inline">\alpha/2</span>：<span class="math inline">1 - 0.025 = 0.975</span>。此欄給出 <span class="math inline">\chi^2_{\text{left}}</span>。</li>
+<li>查 <span class="math inline">\text{d.f.} = n - 1</span> 所在的列。</li>
+</ol>
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>變異數的信賴區間</strong></p>
+<p><strong>注意</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">\frac{(n-1)s^2}{\chi^2_{\text{右}}} &lt; \sigma^2 &lt; \frac{(n-1)s^2}{\chi^2_{\text{左}}}</span> d.f. = n − 1</p>
+<p>若表 A-6 中沒有所需的自由度，使用表中<strong>最接近的較小值</strong>。例如 <span class="math inline">\text{d.f.} = 53</span> 時改用 <span class="math inline">\text{d.f.} = 50</span>。這是查表時較保守的作法；<code>qchisq()</code> 接受確切的自由度，兩者不一致時，投影片一律採用 R 算出的值。</p>
 </div>
 </div>
 </div>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>標準差的信賴區間</strong></p>
-</div>
-<div class="callout-content">
-<p><span class="math display">\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{右}}}} &lt; \sigma &lt; \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{左}}}}</span></p>
-</div>
-</div>
-</div>
-<p><strong>假設條件：</strong> (1) 隨機樣本；(2) 母體<strong>必須</strong>服從常態分配。</p>
-<p><strong>求臨界值：</strong> 在 R 中使用 <code>qchisq()</code>。對於自由度 d.f. = n − 1 的 95% CI： - <span class="math inline">\chi^2_{\text{右}}</span>：<code>qchisq(0.975, df = n-1)</code> - <span class="math inline">\chi^2_{\text{左}}</span>：<code>qchisq(0.025, df = n-1)</code></p>
 </section>
 <section id="example-7-13" class="slide level2">
 <h2>範例 7-13</h2>
@@ -1248,10 +1936,10 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>求卡方臨界值</strong></p>
+<p><strong>查出卡方臨界值</strong></p>
 </div>
 <div class="callout-content">
-<p>當 n = 25 時，求 <strong>90% 信賴區間</strong>的 <span class="math inline">\chi^2_{\text{右}}</span> 與 <span class="math inline">\chi^2_{\text{左}}</span> 值。</p>
+<p><span class="math inline">n = 20</span> 時，求 <strong>95% 信賴區間</strong>的 <span class="math inline">\chi^2_{\text{right}}</span> 與 <span class="math inline">\chi^2_{\text{left}}</span>。</p>
 </div>
 </div>
 </div>
@@ -1267,30 +1955,36 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p>d.f. = 25 − 1 = 24</p>
-<ul>
-<li><span class="math inline">\alpha = 1 - 0.90 = 0.10</span>，故 <span class="math inline">\alpha/2 = 0.05</span></li>
-<li><span class="math inline">\chi^2_{\text{右}}</span>：右側面積 = 0.05 → 0.05 欄 → <strong>36.415</strong></li>
-<li><span class="math inline">\chi^2_{\text{左}}</span>：右側面積 = 0.95 → 0.95 欄 → <strong>13.848</strong></li>
-</ul>
+<p>求 <span class="math inline">\chi^2_{\text{right}}</span>：先算 <span class="math inline">1 - 0.95 = 0.05</span>，再將 0.05 除以 2 得 0.025。 求 <span class="math inline">\chi^2_{\text{left}}</span>：再算 <span class="math inline">1 - 0.025 = 0.975</span>。</p>
+<p>然後以 <span class="math inline">\text{d.f.} = n - 1 = 20 - 1 = 19</span> 查表 A-6 的 0.975 與 0.025 兩欄。</p>
+<p><span class="math display">\chi^2_{\text{right}} = 32.852 \qquad \chi^2_{\text{left}} = 8.907</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb61-2"><a href=""></a></span>
+<span id="cb61-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">chi_right =</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> degrees_freedom),</span>
+<span id="cb61-4"><a href=""></a>        <span class="at">chi_left  =</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> degrees_freedom)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>chi_right  chi_left 
+   32.852     8.907 </code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">25</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb59-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># upper critical value</span></span>
-<span id="cb59-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)   <span class="co"># lower critical value</span></span>
-<span id="cb59-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>chi-sq right = 36.415 </code></pre>
+<section id="變異數與標準差的公式" class="slide level2">
+<h2>變異數與標準差的公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>chi-sq left  = 13.848 </code></pre>
+<p><strong>變異數信賴區間的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\frac{(n-1)s^2}{\chi^2_{\text{right}}} &lt; \sigma^2 &lt; \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \text{d.f.} = n - 1</span></p>
+</div>
 </div>
 </div>
 <div class="callout callout-important callout-titled callout-style-default">
@@ -1299,10 +1993,44 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>注意</strong></p>
+<p><strong>標準差信賴區間的公式</strong></p>
 </div>
 <div class="callout-content">
-<p>命名方式看似反直覺：<span class="math inline">\chi^2_{\text{右}}</span> 是<strong>較大</strong>的值，用於<strong>下界的分母</strong>；而 <span class="math inline">\chi^2_{\text{左}}</span> 是<strong>較小</strong>的值，用於<strong>上界的分母</strong>。</p>
+<p><span class="math display">\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} &lt; \sigma &lt; \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}} \qquad \text{d.f.} = n - 1</span></p>
+</div>
+</div>
+</div>
+<p><span class="math inline">\sigma^2</span> 與 <span class="math inline">\sigma</span> 的有用估計值分別是 <span class="math inline">s^2</span> 與 <span class="math inline">s</span>。題目若給的是樣本標準差 <span class="math inline">s</span>，代入時務必<strong>先平方</strong>；若給的是樣本變異數 <span class="math inline">s^2</span>，則<strong>不要</strong>再平方，因為變異數已是平方單位。</p>
+</section>
+<section id="變異數與標準差的公式-1" class="slide level2">
+<h2>變異數與標準差的公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>求變異數或標準差信賴區間的假設</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>樣本是隨機樣本。</li>
+<li>母體<strong>必須</strong>為常態分配。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>變異數或標準差信賴區間的四捨五入規則</strong></p>
+</div>
+<div class="callout-content">
+<p>以<strong>原始資料</strong>計算時，取到比原始資料<strong>多一位</strong>小數。</p>
+<p>以<strong>樣本變異數或標準差</strong>計算時，取到與所給樣本變異數或標準差<strong>相同位數</strong>的小數。</p>
 </div>
 </div>
 </div>
@@ -1315,10 +2043,11 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>香菸尼古丁含量</strong></p>
+<p><strong>批次不良率的變異</strong></p>
 </div>
 <div class="callout-content">
-<p>已知一個 n = 20 支香菸的樣本，其標準差 s = 1.6 毫克。求製造香菸尼古丁含量之變異數與標準差的 <strong>95% 信賴區間</strong>。</p>
+<p>某電子廠的品管工程師抽驗 30 個生產批次，發現不良率（每千件的不良品數）的標準差為 1.6。求不良率之變異數與標準差的 <strong>95% 信賴區間</strong>。假設該變數為常態分配。</p>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -1334,38 +2063,47 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p>d.f. = 19；95% CI → <span class="math inline">\chi^2_{\text{右}} = 32.852</span>，<span class="math inline">\chi^2_{\text{左}} = 8.907</span></p>
-<p><span class="math display">\frac{(19)(1.6)^2}{32.852} &lt; \sigma^2 &lt; \frac{(19)(1.6)^2}{8.907}</span> <span class="math display">\frac{48.64}{32.852} &lt; \sigma^2 &lt; \frac{48.64}{8.907} \implies \mathbf{1.5 &lt; \sigma^2 &lt; 5.5}</span></p>
-<p><span class="math display">\sqrt{1.5} &lt; \sigma &lt; \sqrt{5.5} \implies \mathbf{1.2 &lt; \sigma &lt; 2.3}</span></p>
+<p>由於 <span class="math inline">\alpha = 0.05</span>、自由度為 29，兩個臨界值為 <span class="math inline">\chi^2_{\text{left}} = 16.047</span> 與 <span class="math inline">\chi^2_{\text{right}} = 45.722</span>。</p>
+<p><span class="math display">\frac{(30-1)(1.6)^2}{45.722} &lt; \sigma^2 &lt; \frac{(30-1)(1.6)^2}{16.047}</span> <span class="math display">\mathbf{1.62 &lt; \sigma^2 &lt; 4.63}</span></p>
+<p>標準差方面，將兩個上下限各取平方根：</p>
+<p><span class="math display">\mathbf{1.27 &lt; \sigma &lt; 2.15}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-14-1" class="slide level2">
+<h2>範例 7-14</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a>n <span class="ot">&lt;-</span> <span class="dv">20</span>; s <span class="ot">&lt;-</span> <span class="fl">1.6</span>; df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb63-2"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> df)</span>
-<span id="cb63-3"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> df)</span>
-<span id="cb63-4"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">1.6</span></span>
+<span id="cb63-2"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> <span class="dv">30</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb63-3"><a href=""></a></span>
+<span id="cb63-4"><a href=""></a>chi_limits <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.975</span>, <span class="fl">0.025</span>), <span class="at">df =</span> degrees_freedom)</span>
+<span id="cb63-5"><a href=""></a><span class="fu">round</span>(chi_limits, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-sq right = 32.852 </code></pre>
+<pre><code>[1] 45.722 16.047</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>variance_limits <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> sample_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> chi_limits</span>
+<span id="cb65-2"><a href=""></a><span class="fu">round</span>(variance_limits, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-sq left  = 8.907 </code></pre>
+<pre><code>[1] 1.62 4.63</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_right</span>
-<span id="cb67-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> chi_left</span>
-<span id="cb67-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sqrt</span>(variance_limits), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>95% CI for variance: ( 1.5 , 5.5 )</code></pre>
+<pre><code>[1] 1.27 2.15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"95% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">1</span>), <span class="st">","</span>,</span>
-<span id="cb69-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>95% CI for std dev:  ( 1.2 , 2.3 )</code></pre>
+</div>
+<p>根據 30 個批次的樣本，我們有 <strong>95% 的信心</strong>認為不良率的真實變異數介於 1.62 與 4.63 之間，真實標準差介於 1.27 與 2.15 之間。</p>
+</div>
 </div>
 </div>
 </section>
@@ -1377,11 +2115,13 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>滑雪纜車票價</strong></p>
+<p><strong>客服中心的每日來電量</strong></p>
 </div>
 <div class="callout-content">
-<p>下列資料為全國各地滑雪度假村成人單日纜車票價（美元）樣本。假設變數服從常態分配，求變異數與標準差的 <strong>90% 信賴區間</strong>。</p>
-<p>59, 54, 53, 52, 51, 39, 49, 46, 49, 48</p>
+<p>求某客服中心每日來電件數之變異數與標準差的 <strong>90% 信賴區間</strong>。所用樣本為隨機抽取的 10 天。假設其分配近似常態。</p>
+<pre><code>124   127   130   130   135
+140   148   155   158   163</code></pre>
+<p><em>（模擬資料）</em></p>
 </div>
 </div>
 </div>
@@ -1397,113 +2137,140 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題步驟（數學）：</strong></p>
-<p>由資料求得 <span class="math inline">s^2 \approx 28.2</span>；d.f. = 9；90% CI → <span class="math inline">\chi^2_{\text{右}} = 16.919</span>，<span class="math inline">\chi^2_{\text{左}} = 3.325</span></p>
-<p><span class="math display">\frac{(9)(28.2)}{16.919} &lt; \sigma^2 &lt; \frac{(9)(28.2)}{3.325} \implies \mathbf{15.0 &lt; \sigma^2 &lt; 76.4}</span></p>
-<p><span class="math display">\sqrt{15.0} &lt; \sigma &lt; \sqrt{76.4} \implies \mathbf{3.87 &lt; \sigma &lt; 8.74}</span></p>
+<p><strong>步驟 1</strong> 求資料的變異數：<span class="math inline">s^2 = 198</span>。</p>
+<p><strong>步驟 2</strong> 以 <span class="math inline">10 - 1 = 9</span> 的自由度，由表 A-6 查 <span class="math inline">\chi^2_{\text{right}}</span> 與 <span class="math inline">\chi^2_{\text{left}}</span>。取 <span class="math inline">\alpha/2 = 0.05</span> 與 <span class="math inline">1 - \alpha/2 = 0.95</span>：<span class="math inline">\chi^2_{\text{right}} = 16.919</span>，<span class="math inline">\chi^2_{\text{left}} = 3.325</span>。</p>
+<p><strong>步驟 3</strong> 代入公式。</p>
+<p><span class="math display">\frac{(10-1)(198)}{16.919} &lt; \sigma^2 &lt; \frac{(10-1)(198)}{3.325}</span> <span class="math display">\mathbf{105.3 &lt; \sigma^2 &lt; 535.9}</span> <span class="math display">\sqrt{105.3} &lt; \sigma &lt; \sqrt{535.9} \qquad \Longrightarrow \qquad \mathbf{10.3 &lt; \sigma &lt; 23.1}</span></p>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-7-15-1" class="slide level2">
+<h2>範例 7-15</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>tickets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">59</span>, <span class="dv">54</span>, <span class="dv">53</span>, <span class="dv">52</span>, <span class="dv">51</span>, <span class="dv">39</span>, <span class="dv">49</span>, <span class="dv">46</span>, <span class="dv">49</span>, <span class="dv">48</span>)</span>
-<span id="cb71-2"><a href=""></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(tickets)</span>
-<span id="cb71-3"><a href=""></a>s2 <span class="ot">&lt;-</span> <span class="fu">var</span>(tickets); s <span class="ot">&lt;-</span> <span class="fu">sd</span>(tickets)</span>
-<span id="cb71-4"><a href=""></a>df <span class="ot">&lt;-</span> n <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb71-5"><a href=""></a><span class="fu">cat</span>(<span class="st">"n ="</span>, n, <span class="st">"  s² ="</span>, <span class="fu">round</span>(s2, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>daily_calls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">124</span>, <span class="dv">127</span>, <span class="dv">130</span>, <span class="dv">130</span>, <span class="dv">135</span>,</span>
+<span id="cb70-2"><a href=""></a>                 <span class="dv">140</span>, <span class="dv">148</span>, <span class="dv">155</span>, <span class="dv">158</span>, <span class="dv">163</span>)</span>
+<span id="cb70-3"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> <span class="fu">length</span>(daily_calls) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb70-4"><a href=""></a>sample_variance <span class="ot">&lt;-</span> <span class="fu">var</span>(daily_calls)</span>
+<span id="cb70-5"><a href=""></a>sample_variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n = 10   s² = 28.2   s = 5.31 </code></pre>
+<pre><code>[1] 198</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a>chi_right <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> df)   <span class="co"># 90% CI</span></span>
-<span id="cb73-2"><a href=""></a>chi_left  <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> df)</span>
-<span id="cb73-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq right ="</span>, <span class="fu">round</span>(chi_right, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a>chi_limits <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.05</span>), <span class="at">df =</span> degrees_freedom)</span>
+<span id="cb72-2"><a href=""></a><span class="fu">round</span>(chi_limits, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-sq right = 16.919 </code></pre>
+<pre><code>[1] 16.919  3.325</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-sq left  ="</span>, <span class="fu">round</span>(chi_left, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>variance_limits <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> sample_variance <span class="sc">/</span> chi_limits</span>
+<span id="cb74-2"><a href=""></a><span class="fu">round</span>(variance_limits, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-sq left  = 3.325 </code></pre>
+<pre><code>[1] 105.3 535.9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a>var_lower <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_right</span>
-<span id="cb77-2"><a href=""></a>var_upper <span class="ot">&lt;-</span> (df <span class="sc">*</span> s2) <span class="sc">/</span> chi_left</span>
-<span id="cb77-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for variance: ("</span>, <span class="fu">round</span>(var_lower, <span class="dv">1</span>), <span class="st">","</span>, <span class="fu">round</span>(var_upper, <span class="dv">1</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sqrt</span>(variance_limits), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>90% CI for variance: ( 15 , 76.4 )</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"90% CI for std dev:  ("</span>, <span class="fu">round</span>(<span class="fu">sqrt</span>(var_lower), <span class="dv">2</span>), <span class="st">","</span>,</span>
-<span id="cb79-2"><a href=""></a>    <span class="fu">round</span>(<span class="fu">sqrt</span>(var_upper), <span class="dv">2</span>), <span class="st">")</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>90% CI for std dev:  ( 3.87 , 8.74 )</code></pre>
+<pre><code>[1] 10.3 23.1</code></pre>
 </div>
 </div>
-<p><strong>答案：</strong> <span class="math inline">15.0 &lt; \sigma^2 &lt; 76.4</span>；<span class="math inline">3.87 &lt; \sigma &lt; 8.74</span> 美元。</p>
+<p>根據隨機抽取的 10 天，我們有 <strong>90% 的信心</strong>認為每日來電件數的標準差介於 10.3 件與 23.1 件之間。</p>
+</div>
+</div>
+</div>
 </section>
-<section id="第7章摘要" class="slide level2 smaller">
-<h2>第7章摘要</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 34%">
-<col style="width: 28%">
-<col style="width: 37%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>參數</th>
-<th>公式</th>
-<th>R 函數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>平均數（<span class="math inline">\sigma</span> 已知）</td>
-<td><span class="math inline">\bar{X} \pm z_{\alpha/2}(\sigma/\sqrt{n})</span></td>
-<td><code>qnorm(1-alpha/2)</code></td>
-</tr>
-<tr class="even">
-<td>平均數（<span class="math inline">\sigma</span> 未知）</td>
-<td><span class="math inline">\bar{X} \pm t_{\alpha/2}(s/\sqrt{n})</span></td>
-<td><code>qt(1-alpha/2, df=n-1)</code></td>
-</tr>
-<tr class="odd">
-<td>樣本大小（平均數）</td>
-<td><span class="math inline">n = (z_{\alpha/2} \cdot \sigma / E)^2</span></td>
-<td><code>ceiling(...)</code></td>
-</tr>
-<tr class="even">
-<td>比例</td>
-<td><span class="math inline">\hat{p} \pm z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}</span></td>
-<td><code>prop.test()</code></td>
-</tr>
-<tr class="odd">
-<td>樣本大小（比例）</td>
-<td><span class="math inline">n = \hat{p}\hat{q}(z_{\alpha/2}/E)^2</span></td>
-<td><code>ceiling(...)</code></td>
-</tr>
-<tr class="even">
-<td>變異數</td>
-<td><span class="math inline">(n-1)s^2/\chi^2_R &lt; \sigma^2 &lt; (n-1)s^2/\chi^2_L</span></td>
-<td><code>qchisq(...)</code></td>
-</tr>
-</tbody>
-</table>
+<section id="重要名詞" class="slide level2">
+<h2>重要名詞</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>第7章詞彙</strong></p>
+</div>
+<div class="callout-content">
+<p>假設 · 卡方分配 · 信賴區間 · 信賴水準 · 一致估計式 · 自由度 · 估計 · 估計式 · 區間估計 · 誤差界限 · 點估計 · 比例 · 相對有效估計式 · 穩健 · <span class="math inline">t</span> 分配 · 不偏估計式</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>母體平均數的信賴區間</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\sigma</span> 已知時母體平均數的信賴區間（當 <span class="math inline">n \geq 30</span> 且 <span class="math inline">\sigma</span> 未知時可用 <span class="math inline">s</span> 代替）：</p>
+<p><span class="math display">\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) &lt; \mu &lt; \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)</span></p>
+<p><span class="math inline">\sigma</span> 未知時母體平均數的信賴區間，<span class="math inline">\text{d.f.} = n - 1</span>：</p>
+<p><span class="math display">\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) &lt; \mu &lt; \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)</span></p>
+<p>估計平均數所需的樣本大小，其中 <span class="math inline">E</span> 為誤差界限：</p>
+<p><span class="math display">n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式-1" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>比例、變異數與標準差</strong></p>
+</div>
+<div class="callout-content">
+<p>比例的信賴區間，其中 <span class="math inline">\hat{p} = X/n</span>、<span class="math inline">\hat{q} = 1 - \hat{p}</span>：</p>
+<p><span class="math display">\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} &lt; p &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} \qquad n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2</span></p>
+<p>變異數與標準差的信賴區間，<span class="math inline">\text{d.f.} = n - 1</span>：</p>
+<p><span class="math display">\frac{(n-1)s^2}{\chi^2_{\text{right}}} &lt; \sigma^2 &lt; \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} &lt; \sigma &lt; \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}}</span></p>
+</div>
+</div>
+</div>
 </section>
 <section id="重點整理" class="slide level2">
 <h2>重點整理</h2>
-<ol type="1">
-<li><span class="math inline">\sigma</span> 已知時使用 z；<span class="math inline">\sigma</span> 未知時使用 t</li>
-<li>信賴區間越寬 → 信賴程度越高，精確度越低</li>
-<li>樣本越大 → 區間越窄 → 精確度越高</li>
-<li>當比例 <span class="math inline">\hat{p}</span> 未知時，使用 <span class="math inline">\hat{p} = 0.5</span></li>
-<li>變異數的卡方信賴區間<strong>要求</strong>母體服從常態分配</li>
-<li>樣本大小的計算結果一律<strong>無條件進位</strong>至最近的整數</li>
-</ol>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重點</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>估計</strong>是以樣本統計量推估參數；良好的估計式應為<strong>不偏</strong>、<strong>一致</strong>且<strong>相對有效</strong>，而 <span class="math inline">\bar{X}</span> 是 <span class="math inline">\mu</span> 的最佳點估計</li>
+<li><strong>點估計</strong>是單一數值，<strong>區間估計</strong>是一段範圍，其<strong>信賴水準</strong>是這類區間長期而言捕捉到參數的機率</li>
+<li><strong>誤差界限</strong>（估計的最大誤差）是點估計與參數之間最大的可能差距；信賴水準越高，區間越<strong>寬</strong></li>
+<li><span class="math inline">\sigma</span> 已知時用 <span class="math inline">z_{\alpha/2}</span> 與 <span class="math inline">\sigma</span>；<span class="math inline">\sigma</span> 未知時用 <span class="math inline">t_{\alpha/2}</span> 與 <span class="math inline">s</span>，且 <span class="math inline">\text{d.f.} = n - 1</span>——若 <span class="math inline">n &lt; 30</span>，變數必須為常態分配</li>
+<li>樣本大小由 <span class="math inline">n = \left(z_{\alpha/2}\sigma/E\right)^2</span> 與 <span class="math inline">n = \hat{p}\hat{q}\left(z_{\alpha/2}/E\right)^2</span> 求得，且一律<strong>無條件進位</strong>；母體大小無關緊要</li>
+<li>比例方面，<span class="math inline">\hat{p} = X/n</span>、<span class="math inline">\hat{q} = 1 - \hat{p}</span>，區間需滿足 <span class="math inline">n\hat{p} \geq 5</span> 與 <span class="math inline">n\hat{q} \geq 5</span>，上下限取到<strong>小數第三位</strong>；<span class="math inline">\hat{p}</span> 未知時取 <span class="math inline">\hat{p} = 0.5</span></li>
+<li><span class="math inline">\sigma^2</span> 與 <span class="math inline">\sigma</span> 的信賴區間使用<strong>右偏</strong>的卡方分配與兩個臨界值，且<strong>必須</strong>假設母體為常態分配</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

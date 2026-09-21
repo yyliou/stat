@@ -48,800 +48,1650 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## Overview
-**Sections covered:**
+Chapter 6 introduces the **normal distribution** and its role in statistical inference.
 
-- **6-1** Normal Distributions
-- **6-2** Applications of the Normal Distribution
-- **6-3** The Central Limit Theorem
-- **6-4** The Normal Approximation to the Binomial Distribution
+| Section | Topics |
+|---------|--------|
+| 6-1 | Normal and standard normal distributions; areas under the curve |
+| 6-2 | Applications; data values from given probabilities; normality |
+| 6-3 | Central limit theorem; sample means; finite population correction |
+| 6-4 | Normal approximation to the binomial distribution |
 
-The **normal distribution** is the most important and widely used continuous probability distribution in statistics. Its familiar **bell-shaped curve** appears throughout natural phenomena, measurement errors, and statistical inference.
+## Chapter Objectives
+
+:::{.callout-important}
+## After completing this chapter, you should be able to
+
+1. Identify the properties of a normal distribution.
+2. Identify distributions as symmetric or skewed.
+3. Find the area under the standard normal distribution, given various $z$ values.
+4. Find probabilities for a normally distributed variable by transforming it into a standard normal variable.
+5. Find specific data values for given percentages, using the standard normal distribution.
+6. Use the central limit theorem to solve problems involving sample means for large samples.
+7. Use the normal approximation to compute probabilities for a binomial variable.
+:::
 
 # Section 6-1: Normal Distributions {background-color="#2c4a6e"}
 
-## Properties of the Normal Distribution
+## Introduction
 
-:::{.callout-note}
-## Definition
-A **normal distribution** is a continuous, symmetric, bell-shaped distribution of a variable. The curve is determined entirely by the **mean** $\mu$ and **standard deviation** $\sigma$.
-:::
+Random variables can be **discrete** or **continuous**. Chapter 5 dealt with discrete variables; a **continuous** variable can assume all values between any two given values — heights of adult men, body temperatures of rats, cholesterol levels of adults.
 
-**Key properties:**
+Many continuous variables have bell-shaped distributions and are called **approximately normally distributed** variables. If a researcher measures the heights of 100 adult women and draws a histogram, then keeps increasing the sample size while decreasing the class width, the histogram approaches a smooth curve called a **normal distribution curve** (Figure 6-1). It is also called a **bell curve** or a **Gaussian distribution curve**, after Carl Friedrich Gauss (1777–1855).
 
-1. The distribution is **bell-shaped** and symmetric about the mean
-2. The mean, median, and mode are all **equal**
-3. The curve is continuous — it never touches the x-axis
-4. The total area under the curve equals **1**
-5. Approximately **68%** of values lie within 1$\sigma$ of $\mu$; **95%** within 2$\sigma$; **99.7%** within 3$\sigma$
+No variable fits a normal distribution perfectly, because a normal distribution is a **theoretical** distribution. It is nevertheless useful because the deviations from it are very small.
 
 ---
 
-```{r normal-shape,echo=T,warning=FALSE,out.width = "80%",fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x))
-ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1.2) +
-  geom_area(fill = "#2c4a6e", alpha = 0.15) +
-  labs(title = "Standard Normal Distribution",
-       x = "z", y = "Density") +
+## Introduction
+
+**Figure 6-1** Histograms and normal model for the distribution of heights of adult women
+
+```{r s6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(6)
+heights <- rnorm(100000, mean = 163, sd = 6.5)
+height_hist <- function(n_obs, bin_width, title)
+  ggplot(data.frame(height = heights[1:n_obs]), aes(height)) +
+  geom_histogram(binwidth = bin_width, fill = "#2c4a6e",
+                 colour = "white", alpha = 0.8) +
+  labs(title = title, x = "Height (cm)", y = "") + theme_minimal()
+```
+
+---
+
+## Introduction
+
+```{r s6-1-2, echo=T, warning=FALSE, out.width="85%", fig.align='center'}
+normal_panel <- ggplot(data.frame(height = c(140, 186)), aes(height)) +
+  stat_function(fun = dnorm, args = list(mean = 163, sd = 6.5),
+                colour = "#2c4a6e", linewidth = 1.2) +
+  labs(title = "(d) Normal distribution", x = "Height (cm)", y = "") +
   theme_minimal()
+grid.arrange(height_hist(100, 5, "(a) n = 100"),
+             height_hist(1000, 3, "(b) larger n"),
+             height_hist(20000, 1, "(c) larger n still"),
+             normal_panel, ncol = 2)
+```
+
+## Normal Distributions
+
+:::{.callout-note}
+## Normal Distribution
+
+If a random variable has a probability distribution whose graph is **continuous**, **bell-shaped**, and **symmetric**, it is called a **normal distribution**. The graph is called a **normal distribution curve**.
+:::
+
+The mathematical equation for a normal distribution is
+
+$$y = \frac{e^{-(X-\mu)^2/(2\sigma^2)}}{\sigma\sqrt{2\pi}}$$
+
+where $e \approx 2.718$, $\pi \approx 3.14$, $\mu$ is the population mean and $\sigma$ is the population standard deviation. In applied statistics, tables or technology are used instead of the equation.
+
+---
+
+## Shapes of Normal Distributions
+
+The shape and position of a normal distribution curve depend on two parameters: the **mean** and the **standard deviation** (Figure 6-3).
+
+```{r s6-1-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+normal_curve_df <- function(mu, sigma, label) {
+  x <- seq(-8, 10, length.out = 400)
+  data.frame(x = x, density = dnorm(x, mu, sigma), label = label)
+}
+same_mean <- rbind(normal_curve_df(0, 1, "mu = 0, sigma = 1"),
+                   normal_curve_df(0, 2, "mu = 0, sigma = 2"))
+same_sd <- rbind(normal_curve_df(0, 2, "mu = 0, sigma = 2"),
+                 normal_curve_df(2, 2, "mu = 2, sigma = 2"))
+shape_panel <- function(curves, title)
+  ggplot(curves, aes(x, density, colour = label)) + geom_line(linewidth = 1) +
+  labs(title = title, x = "x", y = "", colour = "") +
+  theme_minimal() + theme(legend.position = "bottom")
+grid.arrange(
+  shape_panel(same_mean, "(a) Same means, different standard deviations"),
+  shape_panel(same_sd, "(b) Different means, same standard deviations"),
+  ncol = 2)
+```
+
+## Properties of a Normal Distribution
+
+:::{.callout-important}
+## Summary of the Properties of the Theoretical Normal Distribution
+
+1. A normal distribution curve is **bell-shaped**.
+2. The **mean, median, and mode are equal** and are located at the center of the distribution.
+3. A normal distribution curve is **unimodal** (it has only one mode).
+4. The curve is **symmetric about the mean**; its shape is the same on both sides of a vertical line through the center.
+5. The curve is **continuous**: there are no gaps or holes. For each value of $X$ there is a corresponding value of $Y$.
+6. The curve **never touches the $x$ axis**, no matter how far it extends in either direction — but it gets increasingly close.
+7. The **total area** under a normal distribution curve is equal to $1.00$, or $100\%$.
+8. The area within $1$ standard deviation of the mean is about $0.68$, within $2$ standard deviations about $0.95$, and within $3$ standard deviations about $0.997$.
+:::
+
+---
+
+## Areas Under a Normal Distribution Curve
+
+**Figure 6-4** — the areas in item 8 follow the **empirical rule** of Section 3-2.
+
+```{r s6-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+z_grid <- seq(-4, 4, length.out = 800)
+normal_curve <- data.frame(z = z_grid, density = dnorm(z_grid))
+shade <- function(lower, upper, fill)
+  geom_area(data = filter(normal_curve, z >= lower, z <= upper),
+            fill = fill, alpha = 0.6)
+ggplot(normal_curve, aes(z, density)) +
+  shade(-1, 1, "#2c4a6e") + shade(1, 2, "#5b8bbd") + shade(-2, -1, "#5b8bbd") +
+  shade(2, 3, "#a9c6e0") + shade(-3, -2, "#a9c6e0") +
+  geom_line(linewidth = 1) +
+  annotate("text", x = c(-0.5, 0.5), y = 0.15, label = "34.13%") +
+  annotate("text", x = c(-1.5, 1.5), y = 0.05, label = "13.59%") +
+  annotate("text", x = c(-2.5, 2.5), y = 0.02, label = "2.15%") +
+  scale_x_continuous(breaks = -3:3) +
+  labs(title = "About 68%, 95% and 99.7% within 1, 2 and 3 sigma",
+       x = "z", y = "") + theme_minimal()
+```
+
+## Symmetric and Skewed Distributions
+
+:::{.callout-note}
+## Symmetric and Skewed Distributions
+
+- When the data values are evenly distributed about the mean, the distribution is a **symmetric distribution**. A normal distribution is symmetric.
+- When the majority of the data values fall to the right of the mean, the distribution is **negatively or left-skewed**: the mean is to the left of the median, and both are to the left of the mode.
+- When the majority of the data values fall to the left of the mean, the distribution is **positively or right-skewed**: the mean falls to the right of the median, and both fall to the right of the mode.
+:::
+
+The "tail" of the curve indicates the direction of the skewness (right is positive, left is negative).
+
+---
+
+## Symmetric and Skewed Distributions
+
+**Figure 6-5** Normal and skewed distributions
+
+```{r s6-1-5, echo=T, warning=FALSE, out.width="90%", fig.align='center'}
+skewed_panel <- function(shape, title, mirror = FALSE) {
+  x <- seq(0.001, 12, length.out = 400)
+  density <- dgamma(x, shape = shape, rate = 1)
+  if (mirror) x <- max(x) - x
+  ggplot(data.frame(x, density), aes(x, density)) +
+    geom_line(colour = "#2c4a6e", linewidth = 1) +
+    labs(title = title, x = "x", y = "") + theme_minimal()
+}
+symmetric_panel <- ggplot(normal_curve, aes(z, density)) +
+  geom_line(colour = "#2c4a6e", linewidth = 1) +
+  labs(title = "(a) Normal", x = "x", y = "") + theme_minimal()
+grid.arrange(symmetric_panel, skewed_panel(3, "(b) Negatively skewed", TRUE),
+             skewed_panel(3, "(c) Positively skewed"), ncol = 3)
 ```
 
 ## The Standard Normal Distribution
 
+Each normally distributed variable has its own mean and standard deviation, so a separate table of areas would be needed for every variable. To simplify this, statisticians use the **standard normal distribution**.
+
 :::{.callout-note}
-## Definition
-The **standard normal distribution** is a normal distribution with mean **$\mu$ = 0** and standard deviation **$\sigma$ = 1**. Values on this distribution are called **z values** or **z scores**.
+## Standard Normal Distribution
+
+The **standard normal distribution** is a normal distribution with a **mean of 0** and a **standard deviation of 1**.
 :::
 
-The **z score** converts any normal variable X to the standard normal:
+The equation for the standard normal distribution is
 
-$$z = \frac{X - \mu}{\sigma}$$
+$$y = \frac{e^{-z^2/2}}{\sqrt{2\pi}}$$
 
-- The z score represents the number of standard deviations X is from the mean
-- Area under the curve = probability
+---
 
-## Finding Areas Under the Standard Normal Curve
+## The Standard Score
 
-Areas are found using:
+:::{.callout-important}
+## Formula for the $z$ Score (Standard Score)
 
-- **Table E** (standard normal table) in textbook appendix
-- **R**: `pnorm(z)` gives P(Z < z)
+$$z = \frac{\text{value} - \text{mean}}{\text{standard deviation}} \qquad\text{or}\qquad z = \frac{X - \mu}{\sigma}$$
+:::
+
+- This is the same formula used in Section 3-3.
+- Once the $X$ values are transformed, they are called **$z$ values**. The **$z$ value** (or **$z$ score**) is the number of standard deviations a particular $X$ value is away from the mean.
+- **Table A-4** in Appendix A gives the area (to four decimal places) under the standard normal curve for any $z$ value from $-3.49$ to $3.49$.
+
+---
+
+## The Standard Normal Distribution
+
+**Figure 6-6** Standard normal distribution
+
+```{r s6-1-6, echo=T, warning=FALSE, out.width="75%", fig.align='center'}
+ggplot(normal_curve, aes(z, density)) +
+  geom_area(fill = "#2c4a6e", alpha = 0.15) +
+  geom_line(colour = "#2c4a6e", linewidth = 1.2) +
+  geom_vline(xintercept = -3:3, linetype = "dotted", colour = "grey40") +
+  scale_x_continuous(breaks = -3:3) +
+  labs(title = "Standard normal distribution (mean 0, standard deviation 1)",
+       x = "z", y = "Density") + theme_minimal()
+```
+
+## Finding Areas Under the Standard Normal Distribution Curve
+
+A **two-step process** is recommended:
+
+**Step 1** Draw the normal distribution curve and shade the area.
+
+**Step 2** Find the appropriate figure in the Procedure Table and follow the directions given.
+
+:::{.callout-important}
+## Procedure Table — Finding the Area Under the Standard Normal Distribution Curve
+
+1. **To the left of any $z$ value:** look up the $z$ value in the table and use the area given.
+2. **To the right of any $z$ value:** look up the $z$ value and subtract the area from $1$.
+3. **Between any two $z$ values:** look up both $z$ values and subtract the corresponding areas.
+:::
+
+There are three basic types of problems, and all three are summarized in the Procedure Table.
+
+## Standard Normal Areas in R
+
+This course uses R instead of Table A-4. The three cases of the Procedure Table become three R expressions.
 
 :::{.callout-important}
 ## Key R Functions
-- `pnorm(z)` — area to the **left** of z
-- `1 - pnorm(z)` — area to the **right** of z
-- `pnorm(z2) - pnorm(z1)` — area **between** z1 and z2
-- `qnorm(p)` — find z given left-tail area p
+
+- `pnorm(z)` — area to the **left** of $z$
+- `1 - pnorm(z)` or `pnorm(z, lower.tail = FALSE)` — area to the **right** of $z$
+- `pnorm(z2) - pnorm(z1)` — area **between** $z_1$ and $z_2$
+- `qnorm(p)` — the $z$ value whose left-tail area is $p$ (the inverse of `pnorm`)
 :::
+
+```{r s6-1-7, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(pnorm(1.58), 4)   # the Table A-4 entry for z = 1.58
+```
 
 ## Example 6-1 {#example-6-1}
 
 :::{.callout-warning}
-## Area to the Left of z
+## Area to the Left of a $z$ Value
 
-Find the area to the left of z = 2.06.
+Find the area under the standard normal distribution curve to the left of $z = 1.72$.
 :::
+
+---
 
 ## Example 6-1
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 1** Draw the figure and shade the desired area (Figure 6-8).
 
-**Mathematical solution**
-
-- Look up z = 2.06 in Table E
-- Area = **0.9803**
-- Interpretation: 98.03% of values fall below z = 2.06
+**Step 2** This is the first case in the Procedure Table, so use the area directly. The area to the left of $z = 1.72$ is $0.9573$. Hence, $95.73\%$ of the area is to the left of $z = 1.72$.
 
 ```{r e6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Area to the LEFT of z = 2.06
-pnorm(2.06)
+round(pnorm(1.72), 4)
 ```
 :::
+
 ---
 
-```{r e6-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x))
-ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x <= 2.06),
-            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
-  annotate("text", x = 0, y = 0.15, label = "0.9803", size = 5) +
-  geom_vline(xintercept = 2.06, linetype = "dashed", color = "red") +
-  labs(title = "P(Z < 2.06) = 0.9803", x = "z", y = "Density") +
+## Example 6-1
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(normal_curve, aes(z, density)) +
+  geom_area(data = filter(normal_curve, z <= 1.72),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = 1.72, linetype = "dashed", colour = "red") +
+  annotate("text", x = 0, y = 0.15, label = "0.9573", size = 5) +
+  labs(title = "Area to the left of z = 1.72", x = "z", y = "") +
   theme_minimal()
 ```
+:::
 
 ## Example 6-2 {#example-6-2}
 
 :::{.callout-warning}
-## Area to the Right of z
+## Area to the Right of a $z$ Value
 
-Find the area to the right of z = −1.19.
+Find the area under the standard normal distribution curve to the right of $z = -0.83$.
 :::
+
+---
 
 ## Example 6-2
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 1** Draw the figure and shade the desired area (Figure 6-9).
 
-**Mathematical solution**
-
-- Area to the left of z = −1.19: Table E gives 0.1170
-- Area to the right = 1 − 0.1170 = **0.8830**
+**Step 2** This is the second case. The area for $z = -0.83$ is $0.2033$. Subtract it from $1.0000$: $1.0000 - 0.2033 = 0.7967$. Hence, $79.67\%$ of the area lies to the right of $z = -0.83$.
 
 ```{r e6-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Area to the RIGHT of z = -1.19
-1 - pnorm(-1.19)
-# Equivalently:
-pnorm(-1.19, lower.tail = FALSE)
+round(pnorm(-0.83), 4)
+round(pnorm(-0.83, lower.tail = FALSE), 4)
 ```
 :::
+
 ---
 
-```{r e6-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x))
-ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x >= -1.19),
-            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
-  annotate("text", x = 1, y = 0.15, label = "0.8830", size = 5) +
-  geom_vline(xintercept = -1.19, linetype = "dashed", color = "red") +
-  labs(title = "P(Z > -1.19) = 0.8830", x = "z", y = "Density") +
+## Example 6-2
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-2-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(normal_curve, aes(z, density)) +
+  geom_area(data = filter(normal_curve, z >= -0.83),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = -0.83, linetype = "dashed", colour = "red") +
+  annotate("text", x = 1, y = 0.15, label = "0.7967", size = 5) +
+  labs(title = "Area to the right of z = -0.83", x = "z", y = "") +
   theme_minimal()
 ```
+:::
 
 ## Example 6-3 {#example-6-3}
 
 :::{.callout-warning}
-## Area Between Two z Values
+## Area Between Two $z$ Values
 
-Find the area between z = −1.37 and z = +1.68.
+Find the area under the standard normal distribution curve between $z = 1.21$ and $z = -1.54$.
 :::
+
+---
 
 ## Example 6-3
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 1** Draw the figure (Figure 6-10). The desired area lies between the two $z$ values.
 
-**Mathematical solution**
-
-- Area left of z = 1.68: 0.9535
-- Area left of z = −1.37: 0.0853
-- Area between = 0.9535 − 0.0853 = **0.8682**
+**Step 2** This is the third case: look up both areas and subtract the smaller from the larger. *(Do not subtract the $z$ values.)* The area for $z = 1.21$ is $0.8869$ and the area for $z = -1.54$ is $0.0618$, so the area between them is $0.8869 - 0.0618 = 0.8251$, or $82.51\%$.
 
 ```{r e6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Area BETWEEN z = -1.37 and z = 1.68
-pnorm(1.68) - pnorm(-1.37)
+round(pnorm(1.21) - pnorm(-1.54), 4)
 ```
 :::
+
 ---
 
-```{r e6-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x))
-ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x >= -1.37 & x <= 1.68),
-            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
-  annotate("text", x = 0, y = 0.15, label = "0.8682", size = 5) +
-  geom_vline(xintercept = c(-1.37, 1.68), linetype = "dashed", color = "red") +
-  labs(title = "P(-1.37 < Z < 1.68) = 0.8682", x = "z", y = "Density") +
+## Example 6-3
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-3-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(normal_curve, aes(z, density)) +
+  geom_area(data = filter(normal_curve, z >= -1.54, z <= 1.21),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = c(-1.54, 1.21), linetype = "dashed",
+             colour = "red") +
+  annotate("text", x = 0, y = 0.15, label = "0.8251", size = 5) +
+  labs(title = "Area between z = -1.54 and z = 1.21", x = "z", y = "") +
   theme_minimal()
 ```
+:::
+
+## A Normal Distribution Curve as a Probability Distribution Curve
+
+The area under the standard normal distribution curve can also be thought of as a **probability**, or as the **proportion of the population** with a given characteristic. If it were possible to select a $z$ value at random, the probability of choosing one between $0$ and $2.00$ would be the same as the area under the curve between $0$ and $2.00$, namely $0.4772$.
+
+For probabilities, a special notation is used: the probability of a $z$ value between $0$ and $2.32$ is written $P(0 < z < 2.32)$.
+
+:::{.callout-warning}
+## Caution
+
+In a **continuous** distribution the probability of any exact $z$ value is $0$, since the area would be a vertical line, which in theory has no area. Hence $P(a \leq z \leq b) = P(a < z < b)$.
+:::
 
 ## Example 6-4 {#example-6-4}
 
 :::{.callout-warning}
-## Multiple Probability Calculations
+## Probabilities for the Standard Normal Distribution
 
-Find the following probabilities for the standard normal distribution:
+Find the probability for each. (Assume this is a standard normal distribution.)
 
-**(a)** P(0 < Z < 2.32)   **(b)** P(Z < 1.65)   **(c)** P(Z > 1.91)
+**(a)** $P(0 < z < 2.14)$ **(b)** $P(z < 1.35)$ **(c)** $P(z > 2.27)$
 :::
+
+---
 
 ## Example 6-4
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**(a)** Find the area between $z = 0$ and $z = 2.14$. The area for $z = 2.14$ is $0.9838$ and the area for $z = 0$ is $0.5000$: $0.9838 - 0.5000 = 0.4838$, or $48.38\%$.
 
-- **(a)** P(0 < Z < 2.32) = area left of 2.32 minus area left of 0 = 0.9898 − 0.5000 = **0.4898**
-- **(b)** P(Z < 1.65) = area left of 1.65 = **0.9505**
-- **(c)** P(Z > 1.91) = 1 − area left of 1.91 = 1 − 0.9719 = **0.0281**
-:::
+**(b)** Find the area to the left of $z = 1.35$. It is $0.9115$, so the probability is $0.9115$, or $91.15\%$.
+
+**(c)** Find the area to the right of $z = 2.27$. The area for $z = 2.27$ is $0.9884$, so $1.0000 - 0.9884 = 0.0116$, or $1.16\%$.
 
 ```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# (a) P(0 < Z < 2.32)
-pnorm(2.32) - pnorm(0)
-
-# (b) P(Z < 1.65)
-pnorm(1.65)
-
-# (c) P(Z > 1.91)
-1 - pnorm(1.91)
+round(pnorm(2.14) - pnorm(0), 4)
+round(pnorm(1.35), 4)
+round(pnorm(2.27, lower.tail = FALSE), 4)
 ```
+:::
 
 ## Example 6-5 {#example-6-5}
 
 :::{.callout-warning}
-## Finding a z Value for a Given Area
+## Finding a $z$ Value for a Given Area
 
-Find the z value such that the area under the standard normal distribution curve between 0 and the z value is 0.2123.
+Find the $z$ value such that the area under the standard normal distribution curve between $0$ and the $z$ value is $0.3078$.
 :::
+
+---
 
 ## Example 6-5
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
-
-- Add 0.5000 to the given area to get the cumulative left-tail area: 0.5000 + 0.2123 = 0.7123
-- Search Table E for the area closest to 0.7123
-- The corresponding z value is **z = 0.56**
-:::
+Draw the figure (Figure 6-14). Since Table A-4 is cumulative, add $0.5000$ to the given area of $0.3078$ to get the cumulative area $0.8078$. Looking up $0.8078$ in Table A-4 gives a row value of $0.8$ and a column value of $0.07$, so $z = 0.87$.
 
 ```{r e6-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Find z given left-tail area = 0.7123
-qnorm(0.7123)
+round(qnorm(0.5000 + 0.3078), 2)
 ```
 
-:::{.callout-important}
-## Key Rule
-`qnorm(p)` is the **inverse** of `pnorm(z)`. Use it whenever you need the z value for a given probability.
+If the exact area cannot be found in the table, use the closest value: for a cumulative area of $0.8080$ the closest table area is $0.8078$, which again gives $z = 0.87$.
 :::
 
 # Section 6-2: Applications of the Normal Distribution {background-color="#2c4a6e"}
 
-## Applying the Normal Distribution
+## Applications of the Normal Distribution
 
-To find probabilities for a **non-standard** normal variable X (with mean $\mu$ and standard deviation $\sigma$):
+The standard normal distribution curve can be used to solve a wide variety of practical problems. The **only requirement** is that the variable be **normally or approximately normally distributed**. To solve such problems, transform the original variable to a standard normal variable:
 
-:::{.callout-note}
-## Formula
-$$z = \frac{X - \mu}{\sigma}$$
-
-Convert X to a z score, then find the area using the standard normal.
-:::
-
-In R, use `pnorm(x, mean = mu, sd = sigma)` directly — no conversion needed.
+$$z = \frac{\text{value} - \text{mean}}{\text{standard deviation}} \qquad\text{or}\qquad z = \frac{X - \mu}{\sigma}$$
 
 :::{.callout-important}
-## Key Steps
-1. Identify $\mu$ and $\sigma$
-2. Draw a diagram and shade the desired region
-3. Convert X to z (or use R directly)
-4. Find the probability
+## Procedure Table — Finding the Area Under Any Normal Curve
+
+**Step 1** Draw a normal curve and shade the desired area.
+
+**Step 2** Convert the values of $X$ to $z$ values, using the formula $z = \dfrac{X - \mu}{\sigma}$.
+
+**Step 3** Find the corresponding area, using a table, calculator, or software.
 :::
+
+In R the conversion is optional: `pnorm(x, mean = mu, sd = sigma)` works directly.
 
 ## Example 6-6 {#example-6-6}
+
 :::{.callout-warning}
-The average amount of money that Americans spend on summer travel is normally distributed with $\mu = \$146.21$ and $\sigma = \$29.44$. Find the probability that a randomly selected American spends less than \$160 on summer travel.
+## Food Delivery Times
+
+On a food-delivery platform operating in Taipei, the time from placing an order to delivery at the door averages $27$ minutes. Assume the variable is normally distributed and has a standard deviation of $4$ minutes. Find the percentage of deliveries that arrive in less than $32$ minutes. *(hypothetical data)*
 :::
-
-:::{.callout-tip}
-## Solution
-
-$$z = \frac{160 - 146.21}{29.44} = \frac{13.79}{29.44} \approx 0.47$$
-
-Area to the left of z = 0.47: table value **0.6808**; R gives **0.6803** (about 68%)
-:::
-
-```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 146.21; sigma <- 29.44
-pnorm(160, mean = mu, sd = sigma)
-```
-
----
-
-**Draw figure**
-
-```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x, mu, sigma))
-p <- ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x <= 160), aes(x, y),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_vline(xintercept = 160, linetype = "dashed", color = "red") +
-  annotate("text", x = 140, y = 0.008, label = "68.03%", size = 5) +
-  labs(title = "P(X < 160): Summer Spending",
-       subtitle = paste0("μ = ", mu, ", σ = ", sigma),
-       x = "Amount ($)", y = "Density") +
-  theme_minimal()
-```
 
 ---
 
 ## Example 6-6
 
+:::{.callout-tip}
+## Solution
+
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-18).
+
+**Step 2** $z = \dfrac{X - \mu}{\sigma} = \dfrac{32 - 27}{4} = \dfrac{5}{4} = 1.25$
+
+**Step 3** The area to the left of $z = 1.25$ is $0.8944$. Therefore $89.44\%$ of deliveries arrive in less than $32$ minutes.
+
+```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+delivery_mean <- 27
+delivery_sd <- 4
+round(pnorm(32, mean = delivery_mean, sd = delivery_sd), 4)
+```
+:::
+
+---
+
+## Example 6-6
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+normal_density_df <- function(mu, sigma) {
+  x <- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 400)
+  data.frame(x = x, density = dnorm(x, mu, sigma))
+}
+delivery_curve <- normal_density_df(delivery_mean, delivery_sd)
+delivery_plot <- ggplot(delivery_curve, aes(x, density)) +
+  geom_area(data = filter(delivery_curve, x <= 32),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = 32, linetype = "dashed", colour = "red") +
+  annotate("text", x = 24, y = 0.03, label = "0.8944", size = 5) +
+  labs(title = "Delivery time: P(X < 32)", x = "Minutes", y = "") +
+  theme_minimal()
+```
+:::
+
+---
+
+## Example 6-6
+
+:::{.callout-tip}
+## Solution
+
 **Output figure**
 
-```{r e6-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p
+```{r e6-6-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+delivery_plot
 ```
+:::
 
 ## Example 6-7 {#example-6-7}
 
 :::{.callout-warning}
-## Newspaper Recycling
+## Order Values on an E-Commerce Platform
 
-Each month, an American household generates an average of 28 pounds of newspaper for recycling, with $\sigma$ = 2 pounds. Assume a normal distribution.
+Completed orders on a Taiwanese e-commerce platform have an average value of $1{,}200$ NT dollars. Assume the variable is approximately normally distributed and the standard deviation is $150$ NT dollars. If one completed order is selected at random, find the probability that its value is
 
-**(a)** P(27 < X < 31)   **(b)** P(X > 30.2)
+**(a)** between $1{,}050$ and $1{,}425$ NT dollars;  **(b)** more than $1{,}380$ NT dollars. *(hypothetical data)*
 :::
+
+---
+
+## Example 6-7
+
+:::{.callout-tip}
+## Solution (a)
+
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-20).
+
+**Step 2** $z_1 = \dfrac{1050 - 1200}{150} = -1.0$ and $z_2 = \dfrac{1425 - 1200}{150} = 1.5$
+
+**Step 3** The area to the left of $z_2$ is $0.9332$ and the area to the left of $z_1$ is $0.1587$, so the area between them is $0.9332 - 0.1587 = 0.7745$. The probability is $77.45\%$.
+
+```{r e6-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+order_mean <- 1200
+order_sd <- 150
+round(pnorm(1425, order_mean, order_sd) - pnorm(1050, order_mean, order_sd), 4)
+```
+:::
+
+---
+
+## Example 6-7
+
+:::{.callout-tip}
+## Solution (b)
+
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-22).
+
+**Step 2** $z = \dfrac{1380 - 1200}{150} = \dfrac{180}{150} = 1.2$
+
+**Step 3** The area to the left of $z = 1.2$ is $0.8849$, so the area to the right is $1.0000 - 0.8849 = 0.1151$. The probability that an order is worth more than $1{,}380$ NT dollars is $0.1151$, or $11.51\%$.
+
+```{r e6-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(pnorm(1380, order_mean, order_sd, lower.tail = FALSE), 4)
+```
+:::
+
+---
 
 ## Example 6-7
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Draw figure**
 
-```{r e6-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 28; sigma <- 2
-
-# (a) P(27 < X < 31)
-pnorm(31, mu, sigma) - pnorm(27, mu, sigma)
-
-# (b) P(X > 30.2)
-pnorm(30.2, mu, sigma, lower.tail = FALSE)
+```{r e6-7-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+order_curve <- normal_density_df(order_mean, order_sd)
+between_plot <- ggplot(order_curve, aes(x, density)) +
+  geom_area(data = filter(order_curve, x >= 1050, x <= 1425),
+            fill = "#2c4a6e", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  labs(title = "(a) P(1050 < X < 1425) = 0.7745", x = "NT dollars", y = "") +
+  theme_minimal()
+upper_plot <- ggplot(order_curve, aes(x, density)) +
+  geom_area(data = filter(order_curve, x >= 1380),
+            fill = "#c0392b", alpha = 0.4) +
+  geom_line(linewidth = 1) +
+  labs(title = "(b) P(X > 1380) = 0.1151", x = "NT dollars", y = "") +
+  theme_minimal()
 ```
-
-**Answers:** (a) $\approx$ **62.47%**; (b) $\approx$ **13.57%**
 :::
+
 ---
 
-```{r e6-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(mu - 4*sigma, mu + 4*sigma, length.out = 300)
-df <- data.frame(x = x, y = dnorm(x, mu, sigma))
-p1 <- ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x >= 27 & x <= 31),
-            aes(x, y), fill = "#2c4a6e", alpha = 0.4) +
-  labs(title = "(a) P(27 < X < 31)", x = "Pounds", y = "") +
-  theme_minimal()
-p2 <- ggplot(df, aes(x, y)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_area(data = filter(df, x >= 30.2),
-            aes(x, y), fill = "#c0392b", alpha = 0.4) +
-  labs(title = "(b) P(X > 30.2)", x = "Pounds", y = "") +
-  theme_minimal()
-gridExtra::grid.arrange(p1, p2, ncol = 2)
+## Example 6-7
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e6-7-4, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+grid.arrange(between_plot, upper_plot, ncol = 2)
 ```
+:::
 
 ## Example 6-8 {#example-6-8}
 
 :::{.callout-warning}
-## Coffee Consumption
+## Order Picking Time
 
-The per-capita consumption of coffee is normally distributed with $\mu$ = 1.64 gallons per year and $\sigma$ = 0.24 gallons. In a sample of 500 people, how many consume **less than 1 gallon** per year?
+At a logistics centre in Taoyuan, the time needed to pick and pack one order averages $6.4$ minutes. Assume the variable is approximately normally distributed and the population standard deviation is $0.8$ minute. If $60$ orders are randomly selected, approximately how many will be picked and packed in less than $5.8$ minutes? *(hypothetical data)*
 :::
+
+---
 
 ## Example 6-8
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-24).
 
-$$z = \frac{1 - 1.64}{0.24} = \frac{-0.64}{0.24} \approx -2.67$$
+**Step 2** $z = \dfrac{5.8 - 6.4}{0.8} = -0.75$
 
-- Area to the left of z = −2.67: **0.0038**
-- Number of people: $500 \times 0.0038 = 1.9$ → about **2 people**
-:::
+**Step 3** The area corresponding to $z = -0.75$ is $0.2266$.
+
+To find the number of orders, multiply $60 \times 0.2266 = 13.6$ and round to $14$. Approximately **14** of the $60$ randomly selected orders are picked and packed in less than $5.8$ minutes.
 
 ```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 1.64; sigma <- 0.24
-p <- pnorm(1, mean = mu, sd = sigma)
-p
-# Expected number among 500 people
-500 * p
+picking_mean <- 6.4
+picking_sd <- 0.8
+fast_share <- pnorm(5.8, mean = picking_mean, sd = picking_sd)
+round(fast_share, 4)
+round(60 * fast_share, 2)
 ```
 
-**Answer:** Approximately **2** of the 500 people consume less than 1 gallon per year.
+*Note:* for problems using percentages, write the percentage as a decimal before multiplying, and round the answer to the nearest whole number.
+:::
+
+## Finding Data Values Given Specific Probabilities
+
+A normal distribution can also be used to find specific **data values** for given percentages. Starting from $z = \dfrac{X-\mu}{\sigma}$ and solving for $X$ gives:
+
+:::{.callout-important}
+## Formula for Finding the Value of a Normal Variable $X$
+
+$$X = z \cdot \sigma + \mu$$
+:::
+
+:::{.callout-important}
+## Procedure Table — Finding Data Values for Specific Probabilities
+
+**Step 1** Draw a normal curve and shade the desired area that represents the probability, proportion, or percentile.
+
+**Step 2** Find the $z$ value from the table that corresponds to the desired area.
+
+**Step 3** Calculate the $X$ value by using the formula $X = z\sigma + \mu$.
+:::
 
 ## Example 6-9 {#example-6-9}
 
 :::{.callout-warning}
-## Police Academy Qualifications
+## Qualifying for a Rider Bonus
 
-To qualify for a police academy, applicants are tested on their physical fitness. The scores are normally distributed with $\mu$ = 200 and $\sigma$ = 20. The top **10%** of applicants will be accepted. Find the minimum score needed.
+A delivery platform pays a quarterly bonus to the riders in the **top $10\%$** by number of orders completed per month. Assume the number of orders completed is normally distributed with a mean of $480$ and a standard deviation of $60$. Find the lowest number of completed orders needed to qualify. *(hypothetical data)*
 :::
+
+---
 
 ## Example 6-9
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** Work backward. Subtract $0.1000$ from $1.0000$ to get the area to the left of $X$: $1.0000 - 0.1000 = 0.9000$ (Figure 6-26).
 
-- Need the 90th percentile → find z such that P(Z < z) = 0.90
-- $z \approx 1.28$
-- X = $\mu$ + z·$\sigma$ = 200 + 1.28(20) = **225.6 $\approx 226$**
-:::
+**Step 2** Look up $0.9000$ in the area portion of Table A-4. The table rounds the answer to $z = 1.28$; computed exactly, $z = 1.2816$.
+
+**Step 3** $X = z \cdot \sigma + \mu = 1.2816(60) + 480 = 556.89$.
+
+Because a rider cannot complete a fraction of an order, **557** completed orders should be used as the cutoff: anybody completing $557$ or more qualifies for the bonus.
 
 ```{r e6-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 200; sigma <- 20
-# Find the value X such that P(X > x) = 0.10
-qnorm(0.90, mean = mu, sd = sigma)
+orders_mean <- 480
+orders_sd <- 60
+cutoff_z <- qnorm(0.90)
+round(cutoff_z, 4)
+round(cutoff_z * orders_sd + orders_mean, 2)
 ```
-
-**Answer:** An applicant needs a score of at least **226** to be in the top 10%.
+:::
 
 ## Example 6-10 {#example-6-10}
+
 :::{.callout-warning}
-For a certain group, systolic blood pressure is normally distributed with $\mu$ = 120 and $\sigma$ = 8. Find the range of pressures that includes the **middle 60%** of readings.
+## Daily Passengers at an MRT Station
+
+A transport planner wishes to study the middle $60\%$ of weekdays at a Taipei MRT station. Assume the number of passengers entering the station on a weekday is normally distributed with a mean of $48$ thousand and a standard deviation of $5$ thousand.
+
+**(a)** What is the passenger count for the lowest $20\%$ of weekdays?
+
+**(b)** Find the lower and upper passenger counts for the middle $60\%$ of weekdays. *(hypothetical data)*
 :::
+
+---
+
+## Example 6-10
+
+:::{.callout-tip}
+## Solution (a)
+
+**Step 1** Draw the curve and shade the lower $20\%$ (Figure 6-28).
+
+**Step 2** The $z$ value with area $0.2000$ to its left is $z = -0.8416$ (Table A-4 rounds it to $-0.84$).
+
+**Step 3** $X = z\sigma + \mu = (-0.8416)(5) + 48 = 43.79$
+
+The quietest $20\%$ of weekdays have fewer than $43.79$ thousand passengers.
+
+```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+passenger_mean <- 48
+passenger_sd <- 5
+round(qnorm(0.20), 4)
+round(qnorm(0.20) * passenger_sd + passenger_mean, 2)
+```
+:::
+
+---
+
+## Example 6-10
+
+:::{.callout-tip}
+## Solution (b)
+
+**Step 1** Two values are needed, one above and one below the mean (Figure 6-29).
+
+**Step 2** To get the area to the left of the positive $z$ value, add $0.5000 + 0.3000 = 0.8000$. The $z$ value for a left-tail area of $0.8000$ is $0.8416$, and the $z$ value for $0.2000$ is $-0.8416$.
+
+**Step 3** $X_1 = (-0.8416)(5) + 48 = 43.79$ and $X_2 = (0.8416)(5) + 48 = 52.21$.
+
+The middle $60\%$ of weekdays have between $43.79$ and $52.21$ thousand passengers.
+
+```{r e6-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+middle_bounds <- qnorm(c(0.20, 0.80)) * passenger_sd + passenger_mean
+round(middle_bounds, 2)
+```
+:::
+
+## Determining Normality
+
+A bell-shaped distribution is only one of many shapes a distribution can assume, but it is very important since many statistical methods require the distribution of values to be normally or approximately normally shaped. Statisticians check normality in several ways.
+
+:::{.callout-important}
+## Checking a Data Set for Normality
+
+1. **Histogram.** Draw a histogram and check its shape. If it is not approximately bell-shaped, the data are not normally distributed.
+2. **Pearson coefficient (PC) of skewness**, also called **Pearson's index of skewness**:
+$$PC = \frac{3(\bar{X} - \text{median})}{s}$$
+If the index is **greater than or equal to $+1$** or **less than or equal to $-1$**, the data are significantly skewed.
+3. **Outliers.** Check for outliers with the method of Chapter 3: a value more than $1.5(IQR)$ below $Q_1$ or above $Q_3$. Even one or two outliers can have a big effect on normality.
+:::
+
+## Example 6-11 {#example-6-11}
+
+:::{.callout-warning}
+## Supplier Lead Times
+
+A trading company recorded the number of days of finished-goods inventory held by each of $18$ supplier factories. Determine if the data are approximately normally distributed. *(hypothetical data)*
+
+```
+  12    21    26    33    35    38    42    45    47
+  49    52    56    59    63    68    74    81    93
+```
+:::
+
+---
+
+## Example 6-11
 
 :::{.callout-tip}
 ## Solution
 
-- Middle 60% → 20% in each tail → find z for P(Z < z) = 0.20 and P(Z < z) = 0.80
-- $z_1 \approx -0.84$, $z_2 \approx 0.84$
-- $X_1$ = 120 + (−0.84)(8) = **113.28**
-- $X_2$ = 120 + (0.84)(8) = **126.72**
-:::
-
-```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 120; sigma <- 8
-qnorm(0.20, mean = mu, sd = sigma)
-qnorm(0.80, mean = mu, sd = sigma)
-```
-
-**Answer:** The middle 60% of readings fall between **113.28** and **126.72** mmHg.
-
-## Example 6-11 {#example-6-11}
-:::{.callout-warning}
-A researcher claims that the distribution of technology inventories at warehouses is approximately normal with $\mu$ = 110,000 and $\sigma$ = 15,000 units. A warehouse is selected at random. Find the probability that it has **more than 132,500 units**.
-:::
+**Step 1** Construct a frequency distribution and draw a histogram (Figure 6-30).
 
 ```{r e6-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 110000; sigma <- 15000
-
-# P(X > 132500)
-pnorm(132500, mean = mu, sd = sigma, lower.tail = FALSE)
-
-# Equivalent z-score
-z <- (132500 - mu) / sigma
-z
-pnorm(z, lower.tail = FALSE)
+lead_days <- c(12, 21, 26, 33, 35, 38, 42, 45, 47,
+               49, 52, 56, 59, 63, 68, 74, 81, 93)
+lead_breaks <- seq(9.5, 99.5, by = 15)
+lead_labels <- c("10-24", "25-39", "40-54", "55-69", "70-84", "85-99")
+lead_freq <- data.frame(
+  Class = lead_labels,
+  Frequency = as.integer(table(cut(lead_days, lead_breaks, labels = lead_labels))))
+knitr::kable(lead_freq, align = "c")
 ```
-
-**Answer:** z = 1.50, P(X > 132,500) $\approx$ **0.0668** (about 6.68%).
-
-## Example 6-12 {#example-6-12}
-:::{.callout-warning}
-The distribution of the duration of professional baseball games is **negatively skewed** with $\mu$ = 166 minutes and $\sigma$ = 26 minutes. If a game is selected at random, find the probability that it lasts **less than 145 minutes**.
 :::
-
-:::{.callout-warning}
-## Caution
-This distribution is **not** normal — it is negatively skewed. Applying normal distribution methods is only appropriate when the distribution is approximately normal. Here the answer is an approximation.
-:::
-
-```{r e6-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 166; sigma <- 26
-# Approximate probability (treating as normal)
-z <- (145 - mu) / sigma
-z
-pnorm(145, mean = mu, sd = sigma)
-```
-
-**Note:** $z \approx -0.81$; table value 0.2090, R gives P(X < 145) $\approx$ **0.2096** (approximately 21%). Since the data is skewed, this is only a rough estimate.
-
-# Section 6-3: The Central Limit Theorem {background-color="#2c4a6e"}
-
-## The Central Limit Theorem
-
-:::{.callout-note}
-## The Central Limit Theorem (CLT)
-As sample size **n** increases, the sampling distribution of the sample mean $\bar{X}$ approaches a **normal distribution**, regardless of the shape of the population distribution, provided n is sufficiently large (typically **$n \geq 30$**).
-
-$$\mu_{\bar{X}} = \mu \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
-:::
-
-The **standard error** $\sigma_{\bar{X}} = \sigma/\sqrt{n}$ measures how much sample means vary from sample to sample.
-
-## Applying the CLT
-
-:::{.callout-important}
-## z Score for Sample Means
-$$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
-:::
-
-**In R:** Use `pnorm(xbar, mean = mu, sd = sigma/sqrt(n))`
-
-The CLT explains why the normal distribution is so central to statistics:
-
-- Survey results, poll averages, sample statistics all tend toward normality
-- Enables inference even when the population shape is unknown
 
 ---
 
-```{r e6-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# CLT demonstration: sampling from a skewed distribution
+## Example 6-11
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-11-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(data.frame(lead_days), aes(lead_days)) +
+  geom_histogram(breaks = lead_breaks, fill = "#2c4a6e", colour = "white") +
+  scale_x_continuous(breaks = lead_breaks) +
+  labs(title = "Histogram for Example 6-11", x = "Days", y = "Frequency") +
+  theme_minimal()
+```
+
+The histogram is approximately bell-shaped, so the distribution appears approximately normal.
+:::
+
+---
+
+## Example 6-11
+
+:::{.callout-tip}
+## Solution
+
+**Step 2** Check for skewness: $\bar{X} = 49.67$, median $= 48$, $s = 21.17$, so
+$$PC = \frac{3(49.67 - 48)}{21.17} = 0.236$$
+$PC$ is not greater than $+1$ nor less than $-1$, so the distribution is **not significantly skewed**.
+:::
+
+---
+
+## Example 6-11
+
+:::{.callout-tip}
+## Solution
+
+**Step 3** Check for outliers: $Q_1 = 35.75$ and $Q_3 = 62$, so $IQR = 26.25$. An outlier would be below $35.75 - 1.5(26.25) = -3.62$ or above $62 + 1.5(26.25) = 101.38$. There are **no outliers**.
+
+```{r e6-11-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(c(mean = mean(lead_days), median = median(lead_days), s = sd(lead_days)), 2)
+round(3 * (mean(lead_days) - median(lead_days)) / sd(lead_days), 3)
+lead_quartiles <- quantile(lead_days, c(0.25, 0.75))
+round(c(lead_quartiles, IQR = IQR(lead_days)), 2)
+round(lead_quartiles + c(-1.5, 1.5) * IQR(lead_days), 2)
+```
+
+Bell-shaped, not significantly skewed, no outliers: the distribution is **approximately normally distributed**.
+:::
+
+## Example 6-12 {#example-6-12}
+
+:::{.callout-warning}
+## Customers Served at a Night-Market Stall
+
+The data shown are the numbers of customers served by a night-market stall on $17$ randomly selected evenings. Determine if the data are approximately normally distributed. *(hypothetical data)*
+
+```
+  142    95   131   152   108   145
+  149    25   139   118   151   135
+  125    60   147    78    42
+```
+:::
+
+---
+
+## Example 6-12
+
+:::{.callout-tip}
+## Solution
+
+**Step 1** Construct a frequency distribution and draw a histogram (Figure 6-31).
+
+```{r e6-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+customers <- c(142,  95, 131, 152, 108, 145,
+               149,  25, 139, 118, 151, 135,
+               125,  60, 147,  78,  42)
+customer_breaks <- seq(24.5, 174.5, by = 25)
+customer_labels <- c("25-49", "50-74", "75-99", "100-124", "125-149", "150-174")
+customer_freq <- data.frame(
+  Class = customer_labels,
+  Frequency = as.integer(table(cut(customers, customer_breaks,
+                                   labels = customer_labels))))
+knitr::kable(customer_freq, align = "c")
+```
+:::
+
+---
+
+## Example 6-12
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure**
+
+```{r e6-12-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
+ggplot(data.frame(customers), aes(customers)) +
+  geom_histogram(breaks = customer_breaks, fill = "#2c4a6e", colour = "white") +
+  scale_x_continuous(breaks = customer_breaks) +
+  labs(title = "Histogram for Example 6-12", x = "Customers", y = "Frequency") +
+  theme_minimal()
+```
+
+The histogram shows that the frequency distribution is **negatively skewed**.
+:::
+
+---
+
+## Example 6-12
+
+:::{.callout-tip}
+## Solution
+
+**Step 2** Check for skewness: $\bar{X} = 114.24$, median $= 131$, $s = 40.37$, so
+$$PC = \frac{3(114.24 - 131)}{40.37} = -1.25$$
+Since $PC$ is less than $-1$, the distribution is **significantly skewed to the left**.
+:::
+
+---
+
+## Example 6-12
+
+:::{.callout-tip}
+## Solution
+
+**Step 3** Check for outliers: $Q_1 = 95$, $Q_3 = 145$, $IQR = 50$. Any value below $95 - 1.5(50) = 20$ or above $145 + 1.5(50) = 220$ is an outlier. There are **no outliers**.
+
+```{r e6-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(c(mean = mean(customers), median = median(customers), s = sd(customers)), 2)
+round(3 * (mean(customers) - median(customers)) / sd(customers), 2)
+customer_quartiles <- quantile(customers, c(0.25, 0.75))
+round(c(customer_quartiles, IQR = IQR(customers)), 2)
+round(customer_quartiles + c(-1.5, 1.5) * IQR(customers), 2)
+```
+
+In summary, the distribution is **significantly negatively skewed**.
+:::
+
+## Normal Quantile Plots in R
+
+Another method used to check normality is to draw a **normal quantile plot**. **Quantiles** (sometimes called **fractiles**) are values that separate the data set into approximately equal groups. A normal quantile plot graphs the data values against the $z$ values of the corresponding quantiles. **If the points do not lie in an approximately straight line, normality can be rejected.**
+
+```{r s6-2-1, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
+quantile_plot <- function(values, title)
+  ggplot(data.frame(values), aes(sample = values)) +
+  stat_qq(colour = "#2c4a6e") + stat_qq_line(colour = "red") +
+  labs(title = title, x = "Theoretical quantiles (z)",
+       y = "Sample quantiles") + theme_minimal()
+grid.arrange(quantile_plot(lead_days, "Example 6-11: supplier lead times"),
+             quantile_plot(customers, "Example 6-12: customers served"), ncol = 2)
+```
+
+Other methods include normal probability graph paper, the chi-square goodness-of-fit test (Chapter 11), the Kolmogorov-Smirnov test and the Lilliefors test.
+
+# Section 6-3: The Central Limit Theorem {background-color="#2c4a6e"}
+
+## Distribution of Sample Means
+
+In addition to knowing how individual data values vary about the mean for a population, statisticians want to know how the **means of samples** of the same size taken from the same population vary about the population mean.
+
+Suppose an analyst selects a sample of $30$ online orders and finds the mean order value to be $1{,}180$ NT dollars, then selects a second sample with mean $1{,}215$ NT dollars, and continues for $100$ samples. The mean becomes a random variable, and the sample means $1{,}180, 1{,}215, 1{,}164, \ldots, 1{,}232$ constitute a **sampling distribution of sample means**.
+
+:::{.callout-note}
+## Sampling Distribution of Sample Means
+
+A **sampling distribution of sample means** is a distribution using the means computed from **all possible random samples** of a specific size taken from a population.
+:::
+
+---
+
+## Sampling Error
+
+If the samples are randomly selected **with replacement**, the sample means will for the most part be somewhat different from the population mean $\mu$. These differences are caused by **sampling error**.
+
+:::{.callout-note}
+## Sampling Error
+
+**Sampling error** is the difference between the sample measure and the corresponding population measure, due to the fact that the sample is not a perfect representation of the population.
+:::
+
+:::{.callout-important}
+## Properties of the Distribution of Sample Means
+
+1. The **mean of the sample means** will be the same as the population mean.
+2. The **standard deviation of the sample means** will be smaller than the standard deviation of the population, and it will be equal to the population standard deviation divided by the square root of the sample size.
+:::
+
+## A 10-Point Quiz Illustration
+
+A lecturer gave a $10$-point quiz to a small class of four students; the results were $3$, $5$, $7$ and $9$. Treat the four students as the population.
+
+```{r s6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quiz_scores <- c(3, 5, 7, 9)
+population_mean <- mean(quiz_scores)
+population_sd <- sqrt(mean((quiz_scores - population_mean)^2))
+round(c(mean = population_mean, sd = population_sd), 3)
+```
+
+The graph of the original distribution is a **uniform distribution** (Figure 6-32): each score occurs once.
+
+---
+
+## A 10-Point Quiz Illustration
+
+All samples of size $2$ taken **with replacement**, and the mean of each sample:
+
+```{r s6-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sample_pairs <- expand.grid(first = quiz_scores, second = quiz_scores)
+sample_pairs$sample_mean <- rowMeans(sample_pairs[c("first", "second")])
+knitr::kable(as.data.frame(table(Mean = sample_pairs$sample_mean)), align = "c")
+```
+
+---
+
+## A 10-Point Quiz Illustration
+
+```{r s6-3-3, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
+ggplot(sample_pairs, aes(sample_mean)) +
+  geom_bar(fill = "#2c4a6e", width = 0.6) +
+  scale_x_continuous(breaks = 3:9) +
+  labs(title = "Figure 6-33: distribution of sample means",
+       x = "Sample mean", y = "Frequency") + theme_minimal()
+```
+
+```{r s6-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(sample_pairs$sample_mean)
+round(sqrt(mean((sample_pairs$sample_mean - population_mean)^2)), 3)
+round(population_sd / sqrt(2), 3)
+```
+
+The histogram of the sample means appears approximately normal, the mean of the sample means equals the population mean, and the standard deviation of the sample means equals $\sigma/\sqrt{n}$.
+
+## The Standard Error of the Mean
+
+:::{.callout-note}
+## Standard Error of the Mean
+
+If all possible samples of size $n$ are taken with replacement from the same population, the mean of the sample means, denoted $\mu_{\bar{X}}$, equals the population mean $\mu$; and the standard deviation of the sample means, denoted $\sigma_{\bar{X}}$, equals $\sigma/\sqrt{n}$. The standard deviation of the sample means is called the **standard error of the mean**.
+:::
+
+:::{.callout-important}
+## Mean and Standard Error of the Sample Means
+
+$$\mu_{\bar{X}} = \mu \qquad\qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
+:::
+
+## The Central Limit Theorem
+
+A third property of the sampling distribution of sample means concerns the **shape** of the distribution, and is explained by the central limit theorem.
+
+:::{.callout-note}
+## The Central Limit Theorem
+
+As the sample size $n$ **increases without limit**, the shape of the distribution of the sample means taken with replacement from a population with mean $\mu$ and standard deviation $\sigma$ will approach a **normal distribution**. This distribution will have a mean $\mu$ and a standard deviation $\sigma/\sqrt{n}$.
+:::
+
+:::{.callout-important}
+## $z$ Value for the Central Limit Theorem
+
+$$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
+
+The denominator must be adjusted because means are used instead of individual data values; it is the standard deviation of the sample means.
+:::
+
+---
+
+## Two Things to Remember
+
+:::{.callout-important}
+## When the Central Limit Theorem Applies
+
+1. When the **original variable is normally distributed**, the distribution of the sample means will be normally distributed **for any sample size $n$**.
+2. When the distribution of the original variable is **not normal**, a sample size of **$30$ or more** is needed to use a normal distribution to approximate the distribution of the sample means. The larger the sample, the better the approximation.
+:::
+
+**In R:** use `pnorm(xbar, mean = mu, sd = sigma / sqrt(n))`.
+
+---
+
+## The Central Limit Theorem in R
+
+```{r s6-3-5, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
 set.seed(42)
-pop <- rexp(10000, rate = 0.5)  # skewed population
-sample_means <- replicate(1000, mean(sample(pop, 30)))
-hist(sample_means, breaks = 30, col = "#2c4a6e",
-     main = "Sampling Distribution of X-bar (n=30)",
-     xlab = "Sample Mean", freq = FALSE)
-curve(dnorm(x, mean(pop), sd(pop)/sqrt(30)), add = TRUE,
-      col = "red", lwd = 2)
+skewed_means <- function(n)                # rate = 0.5 gives a skewed population
+  data.frame(sample_mean = colMeans(matrix(rexp(n * 2000, rate = 0.5), nrow = n)),
+             size = paste("n =", n))
+simulation <- bind_rows(skewed_means(2), skewed_means(10), skewed_means(30))
+ggplot(simulation, aes(sample_mean)) +
+  geom_histogram(bins = 40, fill = "#2c4a6e", colour = "white") +
+  facet_wrap(~ factor(size, levels = c("n = 2", "n = 10", "n = 30")),
+             scales = "free") +
+  labs(title = "Sample means approach normality as n increases",
+       x = "Sample mean", y = "Frequency") + theme_minimal()
 ```
 
 ## Example 6-13 {#example-6-13}
 
 :::{.callout-warning}
-## Children's TV Viewing
+## Length of Customer-Service Calls
 
-Children in the United States watch an average of $\mu$ = 25 hours of TV per week, with $\sigma$ = 3 hours. A random sample of n = 20 children is selected. Find the probability that the sample mean exceeds 26.3 hours.
+Calls handled by the customer-service centre of an online retailer last an average of $4.5$ minutes. Assume the variable is normally distributed and the standard deviation is $1.25$ minutes. If $25$ calls are randomly selected, find the probability that their mean length will be greater than $5.0$ minutes. *(hypothetical data)*
 :::
+
+---
 
 ## Example 6-13
 
 :::{.callout-tip}
 ## Solution
 
-$$z = \frac{26.3 - 25}{3/\sqrt{20}} = \frac{1.3}{0.671} \approx 1.94$$
+Since the variable is approximately normally distributed, the distribution of sample means is approximately normal with a mean of $4.5$ and standard error
 
-P($\bar{X}$ > 26.3) = P(Z > 1.94) $\approx$ **0.0263** (2.63%)
+$$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \frac{1.25}{\sqrt{25}} = 0.25$$
 
-:::
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-35).
+
+**Step 2** $z = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}} = \dfrac{5.0 - 4.5}{0.25} = 2.00$
+
+**Step 3** The area to the right of $2.00$ is $1.0000 - 0.9772 = 0.0228$, or $2.28\%$.
 
 ```{r e6-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 25; sigma <- 3; n <- 20
-se <- sigma / sqrt(n)
-se
-
-# P(X-bar > 26.3)
-pnorm(26.3, mean = mu, sd = se, lower.tail = FALSE)
+call_mean <- 4.5
+call_sd <- 1.25
+call_se <- call_sd / sqrt(25)
+call_se
+round(pnorm(5.0, call_mean, call_se, lower.tail = FALSE), 4)
 ```
+
+The probability that the $25$ calls last more than $5.0$ minutes on average is **2.28%**.
+:::
 
 ## Example 6-14 {#example-6-14}
-:::{.callout-warning}
-## Vehicle Ages
 
-The average age of vehicles registered in the United States is $\mu$ = 96 months, with $\sigma$ = 16 months. Assume the distribution is approximately normal. A random sample of n = 36 vehicles is taken. Find P(90 < $\bar{X}$ < 100).
+:::{.callout-warning}
+## Parcels Delivered per Van
+
+A courier company's vans deliver an average of $120$ parcels per day. Assume the standard deviation is $18$ parcels. If a random sample of $36$ van-days is selected, find the probability that the sample mean is between $114$ and $123$ parcels. *(hypothetical data)*
 :::
+
+---
+
+## Example 6-14
+
+:::{.callout-tip}
+## Solution
+
+**Step 1** Draw a normal curve and shade the desired area (Figure 6-36). Since the sample is $30$ or more, the normality assumption is not necessary.
+
+**Step 2** The standard error is $18/\sqrt{36} = 3$, so $z_1 = \dfrac{114 - 120}{3} = -2$ and $z_2 = \dfrac{123 - 120}{3} = 1$.
+
+**Step 3** The area for $z = -2$ is $0.0228$ and the area for $z = 1$ is $0.8413$, so the area between them is $0.8413 - 0.0228 = 0.8186$, or $81.86\%$.
 
 ```{r e6-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 96; sigma <- 16; n <- 36
-se <- sigma / sqrt(n)
-se
-
-# P(90 < X-bar < 100)
-pnorm(100, mean = mu, sd = se) - pnorm(90, mean = mu, sd = se)
+parcel_mean <- 120
+parcel_se <- 18 / sqrt(36)
+parcel_se
+round(pnorm(123, parcel_mean, parcel_se) - pnorm(114, parcel_mean, parcel_se), 4)
 ```
-
-**Answer:** P(90 < $\bar{X}$ < 100) $\approx$ **0.9210** (92.10%)
-
-The sample mean is very likely to fall in this range because the standard error is only `r round(16/sqrt(36), 2)` months.
-
-## Example 6-15 {#example-6-15}
-:::{.callout-warning}
-The average annual meat consumption per person is $\mu$ = 218.4 pounds, $\sigma$ = 25 pounds.
-
-**(a)** Find P(X < 224) for a **single individual**.
-**(b)** Find P($\bar{X}$ < 224) for a **sample of n = 40** individuals.
 :::
 
+## Example 6-15 {#example-6-15}
+
+:::{.callout-warning}
+## Customs Clearance Time
+
+Imported shipments arriving at a Taiwanese port clear customs in an average of $3.2$ days. Assume the distribution is approximately normal and has a standard deviation of $0.5$ day.
+
+**(a)** Find the probability that one randomly selected shipment clears customs in fewer than $3.3$ days.
+
+**(b)** If a sample of $36$ shipments is randomly selected, find the probability that the mean clearance time of the sample is less than $3.3$ days. *(hypothetical data)*
+:::
+
+---
+
+## Example 6-15
+
+:::{.callout-tip}
+## Solution (a)
+
+Since the question concerns an **individual** shipment, use $z = \dfrac{X - \mu}{\sigma}$ (Figure 6-37).
+
+**Step 2** $z = \dfrac{3.3 - 3.2}{0.5} = 0.20$
+
+**Step 3** The area to the left of $z = 0.20$ is $0.5793$.
+
+The probability of selecting a shipment that clears customs in fewer than $3.3$ days is $0.5793$, or $57.93\%$.
+
 ```{r e6-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 218.4; sigma <- 25; n <- 40
+clearance_mean <- 3.2
+clearance_sd <- 0.5
+round(pnorm(3.3, clearance_mean, clearance_sd), 4)
+```
+:::
 
-# (a) Individual: P(X < 224)
-pnorm(224, mean = mu, sd = sigma)
+---
 
-# (b) Sample mean: P(X-bar < 224), n = 40
-se <- sigma / sqrt(n)
-pnorm(224, mean = mu, sd = se)
+## Example 6-15
+
+:::{.callout-tip}
+## Solution (b)
+
+Since the question concerns the **mean of a sample** of size $36$, use the central limit theorem formula $z = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}}$ (Figure 6-38).
+
+**Step 2** $z = \dfrac{3.3 - 3.2}{0.5/\sqrt{36}} = 1.20$
+
+**Step 3** The area corresponding to $z = 1.20$ is $0.8849$, or $88.49\%$.
+
+```{r e6-15-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+clearance_se <- clearance_sd / sqrt(36)
+round(clearance_se, 4)
+round(pnorm(3.3, clearance_mean, clearance_se), 4)
 ```
 
-**Answers:** (a) table value 0.5871, R gives $\approx$ **0.5886** (58.86%); (b) table value 0.9222, R gives $\approx$ **0.9217** (92.17%)
+The gap of about $30.6$ percentage points between (a) and (b) arises because the distribution of sample means is **much less variable** than the distribution of individual data values: as the sample size increases, the standard deviation of the means decreases.
+:::
+
+## Table 6-1
 
 :::{.callout-important}
-## Key Insight
-The probability is much higher for the sample mean because the standard error ($\sigma$/√n) is smaller than $\sigma$ — sample means are less variable than individual values.
+## Table 6-1 Summary of Formulas and Their Uses
+
+| Formula | Use |
+|---|---|
+| $z = \dfrac{X - \mu}{\sigma}$ | Used to gain information about an **individual data value** when the variable is normally distributed |
+| $z = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}}$ | Used to gain information, when applying the central limit theorem, about a **sample mean** when the variable is normally distributed or when the sample size is $30$ or more |
+:::
+
+Notice that the first formula contains $X$, an individual data value, while the second contains $\bar{X}$, the sample mean.
+
+## Finite Population Correction Factor (Optional)
+
+The standard error $\sigma/\sqrt{n}$ is exact for sampling **with replacement**, or from a very large (infinite) population. Sampling **without replacement from a finite population** needs a correction factor.
+
+:::{.callout-important}
+## Finite Population Correction Factor
+
+$$\sqrt{\frac{N-n}{N-1}}$$
+
+where $N$ = population size and $n$ = sample size. The standard error and $z$ become
+
+$$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \cdot \sqrt{\frac{N-n}{N-1}} \qquad\qquad z = \frac{\bar{X} - \mu}{\dfrac{\sigma}{\sqrt{n}} \cdot \sqrt{\dfrac{N-n}{N-1}}}$$
+:::
+
+---
+
+## Finite Population Correction Factor (Optional)
+
+:::{.callout-warning}
+## Caution
+
+It is needed when the sample is relatively large — usually **more than $5\%$ of the population**. When the population is large and the sample small, the factor is very close to $1.00$ and is generally omitted.
 :::
 
 # Section 6-4: The Normal Approximation to the Binomial Distribution {background-color="#2c4a6e"}
 
 ## Why Use the Normal Approximation?
 
-The binomial distribution is exact but computationally intensive for large n. The normal distribution provides a convenient approximation.
+When $n$ is large (say, $100$), binomial calculations are too difficult by hand, so a normal distribution is used instead. Recall from Chapter 5 that a **binomial distribution** has these characteristics:
 
-:::{.callout-note}
-## When to Use the Normal Approximation
-Use the normal approximation to the binomial when:
-$$np \geq 5 \quad \text{and} \quad nq \geq 5$$
-where q = 1 − p.
+1. There must be a **fixed number of trials**.
+2. The outcome of each trial must be **independent**.
+3. Each trial can have only **two outcomes**, or outcomes reducible to two.
+4. The **probability of a success must remain the same** for each trial.
 
-The approximating normal distribution has:
-$$\mu = np \qquad \sigma = \sqrt{npq}$$
-:::
+As $n$ increases with $p$ near $0.5$, the binomial shape becomes similar to a normal distribution. **But when $p$ is close to $0$ or $1$ and $n$ is relatively small, a normal approximation is inaccurate.**
 
-## Correction for Continuity
+---
+
+## The Conditions $np \geq 5$ and $nq \geq 5$
 
 :::{.callout-important}
-## Correction for Continuity
-Since we are approximating a **discrete** distribution with a **continuous** one, add or subtract **0.5** from X:
+## Rule of Thumb
 
-| Binomial Expression | Normal Approximation |
-|---------------------|----------------------|
-| P(X = a) | P(a − 0.5 < X < a + 0.5) |
-| $P(X \geq a)$ | P(X > a − 0.5) |
-| P(X > a) | P(X > a + 0.5) |
-| $P(X \leq a)$ | P(X < a + 0.5) |
-| P(X < a) | P(X < a − 0.5) |
+A normal approximation should be used only when $n \cdot p$ and $n \cdot q$ are **both greater than or equal to 5**, where $q = 1 - p$.
+
+Also, $\mu = n \cdot p$ and $\sigma = \sqrt{n \cdot p \cdot q}$.
+:::
+
+For example, if $p = 0.3$ and $n = 10$, then $np = 3$, so a normal distribution should **not** be used; if $p = 0.5$ and $n = 10$, then $np = nq = 5$ and it **can** be used.
+
+---
+
+## The Conditions $np \geq 5$ and $nq \geq 5$ (cont.)
+
+```{r s6-4-1, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
+binomial_shapes <- rbind(
+  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.3),
+             label = "n = 10, p = 0.3 (np = 3)"),
+  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.5),
+             label = "n = 10, p = 0.5 (np = 5, nq = 5)"))
+ggplot(binomial_shapes, aes(x, probability)) +
+  geom_col(fill = "#2c4a6e", width = 0.7) + facet_wrap(~ label) +
+  labs(title = "Figure 6-39: binomial distribution and a normal distribution",
+       x = "X", y = "P(X)") + theme_minimal()
+```
+
+## Correction for Continuity
+
+:::{.callout-note}
+## Correction for Continuity
+
+A **correction for continuity** is a correction employed when a **continuous** distribution is used to approximate a **discrete** distribution.
+:::
+
+The continuity correction means that for any specific value of $X$, say $8$, the **boundaries** of $X$ in the binomial distribution (in this case $7.5$ to $8.5$) must be used. For $P(X = 8)$ the correction is $P(7.5 < X < 8.5)$; for $P(X \leq 7)$ it is $P(X < 7.5)$; for $P(X \geq 3)$ it is $P(X > 2.5)$.
+
+---
+
+## Table 6-2
+
+:::{.callout-important}
+## Table 6-2 Summary of the Normal Approximation to the Binomial Distribution
+
+| When finding (binomial) | Use (normal) |
+|---|---|
+| 1. $P(X = a)$ | $P(a - 0.5 < X < a + 0.5)$ |
+| 2. $P(X \geq a)$ | $P(X > a - 0.5)$ |
+| 3. $P(X > a)$ | $P(X > a + 0.5)$ |
+| 4. $P(X \leq a)$ | $P(X < a + 0.5)$ |
+| 5. $P(X < a)$ | $P(X < a - 0.5)$ |
+
+For all cases, $\mu = n \cdot p$, $\sigma = \sqrt{n \cdot p \cdot q}$, $n \cdot p \geq 5$ and $n \cdot q \geq 5$.
+:::
+
+---
+
+## Procedure Table
+
+:::{.callout-important}
+## Procedure for the Normal Approximation to the Binomial Distribution
+
+**Step 1** Check to see whether the normal approximation can be used.
+
+**Step 2** Find the mean $\mu$ and the standard deviation $\sigma$.
+
+**Step 3** Write the problem in probability notation, using $X$.
+
+**Step 4** Rewrite the problem by using the continuity correction factor, and show the corresponding area under the normal distribution.
+
+**Step 5** Find the corresponding $z$ values.
+
+**Step 6** Find the solution.
 :::
 
 ## Example 6-16 {#example-6-16}
+
 :::{.callout-warning}
-A survey found that 6% of American drivers read while driving. If 300 drivers are selected at random, find the approximate probability that **exactly 25** read while driving.
+## Convenience-Store Pickup
+
+On a cross-border e-commerce platform, $30\%$ of buyers choose convenience-store pickup instead of home delivery. If $150$ buyers are selected at random, find the probability that exactly $52$ of them choose convenience-store pickup. *(hypothetical data)*
 :::
+
 ---
 
-**Check:** n = 300, p = 0.06, q = 0.94
+## Example 6-16
 
-- np = 300(0.06) = 18 $\geq 5$ ✓
+:::{.callout-tip}
+## Solution
 
-- nq = 300(0.94) = 282 $\geq 5$ ✓
+Here $p = 0.30$, $q = 0.70$ and $n = 150$.
 
-**Parameters:** $\mu$ = np = 18, $\sigma$ = $\sqrt{npq}$ = $\sqrt{300 \times 0.06 \times 0.94}$
+**Step 1** $np = (150)(0.30) = 45$ and $nq = (150)(0.70) = 105$. Since $np \geq 5$ and $nq \geq 5$, the normal distribution can be used.
+
+**Step 2** $\mu = np = 45$ and $\sigma = \sqrt{npq} = \sqrt{(150)(0.30)(0.70)} = \sqrt{31.5} \approx 5.61$
+
+**Step 3** $P(X = 52)$
+
+**Step 4** Using approximation 1 in Table 6-2: $P(51.5 < X < 52.5)$ (Figure 6-40).
+
+**Step 5** $z_1 = \dfrac{51.5 - 45}{5.61} \approx 1.16$ and $z_2 = \dfrac{52.5 - 45}{5.61} \approx 1.34$
+
+**Step 6** The area between $z_1$ and $z_2$ is $0.0327$, or about $3.27\%$.
+:::
+
+---
+
+## Example 6-16
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
 
 ```{r e6-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 300; p <- 0.06; q <- 1 - p
-mu <- n * p; sigma <- sqrt(n * p * q)
-cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
-
-# Normal approximation: P(X = 25) ≈ P(24.5 < X < 25.5)
-pnorm(25.5, mean = mu, sd = sigma) - pnorm(24.5, mean = mu, sd = sigma)
-
-# Exact binomial
-dbinom(25, n, p)
+n_buyers <- 150
+p_pickup <- 0.30
+mu <- n_buyers * p_pickup
+sigma <- sqrt(n_buyers * p_pickup * (1 - p_pickup))
+c(np = mu, nq = n_buyers * (1 - p_pickup), sigma = round(sigma, 2))
+round(pnorm(52.5, mu, sigma) - pnorm(51.5, mu, sigma), 4)
+round(dbinom(52, n_buyers, p_pickup), 4)
 ```
 
-**Answer (normal approx.):** table value 0.0227, R gives $\approx$ **0.0229** (2.29%); Exact binomial: $\approx 0.0226.$
+The normal approximation gives **0.0327**, and the exact binomial probability is $0.032$.
+:::
 
 ## Example 6-17 {#example-6-17}
 
 :::{.callout-warning}
-## Widowed Bowlers
+## Returned Orders
 
-Researchers found that 10% of people who bowl are widowed. If 200 bowlers are selected, find the probability that **10 or more** are widowed.
+Fifteen percent of the orders placed on an online marketplace are returned. If a random sample of $240$ orders is selected, find the probability that $24$ or more will be returned. *(hypothetical data)*
 :::
+
+---
 
 ## Example 6-17
 
 :::{.callout-tip}
 ## Solution
 
-**Check:** np = 200(0.10) = 20 $\geq 5$, nq = 200(0.90) = 180 $\geq 5$ ✓
+**Step 1** Here $p = 0.15$, $q = 0.85$ and $n = 240$. Since $np = (240)(0.15) = 36$ and $nq = (240)(0.85) = 204$, the normal approximation can be used.
 
-**Parameters:** $\mu$ = np = 20, $\sigma$ = $\sqrt{200 \times 0.10 \times 0.90}$ = $\sqrt{18} \approx 4.24$
+**Step 2** $\mu = np = 36$ and $\sigma = \sqrt{npq} = \sqrt{(240)(0.15)(0.85)} = \sqrt{30.6} \approx 5.53$
 
-With the continuity correction, $P(X \geq 10) = P(X > 9.5)$:
+**Step 3** $P(X \geq 24)$
 
-$$z = \frac{9.5 - 20}{4.24} \approx -2.48$$
+**Step 4** Using approximation 2 in Table 6-2: $P(X > 24 - 0.5) = P(X > 23.5)$ (Figure 6-41).
 
-$$P(X \geq 10) = 1 - 0.0066 = 0.9934$$
+**Step 5** $z = \dfrac{23.5 - 36}{5.53} \approx -2.26$
+
+**Step 6** The area to the right of that $z$ value is $0.9881$, or $98.81\%$.
 :::
 
+---
+
+## Example 6-17
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 200; p <- 0.10; q <- 0.90
-mu <- n * p; sigma <- sqrt(n * p * q)
-cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
-
-# P(X >= 10) with continuity correction: P(X > 9.5)
-pnorm(9.5, mean = mu, sd = sigma, lower.tail = FALSE)
-
-# Exact binomial
-1 - pbinom(9, n, p)
+n_orders <- 240
+p_return <- 0.15
+mu <- n_orders * p_return
+sigma <- sqrt(n_orders * p_return * (1 - p_return))
+c(np = mu, nq = n_orders * (1 - p_return), sigma = round(sigma, 2))
+round(pnorm(23.5, mu, sigma, lower.tail = FALSE), 4)
+round(pbinom(23, n_orders, p_return, lower.tail = FALSE), 4)
 ```
 
-**Answer:** table value 0.9934, R gives $\approx$ **0.9933** — it is almost certain that 10 or more bowlers are widowed.
+In a random sample of $240$ orders the probability of $24$ or more being returned is **98.81%**; the exact binomial probability is $0.991$.
+:::
 
 ## Example 6-18 {#example-6-18}
 
 :::{.callout-warning}
-## Batting Averages
+## Mobile Wallet Payments
 
-In baseball, a .320 batting average means a player gets a hit 32% of the time. In 100 at-bats, find the probability of getting **26 or fewer** hits.
+A recent in-store survey found that $45\%$ of shoppers at a department store pay with a mobile wallet. Find the probability that in a random sample of $120$ shoppers, **at most $48$** will pay with a mobile wallet. *(hypothetical data)*
 :::
+
+---
 
 ## Example 6-18
 
 :::{.callout-tip}
 ## Solution
 
-**Check:** np = 32 $\geq 5$, nq = 68 $\geq 5$ ✓
+**Step 1** Here $p = 0.45$, $q = 0.55$ and $n = 120$, so $np = 54$ and $nq = 66$. Since both values are greater than or equal to $5$, the normal approximation can be used.
 
-**Parameters:** $\mu$ = 32, $\sigma$ = $\sqrt{100 \times 0.32 \times 0.68} \approx 4.66$
+**Step 2** $\mu = np = 54$ and $\sigma = \sqrt{npq} = \sqrt{(120)(0.45)(0.55)} \approx 5.45$
 
-With the continuity correction, $P(X \leq 26) = P(X < 26.5)$:
+**Step 3** $P(X \leq 48)$, which with the correction factor becomes $P(X < 48 + 0.5) = P(X < 48.5)$ (Figure 6-42).
 
-$$z = \frac{26.5 - 32}{4.66} \approx -1.18$$
+**Step 4** $z = \dfrac{48.5 - 54}{5.45} \approx -1.01$
+
+**Step 5** The area to the left of that $z$ value is $0.1564$, or $15.64\%$.
+
+The probability that at most $48$ of the $120$ shoppers pay with a mobile wallet is **15.64%**.
 :::
+
+---
+
+## Example 6-18
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
 
 ```{r e6-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 100; p <- 0.32; q <- 0.68
-mu <- n * p; sigma <- sqrt(n * p * q)
-cat("mu =", mu, "  sigma =", round(sigma, 4), "\n")
-
-# P(X <= 26) with continuity correction: P(X < 26.5)
-pnorm(26.5, mean = mu, sd = sigma)
-
-# Exact binomial
-pbinom(26, n, p)
+n_shoppers <- 120
+p_wallet <- 0.45
+mu <- n_shoppers * p_wallet
+sigma <- sqrt(n_shoppers * p_wallet * (1 - p_wallet))
+c(np = mu, nq = n_shoppers * (1 - p_wallet), sigma = round(sigma, 2))
+round(pnorm(48.5, mu, sigma), 4)
+round(pbinom(48, n_shoppers, p_wallet), 4)
 ```
-
-**Answer (normal approx.):** $\approx$ **0.119** (11.9%); Exact: $\approx 0.118.$
+:::
 
 ## Example 6-19 {#example-6-19}
+
 :::{.callout-warning}
-A coin is flipped 10 times. Find the probability of getting **exactly 6 heads** using:
+## Binomial versus Normal Approximation
 
-**(a)** The binomial distribution
-
-**(b)** The normal approximation
+When $n = 12$ and $p = 0.5$, use the binomial distribution table (Table A-2 in Appendix A) to find the probability that $X = 8$. Then use the normal approximation to find the probability that $X = 8$.
 :::
+
+---
+
+## Example 6-19
+
+:::{.callout-tip}
+## Solution
+
+From Table A-2, for $n = 12$, $p = 0.5$ and $X = 8$, the probability is $0.121$.
+
+For a normal approximation, $\mu = np = (12)(0.5) = 6$ and $\sigma = \sqrt{npq} = \sqrt{(12)(0.5)(0.5)} = \sqrt{3} \approx 1.73$.
+
+Now $X = 8$ is represented by the boundaries $7.5$ and $8.5$, so
+
+$$z_1 = \frac{7.5 - 6}{1.73} \approx 0.87 \qquad z_2 = \frac{8.5 - 6}{1.73} \approx 1.44$$
+
+The area between these boundaries is $0.1188$ — very close to the exact binomial probability $0.1208$ (Figure 6-43).
+:::
+
+---
+
+## Example 6-19
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
+```{r e6-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n_trials <- 12
+p_success <- 0.5
+mu <- n_trials * p_success
+sigma <- sqrt(n_trials * p_success * (1 - p_success))
+c(np = mu, nq = n_trials * (1 - p_success), sigma = round(sigma, 2))
+round(dbinom(8, n_trials, p_success), 4)
+round(pnorm(8.5, mu, sigma) - pnorm(7.5, mu, sigma), 4)
+```
+:::
+
+---
+
+## Example 6-19
 
 :::{.callout-warning}
 ## Caution
-Here np = 5, nq = 5 — these are exactly at the minimum threshold. The normal approximation may be less accurate for small n.
+
+Here $np = 6$ and $nq = 6$ — only just above the minimum threshold of $5$. The normal approximation may be less accurate for small $n$, yet $0.1188$ is still close to the exact value $0.1208$.
+
+A normal distribution can also be used to approximate other distributions, such as the **Poisson** distribution (Table A-3 in Appendix A).
 :::
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 6 Vocabulary
+
+central limit theorem · correction for continuity · negatively or left-skewed distribution · normal distribution · positively or right-skewed distribution · sampling distribution of sample means · sampling error · standard error of the mean · standard normal distribution · symmetric distribution · $z$ value ($z$ score)
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## The Normal Distribution
+
+Equation of a normal distribution and of the standard normal distribution:
+$$y = \frac{e^{-(X-\mu)^2/(2\sigma^2)}}{\sigma\sqrt{2\pi}} \qquad\qquad y = \frac{e^{-z^2/2}}{\sqrt{2\pi}}$$
+
+Formula for the $z$ score (or standard score), and for finding a specific data value:
+$$z = \frac{X - \mu}{\sigma} \qquad\qquad X = z \cdot \sigma + \mu$$
+:::
+
 ---
 
-```{r e6-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 10; p <- 0.5; q <- 0.5
-mu <- n * p; sigma <- sqrt(n * p * q)
-cat("mu =", mu, "  sigma =", sigma, "\n")
+## Key Formulas
 
-# (a) Exact binomial
-dbinom(6, n, p)
+:::{.callout-important}
+## Sample Means and the Binomial Approximation
 
-# (b) Normal approximation with continuity correction
-pnorm(6.5, mean = mu, sd = sigma) - pnorm(5.5, mean = mu, sd = sigma)
-```
+Mean of the sample means and standard error of the mean:
+$$\mu_{\bar{X}} = \mu \qquad\qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$
 
-**Comparison:** Exact = **0.2051**; Normal approx. = **0.2045** (a table-based hand calculation gives 0.2034)
+$z$ value for the central limit theorem, and the finite population correction factor:
+$$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \qquad\qquad \sqrt{\frac{N-n}{N-1}}$$
 
-The approximation is quite close even for this borderline case.
+Mean and standard deviation for the binomial distribution:
+$$\mu = n \cdot p \qquad\qquad \sigma = \sqrt{n \cdot p \cdot q}$$
 
-## Chapter 6 Summary {.smaller}
-
-| Topic | Formula | R Function |
-|-------|---------|------------|
-| Standard normal area (left) | P(Z < z) | `pnorm(z)` |
-| Standard normal area (right) | 1 − P(Z < z) | `pnorm(z, lower.tail=FALSE)` |
-| Find z from area | — | `qnorm(p)` |
-| Non-standard normal | z = (X − $\mu$)/$\sigma$ | `pnorm(x, mean, sd)` |
-| Sample mean probability | z = (X̄ − $\mu$)/($\sigma$/√n) | `pnorm(xbar, mean, sd/sqrt(n))` |
-| Normal approx. to binomial | $\mu$=np, $\sigma$=$\sqrt{npq}$ | $\pm$0.5 correction |
+Pearson coefficient of skewness: $PC = \dfrac{3(\bar{X} - \text{median})}{s}$
+:::
 
 ## Key Takeaways
 
-1. The normal distribution is fully described by $\mu$ and $\sigma$
-2. Convert to z scores to use the standard normal table
-3. The CLT guarantees that sample means are approximately normal for $n \geq 30$
-4. Use normal approximation to binomial when np $\geq 5$ **and** nq $\geq 5$
-5. Always apply the **correction for continuity** in the normal approximation
+:::{.callout-important}
+- A **normal distribution** is continuous, bell-shaped, unimodal and symmetric; mean, median and mode are equal, the total area is $1$, and the curve never touches the $x$ axis
+- About $68\%$, $95\%$ and $99.7\%$ of the area lies within $1$, $2$ and $3$ standard deviations of the mean
+- The **standard normal distribution** has $\mu = 0$, $\sigma = 1$; convert with $z = \dfrac{X-\mu}{\sigma}$ and recover a data value with $X = z\sigma + \mu$
+- Areas under the standard normal curve are **probabilities**; the distribution is continuous, so $P(a \leq z \leq b) = P(a < z < b)$
+- **Normality** is checked with a histogram, Pearson's index $PC = \dfrac{3(\bar{X}-\text{median})}{s}$ (significant when $PC \geq +1$ or $PC \leq -1$), outliers, and a normal quantile plot
+:::
+
+## Key Takeaways
+
+:::{.callout-important}
+- A **sampling distribution of sample means** uses the means of all samples of a given size; $\mu_{\bar{X}} = \mu$ and the **standard error** is $\sigma_{\bar{X}} = \sigma/\sqrt{n}$
+- The **central limit theorem**: as $n$ increases without limit, the distribution of sample means approaches normal — for any $n$ if the population is normal, otherwise for $n \geq 30$
+- The **finite population correction factor** $\sqrt{\dfrac{N-n}{N-1}}$ is needed for a sample larger than $5\%$ of the population drawn without replacement
+- The normal approximation to the binomial applies when $np \geq 5$ **and** $nq \geq 5$, with $\mu = np$ and $\sigma = \sqrt{npq}$
+- Always apply the **correction for continuity** ($\pm 0.5$) when a continuous distribution approximates a discrete one
+:::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

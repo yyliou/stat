@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,43 +227,268 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
-<p>The <strong>chi-square distribution</strong> has several important applications beyond testing a single variance:</p>
+<p>Chapter 11 uses the <strong>chi-square distribution</strong> to test hypotheses about <strong>frequency distributions</strong> rather than about means, proportions or variances.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11-1</td>
+<td>Goodness-of-fit test; observed vs.&nbsp;expected frequencies; <span class="math inline">\text{d.f.} = k - 1</span>; procedure table; test of normality</td>
+</tr>
+<tr class="even">
+<td>11-2</td>
+<td>Contingency tables; independence test; expected values; <span class="math inline">\text{d.f.} = (R-1)(C-1)</span>; homogeneity of proportions; Yates correction</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="chapter-objectives" class="slide level2">
+<h2>Chapter Objectives</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>After completing this chapter, you should be able to</strong></p>
+</div>
+<div class="callout-content">
 <ol type="1">
-<li><strong>Goodness-of-fit test</strong> — Does a distribution follow a hypothesized pattern?</li>
-<li><strong>Test of independence</strong> — Are two categorical variables related?</li>
-<li><strong>Test of homogeneity</strong> — Are proportions equal across several populations?</li>
+<li>Test a distribution for goodness of fit, using chi-square.</li>
+<li>Test two variables for independence, using chi-square.</li>
+<li>Test proportions for homogeneity, using chi-square.</li>
 </ol>
-<p>All three tests use the same chi-square statistic and are <strong>always right-tailed</strong>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<p>The chi-square distribution was used in Chapters 7 and 8 to find a confidence interval for a variance or standard deviation and to test a hypothesis about a single variance or standard deviation. It can also be used for tests concerning <strong>frequency distributions</strong>.</p>
+<ul>
+<li><em>If shoppers are given a choice of payment methods, will each method be used with the same frequency?</em> — a <strong>goodness-of-fit</strong> question.</li>
+<li><em>Is the type of complaint a customer files independent of the store format?</em> — a question of <strong>independence</strong> of two variables.</li>
+<li><em>Is the proportion of members who hold the premium tier the same in every regional market?</em> — a question of <strong>homogeneity of proportions</strong>.</li>
+</ul>
+<p>All three tests are based on <span class="math inline">\chi^2 = \sum \dfrac{(O-E)^2}{E}</span> and all three are <strong>right-tailed</strong>.</p>
 </section>
 <section>
 <section id="section-11-1-test-for-goodness-of-fit" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 11-1: Test for Goodness of Fit</h1>
 
 </section>
-<section id="the-goodness-of-fit-test" class="slide level2">
-<h2>The Goodness-of-Fit Test</h2>
+<section id="testing-whether-a-distribution-fits-a-pattern" class="slide level2">
+<h2>Testing Whether a Distribution Fits a Pattern</h2>
+<p>In addition to being used to test a single variance, the chi-square statistic can be used to see whether a frequency distribution fits a specific pattern. A retailer may wish to see whether shoppers show a preference for a specific way of paying; a logistics planner may wish to see whether parcels are collected more often on some days than on others; a call centre may want to see whether it receives more calls at certain times of the day than at others.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<p><strong>Characteristics of the Chi-Square Distribution</strong></p>
 </div>
 <div class="callout-content">
-<p>The <strong>chi-square goodness-of-fit test</strong> compares observed frequencies with expected frequencies to determine whether a distribution follows a specific pattern.</p>
+<ol type="1">
+<li>The chi-square distribution is a family of curves based on the degrees of freedom.</li>
+<li>The chi-square distributions are positively skewed.</li>
+<li>All chi-square values are greater than or equal to zero.</li>
+<li>The total area under each chi-square distribution is equal to 1.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="the-chi-square-goodness-of-fit-test" class="slide level2">
+<h2>The Chi-Square Goodness-of-Fit Test</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Chi-Square Goodness-of-Fit Test</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>chi-square goodness-of-fit test</strong> is used to test the claim that an observed frequency distribution fits some given expected frequency distribution.</p>
+</div>
+</div>
+</div>
+<p>Suppose you wanted to see whether shoppers at a convenience-store chain split evenly across four ways of paying. A random sample of 200 transactions showed the following distribution <em>(hypothetical data)</em>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Payment method</th>
+<th>Cash</th>
+<th>Stored value</th>
+<th>Mobile pay</th>
+<th>Credit card</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Observed</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observed-and-expected-frequencies" class="slide level2">
+<h2>Observed and Expected Frequencies</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Observed and Expected Frequency</strong></p>
+</div>
+<div class="callout-content">
+<p>Since the frequencies for each payment method were obtained from a sample, these actual frequencies are called the <strong>observed frequencies</strong>. The frequencies obtained by calculation (as if there were no preference) are called the <strong>expected frequencies</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Two Rules for Computing the Expected Frequencies</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>If all the expected frequencies are <strong>equal</strong>, the expected frequency <span class="math inline">E</span> can be calculated by <span class="math inline">E = n/k</span>, where <span class="math inline">n</span> is the total number of observations and <span class="math inline">k</span> is the number of categories.</li>
+<li>If all the expected frequencies are <strong>not equal</strong>, the expected frequency <span class="math inline">E</span> can be calculated by <span class="math inline">E = n \cdot p</span>, where <span class="math inline">n</span> is the total number of observations and <span class="math inline">p</span> is the probability for that category.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="the-completed-table-for-the-payment-data" class="slide level2">
+<h2>The Completed Table for the Payment Data</h2>
+<p>If there were no difference, you would expect <span class="math inline">200 \div 4 = 50</span> transactions in each category.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Frequency</th>
+<th>Cash</th>
+<th>Stored value</th>
+<th>Mobile pay</th>
+<th>Credit card</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Observed</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
+</tr>
+<tr class="even">
+<td>Expected</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<p>Because of <strong>sampling error</strong>, observed frequencies almost always differ from expected ones. Is the difference <strong>significant</strong>, or due to chance? State <span class="math inline">H_0</span> as no difference:</p>
+<ul>
+<li><span class="math inline">H_0</span>: There is no difference in the transactions for each payment method.</li>
+<li><span class="math inline">H_1</span>: There is a difference in the transactions for each payment method.</li>
+</ul>
+</section>
+<section id="formula-for-the-chi-square-goodness-of-fit-test" class="slide level2">
+<h2>Formula for the Chi-Square Goodness-of-Fit Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Test Statistic and Degrees of Freedom</strong></p>
+</div>
+<div class="callout-content">
 <p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p>with degrees of freedom equal to the <strong>number of categories minus 1</strong>, and where</p>
 <ul>
 <li><span class="math inline">O</span> = observed frequency</li>
 <li><span class="math inline">E</span> = expected frequency</li>
-<li><strong>d.f.</strong> = number of categories − 1</li>
 </ul>
-<p><strong>Assumptions:</strong> 1. Data are from a random sample 2. Expected frequency for each category <span class="math inline">\geq 5</span></p>
-<p>The test is always <strong>right-tailed</strong> (small <span class="math inline">\chi^2</span> → good fit; large <span class="math inline">\chi^2</span> → poor fit).</p>
+<p>When there is perfect agreement between the observed and the expected values, <span class="math inline">\chi^2 = 0</span>; also <span class="math inline">\chi^2</span> can never be negative. The test is <strong>right-tailed</strong> because “<span class="math inline">H_0</span>: Good fit” and “<span class="math inline">H_1</span>: Not a good fit” mean that <span class="math inline">\chi^2</span> will be small in the first case and large in the second case.</p>
+</div>
+</div>
+</div>
+<p>In the payment example there are four categories, so <span class="math inline">\text{d.f.} = 4 - 1 = 3</span>: the number of transactions in each of the first three categories is free to vary, but for the sum to be 200 the number in the last category is fixed.</p>
+</section>
+<section id="assumptions-and-the-small-expected-frequency-rule" class="slide level2">
+<h2>Assumptions and the Small-Expected-Frequency Rule</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Assumptions for the Chi-Square Goodness-of-Fit Test</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>The data are obtained from a <strong>random sample</strong>.</li>
+<li>The <strong>expected frequency</strong> for each category must be <strong>5 or more</strong>.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Statisticians require expected frequencies of at least 5 because the chi-square distribution is continuous whereas the goodness-of-fit test is discrete. The continuous distribution is a good approximation only when the expected value for each class is at least 5. <strong>If an expected frequency of a class is less than 5, that class can be combined with another class</strong> so that the expected frequency is 5 or more.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="procedure-table-the-chi-square-goodness-of-fit-test" class="slide level2">
+<h2>Procedure Table: The Chi-Square Goodness-of-Fit Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Five Steps</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><strong>Step 2.</strong> Find the critical value from Table A-6. The test is always <strong>right-tailed</strong>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic — find the sum of the <span class="math inline">\dfrac{(O-E)^2}{E}</span> values.</p>
+<p><strong>Step 4.</strong> Make the decision.</p>
+<p><strong>Step 5.</strong> Summarize the results.</p>
+<p>In R the critical value is <code>qchisq(1 - alpha, df)</code> and the P-value is <code>pchisq(chi2, df, lower.tail = FALSE)</code>.</p>
 </div>
 </div>
 </div>
@@ -276,41 +501,30 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Fruit Soda Flavor Preference</strong></p>
+<p><strong>Payment Methods at a Convenience-Store Chain</strong></p>
 </div>
 <div class="callout-content">
-<p>A market analyst surveys 100 people about their preference among five flavors of a new fruit soda. If there is no preference, each flavor should be equally popular. The results are:</p>
+<p>Is there enough evidence to reject the claim that the four payment methods are used equally often? Use <span class="math inline">\alpha = 0.05</span> <em>(hypothetical data)</em>.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Flavor</th>
-<th>Cherry</th>
-<th>Strawberry</th>
-<th>Orange</th>
-<th>Lime</th>
-<th>Grape</th>
+<th>Frequency</th>
+<th>Cash</th>
+<th>Stored value</th>
+<th>Mobile pay</th>
+<th>Credit card</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Observed</td>
-<td>32</td>
-<td>28</td>
-<td>16</td>
-<td>14</td>
-<td>10</td>
-</tr>
-<tr class="even">
-<td>Expected</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
 </tr>
 </tbody>
 </table>
-<p>At <span class="math inline">\alpha</span> = 0.05, is there enough evidence to reject the claim that consumers show no preference?</p>
 </div>
 </div>
 </div>
@@ -326,12 +540,12 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: Consumers show no preference (claim) &nbsp;&nbsp; <span class="math inline">H_1</span>: Consumers show a preference</p>
-<p><strong>Step 2:</strong> d.f. = 5 − 1 = 4; CV = 9.488</p>
-<p><strong>Step 3:</strong> <span class="math display">\chi^2 = \frac{(32-20)^2}{20} + \frac{(28-20)^2}{20} + \frac{(16-20)^2}{20} + \frac{(14-20)^2}{20} + \frac{(10-20)^2}{20}</span> <span class="math display">= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \boxed{18.0}</span></p>
-<p><strong>Step 4:</strong> 18.0 &gt; 9.488 → <strong>Reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is sufficient evidence to conclude that consumers show a preference for certain flavors.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math inline">H_0</span>: There is no difference in the number of transactions for each payment method <em>(claim)</em>.</p>
+<p><span class="math inline">H_1</span>: There is a difference in the number of transactions for each payment method.</p>
+<p><strong>Step 2.</strong> Find the critical value. The degrees of freedom are <span class="math inline">4 - 1 = 3</span>, and at <span class="math inline">\alpha = 0.05</span> the critical value from Table A-6 is <strong>7.815</strong>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. The expected values are found by <span class="math inline">E = n/k = 200/4 = 50</span>.</p>
+<p><span class="math display">\chi^2 = \frac{(40-50)^2}{50} + \frac{(62-50)^2}{50} + \frac{(42-50)^2}{50} + \frac{(56-50)^2}{50} = 2.00 + 2.88 + 1.28 + 0.72 = 6.88</span></p>
 </div>
 </div>
 </div>
@@ -347,51 +561,78 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3 in R</strong> — the hand computation first, then the same test from <code>chisq.test()</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">28</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">10</span>)</span>
-<span id="cb1-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>)</span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb1-5"><a href=""></a>df   <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb1-6"><a href=""></a>cv   <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, df)</span>
-<span id="cb1-7"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>payment_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Cash =</span> <span class="dv">40</span>, <span class="st">`</span><span class="at">Stored value</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">62</span>, <span class="st">`</span><span class="at">Mobile pay</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">42</span>, <span class="st">`</span><span class="at">Credit card</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">56</span>)</span>
+<span id="cb1-2"><a href=""></a>expected_equal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">mean</span>(payment_counts), <span class="fu">length</span>(payment_counts))</span>
+<span id="cb1-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((payment_counts <span class="sc">-</span> expected_equal)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_equal)</span>
+<span id="cb1-4"><a href=""></a>chi_square</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 18 </code></pre>
+<pre><code>[1] 6.88</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 9.488 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">chisq.test</span>(payment_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.001234 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  payment_counts
+X-squared = 6.88, df = 3, p-value = 0.07582</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
+<pre><code>[1] 7.814728</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="example-11-1-3" class="slide level2">
+<h2>Example 11-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 4.</strong> Make the decision. The decision is to <strong>not reject the null hypothesis</strong> since <span class="math inline">6.88 &lt; 7.815</span>.</p>
+<p><strong>Step 5.</strong> Summarize the results. There is not enough evidence to reject the claim that there is no difference in the number of transactions for each payment method.</p>
+<p><strong>P-value.</strong> Looking across the row with <span class="math inline">\text{d.f.} = 3</span> of Table A-6, the test statistic 6.88 lies between 6.251 and 7.815, so <span class="math inline">0.05 &lt; P\text{-value} &lt; 0.10</span>; R gives <span class="math inline">P = 0.0758</span>. Since the P-value is greater than 0.05, the decision is again to not reject <span class="math inline">H_0</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="observed-and-expected-values-in-r" class="slide level2">
+<h2>Observed and Expected Values in R</h2>
+<p><strong>Draw figure</strong> — compare the observed and expected values for the payment data.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># Visualize</span></span>
-<span id="cb9-2"><a href=""></a>df_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-3"><a href=""></a>  <span class="at">Flavor =</span> <span class="fu">c</span>(<span class="st">"Cherry"</span>,<span class="st">"Strawberry"</span>,<span class="st">"Orange"</span>,<span class="st">"Lime"</span>,<span class="st">"Grape"</span>),</span>
-<span id="cb9-4"><a href=""></a>  <span class="at">Observed =</span> observed, <span class="at">Expected =</span> expected)</span>
-<span id="cb9-5"><a href=""></a>df_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(df_plot, <span class="sc">-</span>Flavor, <span class="at">names_to =</span> <span class="st">"Type"</span>, <span class="at">values_to =</span> <span class="st">"Count"</span>)</span>
-<span id="cb9-6"><a href=""></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> Flavor, <span class="at">y =</span> Count, <span class="at">fill =</span> Type)) <span class="sc">+</span></span>
-<span id="cb9-7"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Observed vs. Expected Frequencies"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>payment_fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href=""></a>  <span class="at">Method   =</span> <span class="fu">factor</span>(<span class="fu">names</span>(payment_counts), <span class="at">levels =</span> <span class="fu">names</span>(payment_counts)),</span>
+<span id="cb7-3"><a href=""></a>  <span class="at">Observed =</span> <span class="fu">as.numeric</span>(payment_counts),</span>
+<span id="cb7-4"><a href=""></a>  <span class="at">Expected =</span> expected_equal)</span>
+<span id="cb7-5"><a href=""></a>payment_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(payment_fit, <span class="sc">-</span>Method,</span>
+<span id="cb7-6"><a href=""></a>                             <span class="at">names_to =</span> <span class="st">"Source"</span>, <span class="at">values_to =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb7-7"><a href=""></a>payment_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(payment_long, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Frequency, <span class="at">fill =</span> Source)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Observed and Expected Values for Payment Methods"</span>,</span>
+<span id="cb7-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"Payment method"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="observed-and-expected-values-in-r-1" class="slide level2">
+<h2>Observed and Expected Values in R</h2>
+<p><strong>Output figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>payment_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch11_files/figure-revealjs/e11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<img data-src="ch11_files/figure-revealjs/s11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>When the observed and expected values are <strong>close together</strong>, the test statistic is small and <span class="math inline">H_0</span> is not rejected — “a good fit”. When they are <strong>far apart</strong>, the test statistic is large and <span class="math inline">H_0</span> is rejected — “not a good fit”.</p>
+</section>
 <section id="example-11-2" class="slide level2">
 <h2>Example 11-2</h2>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -400,10 +641,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Retired Senior Executives Return to Work</strong></p>
+<p><strong>Delivery Options at an E-Commerce Warehouse</strong></p>
 </div>
 <div class="callout-content">
-<p>A survey found that after returning to work, retired executives were distributed as: 38% employed by another organization, 32% self-employed, 23% freelancing/consulting, 7% formed their own companies. A local researcher surveyed 300 executives and found: 122 working for another company, 85 self-employed, 76 freelancing/consulting, and 17 formed their own companies. At <span class="math inline">\alpha</span> = 0.10, test the claim that these proportions are the same.</p>
+<p>A logistics manager believes that parcels leave a Taipei e-commerce warehouse in these proportions: 45% convenience-store pickup, 30% home delivery, 15% locker pickup, and 10% same-day courier. A random sample of 400 parcels shipped last month contained 208 convenience-store pickups, 99 home deliveries, 61 locker pickups and 32 same-day courier parcels. At <span class="math inline">\alpha = 0.10</span>, test the claim that the proportions are the same as the manager believes <em>(hypothetical data)</em>.</p>
 </div>
 </div>
 </div>
@@ -419,13 +660,39 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: Distribution is 38%/32%/23%/7% (claim) &nbsp;&nbsp; <span class="math inline">H_1</span>: Distribution differs</p>
-<p><strong>Step 2:</strong> d.f. = 4 − 1 = 3; CV = 6.251</p>
-<p><strong>Step 3:</strong> Expected frequencies: <span class="math inline">0.38 \times 300 = 114</span>; <span class="math inline">0.32 \times 300 = 96</span>; <span class="math inline">0.23 \times 300 = 69</span>; <span class="math inline">0.07 \times 300 = 21</span></p>
-<p><span class="math display">\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}</span> <span class="math display">= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}</span></p>
-<p><strong>Step 4:</strong> 3.293 &lt; 6.251 → <strong>Do not reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is not enough evidence to conclude that the local distribution differs from the national survey.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math inline">H_0</span>: The proportion of parcels shipped by convenience-store pickup is 45%, by home delivery is 30%, by locker pickup is 15%, and by same-day courier is 10% <em>(claim)</em>.</p>
+<p><span class="math inline">H_1</span>: The distribution is not the same as stated in the null hypothesis.</p>
+<p><strong>Step 2.</strong> Find the critical value. Since <span class="math inline">\alpha = 0.10</span> and <span class="math inline">\text{d.f.} = 4 - 1 = 3</span>, the critical value is <strong>6.251</strong>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. The expected values are <span class="math inline">E = n \cdot p</span>: <span class="math inline">0.45(400) = 180</span>, <span class="math inline">0.30(400) = 120</span>, <span class="math inline">0.15(400) = 60</span>, <span class="math inline">0.10(400) = 40</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Frequency</th>
+<th>Store pickup</th>
+<th>Home delivery</th>
+<th>Locker</th>
+<th>Courier</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Observed</td>
+<td>208</td>
+<td>99</td>
+<td>61</td>
+<td>32</td>
+</tr>
+<tr class="even">
+<td>Expected</td>
+<td>180</td>
+<td>120</td>
+<td>60</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = \frac{(208-180)^2}{180} + \frac{(99-120)^2}{120} + \frac{(61-60)^2}{60} + \frac{(32-40)^2}{40} = 9.647</span></p>
 </div>
 </div>
 </div>
@@ -441,38 +708,46 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3 in R</strong> — with unequal expected frequencies the claimed proportions are passed to <code>chisq.test()</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">122</span>, <span class="dv">85</span>, <span class="dv">76</span>, <span class="dv">17</span>)</span>
-<span id="cb10-2"><a href=""></a>props    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.38</span>, <span class="fl">0.32</span>, <span class="fl">0.23</span>, <span class="fl">0.07</span>)</span>
-<span id="cb10-3"><a href=""></a>expected <span class="ot">&lt;-</span> props <span class="sc">*</span> <span class="dv">300</span></span>
-<span id="cb10-4"><a href=""></a></span>
-<span id="cb10-5"><a href=""></a>chi2  <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb10-6"><a href=""></a>df    <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb10-7"><a href=""></a>cv    <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.90</span>, df)</span>
-<span id="cb10-8"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-9"><a href=""></a></span>
-<span id="cb10-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Expected:"</span>, expected, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>parcel_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">store_pickup =</span> <span class="dv">208</span>, <span class="at">home_delivery =</span> <span class="dv">99</span>, <span class="at">locker =</span> <span class="dv">61</span>, <span class="at">courier =</span> <span class="dv">32</span>)</span>
+<span id="cb9-2"><a href=""></a>claimed_share <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>)</span>
+<span id="cb9-3"><a href=""></a>gof_parcels <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(parcel_counts, <span class="at">p =</span> claimed_share)</span>
+<span id="cb9-4"><a href=""></a>gof_parcels<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Expected: 114 96 69 21 </code></pre>
+<pre><code> store_pickup home_delivery        locker       courier 
+          180           120            60            40 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>gof_parcels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 3.2939 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  parcel_counts
+X-squared = 9.6472, df = 3, p-value = 0.02182</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 6.251 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.3485 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Do not reject H0 </code></pre>
+<pre><code>[1] 6.251389</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-11-2-3" class="slide level2">
+<h2>Example 11-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 4.</strong> Make the decision. Since <span class="math inline">9.647 &gt; 6.251</span>, the decision is to <strong>reject the null hypothesis</strong>.</p>
+<p><strong>Step 5.</strong> Summarize the results. There is enough evidence to reject the null hypothesis. It can be concluded that the proportions are significantly different from those stated by the manager.</p>
 </div>
 </div>
 </div>
@@ -485,10 +760,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Firearm Deaths</strong></p>
+<p><strong>Product Mix of Cross-Border Orders</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher read that firearm-related deaths for people aged 1–18 are distributed as: 74% accidental, 16% homicides, 10% suicides. In her district, there were 68 accidental deaths, 27 homicides, and 5 suicides (total = 100) during the past year. At <span class="math inline">\alpha</span> = 0.10, test the claim.</p>
+<p>A cross-border seller states that orders placed on its Taiwan storefront are 55% apparel, 30% cosmetics and 15% household goods. A random sample of 200 orders from the past quarter contained 92 apparel orders, 68 cosmetics orders and 40 household-goods orders. At <span class="math inline">\alpha = 0.10</span>, test the claim that the percentages are as stated <em>(hypothetical data)</em>.</p>
 </div>
 </div>
 </div>
@@ -504,13 +779,36 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: Deaths are 74% accidental, 16% homicides, 10% suicides (claim) &nbsp;&nbsp; <span class="math inline">H_1</span>: Distribution differs</p>
-<p><strong>Step 2:</strong> d.f. = 3 − 1 = 2; CV = 4.605</p>
-<p><strong>Step 3:</strong> Expected: 74, 16, 10</p>
-<p><span class="math display">\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \boxed{10.549}</span></p>
-<p><strong>Step 4:</strong> 10.549 &gt; 4.605 → <strong>Reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is enough evidence to reject the claim that the distribution in this district matches the national pattern.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math inline">H_0</span>: The orders are distributed as follows: 55% apparel, 30% cosmetics and 15% household goods <em>(claim)</em>.</p>
+<p><span class="math inline">H_1</span>: The distribution is not the same as stated in the null hypothesis.</p>
+<p><strong>Step 2.</strong> Find the critical value. Since <span class="math inline">\alpha = 0.10</span> and <span class="math inline">\text{d.f.} = 3 - 1 = 2</span>, the critical value is <strong>4.605</strong>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. The expected values use <span class="math inline">E = n \cdot p</span>: <span class="math inline">200(0.55) = 110</span>, <span class="math inline">200(0.30) = 60</span>, <span class="math inline">200(0.15) = 30</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Frequency</th>
+<th>Apparel</th>
+<th>Cosmetics</th>
+<th>Household goods</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Observed</td>
+<td>92</td>
+<td>68</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>Expected</td>
+<td>110</td>
+<td>60</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = \frac{(92-110)^2}{110} + \frac{(68-60)^2}{60} + \frac{(40-30)^2}{30} = 2.945 + 1.067 + 3.333 = 7.345</span></p>
 </div>
 </div>
 </div>
@@ -526,33 +824,53 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">68</span>, <span class="dv">27</span>, <span class="dv">5</span>)</span>
-<span id="cb20-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">74</span>, <span class="dv">16</span>, <span class="dv">10</span>)</span>
-<span id="cb20-3"><a href=""></a></span>
-<span id="cb20-4"><a href=""></a>chi2  <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb20-5"><a href=""></a>df    <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb20-6"><a href=""></a>cv    <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.90</span>, df)</span>
-<span id="cb20-7"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-8"><a href=""></a></span>
-<span id="cb20-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>order_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">apparel =</span> <span class="dv">92</span>, <span class="at">cosmetics =</span> <span class="dv">68</span>, <span class="at">household =</span> <span class="dv">40</span>)</span>
+<span id="cb15-2"><a href=""></a>claimed_mix <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>)</span>
+<span id="cb15-3"><a href=""></a>gof_orders <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(order_counts, <span class="at">p =</span> claimed_mix)</span>
+<span id="cb15-4"><a href=""></a>gof_orders<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 10.549 </code></pre>
+<pre><code>  apparel cosmetics household 
+      110        60        30 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>gof_orders</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 4.605 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  order_counts
+X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.0051 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
+<pre><code>[1] 4.60517</code></pre>
 </div>
 </div>
+<p><strong>Step 4.</strong> Reject the null hypothesis, since <span class="math inline">7.345 &gt; 4.605</span>.</p>
+<p><strong>Step 5.</strong> There is enough evidence to reject the claim that the order mix is 55% apparel, 30% cosmetics and 15% household goods.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="test-of-normality-optional" class="slide level2">
+<h2>Test of Normality (Optional)</h2>
+<p>The chi-square goodness-of-fit test can be used to test a variable to see if it is <strong>normally distributed</strong>. The null and alternative hypotheses are</p>
+<ul>
+<li><span class="math inline">H_0</span>: The variable is normally distributed.</li>
+<li><span class="math inline">H_1</span>: The variable is not normally distributed.</li>
+</ul>
+<p>The procedure is somewhat complicated. It involves finding the expected frequencies for each class of a frequency distribution by using the <strong>standard normal distribution</strong>; the observed frequencies are then compared with those expected frequencies using the chi-square goodness-of-fit test.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Degrees of Freedom for the Test of Normality</strong></p>
+</div>
+<div class="callout-content">
+<p>The degrees of freedom equal the <strong>number of categories minus 3</strong>, since 1 degree of freedom is lost for each parameter that is estimated. Here both the <strong>mean</strong> and the <strong>standard deviation</strong> are estimated from the data, so 2 additional degrees of freedom are needed.</p>
 </div>
 </div>
 </div>
@@ -565,40 +883,40 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Test of Normality (Optional)</strong></p>
+<p><strong>Customs Clearance Times</strong></p>
 </div>
 <div class="callout-content">
-<p>Use the chi-square goodness-of-fit test to determine if the following frequency distribution is normally distributed. Use <span class="math inline">\alpha</span> = 0.05.</p>
+<p>A freight forwarder records the time, in minutes, needed to clear each of 200 randomly selected import declarations. Use chi-square to determine whether the variable shown in the frequency distribution is normally distributed. Use <span class="math inline">\alpha = 0.05</span> <em>(hypothetical data)</em>.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Boundaries</th>
+<th>Boundaries (minutes)</th>
 <th>Frequency</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>89.5–104.5</td>
-<td>24</td>
+<td>24.5–39.5</td>
+<td>18</td>
 </tr>
 <tr class="even">
-<td>104.5–119.5</td>
+<td>39.5–54.5</td>
 <td>62</td>
 </tr>
 <tr class="odd">
-<td>119.5–134.5</td>
+<td>54.5–69.5</td>
 <td>72</td>
 </tr>
 <tr class="even">
-<td>134.5–149.5</td>
-<td>26</td>
+<td>69.5–84.5</td>
+<td>30</td>
 </tr>
 <tr class="odd">
-<td>149.5–164.5</td>
-<td>12</td>
+<td>84.5–99.5</td>
+<td>14</td>
 </tr>
 <tr class="even">
-<td>164.5–179.5</td>
+<td>99.5–114.5</td>
 <td>4</td>
 </tr>
 <tr class="odd">
@@ -622,58 +940,19 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Solve</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: The variable is normally distributed. &nbsp; <span class="math inline">H_1</span>: The variable is not normally distributed.</p>
-<p><strong>Step 2:</strong> From the grouped data (class midpoints 97, 112, …, 172), <span class="math inline">\bar{X} = 123.4</span> and <span class="math inline">s = 17.03</span>. Convert each class boundary to a z value, find the normal-curve area for each class, and multiply by n = 200 to get the expected frequencies:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Class</th>
-<th>Area</th>
-<th>Expected E</th>
-<th>Observed O</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>below 104.5</td>
-<td>0.1335</td>
-<td>26.7</td>
-<td>24</td>
-</tr>
-<tr class="even">
-<td>104.5–119.5</td>
-<td>0.2755</td>
-<td>55.1</td>
-<td>62</td>
-</tr>
-<tr class="odd">
-<td>119.5–134.5</td>
-<td>0.3332</td>
-<td>66.64</td>
-<td>72</td>
-</tr>
-<tr class="even">
-<td>134.5–149.5</td>
-<td>0.1948</td>
-<td>38.96</td>
-<td>26</td>
-</tr>
-<tr class="odd">
-<td>149.5–164.5</td>
-<td>0.0550</td>
-<td>11.0</td>
-<td>12</td>
-</tr>
-<tr class="even">
-<td>above 164.5</td>
-<td>0.0080</td>
-<td>1.6</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
-<p>Since the last expected frequency is less than 5, combine the last two classes: E = 12.6, O = 16.</p>
+<p><strong>Step 1.</strong> <span class="math inline">H_0</span>: The variable is normally distributed. <span class="math inline">H_1</span>: The variable is not normally distributed.</p>
+<p><strong>Step 2 — find the mean and standard deviation.</strong> Each observation is represented by its class midpoint <span class="math inline">X_m</span> (32, 47, 62, 77, 92, 107), so the grouped mean and standard deviation are just <code>mean()</code> and <code>sd()</code> of the repeated midpoints (<span class="math inline">s</span> approximates <span class="math inline">\sigma</span>).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>clearance_freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">30</span>, <span class="dv">14</span>, <span class="dv">4</span>)</span>
+<span id="cb21-2"><a href=""></a>class_midpoint <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">47</span>, <span class="dv">62</span>, <span class="dv">77</span>, <span class="dv">92</span>, <span class="dv">107</span>)</span>
+<span id="cb21-3"><a href=""></a>clearance_times <span class="ot">&lt;-</span> <span class="fu">rep</span>(class_midpoint, clearance_freq)</span>
+<span id="cb21-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(clearance_times), <span class="at">sd =</span> <span class="fu">sd</span>(clearance_times)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> mean    sd 
+59.90 16.88 </code></pre>
+</div>
+</div>
+<p>The mean is 59.9 minutes and the standard deviation is 16.88 minutes.</p>
 </div>
 </div>
 </div>
@@ -686,12 +965,24 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Solution (cont.)</strong></p>
+<p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3:</strong> <span class="math display">\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}</span></p>
-<p><strong>Step 4:</strong> d.f. = 5 − 1 − 2 = 2 (one additional d.f. is lost for each estimated parameter: the mean and the standard deviation). CV = 5.991. Since 6.797 &gt; 5.991 → <strong>Reject <span class="math inline">H_0</span></strong>.</p>
-<p><strong>Step 5:</strong> The distribution can be considered <strong>not normally distributed</strong>. (Note: at <span class="math inline">\alpha</span> = 0.01, CV = 9.210 and <span class="math inline">H_0</span> would not be rejected.)</p>
+<p><strong>Step 3 — find the areas and the expected frequencies.</strong> Each boundary is converted to a <span class="math inline">z</span> score and the corresponding normal area is multiplied by <span class="math inline">n = 200</span>; the first and last classes are left open. Table A-4 gives the same areas by hand.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>class_bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">24.5</span>, <span class="fl">39.5</span>, <span class="fl">54.5</span>, <span class="fl">69.5</span>, <span class="fl">84.5</span>, <span class="fl">99.5</span>, <span class="fl">114.5</span>)</span>
+<span id="cb23-2"><a href=""></a>upper_area <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(class_bounds, <span class="fu">mean</span>(clearance_times), <span class="fu">sd</span>(clearance_times))</span>
+<span id="cb23-3"><a href=""></a>class_area <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">c</span>(<span class="dv">0</span>, upper_area[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">1</span>))</span>
+<span id="cb23-4"><a href=""></a>expected_all <span class="ot">&lt;-</span> class_area <span class="sc">*</span> <span class="fu">length</span>(clearance_times)</span>
+<span id="cb23-5"><a href=""></a><span class="fu">round</span>(class_area, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1135 0.2611 0.3407 0.2123 0.0630 0.0095</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">round</span>(expected_all, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22.7 52.2 68.1 42.5 12.6  1.9</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -707,38 +998,259 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p>The areas and expected frequencies are</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Class</th>
+<th><span class="math inline">z</span> scores</th>
+<th>Area</th>
+<th><span class="math inline">E = \text{area} \times 200</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>below 39.5</td>
+<td><span class="math inline">z &lt; -1.21</span></td>
+<td>0.1135</td>
+<td>22.7</td>
+</tr>
+<tr class="even">
+<td>39.5–54.5</td>
+<td><span class="math inline">-1.21 &lt; z &lt; -0.32</span></td>
+<td>0.2611</td>
+<td>52.2</td>
+</tr>
+<tr class="odd">
+<td>54.5–69.5</td>
+<td><span class="math inline">-0.32 &lt; z &lt; 0.57</span></td>
+<td>0.3407</td>
+<td>68.1</td>
+</tr>
+<tr class="even">
+<td>69.5–84.5</td>
+<td><span class="math inline">0.57 &lt; z &lt; 1.46</span></td>
+<td>0.2123</td>
+<td>42.5</td>
+</tr>
+<tr class="odd">
+<td>84.5–99.5</td>
+<td><span class="math inline">1.46 &lt; z &lt; 2.35</span></td>
+<td>0.0630</td>
+<td>12.6</td>
+</tr>
+<tr class="even">
+<td>above 99.5</td>
+<td><span class="math inline">z &gt; 2.35</span></td>
+<td>0.0095</td>
+<td>1.9</td>
+</tr>
+</tbody>
+</table>
+<p>Since the expected frequency for the last category is less than 5, it is <strong>combined with the previous category</strong>: <span class="math inline">O = 18</span> and <span class="math inline">E = 14.5</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-11-4-4" class="slide level2">
+<h2>Example 11-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3 — compute the test statistic.</strong> The table now has five categories.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">O</span></th>
+<th>18</th>
+<th>62</th>
+<th>72</th>
+<th>30</th>
+<th>18</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">E</span></td>
+<td>22.7</td>
+<td>52.2</td>
+<td>68.1</td>
+<td>42.5</td>
+<td>14.5</td>
+</tr>
+</tbody>
+</table>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>f   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span>, <span class="dv">4</span>)</span>
-<span id="cb28-2"><a href=""></a>mid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">97</span>, <span class="dv">112</span>, <span class="dv">127</span>, <span class="dv">142</span>, <span class="dv">157</span>, <span class="dv">172</span>)</span>
-<span id="cb28-3"><a href=""></a>n   <span class="ot">&lt;-</span> <span class="fu">sum</span>(f)</span>
-<span id="cb28-4"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid) <span class="sc">/</span> n</span>
-<span id="cb28-5"><a href=""></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((n <span class="sc">*</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb28-6"><a href=""></a>bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">89.5</span>, <span class="fl">104.5</span>, <span class="fl">119.5</span>, <span class="fl">134.5</span>, <span class="fl">149.5</span>, <span class="fl">164.5</span>, <span class="fl">179.5</span>)</span>
-<span id="cb28-7"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((bounds <span class="sc">-</span> xbar) <span class="sc">/</span> s)</span>
-<span id="cb28-8"><a href=""></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(p[<span class="dv">2</span>], <span class="fu">diff</span>(p)[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">1</span> <span class="sc">-</span> p[<span class="dv">6</span>])   <span class="co"># open tails</span></span>
-<span id="cb28-9"><a href=""></a>E <span class="ot">&lt;-</span> areas <span class="sc">*</span> n</span>
-<span id="cb28-10"><a href=""></a>O <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span> <span class="sc">+</span> <span class="dv">4</span>)             <span class="co"># combine last two classes (E &lt; 5)</span></span>
-<span id="cb28-11"><a href=""></a>E <span class="ot">&lt;-</span> <span class="fu">c</span>(E[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], E[<span class="dv">5</span>] <span class="sc">+</span> E[<span class="dv">6</span>])</span>
-<span id="cb28-12"><a href=""></a>chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((O <span class="sc">-</span> E)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> E)</span>
-<span id="cb28-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"mean ="</span>, <span class="fu">round</span>(xbar, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>observed_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(clearance_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(clearance_freq[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
+<span id="cb27-2"><a href=""></a>expected_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(expected_all[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(expected_all[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
+<span id="cb27-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed_counts <span class="sc">-</span> expected_counts)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_counts)</span>
+<span id="cb27-4"><a href=""></a><span class="fu">round</span>(chi_square, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>mean = 123.4   s = 17.03 </code></pre>
+<pre><code>[1] 7.516</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">3</span>), <span class="st">"  CV ="</span>, <span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">2</span>), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pchisq</span>(chi_square, <span class="at">df =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 6.788   CV = 5.991 </code></pre>
+<pre><code>[1] 0.0233</code></pre>
 </div>
 </div>
-<p>R gives <span class="math inline">\chi^2 \approx 6.788</span> (unrounded areas); the hand value 6.797 differs only because the table areas are rounded.</p>
+<p>Summing the five <span class="math inline">\dfrac{(O-E)^2}{E}</span> terms gives <span class="math inline">\chi^2 = 7.516</span> with <span class="math inline">P = 0.0233</span>.</p>
 </div>
 </div>
 </div>
+</section>
+<section id="example-11-4-5" class="slide level2">
+<h2>Example 11-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Steps 4 and 5.</strong> The critical value with <span class="math inline">\text{d.f.} = 5 - 3 = 2</span> and <span class="math inline">\alpha = 0.05</span> is <strong>5.991</strong>, so the null hypothesis is <strong>rejected</strong>. Hence the clearance times can be considered <strong>not normally distributed</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.99</span>), <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.991465 9.210340</code></pre>
+</div>
+</div>
+<p><strong>Note.</strong> At <span class="math inline">\alpha = 0.01</span> the critical value is 9.210 and the null hypothesis would <strong>not</strong> be rejected; the variable could then be considered normally distributed. It is therefore important to decide which level of significance to use <strong>before</strong> conducting the test.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="flavour-preference-in-r" class="slide level2">
+<h2>Flavour Preference in R</h2>
+<p>A beverage chain asks 100 randomly selected customers which of five flavours they prefer, and tests the claim that customers show <strong>no preference</strong>, at <span class="math inline">\alpha = 0.05</span> <em>(hypothetical data)</em>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Frequency</th>
+<th>Pearl milk</th>
+<th>Brown sugar</th>
+<th>Matcha</th>
+<th>Taro</th>
+<th>Fruit tea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Observed</td>
+<td>34</td>
+<td>26</td>
+<td>18</td>
+<td>12</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Expected</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>flavour_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">pearl_milk =</span> <span class="dv">34</span>, <span class="at">brown_sugar =</span> <span class="dv">26</span>, <span class="at">matcha =</span> <span class="dv">18</span>, <span class="at">taro =</span> <span class="dv">12</span>, <span class="at">fruit_tea =</span> <span class="dv">10</span>)</span>
+<span id="cb33-2"><a href=""></a><span class="fu">chisq.test</span>(flavour_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  flavour_counts
+X-squared = 20, df = 4, p-value = 0.0004994</code></pre>
+</div>
+</div>
+<p>Since the P-value <span class="math inline">0.0004994 &lt; 0.05</span>, reject <span class="math inline">H_0</span>: there is enough evidence to reject the claim that customers show no preference among the five flavours.</p>
 </section></section>
 <section>
 <section id="section-11-2-tests-using-contingency-tables" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 11-2: Tests Using Contingency Tables</h1>
 
+</section>
+<section id="two-tests-that-use-contingency-tables" class="slide level2">
+<h2>Two Tests That Use Contingency Tables</h2>
+<p>When data can be tabulated in table form in terms of frequencies, several types of hypotheses can be tested by using the chi-square test. Two such tests are the <strong>independence of variables test</strong> and the <strong>homogeneity of proportions test</strong>.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The Two Tests</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>test of independence of variables</strong> is used to determine whether two variables are independent of or related to each other <strong>when a single sample is selected</strong>.</p>
+<p>The <strong>test of homogeneity of proportions</strong> is used to determine whether the proportions for a variable are equal <strong>when several samples are selected from different populations</strong>.</p>
+</div>
+</div>
+</div>
+<p>Both tests use the chi-square distribution and a contingency table, and the test statistic is found in the same way.</p>
+</section>
+<section id="test-for-independence" class="slide level2">
+<h2>Test for Independence</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Chi-Square Independence Test</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>chi-square independence test</strong> is used to test whether two variables are independent of each other.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formula for the Chi-Square Independence Test</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p>with degrees of freedom equal to (number of rows minus 1)(number of columns minus 1), and where <span class="math inline">O</span> is the observed frequency and <span class="math inline">E</span> is the expected frequency.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="assumptions-and-hypotheses" class="slide level2">
+<h2>Assumptions and Hypotheses</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Assumptions for the Chi-Square Independence Test</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>The data are obtained from a <strong>random sample</strong>.</li>
+<li>The <strong>expected value in each cell must be 5 or more</strong>. If the expected values are not 5 or more, combine categories.</li>
+</ol>
+</div>
+</div>
+</div>
+<p>The null hypotheses for the chi-square independence test are generally, with some variations, stated as follows:</p>
+<ul>
+<li><span class="math inline">H_0</span>: The variables are independent of each other.</li>
+<li><span class="math inline">H_1</span>: The variables are dependent upon each other.</li>
+</ul>
+<p>Rejecting <span class="math inline">H_0</span> means the variables are <strong>related</strong>; it does not say which group favors what, only that the proportions differ.</p>
 </section>
 <section id="contingency-tables" class="slide level2">
 <h2>Contingency Tables</h2>
@@ -748,32 +1260,210 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<p><strong>Contingency Table and Cell Value</strong></p>
 </div>
 <div class="callout-content">
-<p>A <strong>contingency table</strong> (<span class="math inline">R \times C</span> table) cross-classifies data from two categorical variables.</p>
-<p><strong>Two chi-square tests use contingency tables:</strong></p>
-<ol type="1">
-<li><strong>Test of independence</strong> — Are two variables related? (single sample, observe both variables)</li>
-<li><strong>Test of homogeneity</strong> — Are proportions equal across populations? (multiple samples, sample sizes set in advance)</li>
-</ol>
-<p><strong>Both use the same formulas:</strong></p>
-<p><span class="math display">E = \frac{\text{(row sum)} \times \text{(column sum)}}{\text{grand total}}, \quad \chi^2 = \sum \frac{(O-E)^2}{E}</span></p>
-<p><span class="math display">d.f. = (R-1)(C-1)</span></p>
-<p><strong>Assumption:</strong> All expected cell frequencies <span class="math inline">\geq 5</span>.</p>
+<p>The data for the two variables are placed in a <strong>contingency table</strong>. One variable is called the <strong>row variable</strong> and the other is called the <strong>column variable</strong>. The table is called an <span class="math inline">R \times C</span> table, where <span class="math inline">R</span> is the number of rows and <span class="math inline">C</span> is the number of columns.</p>
+<p>Each value in the table is called a <strong>cell value</strong>. For example, the cell value <span class="math inline">C_{2,3}</span> is in the second row and the third column.</p>
 </div>
+</div>
+</div>
+<p>A <span class="math inline">2 \times 3</span> contingency table looks like this.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>Column 1</th>
+<th>Column 2</th>
+<th>Column 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Row 1</strong></td>
+<td><span class="math inline">C_{1,1}</span></td>
+<td><span class="math inline">C_{1,2}</span></td>
+<td><span class="math inline">C_{1,3}</span></td>
+</tr>
+<tr class="even">
+<td><strong>Row 2</strong></td>
+<td><span class="math inline">C_{2,1}</span></td>
+<td><span class="math inline">C_{2,2}</span></td>
+<td><span class="math inline">C_{2,3}</span></td>
+</tr>
+</tbody>
+</table>
+<p>For a <span class="math inline">2 \times 3</span> table the degrees of freedom are <span class="math inline">(2-1)(3-1) = 2</span>.</p>
+</section>
+<section id="computing-the-expected-values" class="slide level2">
+<h2>Computing the Expected Values</h2>
+<p>The observed values are obtained from the sample data. The expected values are computed from the observed values and are based on the assumption that the two variables are <strong>independent</strong>.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formula for the Expected Value of Each Cell</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\text{Expected value} = \frac{(\text{row sum})(\text{column sum})}{\text{grand total}}</span></p>
+<p>The degrees of freedom are <span class="math inline">\text{d.f.} = (R - 1)(C - 1)</span>, and the test is always <strong>right-tailed</strong>.</p>
+</div>
+</div>
+</div>
+<p>If there is little difference between the observed and expected values, the test statistic is small and <span class="math inline">H_0</span> is not rejected, so the variables are independent of each other. If there are large differences, the test statistic is large and <span class="math inline">H_0</span> is rejected, so the variables are dependent on or related to each other.</p>
+</section>
+<section id="illustration-a-new-booking-system" class="slide level2">
+<h2>Illustration: A New Booking System</h2>
+<p>A freight forwarder asks 200 sales staff and 200 operations staff about a proposed new online booking system. The question is not whether the two departments like the system, but whether there is a <strong>difference of opinion</strong> between them <em>(hypothetical data)</em>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 30%">
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Department</th>
+<th>Prefer new system</th>
+<th>Prefer current system</th>
+<th>No preference</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sales</td>
+<td>104</td>
+<td>70</td>
+<td>26</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>Operations</td>
+<td>56</td>
+<td>110</td>
+<td>34</td>
+<td>200</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>160</strong></td>
+<td><strong>180</strong></td>
+<td><strong>60</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">H_0</span>: The opinion about the booking system is independent of the department.</li>
+<li><span class="math inline">H_1</span>: The opinion about the booking system is dependent on the department.</li>
+</ul>
+</section>
+<section id="illustration-a-new-booking-system-1" class="slide level2">
+<h2>Illustration: A New Booking System</h2>
+<p>For example <span class="math inline">E_{1,2} = \dfrac{(200)(180)}{400} = 90</span>, and <span class="math inline">E_{1,1} = \dfrac{(200)(160)}{400} = 80</span>. The rationale uses proportions: 160 out of 400 staff prefer the new system, and since there are 200 sales staff you would expect <span class="math inline">(160/400)(200) = 80</span> of them to favour it.</p>
+</section>
+<section id="illustration-a-new-booking-system-2" class="slide level2">
+<h2>Illustration: A New Booking System</h2>
+<p>The expected values are shown in parentheses beside the observed values.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 30%">
+<col style="width: 19%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Department</th>
+<th>Prefer new system</th>
+<th>Prefer current system</th>
+<th>No preference</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sales</td>
+<td>104 (80)</td>
+<td>70 (90)</td>
+<td>26 (30)</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>Operations</td>
+<td>56 (80)</td>
+<td>110 (90)</td>
+<td>34 (30)</td>
+<td>200</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>160</strong></td>
+<td><strong>180</strong></td>
+<td><strong>60</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>booking_survey <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">104</span>,  <span class="dv">70</span>, <span class="dv">26</span>,</span>
+<span id="cb35-2"><a href=""></a>                            <span class="dv">56</span>, <span class="dv">110</span>, <span class="dv">34</span>),</span>
+<span id="cb35-3"><a href=""></a>                         <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-4"><a href=""></a>                         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Operations"</span>),</span>
+<span id="cb35-5"><a href=""></a>                                         <span class="fu">c</span>(<span class="st">"New"</span>, <span class="st">"Current"</span>, <span class="st">"None"</span>)))</span>
+<span id="cb35-6"><a href=""></a>booking_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(booking_survey)</span>
+<span id="cb35-7"><a href=""></a>booking_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           New Current None
+Sales       80      90   30
+Operations  80      90   30</code></pre>
 </div>
 </div>
 </section>
-<section id="test-of-independence-overview" class="slide level2">
-<h2>Test of Independence — Overview</h2>
-<p>When testing whether two variables are <strong>independent</strong>:</p>
-<ul>
-<li><strong><span class="math inline">H_0</span>:</strong> Variable A is independent of Variable B</li>
-<li><strong><span class="math inline">H_1</span>:</strong> Variable A is dependent on Variable B (claim)</li>
-</ul>
-<p>Rejecting <span class="math inline">H_0</span> means the variables are <strong>related</strong> — but it does not specify the direction of the relationship.</p>
-<p>The test is always <strong>right-tailed</strong>.</p>
+<section id="illustration-a-new-booking-system-3" class="slide level2">
+<h2>Illustration: A New Booking System</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>booking_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  booking_survey
+X-squared = 24.356, df = 2, p-value = 5.143e-06</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.991465</code></pre>
+</div>
+</div>
+<p>Since <span class="math inline">24.356 &gt; 5.991</span>, reject <span class="math inline">H_0</span>: opinion is related to (dependent on) department. From Table A-6 the P-value is less than 0.005.</p>
+</section>
+<section id="procedure-table-the-chi-square-independence-test" class="slide level2">
+<h2>Procedure Table: The Chi-Square Independence Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Five Steps</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><strong>Step 2.</strong> Find the critical value for the right tail. Use Table A-6.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. First find the expected value of each cell of the contingency table with <span class="math inline">E = \dfrac{(\text{row sum})(\text{column sum})}{\text{grand total}}</span>, then use <span class="math inline">\chi^2 = \sum \dfrac{(O-E)^2}{E}</span>.</p>
+<p><strong>Step 4.</strong> Make the decision.</p>
+<p><strong>Step 5.</strong> Summarize the results.</p>
+<p>In R, <code>chisq.test(M)</code> on a matrix of observed counts returns the test statistic, the degrees of freedom, the P-value, and <code>$expected</code>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="example-11-5" class="slide level2">
 <h2>Example 11-5</h2>
@@ -783,52 +1473,59 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Hospitals and Infections</strong></p>
+<p><strong>Store Format and Type of Complaint</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher examines whether the type of hospital infection is related to which hospital it occurred in. Data for 582 total infections across 3 hospitals:</p>
+<p>A retail group wishes to see whether there is a relationship between the store format and the type of complaint a customer files. A random sample of 596 complaints filed last year was classified as follows <em>(hypothetical data)</em>.</p>
 <table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 10%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Hospital</th>
-<th>Surgical Site</th>
-<th>Pneumonia</th>
-<th>Bloodstream</th>
+<th>Store format</th>
+<th>Delivery delay</th>
+<th>Product damage</th>
+<th>Billing error</th>
 <th>Total</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>A</td>
-<td>41</td>
-<td>27</td>
-<td>51</td>
-<td>119</td>
+<td>Hypermarket</td>
+<td>44</td>
+<td>62</td>
+<td>34</td>
+<td>140</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td>36</td>
-<td>3</td>
-<td>40</td>
-<td>79</td>
+<td>Supermarket</td>
+<td>50</td>
+<td>38</td>
+<td>42</td>
+<td>130</td>
 </tr>
 <tr class="odd">
-<td>C</td>
-<td>169</td>
-<td>106</td>
-<td>109</td>
-<td>384</td>
+<td>Convenience store</td>
+<td>164</td>
+<td>76</td>
+<td>86</td>
+<td>326</td>
 </tr>
 <tr class="even">
 <td><strong>Total</strong></td>
-<td><strong>246</strong></td>
-<td><strong>136</strong></td>
-<td><strong>200</strong></td>
-<td><strong>582</strong></td>
+<td><strong>258</strong></td>
+<td><strong>176</strong></td>
+<td><strong>162</strong></td>
+<td><strong>596</strong></td>
 </tr>
 </tbody>
 </table>
-<p>At <span class="math inline">\alpha</span> = 0.05, test the claim that infection type depends on hospital.</p>
+<p>At <span class="math inline">\alpha = 0.05</span>, can it be concluded that the type of complaint is related to the store format?</p>
 </div>
 </div>
 </div>
@@ -844,13 +1541,59 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: Infection type is independent of hospital &nbsp;&nbsp; <span class="math inline">H_1</span>: Infection type depends on hospital (claim)</p>
-<p><strong>Step 2:</strong> d.f. = (3−1)(3−1) = 4; CV = 9.488</p>
-<p><strong>Step 3:</strong> Expected values (E = row<span class="math inline">\times</span>col/grand): <span class="math display">E_{A,\text{Surg}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{Pneu}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots</span></p>
-<p><span class="math display">\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}</span></p>
-<p><strong>Step 4:</strong> 30.698 &gt; 9.488 → <strong>Reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is sufficient evidence that infection type is related to the hospital where it occurred.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math inline">H_0</span>: The type of complaint is independent of the store format.</p>
+<p><span class="math inline">H_1</span>: The type of complaint is dependent on the store format <em>(claim)</em>.</p>
+<p><strong>Step 2.</strong> Find the critical value. With <span class="math inline">(3-1)(3-1) = 4</span> degrees of freedom and <span class="math inline">\alpha = 0.05</span>, the critical value from Table A-6 is <strong>9.488</strong>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. First find the expected values, for example <span class="math inline">E_{1,1} = \dfrac{(140)(258)}{596} = 60.60</span> and <span class="math inline">E_{2,2} = \dfrac{(130)(176)}{596} = 38.39</span>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 22%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Store format</th>
+<th>Delivery delay</th>
+<th>Product damage</th>
+<th>Billing error</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hypermarket</td>
+<td>44 (60.60)</td>
+<td>62 (41.34)</td>
+<td>34 (38.05)</td>
+<td>140</td>
+</tr>
+<tr class="even">
+<td>Supermarket</td>
+<td>50 (56.28)</td>
+<td>38 (38.39)</td>
+<td>42 (35.34)</td>
+<td>130</td>
+</tr>
+<tr class="odd">
+<td>Convenience store</td>
+<td>164 (141.12)</td>
+<td>76 (96.27)</td>
+<td>86 (88.61)</td>
+<td>326</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>258</strong></td>
+<td><strong>176</strong></td>
+<td><strong>162</strong></td>
+<td><strong>596</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -866,45 +1609,53 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">41</span>, <span class="dv">27</span>, <span class="dv">51</span>,</span>
-<span id="cb32-2"><a href=""></a>              <span class="dv">36</span>,  <span class="dv">3</span>, <span class="dv">40</span>,</span>
-<span id="cb32-3"><a href=""></a>             <span class="dv">169</span>, <span class="dv">106</span>, <span class="dv">109</span>),</span>
-<span id="cb32-4"><a href=""></a>            <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb32-5"><a href=""></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>),</span>
-<span id="cb32-6"><a href=""></a>                            <span class="fu">c</span>(<span class="st">"Surgical"</span>,<span class="st">"Pneumonia"</span>,<span class="st">"Bloodstream"</span>)))</span>
-<span id="cb32-7"><a href=""></a></span>
-<span id="cb32-8"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M)</span>
-<span id="cb32-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="dv">44</span>, <span class="dv">62</span>, <span class="dv">34</span>,</span>
+<span id="cb41-2"><a href=""></a>                        <span class="dv">50</span>, <span class="dv">38</span>, <span class="dv">42</span>,</span>
+<span id="cb41-3"><a href=""></a>                       <span class="dv">164</span>, <span class="dv">76</span>, <span class="dv">86</span>),</span>
+<span id="cb41-4"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-5"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Hypermarket"</span>, <span class="st">"Supermarket"</span>, <span class="st">"Convenience"</span>),</span>
+<span id="cb41-6"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Delay"</span>, <span class="st">"Damage"</span>, <span class="st">"Billing"</span>)))</span>
+<span id="cb41-7"><a href=""></a>complaint_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(complaints)</span>
+<span id="cb41-8"><a href=""></a><span class="fu">round</span>(complaint_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 30.6962 </code></pre>
+<pre><code>             Delay Damage Billing
+Hypermarket  60.60  41.34   38.05
+Supermarket  56.28  38.39   35.34
+Convenience 141.12  96.27   88.61</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 4 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result<span class="sc">$</span>p.value, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 4e-06 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>complaint_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  complaints
+X-squared = 25.317, df = 4, p-value = 4.343e-05</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">round</span>(result<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Surgical Pneumonia Bloodstream
-A    50.30     27.81       40.89
-B    33.39     18.46       27.15
-C   162.31     89.73      131.96</code></pre>
+<pre><code>[1] 9.487729</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-11-5-3" class="slide level2">
+<h2>Example 11-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\chi^2 = 4.549 + 10.322 + 0.432 + 0.700 + 0.004 + 1.257 + 3.709 + 4.267 + 0.077 = 25.317</span></p>
+<p><strong>Step 4.</strong> Make the decision. The decision is to <strong>reject the null hypothesis</strong> since <span class="math inline">25.317 &gt; 9.488</span>; the test statistic lies in the critical region.</p>
+<p><strong>Step 5.</strong> Summarize the results. There is enough evidence to support the claim that the type of complaint is related to the store format.</p>
 </div>
 </div>
 </div>
@@ -917,45 +1668,44 @@ C   162.31     89.73      131.96</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Alcohol Consumption and Gender</strong></p>
+<p><strong>Traveller Type and Booking Channel</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher examines whether alcohol consumption level is related to gender. A sample of 68 people yielded:</p>
+<p>A hotel group wishes to see whether business and leisure travellers differ in the channel they use to book a room. The group randomly selects 38 business travellers and 34 leisure travellers and records the channel each one used. At <span class="math inline">\alpha = 0.10</span>, is there a difference in the booking channel used <em>(hypothetical data)</em>?</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Gender</th>
-<th>Low</th>
-<th>Moderate</th>
-<th>High</th>
+<th>Traveller</th>
+<th>Travel agency</th>
+<th>Hotel website</th>
+<th>Booking app</th>
 <th>Total</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Male</td>
-<td>10</td>
-<td>9</td>
-<td>8</td>
-<td>27</td>
+<td>Business</td>
+<td>12</td>
+<td>14</td>
+<td>12</td>
+<td>38</td>
 </tr>
 <tr class="even">
-<td>Female</td>
-<td>13</td>
-<td>16</td>
-<td>12</td>
-<td>41</td>
+<td>Leisure</td>
+<td>8</td>
+<td>11</td>
+<td>15</td>
+<td>34</td>
 </tr>
 <tr class="odd">
 <td><strong>Total</strong></td>
-<td><strong>23</strong></td>
-<td><strong>25</strong></td>
 <td><strong>20</strong></td>
-<td><strong>68</strong></td>
+<td><strong>25</strong></td>
+<td><strong>27</strong></td>
+<td><strong>72</strong></td>
 </tr>
 </tbody>
 </table>
-<p>At <span class="math inline">\alpha</span> = 0.10, test whether alcohol consumption depends on gender.</p>
 </div>
 </div>
 </div>
@@ -971,14 +1721,45 @@ C   162.31     89.73      131.96</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: Alcohol consumption is independent of gender &nbsp;&nbsp; <span class="math inline">H_1</span>: Consumption depends on gender (claim)</p>
-<p><strong>Step 2:</strong> d.f. = (2−1)(3−1) = 2; CV = 4.605</p>
-<p><strong>Step 3:</strong> Expected values: <span class="math display">E_{\text{Male, Low}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{Male, Mod}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots</span></p>
-<p><span class="math display">\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}</span></p>
-<p>(hand value 0.283 uses rounded expected counts; R gives 0.281)</p>
-<p><strong>Step 4:</strong> 0.283 &lt; 4.605 → <strong>Do not reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is not enough evidence to conclude that alcohol consumption is related to gender.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math inline">H_0</span>: The booking channel is independent of the type of traveller.</p>
+<p><span class="math inline">H_1</span>: The booking channel is related to the type of traveller <em>(claim)</em>.</p>
+<p><strong>Step 2.</strong> Find the critical value. The critical value is <strong>4.605</strong> since the degrees of freedom are <span class="math inline">(2-1)(3-1) = 2</span>.</p>
+<p><strong>Step 3.</strong> Compute the test statistic. First compute the expected values, for example <span class="math inline">E_{1,1} = \dfrac{(38)(20)}{72} = 10.56</span> and <span class="math inline">E_{2,3} = \dfrac{(34)(27)}{72} = 12.75</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Traveller</th>
+<th>Travel agency</th>
+<th>Hotel website</th>
+<th>Booking app</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Business</td>
+<td>12 (10.56)</td>
+<td>14 (13.19)</td>
+<td>12 (14.25)</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td>Leisure</td>
+<td>8 (9.44)</td>
+<td>11 (11.81)</td>
+<td>15 (12.75)</td>
+<td>34</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>20</strong></td>
+<td><strong>25</strong></td>
+<td><strong>27</strong></td>
+<td><strong>72</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -994,69 +1775,92 @@ C   162.31     89.73      131.96</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>M2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">8</span>,</span>
-<span id="cb44-2"><a href=""></a>               <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">12</span>),</span>
-<span id="cb44-3"><a href=""></a>             <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb44-4"><a href=""></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Male"</span>,<span class="st">"Female"</span>),</span>
-<span id="cb44-5"><a href=""></a>                             <span class="fu">c</span>(<span class="st">"Low"</span>,<span class="st">"Moderate"</span>,<span class="st">"High"</span>)))</span>
-<span id="cb44-6"><a href=""></a></span>
-<span id="cb44-7"><a href=""></a>result2 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M2)</span>
-<span id="cb44-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result2<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>bookings <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
+<span id="cb47-2"><a href=""></a>                      <span class="dv">8</span>, <span class="dv">11</span>, <span class="dv">15</span>),</span>
+<span id="cb47-3"><a href=""></a>                   <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb47-4"><a href=""></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Business"</span>, <span class="st">"Leisure"</span>),</span>
+<span id="cb47-5"><a href=""></a>                                   <span class="fu">c</span>(<span class="st">"Agency"</span>, <span class="st">"Website"</span>, <span class="st">"App"</span>)))</span>
+<span id="cb47-6"><a href=""></a>booking_channel_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(bookings)</span>
+<span id="cb47-7"><a href=""></a><span class="fu">round</span>(booking_channel_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 0.2809 </code></pre>
+<pre><code>         Agency Website   App
+Business  10.56   13.19 14.25
+Leisure    9.44   11.81 12.75</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result2<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 2 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result2<span class="sc">$</span>p.value, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.869 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result2<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.10</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Do not reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>booking_channel_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  bookings
+X-squared = 1.275, df = 2, p-value = 0.5286</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">round</span>(result2<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Low Moderate  High
-Male    9.13     9.93  7.94
-Female 13.87    15.07 12.06</code></pre>
+<pre><code>[1] 4.60517</code></pre>
 </div>
 </div>
+<p><span class="math display">\chi^2 = 0.198 + 0.049 + 0.355 + 0.221 + 0.055 + 0.397 = 1.275</span></p>
 </div>
 </div>
 </div>
 </section>
-<section id="test-of-homogeneity-of-proportions" class="slide level2">
-<h2>Test of Homogeneity of Proportions</h2>
+<section id="example-11-6-3" class="slide level2">
+<h2>Example 11-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 4.</strong> Make the decision. The decision is <strong>not to reject the null hypothesis</strong> since <span class="math inline">1.275 &lt; 4.605</span>.</p>
+<p><strong>Step 5.</strong> Summarize the results. There is not enough evidence to support the claim that the booking channel is related to the type of traveller.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="test-for-homogeneity-of-proportions" class="slide level2">
+<h2>Test for Homogeneity of Proportions</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<p><strong>Test of Homogeneity of Proportions</strong></p>
 </div>
 <div class="callout-content">
-<p>The <strong>homogeneity test</strong> determines whether proportions are equal across multiple independently sampled populations.</p>
-<ul>
-<li>Sample sizes are fixed <strong>in advance</strong> (by the researcher)</li>
-<li><span class="math inline">H_0</span>: <span class="math inline">p_1</span> = <span class="math inline">p_2</span> = … = pₖ</li>
-<li><span class="math inline">H_1</span>: At least one proportion differs</li>
-</ul>
-<p><strong>Computational procedure is identical</strong> to the independence test — same formula for E and <span class="math inline">\chi^2</span>.</p>
-<p><strong>Key distinction:</strong> Independence test → one sample, two variables; Homogeneity test → multiple samples, one variable.</p>
+<p>The <strong>test of homogeneity of proportions</strong> is used to test the claim that different populations have the same proportion of subjects who have a certain attitude or characteristic.</p>
 </div>
 </div>
 </div>
+<p>Samples are selected from several different populations, and the researcher determines whether the proportions of elements that have a common characteristic are the same for each population. The <strong>sample sizes are specified in advance</strong>, making either the row totals or the column totals in the contingency table known <strong>before</strong> the samples are selected.</p>
+<p>For example, a researcher may select 50 first-year students, 50 sophomores, 50 juniors and 50 seniors and find the proportion in each level who hold a part-time job.</p>
+</section>
+<section id="hypotheses-for-the-homogeneity-test" class="slide level2">
+<h2>Hypotheses for the Homogeneity Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>How the Hypotheses Differ</strong></p>
+</div>
+<div class="callout-content">
+<p>For the homogeneity test the hypotheses are stated in terms of <strong>proportions</strong>:</p>
+<p><span class="math display">H_0:\ p_1 = p_2 = p_3 = p_4 \qquad H_1:\ \text{At least one proportion is different from the others.}</span></p>
+<p>For the independence test the hypotheses are stated in terms of <strong>two variables</strong> being independent or dependent.</p>
+<p>The <strong>assumptions</strong> for the test of homogeneity of proportions are the same as the assumptions for the chi-square test of independence, and the <strong>procedure is the same</strong>: the same expected-value formula, the same test statistic and the same <span class="math inline">\text{d.f.} = (R-1)(C-1)</span>.</p>
+</div>
+</div>
+</div>
+<p>If the null hypothesis is not rejected, the proportions are assumed equal and the differences are due to chance; when it is rejected, the proportions are not all equal.</p>
 </section>
 <section id="example-11-7" class="slide level2">
 <h2>Example 11-7</h2>
@@ -1066,49 +1870,10 @@ Female 13.87    15.07 12.06</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Money and Happiness</strong></p>
+<p><strong>Premium Membership by Region</strong></p>
 </div>
 <div class="callout-content">
-<p>A psychologist selects 100 people from each of four income groups and asks whether they are “very happy.” Results:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th></th>
-<th>&lt;$30K</th>
-<th>$30K–$74.9K</th>
-<th>$75K–$99.9K</th>
-<th><span class="math inline">\geq</span> $100K</th>
-<th>Total</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Yes</td>
-<td>24</td>
-<td>33</td>
-<td>38</td>
-<td>49</td>
-<td>144</td>
-</tr>
-<tr class="even">
-<td>No</td>
-<td>76</td>
-<td>67</td>
-<td>62</td>
-<td>51</td>
-<td>256</td>
-</tr>
-<tr class="odd">
-<td><strong>Total</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>400</strong></td>
-</tr>
-</tbody>
-</table>
-<p>At <span class="math inline">\alpha</span> = 0.05, test the claim that happiness proportions are the same across income groups.</p>
+<p>A retail chain randomly selects 100 members at each of its four regional flagship stores and records whether the member holds the premium tier. In Taipei 26% do, in Taichung 34% do, in Tainan 40% do, and in Kaohsiung 52% do. At <span class="math inline">\alpha = 0.05</span>, test the claim that there is no difference in the proportion of premium members across the four regions <em>(hypothetical data)</em>.</p>
 </div>
 </div>
 </div>
@@ -1124,19 +1889,50 @@ Female 13.87    15.07 12.06</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0</span>: <span class="math inline">p_1</span> = <span class="math inline">p_2</span> = p₃ = p₄ (claim) &nbsp;&nbsp; <span class="math inline">H_1</span>: At least one proportion differs</p>
-<p><strong>Step 2:</strong> d.f. = (2−1)(4−1) = 3; CV = 7.815</p>
-<p><strong>Step 3:</strong> Since each column total = 100 and “Yes” total = 144: <span class="math display">E_{\text{Yes, col}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{No, col}} = \frac{256 \times 100}{400} = 64 \quad \text{(for each column)}</span></p>
-<p><span class="math display">\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}</span> <span class="math display">+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}</span> <span class="math display">= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}</span></p>
+<p><strong>Tabulate the data.</strong> For Taipei, 26% of 100 is <span class="math inline">0.26(100) = 26</span> premium members and <span class="math inline">100 - 26 = 74</span> standard members; the other regions are found the same way.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Region</th>
+<th>Taipei</th>
+<th>Taichung</th>
+<th>Tainan</th>
+<th>Kaohsiung</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Premium</td>
+<td>26</td>
+<td>34</td>
+<td>40</td>
+<td>52</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>Standard</td>
+<td>74</td>
+<td>66</td>
+<td>60</td>
+<td>48</td>
+<td>248</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1.</strong> <span class="math inline">H_0:\ p_1 = p_2 = p_3 = p_4</span> <em>(claim)</em>; <span class="math inline">H_1</span>: At least one proportion differs from the others.</p>
+<p><strong>Step 2.</strong> Find the critical value. <span class="math inline">\text{d.f.} = (2-1)(4-1) = 3</span>, so the critical value is <strong>7.815</strong>.</p>
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
-<p><strong>Step 4:</strong> 14.149 &gt; 7.815 → <strong>Reject <span class="math inline">H_0</span></strong></p>
-<p><strong>Step 5:</strong> There is sufficient evidence that happiness proportions differ across income groups.</p>
 </section>
 <section id="example-11-7-2" class="slide level2">
 <h2>Example 11-7</h2>
@@ -1149,85 +1945,150 @@ Female 13.87    15.07 12.06</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3.</strong> Compute the test statistic. Every expected value in the “Premium” row is <span class="math inline">\dfrac{(152)(100)}{400} = 38</span> and every expected value in the “Standard” row is <span class="math inline">\dfrac{(248)(100)}{400} = 62</span>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Region</th>
+<th>Taipei</th>
+<th>Taichung</th>
+<th>Tainan</th>
+<th>Kaohsiung</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Premium</td>
+<td>26 (38)</td>
+<td>34 (38)</td>
+<td>40 (38)</td>
+<td>52 (38)</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>Standard</td>
+<td>74 (62)</td>
+<td>66 (62)</td>
+<td>60 (62)</td>
+<td>48 (62)</td>
+<td>248</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = 3.789 + 0.421 + 0.105 + 5.158 + 2.323 + 0.258 + 0.065 + 3.161 = 15.280</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-11-7-3" class="slide level2">
+<h2>Example 11-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>M3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">33</span>, <span class="dv">38</span>, <span class="dv">49</span>,</span>
-<span id="cb56-2"><a href=""></a>               <span class="dv">76</span>, <span class="dv">67</span>, <span class="dv">62</span>, <span class="dv">51</span>),</span>
-<span id="cb56-3"><a href=""></a>             <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb56-4"><a href=""></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Yes"</span>,<span class="st">"No"</span>),</span>
-<span id="cb56-5"><a href=""></a>                             <span class="fu">c</span>(<span class="st">"&lt;30K"</span>,<span class="st">"30-74.9K"</span>,<span class="st">"75-99.9K"</span>,<span class="st">"&gt;=100K"</span>)))</span>
-<span id="cb56-6"><a href=""></a></span>
-<span id="cb56-7"><a href=""></a>result3 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M3)</span>
-<span id="cb56-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result3<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>membership <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">34</span>, <span class="dv">40</span>, <span class="dv">52</span>,</span>
+<span id="cb53-2"><a href=""></a>                       <span class="dv">74</span>, <span class="dv">66</span>, <span class="dv">60</span>, <span class="dv">48</span>),</span>
+<span id="cb53-3"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb53-4"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Premium"</span>, <span class="st">"Standard"</span>),</span>
+<span id="cb53-5"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Taipei"</span>, <span class="st">"Taichung"</span>, <span class="st">"Tainan"</span>, <span class="st">"Kaohsiung"</span>)))</span>
+<span id="cb53-6"><a href=""></a>membership_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(membership)</span>
+<span id="cb53-7"><a href=""></a>membership_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 14.1493 </code></pre>
+<pre><code>         Taipei Taichung Tainan Kaohsiung
+Premium      38       38     38        38
+Standard     62       62     62        62</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result3<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 3 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result3<span class="sc">$</span>p.value, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.002709 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result3<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>membership_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  membership
+X-squared = 15.28, df = 3, p-value = 0.001592</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">round</span>(result3<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    &lt;30K 30-74.9K 75-99.9K &gt;=100K
-Yes   36       36       36     36
-No    64       64       64     64</code></pre>
+<pre><code>[1] 7.814728</code></pre>
 </div>
 </div>
+<p><strong>Step 4.</strong> Reject the null hypothesis since <span class="math inline">15.280 &gt; 7.815</span>.</p>
+<p><strong>Step 5.</strong> There is enough evidence to reject the claim that there is no difference in the proportions. Hence the region seems to make a difference in the proportion of premium members.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-yates-correction-for-continuity" class="slide level2">
+<h2>The Yates Correction for Continuity</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>When the degrees of freedom for a contingency table are equal to 1 — that is, when the table is a <span class="math inline">2 \times 2</span> table — some statisticians suggest using the <strong>Yates correction for continuity</strong>:</p>
+<p><span class="math display">\chi^2 = \sum \frac{(|O - E| - 0.5)^2}{E}</span></p>
+<p>Since the chi-square test is already conservative, most statisticians agree that the Yates correction is <strong>not necessary</strong>. R applies it by default for <span class="math inline">2 \times 2</span> tables, so use <code>chisq.test(M, correct = FALSE)</code> to obtain the uncorrected value.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="important-terms" class="slide level2">
+<h2>Important Terms</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Chapter 11 Vocabulary</strong></p>
+</div>
+<div class="callout-content">
+<p>cell value · chi-square goodness-of-fit test · contingency table · expected frequency · homogeneity of proportions test · independence test · observed frequency</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>Key Formulas</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important Formulas</strong></p>
+</div>
+<div class="callout-content">
+<p>Formula for the chi-square test for <strong>goodness of fit</strong>, with degrees of freedom equal to the number of categories minus 1:</p>
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p>Formula for the chi-square <strong>independence</strong> and <strong>homogeneity of proportions</strong> tests, with degrees of freedom equal to (rows <span class="math inline">-</span> 1) times (columns <span class="math inline">-</span> 1):</p>
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}, \qquad E = \frac{(\text{row sum})(\text{column sum})}{\text{grand total}}</span></p>
+<p>where <span class="math inline">O</span> is the observed frequency and <span class="math inline">E</span> is the expected frequency.</p>
 </div>
 </div>
 </div>
 </section>
 <section id="key-takeaways" class="slide level2">
 <h2>Key Takeaways</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 36%">
-<col style="width: 18%">
-<col style="width: 27%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Test</th>
-<th>When to Use</th>
-<th>d.f.</th>
-<th>Formula</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Goodness of Fit</td>
-<td>Single sample vs.&nbsp;hypothesized distribution</td>
-<td>k − 1</td>
-<td><span class="math inline">\chi^2 = \sum\frac{(O-E)^2}{E}</span>, <span class="math inline">E</span> given by proportions</td>
-</tr>
-<tr class="even">
-<td>Independence</td>
-<td>Single sample; two categorical variables</td>
-<td>(R−1)(C−1)</td>
-<td><span class="math inline">E = \frac{\text{row} \times \text{col}}{\text{total}}</span></td>
-</tr>
-<tr class="odd">
-<td>Homogeneity</td>
-<td>Multiple samples; one categorical variable</td>
-<td>(R−1)(C−1)</td>
-<td>Same as independence</td>
-</tr>
-</tbody>
-</table>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1237,7 +2098,16 @@ No    64       64       64     64</code></pre>
 <p><strong>Key point</strong></p>
 </div>
 <div class="callout-content">
-<p>All chi-square tests in this chapter are <strong>right-tailed</strong>. Expected frequencies in each cell must be <strong><span class="math inline">\geq 5</span></strong>. If not, combine categories.</p>
+<ul>
+<li>The <strong>chi-square goodness-of-fit test</strong> tests the claim that an observed frequency distribution fits some given expected frequency distribution; it is always <strong>right-tailed</strong> and uses <span class="math inline">\text{d.f.} = k - 1</span></li>
+<li>Expected frequencies are computed by <span class="math inline">E = n/k</span> when all categories are expected to be equal, and by <span class="math inline">E = n \cdot p</span> when they are not</li>
+<li>Both chi-square tests in this chapter assume a <strong>random sample</strong> and an <strong>expected frequency of 5 or more</strong> in every category or cell; classes with <span class="math inline">E &lt; 5</span> are combined</li>
+<li>The <strong>test of independence</strong> uses a <strong>single sample</strong> and asks whether two variables are independent or related; <span class="math inline">H_0</span> says the variables are independent</li>
+<li>The <strong>test of homogeneity of proportions</strong> uses <strong>several samples of sizes fixed in advance</strong> and asks whether the populations have the same proportion; <span class="math inline">H_0: p_1 = p_2 = \cdots = p_k</span></li>
+<li>Both contingency-table tests use <span class="math inline">E = \dfrac{(\text{row sum})(\text{column sum})}{\text{grand total}}</span>, the same test statistic, and <span class="math inline">\text{d.f.} = (R-1)(C-1)</span></li>
+<li>A small <span class="math inline">\chi^2</span> means the observed and expected values are close — “a good fit”; a large <span class="math inline">\chi^2</span> means they are far apart and <span class="math inline">H_0</span> is rejected</li>
+<li>Rejecting <span class="math inline">H_0</span> in a contingency-table test says only that the variables are related or the proportions differ — it does <strong>not</strong> say which cell caused the difference</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1245,7 +2115,8 @@ No    64       64       64     64</code></pre>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

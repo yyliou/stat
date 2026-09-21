@@ -63,1562 +63,2423 @@ knitr::opts_chunk$set(fig.align = "center")
 ```
 
 ## 本章概覽
-
-第3章發展用於**數值描述資料集**的工具——其中心位置、離散程度，以及個別數值的相對位置。
+第3章介紹用來**彙總資料**的統計方法——平均量數、離散量數與位置量數。
 
 | 節次 | 主題 |
 |---------|--------|
-| 3-1 | 集中趨勢的測量：平均數、中位數、眾數、中距 |
-| 3-2 | 變異的測量：全距、變異數、標準差、變異係數、柴比雪夫定理、經驗法則 |
-| 3-3 | 位置的測量：z分數、百分位數、四分位數、離群值 |
-| 3-4 | 探索性資料分析：五數摘要與箱形圖 |
+| 3-1 | 集中趨勢量數：平均數、中位數、眾數、中程數、加權平均數、分布形狀 |
+| 3-2 | 離散量數：全距、變異數、標準差、變異係數、全距經驗法則、柴比雪夫定理、經驗法則、資料的線性轉換 |
+| 3-3 | 位置量數：標準分數、百分位數、十分位數、四分位數、離群值 |
+| 3-4 | 探索性資料分析：五數綜合與盒鬚圖 |
 
-# 第3-1節：集中趨勢的測量 {background-color="#2c4a6e"}
+## 本章學習目標
 
-## 什麼是集中趨勢的測量？
+:::{.callout-important}
+## 讀完本章後，你應該能夠
 
-**集中趨勢的測量**是單一數值，用於摘要資料集的中心或「典型」值。集中趨勢統計量無需檢視每一個別觀測值，而是提供資料聚集位置的簡潔概觀。
+1. 使用平均數、中位數、眾數與中程數等集中趨勢量數彙總資料。
+2. 使用全距、變異數與標準差等離散量數描述資料。
+3. 使用百分位數、十分位數與四分位數等位置量數，指出某個資料值在資料集中的位置。
+4. 運用探索性資料分析的技巧，包括盒鬚圖與五數綜合，發掘資料的各種面向。
+:::
 
-四種最廣泛使用的測量為：
+# 第3-1節：集中趨勢量數 {background-color="#2c4a6e"}
 
-- **平均數**——所有數值的算術平均
-- **中位數**——資料排序後的中間值
-- **眾數**——出現最頻繁的數值
-- **中距**——最大值與最小值的中點
+## 統計量與母數
 
----
+寬鬆地說，**平均**指的是分布的中心，或是最典型的情形。平均量數也稱為**集中趨勢量數**，包括平均數、中位數、眾數與中程數。
 
 :::{.callout-note}
-## 關鍵符號
+## 統計量與母數
 
-| 符號 | 含義 |
-|--------|---------|
-| $\bar{X}$ | 樣本平均數 |
-| $\mu$ | 母體平均數 |
-| $n$ | 樣本大小 |
-| $N$ | 母體大小 |
+- **統計量**是使用**樣本**的資料值所得到的特徵或測量值。
+- **母數**是使用某個特定**母體**的全部資料值所得到的特徵或測量值。
+:::
+
+:::{.callout-important}
+## 一般四捨五入規則
+
+在算出最後答案之前**不要**先四捨五入。在中間步驟四捨五入，往往會擴大計算結果與精確值之間的差距。
 :::
 
 ## 平均數
 
-**平均數**是將所有資料值加總後除以觀測值個數計算而得。它是最常被報告的中心量數。
+**平均數**又稱算術平均，是把所有資料值相加後，再除以資料值的總個數。
 
 :::{.callout-note}
-## 平均數公式
+## 平均數
 
-**樣本平均數：**
-$$\bar{X} = \frac{\Sigma X}{n}$$
+**平均數**是所有數值的總和除以數值的總個數。
 
-**母體平均數：**
-$$\mu = \frac{\Sigma X}{N}$$
+**樣本平均數**以 $\bar{X}$ 表示，是一個統計量：
+$$\bar{X} = \frac{X_1 + X_2 + \cdots + X_n}{n} = \frac{\Sigma X}{n}$$
 
-其中 $\Sigma X$ 為所有資料值的總和，$n$（或 $N$）為數值個數。
+**母體平均數**以 $\mu$ 表示，是一個母數：
+$$\mu = \frac{X_1 + X_2 + \cdots + X_N}{N} = \frac{\Sigma X}{N}$$
 :::
+
+## 平均數的四捨五入規則
 
 :::{.callout-important}
-## 四捨五入規則
-將平均數四捨五入至比原始資料**多一位小數**。
+## 平均數的四捨五入規則
+
+平均數應比原始資料**多保留一位小數**。若原始資料為整數，平均數取到小數第一位；若資料到小數第一位，平均數取到小數第二位。
 :::
+
+希臘字母代表母數，羅馬字母代表統計量。除非另有說明，都假設資料來自樣本。
 
 ## 範例 3-1 {#example-3-1}
 
 :::{.callout-warning}
-## 每年休假天數
+## 咖啡連鎖店的月營收
 
-一項針對六個國家的調查發現，勞工每年獲得的帶薪假天數如下。求平均數。
+下列為某咖啡連鎖店九家門市上個月的營收（單位：新台幣百萬元）。求其平均數。
 
-**天數：** 13, 15, 26, 36, 37, 42
+```
+2.8   3.5   4.1   2.6   5.0   3.9   4.4   3.2   4.7
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 3-1
 
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**求解**
 
 ```{r e3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-days_off <- c(13, 15, 26, 36, 37, 42)
+coffee_revenue <- c(2.8, 3.5, 4.1, 2.6, 5.0, 3.9, 4.4, 3.2, 4.7)
 
-mean_val <- mean(days_off)
-cat("數值總和：", sum(days_off), "\n")
-cat("數值個數：", length(days_off), "\n")
-cat("平均數：", mean_val, "\n")
+sum(coffee_revenue)
+round(mean(coffee_revenue), 2)
 ```
 
-平均帶薪假天數約為 **`r round(mean(c(13,15,26,36,37,42)),1)` 天**。
+$$\bar{X} = \frac{\Sigma X}{n} = \frac{34.2}{9} = 3.8$$
+
+九家門市的平均月營收為 **新台幣 380 萬元**。
 :::
 
 ## 範例 3-2 {#example-3-2}
 
 :::{.callout-warning}
-## 醫院感染
+## 貿易公司的出口金額
 
-以下為某樣本醫院一年內報告的院內感染次數。求平均數。
+下列資料為某小型貿易公司五年間的年出口金額（單位：新台幣百萬元）。求其平均數。
 
-**數值：** 62, 58, 71, 70, 69, 58, 51, 64, 66, 80
+```
+486   512   545   578   614
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 3-2
 
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**求解**
 
 ```{r e3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-infections <- c(62, 58, 71, 70, 69, 58, 51, 64, 66, 80)
-cat("感染次數平均值：", mean(infections), "\n")
-cat("總和：", sum(infections), "  n：", length(infections), "\n")
+export_value <- c(486, 512, 545, 578, 614)
+
+sum(export_value)
+mean(export_value)
 ```
 
-平均院內感染次數為 **`r mean(c(62,58,71,70,69,58,51,64,66,80))`** 次。
+$$\bar{X} = \frac{\Sigma X}{n} = \frac{2735}{5} = 547$$
+
+這五年的平均年出口金額為 **新台幣 5 億 4700 萬元**。
 :::
 
 ## 分組資料的平均數
 
-當原始資料不可得，僅有次數分配時，使用各組的**組中點**來近似平均數。
+分組資料求平均數的程序，假設每一組中所有原始資料值的平均等於該組的**組中點**。
 
-:::{.callout-note}
-## 公式——分組資料的平均數
+:::{.callout-important}
+## 程序——求分組資料的平均數
+
+1. 製作表格，欄位為 A（組別）、B（次數 $f$）、C（組中點 $X_m$）、D（$f \cdot X_m$）。
+2. 求出各組的組中點，填入 C 欄。
+3. 將各組的次數乘以組中點，乘積填入 D 欄。
+4. 求 D 欄的總和。
+5. 以 D 欄總和除以次數總和。
 
 $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
-
-其中 $f$ = 組次數，$X_m$ = 組中點，$n = \Sigma f$。
 :::
 
 ## 範例 3-3 {#example-3-3}
 
 :::{.callout-warning}
-## 每週跑步英里數（分組平均數）
+## 夜市攤位的營業額
 
-20名跑者記錄了一週內跑步的英里數。使用下方次數分配求平均數。
+下列次數分配為某夜市 25 個攤位上個月的營業額（單位：新台幣萬元）。求其平均數。
 
-| 組別 | 次數 |
-|-------|-----------|
-| 5.5–10.5 | 1 |
-| 10.5–15.5 | 2 |
-| 15.5–20.5 | 3 |
-| 20.5–25.5 | 5 |
-| 25.5–30.5 | 4 |
-| 30.5–35.5 | 3 |
-| 35.5–40.5 | 2 |
+```
+組界              次數
+    9.5-14.5        8
+   14.5-19.5        7
+   19.5-24.5        5
+   24.5-29.5        3
+   29.5-34.5        2
+           合計    25
+```
+
+*（模擬資料）*
+
+回到[範例 3-9](#example-3-9)
 :::
+
+---
 
 ## 範例 3-3
 
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**準備資料**
 
 ```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-midpoints <- c(8, 13, 18, 23, 28, 33, 38)
-freq      <- c(1,  2,  3,  5,  4,  3,  2)
+lower <- c(9.5, 14.5, 19.5, 24.5, 29.5)
+upper <- lower + 5
 
-df_grouped <- data.frame(midpoint = midpoints, f = freq) |>
-  mutate(fXm = f * midpoint)
+stall_revenue <- tibble(Class = paste0(lower, "-", upper),
+                        f  = c(8, 7, 5, 3, 2),
+                        Xm = (lower + upper) / 2) |>
+  mutate(fXm = f * Xm)
 
-knitr::kable(df_grouped, col.names = c("組中點（Xm）", "次數（f）", "f · Xm"),
-             caption = "分組平均數計算")
+knitr::kable(stall_revenue, align = "c")
 ```
 :::
+
 ---
 
+## 範例 3-3
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
 ```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n    <- sum(freq)
-xbar <- sum(df_grouped$fXm) / n
-cat("\nn =", n, "  Sum(f·Xm) =", sum(df_grouped$fXm),
-    "  平均數 =", round(xbar, 1), "英里\n")
+sum(stall_revenue$f)
+sum(stall_revenue$fXm)
+sum(stall_revenue$fXm) / sum(stall_revenue$f)
 ```
+
+$$\bar{X} = \frac{\Sigma f \cdot X_m}{n} = \frac{470}{25} = 18.8$$
+
+每個攤位的平均月營業額為 **新台幣 18.8 萬元**。
+:::
 
 ## 中位數
 
-**中位數**是將排序資料集一分為二的中間值。它不受極端值影響。
+某篇報導指出大學教授的所得中位數為 82,974 美元：受訪教授中有一半所得高於此數，另一半低於此數。
 
 :::{.callout-note}
-## 求中位數
+## 資料陣列與中位數
 
-1. 將所有資料值由**最小到最大**排列。
-2. 若 $n$ 為**奇數**：中位數為中間值——位置 $\frac{n+1}{2}$。
-3. 若 $n$ 為**偶數**：中位數為**兩個中間值的平均**。
+當資料集由小到大排序後，稱為**資料陣列**。
+
+**中位數**是資料陣列的中點，符號為 $MD$。
+:::
+
+:::{.callout-important}
+## 程序——求中位數
+
+1. 將資料值由小到大排列。
+2. 確定資料值的個數。
+3. 若 $n$ 為**奇數**，取中間的資料值為中位數；若 $n$ 為**偶數**，取中間兩個值的平均數。
 :::
 
 ## 範例 3-4 {#example-3-4}
 
 :::{.callout-warning}
-## 旅館客房數
+## 捷運站的進出人次
 
-以下為市中心7家旅館的客房數。求中位數。
+下列資料為七個捷運站平均每日的進出人次（單位：千人次）。求其中位數。
 
-**客房數：** 713, 300, 618, 595, 311, 401, 292
+```
+42   57   38   61   49   55   44
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 3-4
 
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**求解**
 
 ```{r e3-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rooms <- c(713, 300, 618, 595, 311, 401, 292)
-sorted <- sort(rooms)
-cat("排序後：", sorted, "\n")
-cat("中位數位置：", (length(rooms)+1)/2, "\n")
-cat("中位數：", median(rooms), "\n")
+mrt_passengers <- c(42, 57, 38, 61, 49, 55, 44)
+
+sort(mrt_passengers)
+length(mrt_passengers)
+median(mrt_passengers)
 ```
 
-有7個值（奇數），中位數為排序後**第4個值**：**`r median(c(713,300,618,595,311,401,292))`** 間客房。
+資料值個數為奇數 7，因此中間那一個值就是中位數：$MD = 49$。
+
+每日進出人次的中位數為 **4 萬 9000 人次**。
 :::
 
 ## 範例 3-5 {#example-3-5}
 
 :::{.callout-warning}
-## 國家公園門票費用（偶數n）
+## 貨櫃吞吐量
 
-以下為隨機抽樣國家公園的入場費（元）：25, 10, 8, 15, 5, 12, 14, 3。求中位數。
+下列為某港口八季的貨櫃吞吐量（單位：千 TEU）。求其中位數。
+
+```
+146   133   171   119   154   126   162   140
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 3-5
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**求解**
 
 ```{r e3-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-fees <- c(25, 10, 8, 15, 5, 12, 14, 3)
-sorted_fees <- sort(fees)
-cat("排序後：", sorted_fees, "\n")
-cat("n =", length(fees), "（偶數）→ 第",
-    length(fees)/2, "與第", length(fees)/2 + 1, "位置的平均值\n")
-cat("中位數：", median(fees), "\n")
+containers_teu <- c(146, 133, 171, 119, 154, 126, 162, 140)
+
+sort(containers_teu)
+length(containers_teu)
+median(containers_teu)
 ```
 
-有8個值（偶數），中位數為排序後第4與第5個值的平均：$MD = \frac{10+12}{2} = 11$。
+中間兩個資料值為 140 與 146，因此
+
+$$MD = \frac{140 + 146}{2} = \frac{286}{2} = 143$$
+
+吞吐量的中位數為 **14 萬 3000 TEU**。
 :::
 
-## 範例 3-6 & 3-7：較大資料集的中位數 {#example-3-6}
+## 眾數
+
+第三個平均量數是**眾數**，有時被稱為最典型的情形。
+
+:::{.callout-note}
+## 眾數
+
+在資料集中出現次數最多的值稱為**眾數**。
+
+- **單峰**——只有一個值出現次數最多。
+- **雙峰**——有兩個值出現次數並列最多，兩者都是眾數。
+- **多峰**——有超過兩個值出現次數並列最多。
+- **無眾數**——沒有任何資料值出現超過一次。
+:::
 
 :::{.callout-warning}
-## 問題（範例 3-6 & 3-7——龍捲風 & 氣喘病例）
-1. 近年美國12個州報告的龍捲風次數：
-188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810
+## 注意
 
-2. 10個城市因氣喘就診急診的次數：
-345, 243, 111, 144, 280, 300, 213, 201, 403, 201
+當沒有任何值出現超過一次時，**不要**說眾數是 0。這樣說是錯的，因為在某些資料（例如溫度）中，0 可能是真實存在的數值。
+:::
+
+## 範例 3-6 {#example-3-6}
+
+:::{.callout-warning}
+## 外送平台的配送時間
+
+下列為隨機抽出的七筆外送訂單的配送時間（單位：分鐘）。求其眾數。
+
+```
+32   28   35   28   41   37   26
+```
+
+*（模擬資料）*
 :::
 
 ---
 
-```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-tornadoes <- c(188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810)
-asthma    <- c(345, 243, 111, 144, 280, 300, 213, 201, 403, 201)
+## 範例 3-6
 
-cat("龍捲風——排序後：", paste(sort(tornadoes), collapse=", "), "\n")
-cat("龍捲風中位數：", median(tornadoes), "\n\n")
-cat("氣喘——排序後：", paste(sort(asthma), collapse=", "), "\n")
-cat("氣喘中位數：", median(asthma), "\n")
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+delivery_time <- c(32, 28, 35, 28, 41, 37, 26)
+
+sort(delivery_time)
+table(delivery_time)
 ```
+
+眾數為 **28 分鐘**，因為它出現兩次，比其他任何數值都多。
+:::
+
+## 範例 3-7 {#example-3-7}
+
+:::{.callout-warning}
+## 值班揀貨人數
+
+下列資料為某物流中心 15 天內每日的值班揀貨人數。求其眾數。
+
+```
+18   18   18   18   18
+21   23   23   23   24
+23   25   26   25   23
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-7
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+pickers <- c(18, 18, 18, 18, 18,
+             21, 23, 23, 23, 24,
+             23, 25, 26, 25, 23)
+
+picker_counts <- table(pickers)
+picker_counts
+names(picker_counts)[picker_counts == max(picker_counts)]
+```
+
+由於 18 與 23 各出現 5 次，眾數為 **18 與 23**。這組資料稱為**雙峰**。
+:::
 
 ## 範例 3-8 {#example-3-8}
 
 :::{.callout-warning}
-## 雜誌（從分配中求中位數）
+## 旅館評分
 
-6家隨機選取的書店報告每週銷售的雜誌數：3, 7, 8, 3, 1, 3。求中位數。
+下列資料為訂房平台上 8 家商務旅館的顧客平均評分。求其眾數。
+
+```
+4.3   3.8   4.6   3.5   4.1   3.9   4.8   4.2
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 3-8
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**求解**
 
 ```{r e3-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mags <- c(3, 7, 8, 3, 1, 3)
-cat("排序後：", sort(mags), "\n")
-cat("中位數：", median(mags), "\n")
+hotel_rating <- c(4.3, 3.8, 4.6, 3.5, 4.1, 3.9, 4.8, 4.2)
+
+table(hotel_rating)
+max(table(hotel_rating))
 ```
 
-中位數為每週 **`r median(c(3,7,8,3,1,3))`** 本雜誌。
+由於每個數值都只出現一次，因此**沒有眾數**。
 :::
 
-## 眾數
-
-**眾數**是資料集中出現最頻繁的值。與平均數和中位數不同，眾數可用於量化和質性資料。
+## 眾數組
 
 :::{.callout-note}
-## 眾數的關鍵特性
+## 眾數組
 
-- 資料集可能**沒有眾數**（所有值均出現一次）、**一個眾數**（單峰）、**兩個眾數**（雙峰），或**更多**（多峰）。
-- 對於分組資料，**眾數組**是次數最高的組別。
-- 眾數是**唯一**適用於名目（類別）資料的中心量數。
+分組資料的眾數即**眾數組**——次數最大的那一組。
 :::
 
 ## 範例 3-9 {#example-3-9}
 
 :::{.callout-warning}
-## NFL簽約獎金
+## 夜市攤位的營業額
 
-以下為某樣本NFL球員的簽約獎金（百萬美元）。求眾數。
-
-**數值：** 18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8
+求[範例 3-3](#example-3-3)中夜市攤位營業額次數分配的眾數組。
 :::
+
+---
 
 ## 範例 3-9
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**求解**
 
 ```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-bonuses <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
+stall_revenue |> select(Class, f) |> knitr::kable(align = "c")
 
-mode_tbl <- sort(table(bonuses), decreasing = TRUE)
-print(mode_tbl)
-modes <- names(mode_tbl)[mode_tbl == max(mode_tbl)]
-cat("眾數：", paste0("$", modes, " 百萬", collapse = " 與 "), "\n")
+stall_revenue$Class[which.max(stall_revenue$f)]
 ```
 
-2和10均出現3次 → 資料集為**雙峰**：**200萬與1,000萬美元**。
+由於 9.5–14.5 這一組的次數 8 最大，它就是**眾數組**。有時會改用該組的組中點，此處為 12。
 :::
 
-## 範例 3-10 & 3-11：無眾數與雙峰 {#example-3-10}
+## 名目資料的眾數
+
+當資料為**名目或類別**尺度時，眾數是唯一可用來找出最典型情形的集中趨勢量數。
+
+## 範例 3-10 {#example-3-10}
 
 :::{.callout-warning}
-## 問題（範例 3-10 & 3-11——無眾數 & 雙峰）
-1. 5個城市的銀行分行數：17, 23, 25, 3, 42——每個值均只出現一次 → **無眾數**。
+## 付款方式
 
-2. 美國15年間的核子反應爐執照數：
-104, 104, 104, 104, 104, 107, 109, 109, 109, 110, 109, 111, 112, 111, 109
+下列資料為某網路商店某一天顧客所選擇的付款方式。求其眾數。
+
+```
+付款方式            筆數
+信用卡              214
+行動支付            168
+現金                 95
+購物金               32
+銀行轉帳             11
+```
+
+*（模擬資料）*
 :::
+
+---
+
+## 範例 3-10
+
+:::{.callout-tip}
+## 解題
+
+**求解**
 
 ```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-reactors <- c(104,104,104,104,104,107,109,109,109,110,109,111,112,111,109)
-mode_tbl <- sort(table(reactors), decreasing = TRUE)
-print(mode_tbl)
+payment <- tibble(Method = c("Credit card", "Mobile payment", "Cash",
+                             "Store credit", "Bank transfer"),
+                  Number = c(214, 168, 95, 32, 11))
+
+knitr::kable(payment, align = "c")
+payment$Method[which.max(payment$Number)]
 ```
 
-**104** 出現5次，**109** 出現5次 → 雙峰：**104與109**。
+由於信用卡這一類的次數 214 最大，最典型的付款方式為**信用卡**。
+:::
 
-## 範例 3-12 {#example-3-12}
+## 離群值與平均數
+
+資料集中極高或極低的資料值會對平均數造成顯著影響，這些極端值稱為**離群值**。辨識離群值的方法見第 3-3 節。
+
+## 範例 3-11 {#example-3-11}
 
 :::{.callout-warning}
-## 分組資料的眾數組
+## 貿易公司的薪資
 
-求每週跑步英里數次數分配的眾數組（[範例 3-3](#example-3-3)）。
-:::
----
+某小型貿易公司由老闆、經理、一位業務與兩位助理組成，每月薪資（新台幣）如下。（假設這就是全部母體。）求其平均數、中位數與眾數。
 
-```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-classes <- c("5.5-10.5","10.5-15.5","15.5-20.5","20.5-25.5",
-             "25.5-30.5","30.5-35.5","35.5-40.5")
-freq <- c(1,2,3,5,4,3,2)
-df_mode <- data.frame(Class=classes, Frequency=freq)
-knitr::kable(df_mode, caption="每週跑步英里數")
-cat("\n眾數組：", classes[which.max(freq)], "（次數 =", max(freq), "）\n")
+```
+職稱                薪資
+老闆              180,000
+經理               72,000
+業務               48,000
+助理               35,000
+助理               35,000
 ```
 
-**眾數組**為 **20.5–25.5** 英里，次數最高為5。
-
-## 範例 3-13 {#example-3-13}
-
-:::{.callout-warning}
-## 質性資料的眾數
-
-一項調查記錄賓州五個郡的船隻登記數（千艘）：
-Westmoreland：11,008 | Butler：9,147 | Allegheny：5,765 | Beaver：3,342 | Lawrence：1,478
+*（模擬資料）*
 :::
----
-
-```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-county <- c("Westmoreland","Butler","Allegheny","Beaver","Lawrence")
-boats  <- c(11008, 9147, 5765, 3342, 1478)
-df_boats <- data.frame(County=county, Registrations=boats)
-knitr::kable(df_boats, caption="船隻登記數")
-cat("\n眾數（登記數最多）：", county[which.max(boats)],
-    "共", max(boats), "艘登記\n")
-```
-
-## 範例 3-14 {#example-3-14}
-
-:::{.callout-warning}
-## 離群值對平均數的影響
-
-小公司6名員工的薪資：$5,000 | $6,000 | $9,000 | $12,000 | $15,000 | $45,000
-
-哪個量數最能代表此資料集？
-:::
----
-
-```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-salaries <- c(5000, 6000, 9000, 12000, 15000, 45000)
-cat("平均數：$", mean(salaries), "\n")
-cat("中位數：$", median(salaries), "\n")
-# 眾數
-mode_s <- as.numeric(names(sort(table(salaries), decreasing=TRUE))[1])
-cat("眾數：無眾數（所有值均不同）\n")
-```
 
 ---
 
-**平均數（\$15,333）**被\$45,000的離群值拉高。**中位數（\$10,500）**更能代表典型薪資。
-
-:::{.callout-warning}
-## 存在離群值時
-當資料集含有極端值時，使用**中位數**，因為平均數會被離群值強烈拉向一側。
-:::
-
-## 中距
-
-**中距**是最大值與最小值的算術平均數。計算容易，但對極端值高度敏感。
-
-:::{.callout-note}
-## 公式——中距
-
-$$MR = \frac{\text{最小值} + \text{最大值}}{2}$$
-:::
-
-## 範例 3-15 & 3-16：中距 {#example-3-15}
-
-:::{.callout-warning}
-## 問題（範例 3-15 & 3-16：水管爆裂 & NFL簽約獎金）
-1. 某城市9年間水管爆裂次數：2, 3, 6, 8, 4, 1, 3, 5, 7。求中距。
-
-2. 使用[範例 3-9](#example-3-9)的資料（最小值 = $200萬，最大值 = $1,800萬），求中距。
-:::
-
-```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-water_breaks <- c(2, 3, 6, 8, 4, 1, 3, 5, 7)
-nfl_bonuses  <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
-
-midrange <- function(x) (min(x) + max(x)) / 2
-
-cat("水管爆裂中距：", midrange(water_breaks), "次\n")
-cat("NFL獎金中距：$", midrange(nfl_bonuses), "百萬\n")
-```
-
-## 加權平均數
-
-當不同數值具有不同重要性（權重）時，使用**加權平均數**計算準確的平均值。
-
-:::{.callout-note}
-## 公式——加權平均數
-
-$$\bar{X}_w = \frac{\Sigma w \cdot X}{\Sigma w}$$
-
-其中 $w$ = 權重，$X$ = 數值。
-:::
-
-## 範例 3-17 {#example-3-17}
-
-:::{.callout-warning}
-## GPA計算
-
-一名學生獲得以下成績。以學分數為權重計算學業成績平均點數（GPA）。
-
-| 課程 | 成績 | 學分數 |
-|--------|-------|-------------|
-| 英文 | A（4） | 3 |
-| 數學 | C（2） | 4 |
-| 歷史 | B（3） | 3 |
-| 藝術 | D（1） | 2 |
-:::
-
-## 範例 3-17
+## 範例 3-11
 
 :::{.callout-tip}
 ## 解題
 
-**解題**
+**求解**
 
-```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-courses <- c("英文", "數學", "歷史", "藝術")
-grades  <- c(4, 2, 3, 1)         # A=4, B=3, C=2, D=1
-credits <- c(3, 4, 3, 2)
+```{r e3-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+salary <- c(180000, 72000, 48000, 35000, 35000)
 
-df_gpa <- data.frame(Course=courses, Grade=grades, Credits=credits) |>
-  mutate(w_X = Grade * Credits)
-knitr::kable(df_gpa, col.names=c("課程","成績點數","學分數","w × X"),
-             caption="GPA計算")
-
-gpa <- sum(df_gpa$w_X) / sum(credits)
-cat("\n加權平均數（GPA）：", round(gpa, 2), "\n")
+mean(salary)
+median(salary)
+names(which.max(table(salary)))
 ```
 
-該學生的GPA為 **`r round(sum(c(4,2,3,1)*c(3,4,3,2))/sum(c(3,4,3,2)),2)`**。
-:::
+$$\mu = \frac{\Sigma X}{N} = \frac{370{,}000}{5} = 74{,}000$$
 
-## 選擇正確的中心量數
-
-:::{.callout-important}
-## 使用哪種量數？
-
-| 情況 | 最佳量數 |
-|-----------|-------------|
-| 需要最典型的值 | 眾數 |
-| 分配為開放式（無最大/最小值） | 中位數 |
-| 存在極端值 | 中位數 |
-| 資料為類別（名目）資料 | 眾數 |
-| 需要進一步計算 | 平均數 |
-| 資料需分成相等兩半 | 中位數 |
-
-當資料大致對稱且無極端離群值時，**平均數**通常是首選，因為它利用了每一個資料值進行計算。
-:::
-
-# 第3-2節：變異的測量 {background-color="#2c4a6e"}
-
-## 為何變異重要
-
-兩個資料集可能有相同的平均數，但分散程度差異懸殊。**變異的測量**量化資料值圍繞中心的分散或集中程度。
-
-:::{.callout-note}
-## 三種關鍵變異量數
-
-| 量數 | 符號 | 說明 |
-|---------|-----------|-------------|
-| 全距 | $R$ | 最大值與最小值的距離 |
-| 變異數 | $\sigma^2$，$s^2$ | 與平均數差的平均平方距離 |
-| 標準差 | $\sigma$，$s$ | 變異數的平方根 |
-:::
-
-## 範例 3-18 {#example-3-18}
-
-:::{.callout-warning}
-## 僅憑平均數為何不足
-
-某測試實驗室評估兩種戶外油漆的持久性（月）。每種品牌各測試6罐。
-
-**品牌A：** 10, 60, 50, 30, 40, 20 — 平均數 = 35個月
-**品牌B：** 35, 45, 30, 35, 40, 25 — 平均數 = 35個月
-:::
-
-## 範例 3-18
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-B <- c(35, 45, 30, 35, 40, 25)
-cat("品牌A平均數：", mean(A), "| 品牌B平均數：", mean(B), "\n")
-```
-:::
-
-----
-
-:::{.callout-tip}
-## 解題
-```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-data.frame(Brand = rep(c("品牌A","品牌B"), each=6),
-           Months = c(A, B)) |>
-  ggplot(aes(x = Brand, y = Months, color = Brand)) +
-  geom_jitter(size=3, width=0.1) +
-  geom_hline(yintercept=35, linetype="dashed") +
-  labs(title="油漆品牌耐久性：相同平均數，不同分散程度",
-       y="褪色前的月數") +
-  theme_bw() + theme(legend.position="none")
-```
-:::
-
-## 全距
-
-**全距**是最簡單的分散量數——最大值與最小值的差。
-
-:::{.callout-note}
-## 公式——全距
-
-$$R = \text{最大值} - \text{最小值}$$
-:::
-
-:::{.callout-warning}
-## 全距的限制
-單一極端值可能大幅膨脹全距，使其成為典型變異的誤導性指標。
-:::
-
-## 範例 3-19 {#example-3-19}
-
-:::{.callout-warning}
-## 油漆品牌的全距
-
-求例3-18中品牌A與品牌B的全距。
-:::
-
-## 範例 3-19
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-B <- c(35, 45, 30, 35, 40, 25)
-
-cat("品牌A全距：", max(A) - min(A), "個月\n")
-cat("品牌B全距：", max(B) - min(B), "個月\n")
-cat("\n品牌B更一致：全距不到品牌A的一半。\n")
-```
-:::
-
-## 範例 3-20 {#example-3-20}
-
-:::{.callout-warning}
-## 員工薪資全距
-
-求XYZ製造公司以下薪資的全距：
-
-老闆：$100,000 | 經理：$40,000 | 業務代表：$30,000 | 員工：$25,000、$15,000、$18,000
-:::
-
-## 範例 3-20
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-salaries <- c(100000, 40000, 30000, 25000, 15000, 18000)
-cat("最低薪資：$", min(salaries), "\n")
-cat("最高薪資：$", max(salaries), "\n")
-cat("全距：$", max(salaries) - min(salaries), "\n")
-```
-
-全距為 **\$85,000**——受老闆薪資強烈影響。
-:::
-
-## 母體變異數與標準差
-
-**變異數**測量每個值與平均數的平均平方偏差。**標準差**是其平方根，以原始單位表示。
-
-:::{.callout-note}
-## 母體公式
-
-$$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X - \mu)^2}{N}}$$
-
-**逐步計算：**
-
-1. 求母體平均數 $\mu$。
-2. 從每個值減去 $\mu$：$(X - \mu)$。
-3. 對每個差值取平方：$(X - \mu)^2$。
-4. 加總所有平方差。
-5. 除以 $N$ 得到變異數；取平方根得到 $\sigma$。
-:::
-
-## 範例 3-21 {#example-3-21}
-
-:::{.callout-warning}
-## 變異數 & 標準差——品牌A油漆
-
-求品牌A油漆資料的變異數與標準差：10, 60, 50, 30, 40, 20
-:::
----
-
-```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-mu <- mean(A)
-df_A <- data.frame(X = A) |>
-  mutate(`X - mu` = X - mu,
-         `(X-mu)^2` = (X - mu)^2)
-knitr::kable(df_A, caption=paste("品牌A：mu =", mu))
-```
-
-```{r e3-21-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sigma2 <- sum(df_A$`(X-mu)^2`) / length(A)
-sigma  <- sqrt(sigma2)
-cat("\n變異數（sigma^2）：", round(sigma2, 1),
-    "\n標準差（sigma）：", round(sigma, 1), "個月\n")
-```
-
-## 範例 3-22 {#example-3-22}
-
-:::{.callout-warning}
-## 變異數 & 標準差——品牌B油漆
-
-求品牌B的變異數與標準差：35, 45, 30, 35, 40, 25
-:::
----
-
-```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-B <- c(35, 45, 30, 35, 40, 25)
-mu_B <- mean(B)
-df_B <- data.frame(X = B) |>
-  mutate(`X - mu` = X - mu_B,
-         `(X-mu)^2` = (X - mu_B)^2)
-knitr::kable(df_B, caption=paste("品牌B：mu =", mu_B))
-```
-
-----
-
-```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sigma2_B <- sum(df_B$`(X-mu)^2`) / length(B)
-sigma_B  <- sqrt(sigma2_B)
-cat("\n變異數（sigma^2）：", round(sigma2_B, 1),
-    "\n標準差（sigma）：", round(sigma_B, 1), "個月\n")
-cat("\n品牌A sigma：", round(sqrt(1750/6), 1),
-    "vs 品牌B sigma：", round(sigma_B, 1),
-    "→ 品牌B更一致。\n")
-```
-
-## 樣本變異數與標準差
-
-當資料來自**樣本**（非整個母體）時，以 $n - 1$ 而非 $n$ 除，以獲得母體變異數的**不偏**估計。
-
-:::{.callout-note}
-## 樣本公式
-
-$$s^2 = \frac{\Sigma(X - \bar{X})^2}{n-1} \qquad s = \sqrt{\frac{\Sigma(X - \bar{X})^2}{n-1}}$$
-
-**捷算公式：**
-
-$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)}}$$
+平均數為 **新台幣 74,000 元**，中位數為 **48,000 元**，眾數為 **35,000 元**。
 :::
 
 ---
 
-:::{.callout-important}
-## 為何除以 $n-1$？
-除以 $n-1$ 修正了樣本變異數低估母體變異數的傾向。$n-1$ 稱為**自由度**。
-:::
-
-## 範例 3-23 {#example-3-23}
-
-:::{.callout-warning}
-## 歐洲汽車銷售（捷算公式）
-
-求6年間歐洲汽車銷售額（十億美元）的樣本變異數與標準差：11.2, 11.9, 12.0, 12.8, 13.4, 14.3
-:::
----
-
-```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-auto <- c(11.2, 11.9, 12.0, 12.8, 13.4, 14.3)
-n    <- length(auto)
-
-sum_X  <- sum(auto)
-sum_X2 <- sum(auto^2)
-
-s2 <- (n * sum_X2 - sum_X^2) / (n * (n - 1))
-s  <- sqrt(s2)
-
-cat("n =", n, "\n")
-cat("Sum(X) =", sum_X, "  Sum(X^2) =", sum_X2, "\n")
-cat("s^2 =", round(s2, 3), "\n")
-cat("s =", round(s, 2), "十億美元\n")
-
-# 以內建函數驗證
-cat("以var()驗證：", round(var(auto), 3), "\n")
-```
-
-## 範例 3-24 {#example-3-24}
-
-:::{.callout-warning}
-## 分組資料的標準差
-
-求每週跑步英里數分組資料（[範例 3-3](#example-3-3)）的變異數與標準差，代表20名跑者。
-:::
----
-
-```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-Xm   <- c(8, 13, 18, 23, 28, 33, 38)
-f    <- c(1,  2,  3,  5,  4,  3,  2)
-n    <- sum(f)
-
-df_g <- data.frame(Xm, f) |>
-  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
-knitr::kable(df_g, col.names=c("Xm","f","f·Xm","f·Xm²"),
-             caption="分組變異數表")
-```
-
----
-
-```{r e3-24-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s2 <- (n * sum(df_g$fXm2) - sum(df_g$fXm)^2) / (n * (n - 1))
-s  <- sqrt(s2)
-cat("\nn =", n, "  Sum(f·Xm) =", sum(df_g$fXm),
-    "  Sum(f·Xm^2) =", sum(df_g$fXm2))
-cat("\n變異數 s^2 =", round(s2, 1), "  標準差 s =", round(s, 1), "英里\n")
-```
-
-## 變異係數
-
-**變異係數（CVar）**以標準差佔平均數的百分比表示，可比較不同單位或不同規模資料集之間的變異程度。
-
-:::{.callout-note}
-## 公式——變異係數
-
-$$\text{CVar} = \frac{s}{\bar{X}} \times 100\% \quad \text{（樣本）} \qquad \text{CVar} = \frac{\sigma}{\mu} \times 100\% \quad \text{（母體）}$$
-:::
-
-## 範例 3-25 {#example-3-25}
-
-:::{.callout-warning}
-## 銷售量 vs. 佣金
-
-3個月期間汽車平均銷售量為87輛，標準差為5輛。平均佣金為$5,225，標準差為$773。哪個變異性更大？
-:::
-
-## 範例 3-25
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cvar_sales <- (5 / 87) * 100
-cvar_comm  <- (773 / 5225) * 100
-
-cat("CVar（銷售量）：", round(cvar_sales, 1), "%\n")
-cat("CVar（佣金）：", round(cvar_comm, 1), "%\n")
-cat("\n結論：佣金變異性較大（CVar較大）。\n")
-```
-:::
-
-## 範例 3-26 {#example-3-26}
-
-:::{.callout-warning}
-## 頁數 vs. 廣告數
-
-女性健身雜誌：平均頁數 = 132，變異數 = 23；平均廣告數 = 182，變異數 = 62。哪個變異性更大？
-:::
-
-## 範例 3-26
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cvar_pages <- (sqrt(23) / 132) * 100
-cvar_ads   <- (sqrt(62) / 182) * 100
-
-cat("CVar（頁數）：", round(cvar_pages, 1), "%\n")
-cat("CVar（廣告）：", round(cvar_ads, 1), "%\n")
-cat("\n結論：廣告數變異性較大。\n")
-```
-:::
-
-## 全距經驗法則
-
-**全距經驗法則**利用全距快速近似標準差。
-
-:::{.callout-note}
-## 全距經驗法則
-
-$$s \approx \frac{\text{全距}}{4}$$
-
-反之，大多數資料值落在以下區間內：
-$$[\bar{X} - 2s, \; \bar{X} + 2s]$$
-:::
-
-此近似法對單峰且大致對稱的分配效果最佳。
-
-## 柴比雪夫定理
-
-**柴比雪夫定理**提供任何分配形狀下，資料值落在平均數 $k$ 個標準差範圍內的比例下界保證。
-
-:::{.callout-note}
-## 柴比雪夫定理
-
-任何資料集中，落在平均數 $k$ 個標準差範圍內的數值比例至少為：
-
-$$1 - \frac{1}{k^2}, \quad k > 1$$
-
-| $k$ | $k$ 個標準差內的最小比例 |
-|-----|--------------------------|
-| 2 | 至少75% |
-| 3 | 至少88.89% |
-| 2.5 | 至少84% |
-:::
-
-## 範例 3-27 {#example-3-27}
-
-:::{.callout-warning}
-## 房屋價格（柴比雪夫）
-
-某社區房屋平均售價為$50,000，標準差為$10,000。求至少75%房屋的售價範圍。
-:::
-
-## 範例 3-27
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu  <- 50000
-sd  <- 10000
-k   <- 2   # 至少75%
-
-lower <- mu - k * sd
-upper <- mu + k * sd
-pct   <- (1 - 1/k^2) * 100
-
-cat("k =", k, "→ 至少", pct, "% 的數值\n")
-cat("價格範圍：$", lower, "至 $", upper, "\n")
-```
-
-至少 **75%** 的房屋售價在 **$30,000 至 $70,000** 之間。
-:::
-
-## 範例 3-28 {#example-3-28}
-
-:::{.callout-warning}
-## 差旅補貼（柴比雪夫——求k）
-
-主管差旅補貼：平均 = $0.25/英里，標準差 = $0.02/英里。求$0.20至$0.30之間的最小百分比。
-:::
----
-
-```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu  <- 0.25
-sd  <- 0.02
-
-# 從平均數到邊界的距離
-diff <- 0.30 - mu
-k    <- diff / sd
-pct  <- (1 - 1/k^2) * 100
-
-cat("從平均數到邊界的距離：$", diff, "\n")
-cat("k = 距離 / 標準差 =", k, "\n")
-cat("最小百分比：1 - 1/k^2 =", pct, "%\n")
-```
-
-至少 **84%** 的差旅補貼落在每英里$0.20至$0.30之間。
-
-## 經驗法則（常態法則）
-
-當分配為**鐘形（常態）**時，可應用更嚴格的保證：
-
-:::{.callout-note}
-## 經驗法則
-
-對於鐘形分配：
-
-| 區間 | 資料的近似百分比 |
-|----------|----------------------|
-| $\bar{X} \pm 1s$ | $\approx 68\%$ |
-| $\bar{X} \pm 2s$ | $\approx 95\%$ |
-| $\bar{X} \pm 3s$ | $\approx 99.7\%$ |
-:::
-
----
-
-**繪製圖形**
-
-```{r e3-28-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 480; sigma <- 90
-p_emp <- tibble(x = seq(mu - 4*sigma, mu + 4*sigma, length.out = 500),
-       y = dnorm(x, mu, sigma)) |>
-  ggplot(aes(x, y)) +
-  geom_line() +
-  geom_area(aes(fill = "99.7%"), alpha=0.2) +
-  geom_vline(xintercept = c(mu-sigma, mu+sigma), color="blue", linetype=2) +
-  geom_vline(xintercept = c(mu-2*sigma, mu+2*sigma), color="red", linetype=2) +
-  geom_vline(xintercept = c(mu-3*sigma, mu+3*sigma), color="darkgreen", linetype=2) +
-  annotate("text", x=mu, y=0.003, label="68%", color="blue") +
-  annotate("text", x=mu+2.5*sigma, y=0.001, label="95%", color="red") +
-  labs(title="經驗法則（mu=480，sigma=90）",
-       x="分數", y="密度") +
-  theme_bw() + theme(legend.position="none")
-```
-
----
-
-**輸出圖形**
-
-```{r e3-28-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_emp
-```
-
-# 第3-3節：位置的測量 {background-color="#2c4a6e"}
-
-## 在分配中定位數值
-
-**位置的測量**描述某特定值相對於資料集其餘部分的位置。它們回答了以下問題：*此數值與其他數值的比較如何？*
-
-關鍵位置量數包括：
-
-- **標準分數（z分數）**——以標準差單位表示與平均數的距離
-- **百分位數**——將資料分成100個相等群組
-- **十分位數**——將資料分成10個相等群組
-- **四分位數**——將資料分成4個相等群組
-
-## 標準分數（z分數）
-
-**z分數**（標準分數）將原始值轉換為其位於平均數上方或下方幾個標準差，以便跨不同分配進行公平比較。
-
-:::{.callout-note}
-## z分數公式
-
-$$z = \frac{X - \bar{X}}{s} \quad \text{（樣本）} \qquad z = \frac{X - \mu}{\sigma} \quad \text{（母體）}$$
-
-- $z > 0$：數值**高於**平均數
-- $z = 0$：數值**等於**平均數
-- $z < 0$：數值**低於**平均數
-:::
-
-## 範例 3-29 {#example-3-29}
-
-:::{.callout-warning}
-## 比較考試表現
-
-一名學生微積分考試得65分（$\bar{X}=50$，$s=10$），歷史考試得30分（$\bar{X}=25$，$s=5$）。她在哪次考試表現相對較好？
-:::
-
-## 範例 3-29
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_calc <- (65 - 50) / 10
-z_hist <- (30 - 25) / 5
-
-cat("微積分z分數：", z_calc, "\n")
-cat("歷史z分數：", z_hist, "\n")
-cat("\n微積分z分數（1.5）> 歷史z分數（1.0）\n")
-cat("→ 她在微積分考試的相對表現較好。\n")
-```
-
-微積分分數高出其平均數1.5個標準差，而歷史分數僅高出其平均數1.0個標準差——**她在微積分考試的相對表現較好**。
-:::
-
-## 範例 3-30 {#example-3-30}
-
-:::{.callout-warning}
-## 哪個分數相對較高？
-
-| 考試 | 分數（X） | 平均數（$\bar{X}$） | 標準差（$s$） |
-|------|-----------|-----------------|----------|
-| A | 38 | 40 | 5 |
-| B | 94 | 100 | 10 |
-
-求各z分數並判斷相對較高的分數。
-:::
-
-## 範例 3-30
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_A <- (38 - 40) / 5
-z_B <- (94 - 100) / 10
-
-cat("考試A z分數：", z_A, "\n")
-cat("考試B z分數：", z_B, "\n")
-cat("\n結論：考試A分數相對較高（z = -0.4 > -0.6）\n")
-```
-
-考試A分數的**相對位置較高**（z = −0.4 vs z = −0.6）。
-:::
-
-## 百分位數
-
-**百分位數**以百分之幾定位資料值的位置。第 $p$ 百分位數的值超過分配中 $p$% 的所有數值。
-
-:::{.callout-note}
-## 百分位數公式
-
-$$X \text{ 的百分位數排名} = \frac{（低於 X \text{ 的值的數量}）+ 0.5}{\text{數值總數}} \times 100$$
-
-求給定百分位數 $p$ 對應的**數值**：
-
-$$c = \frac{n \cdot p}{100}$$
-
-- 若 $c$ **非**整數：向上取整並使用該位置。
-- 若 $c$ **為**整數：取第 $c$ 與第 $(c+1)$ 個值的平均。
-:::
-
-## 範例 3-31 {#example-3-31}
-
-:::{.callout-warning}
-## 百分位數圖（收縮壓）
-
-為200名大學生的收縮壓讀數建立百分位數圖。
-
-| 組界 | 次數 |
-|-----------------|-----------|
-| 89.5–104.5 | 24 |
-| 104.5–119.5 | 62 |
-| 119.5–134.5 | 72 |
-| 134.5–149.5 | 26 |
-| 149.5–164.5 | 12 |
-| 164.5–179.5 | 4 |
-:::
-
-## 範例 3-31
-
-:::{.callout-tip}
-## 解題
-
-**解題**
-
-```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-upper <- c(104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
-freq  <- c(24, 62, 72, 26, 12, 4)
-cum_f <- cumsum(freq)
-cum_pct <- (cum_f / sum(freq)) * 100
-
-df_bp <- data.frame(upper, cum_f, cum_pct)
-knitr::kable(df_bp, col.names=c("上組界","累積次數","累積百分比"),
-             caption="收縮壓——百分位數表")
-```
-:::
----
-
-```{r e3-31-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ggplot(df_bp, aes(x=upper, y=cum_pct)) +
-  geom_line(color="#2c4a6e", linewidth=1) +
-  geom_point(size=3, color="#2c4a6e") +
-  labs(title="百分位數圖——收縮壓",
-       x="血壓（mm Hg）", y="累積百分比") +
-  theme_bw()
-```
-
-## 範例 3-32 & 3-33：求百分位數排名 {#example-3-32}
-
-:::{.callout-warning}
-## 問題（範例 3-32 & 3-33）
-一名教師對10名學生進行20分的測驗。分數：18, 15, 12, 6, 8, 2, 3, 5, 20, 10
-
-求分數 **12** 和分數 **6** 的百分位數排名。
-:::
-
----
-
-```{r e3-31-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-scores <- c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10)
-n <- length(scores)
-
-prank <- function(x, data) {
-  below <- sum(data < x)
-  ((below + 0.5) / length(data)) * 100
-}
-
-cat("排序後分數：", paste(sort(scores), collapse=", "), "\n\n")
-cat("12分的百分位數排名：", prank(12, scores), "\n")
-cat("6分的百分位數排名：", prank(6, scores), "\n")
-```
-
-分數12位於**第65百分位數**（優於65%的同學）。分數6位於**第35百分位數**。
-
-## 範例 3-34 & 3-35：給定百分位數的數值 {#example-3-34}
-
-:::{.callout-warning}
-## 問題（範例 3-34 & 3-35）
-1. 使用例3-32的測驗分數，求對應**第25百分位數**的數值。
-
-2. 求對應**第60百分位數**的數值。
-:::
-
----
-
-```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-scores_sorted <- sort(c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10))
-n <- length(scores_sorted)
-cat("排序後分數：", scores_sorted, "\n\n")
-
-# 第25百分位數
-c25 <- n * 25 / 100
-cat("第25百分位數的c值：", c25, "（非整數 → 向上取整至3）\n")
-cat("第3個位置的值：", scores_sorted[3], "\n\n")
-
-# 第60百分位數
-c60 <- n * 60 / 100
-cat("第60百分位數的c值：", c60, "（整數 → 取第6與第7位置的平均）\n")
-cat("第6與第7位置的平均：", (scores_sorted[6] + scores_sorted[7])/2, "\n")
-```
-
-## 四分位數與十分位數
-
-**四分位數**將資料集分成四個相等群組（$Q_1$、$Q_2$、$Q_3$），而**十分位數**將其分成十個群組（$D_1, \ldots, D_9$）。
-
-:::{.callout-note}
-## 關鍵關係
-
-| 位置量數 | 對應百分位數 |
-|-----------------|----------------------|
-| $Q_1$（第1四分位數） | $P_{25}$ |
-| $Q_2$（第2四分位數 = 中位數） | $P_{50}$ |
-| $Q_3$（第3四分位數） | $P_{75}$ |
-| $D_1$（第1十分位數） | $P_{10}$ |
-| $D_5$（第5十分位數） | $P_{50}$ |
-
-**四分位距（IQR）：** $\text{IQR} = Q_3 - Q_1$
-
-IQR測量中間50%資料的分散程度。
-:::
-
-## 求四分位數——步驟
-
-:::{.callout-important}
-## 求Q1、Q2、Q3的逐步步驟
-
-1. 將資料由小到大排列。
-2. 求整個資料集的中位數（$Q_2$）。
-3. 求下半部分（$Q_2$ 以下）的中位數 → 即為 $Q_1$。
-4. 求上半部分（$Q_2$ 以上）的中位數 → 即為 $Q_3$。
-:::
-
-## 範例 3-36 {#example-3-36}
-
-:::{.callout-warning}
-## 求四分位數
-
-求資料集的 $Q_1$、$Q_2$ 和 $Q_3$：15, 13, 6, 5, 12, 50, 22, 18
-:::
-
-## 範例 3-36
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(15, 13, 6, 5, 12, 50, 22, 18)
-xs <- sort(x)
-cat("排序後資料：", xs, "\n\n")
-```
-:::
----
-
-```{r e3-36-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-Q2 <- median(xs)
-lower <- xs[xs < Q2]
-upper <- xs[xs > Q2]
-
-Q1 <- median(lower)
-Q3 <- median(upper)
-IQR_val <- Q3 - Q1
-
-cat("Q2（中位數）：", Q2, "\n")
-cat("下半部分：", lower, "→ Q1 =", Q1, "\n")
-cat("上半部分：", upper, "→ Q3 =", Q3, "\n")
-cat("IQR：", IQR_val, "\n")
-```
-
-$Q_1 = 9$，$Q_2 = 14$，$Q_3 = 20$，$\text{IQR} = 11$。
-
-## 離群值
-
-**離群值**是與分配其餘部分差異極大的極高或極低資料值。離群值可能顯著扭曲平均數和標準差。
-
-:::{.callout-important}
-## 識別離群值的步驟
-
-1. 排列資料並求 $Q_1$ 和 $Q_3$。
-2. 計算 $\text{IQR} = Q_3 - Q_1$。
-3. 計算：$1.5 \times \text{IQR}$。
-4. 計算圍欄：下圍欄 $= Q_1 - 1.5(\text{IQR})$；上圍欄 $= Q_3 + 1.5(\text{IQR})$。
-5. 任何**超出**這些圍欄的值即為疑似離群值。
-:::
-
-## 範例 3-37 {#example-3-37}
-
-:::{.callout-warning}
-## 檢查離群值
-
-檢查以下資料集的離群值：5, 6, 12, 13, 15, 18, 22, 50
-
-（這是[範例 3-36](#example-3-36)資料的排序版本。）
-:::
-
-## 範例 3-37
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(5, 6, 12, 13, 15, 18, 22, 50)
-
-Q1 <- 9; Q3 <- 20  # 來自例3-36
-IQR_val <- Q3 - Q1
-
-lower_fence <- Q1 - 1.5 * IQR_val
-upper_fence <- Q3 + 1.5 * IQR_val
-```
-:::
----
-
-```{r e3-37-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("Q1：", Q1, "  Q3：", Q3, "  IQR：", IQR_val, "\n")
-cat("1.5 × IQR：", 1.5 * IQR_val, "\n")
-cat("下圍欄：", lower_fence, "\n")
-cat("上圍欄：", upper_fence, "\n\n")
-
-outliers <- x[x < lower_fence | x > upper_fence]
-cat("超出圍欄的值：", outliers, "\n")
-cat("結論：50為離群值。\n")
-```
-
-# 第3-4節：探索性資料分析 {background-color="#2c4a6e"}
-
-## 探索性資料分析（EDA）
-
-**探索性資料分析（EDA）**由約翰·圖基（John Tukey）提出，利用圖形與抗拒統計量來發現規律、分配形狀及潛在離群值，無需假設特定模型。
-
-:::{.callout-note}
-## 傳統方法 vs. EDA方法
-
-| 傳統方法 | 探索性資料分析 |
-|-------------|--------------------------|
-| 次數分配 | 莖葉圖 |
-| 直方圖 | 箱形圖 |
-| 平均數 | 中位數 |
-| 標準差 | 四分位距（IQR） |
-
-EDA統計量（中位數、IQR）具有**抗拒性**——較不受極端值影響——而平均數和標準差**不具抗拒性**。
-:::
-
-## 五數摘要
-
-**五數摘要**使用五個關鍵值捕捉分配的完整分散程度與形狀：
-
-:::{.callout-note}
-## 五數摘要
-
-1. **最小值**——最低資料值
-2. **$Q_1$**——第1四分位數（第25百分位數）
-3. **中位數（$Q_2$）**——中間值（第50百分位數）
-4. **$Q_3$**——第3四分位數（第75百分位數）
-5. **最大值**——最高資料值
-:::
-
-這五個值構成**箱形圖**（盒鬚圖）的基礎。
-
-## 建立箱形圖
-
-:::{.callout-important}
-## 建立箱形圖的步驟
-
-1. 求五數摘要。
-2. 以包含最小值和最大值的刻度繪製水平軸。
-3. 從 $Q_1$ 到 $Q_3$ 繪製長方形，並在中位數處畫一條垂直線。
-4. 從長方形延伸**鬚線**至最小值和最大值。
-:::
-
-**從箱形圖解讀形狀：**
-
-- 中位數靠近盒子中央 → 大致**對稱**
-- 中位數偏向盒子左側 → **正偏（右偏）**
-- 中位數偏向盒子右側 → **負偏（左偏）**
-- 右鬚線較長 → **正偏**
-- 左鬚線較長 → **負偏**
-
-## 範例 3-38 {#example-3-38}
-
-:::{.callout-warning}
-## 發現的隕石
-
-美國10個州發現的隕石數量：89, 47, 164, 296, 30, 215, 138, 78, 48, 39。建立箱形圖並描述分配。
-:::
-
-## 範例 3-38
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
-xs <- sort(meteorites)
-cat("排序後：", xs, "\n")
-
-five_num <- fivenum(meteorites)
-names(five_num) <- c("最小值","Q1","中位數","Q3","最大值")
-print(five_num)
-```
-:::
-
----
-
-```{r e3-38-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-boxplot(meteorites, horizontal=TRUE,
-        main="美國10個州發現的隕石數量",
-        xlab="隕石數量",
-        col="#8db4d6")
-```
-
-分配呈**正偏**——右鬚線延伸遠多於左鬚線。
-
-## 範例 3-38
-
-:::{.callout-tip}
-## 解題
-
-```{r e3-38-3, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
-
-ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
-  geom_boxplot(fill="#8db4d6", color="#2c4a6e", width=0.4) +
-  coord_flip() +
-  labs(title="箱形圖：美國10個州發現的隕石數量",
-       y="隕石數量", x="") +
-  theme_bw()
-```
-:::
-
-## 範例 3-39 {#example-3-39}
-
-:::{.callout-warning}
-## 比較兩個分配
-
-一名營養師比較真實乳酪與乳酪替代品的鈉含量（mg）。用箱形圖比較兩個分配。
-
-**真實乳酪：** 310, 420, 45, 40, 220, 240, 180, 90
-**乳酪替代品：** 270, 180, 250, 290, 130, 260, 340, 310
-:::
-
-## 範例 3-39
-
-:::{.callout-tip}
-## 解題
-
-**解題**
-
-```{r e3-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-real  <- c(310, 420, 45, 40, 220, 240, 180, 90)
-sub   <- c(270, 180, 250, 290, 130, 260, 340, 310)
-
-cat("真實乳酪五數摘要：\n")
-print(fivenum(real))
-cat("\n乳酪替代品五數摘要：\n")
-print(fivenum(sub))
-
-df_cheese <- data.frame(
-  sodium = c(real, sub),
-  type   = rep(c("真實乳酪","乳酪替代品"), each=8)
-)
-```
-:::
----
-
-```{r e3-39-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
-  geom_boxplot(alpha=0.7) +
-  coord_flip() +
-  scale_fill_manual(values=c("#2c4a6e","#8db4d6")) +
-  labs(title="鈉含量：真實乳酪 vs. 乳酪替代品",
-       y="鈉含量（mg）", x="") +
-  theme_bw() + theme(legend.position="none")
-```
-
-## 範例 3-39
+## 範例 3-11
 
 :::{.callout-tip}
 ## 解題
 
 **詮釋**
 
-```{r e3-39-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-real <- c(310, 420, 45, 40, 220, 240, 180, 90)
-sub  <- c(270, 180, 250, 290, 130, 260, 340, 310)
-
-summary_df <- data.frame(
-  Measure = c("最小值","Q1","中位數","Q3","最大值","IQR"),
-  `真實乳酪`    = c(min(real), quantile(real,0.25), median(real),
-                       quantile(real,0.75), max(real),
-                       IQR(real)),
-  `乳酪替代品`     = c(min(sub), quantile(sub,0.25), median(sub),
-                       quantile(sub,0.75), max(sub),
-                       IQR(sub))
-)
-```
+平均數遠高於中位數與眾數，因為老闆極高的薪資把平均數往上拉。在這類情況下，應該改用**中位數**作為集中趨勢量數。
 :::
+
+## 中程數
+
+:::{.callout-note}
+## 中程數
+
+**中程數**定義為資料集中最小值與最大值之和除以 2，符號為 $MR$。
+
+$$MR = \frac{\text{最小值} + \text{最大值}}{2}$$
+:::
+
+中程數是對平均非常粗略的估計，且容易受到單一極高或極低值的影響。
+
+## 範例 3-12 {#example-3-12}
+
+:::{.callout-warning}
+## 航班取消數
+
+下列為某航空公司五個月各自的航班取消數。求其中程數。
+
+```
+6   41   97   112   58
+```
+
+*（模擬資料）*
+:::
+
 ---
 
-```{r e3-39-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(summary_df, caption="五數摘要比較")
+## 範例 3-12
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cancellations <- c(6, 41, 97, 112, 58)
+
+min(cancellations)
+max(cancellations)
+(min(cancellations) + max(cancellations)) / 2
 ```
 
-附註：前面的五數摘要使用 `fivenum()` 的樞紐值（hinges），而此表使用 `quantile()` 的 type-7 四分位數，因此兩組數值略有差異。
+$$MR = \frac{6 + 112}{2} = \frac{118}{2} = 59$$
 
-:::{.callout-note}
-**解讀：** 乳酪替代品的**中位數**鈉含量較高（265 vs 200 mg），**變異性較低**（IQR = 62.5 vs 178.75 mg）。真實乳酪資料較分散，且略呈正偏。
+航班取消數的中程數為 **59**。
 :::
 
-## 摘要：第3章一覽
+## 範例 3-13 {#example-3-13}
+
+:::{.callout-warning}
+## 貨櫃裝載量
+
+下列為某出口碼頭五年間各年的貨櫃裝載量（單位：千櫃）。求其中程數。
+
+```
+318   742   906   455   264
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-13
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+containers_loaded <- c(318, 742, 906, 455, 264)
+
+min(containers_loaded)
+max(containers_loaded)
+(min(containers_loaded) + max(containers_loaded)) / 2
+```
+
+$$MR = \frac{264 + 906}{2} = \frac{1170}{2} = 585$$
+
+中程數為 **58 萬 5000 櫃**。
+:::
+
+## 加權平均數
+
+有時資料集中各個數值的代表性並不相同，此時須求加權平均數。
 
 :::{.callout-note}
-## 第3-1節：集中趨勢的測量
+## 加權平均數
 
-**平均數** $\bar{X} = \frac{\Sigma X}{n}$ ——使用所有數值；對離群值敏感
+求變數 $X$ 的**加權平均數**時，將每個數值乘上其對應的權數，再把乘積之和除以權數之和。
 
-**中位數** ——中間值；對離群值具抗拒性
+$$\bar{X} = \frac{w_1 X_1 + w_2 X_2 + \cdots + w_n X_n}{w_1 + w_2 + \cdots + w_n} = \frac{\Sigma wX}{\Sigma w}$$
 
-**眾數** ——最常出現的值；可用於類別資料
+其中 $w_1, w_2, \ldots, w_n$ 為權數，$X_1, X_2, \ldots, X_n$ 為數值。
+:::
 
-**中距** $= \frac{\min + \max}{2}$ ——易於計算；對極端值敏感
+## 範例 3-14 {#example-3-14}
 
-**加權平均數** $= \frac{\Sigma wX}{\Sigma w}$ ——考慮不同權重
+:::{.callout-warning}
+## 學期平均成績
+
+某位 ETP 學生的成績為：國際貿易實務（4 學分）A、商用統計學（3 學分）B、管理會計（3 學分）C、商務英語簡報（2 學分）B。若 A = 4 個積點、B = 3、C = 2、D = 1、F = 0，求該生的學期平均成績。
+:::
+
+---
+
+## 範例 3-14
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+courses <- tibble(
+  Course  = c("International Trade Practice", "Business Statistics",
+              "Managerial Accounting", "Business English Presentation"),
+  Credits = c(4, 3, 3, 2),
+  Grade   = c(4, 3, 2, 3))
+
+knitr::kable(courses, align = "c")
+round(sum(courses$Credits * courses$Grade) / sum(courses$Credits), 1)
+```
+
+$$\bar{X} = \frac{\Sigma wX}{\Sigma w} = \frac{4 \cdot 4 + 3 \cdot 3 + 3 \cdot 2 + 2 \cdot 3}{4+3+3+2} = \frac{37}{12} \approx 3.1$$
+
+學期平均成績為 **3.1**。
+:::
+
+## 表 3-1：集中趨勢量數彙整
+
+| 量數 | 定義 | 符號 |
+|---------|------------|-----------|
+| 平均數 | 所有數值之和除以數值個數 | $\mu$, $\bar{X}$ |
+| 中位數 | 排序後資料集的中間點 | $MD$ |
+| 眾數 | 出現次數最多的資料值 | 無 |
+| 中程數 | 最小值加最大值除以 2 | $MR$ |
+
+## 平均數與中位數的性質與用途
+
+:::{.callout-important}
+## 平均數
+
+1. 平均數使用資料的**所有**數值。
+2. 由同一母體重複抽樣時，平均數的**變動小於**中位數或眾數。
+3. 平均數用來計算其他統計量，例如變異數。
+4. 資料集的平均數是**唯一**的，且不一定是資料值之一。
+5. 若次數分配含有**開放組**，平均數**無法**計算。
+6. 平均數**受離群值影響**，在這類情況下可能不是合適的平均量數。
+:::
+
+---
+
+## 平均數與中位數的性質與用途
+
+:::{.callout-important}
+## 中位數
+
+1. 中位數用來找出資料集的中心或中間值。
+2. 當需要判斷資料值落在分布的**上半部或下半部**時，使用中位數。
+3. 中位數可用於**開放組**的分布。
+4. 中位數受極高或極低值的影響**小於**平均數。
+:::
+
+## 眾數與中程數的性質與用途
+
+:::{.callout-important}
+## 眾數
+
+1. 想知道**最典型的情形**時使用眾數。
+2. 眾數是**最容易**計算的平均量數。
+3. 當資料為**名目或類別**尺度時（如宗教信仰、性別、政黨傾向），可以使用眾數。
+4. 眾數**不一定唯一**。一個資料集可能有多個眾數，也可能沒有眾數。
+:::
+
+:::{.callout-important}
+## 中程數
+
+1. 中程數容易計算。
+2. 中程數給出全距的中點。
+3. 中程數受資料集中極高或極低值的影響。
+:::
+
+## 分布形狀
+
+次數分配可以呈現許多形狀，最重要的三種是**右偏**、**對稱**與**左偏**（圖 3-1）。
+
+:::{.callout-note}
+## 三種分布形狀
+
+- **右偏（正偏）**——多數資料值落在平均數**左側**、集中於低端，尾巴在右側。**平均數在中位數右側**，**眾數在中位數左側**。
+- **對稱**——資料值平均分布於平均數兩側。當分布為單峰時，**平均數、中位數與眾數相同**，且位於分布中央。
+- **左偏（負偏）**——多數資料值落在平均數**右側**、集中於高端，尾巴在左側。**平均數在中位數左側**，**眾數在中位數右側**。
+:::
+
+## 偏態與平均量數的選擇
+
+美國的所得分布是右偏的：多數所得集中在低端，少數高所得在右側形成尾巴。若大多數學生考試成績很高，分數的分布就是左偏。
+
+:::{.callout-warning}
+## 注意
+
+當分布**極度偏斜**時，平均數會被拉向尾巴，因此**中位數**比平均數更適合作為集中趨勢量數。極度偏斜的分布也會影響其他統計量。
+:::
+
+---
+
+## 以 R 觀察分布形狀
+
+**繪製圖形**
+
+```{r s3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(2026)
+shapes <- tibble(
+  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2),
+            16 - rgamma(4000, 2, 0.5)),
+  shape = rep(c("(a) 右偏", "(b) 對稱",
+                "(c) 左偏"), each = 4000))
+
+p_shapes <- ggplot(shapes, aes(x = value)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  facet_wrap(~ shape, scales = "free") +
+  labs(title = "圖 3-1：分布的類型", x = "", y = "次數")
+```
+
+---
+
+## 以 R 觀察分布形狀
+
+**輸出圖形**
+
+```{r s3-1-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.5}
+p_shapes
+```
+
+在偏斜的兩張圖中，平均數被拉向長尾，而中位數仍停留在資料密集之處。
+
+# 第3-2節：離散量數 {background-color="#2c4a6e"}
+
+## 為什麼離散程度很重要
+
+只知道資料集的平均數並不足以完整描述資料。鞋店老闆即使知道男鞋的平均尺碼是 10 號，如果只進 10 號鞋，生意也做不久。
+
+除了平均之外，還必須知道資料值的**分散**情形。決定資料值分散程度的量數稱為**離散量數**：全距、變異數與標準差。
+
+## 範例 3-15 {#example-3-15}
+
+:::{.callout-warning}
+## 兩家供應商的比較
+
+某採購人員想比較兩家海外包材供應商的交期長短，各向兩家下了六批訂單。由於只有六批訂單，且現行合約不再下單，這兩組構成兩個小**母體**。交期（單位：天）如下。求各組的平均數。
+
+```
+A 供應商    B 供應商
+    9          14
+   21          10
+    3          13
+   15          11
+    6          14
+   18          10
+```
+
+*（模擬資料）*
+
+回到[範例 3-16](#example-3-16)、[範例 3-18](#example-3-18)、[範例 3-19](#example-3-19)
+:::
+
+---
+
+## 範例 3-15
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+supplier_a <- c(9, 21, 3, 15, 6, 18)
+supplier_b <- c(14, 10, 13, 11, 14, 10)
+
+c(sum = sum(supplier_a), mean = mean(supplier_a))
+c(sum = sum(supplier_b), mean = mean(supplier_b))
+```
+
+$$\mu_A = \frac{72}{6} = 12 \text{ 天} \qquad \mu_B = \frac{72}{6} = 12 \text{ 天}$$
+
+兩者的平均數都是 **12 天**。
+:::
+
+---
+
+## 範例 3-15
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形**
+
+```{r e3-15-2, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3}
+tibble(Supplier = rep(c("(a) A 供應商", "(b) B 供應商"), each = 6),
+       Days = c(supplier_a, supplier_b)) |>
+  ggplot(aes(x = Days, y = Supplier)) +
+  geom_point(size = 3, color = "steelblue") +
+  geom_vline(xintercept = 12, linetype = "dashed", color = "red") +
+  labs(title = "圖 3-2：以圖形檢視資料集",
+       x = "交期（天）", y = "")
+```
+
+雖然兩者平均數相同，**分散程度**卻差很多：B 供應商的交期穩定得多。
+:::
+
+## 全距
+
+:::{.callout-note}
+## 全距
+
+**全距**是最大值減最小值，符號為 $R$。
+
+$$R = \text{最大值} - \text{最小值}$$
+:::
+
+全距必須寫成**單一個數字**。
+
+## 範例 3-16 {#example-3-16}
+
+:::{.callout-warning}
+## 兩家供應商的比較
+
+求[範例 3-15](#example-3-15)中兩家供應商交期的全距。
+:::
+
+---
+
+## 範例 3-16
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+diff(range(supplier_a))
+diff(range(supplier_b))
+```
+
+A 供應商的 $R = 21 - 3 = 18$ 天；B 供應商的 $R = 14 - 10 = 4$ 天。
+
+A 供應商最大值與最小值相差 18 天，B 供應商只差 4 天，不到 A 供應商全距的四分之一。
+:::
+
+## 範例 3-17 {#example-3-17}
+
+:::{.callout-warning}
+## 包裹處理量
+
+下列為某物流中心六個月的包裹處理量（單位：萬件）。求其全距。
+
+```
+37   62   19   48   55   41
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-17
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+parcels <- c(37, 62, 19, 48, 55, 41)
+
+diff(range(parcels))
+```
+
+$$R = 62 - 19 = 43 \text{（萬件）}$$
+
+單一個極高或極低的資料值就會大幅影響全距，因此統計學家改用**變異數**與**標準差**作為更有意義的離散量數。
+:::
+
+## 母體變異數與標準差
+
+資料的變異來自每個資料值與平均數之間的距離，此距離稱為**離差** $X - \mu$。由於離差之和恆為零，因此將離差**平方**。
+
+:::{.callout-note}
+## 母體變異數與標準差
+
+**母體變異數**是各數值與平均數距離平方的平均：
+
+$$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N}$$
+
+**母體標準差**是變異數的平方根：
+
+$$\sigma = \sqrt{\sigma^2} = \sqrt{\frac{\Sigma(X - \mu)^2}{N}}$$
+
+其中 $X$ 為個別數值，$\mu$ 為母體平均數，$N$ 為母體大小。
+:::
+
+## 計算程序與四捨五入規則
+
+:::{.callout-important}
+## 程序——母體變異數與標準差
+
+1. 求資料的平均數 $\mu = \dfrac{\Sigma X}{N}$。
+2. 求每個資料值的離差 $X - \mu$。
+3. 將每個離差平方 $(X - \mu)^2$。
+4. 求平方和 $\Sigma(X - \mu)^2$。
+5. 除以 $N$ 得到變異數。
+6. 對變異數開平方根得到標準差。
+:::
+
+:::{.callout-important}
+## 標準差的四捨五入規則
+
+最後答案應比原始資料**多保留一位小數**。
+:::
+
+## 範例 3-18 {#example-3-18}
+
+:::{.callout-warning}
+## 兩家供應商的比較
+
+求[範例 3-15](#example-3-15)中 A 供應商交期的變異數與標準差。A 供應商的交期（天）為
+
+```
+9   21   3   15   6   18
+```
+:::
+
+---
+
+## 範例 3-18
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+deviations_a <- tibble(X = supplier_a, dev = X - mean(supplier_a), dev2 = dev^2)
+
+knitr::kable(deviations_a, col.names = c("Values X", "X - mu", "(X - mu)^2"),
+             align = "c")
+sum(deviations_a$dev2)
+```
+:::
+
+---
+
+## 範例 3-18
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+population_variance <- function(values) mean((values - mean(values))^2)
+
+variance_a <- population_variance(supplier_a)
+variance_a
+round(sqrt(variance_a), 1)
+```
+
+$$\sigma^2 = \frac{252}{6} = 42 \qquad \sigma = \sqrt{42} \approx 6.5$$
+
+變異數為 **42**，標準差為 **6.5 天**。
+:::
+
+## 範例 3-19 {#example-3-19}
+
+:::{.callout-warning}
+## 兩家供應商的比較
+
+求[範例 3-15](#example-3-15)中 B 供應商交期的變異數與標準差。B 供應商的交期（天）為
+
+```
+14   10   13   11   14   10
+```
+:::
+
+---
+
+## 範例 3-19
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+deviations_b <- tibble(X = supplier_b, dev = X - mean(supplier_b), dev2 = dev^2)
+knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "c")
+```
+:::
+
+---
+
+## 範例 3-19
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-19-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+variance_b <- population_variance(supplier_b)
+variance_b
+round(sqrt(variance_b), 1)
+```
+
+$$\sigma^2 = \frac{18}{6} = 3 \qquad \sigma \approx 1.7$$
+
+平均數相同時，標準差愈大資料愈分散：A（$6.5$）比 B（$1.7$）更分散。
+:::
+
+## 樣本變異數與標準差
+
+除以 $n$ 通常會**低估**母體變異數，因此改為除以 $n - 1$，得到略大的數值，成為母體變異數的**不偏估計**。
+
+:::{.callout-note}
+## 樣本變異數與標準差
+
+$$s^2 = \frac{\Sigma(X - \bar{X})^2}{n - 1} \qquad s = \sqrt{s^2} = \sqrt{\frac{\Sigma(X - \bar{X})^2}{n - 1}}$$
+
+其中 $X$ 為個別數值，$\bar{X}$ 為樣本平均數，$n$ 為樣本大小。
+:::
+
+## 範例 3-20 {#example-3-20}
+
+:::{.callout-warning}
+## 出口訂單數
+
+下列為隨機抽出的五個業務據點上個月接到的出口訂單數。求其變異數與標準差。
+
+```
+14   50   26   38   32
+```
+
+*（模擬資料）*
+
+回到[範例 3-21](#example-3-21)
+:::
+
+---
+
+## 範例 3-20
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+export_orders <- c(14, 50, 26, 38, 32)
+deviations <- tibble(X = export_orders, dev = X - mean(export_orders), dev2 = dev^2)
+knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align = "c")
+```
+:::
+
+---
+
+## 範例 3-20
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-20-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sum(deviations$dev2)
+var(export_orders)
+round(sd(export_orders), 1)
+```
+
+$$s^2 = \frac{720}{5 - 1} = 180 \qquad s = \sqrt{180} \approx 13.4$$
+:::
+
+## 簡捷（計算）公式
+
+:::{.callout-important}
+## $s^2$ 與 $s$ 的簡捷公式
+
+$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)}}$$
+
+這些公式與前述公式在數學上等價，且不需用到平均數。注意 $\Sigma X^2$ 與 $(\Sigma X)^2$ **不同**：$\Sigma X^2$ 是先平方再求和，$(\Sigma X)^2$ 是先求和再平方。
+:::
+
+## 範例 3-21 {#example-3-21}
+
+:::{.callout-warning}
+## 出口訂單數
+
+下列為隨機抽出的五個業務據點上個月接到的出口訂單數。請用簡算公式求其變異數與標準差。
+
+```
+14   50   26   38   32
+```
+
+*（模擬資料）*
+
+回到[範例 3-20](#example-3-20)
+:::
+
+---
+
+## 範例 3-21
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n_offices <- length(export_orders)
+
+sum(export_orders)
+sum(export_orders^2)
+
+shortcut_variance <- (n_offices * sum(export_orders^2) - sum(export_orders)^2) /
+  (n_offices * (n_offices - 1))
+shortcut_variance
+var(export_orders)
+```
+
+$$s^2 = \frac{5(5840) - 160^2}{5(4)} = \frac{3600}{20} = 180 \qquad s \approx 13.4$$
+
+簡算公式的結果與 `var()` 相同，也與[範例 3-20](#example-3-20)相同。
+:::
+
+## 分組資料的變異數與標準差
+
+:::{.callout-important}
+## 分組資料的簡捷公式
+
+$$s^2 = \frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)}}$$
+
+其中 $X_m$ 為各組組中點，$f$ 為各組次數。
+
+$n$ 務必使用**次數總和**，而不是組數。
+:::
+
+## 範例 3-22 {#example-3-22}
+
+:::{.callout-warning}
+## 物流中心的揀貨時間
+
+下列次數分配為隨機抽出的 20 筆訂單各自的揀貨時間（單位：分鐘）。求其樣本變異數與樣本標準差。
+
+```
+  組界        次數     組中點
+  4.5-9.5       2         7
+  9.5-14.5      3        12
+ 14.5-19.5      5        17
+ 19.5-24.5      4        22
+ 24.5-29.5      3        27
+ 29.5-34.5      2        32
+ 34.5-39.5      1        37
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-22
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+picking_times <- tibble(
+  Class = c("4.5-9.5", "9.5-14.5", "14.5-19.5", "19.5-24.5",
+            "24.5-29.5", "29.5-34.5", "34.5-39.5"),
+  f  = c(2, 3, 5, 4, 3, 2, 1),
+  Xm = c(7, 12, 17, 22, 27, 32, 37)) |>
+  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
+
+knitr::kable(picking_times, align = "c")
+```
+:::
+
+---
+
+## 範例 3-22
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n_orders  <- sum(picking_times$f)
+sum_fxm   <- sum(picking_times$fXm)
+sum_fxm2  <- sum(picking_times$fXm2)
+
+c(n = n_orders, sum_fxm = sum_fxm, sum_fxm2 = sum_fxm2)
+
+grouped_variance <- (n_orders * sum_fxm2 - sum_fxm^2) / (n_orders * (n_orders - 1))
+round(grouped_variance, 1)
+round(sqrt(grouped_variance), 1)
+```
+
+$$s^2 = \frac{20(9515) - 405^2}{20(19)} = \frac{26{,}275}{380} \approx 69.1 \qquad s \approx 8.3$$
+:::
+
+## 表 3-2：離散量數彙整
+
+| 量數 | 定義 | 符號 |
+|---------|------------|-----------|
+| 全距 | 最大值與最小值之間的距離 | $R$ |
+| 變異數 | 各數值與平均數距離平方的平均 | $\sigma^2$, $s^2$ |
+| 標準差 | 變異數的平方根 | $\sigma$, $s$ |
+
+## 變異數與標準差的用途
+
+:::{.callout-important}
+## 四項用途
+
+1. 用來判斷資料的**分散程度**，也便於比較兩組以上資料何者較為分散。
+2. 用來判斷變數的**一致性**。在螺帽與螺栓的製造中，直徑的變異必須很小，否則零件無法組合。
+3. 用來判斷落在某個區間內的**資料值個數**——例如柴比雪夫定理指出，至少 75% 的資料值落在平均數上下 2 個標準差之內。
+4. 在**推論統計**中經常使用。
+:::
+
+## 變異係數
+
+當兩個樣本的測量單位相同時，可以直接比較標準差。若要比較**兩個不同變數**的標準差，則須使用變異係數。
+
+:::{.callout-note}
+## 變異係數
+
+**變異係數**以 $\text{CVar}$ 表示，是標準差除以平均數，結果以百分比表示。
+
+$$\text{CVar} = \frac{s}{\bar{X}} \cdot 100\% \quad \text{（樣本）} \qquad \text{CVar} = \frac{\sigma}{\mu} \cdot 100\% \quad \text{（母體）}$$
+:::
+
+## 範例 3-23 {#example-3-23}
+
+:::{.callout-warning}
+## 兩個城市的門市營收
+
+某咖啡連鎖店台北門市的平均月營收為新台幣 268 萬元，標準差為 52.3 萬元；高雄門市的平均月營收為 194 萬元，標準差為 41.7 萬元。求兩地的變異係數。哪一組資料的變異較大？
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-23
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+regional_sales <- tibble(City      = c("Taipei", "Kaohsiung"),
+                         mean_sales = c(268, 194),
+                         sd_sales   = c(52.3, 41.7)) |>
+  mutate(CVar = round(sd_sales / mean_sales * 100, 1))
+
+knitr::kable(regional_sales, align = "c")
+```
+
+$$\text{台北：} \text{CVar} = \frac{52.3}{268} \cdot 100\% = 19.5\% \qquad
+\text{高雄：} \text{CVar} = \frac{41.7}{194} \cdot 100\% = 21.5\%$$
+
+高雄門市的變異只比台北門市**略大一些**。（表中營收單位皆為新台幣萬元。）
+:::
+
+## 範例 3-24 {#example-3-24}
+
+:::{.callout-warning}
+## 旅館住房率與房價
+
+某樣本中台北國際觀光旅館的平均住房率為 72.5%，變異數為 27.04；平均房價為新台幣 4,850 元，變異數為 336,400。比較兩組資料的變異程度。
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-24
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+hotel_measures <- tibble(Variable = c("Occupancy rate", "Daily room rate"),
+                         mean_value = c(72.5, 4850),
+                         variance   = c(27.04, 336400)) |>
+  mutate(CVar = round(sqrt(variance) / mean_value * 100, 1))
+
+knitr::kable(hotel_measures, align = "c")
+```
+
+$$\text{住房率：} \text{CVar} = \frac{\sqrt{27.04}}{72.5} \cdot 100\% = 7.2\% \qquad
+\text{房價：} \text{CVar} = \frac{\sqrt{336{,}400}}{4850} \cdot 100\% = 12.0\%$$
+
+**房價**的變異大於住房率的變異。
+:::
+
+## 全距經驗法則
+
+:::{.callout-important}
+## 全距經驗法則
+
+標準差的粗略估計為
+
+$$s \approx \frac{\text{全距}}{4}$$
+
+此法則也可用來估計極端值：最小值約為 $\bar{X} - 2s$，最大值約為 $\bar{X} + 2s$。
+:::
+
+:::{.callout-warning}
+## 注意
+
+全距經驗法則**只是近似值**，適用於資料值分布**單峰且大致對稱**的情況。
+:::
+
+---
+
+## 以 R 示範全距經驗法則
+
+```{r s3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+containers_per_hour <- c(16, 13, 22, 10, 18, 14, 19, 16)
+
+mean(containers_per_hour)
+round(sd(containers_per_hour), 1)
+diff(range(containers_per_hour)) / 4
+round(mean(containers_per_hour) + c(-2, 2) * sd(containers_per_hour), 1)
+```
+
+實際標準差為 3.7，全距為 $22 - 10 = 12$，因此全距經驗法則給出 $s \approx 3$。平均數為 16，估計的最小值與最大值為 8.5 與 23.5——與實際的 10 與 22 相去不遠。
+
+## 柴比雪夫定理
+
+:::{.callout-important}
+## 柴比雪夫定理
+
+資料集中落在平均數上下 $k$ 個標準差之內的比例**至少**為 $1 - \dfrac{1}{k^2}$，其中 $k$ 為大於 1 的數（$k$ 不一定是整數）。
+
+- 至少四分之三，即 **75%** 的資料值落在平均數上下 **2** 個標準差之內。
+- 至少九分之八，即 **89%** 的資料值落在平均數上下 **3** 個標準差之內。
+
+此定理可適用於**任何**分布，不論其形狀為何。
+:::
+
+## 範例 3-25 {#example-3-25}
+
+:::{.callout-warning}
+## 校園周邊租金
+
+校園周邊套房的平均月租金為新台幣 12,000 元，標準差為 1,500 元。求至少 75% 的套房租金落在哪個區間。
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-25
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean_rent <- 12000
+sd_rent   <- 1500
+k <- 2
+
+(1 - 1 / k^2) * 100
+mean_rent + c(-k, k) * sd_rent
+```
+
+$$12{,}000 + 2(1{,}500) = 15{,}000 \qquad 12{,}000 - 2(1{,}500) = 9{,}000$$
+
+校園周邊至少 75% 的套房租金落在 **新台幣 9,000 元到 15,000 元** 之間。
+:::
+
+## 範例 3-26 {#example-3-26}
+
+:::{.callout-warning}
+## 每筆外送的油錢
+
+某項調查發現外送員每筆訂單的平均油錢為新台幣 8.00 元，標準差為 1.20 元。利用柴比雪夫定理，求油錢落在 5.00 元到 11.00 元之間的訂單至少占多少百分比。
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-26
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+k <- (11.00 - 8.00) / 1.20
+k
+(1 - 1 / k^2) * 100
+```
+
+**步驟 1.** $11.00 - 8.00 = 3.00$。  **步驟 2.** $k = \dfrac{3.00}{1.20} = 2.5$。
+
+**步驟 3.** $1 - \dfrac{1}{2.5^2} = 1 - \dfrac{1}{6.25} = 1 - 0.16 = 0.84$。
+
+因此至少有 **84%** 的訂單油錢落在 5.00 元到 11.00 元之間。
+:::
+
+## 經驗（常態）法則
+
+:::{.callout-important}
+## 經驗法則
+
+當分布呈**鐘形（常態）**時：
+
+- 約 **68%** 的資料值落在平均數上下 **1** 個標準差之內。
+- 約 **95%** 的資料值落在平均數上下 **2** 個標準差之內。
+- 約 **99.7%** 的資料值落在平均數上下 **3** 個標準差之內。
+
+由於經驗法則要求分布近似鐘形，其結果比適用於所有分布的柴比雪夫定理**更為精確**。
+:::
+
+---
+
+## 以 R 示範經驗法則
+
+**繪製圖形**
+
+假設某超商連鎖店各門市的月營收呈鐘形分布，平均數為新台幣 180 萬元，標準差為 20 萬元（下圖單位為萬元）。
+
+```{r s3-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean_revenue <- 180
+sd_revenue   <- 20
+
+p_empirical <- tibble(
+  x = seq(mean_revenue - 4 * sd_revenue, mean_revenue + 4 * sd_revenue,
+          length.out = 500),
+  y = dnorm(x, mean_revenue, sd_revenue)) |>
+  ggplot(aes(x, y)) +
+  geom_line(color = "#2c4a6e") +
+  geom_vline(xintercept = mean_revenue + c(-1, 1) * sd_revenue,
+             color = "blue", linetype = 2) +
+  geom_vline(xintercept = mean_revenue + c(-2, 2) * sd_revenue,
+             color = "red", linetype = 2) +
+  geom_vline(xintercept = mean_revenue + c(-3, 3) * sd_revenue,
+             color = "darkgreen", linetype = 2) +
+  labs(title = "圖 3-4：經驗法則",
+       x = "月營收（萬元）", y = "機率密度")
+```
+
+---
+
+## 以 R 示範經驗法則
+
+**輸出圖形**
+
+```{r s3-2-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3.5}
+p_empirical
+```
+
+約有 68% 的門市月營收落在 160 到 200 萬元之間，約 95% 落在 140 到 220 萬元之間，約 99.7% 落在 120 到 240 萬元之間。
+
+## 資料的線性轉換
+
+有時必須把資料值轉換成另一種數值——例如把在加拿大收集的攝氏溫度換算成華氏，供美國的研究使用。這種改變稱為資料的**線性轉換**。
+
+:::{.callout-note}
+## 加上一個常數
+
+當每個資料值都**加上一個常數**時，**平均數增加該常數**，而**標準差不變**。
 :::
 
 :::{.callout-note}
-## 第3-2節：變異的測量
+## 乘以一個常數
 
-**全距** $R = \max - \min$
+當每個資料值都**乘以一個常數**時，新資料集的**平均數**等於該常數乘以原平均數，新資料集的**標準差**等於該常數的**絕對值**乘以原標準差。
+:::
 
-**變異數** $s^2 = \frac{n(\Sigma X^2)-(\Sigma X)^2}{n(n-1)}$
+---
 
-**標準差** $s = \sqrt{s^2}$
+## 線性轉換：加上一個常數
 
-**CVar** $= \frac{s}{\bar{X}} \times 100\%$ ——跨資料集比較變異性
+假設某物流公司有五位兼職揀貨員，時薪分別為新台幣 200、185、215、185、215 元。某季獲利良好後，每位揀貨員的時薪都調升 20 元。
 
-**柴比雪夫定理** ——任何分配至少 $1-\frac{1}{k^2}$ 落在 $k$ 個標準差內
+```{r s3-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+hourly_wage <- c(200, 185, 215, 185, 215)
+raised_wage <- hourly_wage + 20
 
-**經驗法則** ——鐘形分配68/95/99.7%落在1/2/3個標準差內
+c(mean = mean(hourly_wage), sd = sd(hourly_wage))
+c(mean = mean(raised_wage), sd = sd(raised_wage))
+```
+
+平均數從 200 元上升到 220 元——正好等於調升的金額——而標準差仍維持在 **15**。
+
+## 線性轉換：乘以一個常數
+
+這五位揀貨員上週分別工作 18、14、22、14、22 小時。假設薪資系統改以**分鐘**記錄工時，等於每個數值都乘以 60。
+
+```{r s3-2-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+weekly_hours   <- c(18, 14, 22, 14, 22)
+weekly_minutes <- weekly_hours * 60
+
+c(mean = mean(weekly_hours),   sd = sd(weekly_hours))
+c(mean = mean(weekly_minutes), sd = sd(weekly_minutes))
+```
+
+平均數乘以 60，從 18 小時變成 1080 分鐘；標準差同樣乘以 60，從 4 變成 **240**。
+
+# 第3-3節：位置量數 {background-color="#2c4a6e"}
+
+## 定位資料值在分布中的位置
+
+除了集中趨勢量數與離散量數之外，還有**位置量數**。這些量數包括**標準分數、百分位數、十分位數與四分位數**，用來指出某個資料值在資料集中的相對位置。
+
+若某個值位於第 80 百分位數，代表有 80% 的數值低於它、20% 的數值高於它。**中位數**就是對應第 50 百分位數的值。
+
+## 標準分數
+
+音樂測驗得 90 分與英文測驗得 45 分無法直接比較，因為兩份試卷的題數或每題配分未必相同。但可以利用平均數與標準差，做相對標準的比較。
+
+:::{.callout-note}
+## z 分數（標準分數）
+
+某數值的 **z 分數**（**標準分數**）是把該數值減去平均數後，再除以標準差：
+
+$$z = \frac{\text{數值} - \text{平均數}}{\text{標準差}}$$
+
+$$z = \frac{X - \bar{X}}{s} \quad \text{（樣本）} \qquad z = \frac{X - \mu}{\sigma} \quad \text{（母體）}$$
+
+$z$ 分數代表某個資料值高於或低於平均數幾個標準差。若 $z > 0$ 表示高於平均數；$z = 0$ 表示等於平均數；$z < 0$ 表示低於平均數。
+:::
+
+## 範例 3-27 {#example-3-27}
+
+:::{.callout-warning}
+## 客服通話時間
+
+某客服中心台北據點的平均通話處理時間為 4.8 分鐘，標準差 0.6 分鐘；台中據點的平均為 5.4 分鐘，標準差 0.8 分鐘。台北有一通電話花了 6.3 分鐘，台中有一通花了 6.8 分鐘。比較這兩通電話的相對位置。
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-27
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+call_times <- tibble(Site      = c("Taipei", "Taichung"),
+                     time      = c(6.3, 6.8),
+                     mean_time = c(4.8, 5.4),
+                     sd_time   = c(0.6, 0.8)) |>
+  mutate(z = (time - mean_time) / sd_time)
+
+knitr::kable(call_times, align = "c")
+```
+
+$$\text{台北：} z = \frac{6.3 - 4.8}{0.6} = 2.50 \qquad
+\text{台中：} z = \frac{6.8 - 5.4}{0.8} = 1.75$$
+
+由於台北那通電話的 $z$ 分數較高，它在自己據點中的相對通話時間**比台中那通更長**。
+:::
+
+## 範例 3-28 {#example-3-28}
+
+:::{.callout-warning}
+## 超商門市的日營收
+
+某超商連鎖店的 24 小時門市平均日營收為新台幣 52,000 元，標準差 5,000 元；校園門市平均日營收為 38,000 元，標準差 4,000 元。某家 24 小時門市當日營收 45,000 元，某家校園門市當日營收 33,000 元。求兩者的相對位置。
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-28
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+branch_revenue <- tibble(Branch       = c("24-hour", "Campus"),
+                         revenue      = c(45000, 33000),
+                         mean_revenue = c(52000, 38000),
+                         sd_revenue   = c(5000, 4000)) |>
+  mutate(z = (revenue - mean_revenue) / sd_revenue)
+
+knitr::kable(branch_revenue, align = "c")
+```
+
+$$\text{24 小時門市：} z = \frac{45{,}000 - 52{,}000}{5{,}000} = -1.40 \qquad
+\text{校園門市：} z = \frac{33{,}000 - 38{,}000}{4{,}000} = -1.25$$
+
+在這個例子中，**校園門市**在自己那一組中的相對位置高於 24 小時門市在自己那一組中的相對位置。
+
+當某個變數的全部資料都轉換成 $z$ 分數後，所得分布的平均數為 0、標準差為 1。
+:::
+
+## 百分位數
+
+:::{.callout-note}
+## 百分位數
+
+**百分位數**把資料集分成 100 個相等的組，符號為 $P_1, P_2, P_3, \ldots, P_{99}$。
+:::
+
+:::{.callout-warning}
+## 注意
+
+百分位數**不等於**百分比。若某位學生在 100 題中答對 72 題，她的百分比分數是 72，但這並未說明她在班上的相對位置。若原始分數 72 對應第 64 百分位數，則她勝過班上 64% 的學生。
+:::
+
+## 表 3-3：商管英文分班測驗的百分位等級
+
+| 量尺分數 | 第一部分：聽力 | 第二部分：語法 | 第三部分：閱讀 | 總量尺分數 | 百分位等級 |
+|---|---|---|---|---|---|
+| 72 | 99 | 98 | 99 | 720 | 99 |
+| 70 | 97 | 95 | 97 | 700 | 96 |
+| 68 | 94 | 91 | 93 | 680 | 92 |
+| 66 | 89 | 85 | 88 | 660 | 87 |
+| 64 | 83 | 78 | 82 | 640 | 80 |
+| 62 | 75 | 70 | 74 | 620 | 72 |
+| 60 | 66 | 60 | 64 | 600 | 63 |
+
+某商學院對新生施測的英文分班測驗所公布的百分位等級。*（模擬資料）*
+
+---
+
+## 表 3-3：商管英文分班測驗的百分位等級（續）
+
+| 量尺分數 | 第一部分：聽力 | 第二部分：語法 | 第三部分：閱讀 | 總量尺分數 | 百分位等級 |
+|---|---|---|---|---|---|
+| 58 | 56 | 50 | 54 | 580 | 53 |
+| 56 | 45 | 40 | 43 | 560 | 42 |
+| 54 | 35 | 31 | 33 | 540 | 32 |
+| 52 | 26 | 23 | 25 | 520 | 24 |
+| 50 | 19 | 17 | 18 | 500 | 17 |
+| 48 | 13 | 12 | 13 | 480 | 12 |
+| 46 | 9 | 8 | 9 | 460 | 8 |
+| 44 | 6 | 5 | 6 | 440 | 5 |
+
+---
+
+## 表 3-3：商管英文分班測驗的百分位等級（續）
+
+| 量尺分數 | 第一部分：聽力 | 第二部分：語法 | 第三部分：閱讀 | 總量尺分數 | 百分位等級 |
+|---|---|---|---|---|---|
+| 42 | 4 | 3 | 4 | 420 | 3 |
+| 40 | 2 | 2 | 2 | 400 | 2 |
+| 38 | 1 | 1 | 1 | 380 | 1 |
+| 36 | 1 | 1 | 1 | 360 | 1 |
+| 34 | 1 | 1 | 1 | 340 | 1 |
+| **平均數** | 58.4 | 59.1 | 58.7 | 588 | |
+| **標準差** | 6.2 | 6.8 | 6.5 | 62 | |
+
+第一部分量尺分數 64 的學生，百分位等級為 83——代表他勝過 83% 參加第一部分測驗的學生。
+
+## 範例 3-29 {#example-3-29}
+
+:::{.callout-warning}
+## 電商平台的訂單金額
+
+下列次數分配為隨機抽出的 200 筆電商平台訂單的金額（單位：新台幣元）。請繪製百分位圖。
+
+```
+組界                   次數
+   199.5-399.5          18
+   399.5-599.5          52
+   599.5-799.5          68
+   799.5-999.5          38
+   999.5-1199.5         16
+  1199.5-1399.5          8
+                合計   200
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-29
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+$$\text{累積百分比} = \frac{\text{累積次數}}{n} \cdot 100$$
+
+```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+order_values <- tibble(
+  Class = c("199.5-399.5", "399.5-599.5", "599.5-799.5",
+            "799.5-999.5", "999.5-1199.5", "1199.5-1399.5"),
+  upper = c(399.5, 599.5, 799.5, 999.5, 1199.5, 1399.5),
+  f     = c(18, 52, 68, 38, 16, 8)) |>
+  mutate(cum_f = cumsum(f), cum_pct = cum_f / sum(f) * 100)
+
+knitr::kable(order_values, align = "c")
+```
+:::
+
+---
+
+## 範例 3-29
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形**
+
+```{r e3-29-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+bind_rows(tibble(upper = 199.5, cum_pct = 0), order_values) |>
+  ggplot(aes(upper, cum_pct)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_point(size = 2, color = "#2c4a6e") +
+  labs(title = "圖 3-6：範例 3-29 的百分位圖",
+       x = "組界（新台幣元）", y = "累積百分比")
+```
+
+從圖上可讀出：訂單金額 799.50 元位在第 69 百分位數，而第 50 百分位數落在 599.50 元與 799.50 元之間。
+:::
+
+## 百分位數公式
+
+:::{.callout-important}
+## 百分位數公式
+
+某數值 $X$ 所對應的百分位數為
+
+$$\text{百分位數} = \frac{(\text{小於 } X \text{ 的數值個數}) + 0.5}{\text{數值總個數}} \cdot 100$$
+:::
+
+## 範例 3-30 {#example-3-30}
+
+:::{.callout-warning}
+## 退貨處理筆數
+
+下列為某電商物流中心 10 天內每日處理的退貨筆數。求 18 的百分位等級。
+
+```
+14   23   9   31   18   27   12   21   35   25
+```
+
+*（模擬資料）*
+
+回到[範例 3-31](#example-3-31)、[範例 3-32](#example-3-32)、[範例 3-33](#example-3-33)
+:::
+
+---
+
+## 範例 3-30
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+returns <- c(14, 23, 9, 31, 18, 27, 12, 21, 35, 25)
+sort(returns)
+
+percentile_rank <- function(value, values) {
+  (sum(values < value) + 0.5) / length(values) * 100
+}
+percentile_rank(18, returns)
+```
+
+由於小於 18 的資料值有 3 個，
+
+$$\text{百分位數} = \frac{3 + 0.5}{10} \cdot 100 = \text{第 35 百分位數}$$
+
+因此 18 這個值高於 **35%** 的資料值。
+:::
+
+## 範例 3-31 {#example-3-31}
+
+:::{.callout-warning}
+## 退貨處理筆數
+
+利用[範例 3-30](#example-3-30)的資料，求 31 的百分位等級。
+:::
+
+---
+
+## 範例 3-31
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sum(returns < 31)
+percentile_rank(31, returns)
+```
+
+小於 31 的資料值有 8 個，因此
+
+$$\text{百分位數} = \frac{8 + 0.5}{10} \cdot 100 = \text{第 85 百分位數}$$
+
+所以資料值 31 高於資料集中 **85%** 的數值。
+:::
+
+## 求特定百分位數對應的數值
+
+:::{.callout-important}
+## 程序——求給定百分位數所對應的資料值
+
+1. 將資料由小到大排列。
+2. 代入公式 $c = \dfrac{n \cdot p}{100}$，其中 $n$ 為數值總個數、$p$ 為百分位數。
+3. **若 $c$ 不是整數**，無條件進位到下一個整數，從最小值起算到該位置的數值。
+   **若 $c$ 是整數**，取第 $c$ 個與第 $(c+1)$ 個數值的中間值。
+:::
+
+## 範例 3-32 {#example-3-32}
+
+:::{.callout-warning}
+## 退貨處理筆數
+
+利用[範例 3-30](#example-3-30)的資料，求對應第 65 百分位數的數值。
+:::
+
+---
+
+## 範例 3-32
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ordered_returns <- sort(returns)
+ordered_returns
+
+position <- length(returns) * 65 / 100
+position
+ordered_returns[ceiling(position)]
+```
+
+$$c = \frac{10 \cdot 65}{100} = 6.5$$
+
+由於 $c$ 不是整數，無條件進位為 7。從最小值往上數到第 7 個值為 **25**。因此 25 對應第 65 百分位數。
+:::
+
+## 範例 3-33 {#example-3-33}
+
+:::{.callout-warning}
+## 退貨處理筆數
+
+利用[範例 3-30](#example-3-30)的資料，求對應第 30 百分位數的資料值。
+:::
+
+---
+
+## 範例 3-33
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+position <- length(returns) * 30 / 100
+position
+mean(ordered_returns[c(position, position + 1)])
+```
+
+$$c = \frac{10 \cdot 30}{100} = 3$$
+
+由於 $c$ 是整數，取第 3 個與第 4 個數值的中間值。14 與 18 的中間值為 **16**，即對應第 30 百分位數。
+:::
+
+## 四分位數與十分位數
+
+:::{.callout-note}
+## 四分位數與十分位數
+
+**四分位數**把分布分成四個相等的組，以 $Q_1$、$Q_2$、$Q_3$ 表示。
+**十分位數**把分布分成 10 組，以 $D_1, D_2, \ldots, D_9$ 表示。
+
+- $Q_1 = P_{25}$，$Q_2 = P_{50}$，$Q_3 = P_{75}$
+- $D_1 = P_{10}$，$D_2 = P_{20}$，……，$D_9 = P_{90}$
+- 中位數等於 $P_{50}$、$Q_2$ 或 $D_5$。
+:::
+
+:::{.callout-important}
+## 程序——求 $Q_1$、$Q_2$ 與 $Q_3$
+
+1. 將資料由小到大排列。
+2. 求資料值的中位數，即為 $Q_2$。
+3. 求落在 $Q_2$ **以下**資料值的中位數，即為 $Q_1$。
+4. 求落在 $Q_2$ **以上**資料值的中位數，即為 $Q_3$。
+:::
+
+## 範例 3-34 {#example-3-34}
+
+:::{.callout-warning}
+## 外送員的每小時送單數
+
+下列為某外送平台 9 位外送員一小時內送達的訂單數。求 $Q_1$、$Q_2$ 與 $Q_3$。
+
+```
+22   27   19   25   31   24   27   22   26
+```
+
+*（模擬資料）*
+
+回到[範例 3-35](#example-3-35)
+:::
+
+---
+
+## 範例 3-34
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+上述程序是以中位數把排序後的資料切開，因此寫一個簡短的輔助函式逐步照做。
+
+```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quartiles_by_halves <- function(values) {
+  ordered <- sort(values)
+  half    <- floor(length(ordered) / 2)
+  c(Q1 = median(head(ordered, half)),
+    Q2 = median(ordered),
+    Q3 = median(tail(ordered, half)))
+}
+```
+:::
+
+---
+
+## 範例 3-34
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-34-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+deliveries <- c(22, 27, 19, 25, 31, 24, 27, 22, 26)
+sort(deliveries)
+
+quartiles_by_halves(deliveries)
+quantile(deliveries, c(0.25, 0.50, 0.75))
+```
+
+$$Q_2 = 25 \qquad Q_1 = \frac{22 + 22}{2} = 22 \qquad Q_3 = \frac{27 + 27}{2} = 27$$
+
+因此 $Q_1 = 22$、$Q_2 = 25$、$Q_3 = 27$。內建的 `quantile()` 給出相同的三個值，所以本章其餘部分直接使用 `quantile()`。
+:::
+
+## 四分位距
+
+:::{.callout-note}
+## 四分位距
+
+**四分位距（IQR）**是第三四分位數與第一四分位數之差。
+
+$$\text{IQR} = Q_3 - Q_1$$
+:::
+
+四分位數也可作為粗略的離散量數：四分位距是**中間 50%** 資料值的全距。與標準差相同，資料集越分散，四分位距越大。
+
+## 範例 3-35 {#example-3-35}
+
+:::{.callout-warning}
+## 外送員的每小時送單數
+
+求[範例 3-34](#example-3-34)資料的四分位距。
+:::
+
+---
+
+## 範例 3-35
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-35-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(deliveries, c(0.25, 0.75))
+IQR(deliveries)
+```
+
+$$\text{IQR} = Q_3 - Q_1 = 27 - 22 = 5$$
+
+四分位距為 **每小時 5 單**。
+:::
+
+## 表 3-4：位置量數彙整
+
+| 量數 | 定義 | 符號 |
+|---------|------------|-----------|
+| 標準分數或 $z$ 分數 | 資料值高於或低於平均數幾個標準差 | $z$ |
+| 百分位數 | 資料值在分布中以百分之一為單位的位置 | $P_n$ |
+| 十分位數 | 資料值在分布中以十分之一為單位的位置 | $D_n$ |
+| 四分位數 | 資料值在分布中以四分之一為單位的位置 | $Q_n$ |
+
+## 離群值
+
+:::{.callout-note}
+## 離群值
+
+**離群值**是與其他資料值相比極高或極低的資料值。
+:::
+
+:::{.callout-note}
+## 穩健與非穩健統計量
+
+平均數與標準差會受離群值影響，因此稱為**非穩健統計量**；中位數與四分位距受離群值的影響較小，因此稱為**穩健統計量**。
+:::
+
+## 辨識離群值
+
+:::{.callout-important}
+## 辨識離群值的程序
+
+1. 將資料由小到大排列，求 $Q_1$ 與 $Q_3$。
+2. 求四分位距 $\text{IQR} = Q_3 - Q_1$。
+3. 把 IQR 乘以 1.5。
+4. 以 $Q_1$ 減去步驟 3 所得的值，以 $Q_3$ 加上該值。
+5. 檢查資料集中是否有小於 $Q_1 - 1.5(\text{IQR})$ 或大於 $Q_3 + 1.5(\text{IQR})$ 的數值。
+:::
+
+:::{.callout-warning}
+## 注意
+
+對於離群值該如何處理，**並沒有一成不變的規則**，統計學家對辨識方法也未完全一致。當分布為常態或鐘形時，超出平均數上下 3 個標準差的資料值可視為可疑的離群值。
+:::
+
+## 範例 3-36 {#example-3-36}
+
+:::{.callout-warning}
+## 客訴工單數
+
+下列為某客服團隊隨機抽出的 8 天內每日收到的客訴工單數。請檢查是否有離群值。
+
+```
+8   4   18   12   57   8   14   18
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-36
+
+:::{.callout-tip}
+## 解題
+
+**求解**
+
+```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+tickets <- c(8, 4, 18, 12, 57, 8, 14, 18)
+
+quantile(tickets, c(0.25, 0.75))
+IQR(tickets)
+
+fences <- quantile(tickets, c(0.25, 0.75)) + c(-1.5, 1.5) * IQR(tickets)
+fences
+tickets[tickets < fences[1] | tickets > fences[2]]
+```
+
+此處 $Q_1 = 8$、$Q_3 = 18$、$\text{IQR} = 10$，$1.5(10) = 15$，因此界線為 $-7$ 與 $33$。資料值 **57** 大於 33，可視為離群值。
+:::
+
+# 第3-4節：探索性資料分析 {background-color="#2c4a6e"}
+
+## 探索性資料分析
+
+**傳統分析**的目的是確認對資料性質的各種推測；**探索性資料分析**的目的則是檢視資料，看看能從中發現什麼資訊，例如中心與分散程度。
+
+:::{.callout-note}
+## 探索性資料分析（EDA）
+
+在**探索性資料分析（EDA）**中，資料可用莖葉圖整理。EDA 使用的集中趨勢量數是**中位數**，使用的離散量數是**四分位距** $Q_3 - Q_1$，而資料以**盒鬚圖**（又稱箱形圖）呈現。
+
+EDA 由 **John Tukey** 發展，並發表於他的著作 *Exploratory Data Analysis*（Addison-Wesley, 1977）。
+:::
+
+## 五數綜合與盒鬚圖
+
+:::{.callout-note}
+## 五數綜合
+
+盒鬚圖牽涉五個特定數值，合稱資料集的**五數綜合**：
+
+1. 資料集的最小值
+2. $Q_1$
+3. 中位數
+4. $Q_3$
+5. 資料集的最大值
+:::
+
+:::{.callout-note}
+## 盒鬚圖
+
+**盒鬚圖**是這樣繪製的資料集圖形：從最小值畫一條水平線到 $Q_1$，從 $Q_3$ 畫一條水平線到最大值，並畫一個左右兩邊分別通過 $Q_1$ 與 $Q_3$ 的盒子，盒內以一條垂直線通過中位數（即 $Q_2$）。
+:::
+
+## 繪製盒鬚圖
+
+:::{.callout-important}
+## 程序——繪製盒鬚圖
+
+1. 求資料的五數綜合。
+2. 畫一條水平軸並標上刻度。刻度應由不大於最小值處開始，到不小於最大值處結束。
+3. 標出最小值、$Q_1$、中位數、$Q_3$ 與最大值；畫出左右兩邊通過 $Q_1$ 與 $Q_3$ 的盒子；在中位數處畫一條垂直線；再從最小值畫線連到盒子左側、從最大值畫線連到盒子右側。
+:::
+
+## 範例 3-37 {#example-3-37}
+
+:::{.callout-warning}
+## 手搖飲攤位的日營收
+
+下列為某手搖飲攤位隨機抽出的 10 天日營收（單位：新台幣千元）。請繪製盒鬚圖。
+
+```
+14   9   26   6   16   12   8   20   16   9
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-37
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+daily_revenue <- c(14, 9, 26, 6, 16, 12, 8, 20, 16, 9)
+sort(daily_revenue)
+
+c(Min = min(daily_revenue),
+  quantile(daily_revenue, c(0.25, 0.50, 0.75)),
+  Max = max(daily_revenue))
+```
+
+五數綜合為最小值 6、$Q_1 = 9$、中位數 13、$Q_3 = 16$、最大值 26。
+:::
+
+---
+
+## 範例 3-37
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形**
+
+```{r e3-37-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=2.6}
+ggplot(tibble(x = daily_revenue), aes(x = x, y = "")) +
+  geom_boxplot(fill = "#8db4d6", color = "#2c4a6e", width = 0.4) +
+  labs(title = "圖 3-7：範例 3-37 的盒鬚圖",
+       x = "日營收（新台幣千元）", y = "")
+```
+
+右鬚明顯長於左鬚，因此分布為**右偏**，最高值為 26 千元，最低值為 6 千元。
+:::
+
+## 從盒鬚圖讀出的資訊
+
+:::{.callout-important}
+## 解讀盒鬚圖
+
+1. **盒內的中位數**
+   a. 若中位數接近盒子**中央**，分布近似**對稱**。
+   b. 若中位數偏向中央**左側**，分布為**右偏**。
+   c. 若中位數偏向中央**右側**，分布為**左偏**。
+2. **兩側的線（鬚）**
+   a. 若兩條線**長度相近**，分布近似**對稱**。
+   b. 若**右**側的線較長，分布為**右偏**。
+   c. 若**左**側的線較長，分布為**左偏**。
+:::
+
+## 範例 3-38 {#example-3-38}
+
+:::{.callout-warning}
+## 兩個港口的通關時間
+
+下列資料為兩個港口各抽出一批出口貨物的通關時間（單位：小時）。請用盒鬚圖比較兩者的分布。
+
+```
+      A 港                      B 港
+ 22   26   20   18       32   56   24   16
+ 24   28   20   26       48   64   56   24
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 3-38
+
+:::{.callout-tip}
+## 解題
+
+**準備資料**
+
+```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+port_a <- c(22, 26, 20, 18, 24, 28, 20, 26)
+port_b <- c(32, 56, 24, 16, 48, 64, 56, 24)
+
+quantile(port_a, c(0.25, 0.50, 0.75))
+quantile(port_b, c(0.25, 0.50, 0.75))
+```
+
+A 港的 $Q_1 = 20$、$MD = 23$、$Q_3 = 26$；B 港的 $Q_1 = 24$、$MD = 40$、$Q_3 = 56$。
+:::
+
+---
+
+## 範例 3-38
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形**
+
+```{r e3-38-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
+tibble(Hours = c(port_a, port_b),
+       Port  = rep(c("A 港", "B 港"), each = 8)) |>
+  ggplot(aes(x = Hours, y = Port, fill = Port)) +
+  geom_boxplot(width = 0.4, show.legend = FALSE) +
+  scale_fill_manual(values = c("#2c4a6e", "#8db4d6")) +
+  labs(title = "圖 3-8：範例 3-38 的盒鬚圖",
+       x = "通關時間（小時）", y = "")
+```
+
+B 港通關時間的**中位數**高出許多，其**四分位距**與**全距**也都比 A 港大得多。
+:::
+
+## 樞紐值與四分位數
+
+:::{.callout-warning}
+## 注意
+
+在探索性資料分析中，繪製盒鬚圖用的是**樞紐值（hinges）**而非四分位數。當資料值個數為**偶數**時，樞紐值與四分位數相同；資料值個數為**奇數**時兩者略有差異。由於多數計算機與電腦程式使用四分位數，本書也採用四分位數。
+
+也可以繪製**修正盒鬚圖**來檢查離群值：鬚只延伸到盒子外 $1.5(\text{IQR})$ 範圍內的最大值與最小值。
+:::
+
+## 表 3-5：傳統方法與 EDA 方法的對照
+
+| 傳統方法 | 探索性資料分析 |
+|-------------|---------------------------|
+| 次數分配 | 莖葉圖 |
+| 直方圖 | 盒鬚圖 |
+| 平均數 | 中位數 |
+| 標準差 | 四分位距 |
+
+## 重要名詞
+
+:::{.callout-important}
+## 第3章詞彙
+
+雙峰 · 盒鬚圖 · 柴比雪夫定理 · 變異係數 · 資料陣列 · 十分位數 · 經驗法則 · 探索性資料分析（EDA） · 五數綜合 · 四分位距（IQR） · 平均數 · 中位數 · 中程數 · 眾數組 · 眾數 · 多峰 · 左偏（負偏）分布 · 非穩健統計量 · 離群值 · 母數 · 百分位數 · 母體平均數 · 母體標準差 · 母體變異數 · 右偏（正偏）分布 · 四分位數 · 全距 · 全距經驗法則 · 穩健統計量 · 樣本平均數 · 標準差 · 統計量 · 對稱分布 · 單峰 · 變異數 · 加權平均數 · z 分數或標準分數
+:::
+
+## 重要公式
+
+:::{.callout-important}
+## 集中趨勢
+
+$$\bar{X} = \frac{\Sigma X}{n} \qquad \mu = \frac{\Sigma X}{N} \qquad \bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
+
+$$\bar{X} = \frac{\Sigma wX}{\Sigma w} \qquad MR = \frac{\text{最小值} + \text{最大值}}{2}$$
+:::
+
+:::{.callout-important}
+## 離散程度
+
+$$R = \text{最大值} - \text{最小值} \qquad \sigma^2 = \frac{\Sigma(X-\mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X-\mu)^2}{N}}$$
+
+$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s^2 = \frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)}$$
+
+$$\text{CVar} = \frac{s}{\bar{X}} \cdot 100 \qquad s \approx \frac{\text{全距}}{4} \qquad 1 - \frac{1}{k^2}$$
+:::
+
+---
+
+## 重要公式
+
+:::{.callout-important}
+## 位置
+
+$$z = \frac{X - \bar{X}}{s} \qquad z = \frac{X - \mu}{\sigma}$$
+
+$$\text{累積百分比} = \frac{\text{累積次數}}{n} \cdot 100$$
+
+$$\text{百分位數} = \frac{(\text{小於 } X \text{ 的數值個數}) + 0.5}{\text{數值總個數}} \cdot 100$$
+
+$$c = \frac{n \cdot p}{100} \qquad \text{IQR} = Q_3 - Q_1$$
 :::
 
 ## 重點整理
 
-:::{.callout-note}
-## 第3-3節：位置的測量
-
-**z分數** $= \frac{X - \bar{X}}{s}$ ——與平均數的標準差距離
-
-**百分位數排名** $= \frac{（低於X的個數）+0.5}{n} \times 100$
-
-**四分位數**：$Q_1 = P_{25}$，$Q_2 = P_{50}$，$Q_3 = P_{75}$
-
-**IQR** $= Q_3 - Q_1$ ——中間50%的分散程度
-
-**離群值圍欄**：$Q_1 - 1.5(\text{IQR})$ 與 $Q_3 + 1.5(\text{IQR})$
-:::
-
-:::{.callout-note}
-## 第3-4節：探索性資料分析
-
-**五數摘要**：最小值，$Q_1$，中位數，$Q_3$，最大值
-
-**箱形圖**：五數摘要的視覺顯示，揭示中心、分散與偏斜
-
-**EDA統計量**（中位數、IQR）對離群值具**抗拒性**
-
-**傳統統計量**（平均數、標準差）**不具抗拒性**
+:::{.callout-important}
+- **集中趨勢量數**——平均數、中位數、眾數與中程數；當各數值代表性不同時使用加權平均數
+- **平均數使用每一個數值**，但會被離群值拉走；資料偏斜或含開放組時宜用**中位數**；名目資料唯一可用的平均量數是**眾數**
+- **分布形狀**——右偏、對稱、左偏，平均數會被拉向尾巴
+- **離散量數**——全距、變異數 $\sigma^2$ 或 $s^2$、標準差 $\sigma$ 或 $s$；樣本要除以 $n-1$ 才是不偏估計
+- **變異係數**可比較測量單位不同的變數之間的變異
+- **柴比雪夫定理**適用於任何分布：至少 $1 - 1/k^2$ 的數值落在平均數上下 $k$ 個標準差之內；**經驗法則**（68-95-99.7%）適用於鐘形資料
+- **線性轉換**——加上常數會平移平均數而標準差不變；乘以常數則兩者同時放大
+- **位置量數**—— $z$ 分數、百分位數、十分位數與四分位數，其中 $Q_1 = P_{25}$、$Q_2 = P_{50} = MD$、$Q_3 = P_{75}$
+- **離群值**落在 $Q_1 - 1.5(\text{IQR})$ 之下或 $Q_3 + 1.5(\text{IQR})$ 之上；中位數與四分位距是**穩健**統計量，平均數與標準差是**非穩健**統計量
+- **探索性資料分析**以五數綜合與盒鬚圖呈現資料的中心、分散程度與偏態
 :::
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

@@ -43,400 +43,730 @@ include-after-body:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## Overview
-Researchers often need to **compare two groups** rather than test a single parameter against a fixed value.
 
-This chapter covers hypothesis tests and confidence intervals for:
+Chapter 9 extends hypothesis testing from **one parameter** to the **comparison of two parameters** — two means, two proportions, or two variances — using the same five-step procedure introduced in Chapter 8.
 
-- **Two means** (z test when $\sigma$ known; t test when $\sigma$ unknown; paired t test for dependent samples)
-- **Two proportions** (z test)
-- **Two variances** (F test)
+| Section | Topics |
+|---------|--------|
+| 9-1 | Two-parameter comparisons; independent vs. dependent samples; distribution of $\bar{X}_1 - \bar{X}_2$ |
+| 9-2 | $z$ test for two means ($\sigma$ known); testing a specific difference; $z$ CI for $\mu_1 - \mu_2$ |
+| 9-3 | $t$ test, independent samples ($\sigma$ unknown); d.f. rule; pooled variance; $t$ CI |
 
-# Section 9-1: Testing the Difference Between Two Means Using the z Test {background-color="#2c4a6e"}
+## Overview (continued)
 
-## Key Concepts — Two Independent Samples
+| Section | Topics |
+|---------|--------|
+| 9-4 | Dependent (matched-pair) samples; $t$ test on $\bar{D}$, $s_D$; procedure table; CI for $\mu_D$ |
+| 9-5 | $z$ test for two proportions; weighted $\bar{p}$, $\bar{q}$; CI for $p_1 - p_2$ |
+| 9-6 | $F$ distribution; $F$ test for two variances; d.f.N., d.f.D.; cautions |
 
-:::{.callout-note}
-**Two samples are independent** when the subjects in one group have no relationship to subjects in the other group.
+## Chapter Objectives
 
-**Requirements for the z test (two means):**
+:::{.callout-important}
+## After completing this chapter, you should be able to
 
-- Both samples are random and independent
-- Population standard deviations $\sigma_1$ and $\sigma_2$ are **known**
-- If n < 30, populations should be approximately normal
+1. Test the difference between two means, using the $z$ test.
+2. Test the difference between two means for independent samples, using the $t$ test.
+3. Test the difference between two means for dependent samples.
+4. Test the difference between two proportions.
+5. Test the difference between two variances or standard deviations.
 :::
 
-## Formula: z Test for Two Means
+# Section 9-1: Testing the Difference Between Two Parameters {background-color="#2c4a6e"}
+
+## Comparing Two Groups
+
+In Chapter 8 a single sample mean, variance, or proportion was compared with a *specific* population value. Researchers, however, often want to compare **two groups** — an experimental group and a control group, two brands of bus tires, two fertilizers, two brands of cough syrup.
+
+Suppose a researcher asks: *Does the mean age of nursing students who enroll at a community college differ from the mean age of nursing students who enroll at a university?* The researcher is not interested in the mean age of all beginning nursing students; the interest is in **comparing the means of the two groups**.
+
+:::{.callout-important}
+## Two Equivalent Ways of Stating the Hypotheses
+
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2$$
+
+or, equivalently,
+
+$$H_0:\ \mu_1 - \mu_2 = 0 \qquad H_1:\ \mu_1 - \mu_2 \neq 0$$
+
+If there is no difference in the population means, subtracting them gives zero; if they differ, subtracting gives a number other than zero. Both statements are correct; **this text uses the first form** when the hypothesized difference is zero.
+:::
+
+---
+
+## Hypotheses for Means and for Proportions
+
+The same reasoning applies to proportions. If a researcher believes the percentage of male workers who work more than 5 days a week differs from the percentage of female workers who do, the hypotheses are $H_0:\ p_1 = p_2$ and $H_1:\ p_1 \neq p_2$ (or $H_0:\ p_1 - p_2 = 0$ and $H_1:\ p_1 - p_2 \neq 0$).
+
+:::{.callout-important}
+## Two-Tailed, Right-Tailed, and Left-Tailed Forms
+
+| Test | Means | Proportions |
+|------|-------|-------------|
+| Two-tailed | $H_0:\ \mu_1 = \mu_2$; $H_1:\ \mu_1 \neq \mu_2$ | $H_0:\ p_1 = p_2$; $H_1:\ p_1 \neq p_2$ |
+| Right-tailed | $H_0:\ \mu_1 = \mu_2$; $H_1:\ \mu_1 > \mu_2$ | $H_0:\ p_1 = p_2$; $H_1:\ p_1 > p_2$ |
+| Left-tailed | $H_0:\ \mu_1 = \mu_2$; $H_1:\ \mu_1 < \mu_2$ | $H_0:\ p_1 = p_2$; $H_1:\ p_1 < p_2$ |
+:::
+
+---
+
+## Independent and Dependent Samples
 
 :::{.callout-note}
+## Independent Samples
+
+Two samples are **independent** when the subjects selected for the first sample in no way influence the way the subjects are selected for the second sample.
+
+*Example:* 50 people are randomly divided into two groups of 25 to test a new drug; one group receives the drug and the other a placebo.
+:::
+
+:::{.callout-note}
+## Dependent Samples
+
+Two samples are **dependent** when the selection of subjects for the first group in some way influences the selection of subjects for the other group.
+
+*Example:* to see whether a person's right foot is slightly larger than the left, once a person's right foot is selected for sample 1, that same person's left foot must be selected for sample 2.
+:::
+
+---
+
+## The Distribution of the Differences of Means
+
+The theory behind testing the difference between two means is based on selecting **pairs of samples** and comparing the means of the pairs. The population means need not be known.
+
+All possible pairs of samples are taken from the populations; the means of each pair are computed and subtracted, and the differences are plotted. If both populations have the same mean, most differences will be zero or close to zero, with a few large differences — some positive, some negative — due to chance alone. The resulting curve is shaped like a normal distribution with a mean of zero (Figure 9-1).
+
+:::{.callout-important}
+## General Formula for the Test Statistic
+
+$$\text{Test statistic} = \frac{(\text{observed value}) - (\text{expected value})}{\text{standard error}}$$
+
+Every test in this chapter — for two means, two proportions, and (in a different form) two variances — is a special case of this format.
+:::
+
+---
+
+## Distribution of Differences of Means in R
+
+**Draw figure** — a simulation of Figure 9-1: repeatedly draw two samples from populations with the *same* mean and plot $\bar{X}_1 - \bar{X}_2$.
+
+```{r s9-1-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+set.seed(2023)
+mean_differences <- replicate(5000,
+  mean(rnorm(30, 100, 15)) - mean(rnorm(30, 100, 15)))
+ggplot(data.frame(difference = mean_differences), aes(difference)) +
+  geom_histogram(bins = 40, fill = "steelblue", colour = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(title = "Differences of Means of Pairs of Samples",
+       x = "Xbar1 - Xbar2", y = "Frequency") +
+  theme_minimal()
+```
+
+The differences centre on **zero**: when $\mu_1 = \mu_2$, a difference far from zero is unlikely by chance alone, and that is what makes the test work.
+
+# Section 9-2: Testing the Difference Between Two Means: Using the z Test {background-color="#2c4a6e"}
+
+## Assumptions for the z Test
+
+:::{.callout-important}
+## Assumptions for the z Test to Determine the Difference Between Two Means
+
+1. Both samples are **random samples**.
+2. The samples must be **independent** of each other — there can be no relationship between the subjects in each sample.
+3. The **standard deviations of both populations must be known**; and if the sample sizes are less than 30, the populations must be normally or approximately normally distributed.
+:::
+
+In this book the assumptions are stated in the exercises; in other situations you must check that they have been met before proceeding.
+
+---
+
+## Formula for the z Test for Two Means
+
+:::{.callout-important}
+## z Test for Comparing Two Means from Independent Populations
+
 $$z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
 
-Under $H_0: \mu_1 = \mu_2$, this simplifies to:
+The denominator is the **standard error of the difference**, because the variance of $\bar{X}_1 - \bar{X}_2$ is the *sum* of the individual variances:
 
-$$z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
+$$\sigma^2_{\bar{X}_1 - \bar{X}_2} = \sigma^2_{\bar{X}_1} + \sigma^2_{\bar{X}_2} = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}$$
+
+Here $\bar{X}_1 - \bar{X}_2$ is the observed value and $\mu_1 - \mu_2$ is the expected value, which equals **zero** when $H_0:\ \mu_1 = \mu_2$.
 :::
+
+---
+
+## The Two Testing Procedures
+
+:::{.callout-important}
+## Traditional Method
+
+| Step | Action |
+|------|--------|
+| 1 | State the hypotheses and identify the claim. |
+| 2 | Find the critical value(s). |
+| 3 | Compute the test statistic. |
+| 4 | Make the decision. |
+| 5 | Summarize the results. |
+:::
+
+:::{.callout-important}
+## P-Value Method
+
+| Step | Action |
+|------|--------|
+| 1 | State the hypotheses and identify the claim. |
+| 2 | Compute the test statistic. |
+| 3 | Find the P-value. |
+| 4 | Make the decision. |
+| 5 | Summarize the results. |
+:::
+
+The critical values are the same ones used in Section 8-2.
+
+---
 
 ## Example 9-1 {#example-9-1}
 
 :::{.callout-warning}
-## Hotel Room Costs
+## Average Order Value by Channel
 
-A travel agent claims hotel rooms in New Orleans cost more on average than those in Phoenix. A sample of 50 hotels in each city yielded:
+An e-commerce platform in Taipei compares the average order value of purchases placed through its mobile app with purchases placed through its website. Random samples of 40 app orders and 40 website orders gave mean order values of NT\$1685 and NT\$1512. From several years of transaction records the population standard deviations are taken to be NT\$320 for app orders and NT\$285 for website orders. At $\alpha = 0.05$, can it be concluded that there is a significant difference in the mean order value of the two channels? *(hypothetical data)*
 
-| City | $\bar{X}$ | $\sigma$ | $n$ |
-|------|-----------|----------|-----|
-| New Orleans | \$88.42 | \$5.62 | 50 |
-| Phoenix | \$80.61 | \$4.83 | 50 |
+```
+                   App      Website
+Sample mean       1685         1512
+sigma              320          285
+n                   40           40
+```
 
-Test the claim at $\alpha$ = 0.05.
+Back to [Example 9-3](#example-9-3)
 :::
+
+---
 
 ## Example 9-1
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1$ > $\mu_2$ (claim) — right-tailed
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2 \ \textit{(claim)}$$
 
-**Step 2:** CV = +1.645 ($\alpha$ = 0.05, right-tailed)
+**Step 2.** Find the critical values. Since $\alpha = 0.05$ and the test is two-tailed, the critical values are $-1.96$ and $+1.96$.
 
-**Step 3:**
-$$z = \frac{88.42 - 80.61}{\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}}} = \frac{7.81}{\sqrt{0.6317 + 0.4674}} = \frac{7.81}{1.048} \approx 7.45$$
+**Step 3.** Compute the test statistic.
 
-**Step 4:** 7.45 > 1.645 → **Reject $H_0$**
-
-**Step 5:** There is sufficient evidence to support the claim that hotel rooms in New Orleans cost more than those in Phoenix.
+$$z = \frac{(1685 - 1512) - 0}{\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}}} = \frac{173}{67.75} = 2.55$$
 :::
+
+---
 
 ## Example 9-1
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 3 in R** — critical values, test statistic, and P-value.
 
 ```{r e9-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-z <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-cv <- qnorm(0.95)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("Critical value =", round(cv, 3), "\n")
-cat("P-value =", round(p_val, 6), "\n")
-cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
+mean_app <- 1685; sigma_app <- 320; n_app <- 40
+mean_web <- 1512; sigma_web <- 285; n_web <- 40
+se_orders <- sqrt(sigma_app^2 / n_app + sigma_web^2 / n_web)
+z_statistic <- (mean_app - mean_web) / se_orders
+round(c(standard_error = se_orders, z = z_statistic), 2)
+round(qnorm(c(0.025, 0.975)), 2)
+round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
 ```
+
+**Step 4.** Make the decision. Reject $H_0$, since $2.55 > 1.96$ (equivalently $P = 0.0107 < \alpha = 0.05$).
+
+**Step 5.** There is enough evidence to say that the mean order value differs between the app channel and the website channel at the 0.05 significance level.
 :::
+
+---
 
 ## Example 9-2 {#example-9-2}
 
 :::{.callout-warning}
-## College Sports Offerings (P-value Method)
+## Order Lines Picked per Order
 
-A researcher hypothesizes that male college students are offered more online sports choices than female students. A sample of 50 colleges of each type showed:
+A logistics company hypothesizes that the average number of order lines picked per order is greater at its Taoyuan distribution centre than at its Taichung distribution centre. A random sample of 50 orders from each centre is shown. At $\alpha = 0.10$, is there enough evidence to support the claim? Assume $\sigma_1$ and $\sigma_2 = 4$. Use the P-value method. *(hypothetical data)*
 
-- Males: $\bar{X}_1 = 8.6$, $\sigma_1 = 3.3$, $n_1 = 50$
-- Females: $\bar{X}_2 = 7.9$, $\sigma_2 = 3.3$, $n_2 = 50$
-
-At $\alpha$ = 0.10, test the claim using the P-value method.
-:::
-
-## Example 9-2
-
-:::{.callout-tip}
-## Solution
-
-**Mathematical solution**
-
-**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1$ > $\mu_2$ (claim) — right-tailed
-
-**Step 2:** $\alpha$ = 0.10
-
-**Step 3:**
-$$z = \frac{8.6 - 7.9}{\sqrt{\dfrac{3.3^2}{50} + \dfrac{3.3^2}{50}}} = \frac{0.7}{\sqrt{0.2178 + 0.2178}} = \frac{0.7}{0.6600} \approx 1.06$$
-
-**P-value** = P(z > 1.06) = 1 − 0.8554 = **0.1446**
-
-**Step 4:** 0.1446 > 0.10 → **Do not reject $H_0$**
-
-**Step 5:** There is not enough evidence to support the claim that males are offered more online sports choices.
-:::
-
-## Example 9-2
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 8.6; x2 <- 7.9
-s1 <- 3.3; s2 <- 3.3
-n1 <- 50;  n2 <- 50
-
-z <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
+```
+            Taoyuan                     Taichung
+14   6  16   7  18          13  10  16  10  10
+10  13  14   7  11           9  13   8   9  16
+18  10  15  16  11          11  17  12   8  14
+15   5   7  11  15           8  16   5   8   6
+ 6  15  16  13   9           8  13   7  16  14
+14  15  14   7  19          12  12  18  14  18
+16   6  10   6  17          16  15  12   7  11
+14  13  11  22  19          20   7   9  14   8
+ 8  13  11  15  13          11  11  16  15  15
+10  14  11  10  14          13  12  15   7   5
 ```
 :::
 
-## Confidence Interval for $\mu_1$ − $\mu_2$ ($\sigma$ Known)
+---
+
+## Example 9-2
+
+:::{.callout-tip}
+## Solution
+
+**Step 1.** State the hypotheses and identify the claim.
+
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 > \mu_2 \ \textit{(claim)}$$
+
+**Step 2 — compute the test statistic.** First find the mean of each data set.
+
+```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+taoyuan  <- c(14,  6, 16,  7, 18, 10, 13, 14,  7, 11,
+              18, 10, 15, 16, 11, 15,  5,  7, 11, 15,
+               6, 15, 16, 13,  9, 14, 15, 14,  7, 19,
+              16,  6, 10,  6, 17, 14, 13, 11, 22, 19,
+               8, 13, 11, 15, 13, 10, 14, 11, 10, 14)
+taichung <- c(13, 10, 16, 10, 10,  9, 13,  8,  9, 16,
+              11, 17, 12,  8, 14,  8, 16,  5,  8,  6,
+               8, 13,  7, 16, 14, 12, 12, 18, 14, 18,
+              16, 15, 12,  7, 11, 20,  7,  9, 14,  8,
+              11, 11, 16, 15, 15, 13, 12, 15,  7,  5)
+round(c(n_taoyuan = length(taoyuan), n_taichung = length(taichung),
+        mean_taoyuan = mean(taoyuan), mean_taichung = mean(taichung)), 1)
+```
+:::
+
+---
+
+## Example 9-2
+
+:::{.callout-tip}
+## Solution
+
+**Step 2 (continued).** With $\bar{X}_1 = 12.4$, $\bar{X}_2 = 11.8$ and $\sigma_1 = \sigma_2 = 4$,
+
+$$z = \frac{(12.4 - 11.8) - 0}{\sqrt{\dfrac{4^2}{50} + \dfrac{4^2}{50}}} = 0.75$$
+
+```{r e9-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sigma_lines <- 4
+se_lines <- sqrt(sigma_lines^2 / length(taoyuan) +
+                 sigma_lines^2 / length(taichung))
+z_statistic <- (mean(taoyuan) - mean(taichung)) / se_lines
+round(c(z = z_statistic,
+        p_value = pnorm(z_statistic, lower.tail = FALSE)), 4)
+```
+
+**Step 3.** Find the P-value. For $z = 0.75$ the area to the left is 0.7734, and $1.0000 - 0.7734 = 0.2266$.
+
+**Step 4.** Since the P-value is larger than $\alpha$ ($0.2266 > 0.10$), do not reject $H_0$.
+
+**Step 5.** There is not enough evidence to support the claim that the Taoyuan centre picks more order lines per order than the Taichung centre at the 0.10 level of significance.
+:::
+
+---
+
+## Testing a Specific Difference
+
+Sometimes the researcher tests a difference in means **other than zero**. For example, a researcher might hypothesize that nursing students at a community college are on average 3.2 years older than those at a university:
+
+$$H_0:\ \mu_1 - \mu_2 = 3.2 \qquad H_1:\ \mu_1 - \mu_2 > 3.2$$
 
 :::{.callout-note}
-$$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+## Hypothesized Difference
+
+The formula for the $z$ test is unchanged; the term $\mu_1 - \mu_2$ in the numerator is the **hypothesized difference**, or expected value. In this case $\mu_1 - \mu_2 = 3.2$ is substituted instead of 0.
 :::
+
+---
+
+## Confidence Interval for $\mu_1 - \mu_2$ ($\sigma_1$ and $\sigma_2$ Known)
+
+:::{.callout-important}
+## z Confidence Interval for the Difference Between Two Means
+
+$$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+
+When the hypothesized difference is zero: if the confidence interval **contains zero**, $H_0$ is not rejected; if it **does not contain zero**, $H_0$ is rejected.
+:::
+
+---
 
 ## Example 9-3 {#example-9-3}
 
 :::{.callout-warning}
-## 95% CI for Hotel Room Costs
+## Average Order Value by Channel
 
-Using the data from [Example 9-1](#example-9-1), find a 95% confidence interval for $\mu_1$ − $\mu_2$.
+Find the 95% confidence interval for the difference between the means in [Example 9-1](#example-9-1).
 :::
+
+---
 
 ## Example 9-3
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Substitute in the formula**, using $z_{\alpha/2} = 1.96$.
 
-With $z_{\alpha/2} = 1.96$:
+$$(1685 - 1512) \pm 1.96\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}} = 173 \pm 132.80$$
 
-$$(88.42 - 80.61) \pm 1.96\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}} = 7.81 \pm 2.05$$
-
-$$5.76 < \mu_1 - \mu_2 < 9.86$$
-
-Since the interval does not contain 0, this agrees with the decision in Example 9-1 to reject $H_0$.
+$$40.20 < \mu_1 - \mu_2 < 305.80$$
 
 ```{r e9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-moe <- qnorm(0.975) * sqrt(s1^2/n1 + s2^2/n2)
-cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+margin_of_error <- qnorm(0.975) * se_orders
+difference <- mean_app - mean_web
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 2)
 ```
+
+Since the confidence interval does not contain zero, the decision is to **reject $H_0$**, which agrees with Example 9-1.
 :::
 
-# Section 9-2: Testing the Difference Between Two Means of Independent Samples Using the t Test {background-color="#2c4a6e"}
+# Section 9-3: Testing the Difference Between Two Means (Independent Samples) {background-color="#2c4a6e"}
 
-## t Test for Two Independent Means ($\sigma$ Unknown)
+## When the Population Standard Deviations Are Unknown
+
+In Section 9-2 the $z$ test was used when the population standard deviations were known. In many situations that condition cannot be met. In those cases a **$t$ test** is used to test the difference between means when the two samples are independent and are taken from two normally or approximately normally distributed populations.
 
 :::{.callout-note}
-Use the **t test** when:
+## Independent Samples
 
-- Samples are independent and random
-- Population standard deviations $\sigma_1$ and $\sigma_2$ are **unknown**
-- Both populations are approximately normally distributed
+Samples are **independent samples** when they are not related. Throughout this section it is also assumed that **the variances are not equal**.
+:::
+
+---
+
+## Formula for the t Test (Independent Samples)
+
+:::{.callout-important}
+## t Test for the Difference Between Two Means, Independent Samples
+
+Variances are assumed to be **unequal**:
 
 $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
 
-**Degrees of freedom:** $d.f. = \min(n_1-1,\; n_2-1)$ *(conservative method)*
+where the degrees of freedom are equal to the **smaller of $n_1 - 1$ or $n_2 - 1$**.
+
+The denominator is the standard error of the difference between two means; $s_1$ and $s_2$ replace the unknown $\sigma_1$ and $\sigma_2$.
 :::
+
+---
+
+## Assumptions for the t Test
+
+:::{.callout-important}
+## Assumptions for the t Test for Two Independent Means When $\sigma_1$ and $\sigma_2$ Are Unknown
+
+1. The samples are **random samples**.
+2. The sample data are **independent** of one another.
+3. When the sample sizes are less than 30, the populations must be **normally or approximately normally distributed**.
+:::
+
+The hypothesis test follows the same five steps as in Section 9-2; the formula uses $s_1$ and $s_2$, and the critical values come from the $t$ distribution.
+
+---
 
 ## Example 9-4 {#example-9-4}
 
 :::{.callout-warning}
-## Farm Sizes
+## Monthly Revenue by Store Format
 
-A researcher wants to determine whether farm sizes in Indiana and Greene counties differ. Random samples yielded:
+A coffee chain wants to know whether mean monthly revenue differs between its street-level stores and its shopping-mall counters. Random samples of 10 stores of each format were selected. The street-level stores averaged NT\$854 thousand per month and the mall counters averaged NT\$814 thousand. The standard deviations of the samples were NT\$52 thousand and NT\$61 thousand, respectively. At $\alpha = 0.05$, can it be concluded that there is a difference in the means of the two samples? Assume the variables are normally distributed. *(hypothetical data)*
 
-| | Indiana | Greene |
-|--|---------|--------|
-| $\bar{X}$ | 191 acres | 199 acres |
-| $s$ | 38 | 12 |
-| $n$ | 8 | 10 |
+```
+                    Street-level    Mall counter
+Sample mean                  854             814
+s                             52              61
+n                             10              10
+```
 
-At $\alpha$ = 0.05, test whether the means differ.
+Back to [Example 9-5](#example-9-5)
 :::
+
+---
 
 ## Example 9-4
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0$: $\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$: $\mu_1 \neq \mu_2$ (claim) — two-tailed
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2 \ \textit{(claim)}$$
 
-**Step 2:** d.f. = min(8−1, 10−1) = 7; CV = $\pm$2.365
+**Step 2.** Find the critical values. The test is two-tailed with $\alpha = 0.05$. The degrees of freedom are the smaller of $n_1 - 1$ and $n_2 - 1$; here both equal $10 - 1 = 9$, so the critical values are $+2.262$ and $-2.262$.
 
-**Step 3:**
-$$t = \frac{191 - 199}{\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}}} = \frac{-8}{\sqrt{180.5 + 14.4}} = \frac{-8}{\sqrt{194.9}} \approx -0.573$$
+**Step 3.** Find the test statistic.
 
-**Step 4:** |−0.573| < 2.365 → **Do not reject $H_0$**
-
-**Step 5:** There is not enough evidence to conclude that farm sizes differ between the two counties.
+$$t = \frac{(854 - 814) - 0}{\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}}} = \frac{40}{25.348} = 1.578$$
 :::
+
+---
 
 ## Example 9-4
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 3 in R** — degrees of freedom, critical values, test statistic, and P-value.
 
 ```{r e9-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-t_stat <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-df     <- min(n1 - 1, n2 - 1)
-cv     <- qt(0.975, df)
-p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
-
-cat("t =", round(t_stat, 4), "\n")
-cat("d.f. =", df, "\n")
-cat("Critical value =", round(cv, 3), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n")
+mean_street <- 854; sd_street <- 52; n_street <- 10
+mean_mall   <- 814; sd_mall   <- 61; n_mall   <- 10
+degrees_freedom <- min(n_street - 1, n_mall - 1)
+se_revenue <- sqrt(sd_street^2 / n_street + sd_mall^2 / n_mall)
+t_statistic <- (mean_street - mean_mall) / se_revenue
+round(c(df = degrees_freedom, standard_error = se_revenue,
+        t = t_statistic), 3)
+round(qt(c(0.025, 0.975), degrees_freedom), 3)
+round(2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE), 4)
 ```
+
+**Step 4.** Do not reject $H_0$, since $1.578 < 2.262$.
+
+**Step 5.** There is not enough evidence to support the claim that the means are different.
 :::
 
-## Confidence Interval for $\mu_1$ − $\mu_2$ ($\sigma$ Unknown)
+---
 
-:::{.callout-note}
+## Confidence Interval for $\mu_1 - \mu_2$ ($\sigma_1$ and $\sigma_2$ Unknown)
+
+:::{.callout-important}
+## Confidence Interval for the Difference of Two Means: Independent Samples
+
+Variances assumed to be **unequal**:
+
 $$(\bar{X}_1 - \bar{X}_2) - t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
 
-where $d.f. = \min(n_1-1,\; n_2-1)$
+with $\text{d.f.} =$ the smaller value of $n_1 - 1$ or $n_2 - 1$.
 :::
+
+---
 
 ## Example 9-5 {#example-9-5}
 
 :::{.callout-warning}
-## 95% CI for Farm Sizes
+## Monthly Revenue by Store Format
 
-Using the data from [Example 9-4](#example-9-4), construct a 95% confidence interval for $\mu_1$ − $\mu_2$.
+Find the 95% confidence interval for the data in [Example 9-4](#example-9-4).
 :::
+
+---
 
 ## Example 9-5
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Substitute in the formula**, using $t_{\alpha/2} = 2.262$ with $\text{d.f.} = 9$.
 
-With d.f. = min(8−1, 10−1) = 7 and the table value $t_{\alpha/2} = 2.365$:
+$$(854 - 814) \pm 2.262\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}} = 40 \pm 57.34$$
 
-$$(191 - 199) \pm 2.365\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}} = -8 \pm 33.02$$
-
-$$-41.02 < \mu_1 - \mu_2 < 25.02$$
-
-(Using the exact $t_{0.025,\,7} = 2.3646$, R gives $-41.01 < \mu_1 - \mu_2 < 25.01$.)
-
-Since 0 is contained in the interval, this agrees with the decision in Example 9-4 to not reject $H_0$.
+$$-17.34 < \mu_1 - \mu_2 < 97.34$$
 
 ```{r e9-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-df  <- min(n1 - 1, n2 - 1)
-moe <- qt(0.975, df) * sqrt(s1^2/n1 + s2^2/n2)
-cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+margin_of_error <- qt(0.975, degrees_freedom) * se_revenue
+difference <- mean_street - mean_mall
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 2)
 ```
+
+Since 0 is contained in the interval, there is not enough evidence to support the claim that the means are different.
 :::
 
-# Section 9-3: Testing the Difference Between Two Means (Dependent Samples) {background-color="#2c4a6e"}
+---
 
-## Dependent (Paired) Samples
+## Degrees of Freedom in Software
 
 :::{.callout-note}
-Samples are **dependent** (paired) when:
+## The Welch Degrees of Freedom
 
-- The same subjects are measured twice (before/after)
-- Subjects are matched on some characteristic
+Many statistical software packages compute the degrees of freedom for this $t$ test from
 
-**Procedure:** Compute the difference $D = X_1 - X_2$ for each pair, then test:
+$$\text{d.f.} = \frac{\left(\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}\right)^2}{\dfrac{(s_1^2/n_1)^2}{n_1 - 1} + \dfrac{(s_2^2/n_2)^2}{n_2 - 1}}$$
 
-$$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad d.f. = n - 1$$
-
-where $\bar{D} = \dfrac{\sum D}{n}$ and $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)^2}{n(n-1)}}$
+**This formula is not used in this textbook.** The textbook always uses the smaller of $n_1 - 1$ and $n_2 - 1$, which is the more conservative choice.
 :::
+
+---
+
+## The Pooled Estimate of the Variance
+
+:::{.callout-important}
+## t Test When the Variances Are Assumed Equal
+
+$$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}}\qquad \text{d.f.} = n_1 + n_2 - 2$$
+:::
+
+:::{.callout-note}
+## Pooled Estimate of the Variance
+
+A **pooled estimate of the variance** is a weighted average of the variance using the two sample variances and the degrees of freedom of each variance as the weights.
+:::
+
+---
+
+## Choosing Between the Two t Tests
+
+:::{.callout-warning}
+## Caution
+
+There are two options for the $t$ test: one for **unequal** population variances and one for **equal** variances. To decide whether two sample variances are equal, a researcher can use an $F$ test (Section 9-6).
+
+However, **not all statisticians agree** on using the $F$ test before the $t$ test: conducting the $F$ and $t$ tests at the same level of significance changes the overall level of significance of the $t$ test. **Because of this, this text assumes $\sigma_1 \neq \sigma_2$ throughout.**
+:::
+
+---
+
+## The Two-Sample t Test in R
+
+**Compare the textbook's conservative d.f. with the Welch d.f.** used by `t.test()`, starting from the Example 9-4 summaries.
+
+```{r s9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+welch_df <- function(sd1, n1, sd2, n2) {
+  (sd1^2 / n1 + sd2^2 / n2)^2 /
+    ((sd1^2 / n1)^2 / (n1 - 1) + (sd2^2 / n2)^2 / (n2 - 1))
+}
+df_welch <- welch_df(sd_street, n_street, sd_mall, n_mall)
+round(c(df_book = degrees_freedom, df_welch = df_welch), 3)
+round(c(p_book  = 2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE),
+        p_welch = 2 * pt(abs(t_statistic), df_welch, lower.tail = FALSE)), 4)
+```
+
+The test statistic is the same either way; only the degrees of freedom, and therefore the P-value, differ. The textbook always uses $\text{d.f.} = 9$, the more conservative choice.
+
+# Section 9-4: Testing the Difference Between Two Means: Dependent Samples {background-color="#2c4a6e"}
+
+## Dependent Samples
+
+:::{.callout-note}
+## Dependent Samples
+
+Samples are considered to be **dependent samples** when the subjects are **paired or matched** in some way. Dependent samples are sometimes called **matched-pair samples**.
+:::
+
+Examples: a pretest and a posttest on the same subjects before and after taking a drug; SAT scores before and after a preparation course; preweights and postweights in a counseling program. Students can also be **matched** on a pertinent variable — such as IQ — with one of each pair assigned to each group. Matching helps reduce **type II error** by eliminating extraneous variables.
+
+---
+
+## Two Cautions About Matching
+
+:::{.callout-warning}
+## Caution
+
+1. When subjects are matched according to **one** variable, the matching process does **not** eliminate the influence of other variables. Matching students on IQ does not account for their mathematical ability or their familiarity with computers.
+2. When the same subjects are used in a pre-post study, the knowledge that they are participating in a study can itself influence the results — people placed in a special program may be more highly motivated simply because they were selected.
+:::
+
+---
+
+## Hypotheses for Dependent Samples
+
+:::{.callout-important}
+## Hypotheses Using $\mu_D$
+
+| Two-tailed | Left-tailed | Right-tailed |
+|------------|-------------|--------------|
+| $H_0:\ \mu_D = 0$ | $H_0:\ \mu_D = 0$ | $H_0:\ \mu_D = 0$ |
+| $H_1:\ \mu_D \neq 0$ | $H_1:\ \mu_D < 0$ | $H_1:\ \mu_D > 0$ |
+
+Here $\mu_D$ is the expected mean of the difference of the matched pairs, and $D = X_1 - X_2$.
+:::
+
+---
+
+## Assumptions and Formulas
+
+:::{.callout-important}
+## Assumptions for the t Test for Two Means When the Samples Are Dependent
+
+1. The sample or samples are **random**.
+2. The sample data are **dependent**.
+3. When the sample size or sample sizes are less than 30, the population or populations must be **normally or approximately normally distributed**.
+:::
+
+:::{.callout-important}
+## Formulas for the t Test for Dependent Samples
+
+$$t = \frac{\bar{D} - \mu_D}{s_D/\sqrt{n}} \qquad \text{d.f.} = n - 1$$
+
+$$\bar{D} = \frac{\sum D}{n} \qquad s_D = \sqrt{\frac{n\sum D^2 - \left(\sum D\right)^2}{n(n-1)}}$$
+:::
+
+---
+
+## Procedure Table
+
+:::{.callout-important}
+## Testing the Difference Between Means for Dependent Samples
+
+| Step | Action |
+|------|--------|
+| 1 | State the hypotheses and identify the claim. |
+| 2 | Find the critical value(s). |
+| 3 | Compute the test statistic (a–f below). |
+| 4 | Make the decision. |
+| 5 | Summarize the results. |
+
+**Step 3 in detail.** (a) Make a table with columns $X_1$, $X_2$, A $= D = X_1 - X_2$, and B $= D^2 = (X_1 - X_2)^2$. (b) Find the differences and place them in column A. (c) Find the mean of the differences, $\bar{D} = \sum D / n$. (d) Square the differences and place them in column B. (e) Find $s_D$. (f) Find the test statistic $t = (\bar{D} - \mu_D)/(s_D/\sqrt{n})$ with $\text{d.f.} = n - 1$.
+:::
+
+---
 
 ## Example 9-6 {#example-9-6}
 
 :::{.callout-warning}
-## Bank Deposits
+## Outlet Revenue Three Years Apart
 
-A bank manager claims that deposits are greater today than they were 3 years ago. The following data (in millions) were recorded for 9 banks, where $D = (\text{3 yrs ago}) - (\text{today})$:
+A random sample of nine outlets of a bubble-tea chain shows their average monthly revenue (in NT\$ millions) 3 years ago and their average monthly revenue today. At $\alpha = 0.05$, can it be concluded that the average monthly revenue of the outlets is greater today than it was 3 years ago? Assume the variable is normally distributed. *(hypothetical data)*
 
-| Bank | 3 yrs ago | Today | D |
-|------|-----------|-------|---|
-| 1 | 1.2 | 1.8 | −0.6 |
-| 2 | 5.6 | 5.7 | −0.1 |
-| 3 | 7.1 | 8.2 | −1.1 |
-| 4 | 2.3 | 2.1 | 0.2 |
-| 5 | 4.0 | 5.3 | −1.3 |
-| 6 | 2.4 | 3.1 | −0.7 |
-| 7 | 1.7 | 1.8 | −0.1 |
-| 8 | 0.4 | 1.9 | −1.5 |
-| 9 | 0.9 | 1.5 | −0.6 |
-
-At $\alpha$ = 0.05, test the claim.
+```
+Outlet          1      2     3     4     5     6     7     8     9
+3 years ago   7.00   3.40  3.90  3.50  4.00  3.30  4.00  5.30  3.90
+Today         5.20   3.80  6.40  2.90  7.10  4.50  8.20  3.30  6.80
+```
 :::
 
-## Example 9-6
-
-:::{.callout-tip}
-## Solution
-
-**Mathematical solution**
-
-**Step 1:** $H_0$: $\mu_D = 0$ &nbsp;&nbsp; $H_1$: $\mu_D < 0$ (claim) — left-tailed
-
-Since $D = (\text{3 yrs ago}) - (\text{today})$, greater deposits today correspond to negative differences, i.e. $\mu_D < 0$.
-
-**Step 2:** d.f. = 8; CV = −1.860
-
-**Step 3:** D values: −0.6, −0.1, −1.1, 0.2, −1.3, −0.7, −0.1, −1.5, −0.6
-
-$\sum D = -5.8$, so $\bar{D} = \dfrac{-5.8}{9} \approx -0.644$
-
-$\sum D^2$ = 0.36+0.01+1.21+0.04+1.69+0.49+0.01+2.25+0.36 = 6.42
-
-$s_D = \sqrt{\dfrac{9(6.42) - (-5.8)^2}{9(8)}} = \sqrt{\dfrac{57.78 - 33.64}{72}} \approx 0.579$
-
-$t = \dfrac{-0.644 - 0}{0.579/\sqrt{9}} = \dfrac{-0.644}{0.193} \approx -3.34$
-:::
 ---
 
-**Step 4:** −3.34 < −1.860 → **Reject $H_0$**
-
-**Step 5:** There is enough evidence to support the claim that deposits are greater today than they were 3 years ago.
-
 ## Example 9-6
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 1.** State the hypotheses and identify the claim. If revenue has increased, the revenue 3 years ago must be significantly **less** than the revenue today, so the mean of the differences must be less than zero.
 
-**Compute test value**
+$$H_0:\ \mu_D = 0 \qquad H_1:\ \mu_D < 0 \ \textit{(claim)}$$
+
+**Step 2.** Find the critical value. The degrees of freedom are $n - 1 = 9 - 1 = 8$; for a left-tailed test with $\alpha = 0.05$ the critical value is $-1.860$.
+
+**Step 3.** Compute the test statistic. With $\sum D = -9.90$ and $\sum D^2 = 51.11$,
+
+$$\bar{D} = \frac{-9.90}{9} = -1.100 \qquad s_D = \sqrt{\frac{9(51.11) - (-9.90)^2}{9(8)}} = 2.242$$
+
+$$t = \frac{-1.100 - 0}{2.242/\sqrt{9}} = -1.472$$
+:::
+
+---
+
+## Example 9-6
+
+:::{.callout-tip}
+## Solution - Step 3 in R
 
 ```{r e9-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(1.2, 5.6, 7.1, 2.3, 4.0, 2.4, 1.7, 0.4, 0.9)
-today  <- c(1.8, 5.7, 8.2, 2.1, 5.3, 3.1, 1.8, 1.9, 1.5)
-
-D    <- before - today   # D = 3 yrs ago - today; claim (greater today) means mu_D < 0
-Dbar <- mean(D)
-sD   <- sd(D)
-n    <- length(D)
-t_stat <- Dbar / (sD / sqrt(n))
-df     <- n - 1
-cv     <- qt(0.05, df)
+three_years_ago <- c(7.00, 3.40, 3.90, 3.50, 4.00, 3.30, 4.00, 5.30, 3.90)
+today           <- c(5.20, 3.80, 6.40, 2.90, 7.10, 4.50, 8.20, 3.30, 6.80)
+revenue_change  <- three_years_ago - today
+knitr::kable(data.frame(X1 = three_years_ago, X2 = today, D = revenue_change,
+                        D2 = revenue_change^2), align = "c")
+round(c(sumD = sum(revenue_change), sumD2 = sum(revenue_change^2)), 4)
 ```
 :::
 
@@ -447,84 +777,77 @@ cv     <- qt(0.05, df)
 :::{.callout-tip}
 ## Solution
 
-**Decision**
+**Steps 3-5 in R** — test statistic, critical value, P-value, and decision.
 
 ```{r e9-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("D-bar =", round(Dbar, 4), "\n")
-cat("sD =", round(sD, 4), "\n")
-cat("t =", round(t_stat, 4), "\n")
-cat("Critical value =", round(cv, 3), "\n")
-cat("Decision:", ifelse(t_stat < cv, "Reject H0", "Do not reject H0"), "\n")
-cat("Conclusion:", ifelse(t_stat < cv,
-    "enough evidence that deposits are greater today",
-    "not enough evidence that deposits are greater today"), "\n")
+n_outlets <- length(revenue_change)
+t_statistic <- mean(revenue_change) / (sd(revenue_change) / sqrt(n_outlets))
+round(c(Dbar = mean(revenue_change), sD = sd(revenue_change),
+        t = t_statistic), 3)
+round(qt(0.05, n_outlets - 1), 3)
+round(pt(t_statistic, n_outlets - 1), 4)
 ```
+
+**Step 4.** Do not reject $H_0$, since the test statistic $-1.472$ is greater than the critical value $-1.860$ (equivalently $P = 0.0896 > 0.05$).
+
+**Step 5.** There is not enough evidence to show that the average monthly revenue of the outlets has increased over the last 3 years.
 :::
+
+---
 
 ## Example 9-7 {#example-9-7}
 
 :::{.callout-warning}
-## Cholesterol Levels
+## Defect Rate After a Procedure Change
 
-A researcher claims that a mineral supplement affects cholesterol levels. Six subjects were tested before and after taking the supplement:
+A quality engineer wishes to see whether the batch defect rate of a production line changes after a revised standard operating procedure is introduced. Six randomly selected lines were measured before the revision, and then they ran under the new procedure for a 6-week period. The results are shown in the table (defects per 1000 units). Can it be concluded that the defect rate has changed at $\alpha = 0.10$? Assume the variable is approximately normally distributed. *(hypothetical data)*
 
-| Subject | Before | After | D |
-|---------|--------|-------|---|
-| 1 | 210 | 190 | 20 |
-| 2 | 235 | 170 | 65 |
-| 3 | 208 | 210 | −2 |
-| 4 | 190 | 188 | 2 |
-| 5 | 172 | 173 | −1 |
-| 6 | 244 | 228 | 16 |
+```
+Line           1     2     3     4     5     6
+Before (X1)   34    28    41    37    25    30
+After  (X2)   28    26    42    29    24    31
+```
 
-At $\alpha$ = 0.10, test the claim that cholesterol levels changed.
+Back to [Example 9-8](#example-9-8)
 :::
+
+---
 
 ## Example 9-7
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim. If the revised procedure has an effect, the before rates should be different from the after rates.
 
-**Step 1:** $H_0$: $\mu$_D = 0 &nbsp;&nbsp; $H_1$: $\mu$_D $\neq 0$ (claim) — two-tailed
+$$H_0:\ \mu_D = 0 \qquad H_1:\ \mu_D \neq 0 \ \textit{(claim)}$$
 
-**Step 2:** d.f. = 5; CV = $\pm$2.015
+**Step 2.** Find the critical values. The degrees of freedom are $6 - 1 = 5$; at $\alpha = 0.10$ the critical values are $\pm 2.015$.
 
-**Step 3:** $\sum D$ = 100, $\bar{D} = 100/6 = 16.7$
+**Step 3.** Compute the test statistic. With $\sum D = 15$ and $\sum D^2 = 107$,
 
-$\sum D^2$ = 400 + 4225 + 4 + 4 + 1 + 256 = 4890
+$$\bar{D} = \frac{15}{6} = 2.500 \qquad s_D = \sqrt{\frac{6(107) - 15^2}{6(5)}} = \sqrt{\frac{642 - 225}{30}} = 3.728$$
 
-$s_D = \sqrt{\frac{6(4890) - 100^2}{6(5)}} = \sqrt{\frac{29340 - 10000}{30}} = \sqrt{644.67} \approx 25.4$
-
-$t = \frac{16.7}{25.4/\sqrt{6}} = \frac{16.7}{10.37} \approx 1.610$
-
-**Step 4:** |1.610| < 2.015 → **Do not reject $H_0$**
-
-**Step 5:** There is not enough evidence to support the claim that the supplement affects cholesterol levels.
+$$t = \frac{2.500 - 0}{3.728/\sqrt{6}} = 1.643$$
 :::
+
+---
 
 ## Example 9-7
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
-
-**Compute test value**
+**Step 3 in R** — build the table and compute the test statistic.
 
 ```{r e9-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(210, 235, 208, 190, 172, 244)
-after  <- c(190, 170, 210, 188, 173, 228)
-
-D      <- before - after
-Dbar   <- mean(D)
-sD     <- sd(D)
-n      <- length(D)
-t_stat <- Dbar / (sD / sqrt(n))
-df     <- n - 1
-cv     <- qt(0.95, df)
-p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
+before <- c(34, 28, 41, 37, 25, 30)
+after  <- c(28, 26, 42, 29, 24, 31)
+defect_change <- before - after
+knitr::kable(data.frame(X1 = before, X2 = after,
+                        D = defect_change, D2 = defect_change^2), align = "c")
+round(c(sumD = sum(defect_change), sumD2 = sum(defect_change^2),
+        Dbar = mean(defect_change), sD = sd(defect_change)), 3)
 ```
 :::
 
@@ -535,537 +858,737 @@ p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
 :::{.callout-tip}
 ## Solution
 
-**Decision**
+**Steps 3-5 in R** — critical values, test statistic, P-value, and decision.
 
 ```{r e9-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("D-bar =", round(Dbar, 4), "\n")
-cat("sD =", round(sD, 4), "\n")
-cat("t =", round(t_stat, 4), "\n")
-cat("Critical value =", round(cv, 3), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(abs(t_stat) > cv, "Reject H0", "Do not reject H0"), "\n")
+n_lines <- length(defect_change)
+t_statistic <- mean(defect_change) / (sd(defect_change) / sqrt(n_lines))
+round(t_statistic, 3)
+round(qt(c(0.05, 0.95), n_lines - 1), 3)
+round(2 * pt(abs(t_statistic), n_lines - 1, lower.tail = FALSE), 4)
 ```
+
+**Step 4.** Do not reject $H_0$: the test statistic 1.643 lies in the noncritical region.
+
+**Step 5.** There is not enough evidence to support the claim that the revised procedure changes the defect rate of a line.
 :::
 
-## Confidence Interval for $\mu$_D (Dependent Samples)
+---
 
-:::{.callout-note}
-$$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\frac{s_D}{\sqrt{n}}$$
+## A Specific Hypothesized Difference
 
-where $d.f. = n - 1$
+If a specific difference is hypothesized, the same formula is used with $\mu_D$ equal to that value. For example, if a dietitian claims that people on a specific diet will lose an average of 3 pounds in a week, the hypotheses are
+
+$$H_0:\ \mu_D = 3 \qquad H_1:\ \mu_D \neq 3$$
+
+and the value 3 is substituted for $\mu_D$ in the test statistic.
+
+---
+
+## Confidence Interval for the Mean Difference
+
+:::{.callout-important}
+## Confidence Interval for $\mu_D$
+
+$$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\frac{s_D}{\sqrt{n}} \qquad \text{d.f.} = n - 1$$
 :::
+
+---
 
 ## Example 9-8 {#example-9-8}
 
 :::{.callout-warning}
-## 90% CI for Cholesterol Change
+## Defect Rate After a Procedure Change
 
-Using Example 9-7 data, find a 90% confidence interval for $\mu$_D.
+Find the 90% confidence interval for the data in [Example 9-7](#example-9-7).
 :::
+
+---
 
 ## Example 9-8
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Substitute in the formula**, using $t_{\alpha/2} = 2.015$ with $\text{d.f.} = 5$.
 
-**Solution:** d.f. = 5; $t_{0.05, 5} = 2.015$
+$$2.500 \pm 2.015\cdot\frac{3.728}{\sqrt{6}} = 2.500 \pm 3.07$$
 
-$$16.7 \pm 2.015 \cdot \frac{25.4}{\sqrt{6}} = 16.7 \pm 2.015(10.37) = 16.7 \pm 20.9$$
+$$-0.57 < \mu_D < 5.57$$
 
-$$\boxed{-4.2 < \mu_D < 37.6}$$
-
-(R gives $-4.22$ to $37.55$ from unrounded values.)
-
-Since the interval contains 0, we cannot conclude cholesterol levels changed significantly.
-:::
-
-## Example 9-8
 ```{r e9-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(210, 235, 208, 190, 172, 244)
-after  <- c(190, 170, 210, 188, 173, 228)
-
-D    <- before - after
-Dbar <- mean(D)
-sD   <- sd(D)
-n    <- length(D)
-df   <- n - 1
-moe  <- qt(0.95, df) * sD / sqrt(n)
-
-cat("90% CI: (", round(Dbar - moe, 2), ",", round(Dbar + moe, 2), ")\n")
+margin_of_error <- qt(0.95, n_lines - 1) * sd(defect_change) / sqrt(n_lines)
+round(c(lower = mean(defect_change) - margin_of_error,
+        upper = mean(defect_change) + margin_of_error), 2)
 ```
 
-# Section 9-4: Testing the Difference Between Proportions {background-color="#2c4a6e"}
+Since 0 is contained in the interval, the decision is to not reject $H_0:\ \mu_D = 0$; there is not enough evidence to support the claim that the revised procedure changes the defect rate.
+:::
 
-## z Test for Two Proportions
+# Section 9-5: Testing the Difference Between Proportions {background-color="#2c4a6e"}
+
+## Sample Proportions
+
+Recall from Chapter 7 that $\hat{p}$ ("p hat") is the sample proportion used to estimate the population proportion $p$.
 
 :::{.callout-note}
-**Pooled estimate** of the proportion:
-$$\bar{p} = \frac{X_1 + X_2}{n_1 + n_2}, \quad \bar{q} = 1 - \bar{p}$$
+## Sample Proportion
 
-**Test statistic:**
-$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
+$$\hat{p} = \frac{X}{n}$$
 
-**Requirements:** $n_1\hat{p}_1$, $n_1\hat{q}_1$, $n_2\hat{p}_2$, $n_2\hat{q}_2$ all $\geq 5$
+where $X$ is the number of units that possess the characteristic of interest and $n$ is the sample size.
 :::
+
+When testing the difference between two population proportions $p_1$ and $p_2$, with no specific difference hypothesized:
+
+$$H_0:\ p_1 = p_2 \qquad H_1:\ p_1 \neq p_2$$
+
+or equivalently $H_0:\ p_1 - p_2 = 0$ and $H_1:\ p_1 - p_2 \neq 0$. Similar statements using $<$ or $>$ give one-tailed tests.
+
+---
+
+## The Weighted Estimate $\bar{p}$
+
+:::{.callout-important}
+## Weighted (Pooled) Estimate of $p$
+
+Since $p_1$ and $p_2$ are unknown, a **weighted estimate** is computed from
+
+$$\bar{p} = \frac{n_1\hat{p}_1 + n_2\hat{p}_2}{n_1 + n_2} = \frac{X_1 + X_2}{n_1 + n_2} \qquad \bar{q} = 1 - \bar{p}$$
+
+This estimate is based on the hypothesis that $p_1 = p_2$; $\bar{p}$ is a better estimate than either $\hat{p}_1$ or $\hat{p}_2$ alone because it is a combined average using both.
+
+The standard error of the difference in terms of the weighted estimate is
+
+$$\sigma_{\hat{p}_1 - \hat{p}_2} = \sqrt{\bar{p}\,\bar{q}\left(\frac{1}{n_1}+\frac{1}{n_2}\right)}$$
+:::
+
+---
+
+## Formula and Assumptions
+
+:::{.callout-important}
+## z Test Statistic for Comparing Two Proportions
+
+$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\,\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
+
+where $\ \bar{p} = \dfrac{X_1 + X_2}{n_1+n_2}$, $\ \bar{q} = 1 - \bar{p}$, $\ \hat{p}_1 = \dfrac{X_1}{n_1}$, $\ \hat{p}_2 = \dfrac{X_2}{n_2}$.
+:::
+
+:::{.callout-important}
+## Assumptions for the z Test for Two Proportions
+
+1. The samples must be **random samples**.
+2. The sample data are **independent** of one another.
+3. For both samples $np \geq 5$ and $nq \geq 5$.
+:::
+
+---
 
 ## Example 9-9 {#example-9-9}
 
 :::{.callout-warning}
-## Vaccination Rates in Nursing Homes
+## Mobile-Wallet Payments at Two Store Formats
 
-A researcher wants to determine whether the influenza vaccination rate of nursing home residents is the same for small and large homes. At $\alpha$ = 0.05, test the claim.
+A retail group compares how often customers pay with a mobile wallet at its hypermarkets and at its convenience stores. In a random sample of 45 hypermarket transactions, 18 were paid with a mobile wallet, while in a random sample of 35 convenience-store transactions, 25 were. At $\alpha = 0.05$, test the claim that there is **no difference** in the proportions of mobile-wallet payments at the two store formats. *(hypothetical data)*
 
-| | Small | Large |
-|--|-------|-------|
-| Residents vaccinated | 12 | 17 |
-| Total sampled | 34 | 24 |
+```
+                          Hypermarket    Convenience
+Mobile-wallet payments             18             25
+Transactions sampled               45             35
+```
+
+Back to [Example 9-11](#example-9-11)
 :::
+
+---
 
 ## Example 9-9
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0$: $p_1$ = $p_2$ (claim) &nbsp;&nbsp; $H_1$: $p_1 \neq p_2$ — two-tailed
+$$H_0:\ p_1 = p_2 \ \textit{(claim)} \qquad H_1:\ p_1 \neq p_2$$
 
-**Step 2:** CV = $\pm$1.96
+**Step 2.** Find the critical values. Since $\alpha = 0.05$, the critical values are $+1.96$ and $-1.96$.
 
-**Step 3:** $\hat{p}_1 = 12/34 = 0.353$; $\hat{p}_2 = 17/24 = 0.708$
+**Step 3.** Compute the test statistic.
 
-$\bar{p} = \frac{12+17}{34+24} = \frac{29}{58} = 0.5$; $\bar{q} = 0.5$
+$$\hat{p}_1 = \frac{18}{45} = 0.4000 \qquad \hat{p}_2 = \frac{25}{35} = 0.7143$$
 
-$$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\right)}} = \frac{-0.355}{\sqrt{0.25(0.0711)}} = \frac{-0.355}{0.1328} \approx -2.67$$
+$$\bar{p} = \frac{18+25}{45+35} = \frac{43}{80} = 0.5375 \qquad \bar{q} = 0.4625$$
 
-**Step 4:** |−2.67| > 1.96 → **Reject $H_0$**
-
-**Step 5:** There is enough evidence to reject the claim that vaccination rates are the same for small and large nursing homes.
+$$z = \frac{(0.4000 - 0.7143) - 0}{\sqrt{(0.5375)(0.4625)\left(\dfrac{1}{45}+\dfrac{1}{35}\right)}} = \frac{-0.3143}{0.1124} = -2.80$$
 :::
+
+---
 
 ## Example 9-9
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 3 in R** — proportions, weighted estimate, test statistic, and P-value.
 
 ```{r e9-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; phat2 <- x2/n2
-pbar  <- (x1 + x2)/(n1 + n2)
-qbar  <- 1 - pbar
-
-z     <- (phat1 - phat2) / sqrt(pbar * qbar * (1/n1 + 1/n2))
-cv    <- qnorm(0.975)
-p_val <- 2 * pnorm(abs(z), lower.tail = FALSE)
-
-cat("p-hat1 =", round(phat1, 4), " p-hat2 =", round(phat2, 4), "\n")
-cat("p-bar =", round(pbar, 4), "\n")
-cat("z =", round(z, 4), "\n")
-cat("Critical value = ±", round(cv, 3), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(abs(z) > cv, "Reject H0", "Do not reject H0"), "\n")
+wallet_hyper <- 18; n_hyper <- 45
+wallet_cvs   <- 25; n_cvs   <- 35
+phat_hyper <- wallet_hyper / n_hyper
+phat_cvs   <- wallet_cvs / n_cvs
+pbar <- (wallet_hyper + wallet_cvs) / (n_hyper + n_cvs)
+round(c(phat_hyper = phat_hyper, phat_cvs = phat_cvs,
+        pbar = pbar, qbar = 1 - pbar), 4)
+z_statistic <- (phat_hyper - phat_cvs) /
+  sqrt(pbar * (1 - pbar) * (1 / n_hyper + 1 / n_cvs))
+round(z_statistic, 2)
+round(qnorm(c(0.025, 0.975)), 2)
+round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
 ```
+
+**Step 4.** Reject $H_0$, since $-2.80 < -1.96$ (equivalently $P = 0.0052 < \alpha = 0.05$).
+
+**Step 5.** There is enough evidence to reject the claim that there is no difference in the proportions of mobile-wallet payments at the two store formats.
 :::
+
+---
 
 ## Example 9-10 {#example-9-10}
 
 :::{.callout-warning}
-## Texting While Driving
+## Booking a Hotel Through an App
 
-A survey found that 29% of drivers this year text while driving, versus 17% last year. Each sample included 1000 drivers. At $\alpha$ = 0.01, test the claim that the proportion has increased.
-:::
+A survey of 250 randomly selected business travellers to Taiwan found that 72% booked their hotel through a mobile app, while for a random sample of 150 leisure travellers, 60% booked their hotel through a mobile app. At $\alpha = 0.10$, can it be concluded that the percentage of business travellers who book through an app is greater than the percentage of leisure travellers who do? *(hypothetical data)*
 
-## Example 9-10
-
-:::{.callout-tip}
-## Solution
-
-**Mathematical solution**
-
-**Step 1:** $H_0$: $p_1$ = $p_2$ &nbsp;&nbsp; $H_1$: $p_1$ > $p_2$ (claim) — right-tailed
-
-**Step 2:** CV = +2.33
-
-**Step 3:** $\bar{p} = \frac{290+170}{1000+1000} = \frac{460}{2000} = 0.23$; $\bar{q} = 0.77$
-
-$$z = \frac{0.29 - 0.17}{\sqrt{0.23(0.77)\left(\frac{1}{1000}+\frac{1}{1000}\right)}} = \frac{0.12}{\sqrt{0.0003542}} = \frac{0.12}{0.01882} \approx 6.38$$
-
-**Step 4:** 6.38 > 2.33 → **Reject $H_0$**
-
-**Step 5:** There is sufficient evidence to support the claim that texting while driving has increased.
-:::
-
-## Example 9-10
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 290; n1 <- 1000   # this year
-x2 <- 170; n2 <- 1000   # last year
-
-phat1 <- x1/n1; phat2 <- x2/n2
-pbar  <- (x1 + x2)/(n1 + n2)
-qbar  <- 1 - pbar
-
-z     <- (phat1 - phat2) / sqrt(pbar * qbar * (1/n1 + 1/n2))
-cv    <- qnorm(0.99)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("Critical value =", round(cv, 3), "\n")
-cat("P-value =", round(p_val, 6), "\n")
-cat("Decision:", ifelse(z > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+                 Business      Leisure
+Percentage            72%          60%
+n                     250          150
 ```
 :::
 
-## Confidence Interval for $p_1$ − $p_2$
+---
 
-:::{.callout-note}
+## Example 9-10
+
+:::{.callout-tip}
+## Solution
+
+**Step 1.** State the hypotheses and identify the claim.
+
+$$H_0:\ p_1 = p_2 \qquad H_1:\ p_1 > p_2 \ \textit{(claim)}$$
+
+**Step 2.** Find the critical value. At $\alpha = 0.10$ for a right-tailed test the critical value is 1.28.
+
+**Step 3.** Compute the test statistic. Since **percentages** are given, first recover the counts:
+
+$$X_1 = \hat{p}_1 n_1 = 0.72(250) = 180 \qquad X_2 = \hat{p}_2 n_2 = 0.60(150) = 90$$
+
+$$\bar{p} = \frac{180+90}{250+150} = \frac{270}{400} = 0.675 \qquad \bar{q} = 0.325$$
+
+$$z = \frac{(0.72 - 0.60) - 0}{\sqrt{(0.675)(0.325)\left(\dfrac{1}{250}+\dfrac{1}{150}\right)}} = \frac{0.12}{0.0484} = 2.48$$
+:::
+
+---
+
+## Example 9-10
+
+:::{.callout-tip}
+## Solution
+
+**Step 3 in R** — counts, weighted estimate, test statistic, critical value, P-value.
+
+```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+phat_business <- 0.72; n_business <- 250
+phat_leisure  <- 0.60; n_leisure  <- 150
+count_business <- phat_business * n_business
+count_leisure  <- phat_leisure * n_leisure
+pbar <- (count_business + count_leisure) / (n_business + n_leisure)
+round(c(X1 = count_business, X2 = count_leisure,
+        pbar = pbar, qbar = 1 - pbar), 3)
+z_statistic <- (phat_business - phat_leisure) /
+  sqrt(pbar * (1 - pbar) * (1 / n_business + 1 / n_leisure))
+round(z_statistic, 2)
+round(qnorm(0.90), 2)
+round(pnorm(z_statistic, lower.tail = FALSE), 4)
+```
+
+**Step 4.** Reject $H_0$, since $2.48 > 1.28$ (equivalently $P = 0.0066 < 0.10$).
+
+**Step 5.** There is enough evidence that the proportion of business travellers who book their hotel through an app is greater than the proportion of leisure travellers who do.
+:::
+
+---
+
+## Confidence Interval for $p_1 - p_2$
+
+:::{.callout-important}
+## Confidence Interval for the Difference Between Two Proportions
+
 $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}} < p_1-p_2 < (\hat{p}_1-\hat{p}_2) + z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
 :::
+
+:::{.callout-warning}
+## Caution
+
+The confidence interval uses a standard deviation based on the **estimated** population proportions, but the hypothesis test uses a standard deviation based on the **assumption that the two population proportions are equal**. As a result, the two procedures can lead to different conclusions. When testing for a difference of two proportions, **use the $z$ test rather than the confidence interval**.
+:::
+
+---
 
 ## Example 9-11 {#example-9-11}
 
 :::{.callout-warning}
-## 95% CI for Vaccination Rate Difference
+## Mobile-Wallet Payments at Two Store Formats
 
-Using Example 9-9 data, find a 95% confidence interval for $p_1$ − $p_2$.
+Find the 95% confidence interval for the difference of proportions for the data in [Example 9-9](#example-9-9).
 :::
+
+---
 
 ## Example 9-11
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Substitute in the formula**, using $\hat{p}_1 = 0.4000$, $\hat{q}_1 = 0.6000$, $\hat{p}_2 = 0.7143$, $\hat{q}_2 = 0.2857$ and $z_{\alpha/2} = 1.96$.
 
-$\hat{p}_1 = 12/34 \approx 0.353$, $\hat{q}_1 = 0.647$; &nbsp; $\hat{p}_2 = 17/24 \approx 0.708$, $\hat{q}_2 = 0.292$
+$$(0.4000 - 0.7143) \pm 1.96\sqrt{\dfrac{(0.4000)(0.6000)}{45} + \dfrac{(0.7143)(0.2857)}{35}} = -0.3143 \pm 0.207$$
 
-$$(0.353 - 0.708) \pm 1.96\sqrt{\dfrac{0.353(0.647)}{34} + \dfrac{0.708(0.292)}{24}} \approx -0.355 \pm 0.243$$
-
-$$-0.598 < p_1 - p_2 < -0.113$$
-
-(Values shown are rounded; R keeps full precision.) Since the interval does not contain 0, this agrees with the decision in Example 9-9 to reject $H_0$.
+$$-0.521 < p_1 - p_2 < -0.107$$
 
 ```{r e9-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; qhat1 <- 1 - phat1
-phat2 <- x2/n2; qhat2 <- 1 - phat2
-
-diff <- phat1 - phat2
-moe  <- qnorm(0.975) * sqrt(phat1*qhat1/n1 + phat2*qhat2/n2)
-cat("95% CI: (", round(diff - moe, 3), ",", round(diff + moe, 3), ")\n")
+margin_of_error <- qnorm(0.975) *
+  sqrt(phat_hyper * (1 - phat_hyper) / n_hyper +
+       phat_cvs * (1 - phat_cvs) / n_cvs)
+difference <- phat_hyper - phat_cvs
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 3)
 ```
+
+The interval lies entirely below zero, which agrees with the decision to reject $H_0$ in Example 9-9.
 :::
 
-# Section 9-5: Testing the Difference Between Two Variances {background-color="#2c4a6e"}
+# Section 9-6: Testing the Difference Between Two Variances {background-color="#2c4a6e"}
 
-## Characteristics of the F Distribution
+## The F Distribution
+
+Statisticians also compare two **variances or standard deviations** — for example, the variation in monthly temperatures of two cities. This comparison uses an **$F$ test**, which should not be confused with the chi-square test of Chapter 8, where a *single* sample variance is compared to a specific population variance.
 
 :::{.callout-note}
-The **F distribution** is used to compare two variances from independent, normally distributed populations.
+## The F Distribution
 
-**Characteristics:**
-- F values are always $\geq 0$ (variances are non-negative)
-- The distribution is positively skewed
-- The mean $\approx 1$
-- It is a family of curves indexed by two degrees of freedom: numerator (d.f.N.) and denominator (d.f.D.)
+If two independent samples are selected from two normally distributed populations in which the population variances are equal ($\sigma_1^2 = \sigma_2^2$), and the sample variances are compared as $s_1^2/s_2^2$, the sampling distribution of that ratio is called the **$F$ distribution**.
 :::
-
-## F Test Formula
-
-:::{.callout-note}
-$$F = \frac{s_1^2}{s_2^2}$$
-
-where $s_1^2$ is always the **larger** variance (placed in the numerator).
-
-- **d.f.N.** = $n_1 - 1$ (sample from which larger variance came)
-- **d.f.D.** = $n_2 - 1$
-
-**Assumptions:**
-1. Both samples are random and independent
-2. Both populations are normally distributed
-3. For a two-tailed test, use the $\alpha/2$ critical value table (right tail only)
-:::
-
-## Key Rules for the F Test
 
 :::{.callout-important}
-1. Always place the **larger variance** in the numerator
-2. For a **two-tailed** test, divide $\alpha$ by 2 and use the right-tail critical value
-3. If standard deviations are given, **square them** to get variances
-4. If d.f. not in the table, use the next **smaller** d.f.
+## Characteristics of the F Distribution
+
+1. The values of $F$ **cannot be negative**, because variances are always positive or zero.
+2. The distribution is **positively skewed**.
+3. The **mean value of $F$ is equal to 1**.
+4. The $F$ distribution is a **family of curves** based on the degrees of freedom of the variance of the numerator and the degrees of freedom of the variance of the denominator.
 :::
+
+---
+
+## The F Family of Curves in R
+
+**Draw figure** — Figure 9-10: several $F$ curves with different degrees of freedom.
+
+```{r s9-6-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+f_value <- seq(0.01, 5, length.out = 400)
+f_curves <- bind_rows(
+  tibble(f_value, density = df(f_value,  3,  5), degrees = "3, 5"),
+  tibble(f_value, density = df(f_value, 10, 10), degrees = "10, 10"),
+  tibble(f_value, density = df(f_value, 20, 30), degrees = "20, 30")
+)
+ggplot(f_curves, aes(f_value, density, colour = degrees)) +
+  geom_line(linewidth = 0.9) +
+  labs(title = "The F Family of Curves", x = "F", y = "Density",
+       colour = "d.f.N., d.f.D.") +
+  theme_minimal()
+```
+
+Every curve is positively skewed and begins at $F = 0$.
+
+---
+
+## Formula for the F Test
+
+:::{.callout-important}
+## F Test for Comparing Two Variances
+
+$$F = \frac{s_1^2}{s_2^2}$$
+
+where the **larger** of the two variances is placed in the numerator regardless of the subscripts.
+
+The $F$ test has two degrees of freedom: that of the numerator, $\text{d.f.N.} = n_1 - 1$, and that of the denominator, $\text{d.f.D.} = n_2 - 1$, where $n_1$ is the sample size **from which the larger variance was obtained** — not necessarily the larger of the two sample sizes.
+:::
+
+:::{.callout-important}
+## Hypotheses for the F Test
+
+| Right-tailed | Left-tailed | Two-tailed |
+|--------------|-------------|------------|
+| $H_0:\ \sigma_1^2 = \sigma_2^2$ | $H_0:\ \sigma_1^2 = \sigma_2^2$ | $H_0:\ \sigma_1^2 = \sigma_2^2$ |
+| $H_1:\ \sigma_1^2 > \sigma_2^2$ | $H_1:\ \sigma_1^2 < \sigma_2^2$ | $H_1:\ \sigma_1^2 \neq \sigma_2^2$ |
+:::
+
+---
+
+## Notes and Assumptions for the F Test
+
+:::{.callout-important}
+## Notes for the Use of the F Test
+
+1. The **larger variance** should always be placed in the numerator of the formula regardless of the subscripts.
+2. For a **two-tailed test**, the $\alpha$ value must be divided by 2 and the critical value placed on the right side of the $F$ curve.
+3. If **standard deviations** instead of variances are given in the problem, they must be **squared** for the $F$ test formula.
+4. When the degrees of freedom cannot be found in Table A-7, the **closest value on the smaller side** should be used.
+:::
+
+:::{.callout-important}
+## Assumptions for Testing the Difference Between Two Variances
+
+1. The samples must be **random samples**.
+2. The populations from which the samples were obtained must be **normally distributed**.
+3. The samples must be **independent** of one another.
+:::
+
+---
+
+## Cautions for the F Test
+
+:::{.callout-warning}
+## Caution
+
+- This procedure is **not robust**: minor departures from normality will affect the results, so the test should not be used when the distributions depart from normality. Standard deviations are not a good measure of spread in nonsymmetrical distributions because they are not resistant to outliers.
+- It is **not absolutely necessary** to place the larger variance in the numerator. Critical values for left-tailed tests can be found by interchanging the degrees of freedom and taking the reciprocal of the value from Table A-7.
+- Use caution: the data can run contrary to the hypotheses. If $H_1:\ \sigma_1^2 > \sigma_2^2$ but $s_1^2 < s_2^2$, the $F$ test should **not** be performed and $H_0$ would not be rejected.
+:::
+
+---
 
 ## Example 9-12 {#example-9-12}
 
 :::{.callout-warning}
-## Finding a Critical Value (Right-Tailed)
+## Finding a Critical Value, Right-Tailed
 
-Find the critical value for a right-tailed F test when $\alpha$ = 0.05, d.f.N. = 15, d.f.D. = 21.
+Find the critical value for a right-tailed $F$ test when $\alpha = 0.05$, the degrees of freedom for the numerator (abbreviated d.f.N.) are 12, and the degrees of freedom for the denominator (d.f.D.) are 18.
 :::
+
+---
 
 ## Example 9-12
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
-
-**Solution:** Use the $\alpha$ = 0.05 table. Look up d.f.N. = 15 (column) and d.f.D. = 21 (row).
-
-$$F_{CV} = 2.18$$
-:::
-
-## Example 9-12
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
+Since this test is right-tailed with $\alpha = 0.05$, use the $\alpha = 0.05$ table of Table A-7. The d.f.N. is listed across the top and the d.f.D. in the left column; the critical value is found where row and column intersect. In this case it is **2.34**.
 
 ```{r e9-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Critical value for right-tailed F test
-alpha  <- 0.05
-dfN    <- 15
-dfD    <- 21
-
-cv <- qf(1 - alpha, dfN, dfD)
-cat("Critical value (right-tailed, alpha=0.05):", round(cv, 4), "\n")
+alpha <- 0.05
+df_numerator <- 12; df_denominator <- 18
+round(qf(1 - alpha, df_numerator, df_denominator), 2)
 ```
 :::
+
+---
 
 ## Example 9-13 {#example-9-13}
 
 :::{.callout-warning}
-## Finding a Critical Value (Two-Tailed)
+## Finding a Critical Value, Two-Tailed
 
-Find the critical value for a two-tailed F test with $\alpha$ = 0.05 when the sample size from which the numerator variance was obtained was 21 and the denominator variance was from n = 12.
+Find the critical value for a two-tailed $F$ test with $\alpha = 0.05$ when the sample size from which the variance for the numerator was obtained was 16 and the sample size from which the variance for the denominator was obtained was 25.
 :::
+
+---
 
 ## Example 9-13
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
-
-**Solution:** Two-tailed → use $\alpha$/2 = 0.025 table.
-
-d.f.N. = 21 − 1 = 20, d.f.D. = 12 − 1 = 11
-
-$$F_{CV} = 3.23$$
-:::
-
-## Example 9-13
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
+Since this is a two-tailed test with $\alpha = 0.05$, the $0.05/2 = 0.025$ table must be used. Here $\text{d.f.N.} = 16 - 1 = 15$ and $\text{d.f.D.} = 25 - 1 = 24$; the critical value is **2.44**.
 
 ```{r e9-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 alpha <- 0.05
-n1    <- 21; n2 <- 12
-dfN   <- n1 - 1; dfD <- n2 - 1
-
-cv <- qf(1 - alpha/2, dfN, dfD)
-cat("Critical value (two-tailed, alpha=0.05):", round(cv, 4), "\n")
-cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
+n_numerator <- 16; n_denominator <- 25
+df_numerator <- n_numerator - 1; df_denominator <- n_denominator - 1
+c(dfN = df_numerator, dfD = df_denominator)
+round(qf(1 - alpha/2, df_numerator, df_denominator), 2)
 ```
+
+Only the **right** tail is used, because the $F$ test statistic is always greater than or equal to 1 when the larger variance is placed in the numerator.
 :::
+
+---
 
 ## Example 9-14 {#example-9-14}
 
 :::{.callout-warning}
-## Heart Rates of Smokers
+## Order-Picking Times at Two Warehouses
 
-A researcher wants to determine whether the variance in heart rates (beats per minute) differs between smokers and nonsmokers. At $\alpha$ = 0.05, test the claim.
+A logistics manager wishes to see if the variance of the times it takes to pick an order at the Taoyuan warehouse is different from the variance of the times at the Taichung warehouse. The manager selects random samples of orders at each warehouse and compares the variances of each. At $\alpha = 0.05$, is there enough evidence to support the claim that the variances are not equal? Assume the variable is normally distributed. *(hypothetical data)*
 
-| | Smokers | Nonsmokers |
-|--|---------|-----------|
-| $n$ | 26 | 18 |
-| $s^2$ | 36 | 10 |
-:::
-
-## Example 9-14
-
-:::{.callout-tip}
-## Solution
-
-**Mathematical solution**
-
-**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2 \neq \sigma_2^2$ (claim) — two-tailed
-
-**Step 2:** Use $\alpha$/2 = 0.025 table.
-d.f.N. = 26 − 1 = 25; d.f.D. = 18 − 1 = 17 → CV = 2.56 (use d.f.N. = 24)
-
-**Step 3:**
-$$F = \frac{s_1^2}{s_2^2} = \frac{36}{10} = 3.6$$
-
-**Step 4:** 3.6 > 2.56 → **Reject $H_0$**
-
-**Step 5:** There is sufficient evidence to support the claim that the variance in heart rates differs between smokers and nonsmokers.
-:::
-
-## Example 9-14
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s1_sq <- 36; n1 <- 26
-s2_sq <- 10; n2 <- 18
-
-F_stat <- s1_sq / s2_sq
-dfN    <- n1 - 1; dfD <- n2 - 1
-cv     <- qf(0.975, dfN, dfD)
-p_val  <- 2 * pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("F =", round(F_stat, 4), "\n")
-cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
-cat("Critical value (two-tailed) =", round(cv, 4), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+              Taoyuan    Taichung
+n                  25          19
+s^2              45.0        23.5
 ```
 :::
+
+---
+
+## Example 9-14
+
+:::{.callout-tip}
+## Solution
+
+**Step 1.** State the hypotheses and identify the claim.
+
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 \neq \sigma_2^2 \ \textit{(claim)}$$
+
+**Step 2.** Find the critical value. Use Table A-7 with 0.025, since $\alpha = 0.05$ and the test is two-tailed. The larger variance comes from the Taoyuan sample, so $\text{d.f.N.} = 25 - 1 = 24$ and $\text{d.f.D.} = 19 - 1 = 18$; the critical value is **2.50**.
+
+**Step 3.** Compute the test statistic.
+
+$$F = \frac{s_1^2}{s_2^2} = \frac{45.0}{23.5} = 1.91$$
+:::
+
+---
+
+## Example 9-14
+
+:::{.callout-tip}
+## Solution
+
+**Steps 2-5 in R** — critical value, test statistic, P-value, and decision.
+
+```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+var_taoyuan  <- 45.0; n_taoyuan_picks  <- 25
+var_taichung <- 23.5; n_taichung_picks <- 19
+df_numerator <- n_taoyuan_picks - 1; df_denominator <- n_taichung_picks - 1
+f_statistic <- var_taoyuan / var_taichung
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(qf(0.975, df_numerator, df_denominator), 2)
+round(2 * pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+```
+
+**Step 4.** Do not reject $H_0$, since $1.91 < 2.50$. (The P-value is 0.1612.)
+
+**Step 5.** There is not enough evidence to support the claim that the variances are not equal.
+:::
+
+---
 
 ## Example 9-15 {#example-9-15}
 
 :::{.callout-warning}
-## Waiting Time to See a Doctor
+## Lead-Time Variability of Two Suppliers
 
-At a first hospital the standard deviation of emergency room waiting times is 32 minutes (n = 16); at a second hospital it is 28 minutes (n = 18). At $\alpha$ = 0.01, test whether the first hospital has greater variation.
-:::
+An import manager selected a random sample of 12 shipments from Supplier A and found the standard deviation of their lead times was 0.84 day. Then the manager selected a random sample of 16 shipments from Supplier B and found that the standard deviation of their lead times was 0.55 day. At $\alpha = 0.01$, can we conclude that the variance of the lead times of Supplier A is greater than the variance of the lead times of Supplier B? *(hypothetical data)*
 
-## Example 9-15
-
-:::{.callout-tip}
-## Solution
-
-**Mathematical solution**
-
-**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2$ > $\sigma_2^2$ (claim) — right-tailed
-
-**Step 2:** d.f.N. = 15, d.f.D. = 17 → CV = 3.31
-
-**Step 3:**
-$$F = \frac{32^2}{28^2} = \frac{1024}{784} \approx 1.306$$
-
-**Step 4:** 1.306 < 3.31 → **Do not reject $H_0$**
-
-**Step 5:** There is not enough evidence to support the claim that the first hospital has greater variation in waiting times.
-:::
-
-## Example 9-15
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s1 <- 32; n1 <- 16
-s2 <- 28; n2 <- 18
-
-F_stat <- s1^2 / s2^2
-dfN    <- n1 - 1; dfD <- n2 - 1
-cv     <- qf(0.99, dfN, dfD)
-p_val  <- pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("F =", round(F_stat, 4), "\n")
-cat("Critical value =", round(cv, 4), "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
+```
+                 Supplier A    Supplier B
+n                        12            16
+s                      0.84          0.55
 ```
 :::
+
+---
+
+## Example 9-15
+
+:::{.callout-tip}
+## Solution
+
+**Step 1.** State the hypotheses and identify the claim.
+
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 > \sigma_2^2 \ \textit{(claim)}$$
+
+**Step 2.** Find the critical value. The larger variance comes from the Supplier A sample, so $\text{d.f.N.} = 12 - 1 = 11$ and $\text{d.f.D.} = 16 - 1 = 15$; from Table A-7 at $\alpha = 0.01$ the critical value is **3.73**.
+
+**Step 3.** Compute the test statistic. The standard deviations must be squared.
+
+$$F = \frac{s_1^2}{s_2^2} = \frac{0.84^2}{0.55^2} = 2.33$$
+:::
+
+---
+
+## Example 9-15
+
+:::{.callout-tip}
+## Solution
+
+**Steps 2-5 in R** — critical value, test statistic, P-value, and decision.
+
+```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sd_supplier_a <- 0.84; n_supplier_a <- 12
+sd_supplier_b <- 0.55; n_supplier_b <- 16
+df_numerator <- n_supplier_a - 1; df_denominator <- n_supplier_b - 1
+f_statistic <- sd_supplier_a^2 / sd_supplier_b^2
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(qf(0.99, df_numerator, df_denominator), 2)
+round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+```
+
+**Step 4.** Do not reject $H_0$, since $2.33 < 3.73$.
+
+**Step 5.** There is not enough evidence to support the claim that the variance of the lead times of Supplier A is greater than the variance of the lead times of Supplier B.
+:::
+
+---
+
+## P-Values for the F Test
+
+Finding P-values for an $F$ test statistic from the tables requires looking through all five $\alpha$ tables of Table A-7 for the given d.f.N. and d.f.D.
+
+:::{.callout-important}
+## Reading a P-Value Interval from Table A-7
+
+For $F = 3.58$ with $\text{d.f.N.} = 5$ and $\text{d.f.D.} = 10$:
+
+| $\alpha$ | 0.10 | 0.05 | 0.025 | 0.01 | 0.005 |
+|----------|------|------|-------|------|-------|
+| $F$ | 2.52 | 3.33 | 4.24 | 5.64 | 6.87 |
+
+The test statistic 3.58 falls between 3.33 and 4.24, so for a **right-tailed** test $0.025 < P\text{-value} < 0.05$. For a **two-tailed** test the table $\alpha$ values must be **doubled**, giving $0.05 < P\text{-value} < 0.10$. A calculator gives $P = 0.0408$.
+
+As always, if the P-value is less than $\alpha$, reject $H_0$.
+:::
+
+With R, `pf(F, dfN, dfD, lower.tail = FALSE)` gives the exact right-tailed P-value directly.
+
+---
 
 ## Example 9-16 {#example-9-16}
 
 :::{.callout-warning}
-## Airport Passengers (P-value Method)
+## Monthly Shipping Volume by Region
 
-A CEO hypothesizes that the variance in annual passenger counts is greater for American airports than for foreign airports. At $\alpha$ = 0.10, test the claim using the P-value method.
+The operations director of a freight forwarder hypothesizes that the variance in the monthly shipping volume of the company's northern branches is greater than the variance in the monthly shipping volume of its southern branches. At $\alpha = 0.10$, is there enough evidence to support the hypothesis? The data in thousands of cartons per month are shown for selected branches. Use the **P-value method**. Assume the variable is normally distributed and the samples are random and independent. *(hypothetical data)*
 
-**American** (millions): 36.8, 72.4, 60.5, 73.5, 61.2, 40.1
-**Foreign** (millions): 60.7, 42.7, 51.2, 38.6
+```
+Northern branches        Southern branches
+  48.2      55.3            50.4     53.2
+  61.5      44.6            41.2     45.9
+  39.8      58.1
+```
 :::
+
+---
 
 ## Example 9-16
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0$: $\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$: $\sigma_1^2$ > $\sigma_2^2$ (claim) — right-tailed
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 > \sigma_2^2 \ \textit{(claim)}$$
 
-**Step 2:** Compute variances:
-$$s_1^2 = 246.38 \quad s_2^2 = 95.87$$
+**Step 2.** Compute the test statistic. Find the variance for each group: $s_1^2 = 70.60$ and $s_2^2 = 27.68$.
 
-**Step 3:**
-$$F = \frac{246.38}{95.87} \approx 2.57$$
+$$F = \frac{s_1^2}{s_2^2} = \frac{70.60}{27.68} = 2.55$$
 
-d.f.N. = 5, d.f.D. = 3
+**Step 3.** Find the P-value with $\text{d.f.N.} = 6 - 1 = 5$ and $\text{d.f.D.} = 4 - 1 = 3$.
 
-From the F table at $\alpha$ = 0.10: F = 5.31. Since 2.57 < 5.31, **P-value > 0.10** (actual P $\approx 0.234$)
+| $\alpha$ | 0.10 | 0.05 | 0.025 | 0.01 | 0.005 |
+|----------|------|------|-------|------|-------|
+| $F$ | 5.31 | 9.01 | 14.88 | 28.24 | 45.39 |
 
-**Step 4:** Do not reject $H_0$
-
-**Step 5:** There is not enough evidence to support the claim that American airports have greater variance in passenger counts.
+Since 2.55 is less than 5.31, the P-value is greater than 0.10.
 :::
+
+---
 
 ## Example 9-16
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Steps 2-5 in R** — variances, test statistic, and exact P-value.
 
 ```{r e9-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-american <- c(36.8, 72.4, 60.5, 73.5, 61.2, 40.1)
-foreign  <- c(60.7, 42.7, 51.2, 38.6)
-
-s1_sq <- var(american)
-s2_sq <- var(foreign)
-F_stat <- s1_sq / s2_sq
-dfN    <- length(american) - 1
-dfD    <- length(foreign) - 1
-p_val  <- pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("s1^2 =", round(s1_sq, 2), " s2^2 =", round(s2_sq, 2), "\n")
-cat("F =", round(F_stat, 4), "\n")
-cat("d.f.N. =", dfN, ", d.f.D. =", dfD, "\n")
-cat("P-value =", round(p_val, 4), "\n")
-cat("Decision:", ifelse(p_val < 0.10, "Reject H0", "Do not reject H0"), "\n")
+northern <- c(48.2, 61.5, 39.8, 55.3, 44.6, 58.1)
+southern <- c(50.4, 41.2, 53.2, 45.9)
+df_numerator <- length(northern) - 1
+df_denominator <- length(southern) - 1
+f_statistic <- var(northern) / var(southern)
+round(c(var_northern = var(northern), var_southern = var(southern)), 2)
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 3)
 ```
+
+**Step 4.** Do not reject $H_0$, since P-value $> 0.10$. (The exact value from R is 0.235.)
+
+**Step 5.** There is not enough evidence to support the claim that the variance in the monthly shipping volume of the northern branches is greater than the variance in the monthly shipping volume of the southern branches.
+:::
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 9 Vocabulary
+
+dependent samples · $F$ distribution · $F$ test · independent samples · pooled estimate of the variance
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Two Means: z Test and t Test
+
+$z$ test for two means, $\sigma_1$ and $\sigma_2$ known, and its confidence interval:
+
+$$z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}}} \qquad (\bar{X}_1 - \bar{X}_2) \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+
+$t$ test for two means, independent samples, variances unequal, $\text{d.f.} = $ smaller of $n_1-1$ and $n_2-1$:
+
+$$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}} \qquad (\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Dependent Samples, Proportions, and Variances
+
+$t$ test for dependent samples, $\text{d.f.} = n - 1$, and its confidence interval:
+
+$$t = \frac{\bar{D} - \mu_D}{s_D/\sqrt{n}} \quad \bar{D} = \frac{\sum D}{n} \quad s_D = \sqrt{\frac{n\sum D^2 - (\sum D)^2}{n(n-1)}} \quad \bar{D} \pm t_{\alpha/2}\frac{s_D}{\sqrt{n}}$$
+
+$z$ test for two proportions and the confidence interval for $p_1 - p_2$:
+
+$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\,\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}} \qquad (\hat{p}_1-\hat{p}_2) \pm z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
+
+$F$ test for two variances, $\text{d.f.N.} = n_1 - 1$, $\text{d.f.D.} = n_2 - 1$, larger variance on top:
+
+$$F = \frac{s_1^2}{s_2^2}$$
 :::
 
 ## Key Takeaways
 
-| Situation | Test | Statistic |
-|-----------|------|-----------|
-| Two means, $\sigma$ known, independent | z test | $z = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}$ |
-| Two means, $\sigma$ unknown, independent | t test | $t = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{s_1^2/n_1+s_2^2/n_2}}$, d.f. = min($n_1$−1, $n_2$−1) |
-| Two means, dependent samples | Paired t | $t = \frac{\bar{D}}{s_D/\sqrt{n}}$, d.f. = n−1 |
-| Two proportions | z test | $z = \frac{\hat{p}_1-\hat{p}_2}{\sqrt{\bar{p}\bar{q}(1/n_1+1/n_2)}}$ |
-| Two variances | F test | $F = s_1^2/s_2^2$ (larger in numerator) |
+:::{.callout-important}
+- Comparing two parameters uses the same five-step procedure as Chapter 8; every test statistic has the form $(\text{observed} - \text{expected})/\text{standard error}$, and $H_0$ can be written as $\mu_1 = \mu_2$ or as $\mu_1 - \mu_2 = 0$
+- Samples are **independent** when the selection of one sample does not influence the other, and **dependent** (matched-pair) when subjects are paired or matched
+- Use the **$z$ test** for two means when $\sigma_1$ and $\sigma_2$ are **known** (and, if $n < 30$, the populations are normal); the standard error is $\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}$
+- Use the **$t$ test** for two independent means when $\sigma_1$ and $\sigma_2$ are **unknown**; this text assumes unequal variances and uses $\text{d.f.} = $ the **smaller** of $n_1-1$ and $n_2-1$, which is conservative
+- For **dependent samples**, test the differences $D = X_1 - X_2$ with $t = \bar{D}/(s_D/\sqrt{n})$ and $\text{d.f.} = n-1$; matching reduces type II error but does not control other variables
+- For **two proportions**, pool the samples into $\bar{p} = (X_1+X_2)/(n_1+n_2)$ and $\bar{q} = 1 - \bar{p}$; the test requires $np \geq 5$ and $nq \geq 5$ in both samples
+- For **two variances**, $F = s_1^2/s_2^2$ with the **larger variance in the numerator**, $\text{d.f.N.} = n_1-1$, $\text{d.f.D.} = n_2-1$, and $\alpha$ **halved** for a two-tailed test; the $F$ test is **not robust** to departures from normality
+- A confidence interval that **contains zero** agrees with a decision not to reject $H_0$ — except for two proportions, where the test and the interval use different standard errors and the $z$ test governs
+:::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

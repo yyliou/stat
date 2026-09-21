@@ -20,7 +20,11 @@ knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 
 # Context and Goals
 
-These slides accompany a university-level introductory statistics course based on **Bluman, A. G. (2012). *Elementary Statistics: A Step by Step Approach* (8th ed.). McGraw-Hill**. Each chapter is delivered as a Quarto Revealjs (`.qmd`) presentation that renders to a self-contained `.html` deck.
+These slides accompany a university-level introductory statistics course based on **Bluman, A. G. (2023). *Elementary Statistics: A Step by Step Approach* (11th ed.). McGraw Hill**. Each chapter is delivered as a Quarto Revealjs (`.qmd`) presentation that renders to a self-contained `.html` deck.
+
+**Originality rule.** The deck follows the textbook's organization, definitions and terminology, but **every worked example, data set and R script is written for this course**. Never reproduce a textbook example's title, scenario, numbers or answer, and never attach a real organisation to invented data — mark it `*(hypothetical data)*` (`*（模擬資料）*` in the Chinese file). Example numbering still tracks the textbook so students can follow along, and each example keeps the teaching point, the tail direction and the reject / do-not-reject outcome of the textbook example that sits in that position. Because the data are our own, there is never a gap between "the printed answer" and what R computes: every number a slide states must equal what its chunk prints.
+
+**R style.** Solutions follow Clean Code: meaningful snake_case names (`sample_mean`, not `m`), one job per chunk and no more than about fifteen lines, built-ins (`sd`, `quantile`, `pnorm`, `qt`, `lm`, `aov`, `chisq.test`) instead of hand-coded formulas unless the slide's teaching point *is* the formula — and then one short named helper verified against the built-in on the same slide. No loops where a vectorised call or a `dplyr` verb will do, no `cat()` string assembly (print the value, put the conclusion in the slide prose), no comments that restate the code, no dead objects, and no data retyped that an earlier chunk already defined. Pipes are native `|>`; tables go through `knitr::kable(df, align = "c")`; figures through ggplot2.
 
 Design goals, in priority order:
 
@@ -475,7 +479,9 @@ Reproduce verbatim; do not alter:
 ```markdown
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
@@ -513,6 +519,22 @@ Before delivering any `.qmd`, verify ALL of the following. The callout checks ar
 **Math**
 
 - [ ] No Unicode math characters anywhere; all math is LaTeX (`$...$` / `$$...$$`).
+
+- [ ] No LaTeX command sits outside `$...$` — a stray `\alpha` in a table cell or a bullet renders as the literal text `\alpha`.
+- [ ] No math expression starts with a bare subscript: write `${}_nC_r$`, not `$_nC_r$` (KaTeX errors on `_` with no base and prints the raw source).
+
+**Layout — nothing may run off the bottom of the slide**
+
+The frame is 1050 × 700 px (`smaller: true`, serif). That holds a heading plus roughly 12–14 lines of body text, or a table of about 8–9 rows — a Section/Topics row costs about 85 px even when its cells fit on one line. Content taller than the frame is silently **clipped**, because `scrollable: false`.
+
+- [ ] Every slide measured with at least 7 px of clearance, under all three conditions below. A measurement that gets any one of them wrong reports "no overflow" on slides that are in fact clipped.
+- [ ] **Font.** Reveal's `serif` theme asks for `"Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif`. macOS supplies Palatino; a bare Linux box falls back to DejaVu Serif, which is narrower, so text wraps onto fewer lines and everything measures shorter than it really is. Measure with a Palatino-metric font installed — `fonts-urw-base35` gives **P052** (URW Palladio) — and alias `Palatino`, `Palatino Linotype`, `Book Antiqua` and `serif` to it in `fontconfig`.
+- [ ] **Math.** KaTeX must actually render; a rendered display equation is taller and wider than its raw source. The decks load KaTeX from `cdn.jsdelivr.net`, so an offline measuring browser needs a local copy patched into the HTML.
+- [ ] **Footer.** Content must clear the footer, not just the frame bottom: the limit is `min(frame bottom, footer top)`. A line that overlaps the footer text reads as clipped even though it is inside the 700 px frame.
+- [ ] When a slide does overflow, fix it by shortening wording, splitting a table across two slides (keeping every row), splitting at a `---` with a new `##` heading, or lowering a figure's `out.width` — never by adding `scrollable: true`, custom CSS, a smaller font, or `{.smaller}`.
+- [ ] A split done in `chX.qmd` is done in `chX-zh.qmd` too, so the two files keep the same slide count and the same heading-level sequence.
+
+To measure: render the deck, point a headless browser at it, walk the slides with `Reveal.slide()`, and for each slide take the lowest visible descendant's `getBoundingClientRect().bottom` against `min(slidesContainerTop + 700 * scale, footerTop)`, dividing the difference by `Reveal.getScale()`. Two things must be excluded from the walk or they produce false readings: elements inside `.katex-mathml` (KaTeX's hidden accessibility copy) and SVG elements (KaTeX's stretchy `<path>` geometry is thousands of pixels wide and clipped by its parent). Measure against the slides **container**, not the `section`'s own box: with `center: true` the section shrinks to its content, so comparing a child to its own parent always reads zero.
 
 **Bilingual (if producing both)**
 
@@ -638,7 +660,9 @@ $$\text{Formula}$$
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

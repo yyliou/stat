@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,158 +227,201 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
-</section>
-<section>
-<section id="chapter-12-analysis-of-variance" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>Chapter 12: Analysis of Variance</h1>
-
+  <p class="date">2026-09-20</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Why ANOVA?</strong></p>
-</div>
-<div class="callout-content">
-<p>When comparing <strong>three or more group means</strong>, using multiple t-tests is problematic:</p>
-<ul>
-<li>Each additional comparison inflates the Type I error rate</li>
-<li>With <span class="math inline">k</span> groups, you need <span class="math inline">\binom{k}{2}</span> pairwise tests</li>
-<li>The <strong>F test</strong> compares all means simultaneously in a single test</li>
-</ul>
-</div>
-</div>
-</div>
-<p><strong>Topics covered:</strong></p>
-<ul>
-<li><strong>Section 12-1:</strong> One-Way Analysis of Variance (ANOVA)</li>
-<li><strong>Section 12-2:</strong> Post-hoc Tests — Scheffé and Tukey</li>
-<li><strong>Section 12-3:</strong> Two-Way Analysis of Variance</li>
-</ul>
+<p>Chapter 12 is about the <strong>analysis of variance (ANOVA)</strong> — an <span class="math inline">F</span> test that compares <strong>three or more means</strong> by comparing two estimates of the same population variance.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>12-1</td>
+<td>One-way ANOVA; why not multiple <span class="math inline">t</span> tests; <span class="math inline">F = s_B^2 / s_W^2</span>; <span class="math inline">d.f.N. = k-1</span>, <span class="math inline">d.f.D. = N-k</span>; summary table</td>
+</tr>
+<tr class="even">
+<td>12-2</td>
+<td>Scheffé test, <span class="math inline">F' = (k-1)(C.V.)</span>; Tukey <span class="math inline">q</span> test; Bonferroni adjustment; which test to use</td>
+</tr>
+<tr class="odd">
+<td>12-3</td>
+<td>Two-way ANOVA; factors, levels, treatment groups; main and interaction effects; ordinal vs.&nbsp;disordinal</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="historical-note" class="slide level2">
-<h2>Historical Note</h2>
+<section id="chapter-objectives" class="slide level2">
+<h2>Chapter Objectives</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>After completing this chapter, you should be able to</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>Use the one-way ANOVA technique to determine if there is a significant difference among three or more means.</li>
+<li>Determine which means differ, using the Scheffé, Tukey, or Bonferroni tests if the null hypothesis is rejected in the ANOVA.</li>
+<li>Use the two-way ANOVA technique to determine if there is a significant difference in the main effects or interaction.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<p>The <span class="math inline">F</span> test of Chapter 9, which compares two variances, can also be used to compare <strong>three or more means</strong>. This technique is called the <strong>analysis of variance</strong>, or <strong>ANOVA</strong>.</p>
+<p>The <span class="math inline">z</span> and <span class="math inline">t</span> tests should not be used when three or more means are compared. For three groups, the <span class="math inline">F</span> test can show only <em>whether</em> a difference exists among the three means; it cannot reveal <em>where</em> the difference lies — between <span class="math inline">\bar{X}_1</span> and <span class="math inline">\bar{X}_2</span>, <span class="math inline">\bar{X}_1</span> and <span class="math inline">\bar{X}_3</span>, or <span class="math inline">\bar{X}_2</span> and <span class="math inline">\bar{X}_3</span>. Other tests, such as the Scheffé, Tukey and Bonferroni tests, are used to locate the difference.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Origin of ANOVA</strong></p>
+<p><strong>One-Way and Two-Way ANOVA</strong></p>
 </div>
 <div class="callout-content">
-<p>The methods of analysis of variance were developed by <strong>R. A. Fisher</strong> in the early 1920s.</p>
-<p>ANOVA uses <strong>variances</strong> to make inferences about <strong>means</strong> — hence the name “Analysis of Variance.”</p>
+<p>The analysis of variance used to compare three or more means is called a <strong>one-way analysis of variance</strong>, since it involves only one variable. When the study involves two variables, a <strong>two-way analysis of variance</strong> is used (Section 12-3).</p>
 </div>
 </div>
 </div>
-</section></section>
+</section>
 <section>
 <section id="section-12-1-one-way-analysis-of-variance" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 12-1: One-Way Analysis of Variance</h1>
 
 </section>
+<section id="analysis-of-variance" class="slide level2">
+<h2>Analysis of Variance</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>One-Way Analysis of Variance</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>one-way analysis of variance test</strong> is used to test the equality of three or more means using sample variances.</p>
+</div>
+</div>
+</div>
+<p>The procedure is called <em>one-way</em> because there is only <strong>one independent variable</strong> that distinguishes between the different populations in the study. The independent variable is also called a <strong>factor</strong>.</p>
+</section>
 <section id="why-not-multiple-t-tests" class="slide level2">
-<h2>Why Not Multiple t-Tests?</h2>
+<h2>Why Not Multiple <span class="math inline">t</span> Tests?</h2>
+<p>At first glance it might seem that three or more sample means could be compared with multiple <span class="math inline">t</span> tests, two means at a time. There are three reasons why this should not be done.</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Three Reasons to Avoid Multiple t-Tests</strong></p>
+<p><strong>Three Reasons</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li><strong>Ignores other groups:</strong> Each pairwise comparison ignores the remaining groups</li>
-<li><strong>Inflated Type I error:</strong> More comparisons = higher chance of false significance</li>
-<li><strong>Explosion of tests:</strong> 3 means → 3 tests; 5 means → 10 tests; 10 means → 45 tests</li>
+<li><strong>The other means are ignored.</strong> When two means are compared at a time, the rest of the means under study are ignored. With the <span class="math inline">F</span> test, all the means are compared simultaneously.</li>
+<li><strong>The type I error rate increases.</strong> The more <span class="math inline">t</span> tests that are conducted, the greater the likelihood of getting significant differences by chance alone, so the probability of rejecting a true null hypothesis is increased. As the number of populations compared increases, the probability of making a type I error at a given <span class="math inline">\alpha</span> also increases.</li>
+<li><strong>The number of tests explodes.</strong> Comparing 3 means two at a time requires 3 <span class="math inline">t</span> tests; 5 means require 10 tests; 10 means require 45 tests.</li>
 </ol>
 </div>
 </div>
 </div>
-<p>The <strong>F test</strong> overcomes all three issues by comparing all means at once.</p>
 </section>
-<section id="assumptions-for-one-way-anova" class="slide level2">
-<h2>Assumptions for One-Way ANOVA</h2>
+<section id="characteristics-of-the-f-distribution" class="slide level2">
+<h2>Characteristics of the <span class="math inline">F</span> Distribution</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Assumptions</strong></p>
+<p><strong>Recall from Chapter 9</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>Each population must be <strong>normally or approximately normally distributed</strong></li>
-<li>All samples must be <strong>independent</strong> of one another</li>
-<li>The <strong>variances of all populations</strong> must be equal (homogeneity of variance)</li>
+<li>The values of <span class="math inline">F</span> cannot be negative, because variances are always positive or zero.</li>
+<li>The distribution is positively skewed.</li>
+<li>The mean value of <span class="math inline">F</span> is approximately equal to 1.</li>
+<li>The <span class="math inline">F</span> distribution is a family of curves based on the degrees of freedom of the variance of the numerator and the degrees of freedom of the variance of the denominator.</li>
 </ol>
 </div>
 </div>
 </div>
+<p>Even though three or more <strong>means</strong> are being compared, <strong>variances</strong> are used in the test.</p>
 </section>
-<section id="the-logic-of-anova" class="slide level2">
-<h2>The Logic of ANOVA</h2>
+<section id="two-estimates-of-the-population-variance" class="slide level2">
+<h2>Two Estimates of the Population Variance</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Two Variance Estimates</strong></p>
+<p><strong>Between-Group and Within-Group Variance</strong></p>
 </div>
 <div class="callout-content">
-<table class="caption-top">
-<colgroup>
-<col style="width: 37%">
-<col style="width: 62%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Estimate</th>
-<th>What it measures</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Between-group variance</strong> (<span class="math inline">s_B^2</span>)</td>
-<td>Variation among sample means</td>
-</tr>
-<tr class="even">
-<td><strong>Within-group variance</strong> (<span class="math inline">s_W^2</span>)</td>
-<td>Variation within each group (pooled)</td>
-</tr>
-</tbody>
-</table>
+<p>The <strong>between-group variance</strong> is the first estimate of the population variance; it involves finding the variance of the means.</p>
+<p>The <strong>within-group variance</strong> is the second estimate; it is made by computing the variance using all the data and is not affected by differences in the means.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="two-estimates-of-the-population-variance-cont." class="slide level2">
+<h2>Two Estimates of the Population Variance (cont.)</h2>
 <ul>
-<li>If <span class="math inline">H_0</span> is <strong>true</strong>: <span class="math inline">s_B^2 \approx s_W^2</span>, so <span class="math inline">F \approx 1</span></li>
-<li>If <span class="math inline">H_0</span> is <strong>false</strong>: <span class="math inline">s_B^2 \gg s_W^2</span>, so <span class="math inline">F \gg 1</span></li>
+<li>If there is <strong>no difference</strong> in the means, the between-group estimate is approximately equal to the within-group estimate, the <span class="math inline">F</span> test statistic is approximately 1, and <span class="math inline">H_0</span> is not rejected.</li>
+<li>When the means <strong>differ significantly</strong>, the between-group variance is much larger than the within-group variance, <span class="math inline">F</span> is significantly greater than 1, and <span class="math inline">H_0</span> is rejected.</li>
 </ul>
-<p><span class="math display">F = \frac{s_B^2}{s_W^2}</span></p>
-<p>The F test for comparing means is always <strong>right-tailed</strong>.</p>
+<p><span class="math display">F = \frac{\text{variance between groups}}{\text{variance within groups}}</span></p>
+</section>
+<section id="formulas-for-the-f-test" class="slide level2">
+<h2>Formulas for the <span class="math inline">F</span> Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Grand Mean, <span class="math inline">s_B^2</span> and <span class="math inline">s_W^2</span></strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>grand mean</strong> <span class="math inline">\bar{X}_{GM}</span> is the mean of all the values in all of the samples:</p>
+<p><span class="math display">\bar{X}_{GM} = \frac{\sum X}{N}</span></p>
+<p>The <strong>between-group variance</strong> is the variance among the means, using the sample sizes as weights:</p>
+<p><span class="math display">s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k - 1}</span></p>
+<p>The <strong>within-group variance</strong> is a weighted average of the individual sample variances; it does not involve differences of means:</p>
+<p><span class="math display">s_W^2 = \frac{\sum (n_i - 1) s_i^2}{\sum (n_i - 1)}</span></p>
+<p>where <span class="math inline">k</span> is the number of groups, <span class="math inline">n_i</span> is a sample size, <span class="math inline">\bar{X}_i</span> a sample mean and <span class="math inline">s_i^2</span> a sample variance.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="hypotheses-and-degrees-of-freedom" class="slide level2">
-<h2>Hypotheses and Degrees of Freedom</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="the-f-test-statistic" class="slide level2">
+<h2>The <span class="math inline">F</span> Test Statistic</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>ANOVA Hypotheses</strong></p>
+<p><strong>Formula for the <span class="math inline">F</span> Test for One-Way Analysis of Variance</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">H_0: \mu_1 = \mu_2 = \cdots = \mu_k</span> <span class="math display">H_1: \text{At least one mean differs from the others}</span></p>
+<p><span class="math display">F = \frac{s_B^2}{s_W^2}</span></p>
+<p>where <span class="math inline">s_B^2</span> is the between-group variance and <span class="math inline">s_W^2</span> is the within-group variance.</p>
 </div>
 </div>
 </div>
@@ -388,81 +431,143 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Degrees of Freedom</strong></p>
+<p><strong>Hypotheses for the ANOVA</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \cdots = \mu_k</span> <span class="math display">H_1: \text{At least one mean is different from the others}</span></p>
+<p>A significant test statistic means there is a high probability that the difference in means is not due to chance, but it does <strong>not</strong> indicate where the difference lies.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="degrees-of-freedom" class="slide level2">
+<h2>Degrees of Freedom</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span class="math inline">d.f.N.</span> and <span class="math inline">d.f.D.</span></strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">d.f.N. = k - 1 \qquad d.f.D. = N - k</span></p>
-<p>where <span class="math inline">k</span> = number of groups and <span class="math inline">N = n_1 + n_2 + \cdots + n_k</span></p>
+<p>where <span class="math inline">k</span> is the number of groups and <span class="math inline">N = n_1 + n_2 + \cdots + n_k</span> is the sum of the sample sizes.</p>
+<p>The sample sizes <strong>need not be equal</strong>. The <span class="math inline">F</span> test to compare means is always <strong>right-tailed</strong>.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="anova-computational-formulas" class="slide level2">
-<h2>ANOVA Computational Formulas</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="table-12-1-analysis-of-variance-summary-table" class="slide level2">
+<h2>Table 12-1: Analysis of Variance Summary Table</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Step-by-Step Procedure</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>Step 1:</strong> Find the mean and variance of each sample: <span class="math inline">(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)</span></p>
-<p><strong>Step 2:</strong> Grand mean: <span class="math inline">\bar{X}_{GM} = \dfrac{\sum X}{N}</span></p>
-<p><strong>Step 3:</strong> Between-group variance: <span class="math inline">s_B^2 = \dfrac{\sum n_i(\bar{X}_i - \bar{X}_{GM})^2}{k-1}</span></p>
-<p><strong>Step 4:</strong> Within-group variance: <span class="math inline">s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span></p>
-<p><strong>Step 5:</strong> <span class="math inline">F = \dfrac{s_B^2}{s_W^2}</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="anova-summary-table" class="slide level2">
-<h2>ANOVA Summary Table</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Standard Summary Table Format</strong></p>
+<p><strong>Table 12-1 — Analysis of Variance Summary Table</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th>Source</th>
-<th>SS</th>
+<th>Sum of squares</th>
 <th>d.f.</th>
-<th>MS</th>
+<th>Mean square</th>
 <th>F</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Between (Treatment)</td>
+<td>Between groups</td>
 <td>SSB</td>
 <td><span class="math inline">k-1</span></td>
-<td>MSB = SSB/<span class="math inline">(k-1)</span></td>
-<td>MSB/MSW</td>
+<td>MSB</td>
+<td></td>
 </tr>
 <tr class="even">
-<td>Within (Error)</td>
+<td>Within groups (error)</td>
 <td>SSW</td>
 <td><span class="math inline">N-k</span></td>
-<td>MSW = SSW/<span class="math inline">(N-k)</span></td>
+<td>MSW</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>Total</td>
-<td>SST</td>
-<td><span class="math inline">N-1</span></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>Where: - <span class="math inline">SSB = \sum n_i(\bar{X}_i - \bar{X}_{GM})^2</span> - <span class="math inline">SSW = \sum (n_i - 1)s_i^2</span></p>
+<p><span class="math display">SSB = \sum n_i (\bar{X}_i - \bar{X}_{GM})^2 \qquad SSW = \sum (n_i - 1) s_i^2</span></p>
+<p><span class="math display">MSB = s_B^2 = \frac{SSB}{k-1} \qquad MSW = s_W^2 = \frac{SSW}{N-k} \qquad F = \frac{s_B^2}{s_W^2} = \frac{MSB}{MSW}</span></p>
+</div>
+</div>
+</div>
+<p><span class="math inline">SSB</span> is the <strong>sum of squares between groups</strong>, <span class="math inline">SSW</span> the <strong>sum of squares within groups</strong> (the error sum of squares), and <span class="math inline">MSB</span>, <span class="math inline">MSW</span> the <strong>mean squares</strong>.</p>
+</section>
+<section id="assumptions-for-the-f-test" class="slide level2">
+<h2>Assumptions for the <span class="math inline">F</span> Test</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Assumptions for the <span class="math inline">F</span> Test for Comparing Three or More Means</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>The populations from which the samples were obtained must be normally or approximately normally distributed.</li>
+<li>The samples must be independent of one another.</li>
+<li>The variances of the populations must be equal.</li>
+<li>The samples must be simple random samples, one from each of the populations.</li>
+</ol>
+</div>
+</div>
+</div>
+<p>In this book the assumptions are stated in the exercises; in other situations you must check that they have been met before proceeding.</p>
+</section>
+<section id="procedure-table" class="slide level2">
+<h2>Procedure Table</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Finding the <span class="math inline">F</span> Test Statistic for the Analysis of Variance</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 1.</strong> Find the mean and variance of each sample: <span class="math inline">(\bar{X}_1, s_1^2), (\bar{X}_2, s_2^2), \ldots, (\bar{X}_k, s_k^2)</span>.</p>
+<p><strong>Step 2.</strong> Find the grand mean: <span class="math inline">\bar{X}_{GM} = \dfrac{\sum X}{N}</span>.</p>
+<p><strong>Step 3.</strong> Find the between-group variance: <span class="math inline">s_B^2 = \dfrac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1}</span>.</p>
+<p><strong>Step 4.</strong> Find the within-group variance: <span class="math inline">s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span>.</p>
+<p><strong>Step 5.</strong> Find the <span class="math inline">F</span> test statistic: <span class="math inline">F = \dfrac{s_B^2}{s_W^2}</span>, with <span class="math inline">d.f.N. = k-1</span> and <span class="math inline">d.f.D. = N-k</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-five-step-procedure" class="slide level2">
+<h2>The Five-Step Procedure</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The One-Way ANOVA Follows the Regular Hypothesis-Testing Procedure</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 1.</strong> State the hypotheses.</p>
+<p><strong>Step 2.</strong> Find the critical values.</p>
+<p><strong>Step 3.</strong> Compute the test statistic.</p>
+<p><strong>Step 4.</strong> Make the decision.</p>
+<p><strong>Step 5.</strong> Summarize the results.</p>
 </div>
 </div>
 </div>
@@ -475,56 +580,18 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Lowering Blood Pressure</strong></p>
+<p><strong>Daily Revenue by Store Format</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher tests three techniques to reduce blood pressure: <strong>medication</strong>, <strong>exercise</strong>, and <strong>diet</strong>. After 4 weeks, blood pressure reductions are recorded. At <span class="math inline">\alpha = 0.05</span>, test the claim that there is no difference among the means.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Medication</th>
-<th>Exercise</th>
-<th>Diet</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>10</td>
-<td>6</td>
-<td>5</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>8</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>3</td>
-<td>12</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>0</td>
-<td>8</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>2</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\bar{X}_1=11.8</span></td>
-<td><span class="math inline">\bar{X}_2=3.8</span></td>
-<td><span class="math inline">\bar{X}_3=7.6</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">s_1^2=5.7</span></td>
-<td><span class="math inline">s_2^2=10.2</span></td>
-<td><span class="math inline">s_3^2=10.3</span></td>
-</tr>
-</tbody>
-</table>
+<p>A retail analyst at a Taipei beverage chain wishes to see if there is a difference in mean daily revenue among three store formats: MRT-station kiosks, campus outlets and suburban drive-through stores. She randomly samples four MRT kiosks, five campus outlets and three suburban stores and records one day’s revenue (NTD thousand) at each. At <span class="math inline">\alpha = 0.05</span>, test the claim that there is no difference among the means.</p>
+<pre><code>MRT       Campus    Suburban
+ 81         76          60
+ 75         68          51
+ 68         64          45
+ 64         60
+            57</code></pre>
+<p><em>(hypothetical data)</em></p>
+<p>Back to <a href="#/example-12-3">Example 12-3</a> · Back to <a href="#/example-12-5">Example 12-5</a></p>
 </div>
 </div>
 </div>
@@ -540,11 +607,17 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0: \mu_1 = \mu_2 = \mu_3</span> (claim); <span class="math inline">H_1:</span> At least one mean differs</p>
-<p><strong>Step 2:</strong> <span class="math inline">k=3</span>, <span class="math inline">N=15</span>; <span class="math inline">d.f.N.=2</span>, <span class="math inline">d.f.D.=12</span> → Critical value: <strong>3.89</strong></p>
-<p><strong>Step 3a:</strong> Means and variances given above</p>
-<p><strong>Step 3b:</strong> Grand mean: <span class="math inline">\bar{X}_{GM} = \dfrac{116}{15} = 7.73</span></p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \mu_3 \ \textit{(claim)}</span> <span class="math display">H_1: \text{At least one mean is different from the others}</span></p>
+<p><strong>Step 2.</strong> Find the critical value. With <span class="math inline">N = 12</span> and <span class="math inline">k = 3</span>,</p>
+<p><span class="math display">d.f.N. = k - 1 = 3 - 1 = 2 \qquad d.f.D. = N - k = 12 - 3 = 9</span></p>
+<p>The critical value from Table A-7 with <span class="math inline">\alpha = 0.05</span> is <strong>4.26</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">9</span>)   <span class="co"># Table A-7 rounds this value to 4.26</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.256495</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -557,14 +630,64 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Solution (cont.)</strong></p>
+<p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3c:</strong> Between-group variance: <span class="math display">s_B^2 = \frac{5(11.8-7.73)^2 + 5(3.8-7.73)^2 + 5(7.6-7.73)^2}{3-1} = \frac{160.13}{2} = 80.07</span></p>
-<p><strong>Step 3d:</strong> Within-group variance: <span class="math display">s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73</span></p>
-<p><strong>Step 3e:</strong> <span class="math inline">F = \dfrac{80.07}{8.73} = 9.17</span></p>
-<p><strong>Step 4:</strong> <span class="math inline">9.17 &gt; 3.89</span> → <strong>Reject</strong> <span class="math inline">H_0</span></p>
-<p><strong>Step 5:</strong> There is sufficient evidence that at least one mean differs from the others.</p>
+<p><strong>Step 3a-b — the group statistics and the grand mean</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>mrt_kiosks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">81</span>, <span class="dv">75</span>, <span class="dv">68</span>, <span class="dv">64</span>)</span>
+<span id="cb4-2"><a href=""></a>campus     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">64</span>, <span class="dv">60</span>, <span class="dv">57</span>)</span>
+<span id="cb4-3"><a href=""></a>suburban   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">51</span>, <span class="dv">45</span>)</span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a>revenue <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-6"><a href=""></a>  <span class="at">daily_revenue =</span> <span class="fu">c</span>(mrt_kiosks, campus, suburban),</span>
+<span id="cb4-7"><a href=""></a>  <span class="at">store_format  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"MRT"</span>, <span class="st">"Campus"</span>, <span class="st">"Suburban"</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>)),</span>
+<span id="cb4-8"><a href=""></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"MRT"</span>, <span class="st">"Campus"</span>, <span class="st">"Suburban"</span>))</span>
+<span id="cb4-9"><a href=""></a>)</span>
+<span id="cb4-10"><a href=""></a></span>
+<span id="cb4-11"><a href=""></a>format_stats <span class="ot">&lt;-</span> revenue <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href=""></a>  <span class="fu">group_by</span>(store_format) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(daily_revenue), <span class="at">variance =</span> <span class="fu">var</span>(daily_revenue))</span>
+<span id="cb4-14"><a href=""></a></span>
+<span id="cb4-15"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(format_stats, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">store_format</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">MRT</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">72</td>
+<td style="text-align: center;">56.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Campus</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">65</td>
+<td style="text-align: center;">55.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Suburban</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">57.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>grand_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(revenue<span class="sc">$</span>daily_revenue)</span>
+<span id="cb5-2"><a href=""></a>grand_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 64.08333</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -580,43 +703,24 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>ANOVA summary table</strong></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Source</th>
-<th>SS</th>
-<th>d.f.</th>
-<th>MS</th>
-<th>F</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Between</td>
-<td>160.13</td>
-<td>2</td>
-<td>80.07</td>
-<td><strong>9.17</strong></td>
-</tr>
-<tr class="even">
-<td>Within (Error)</td>
-<td>104.80</td>
-<td>12</td>
-<td>8.73</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>Total</strong></td>
-<td><strong>264.93</strong></td>
-<td><strong>14</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>Critical value at <span class="math inline">\alpha=0.05</span>: <strong>3.89</strong></p>
-<p>Since <span class="math inline">F = 9.17 &gt; 3.89</span>, we <strong>reject</strong> <span class="math inline">H_0</span>.</p>
+<p><strong>Step 3c-e — the two variance estimates and <span class="math inline">F</span></strong></p>
+<p><span class="math display">s_B^2 = \frac{4(72 - 64.083)^2 + 5(65 - 64.083)^2 + 3(52 - 64.083)^2}{3-1} = \frac{692.917}{2} = 346.458</span></p>
+<p><span class="math display">s_W^2 = \frac{(4-1)(56.667) + (5-1)(55) + (3-1)(57)}{(4-1)+(5-1)+(3-1)} = \frac{504}{9} = 56</span></p>
+<p><span class="math display">F = \frac{s_B^2}{s_W^2} = \frac{346.458}{56} = 6.187</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>between_var <span class="ot">&lt;-</span> <span class="fu">sum</span>(format_stats<span class="sc">$</span>n <span class="sc">*</span> (format_stats<span class="sc">$</span>mean <span class="sc">-</span> grand_mean)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-2"><a href=""></a>within_var  <span class="ot">&lt;-</span> <span class="fu">sum</span>((format_stats<span class="sc">$</span>n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> format_stats<span class="sc">$</span>variance) <span class="sc">/</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">3</span>)</span>
+<span id="cb7-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">between =</span> between_var, <span class="at">within =</span> within_var, <span class="at">F =</span> between_var <span class="sc">/</span> within_var), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>between  within       F 
+346.458  56.000   6.187 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>revenue_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(daily_revenue <span class="sc">~</span> store_format, <span class="at">data =</span> revenue)</span>
+<span id="cb9-2"><a href=""></a><span class="fu">anova</span>(revenue_aov)[[<span class="st">"Mean Sq"</span>]]   <span class="co"># aov reproduces the same two estimates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 346.4583  56.0000</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -632,23 +736,15 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Steps 4-5 — the decision and the summary</strong></p>
+<p><strong>Step 4.</strong> The test statistic <span class="math inline">6.187 &gt; 4.26</span>, so the decision is to <strong>reject the null hypothesis</strong>.</p>
+<p><strong>Step 5.</strong> There is enough evidence to conclude that at least one mean is different from the others.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>medication <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">15</span>, <span class="dv">13</span>)</span>
-<span id="cb1-2"><a href=""></a>exercise   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb1-3"><a href=""></a>diet       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a>bp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-6"><a href=""></a>  <span class="at">reduction =</span> <span class="fu">c</span>(medication, exercise, diet),</span>
-<span id="cb1-7"><a href=""></a>  <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Medication"</span>,<span class="st">"Exercise"</span>,<span class="st">"Diet"</span>), <span class="at">each =</span> <span class="dv">5</span>)</span>
-<span id="cb1-8"><a href=""></a>)</span>
-<span id="cb1-9"><a href=""></a></span>
-<span id="cb1-10"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">aov</span>(reduction <span class="sc">~</span> group, <span class="at">data =</span> bp_data)</span>
-<span id="cb1-11"><a href=""></a><span class="fu">summary</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">summary</span>(revenue_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
-group        2  160.1   80.07   9.168 0.00383 **
-Residuals   12  104.8    8.73                   
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+store_format  2  692.9   346.5   6.187 0.0204 *
+Residuals     9  504.0    56.0                 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -668,19 +764,76 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Visualization</strong></p>
+<p><strong>Table 12-2 — Analysis of Variance Summary Table for Example 12-1</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td>692.917</td>
+<td>2</td>
+<td>346.458</td>
+<td>6.187</td>
+</tr>
+<tr class="even">
+<td>Within groups (error)</td>
+<td>504.000</td>
+<td>9</td>
+<td>56.000</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>1196.917</td>
+<td>11</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>In Table A-7 with <span class="math inline">d.f.N. = 2</span> and <span class="math inline">d.f.D. = 9</span>, the test statistic 6.187 falls between the <span class="math inline">F</span> value 5.71 at <span class="math inline">\alpha = 0.025</span> and 8.02 at <span class="math inline">\alpha = 0.01</span>. Hence <span class="math inline">0.01 &lt; \text{P-value} &lt; 0.025</span>, and <span class="math inline">H_0</span> is rejected at <span class="math inline">\alpha = 0.05</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">ggplot</span>(bp_data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> reduction, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Blood Pressure Reduction by Treatment"</span>,</span>
-<span id="cb3-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Treatment Group"</span>, <span class="at">y =</span> <span class="st">"Reduction (mmHg)"</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-7"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(revenue_aov)[[<span class="dv">1</span>]][[<span class="st">"Pr(&gt;F)"</span>]][<span class="dv">1</span>], <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0204</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-1-6" class="slide level2">
+<h2>Example 12-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Draw figure</strong> — the data behind the test</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">ggplot</span>(revenue, <span class="fu">aes</span>(<span class="at">x =</span> store_format, <span class="at">y =</span> daily_revenue, <span class="at">fill =</span> store_format)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Daily Revenue by Store Format"</span>,</span>
+<span id="cb15-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Store format"</span>, <span class="at">y =</span> <span class="st">"Daily revenue (NTD thousand)"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-7"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12_files/figure-revealjs/e12-1-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12_files/figure-revealjs/e12-1-6-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -697,61 +850,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Employees at Toll Road Interchanges</strong></p>
+<p><strong>Transit Time by Carrier</strong></p>
 </div>
 <div class="callout-content">
-<p>A state official wants to determine if there is a significant difference in the number of employees at interchanges across three Pennsylvania toll roads. At <span class="math inline">\alpha = 0.05</span>, test the claim.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>PA Turnpike</th>
-<th>Greensburg Bypass</th>
-<th>Beaver Valley</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>7</td>
-<td>10</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>1</td>
-<td>12</td>
-</tr>
-<tr class="odd">
-<td>32</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>0</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>11</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>1</td>
-<td>11</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\bar{X}_1=15.5</span></td>
-<td><span class="math inline">\bar{X}_2=4.0</span></td>
-<td><span class="math inline">\bar{X}_3=5.8</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">s_1^2=81.9</span></td>
-<td><span class="math inline">s_2^2=25.6</span></td>
-<td><span class="math inline">s_3^2=29.0</span></td>
-</tr>
-</tbody>
-</table>
+<p>A logistics team at a Taiwanese exporter wishes to see if there is a difference in the door-to-door transit time of shipments sent from Taoyuan to a Southeast Asian distribution hub by three carriers. Six recent shipments are randomly selected from each carrier and the transit time is recorded in hours. At <span class="math inline">\alpha = 0.05</span>, can it be concluded that there is a significant difference in the mean transit times of the three carriers?</p>
+<pre><code>Carrier A   Carrier B   Carrier C
+    53          46          62
+    50          45          56
+    48          42          54
+    45          38          50
+    42          36          47
+    38          33          43</code></pre>
+<p><em>(hypothetical data)</em></p>
+<p>Back to <a href="#/example-12-4">Example 12-4</a></p>
 </div>
 </div>
 </div>
@@ -767,15 +878,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> <span class="math inline">H_0: \mu_1 = \mu_2 = \mu_3</span>; <span class="math inline">H_1:</span> At least one mean differs (claim)</p>
-<p><strong>Step 2:</strong> <span class="math inline">k=3</span>, <span class="math inline">N=18</span>; <span class="math inline">d.f.N.=2</span>, <span class="math inline">d.f.D.=15</span> → Critical value: <strong>3.68</strong></p>
-<p><strong>Step 3b:</strong> <span class="math inline">\bar{X}_{GM} = \dfrac{152}{18} \approx 8.444</span></p>
-<p><strong>Step 3c:</strong> <span class="math inline">s_B^2 = \dfrac{6(15.5-8.444)^2 + 6(4.0-8.444)^2 + 6(5.833-8.444)^2}{2} = \dfrac{458.11}{2} = 229.06</span></p>
-<p><strong>Step 3d:</strong> <span class="math inline">s_W^2 = \dfrac{5(81.9) + 5(25.6) + 5(28.97)}{15} = \dfrac{682.33}{15} = 45.49</span></p>
-<p><strong>Step 3e:</strong> <span class="math inline">F = \dfrac{229.06}{45.49} = 5.035</span></p>
-<p><strong>Step 4:</strong> <span class="math inline">5.035 &gt; 3.68</span> → <strong>Reject</strong> <span class="math inline">H_0</span></p>
-<p><strong>Step 5:</strong> Sufficient evidence that at least one interchange mean differs from the others.</p>
+<p><strong>Step 1.</strong> State the hypotheses and identify the claim.</p>
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \mu_3</span> <span class="math display">H_1: \text{At least one mean is different from the others} \ \textit{(claim)}</span></p>
+<p><strong>Step 2.</strong> Find the critical value. Since <span class="math inline">k = 3</span>, <span class="math inline">N = 18</span> and <span class="math inline">\alpha = 0.05</span>,</p>
+<p><span class="math display">d.f.N. = k - 1 = 2 \qquad d.f.D. = N - k = 18 - 3 = 15</span></p>
+<p>The critical value is <strong>3.68</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">15</span>)   <span class="co"># Table A-7 rounds this value to 3.68</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.68232</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -791,43 +904,60 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>ANOVA summary table</strong></p>
+<p><strong>Step 3a-b — the group statistics and the grand mean</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>carrier_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">53</span>, <span class="dv">50</span>, <span class="dv">48</span>, <span class="dv">45</span>, <span class="dv">42</span>, <span class="dv">38</span>)</span>
+<span id="cb19-2"><a href=""></a>carrier_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">45</span>, <span class="dv">42</span>, <span class="dv">38</span>, <span class="dv">36</span>, <span class="dv">33</span>)</span>
+<span id="cb19-3"><a href=""></a>carrier_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">56</span>, <span class="dv">54</span>, <span class="dv">50</span>, <span class="dv">47</span>, <span class="dv">43</span>)</span>
+<span id="cb19-4"><a href=""></a></span>
+<span id="cb19-5"><a href=""></a>transit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-6"><a href=""></a>  <span class="at">transit_hours =</span> <span class="fu">c</span>(carrier_a, carrier_b, carrier_c),</span>
+<span id="cb19-7"><a href=""></a>  <span class="at">carrier =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Carrier A"</span>, <span class="st">"Carrier B"</span>, <span class="st">"Carrier C"</span>), <span class="at">each =</span> <span class="dv">6</span>))</span>
+<span id="cb19-8"><a href=""></a>)</span>
+<span id="cb19-9"><a href=""></a></span>
+<span id="cb19-10"><a href=""></a>carrier_stats <span class="ot">&lt;-</span> transit <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href=""></a>  <span class="fu">group_by</span>(carrier) <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(transit_hours), <span class="at">variance =</span> <span class="fu">var</span>(transit_hours))</span>
+<span id="cb19-13"><a href=""></a></span>
+<span id="cb19-14"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(carrier_stats, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Source</th>
-<th>SS</th>
-<th>d.f.</th>
-<th>MS</th>
-<th>F</th>
+<th style="text-align: center;">carrier</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">variance</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Between</td>
-<td>458.11</td>
-<td>2</td>
-<td>229.06</td>
-<td><strong>5.035</strong></td>
+<td style="text-align: center;">Carrier A</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">30.0</td>
 </tr>
 <tr class="even">
-<td>Within (Error)</td>
-<td>682.33</td>
-<td>15</td>
-<td>45.49</td>
-<td></td>
+<td style="text-align: center;">Carrier B</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">26.8</td>
 </tr>
 <tr class="odd">
-<td><strong>Total</strong></td>
-<td><strong>1140.44</strong></td>
-<td><strong>17</strong></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">Carrier C</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">46.0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>P-value:</strong> <span class="math inline">0.01 &lt; P &lt; 0.025</span> (from F-tables); calculator: <span class="math inline">P = 0.021</span></p>
-<p>Since <span class="math inline">F = 5.035 &gt; 3.68</span>, we <strong>reject</strong> <span class="math inline">H_0</span>.</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>transit_grand_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(transit<span class="sc">$</span>transit_hours)</span>
+<span id="cb20-2"><a href=""></a>transit_grand_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -843,25 +973,25 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3c-e — the two variance estimates and <span class="math inline">F</span></strong></p>
+<p><span class="math display">s_B^2 = \frac{6(46-46)^2 + 6(40-46)^2 + 6(52-46)^2}{3-1} = \frac{432}{2} = 216</span></p>
+<p><span class="math display">s_W^2 = \frac{5(30) + 5(26.8) + 5(46)}{5+5+5} = \frac{514}{15} = 34.267</span></p>
+<p><span class="math display">F = \frac{216}{34.267} = 6.304</span></p>
+<p><strong>Steps 4-5.</strong> Since <span class="math inline">6.304 &gt; 3.68</span>, <strong>reject <span class="math inline">H_0</span></strong>: there is enough evidence that at least one mean differs from the others.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>pa_turnpike  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">32</span>, <span class="dv">19</span>, <span class="dv">10</span>, <span class="dv">11</span>)</span>
-<span id="cb4-2"><a href=""></a>greensburg   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">11</span>, <span class="dv">1</span>)</span>
-<span id="cb4-3"><a href=""></a>beaver       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">11</span>)</span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a>emp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb4-6"><a href=""></a>  <span class="at">employees =</span> <span class="fu">c</span>(pa_turnpike, greensburg, beaver),</span>
-<span id="cb4-7"><a href=""></a>  <span class="at">road =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"PA Turnpike"</span>,<span class="st">"Greensburg"</span>,<span class="st">"Beaver Valley"</span>), <span class="at">each =</span> <span class="dv">6</span>)</span>
-<span id="cb4-8"><a href=""></a>)</span>
-<span id="cb4-9"><a href=""></a></span>
-<span id="cb4-10"><a href=""></a>result2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(employees <span class="sc">~</span> road, <span class="at">data =</span> emp_data)</span>
-<span id="cb4-11"><a href=""></a><span class="fu">summary</span>(result2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>transit_between_var <span class="ot">&lt;-</span> <span class="fu">sum</span>(carrier_stats<span class="sc">$</span>n <span class="sc">*</span></span>
+<span id="cb22-2"><a href=""></a>                             (carrier_stats<span class="sc">$</span>mean <span class="sc">-</span> transit_grand_mean)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb22-3"><a href=""></a>transit_within_var  <span class="ot">&lt;-</span> <span class="fu">sum</span>((carrier_stats<span class="sc">$</span>n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> carrier_stats<span class="sc">$</span>variance) <span class="sc">/</span> (<span class="dv">18</span> <span class="sc">-</span> <span class="dv">3</span>)</span>
+<span id="cb22-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">between =</span> transit_between_var, <span class="at">within =</span> transit_within_var,</span>
+<span id="cb22-5"><a href=""></a>        <span class="at">F =</span> transit_between_var <span class="sc">/</span> transit_within_var), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
-road         2  458.1  229.06   5.035 0.0212 *
-Residuals   15  682.3   45.49                 
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre><code>between  within       F 
+216.000  34.267   6.304 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>transit_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(transit_hours <span class="sc">~</span> carrier, <span class="at">data =</span> transit)</span>
+<span id="cb24-2"><a href=""></a><span class="fu">anova</span>(transit_aov)[[<span class="st">"Mean Sq"</span>]]   <span class="co"># aov reproduces the same two estimates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 216.00000  34.26667</code></pre>
 </div>
 </div>
 </div>
@@ -879,19 +1009,80 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Visualization</strong></p>
+<p><strong>Table 12-3 — Analysis of Variance Summary Table for Example 12-2</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td>432.000</td>
+<td>2</td>
+<td>216.000</td>
+<td>6.304</td>
+</tr>
+<tr class="even">
+<td>Within groups (error)</td>
+<td>514.000</td>
+<td>15</td>
+<td>34.267</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>946.000</td>
+<td>17</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>In Table A-7 the value 6.304 falls between 4.77 (<span class="math inline">\alpha = 0.025</span>) and 6.36 (<span class="math inline">\alpha = 0.01</span>), so <span class="math inline">0.01 &lt; \text{P-value} &lt; 0.025</span> and <span class="math inline">H_0</span> is rejected.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(emp_data, <span class="fu">aes</span>(<span class="at">x =</span> road, <span class="at">y =</span> employees, <span class="at">fill =</span> road)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Number of Employees at Toll Road Interchanges"</span>,</span>
-<span id="cb6-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Toll Road"</span>, <span class="at">y =</span> <span class="st">"Number of Employees"</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-7"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">summary</span>(transit_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+carrier      2    432  216.00   6.304 0.0103 *
+Residuals   15    514   34.27                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-2-5" class="slide level2">
+<h2>Example 12-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Draw figure</strong> — the data behind the test</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">ggplot</span>(transit, <span class="fu">aes</span>(<span class="at">x =</span> carrier, <span class="at">y =</span> transit_hours, <span class="at">fill =</span> carrier)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Door-to-Door Transit Time by Carrier"</span>,</span>
+<span id="cb28-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Carrier"</span>, <span class="at">y =</span> <span class="st">"Transit time (hours)"</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb28-7"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12_files/figure-revealjs/e12-2-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12_files/figure-revealjs/e12-2-5-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -899,66 +1090,50 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-</section></section>
-<section>
-<section id="section-12-2-the-scheffé-test-and-the-tukey-test" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>Section 12-2: The Scheffé Test and the Tukey Test</h1>
-
 </section>
-<section id="post-hoc-tests-overview" class="slide level2">
-<h2>Post-Hoc Tests: Overview</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="after-the-f-test" class="slide level2">
+<h2>After the <span class="math inline">F</span> Test</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Why Post-Hoc Tests?</strong></p>
+<p><strong>Caution</strong></p>
 </div>
 <div class="callout-content">
-<p>When the F test rejects <span class="math inline">H_0</span>, we know <strong>at least one mean differs</strong>, but not <strong>which pair(s)</strong> differ.</p>
-<p>Post-hoc tests make all pairwise comparisons after ANOVA:</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 40%">
-<col style="width: 60%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Test</th>
-<th>Best Use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Scheffé</strong></td>
-<td>Unequal sample sizes; most conservative</td>
-</tr>
-<tr class="even">
-<td><strong>Tukey</strong></td>
-<td>Equal sample sizes; more powerful for pairwise comparisons</td>
-</tr>
-</tbody>
-</table>
-<p><strong>General rule:</strong> Use Tukey when <span class="math inline">n_i = n_j</span>; use Scheffé when sizes differ.</p>
+<p>When the null hypothesis is rejected in ANOVA, it only means that <strong>at least one mean is different from the others</strong>. To locate the difference or differences among the means, it is necessary to use other tests such as the Tukey, the Scheffé or the Bonferroni test.</p>
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="section-12-2-the-scheffé-test-tukey-test-and-bonferroni-test" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 12-2: The Scheffé Test, Tukey Test, and Bonferroni Test</h1>
+
+</section>
+<section id="locating-the-difference" class="slide level2">
+<h2>Locating the Difference</h2>
+<p>When the null hypothesis is rejected using the <span class="math inline">F</span> test, the researcher may want to know <strong>where</strong> the difference among the means is. Several procedures have been developed to determine where the significant differences lie after the ANOVA has been performed. Among the most commonly used are the <strong>Scheffé test</strong>, the <strong>Tukey test</strong> and the <strong>Bonferroni test</strong>.</p>
+<p>To conduct the Scheffé test, the means are compared two at a time, using all possible combinations of means. For example, if there are three means, the comparisons are</p>
+<p><span class="math display">\bar{X}_1 \text{ versus } \bar{X}_2 \qquad \bar{X}_1 \text{ versus } \bar{X}_3 \qquad \bar{X}_2 \text{ versus } \bar{X}_3</span></p>
 </section>
 <section id="the-scheffé-test" class="slide level2">
 <h2>The Scheffé Test</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Scheffé Test Formula</strong></p>
+<p><strong>Formula for the Scheffé Test Statistic</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}</span></p>
-<p><strong>Critical value for Scheffé:</strong> <span class="math display">F' = (k-1) \times C.V._{\text{ANOVA}}</span></p>
-<p>Reject <span class="math inline">H_0</span> for that pair if <span class="math inline">F_S &gt; F'</span></p>
+<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]}</span></p>
+<p>where <span class="math inline">\bar{X}_i</span> and <span class="math inline">\bar{X}_j</span> are the means of the samples being compared, <span class="math inline">n_i</span> and <span class="math inline">n_j</span> are the respective sample sizes, and <span class="math inline">s_W^2</span> is the within-group variance.</p>
+<p>To find the critical value <span class="math inline">F'</span> for the Scheffé test, multiply the critical value for the <span class="math inline">F</span> test by <span class="math inline">k - 1</span>:</p>
+<p><span class="math display">F' = (k - 1)(C.V.)</span></p>
+<p>There is a significant difference between the two means being compared when <span class="math inline">F_S &gt; F'</span>.</p>
 </div>
 </div>
 </div>
@@ -971,11 +1146,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Scheffé Test for Blood Pressure Data</strong></p>
+<p><strong>Scheffé Test for the Store Revenue Data</strong></p>
 </div>
 <div class="callout-content">
-<p>Using the Scheffé test, determine which pairs of means in Example 12-1 differ significantly at <span class="math inline">\alpha = 0.05</span>.</p>
-<p>Recall: <span class="math inline">\bar{X}_1=11.8</span>, <span class="math inline">\bar{X}_2=3.8</span>, <span class="math inline">\bar{X}_3=7.6</span>, <span class="math inline">s_W^2=8.73</span>, <span class="math inline">n_i=5</span> for all groups.</p>
+<p>Use the Scheffé test to test each pair of means in <a href="#/example-12-1">Example 12-1</a> to see if a significant difference exists between each pair of means. Use <span class="math inline">\alpha = 0.05</span>.</p>
+<p>Recall <span class="math inline">\bar{X}_1 = 72</span> <span class="math inline">(n_1 = 4)</span>, <span class="math inline">\bar{X}_2 = 65</span> <span class="math inline">(n_2 = 5)</span>, <span class="math inline">\bar{X}_3 = 52</span> <span class="math inline">(n_3 = 3)</span> and <span class="math inline">s_W^2 = 56</span>.</p>
 </div>
 </div>
 </div>
@@ -991,12 +1166,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Critical value:</strong> <span class="math inline">F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78</span></p>
-<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>: <span class="math display">F_S = \frac{(11.8 - 3.8)^2}{8.73(1/5 + 1/5)} = \frac{64}{3.492} = 18.33 \quad \checkmark &gt; 7.78</span></p>
-<p><strong>b.</strong> <span class="math inline">\bar{X}_2</span> vs <span class="math inline">\bar{X}_3</span>: <span class="math display">F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad \text{Not significant}</span></p>
-<p><strong>c.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_3</span>: <span class="math display">F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{Not significant}</span></p>
-<p><strong>Conclusion:</strong> Only <strong>Medication vs.&nbsp;Exercise</strong> (<span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>) is significantly different.</p>
+<p>The <span class="math inline">F</span> critical value for Example 12-1 is 4.256, which Table A-7 rounds to 4.26. The critical value for the individual tests with <span class="math inline">d.f.N. = 2</span> and <span class="math inline">d.f.D. = 9</span> is</p>
+<p><span class="math display">F' = (k-1)(C.V.) = (3-1)(4.256) = 8.513</span></p>
+<p><strong>a.</strong> For <span class="math inline">\bar{X}_1</span> versus <span class="math inline">\bar{X}_2</span>: <span class="math inline">F_S = \dfrac{(72 - 65)^2}{56 \left( \frac{1}{4} + \frac{1}{5} \right)} = 1.944</span>. Since <span class="math inline">1.944 &lt; 8.513</span>, <span class="math inline">\mu_1</span> is <strong>not</strong> significantly different from <span class="math inline">\mu_2</span>.</p>
+<p><strong>b.</strong> For <span class="math inline">\bar{X}_1</span> versus <span class="math inline">\bar{X}_3</span>: <span class="math inline">F_S = \dfrac{(72 - 52)^2}{56 \left( \frac{1}{4} + \frac{1}{3} \right)} = 12.245</span>. Since <span class="math inline">12.245 &gt; 8.513</span>, <span class="math inline">\mu_1</span> <strong>is</strong> significantly different from <span class="math inline">\mu_3</span>.</p>
+<p><strong>c.</strong> For <span class="math inline">\bar{X}_2</span> versus <span class="math inline">\bar{X}_3</span>: <span class="math inline">F_S = \dfrac{(65 - 52)^2}{56 \left( \frac{1}{5} + \frac{1}{3} \right)} = 5.658</span>. Since <span class="math inline">5.658 &lt; 8.513</span>, <span class="math inline">\mu_2</span> is <strong>not</strong> significantly different from <span class="math inline">\mu_3</span>.</p>
+<p>Hence only the mean revenue of the MRT kiosks differs significantly from the mean revenue of the suburban stores.</p>
 </div>
 </div>
 </div>
@@ -1012,61 +1187,90 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>The same test in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># Scheffé test using agricolae package (or manual calculation)</span></span>
-<span id="cb7-2"><a href=""></a><span class="co"># Manual Scheffe test</span></span>
-<span id="cb7-3"><a href=""></a>scheffe_fs <span class="ot">&lt;-</span> <span class="cf">function</span>(x1_bar, x2_bar, sw2, n1, n2) {</span>
-<span id="cb7-4"><a href=""></a>  (x1_bar <span class="sc">-</span> x2_bar)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sw2 <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span>n1 <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>n2))</span>
-<span id="cb7-5"><a href=""></a>}</span>
-<span id="cb7-6"><a href=""></a></span>
-<span id="cb7-7"><a href=""></a>sw2 <span class="ot">&lt;-</span> <span class="fl">8.73</span></span>
-<span id="cb7-8"><a href=""></a>cv_scheffe <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">3.89</span>  <span class="co"># F' = 7.78</span></span>
-<span id="cb7-9"><a href=""></a></span>
-<span id="cb7-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value F' ="</span>, cv_scheffe, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Critical value F' = 7.78 </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>scheffe_f <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb29-2"><a href=""></a>  mean_gap <span class="ot">&lt;-</span> format_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> format_stats<span class="sc">$</span>mean[j]</span>
+<span id="cb29-3"><a href=""></a>  mean_gap<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (within_var <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[i] <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[j]))</span>
+<span id="cb29-4"><a href=""></a>}</span>
+<span id="cb29-5"><a href=""></a></span>
+<span id="cb29-6"><a href=""></a>scheffe_cv <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">9</span>)</span>
+<span id="cb29-7"><a href=""></a></span>
+<span id="cb29-8"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb29-9"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"MRT vs Campus"</span>, <span class="st">"MRT vs Suburban"</span>, <span class="st">"Campus vs Suburban"</span>),</span>
+<span id="cb29-10"><a href=""></a>  <span class="at">Fs =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">scheffe_f</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">scheffe_f</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">scheffe_f</span>(<span class="dv">2</span>, <span class="dv">3</span>)), <span class="dv">3</span>)</span>
+<span id="cb29-11"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb29-12"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">if_else</span>(Fs <span class="sc">&gt;</span> scheffe_cv, <span class="st">"significant"</span>, <span class="st">"not significant"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-13"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">Fs</th>
+<th style="text-align: center;">decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">MRT vs Campus</td>
+<td style="text-align: center;">1.944</td>
+<td style="text-align: center;">not significant</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">MRT vs Suburban</td>
+<td style="text-align: center;">12.245</td>
+<td style="text-align: center;">significant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Campus vs Suburban</td>
+<td style="text-align: center;">5.658</td>
+<td style="text-align: center;">not significant</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>pairs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb9-2"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Medication vs Exercise"</span>, <span class="fl">11.8</span>, <span class="fl">3.8</span>),</span>
-<span id="cb9-3"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Exercise vs Diet"</span>,       <span class="fl">3.8</span>,  <span class="fl">7.6</span>),</span>
-<span id="cb9-4"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Medication vs Diet"</span>,     <span class="fl">11.8</span>, <span class="fl">7.6</span>)</span>
-<span id="cb9-5"><a href=""></a>)</span>
-<span id="cb9-6"><a href=""></a></span>
-<span id="cb9-7"><a href=""></a><span class="cf">for</span> (p <span class="cf">in</span> pairs) {</span>
-<span id="cb9-8"><a href=""></a>  fs <span class="ot">&lt;-</span> <span class="fu">scheffe_fs</span>(<span class="fu">as.numeric</span>(p[<span class="dv">2</span>]), <span class="fu">as.numeric</span>(p[<span class="dv">3</span>]), sw2, <span class="dv">5</span>, <span class="dv">5</span>)</span>
-<span id="cb9-9"><a href=""></a>  sig <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(fs <span class="sc">&gt;</span> cv_scheffe, <span class="st">"SIGNIFICANT"</span>, <span class="st">"not significant"</span>)</span>
-<span id="cb9-10"><a href=""></a>  <span class="fu">cat</span>(p[<span class="dv">1</span>], <span class="st">": Fs ="</span>, <span class="fu">round</span>(fs, <span class="dv">2</span>), <span class="st">"-&gt;"</span>, sig, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb9-11"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">round</span>(scheffe_cv, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Medication vs Exercise : Fs = 18.33 -&gt; SIGNIFICANT 
-Exercise vs Diet : Fs = 4.14 -&gt; not significant 
-Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
+<pre><code>[1] 8.513</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="the-tukey-test" class="slide level2">
-<h2>The Tukey Test</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="a-note-on-the-scheffé-test" class="slide level2">
+<h2>A Note on the Scheffé Test</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tukey Test Formula</strong></p>
+<p><strong>Caution</strong></p>
 </div>
 <div class="callout-content">
-<p>Used when <strong>all sample sizes are equal</strong>:</p>
+<p>On occasion, when the <span class="math inline">F</span> test statistic is greater than the critical value, the Scheffé test may <strong>not</strong> show any significant differences in the pairs of means. This result occurs because the difference may actually lie in the average of two or more means when compared with the other mean. The Scheffé test can be used to make these types of comparisons, but the technique is beyond the scope of this book.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-tukey-test" class="slide level2">
+<h2>The Tukey Test</h2>
+<p>The Tukey test can also be used after the analysis of variance has been completed to make pairwise comparisons between means <strong>when the groups have the same sample size</strong>. The symbol for the test statistic in the Tukey test is <span class="math inline">q</span>.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formula for the Tukey Test</strong></p>
+</div>
+<div class="callout-content">
 <p><span class="math display">q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}</span></p>
-<p>Compare <span class="math inline">|q|</span> to the critical value from <strong>Tukey’s table</strong> (Table N):</p>
-<ul>
-<li>Rows: <span class="math inline">\nu</span> = degrees of freedom for <span class="math inline">s_W^2</span> (= <span class="math inline">N - k</span>)</li>
-<li>Columns: <span class="math inline">k</span> = number of groups</li>
-</ul>
-<p>Reject <span class="math inline">H_0</span> for that pair if <span class="math inline">|q| &gt;</span> critical value.</p>
+<p>where <span class="math inline">\bar{X}_i</span> and <span class="math inline">\bar{X}_j</span> are the means of the samples being compared, <span class="math inline">n</span> is the common sample size, and <span class="math inline">s_W^2</span> is the within-group variance.</p>
+<p>When the <strong>absolute value</strong> of <span class="math inline">q</span> is greater than the critical value for the Tukey test, there is a significant difference between the two means being compared.</p>
+<p>The critical value is found in <strong>Table A-9</strong>, where <span class="math inline">k</span> is the number of means in the original problem (across the top row) and <span class="math inline">v = N - k</span> is the degrees of freedom for <span class="math inline">s_W^2</span> (in the left column).</p>
 </div>
 </div>
 </div>
@@ -1079,11 +1283,11 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tukey Test for Blood Pressure Data</strong></p>
+<p><strong>Tukey Test for the Carrier Transit Data</strong></p>
 </div>
 <div class="callout-content">
-<p>Using the Tukey test, determine which pairs of means in Example 12-1 differ significantly at <span class="math inline">\alpha = 0.05</span>.</p>
-<p><span class="math inline">\bar{X}_1=11.8</span>, <span class="math inline">\bar{X}_2=3.8</span>, <span class="math inline">\bar{X}_3=7.6</span>, <span class="math inline">s_W^2=8.73</span>, <span class="math inline">n=5</span></p>
+<p>Using the Tukey test, test each pair of means in <a href="#/example-12-2">Example 12-2</a> to see whether a specific difference exists, at <span class="math inline">\alpha = 0.05</span>.</p>
+<p>Recall <span class="math inline">\bar{X}_1 = 46</span> (Carrier A), <span class="math inline">\bar{X}_2 = 40</span> (Carrier B), <span class="math inline">\bar{X}_3 = 52</span> (Carrier C), <span class="math inline">s_W^2 = 34.267</span> and <span class="math inline">n = 6</span>.</p>
 </div>
 </div>
 </div>
@@ -1099,13 +1303,10 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><span class="math inline">\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321</span></p>
-<p><strong>Critical value:</strong> <span class="math inline">k=3</span>, <span class="math inline">d.f.=12</span>, <span class="math inline">\alpha=0.05</span> → <span class="math inline">q_{crit} = 3.77</span> (from Tukey table)</p>
-<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>: <span class="math display">q = \frac{11.8 - 3.8}{1.321} = \frac{8}{1.321} = 6.06 \quad \checkmark &gt; 3.77</span></p>
-<p><strong>b.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_3</span>: <span class="math display">q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{Not significant}</span></p>
-<p><strong>c.</strong> <span class="math inline">\bar{X}_2</span> vs <span class="math inline">\bar{X}_3</span>: <span class="math display">q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{Not significant}</span></p>
-<p><strong>Conclusion:</strong> Only <strong>Medication vs.&nbsp;Exercise</strong> is significantly different — agrees with Scheffé.</p>
+<p><strong>a.</strong> For <span class="math inline">\bar{X}_1</span> versus <span class="math inline">\bar{X}_2</span>: <span class="math inline">q = \dfrac{46 - 40}{\sqrt{34.267/6}} = 2.511</span></p>
+<p><strong>b.</strong> For <span class="math inline">\bar{X}_1</span> versus <span class="math inline">\bar{X}_3</span>: <span class="math inline">q = \dfrac{46 - 52}{\sqrt{34.267/6}} = -2.511</span></p>
+<p><strong>c.</strong> For <span class="math inline">\bar{X}_2</span> versus <span class="math inline">\bar{X}_3</span>: <span class="math inline">q = \dfrac{40 - 52}{\sqrt{34.267/6}} = -5.021</span></p>
+<p>Since <span class="math inline">k = 3</span>, <span class="math inline">d.f. = 18 - 3 = 15</span> and <span class="math inline">\alpha = 0.05</span>, the critical value from Table A-9 is <strong>3.67</strong>. The only <span class="math inline">q</span> value greater in absolute value than the critical value is the one for the difference between <span class="math inline">\bar{X}_2</span> and <span class="math inline">\bar{X}_3</span>. The conclusion is that there is a significant difference in the mean transit times of Carrier B and Carrier C.</p>
 </div>
 </div>
 </div>
@@ -1121,31 +1322,44 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>The same test in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># Tukey HSD test using R's built-in function</span></span>
-<span id="cb11-2"><a href=""></a>medication <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">15</span>, <span class="dv">13</span>)</span>
-<span id="cb11-3"><a href=""></a>exercise   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb11-4"><a href=""></a>diet       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb11-5"><a href=""></a></span>
-<span id="cb11-6"><a href=""></a>bp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-7"><a href=""></a>  <span class="at">reduction =</span> <span class="fu">c</span>(medication, exercise, diet),</span>
-<span id="cb11-8"><a href=""></a>  <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Medication"</span>,<span class="st">"Exercise"</span>,<span class="st">"Diet"</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
-<span id="cb11-9"><a href=""></a>)</span>
-<span id="cb11-10"><a href=""></a></span>
-<span id="cb11-11"><a href=""></a>bp_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(reduction <span class="sc">~</span> group, <span class="at">data =</span> bp_data)</span>
-<span id="cb11-12"><a href=""></a><span class="fu">TukeyHSD</span>(bp_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>tukey_q <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb32-2"><a href=""></a>  (carrier_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> carrier_stats<span class="sc">$</span>mean[j]) <span class="sc">/</span> <span class="fu">sqrt</span>(transit_within_var <span class="sc">/</span> <span class="dv">6</span>)</span>
+<span id="cb32-3"><a href=""></a>}</span>
+<span id="cb32-4"><a href=""></a></span>
+<span id="cb32-5"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb32-6"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"A vs B"</span>, <span class="st">"A vs C"</span>, <span class="st">"B vs C"</span>),</span>
+<span id="cb32-7"><a href=""></a>  <span class="at">q =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">tukey_q</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">tukey_q</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">tukey_q</span>(<span class="dv">2</span>, <span class="dv">3</span>)), <span class="dv">3</span>)</span>
+<span id="cb32-8"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb32-9"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">q</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">A vs B</td>
+<td style="text-align: center;">2.511</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A vs C</td>
+<td style="text-align: center;">-2.511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B vs C</td>
+<td style="text-align: center;">-5.021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qtukey</span>(<span class="fl">0.95</span>, <span class="at">nmeans =</span> <span class="dv">3</span>, <span class="at">df =</span> <span class="dv">15</span>), <span class="dv">3</span>)   <span class="co"># Table A-9 rounds this value to 3.67</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Tukey multiple comparisons of means
-    95% family-wise confidence level
-
-Fit: aov(formula = reduction ~ group, data = bp_data)
-
-$group
-                    diff        lwr      upr     p adj
-Exercise-Diet       -3.8 -8.7863602  1.18636 0.1465881
-Medication-Diet      4.2 -0.7863602  9.18636 0.1031329
-Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
+<pre><code>[1] 3.673</code></pre>
 </div>
 </div>
 </div>
@@ -1163,14 +1377,46 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Visualization</strong></p>
+<p><strong>Tukey’s honest significant differences</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>tukey_result <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(bp_aov)</span>
-<span id="cb13-2"><a href=""></a><span class="fu">plot</span>(tukey_result, <span class="at">las =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>transit_tukey <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(transit_aov)</span>
+<span id="cb35-2"><a href=""></a>transit_tukey</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = transit_hours ~ carrier, data = transit)
+
+$carrier
+                    diff        lwr       upr     p adj
+Carrier B-Carrier A   -6 -14.778613  2.778613 0.2112790
+Carrier C-Carrier A    6  -2.778613 14.778613 0.2112790
+Carrier C-Carrier B   12   3.221387 20.778613 0.0076917</code></pre>
+</div>
+</div>
+<p>Only the Carrier C–Carrier B pair has an adjusted P-value below <span class="math inline">0.05</span>, which agrees with the hand calculation.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-4-4" class="slide level2">
+<h2>Example 12-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Output figure</strong> — the family-wise confidence intervals</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">plot</span>(transit_tukey, <span class="at">las =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12_files/figure-revealjs/e12-4-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12_files/figure-revealjs/e12-4-3-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1179,204 +1425,37 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 </div>
 </div>
 </section>
-<section id="scheffé-vs.-tukey-comparison" class="slide level2">
-<h2>Scheffé vs.&nbsp;Tukey: Comparison</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>When to Use Each Test</strong></p>
-</div>
-<div class="callout-content">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th>Scheffé</th>
-<th>Tukey</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Sample sizes</td>
-<td>Unequal or equal</td>
-<td>Must be equal</td>
-</tr>
-<tr class="even">
-<td>Power</td>
-<td>Lower (conservative)</td>
-<td>Higher for pairwise</td>
-</tr>
-<tr class="odd">
-<td>Types of comparisons</td>
-<td>Pairwise and combinations</td>
-<td>Pairwise only</td>
-</tr>
-<tr class="even">
-<td>Recommendation</td>
-<td>Unequal <span class="math inline">n_i</span></td>
-<td>Equal <span class="math inline">n_i</span></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Key insight:</strong> When the F test rejects <span class="math inline">H_0</span>, post-hoc tests may occasionally find no significant pairs — the difference may lie in a combination of means rather than any single pair.</p>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="section-12-3-two-way-analysis-of-variance" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>Section 12-3: Two-Way Analysis of Variance</h1>
-
-</section>
-<section id="introduction-to-two-way-anova" class="slide level2">
-<h2>Introduction to Two-Way ANOVA</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Extension of One-Way ANOVA</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>One-way ANOVA:</strong> One independent variable (factor)</p>
-<p><strong>Two-way ANOVA:</strong> Two independent variables (factors)</p>
-<p>Benefits of two-way ANOVA: - Tests <strong>two factors simultaneously</strong> in a single experiment - Tests the <strong>interaction effect</strong> between the two factors - More efficient than two separate one-way ANOVAs</p>
-</div>
-</div>
-</div>
-</section>
-<section id="two-way-anova-design-structure" class="slide level2">
-<h2>Two-Way ANOVA: Design Structure</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Factorial Design Terminology</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li><strong>Factor A</strong> has <span class="math inline">a</span> levels</li>
-<li><strong>Factor B</strong> has <span class="math inline">b</span> levels</li>
-<li><strong><span class="math inline">n</span></strong> subjects per cell (must be equal)</li>
-<li><strong>Total subjects</strong> = <span class="math inline">abn</span></li>
-</ul>
-<p>A <strong><span class="math inline">2 \times 2</span> design</strong> has 2 levels for each factor → 4 treatment groups.</p>
-<p>Example: Plant food type (A1, A2) <span class="math inline">\times</span> Soil type (I, II) → 4 groups</p>
-</div>
-</div>
-</div>
-</section>
-<section id="two-way-anova-three-hypotheses" class="slide level2">
-<h2>Two-Way ANOVA: Three Hypotheses</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Hypotheses</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>1. Interaction effect:</strong> <span class="math display">H_0: \text{No interaction between factors A and B}</span> <span class="math display">H_1: \text{There is an interaction between A and B}</span></p>
-<p><strong>2. Main effect of Factor A:</strong> <span class="math display">H_0: \text{No difference in means across levels of A}</span> <span class="math display">H_1: \text{At least one mean of A differs}</span></p>
-<p><strong>3. Main effect of Factor B:</strong> <span class="math display">H_0: \text{No difference in means across levels of B}</span> <span class="math display">H_1: \text{At least one mean of B differs}</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="two-way-anova-assumptions" class="slide level2">
-<h2>Two-Way ANOVA: Assumptions</h2>
+<section id="the-bonferroni-test" class="slide level2">
+<h2>The Bonferroni Test</h2>
+<p>The Bonferroni test uses <span class="math inline">t</span> tests, but the critical value and P-value are adjusted to overcome the problem of the increase in the significance level due to the increase in the number of tests that are being done.</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Assumptions</strong></p>
+<p><strong>Formula for the Bonferroni Test Statistic</strong></p>
 </div>
 <div class="callout-content">
-<ol type="1">
-<li>Populations must be <strong>normally or approximately normally distributed</strong></li>
-<li>All samples must be <strong>independent</strong></li>
-<li><strong>Population variances</strong> must be equal across groups</li>
-<li><strong>Group sizes must be equal</strong> (<span class="math inline">n</span> per cell is the same for all cells)</li>
-</ol>
+<p><span class="math display">t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k</span></p>
+<p>where <span class="math inline">\bar{X}_i</span> and <span class="math inline">\bar{X}_j</span> are the means of the samples being compared, <span class="math inline">n_i</span> and <span class="math inline">n_j</span> are the respective sample sizes, <span class="math inline">N</span> is the total number of subjects and <span class="math inline">k</span> is the number of groups.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="two-way-anova-summary-table" class="slide level2">
-<h2>Two-Way ANOVA: Summary Table</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="the-bonferroni-adjustment" class="slide level2">
+<h2>The Bonferroni Adjustment</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>General ANOVA Table</strong></p>
+<p><strong>Adjusting the Significance Level and the P-Value</strong></p>
 </div>
 <div class="callout-content">
-<table class="caption-top">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 18%">
-<col style="width: 22%">
-<col style="width: 18%">
-<col style="width: 11%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Source</th>
-<th>SS</th>
-<th>d.f.</th>
-<th>MS</th>
-<th>F</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Factor A</td>
-<td>SSA</td>
-<td><span class="math inline">a-1</span></td>
-<td>MSA</td>
-<td><span class="math inline">F_A = MSA/MSW</span></td>
-</tr>
-<tr class="even">
-<td>Factor B</td>
-<td>SSB</td>
-<td><span class="math inline">b-1</span></td>
-<td>MSB</td>
-<td><span class="math inline">F_B = MSB/MSW</span></td>
-</tr>
-<tr class="odd">
-<td>Interaction <span class="math inline">A \times B</span></td>
-<td>SS(<span class="math inline">A \times B</span>)</td>
-<td><span class="math inline">(a-1)(b-1)</span></td>
-<td>MS(<span class="math inline">A \times B</span>)</td>
-<td><span class="math inline">F_{A \times B} = MS(A \times B)/MSW</span></td>
-</tr>
-<tr class="even">
-<td>Within (Error)</td>
-<td>SSW</td>
-<td><span class="math inline">ab(n-1)</span></td>
-<td>MSW</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>Total</td>
-<td>SST</td>
-<td><span class="math inline">abn-1</span></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>The critical value is adjusted by <strong>dividing <span class="math inline">\alpha</span> by the number of pairings</strong> <span class="math inline">_kC_2</span> of two sample means. If there are 3 means, <span class="math inline">_3C_2 = 3</span> comparisons, so <span class="math inline">\alpha</span> is divided by 3; if there are 4 means, <span class="math inline">_4C_2 = 6</span> comparisons, so <span class="math inline">\alpha</span> is divided by 6.</p>
+<p>For the P-value, <strong>multiply</strong> the P-value for a single comparison of two means by the number of pairings <span class="math inline">_kC_2</span>. A P-value can never exceed 1, so any adjusted value larger than 1 is reported as 1.</p>
 </div>
 </div>
 </div>
@@ -1389,32 +1468,11 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Gasoline Consumption</strong></p>
+<p><strong>Bonferroni Test for the Store Revenue Data</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher investigates whether <strong>type of gasoline</strong> (regular vs.&nbsp;high-octane) and <strong>type of automobile</strong> (two-wheel vs.&nbsp;four-wheel drive) affect fuel economy (mpg). Two cars are tested in each of the four combinations.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th></th>
-<th>Two-wheel-drive</th>
-<th>Four-wheel-drive</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Regular</strong></td>
-<td>26.7, 25.2</td>
-<td>28.6, 29.3</td>
-</tr>
-<tr class="even">
-<td><strong>High-octane</strong></td>
-<td>32.3, 32.8</td>
-<td>26.1, 24.2</td>
-</tr>
-</tbody>
-</table>
-<p>Test at <span class="math inline">\alpha = 0.05</span>.</p>
+<p>Use the Bonferroni test and <span class="math inline">\alpha = 0.05</span> to compare each pair of means in <a href="#/example-12-1">Example 12-1</a>.</p>
+<p>Recall <span class="math inline">\bar{X}_1 = 72</span> <span class="math inline">(n_1 = 4)</span>, <span class="math inline">\bar{X}_2 = 65</span> <span class="math inline">(n_2 = 5)</span>, <span class="math inline">\bar{X}_3 = 52</span> <span class="math inline">(n_3 = 3)</span>, <span class="math inline">s_W^2 = 56</span>, <span class="math inline">N = 12</span> and <span class="math inline">k = 3</span>, so <span class="math inline">d.f. = 12 - 3 = 9</span>.</p>
 </div>
 </div>
 </div>
@@ -1430,11 +1488,12 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Setting up the test</strong></p>
-<p><strong>Interaction (<span class="math inline">A \times B</span>):</strong> <span class="math inline">H_0</span>: No interaction between gasoline type and automobile type <span class="math inline">H_1</span>: There is an interaction effect</p>
-<p><strong>Factor A (Gasoline):</strong> <span class="math inline">H_0</span>: No difference in means for gasoline types <span class="math inline">H_1</span>: Means differ by gasoline type</p>
-<p><strong>Factor B (Automobile):</strong> <span class="math inline">H_0</span>: No difference in means for automobile types <span class="math inline">H_1</span>: Means differ by automobile type</p>
-<p><strong>Step 2:</strong> <span class="math inline">a=2</span>, <span class="math inline">b=2</span>, <span class="math inline">n=2</span>; all F critical values use <span class="math inline">d.f.N.=1</span>, <span class="math inline">d.f.D.=ab(n-1)=4</span> → <span class="math inline">F_{crit} = 7.71</span></p>
+<p><strong>a.</strong> <span class="math inline">H_0: \mu_1 = \mu_2</span>. <span class="math inline">\ t = \dfrac{72 - 65}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{5} \right)}} = \dfrac{7}{5.020} = 1.394</span></p>
+<p>The P-value for <span class="math inline">t = 1.394</span> with <span class="math inline">d.f. = 9</span> is <span class="math inline">0.1966</span>. Adjusted: <span class="math inline">0.1966 \times 3 = 0.5899</span>. <strong>Do not reject</strong> <span class="math inline">H_0</span>.</p>
+<p><strong>b.</strong> <span class="math inline">H_0: \mu_1 = \mu_3</span>. <span class="math inline">\ t = \dfrac{72 - 52}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{3} \right)}} = \dfrac{20}{5.715} = 3.499</span></p>
+<p>The P-value is <span class="math inline">0.0067</span>; adjusted <span class="math inline">0.0067 \times 3 = 0.0202</span>. <strong>Reject</strong> <span class="math inline">H_0</span> since <span class="math inline">0.0202 &lt; 0.05</span>.</p>
+<p><strong>c.</strong> <span class="math inline">H_0: \mu_2 = \mu_3</span>. <span class="math inline">\ t = \dfrac{65 - 52}{\sqrt{56 \left( \frac{1}{5} + \frac{1}{3} \right)}} = \dfrac{13}{5.465} = 2.379</span></p>
+<p>The P-value is <span class="math inline">0.0413</span>; adjusted <span class="math inline">0.0413 \times 3 = 0.1239</span>, which is not less than <span class="math inline">\alpha = 0.05</span>. <strong>Do not reject</strong> <span class="math inline">H_0</span>.</p>
 </div>
 </div>
 </div>
@@ -1450,55 +1509,56 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
+<p><strong>The same test in R</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>bonferroni_t <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb38-2"><a href=""></a>  mean_gap <span class="ot">&lt;-</span> format_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> format_stats<span class="sc">$</span>mean[j]</span>
+<span id="cb38-3"><a href=""></a>  mean_gap <span class="sc">/</span> <span class="fu">sqrt</span>(within_var <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[i] <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[j]))</span>
+<span id="cb38-4"><a href=""></a>}</span>
+<span id="cb38-5"><a href=""></a></span>
+<span id="cb38-6"><a href=""></a>t_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">bonferroni_t</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">bonferroni_t</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">bonferroni_t</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb38-7"><a href=""></a>p_values <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t_values), <span class="at">df =</span> <span class="dv">9</span>)</span>
+<span id="cb38-8"><a href=""></a></span>
+<span id="cb38-9"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb38-10"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"MRT vs Campus"</span>, <span class="st">"MRT vs Suburban"</span>, <span class="st">"Campus vs Suburban"</span>),</span>
+<span id="cb38-11"><a href=""></a>  <span class="at">t          =</span> <span class="fu">round</span>(t_values, <span class="dv">3</span>),</span>
+<span id="cb38-12"><a href=""></a>  <span class="at">p_single   =</span> <span class="fu">round</span>(p_values, <span class="dv">4</span>),</span>
+<span id="cb38-13"><a href=""></a>  <span class="at">p_adjusted =</span> <span class="fu">round</span>(<span class="fu">pmin</span>(<span class="dv">1</span>, <span class="dv">3</span> <span class="sc">*</span> p_values), <span class="dv">4</span>)</span>
+<span id="cb38-14"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb38-15"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Source</th>
-<th>SS</th>
-<th>d.f.</th>
-<th>MS</th>
-<th>F</th>
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">t</th>
+<th style="text-align: center;">p_single</th>
+<th style="text-align: center;">p_adjusted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Gasoline A</td>
-<td>3.920</td>
-<td>1</td>
-<td>3.920</td>
-<td>4.752</td>
+<td style="text-align: center;">MRT vs Campus</td>
+<td style="text-align: center;">1.394</td>
+<td style="text-align: center;">0.1966</td>
+<td style="text-align: center;">0.5899</td>
 </tr>
 <tr class="even">
-<td>Automobile B</td>
-<td>9.680</td>
-<td>1</td>
-<td>9.680</td>
-<td><strong>11.733</strong></td>
+<td style="text-align: center;">MRT vs Suburban</td>
+<td style="text-align: center;">3.499</td>
+<td style="text-align: center;">0.0067</td>
+<td style="text-align: center;">0.0202</td>
 </tr>
 <tr class="odd">
-<td>Interaction <span class="math inline">A \times B</span></td>
-<td>54.080</td>
-<td>1</td>
-<td>54.080</td>
-<td><strong>65.552</strong></td>
-</tr>
-<tr class="even">
-<td>Within (Error)</td>
-<td>3.300</td>
-<td>4</td>
-<td>0.825</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>Total</strong></td>
-<td><strong>70.980</strong></td>
-<td><strong>7</strong></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">Campus vs Suburban</td>
+<td style="text-align: center;">2.379</td>
+<td style="text-align: center;">0.0413</td>
+<td style="text-align: center;">0.1239</td>
 </tr>
 </tbody>
 </table>
-<p>Critical value for all tests: <strong>7.71</strong></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1514,97 +1574,348 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Interpretation</strong></p>
-<p><strong>Gasoline A:</strong> <span class="math inline">F_A = 4.752 &lt; 7.71</span> → <strong>Fail to reject</strong> <span class="math inline">H_0</span></p>
-<p><strong>Automobile B:</strong> <span class="math inline">F_B = 11.733 &gt; 7.71</span> → <strong>Reject</strong> <span class="math inline">H_0</span></p>
-<p><strong>Interaction <span class="math inline">A \times B</span>:</strong> <span class="math inline">F_{A \times B} = 65.552 &gt; 7.71</span> → <strong>Reject</strong> <span class="math inline">H_0</span></p>
-<p><strong>Important:</strong> Since the interaction is <strong>significant</strong>, the main effect of automobile type should <strong>not</strong> be interpreted independently — it depends on which gasoline type is used.</p>
-<p><strong>Conclusion:</strong> The combination of gasoline type and automobile type significantly affects fuel economy.</p>
+<p><strong>Using <code>pairwise.t.test</code></strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pairwise.t.test</span>(revenue<span class="sc">$</span>daily_revenue, revenue<span class="sc">$</span>store_format,</span>
+<span id="cb39-2"><a href=""></a>                <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  revenue$daily_revenue and revenue$store_format 
+
+         MRT  Campus
+Campus   0.59 -     
+Suburban 0.02 0.12  
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
+<p>The adjusted P-values are 0.59, 0.02 and 0.12 — the same decisions as the hand calculation.</p>
+<p>Here P-values are used because the adjusted <span class="math inline">\alpha</span> would be <span class="math inline">0.05 \div 3 = 0.017</span>, and a critical <span class="math inline">t</span> value for <span class="math inline">\alpha = 0.017</span> with 9 d.f. cannot be read from Table A-5.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="example-12-5-4" class="slide level2">
-<h2>Example 12-5</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
+<section id="which-test-should-be-used" class="slide level2">
+<h2>Which Test Should Be Used?</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Solution</strong></p>
+<p><strong>Choosing Among the Three Tests</strong></p>
 </div>
 <div class="callout-content">
-<p>Cell means for visualization:</p>
+<ul>
+<li>The <strong>Scheffé test</strong> is the most general. It can be used when the samples are of different sizes, and it can compare, for example, the average of <span class="math inline">\bar{X}_1</span> and <span class="math inline">\bar{X}_2</span> with <span class="math inline">\bar{X}_3</span>.</li>
+<li>The <strong>Tukey test</strong> is more powerful than the Scheffé test for making pairwise comparisons of means, but it requires equal sample sizes.</li>
+<li>A <strong>rule of thumb</strong> for pairwise comparisons: use the <strong>Tukey test when the samples are equal in size</strong> and the <strong>Scheffé test when the samples differ in size</strong>. This rule is followed in this textbook.</li>
+<li>The results of the three tests may differ because of the adjustments made to the critical values and when the test statistics are close to the critical values. There is no common agreement among statisticians as to which test to use; one should use the test that is used in the academic discipline of the research study.</li>
+</ul>
+</div>
+</div>
+</div>
+<p>In Example 12-3 and Example 12-5, both the Scheffé test and the Bonferroni test found a difference between <span class="math inline">\mu_1</span> and <span class="math inline">\mu_3</span>.</p>
+</section></section>
+<section>
+<section id="section-12-3-two-way-analysis-of-variance" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 12-3: Two-Way Analysis of Variance</h1>
+
+</section>
+<section id="two-way-analysis-of-variance" class="slide level2">
+<h2>Two-Way Analysis of Variance</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Two-Way ANOVA</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>two-way ANOVA</strong> is an extension of the one-way analysis of variance; it involves <strong>two independent variables</strong>. The independent variables are also called <strong>factors</strong>.</p>
+</div>
+</div>
+</div>
+<p>In a study that involves a two-way analysis of variance, the researcher is able to test the effects of two independent variables (or factors) on one dependent variable. In addition, the <strong>interaction effect</strong> of the two variables can be tested.</p>
+<p>The two-way analysis of variance is quite complicated; only a brief introduction is given here.</p>
+</section>
+<section id="treatment-groups" class="slide level2">
+<h2>Treatment Groups</h2>
+<p>Suppose a researcher wishes to test the effects of two types of plant food (<span class="math inline">A_1</span>, <span class="math inline">A_2</span>) and two types of soil (I, II) on plant growth. Other factors, such as water, temperature and sunlight, are held constant. Four groups of plants are set up (Figure 12-4).</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Figure 12-4 — Treatment Groups for the Plant Food–Soil Type Experiment</strong></p>
+</div>
+<div class="callout-content">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th></th>
-<th>Two-wheel</th>
-<th>Four-wheel</th>
+<th>Plant food</th>
+<th>Soil type I</th>
+<th>Soil type II</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Regular</strong></td>
-<td>25.95</td>
-<td>28.95</td>
+<td><span class="math inline">A_1</span></td>
+<td>Group 1: food <span class="math inline">A_1</span>, soil I</td>
+<td>Group 2: food <span class="math inline">A_1</span>, soil II</td>
 </tr>
 <tr class="even">
-<td><strong>High-octane</strong></td>
-<td>32.55</td>
-<td>25.15</td>
+<td><span class="math inline">A_2</span></td>
+<td>Group 3: food <span class="math inline">A_2</span>, soil I</td>
+<td>Group 4: food <span class="math inline">A_2</span>, soil II</td>
 </tr>
 </tbody>
 </table>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>gas_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb14-2"><a href=""></a>  <span class="at">mpg  =</span> <span class="fu">c</span>(<span class="fl">26.7</span>, <span class="fl">25.2</span>, <span class="fl">28.6</span>, <span class="fl">29.3</span>, <span class="fl">32.3</span>, <span class="fl">32.8</span>, <span class="fl">26.1</span>, <span class="fl">24.2</span>),</span>
-<span id="cb14-3"><a href=""></a>  <span class="at">gas  =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,</span>
-<span id="cb14-4"><a href=""></a>               <span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>)),</span>
-<span id="cb14-5"><a href=""></a>  <span class="at">auto =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Two-wheel"</span>,<span class="st">"Two-wheel"</span>,<span class="st">"Four-wheel"</span>,<span class="st">"Four-wheel"</span>), <span class="dv">2</span>)</span>
-<span id="cb14-6"><a href=""></a>)</span>
-<span id="cb14-7"><a href=""></a></span>
-<span id="cb14-8"><a href=""></a>cell_means <span class="ot">&lt;-</span> gas_data <span class="sc">%&gt;%</span></span>
-<span id="cb14-9"><a href=""></a>  <span class="fu">group_by</span>(gas, auto) <span class="sc">%&gt;%</span></span>
-<span id="cb14-10"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean_mpg =</span> <span class="fu">mean</span>(mpg), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p>The groups in a two-way ANOVA are called <strong>treatment groups</strong>. The plants are assigned to the groups at random. This design is called a <span class="math inline">2 \times 2</span> design, since each variable consists of two <strong>levels</strong>, that is, two different treatments.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="example-12-5-5" class="slide level2">
-<h2>Example 12-5</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
+<section id="other-two-way-designs" class="slide level2">
+<h2>Other Two-Way Designs</h2>
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Solution (cont.)</strong></p>
+<p><strong>Figure 12-5 — Some Types of Two-Way ANOVA Designs</strong></p>
 </div>
 <div class="callout-content">
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">ggplot</span>(cell_means, <span class="fu">aes</span>(<span class="at">x =</span> gas, <span class="at">y =</span> mean_mpg, <span class="at">color =</span> auto, <span class="at">group =</span> auto)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb15-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb15-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Interaction Plot: Gasoline × Automobile Type"</span>,</span>
-<span id="cb15-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Gasoline Type"</span>, <span class="at">y =</span> <span class="st">"Mean MPG"</span>, <span class="at">color =</span> <span class="st">"Auto Type"</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ch12_files/figure-revealjs/e12-5-1-fig-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
-</figure>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Design</th>
+<th>Rows (variable A)</th>
+<th>Columns (variable B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">3 \times 2</span></td>
+<td>3 levels</td>
+<td>2 levels</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">3 \times 3</span></td>
+<td>3 levels</td>
+<td>3 levels</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">4 \times 3</span></td>
+<td>4 levels</td>
+<td>3 levels</td>
+</tr>
+</tbody>
+</table>
+<p>There are many different kinds of two-way ANOVA designs, depending on the number of levels of each variable.</p>
 </div>
 </div>
 </div>
+<p>The two-way ANOVA lets the researcher test the effects of the plant food and the soil type in a <strong>single experiment</strong> rather than in separate experiments involving the plant food alone and the soil type alone.</p>
+</section>
+<section id="main-effects-and-interaction" class="slide level2">
+<h2>Main Effects and Interaction</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Main Effects</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>effect of a factor</strong> is the change in the response variable that results from changing the level or the type of that factor. These two effects of the independent variables are called the <strong>main effects</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Interaction Effect</strong></p>
+</div>
+<div class="callout-content">
+<p>The <strong>interaction effect</strong> represents the joint effect of the two factors over and above the effects of each factor considered separately — that is, the types of plant food affect the plant growth differently in different soil types.</p>
+<p>When the interaction effect is statistically significant, the researcher should <strong>not</strong> consider the effects of the individual factors without considering the interaction effect.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="example-12-5-6" class="slide level2">
-<h2>Example 12-5</h2>
+<section id="the-three-sets-of-hypotheses" class="slide level2">
+<h2>The Three Sets of Hypotheses</h2>
+<p>The two-way ANOVA design has several null hypotheses: one for each independent variable and one for the interaction. For the plant food–soil type problem:</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Hypotheses</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>1. Plant food (factor A).</strong></p>
+<p><span class="math inline">H_0</span>: There is no difference in means of heights of plants grown using different foods.</p>
+<p><span class="math inline">H_1</span>: There is a difference in means of heights of plants grown using different foods.</p>
+<p><strong>2. Soil type (factor B).</strong></p>
+<p><span class="math inline">H_0</span>: There is no difference in means of heights of plants grown in different soil types.</p>
+<p><span class="math inline">H_1</span>: There is a difference in means of heights of plants grown in different soil types.</p>
+<p><strong>3. Interaction.</strong></p>
+<p><span class="math inline">H_0</span>: There is no interaction effect between type of plant food used and type of soil used on plant growth.</p>
+<p><span class="math inline">H_1</span>: There is an interaction effect between food type and soil type on plant growth.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="table-12-5-two-way-anova-summary-table" class="slide level2">
+<h2>Table 12-5: Two-Way ANOVA Summary Table</h2>
+<p>As with the one-way ANOVA, a between-group variance estimate and a within-group variance estimate are calculated, and an <span class="math inline">F</span> test is performed for each independent variable and for the interaction.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Table 12-5 — ANOVA Summary Table</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 34%">
+<col style="width: 13%">
+<col style="width: 28%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Row factor A</td>
+<td><span class="math inline">SS_A</span></td>
+<td><span class="math inline">a-1</span></td>
+<td><span class="math inline">MS_A</span></td>
+<td><span class="math inline">F_A</span></td>
+</tr>
+<tr class="even">
+<td>Column factor B</td>
+<td><span class="math inline">SS_B</span></td>
+<td><span class="math inline">b-1</span></td>
+<td><span class="math inline">MS_B</span></td>
+<td><span class="math inline">F_B</span></td>
+</tr>
+<tr class="odd">
+<td>Interaction <span class="math inline">A \times B</span></td>
+<td><span class="math inline">SS_{A \times B}</span></td>
+<td><span class="math inline">(a-1)(b-1)</span></td>
+<td><span class="math inline">MS_{A \times B}</span></td>
+<td><span class="math inline">F_{A \times B}</span></td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td><span class="math inline">SS_W</span></td>
+<td><span class="math inline">ab(n-1)</span></td>
+<td><span class="math inline">MS_W</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td><span class="math inline">SS_{\text{Total}}</span></td>
+<td><span class="math inline">N-1</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math inline">a</span> is the number of levels of factor A, <span class="math inline">b</span> is the number of levels of factor B, and <span class="math inline">n</span> is the number of subjects in each group.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="formulas-for-the-two-way-anova" class="slide level2">
+<h2>Formulas for the Two-Way ANOVA</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Mean Squares and <span class="math inline">F</span> Ratios</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W}, \quad d.f.N. = a-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W}, \quad d.f.N. = b-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W}, \quad d.f.N. = (a-1)(b-1), \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_W = \frac{SS_W}{ab(n-1)}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="assumptions-for-the-two-way-anova" class="slide level2">
+<h2>Assumptions for the Two-Way ANOVA</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Assumptions</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>The populations from which the samples were obtained must be normally or approximately normally distributed.</li>
+<li>The samples must be independent.</li>
+<li>The variances of the populations from which the samples were selected must be equal.</li>
+<li><strong>The groups must be equal in sample size.</strong></li>
+</ol>
+</div>
+</div>
+</div>
+<p>The assumptions are the same as those for the one-way ANOVA <strong>except for sample size</strong> — the two-way ANOVA requires equal group sizes. The two-way analysis of variance follows the same five-step hypothesis-testing procedure.</p>
+<p>The computational procedure for the sums of squares is quite lengthy; it is omitted in Example 12-6 and only the two-way ANOVA summary table is shown.</p>
+</section>
+<section id="example-12-6" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Picking Rate by Method and Shift</strong></p>
+</div>
+<div class="callout-content">
+<p>An operations manager at a Taoyuan fulfilment centre wishes to see whether the picking method used and the shift worked have any effect on picking productivity. Two picking methods, handheld scanner and voice picking, will be used, and two shifts, day and night, will be used with each method. There will be two pickers in each group, for a total of eight pickers. The number of cartons picked per hour is recorded. Using a two-way analysis of variance, determine if there is an interactive effect, an effect due to the picking method, and an effect due to the shift. Use <span class="math inline">\alpha = 0.05</span>.</p>
+<pre><code>Method        Day shift   Night shift
+Scanner          26.6         29.7
+                 25.4         28.3
+Voice            33.1         25.7
+                 31.9         24.3</code></pre>
+<p><em>(hypothetical data)</em></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-1" class="slide level2">
+<h2>Example 12-6</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1614,22 +1925,202 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Table 12-6 — ANOVA Summary Table for Example 12-6</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Method (A)</td>
+<td>3.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Shift (B)</td>
+<td>10.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Interaction (<span class="math inline">A \times B</span>)</td>
+<td>55.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td>3.400</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>71.775</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1.</strong> State the hypotheses.</p>
+<p><em>Picking methods.</em> <span class="math inline">H_0</span>: There is no difference between the means of the picking rates for the two methods. <span class="math inline">H_1</span>: There is a difference.</p>
+<p><em>Shifts worked.</em> <span class="math inline">H_0</span>: There is no difference between the means of the picking rates for the day shift and the night shift. <span class="math inline">H_1</span>: There is a difference.</p>
+<p><em>Interaction.</em> <span class="math inline">H_0</span>: There is no interaction effect between the picking method used and the shift worked on the picking rate. <span class="math inline">H_1</span>: There is an interaction effect.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-2" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 2 — find the critical values for each <span class="math inline">F</span> test</strong></p>
+<p>Each factor has two levels, so <span class="math inline">a = 2</span>, <span class="math inline">b = 2</span> and <span class="math inline">n = 2</span>.</p>
+<p><span class="math display">\text{Factor A: } d.f.N. = a-1 = 1 \qquad \text{Factor B: } d.f.N. = b-1 = 1</span> <span class="math display">\text{Interaction: } d.f.N. = (a-1)(b-1) = 1 \qquad \text{Within (error): } d.f.D. = ab(n-1) = 2 \cdot 2(2-1) = 4</span></p>
+<p>With <span class="math inline">\alpha = 0.05</span>, <span class="math inline">d.f.N. = 1</span> and <span class="math inline">d.f.D. = 4</span>, all three critical values are <strong>7.71</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>gas_data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb16-2"><a href=""></a>  <span class="at">mpg  =</span> <span class="fu">c</span>(<span class="fl">26.7</span>, <span class="fl">25.2</span>, <span class="fl">28.6</span>, <span class="fl">29.3</span>, <span class="fl">32.3</span>, <span class="fl">32.8</span>, <span class="fl">26.1</span>, <span class="fl">24.2</span>),</span>
-<span id="cb16-3"><a href=""></a>  <span class="at">gas  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Regular"</span>,<span class="st">"High-octane"</span>), <span class="at">each =</span> <span class="dv">4</span>)),</span>
-<span id="cb16-4"><a href=""></a>  <span class="at">auto =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Two-wheel"</span>,<span class="st">"Two-wheel"</span>,<span class="st">"Four-wheel"</span>,<span class="st">"Four-wheel"</span>), <span class="dv">2</span>))</span>
-<span id="cb16-5"><a href=""></a>)</span>
-<span id="cb16-6"><a href=""></a></span>
-<span id="cb16-7"><a href=""></a>result5 <span class="ot">&lt;-</span> <span class="fu">aov</span>(mpg <span class="sc">~</span> gas <span class="sc">*</span> auto, <span class="at">data =</span> gas_data2)</span>
-<span id="cb16-8"><a href=""></a><span class="fu">summary</span>(result5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">1</span>, <span class="at">df2 =</span> <span class="dv">4</span>), <span class="dv">2</span>)   <span class="co"># Table A-7 gives 7.71</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
-gas          1   3.92    3.92   4.752 0.09477 . 
-auto         1   9.68    9.68  11.733 0.02665 * 
-gas:auto     1  54.08   54.08  65.552 0.00126 **
-Residuals    4   3.30    0.82                   
+<pre><code>[1] 7.71</code></pre>
+</div>
+</div>
+<p><em>Note.</em> If the factors have different numbers of levels, the critical values will not all be the same. For a factor A with 3 levels and a factor B with 4 levels and 2 subjects per group, <span class="math inline">d.f.N. = 2</span>, <span class="math inline">3</span> and <span class="math inline">6</span> respectively and <span class="math inline">d.f.D. = 3 \cdot 4(2-1) = 12</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-3" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3 — complete the summary table</strong></p>
+<p><span class="math display">MS_A = \frac{3.125}{2-1} = 3.125 \qquad MS_B = \frac{10.125}{2-1} = 10.125</span> <span class="math display">MS_{A \times B} = \frac{55.125}{(2-1)(2-1)} = 55.125 \qquad MS_W = \frac{3.400}{4} = 0.850</span></p>
+<p><span class="math display">F_A = \frac{3.125}{0.850} = 3.676 \qquad F_B = \frac{10.125}{0.850} = 11.912 \qquad F_{A \times B} = \frac{55.125}{0.850} = 64.853</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-4" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Table 12-7 — ANOVA Summary Table for Example 12-6</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Method (A)</td>
+<td>3.125</td>
+<td>1</td>
+<td>3.125</td>
+<td>3.676</td>
+</tr>
+<tr class="even">
+<td>Shift (B)</td>
+<td>10.125</td>
+<td>1</td>
+<td>10.125</td>
+<td>11.912</td>
+</tr>
+<tr class="odd">
+<td>Interaction (<span class="math inline">A \times B</span>)</td>
+<td>55.125</td>
+<td>1</td>
+<td>55.125</td>
+<td>64.853</td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td>3.400</td>
+<td>4</td>
+<td>0.850</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>71.775</td>
+<td>7</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 4.</strong> Make the decision. Since <span class="math inline">F_B = 11.912</span> and <span class="math inline">F_{A \times B} = 64.853</span> are greater than the critical value 7.71, the null hypotheses concerning the shift worked and the interaction effect should be rejected; <span class="math inline">F_A = 3.676</span> is smaller than 7.71, so the null hypothesis for the picking method is not rejected. Since the interaction effect is statistically significant, <strong>no decision should be made about the shift effect without further investigation</strong>.</p>
+<p><strong>Step 5.</strong> Summarize the results. Since the null hypothesis for the interaction effect was rejected, it can be concluded that the combination of picking method and shift does affect the picking rate.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-5" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>The same analysis in R</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>picking <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-2"><a href=""></a>  <span class="at">cartons_per_hour =</span> <span class="fu">c</span>(<span class="fl">26.6</span>, <span class="fl">25.4</span>, <span class="fl">29.7</span>, <span class="fl">28.3</span>, <span class="fl">33.1</span>, <span class="fl">31.9</span>, <span class="fl">25.7</span>, <span class="fl">24.3</span>),</span>
+<span id="cb44-3"><a href=""></a>  <span class="at">method =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb44-4"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>)),</span>
+<span id="cb44-5"><a href=""></a>  <span class="at">shift  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Day"</span>, <span class="st">"Night"</span>, <span class="st">"Night"</span>), <span class="dv">2</span>),</span>
+<span id="cb44-6"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>))</span>
+<span id="cb44-7"><a href=""></a>)</span>
+<span id="cb44-8"><a href=""></a></span>
+<span id="cb44-9"><a href=""></a>picking_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(cartons_per_hour <span class="sc">~</span> method <span class="sc">*</span> shift, <span class="at">data =</span> picking)</span>
+<span id="cb44-10"><a href=""></a><span class="fu">summary</span>(picking_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+method        1   3.13    3.13   3.676 0.12765   
+shift         1  10.12   10.12  11.912 0.02602 * 
+method:shift  1  55.13   55.13  64.853 0.00129 **
+Residuals     4   3.40    0.85                   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -1638,63 +2129,284 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="interpreting-interaction-effects" class="slide level2">
-<h2>Interpreting Interaction Effects</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="example-12-6-6" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Types of Interactions</strong></p>
+<p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
+<p><strong>Prepare data</strong> — the cell means</p>
+<p>Each cell mean is the average of the two pickers assigned to that treatment group.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>cell_means <span class="ot">&lt;-</span> picking <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href=""></a>  <span class="fu">group_by</span>(method, shift) <span class="sc">|&gt;</span></span>
+<span id="cb46-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean_rate =</span> <span class="fu">mean</span>(cartons_per_hour), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb46-4"><a href=""></a></span>
+<span id="cb46-5"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(cell_means, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 36%">
-<col style="width: 34%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Graph Pattern</th>
-<th>Interaction Type</th>
-<th>Interpretation</th>
+<th style="text-align: center;">method</th>
+<th style="text-align: center;">shift</th>
+<th style="text-align: center;">mean_rate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Lines are <strong>parallel</strong></td>
-<td>No interaction</td>
-<td>Interpret main effects independently</td>
+<td style="text-align: center;">Scanner</td>
+<td style="text-align: center;">Day</td>
+<td style="text-align: center;">26.0</td>
 </tr>
 <tr class="even">
-<td>Lines <strong>cross each other</strong></td>
-<td><strong>Disordinal</strong> interaction</td>
-<td>Do NOT interpret main effects independently</td>
+<td style="text-align: center;">Scanner</td>
+<td style="text-align: center;">Night</td>
+<td style="text-align: center;">29.0</td>
 </tr>
 <tr class="odd">
-<td>Lines diverge but <strong>do not cross</strong></td>
-<td>Ordinal interaction</td>
-<td>Main effects may still be interpreted</td>
+<td style="text-align: center;">Voice</td>
+<td style="text-align: center;">Day</td>
+<td style="text-align: center;">32.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Voice</td>
+<td style="text-align: center;">Night</td>
+<td style="text-align: center;">25.0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Rule:</strong> When the interaction F test is significant: - Check the interaction plot - If lines cross → <strong>disordinal</strong> interaction → interpret only with interaction in mind - If lines don’t cross → <strong>ordinal</strong> interaction → main effects can be interpreted</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-12-6-7" class="slide level2">
+<h2>Example 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Output figure</strong> — Figure 12-6, the graph of the means</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">ggplot</span>(cell_means, <span class="fu">aes</span>(<span class="at">x =</span> shift, <span class="at">y =</span> mean_rate,</span>
+<span id="cb47-2"><a href=""></a>                       <span class="at">color =</span> method, <span class="at">group =</span> method)) <span class="sc">+</span></span>
+<span id="cb47-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb47-4"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb47-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Graph of the Means of the Variables in Example 12-6"</span>,</span>
+<span id="cb47-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"Shift"</span>, <span class="at">y =</span> <span class="st">"Mean cartons per hour"</span>, <span class="at">color =</span> <span class="st">"Method"</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch12_files/figure-revealjs/e12-6-4-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The lines <strong>cross</strong>, so the interaction is a <strong>disordinal</strong> interaction.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="interpreting-the-interaction" class="slide level2">
+<h2>Interpreting the Interaction</h2>
+<p>To interpret the results of a two-way analysis of variance, researchers suggest drawing a graph, plotting the means of each group, analyzing the graph, and interpreting the results.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Rules for Reading an Interaction Plot</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 18%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern of the lines</th>
+<th>Interaction</th>
+<th>How to interpret the main effects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lines <strong>cross</strong> each other and the interaction <span class="math inline">F</span> is significant</td>
+<td><strong>Disordinal</strong> interaction (Figure 12-6)</td>
+<td>Do <strong>not</strong> interpret the main effects without considering the interaction effect</td>
+</tr>
+<tr class="even">
+<td>Lines <strong>do not cross</strong> and are <strong>not parallel</strong>, interaction <span class="math inline">F</span> significant</td>
+<td><strong>Ordinal</strong> interaction (Figure 12-7)</td>
+<td>The main effects <strong>can</strong> be interpreted independently of each other</td>
+</tr>
+<tr class="odd">
+<td>Lines are <strong>parallel</strong> or approximately parallel, interaction <span class="math inline">F</span> not significant</td>
+<td><strong>No</strong> interaction (Figure 12-8)</td>
+<td>The main effects can be interpreted independently</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>If there is no significant interaction effect, the main effects can be interpreted independently; however, if there is a significant interaction effect, the main effects must be interpreted cautiously, if at all.</p>
+</section>
+<section id="interaction-patterns-in-r" class="slide level2">
+<h2>Interaction Patterns in R</h2>
+<p><strong>Prepare data</strong> — the three patterns of Figures 12-6, 12-7 and 12-8</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>patterns <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb48-2"><a href=""></a>  <span class="at">pattern =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Disordinal (Fig. 12-6)"</span>,</span>
+<span id="cb48-3"><a href=""></a>                  <span class="st">"Ordinal (Fig. 12-7)"</span>,</span>
+<span id="cb48-4"><a href=""></a>                  <span class="st">"No interaction (Fig. 12-8)"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb48-5"><a href=""></a>  <span class="at">method  =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>), <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">3</span>),</span>
+<span id="cb48-6"><a href=""></a>  <span class="at">shift   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>), <span class="dv">6</span>),</span>
+<span id="cb48-7"><a href=""></a>  <span class="at">mean_rate =</span> <span class="fu">c</span>(<span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">32.5</span>, <span class="fl">25.0</span>,</span>
+<span id="cb48-8"><a href=""></a>                <span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">30.0</span>, <span class="fl">31.5</span>,</span>
+<span id="cb48-9"><a href=""></a>                <span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">30.0</span>, <span class="fl">33.0</span>)</span>
+<span id="cb48-10"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb48-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">pattern =</span> <span class="fu">factor</span>(pattern, <span class="at">levels =</span> <span class="fu">unique</span>(pattern)),</span>
+<span id="cb48-12"><a href=""></a>         <span class="at">shift   =</span> <span class="fu">factor</span>(shift, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="interaction-patterns-in-r-1" class="slide level2">
+<h2>Interaction Patterns in R</h2>
+<p><strong>Output figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">ggplot</span>(patterns, <span class="fu">aes</span>(<span class="at">x =</span> shift, <span class="at">y =</span> mean_rate, <span class="at">color =</span> method, <span class="at">group =</span> method)) <span class="sc">+</span></span>
+<span id="cb49-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb49-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb49-4"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> pattern) <span class="sc">+</span></span>
+<span id="cb49-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Crossing, Ordinal and Parallel Patterns"</span>,</span>
+<span id="cb49-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"Shift"</span>, <span class="at">y =</span> <span class="st">"Mean cartons per hour"</span>, <span class="at">color =</span> <span class="st">"Method"</span>) <span class="sc">+</span></span>
+<span id="cb49-7"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch12_files/figure-revealjs/s12-3-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
+<section id="beyond-a-2-times-2-design" class="slide level2">
+<h2>Beyond a <span class="math inline">2 \times 2</span> Design</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Example 12-6 was a <span class="math inline">2 \times 2</span> two-way analysis of variance, since each independent variable had two levels. For other designs, such as a <span class="math inline">3 \times 2</span> or a <span class="math inline">4 \times 3</span> ANOVA, interpretation of the results can be quite complicated. Procedures using tests such as the Tukey and Scheffé tests for analyzing the cell means exist and are similar to the tests shown for the one-way ANOVA, but they are <strong>beyond the scope of this textbook</strong>. Many other designs, such as three-factor designs and repeated-measure designs, are also beyond the scope of this book.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="important-terms" class="slide level2">
+<h2>Important Terms</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Chapter 12 Vocabulary</strong></p>
+</div>
+<div class="callout-content">
+<p>analysis of variance (ANOVA) · ANOVA summary table · between-group variance · Bonferroni test · disordinal interaction · factors · interaction effect · level · main effects · mean square · one-way ANOVA · ordinal interaction · Scheffé test · sum of squares between groups · sum of squares within groups · treatment groups · Tukey test · two-way ANOVA · within-group variance</p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-formulas" class="slide level2">
+<h2>Key Formulas</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formulas for the ANOVA Test</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\bar{X}_{GM} = \frac{\sum X}{N} \qquad F = \frac{s_B^2}{s_W^2}</span></p>
+<p><span class="math display">s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1} \qquad s_W^2 = \frac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span></p>
+<p><span class="math display">d.f.N. = k - 1 \qquad d.f.D. = N - k \qquad N = n_1 + n_2 + \cdots + n_k</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-formulas-1" class="slide level2">
+<h2>Key Formulas</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formulas for the Scheffé, Tukey and Bonferroni Tests</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]} \qquad \text{and} \qquad F' = (k-1)(C.V.)</span></p>
+<p><span class="math display">q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}, \qquad d.f.N. = k \ \text{ and } \ d.f.D. = \text{degrees of freedom for } s_W^2</span></p>
+<p><span class="math display">t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="key-formulas-2" class="slide level2">
+<h2>Key Formulas</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Formulas for the Two-Way ANOVA</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W} \qquad d.f.N. = a-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W} \qquad d.f.N. = b-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W} \qquad d.f.N. = (a-1)(b-1)</span></p>
+<p><span class="math display">MS_W = \frac{SS_W}{ab(n-1)}</span></p>
 </div>
 </div>
 </div>
 </section>
 <section id="key-takeaways" class="slide level2">
 <h2>Key Takeaways</h2>
-<p><strong>Section 12-1 — One-Way ANOVA:</strong> - F test compares 3+ means simultaneously - <span class="math inline">F = s_B^2 / s_W^2</span>; reject <span class="math inline">H_0</span> if <span class="math inline">F &gt; F_{crit}</span> (right-tailed) - Degrees of freedom: <span class="math inline">d.f.N. = k-1</span>, <span class="math inline">d.f.D. = N-k</span></p>
-<p><strong>Section 12-2 — Post-Hoc Tests:</strong> - Scheffé: flexible, works with unequal <span class="math inline">n</span>; more conservative - Tukey: more powerful for pairwise comparisons with equal <span class="math inline">n</span></p>
-<p><strong>Section 12-3 — Two-Way ANOVA:</strong> - Tests two factors and their interaction simultaneously - If interaction is significant, do not interpret main effects independently - Interaction plots reveal the nature of the relationship</p>
+<ol type="1">
+<li>The <span class="math inline">F</span> test can compare <strong>three or more means</strong>; the technique is called the <strong>analysis of variance (ANOVA)</strong>. Multiple <span class="math inline">t</span> tests are not used because they ignore the other means, inflate the type I error rate, and grow rapidly in number.</li>
+<li>ANOVA uses two estimates of the population variance: the <strong>between-group variance</strong> <span class="math inline">s_B^2</span> (the variance of the sample means) and the <strong>within-group variance</strong> <span class="math inline">s_W^2</span> (the overall variance of all the values). The test statistic is <span class="math inline">F = s_B^2 / s_W^2</span>, with <span class="math inline">d.f.N. = k-1</span> and <span class="math inline">d.f.D. = N-k</span>, and the test is always right-tailed.</li>
+<li>When there is no significant difference among the means, the two estimates are approximately equal and <span class="math inline">F</span> is close to 1; when a difference exists, <span class="math inline">s_B^2</span> is much larger and <span class="math inline">F</span> is significant.</li>
+</ol>
+</section>
+<section id="key-takeaways-1" class="slide level2">
+<h2>Key Takeaways</h2>
+<ol start="4" type="1">
+<li>A significant <span class="math inline">F</span> says only that <strong>at least one mean differs</strong>; the <strong>Scheffé</strong>, <strong>Tukey</strong> and <strong>Bonferroni</strong> tests locate the difference. Use Tukey when the sample sizes are equal and Scheffé when they differ; the Scheffé critical value is <span class="math inline">F' = (k-1)(C.V.)</span> and the Bonferroni P-value is multiplied by <span class="math inline">_kC_2</span>.</li>
+<li>The <strong>two-way ANOVA</strong> tests the effects of <strong>two independent variables</strong> and their <strong>interaction</strong> on one dependent variable, and requires equal group sizes.</li>
+<li>If the interaction is significant and the lines in the interaction plot <strong>cross</strong>, the interaction is <strong>disordinal</strong> and the main effects must not be interpreted on their own; if the lines do not cross, the interaction is <strong>ordinal</strong> and the main effects may be interpreted independently; <strong>parallel</strong> lines indicate no interaction.</li>
+</ol>
 </section>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

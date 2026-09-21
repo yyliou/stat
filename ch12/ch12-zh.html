@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,48 +227,72 @@
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>為何要用 ANOVA？</strong></p>
-</div>
-<div class="callout-content">
-<p>比較<strong>三個或三個以上組別平均數</strong>時，使用多次 t 檢定會有問題：</p>
-<ul>
-<li>每增加一次比較，就會使第一型錯誤率膨脹</li>
-<li>有 <span class="math inline">k</span> 個組別，需要 <span class="math inline">\binom{k}{2}</span> 次兩兩比較</li>
-<li><strong>F 檢定</strong>在單次檢定中同時比較所有平均數</li>
-</ul>
-</div>
-</div>
-</div>
-<p><strong>涵蓋主題：</strong></p>
-<ul>
-<li><strong>第12-1節：</strong> 單因子變異數分析（One-Way ANOVA）</li>
-<li><strong>第12-2節：</strong> 事後檢定 — Scheffé 法與 Tukey 法</li>
-<li><strong>第12-3節：</strong> 二因子變異數分析（Two-Way ANOVA）</li>
-</ul>
+<p>第12章介紹<strong>變異數分析（ANOVA）</strong>——一種透過比較同一母體變異數的兩個估計值，來比較<strong>三個或三個以上平均數</strong>的 <span class="math inline">F</span> 檢定。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>12-1</td>
+<td>單因子 ANOVA；為何不用多次 <span class="math inline">t</span> 檢定；<span class="math inline">F = s_B^2 / s_W^2</span>；<span class="math inline">d.f.N. = k-1</span>、<span class="math inline">d.f.D. = N-k</span>；摘要表</td>
+</tr>
+<tr class="even">
+<td>12-2</td>
+<td>Scheffé 檢定與 <span class="math inline">F' = (k-1)(C.V.)</span>；Tukey 的 <span class="math inline">q</span> 檢定；Bonferroni 校正；三者的取捨</td>
+</tr>
+<tr class="odd">
+<td>12-3</td>
+<td>二因子 ANOVA；因子、水準與處理組；主效果與交互作用；順序型與非順序型</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="歷史背景" class="slide level2">
-<h2>歷史背景</h2>
+<section id="本章學習目標" class="slide level2">
+<h2>本章學習目標</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>讀完本章後，你應該能夠</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>使用單因子 ANOVA 技術，判斷三個或三個以上平均數之間是否有顯著差異。</li>
+<li>當 ANOVA 拒絕虛無假設時，使用 Scheffé、Tukey 或 Bonferroni 檢定找出哪些平均數不同。</li>
+<li>使用二因子 ANOVA 技術，判斷主效果或交互作用是否有顯著差異。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="導論" class="slide level2">
+<h2>導論</h2>
+<p>第9章用來比較兩個變異數的 <span class="math inline">F</span> 檢定，也可以用來比較<strong>三個或三個以上的平均數</strong>，這項技術稱為<strong>變異數分析</strong>，簡稱 <strong>ANOVA</strong>。</p>
+<p>比較三個或三個以上平均數時，不應使用 <span class="math inline">z</span> 檢定或 <span class="math inline">t</span> 檢定。對三組資料而言，<span class="math inline">F</span> 檢定只能顯示這三個平均數之間<em>是否</em>存在差異，卻無法指出差異<em>落在何處</em>——是 <span class="math inline">\bar{X}_1</span> 與 <span class="math inline">\bar{X}_2</span>、<span class="math inline">\bar{X}_1</span> 與 <span class="math inline">\bar{X}_3</span>，還是 <span class="math inline">\bar{X}_2</span> 與 <span class="math inline">\bar{X}_3</span>。要找出差異所在，必須使用 Scheffé、Tukey 或 Bonferroni 等檢定。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>ANOVA 的起源</strong></p>
+<p><strong>單因子與二因子 ANOVA</strong></p>
 </div>
 <div class="callout-content">
-<p>變異數分析方法由 <strong>R. A. Fisher</strong> 在1920年代初期發展出來。</p>
-<p>ANOVA 利用<strong>變異數</strong>對<strong>平均數</strong>進行推論 — 故得名「變異數分析」。</p>
+<p>用來比較三個或三個以上平均數的變異數分析稱為<strong>單因子變異數分析</strong>，因為其中只涉及一個變數。若研究涉及兩個變數，則使用<strong>二因子變異數分析</strong>（第12-3節）。</p>
 </div>
 </div>
 </div>
@@ -278,98 +302,126 @@
 <h1>第12-1節：單因子變異數分析</h1>
 
 </section>
+<section id="變異數分析" class="slide level2">
+<h2>變異數分析</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>單因子變異數分析</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>單因子變異數分析檢定</strong>利用樣本變異數，檢定三個或三個以上平均數是否相等。</p>
+</div>
+</div>
+</div>
+<p>之所以稱為<em>單因子</em>，是因為研究中只有<strong>一個自變數</strong>用來區分不同的母體。這個自變數也稱為<strong>因子</strong>。</p>
+</section>
 <section id="為何不使用多次-t-檢定" class="slide level2">
-<h2>為何不使用多次 t 檢定？</h2>
+<h2>為何不使用多次 <span class="math inline">t</span> 檢定？</h2>
+<p>乍看之下，似乎可以每次取兩個平均數、用多次 <span class="math inline">t</span> 檢定來比較三個以上的樣本平均數。但有三個理由說明不該這樣做。</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>避免多次 t 檢定的三個原因</strong></p>
+<p><strong>三個理由</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li><strong>忽略其他組：</strong> 每次兩兩比較都忽略了剩餘的組別</li>
-<li><strong>第一型錯誤率膨脹：</strong> 比較次數越多，誤判顯著的機率越高</li>
-<li><strong>檢定次數暴增：</strong> 3個平均數 → 3次；5個平均數 → 10次；10個平均數 → 45次</li>
+<li><strong>忽略了其他平均數。</strong> 每次只比較兩個平均數時，其餘的平均數都被忽略；而 <span class="math inline">F</span> 檢定則同時比較所有平均數。</li>
+<li><strong>第一型錯誤率上升。</strong> 進行的 <span class="math inline">t</span> 檢定愈多，純粹因機遇而得到顯著差異的可能性就愈大，因此拒絕正確虛無假設的機率隨之上升。待比較的母體數目愈多，在給定 <span class="math inline">\alpha</span> 下犯第一型錯誤的機率也愈高。</li>
+<li><strong>檢定次數暴增。</strong> 3 個平均數兩兩比較需要 3 次 <span class="math inline">t</span> 檢定；5 個平均數需要 10 次；10 個平均數需要 45 次。</li>
 </ol>
 </div>
 </div>
 </div>
-<p><strong>F 檢定</strong>同時比較所有平均數，解決上述三個問題。</p>
 </section>
-<section id="單因子-anova-的假設" class="slide level2">
-<h2>單因子 ANOVA 的假設</h2>
+<section id="f-分配的特性" class="slide level2">
+<h2><span class="math inline">F</span> 分配的特性</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>假設條件</strong></p>
+<p><strong>回顧第9章</strong></p>
 </div>
 <div class="callout-content">
 <ol type="1">
-<li>每個母體必須<strong>服從常態分配或近似常態分配</strong></li>
-<li>所有樣本必須<strong>相互獨立</strong></li>
-<li><strong>所有母體的變異數</strong>必須相等（變異數同質性）</li>
+<li><span class="math inline">F</span> 值不可能為負，因為變異數恆為正數或零。</li>
+<li>此分配為右偏。</li>
+<li><span class="math inline">F</span> 的平均值約等於 1。</li>
+<li><span class="math inline">F</span> 分配是一族曲線，取決於分子變異數的自由度與分母變異數的自由度。</li>
 </ol>
 </div>
 </div>
 </div>
+<p>雖然比較的是三個以上的<strong>平均數</strong>，檢定中使用的卻是<strong>變異數</strong>。</p>
 </section>
-<section id="anova-的邏輯" class="slide level2">
-<h2>ANOVA 的邏輯</h2>
+<section id="母體變異數的兩個估計值" class="slide level2">
+<h2>母體變異數的兩個估計值</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>兩種變異數估計量</strong></p>
+<p><strong>組間變異數與組內變異數</strong></p>
 </div>
 <div class="callout-content">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>估計量</th>
-<th>衡量什麼</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>組間變異數</strong> (<span class="math inline">s_B^2</span>)</td>
-<td>樣本平均數之間的變異</td>
-</tr>
-<tr class="even">
-<td><strong>組內變異數</strong> (<span class="math inline">s_W^2</span>)</td>
-<td>每組內部的變異（合併）</td>
-</tr>
-</tbody>
-</table>
+<p><strong>組間變異數</strong>是母體變異數的第一個估計值，做法是求各平均數的變異數。</p>
+<p><strong>組內變異數</strong>是第二個估計值，做法是使用全部資料計算變異數，不受各平均數差異的影響。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="母體變異數的兩個估計值續" class="slide level2">
+<h2>母體變異數的兩個估計值（續）</h2>
 <ul>
-<li>若 <span class="math inline">H_0</span> 為<strong>真</strong>：<span class="math inline">s_B^2 \approx s_W^2</span>，因此 <span class="math inline">F \approx 1</span></li>
-<li>若 <span class="math inline">H_0</span> 為<strong>假</strong>：<span class="math inline">s_B^2 \gg s_W^2</span>，因此 <span class="math inline">F \gg 1</span></li>
+<li>若各平均數<strong>沒有差異</strong>，組間估計值會與組內估計值大致相等，<span class="math inline">F</span> 檢定統計量約為 1，不拒絕 <span class="math inline">H_0</span>。</li>
+<li>若各平均數<strong>有顯著差異</strong>，組間變異數會遠大於組內變異數，<span class="math inline">F</span> 明顯大於 1，拒絕 <span class="math inline">H_0</span>。</li>
 </ul>
-<p><span class="math display">F = \frac{s_B^2}{s_W^2}</span></p>
-<p>比較平均數的 F 檢定永遠是<strong>右尾</strong>。</p>
+<p><span class="math display">F = \frac{\text{variance between groups}}{\text{variance within groups}}</span></p>
+</section>
+<section id="f-檢定的公式" class="slide level2">
+<h2><span class="math inline">F</span> 檢定的公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>總平均數、<span class="math inline">s_B^2</span> 與 <span class="math inline">s_W^2</span></strong></p>
+</div>
+<div class="callout-content">
+<p><strong>總平均數</strong> <span class="math inline">\bar{X}_{GM}</span> 是所有樣本中全部數值的平均數：</p>
+<p><span class="math display">\bar{X}_{GM} = \frac{\sum X}{N}</span></p>
+<p><strong>組間變異數</strong>是以樣本數為權重、各平均數之間的變異數：</p>
+<p><span class="math display">s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k - 1}</span></p>
+<p><strong>組內變異數</strong>是各樣本變異數的加權平均，不涉及平均數之間的差：</p>
+<p><span class="math display">s_W^2 = \frac{\sum (n_i - 1) s_i^2}{\sum (n_i - 1)}</span></p>
+<p>其中 <span class="math inline">k</span> 為組數，<span class="math inline">n_i</span> 為樣本數，<span class="math inline">\bar{X}_i</span> 為樣本平均數，<span class="math inline">s_i^2</span> 為樣本變異數。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="假設與自由度" class="slide level2">
-<h2>假設與自由度</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="f-檢定統計量" class="slide level2">
+<h2><span class="math inline">F</span> 檢定統計量</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>ANOVA 假設</strong></p>
+<p><strong>單因子變異數分析的 <span class="math inline">F</span> 檢定公式</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">H_0: \mu_1 = \mu_2 = \cdots = \mu_k</span> <span class="math display">H_1: \text{至少有一個平均數與其他不同}</span></p>
+<p><span class="math display">F = \frac{s_B^2}{s_W^2}</span></p>
+<p>其中 <span class="math inline">s_B^2</span> 為組間變異數，<span class="math inline">s_W^2</span> 為組內變異數。</p>
 </div>
 </div>
 </div>
@@ -379,81 +431,143 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>自由度</strong></p>
+<p><strong>ANOVA 的假設</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \cdots = \mu_k</span> <span class="math display">H_1: \text{At least one mean is different from the others}</span></p>
+<p>檢定統計量顯著，代表平均數的這項差異極可能不是機遇造成的，但它<strong>並不</strong>指出差異落在何處。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="自由度" class="slide level2">
+<h2>自由度</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><span class="math inline">d.f.N.</span> 與 <span class="math inline">d.f.D.</span></strong></p>
 </div>
 <div class="callout-content">
 <p><span class="math display">d.f.N. = k - 1 \qquad d.f.D. = N - k</span></p>
-<p>其中 <span class="math inline">k</span> = 組數，<span class="math inline">N = n_1 + n_2 + \cdots + n_k</span></p>
+<p>其中 <span class="math inline">k</span> 為組數，<span class="math inline">N = n_1 + n_2 + \cdots + n_k</span> 為各樣本數之和。</p>
+<p>各組樣本數<strong>不必相等</strong>。用於比較平均數的 <span class="math inline">F</span> 檢定永遠是<strong>右尾檢定</strong>。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="anova-計算公式" class="slide level2">
-<h2>ANOVA 計算公式</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="表-12-1變異數分析摘要表" class="slide level2">
+<h2>表 12-1：變異數分析摘要表</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>逐步計算程序</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>步驟一：</strong> 求每個樣本的平均數和變異數：<span class="math inline">(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)</span></p>
-<p><strong>步驟二：</strong> 總平均數：<span class="math inline">\bar{X}_{GM} = \dfrac{\sum X}{N}</span></p>
-<p><strong>步驟三：</strong> 組間變異數：<span class="math inline">s_B^2 = \dfrac{\sum n_i(\bar{X}_i - \bar{X}_{GM})^2}{k-1}</span></p>
-<p><strong>步驟四：</strong> 組內變異數：<span class="math inline">s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span></p>
-<p><strong>步驟五：</strong> <span class="math inline">F = \dfrac{s_B^2}{s_W^2}</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="anova-摘要表" class="slide level2">
-<h2>ANOVA 摘要表</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>標準摘要表格式</strong></p>
+<p><strong>表 12-1 — 變異數分析摘要表</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>來源</th>
-<th>SS</th>
-<th>自由度</th>
-<th>MS</th>
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
 <th>F</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>組間（處理）</td>
+<td>Between groups</td>
 <td>SSB</td>
 <td><span class="math inline">k-1</span></td>
-<td>MSB = SSB/<span class="math inline">(k-1)</span></td>
-<td>MSB/MSW</td>
+<td>MSB</td>
+<td></td>
 </tr>
 <tr class="even">
-<td>組內（誤差）</td>
+<td>Within groups (error)</td>
 <td>SSW</td>
 <td><span class="math inline">N-k</span></td>
-<td>MSW = SSW/<span class="math inline">(N-k)</span></td>
+<td>MSW</td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>總計</td>
-<td>SST</td>
-<td><span class="math inline">N-1</span></td>
+<td>Total</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>其中： - <span class="math inline">SSB = \sum n_i(\bar{X}_i - \bar{X}_{GM})^2</span> - <span class="math inline">SSW = \sum (n_i - 1)s_i^2</span></p>
+<p><span class="math display">SSB = \sum n_i (\bar{X}_i - \bar{X}_{GM})^2 \qquad SSW = \sum (n_i - 1) s_i^2</span></p>
+<p><span class="math display">MSB = s_B^2 = \frac{SSB}{k-1} \qquad MSW = s_W^2 = \frac{SSW}{N-k} \qquad F = \frac{s_B^2}{s_W^2} = \frac{MSB}{MSW}</span></p>
+</div>
+</div>
+</div>
+<p><span class="math inline">SSB</span> 為<strong>組間平方和</strong>，<span class="math inline">SSW</span> 為<strong>組內平方和</strong>（即誤差平方和），<span class="math inline">MSB</span> 與 <span class="math inline">MSW</span> 稱為<strong>均方</strong>。</p>
+</section>
+<section id="f-檢定的假設條件" class="slide level2">
+<h2><span class="math inline">F</span> 檢定的假設條件</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>比較三個或三個以上平均數的 <span class="math inline">F</span> 檢定假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>抽取樣本的母體必須服從常態分配或近似常態分配。</li>
+<li>各樣本之間必須相互獨立。</li>
+<li>各母體的變異數必須相等。</li>
+<li>各樣本必須是簡單隨機樣本，每個母體各取一個。</li>
+</ol>
+</div>
+</div>
+</div>
+<p>本書在習題中會直接載明這些假設；但在其他情境下遇到統計問題時，必須先確認這些假設成立才能進行分析。</p>
+</section>
+<section id="程序表" class="slide level2">
+<h2>程序表</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>求變異數分析的 <span class="math inline">F</span> 檢定統計量</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 求各樣本的平均數與變異數：<span class="math inline">(\bar{X}_1, s_1^2), (\bar{X}_2, s_2^2), \ldots, (\bar{X}_k, s_k^2)</span>。</p>
+<p><strong>步驟 2.</strong> 求總平均數：<span class="math inline">\bar{X}_{GM} = \dfrac{\sum X}{N}</span>。</p>
+<p><strong>步驟 3.</strong> 求組間變異數：<span class="math inline">s_B^2 = \dfrac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1}</span>。</p>
+<p><strong>步驟 4.</strong> 求組內變異數：<span class="math inline">s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span>。</p>
+<p><strong>步驟 5.</strong> 求 <span class="math inline">F</span> 檢定統計量：<span class="math inline">F = \dfrac{s_B^2}{s_W^2}</span>，其中 <span class="math inline">d.f.N. = k-1</span>、<span class="math inline">d.f.D. = N-k</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="五個步驟" class="slide level2">
+<h2>五個步驟</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>單因子 ANOVA 依循一般的假設檢定程序</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 陳述假設。</p>
+<p><strong>步驟 2.</strong> 求臨界值。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。</p>
+<p><strong>步驟 4.</strong> 做成決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
 </div>
 </div>
 </div>
@@ -466,56 +580,18 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>降低血壓</strong></p>
+<p><strong>各店型的單日營收</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者測試三種降低血壓的技術：<strong>藥物</strong>、<strong>運動</strong>和<strong>飲食</strong>。4週後記錄血壓降低量。在 <span class="math inline">\alpha = 0.05</span> 下，檢定各組平均數無差異的主張。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>藥物</th>
-<th>運動</th>
-<th>飲食</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>10</td>
-<td>6</td>
-<td>5</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>8</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>3</td>
-<td>12</td>
-</tr>
-<tr class="even">
-<td>15</td>
-<td>0</td>
-<td>8</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>2</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\bar{X}_1=11.8</span></td>
-<td><span class="math inline">\bar{X}_2=3.8</span></td>
-<td><span class="math inline">\bar{X}_3=7.6</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">s_1^2=5.7</span></td>
-<td><span class="math inline">s_2^2=10.2</span></td>
-<td><span class="math inline">s_3^2=10.3</span></td>
-</tr>
-</tbody>
-</table>
+<p>台北某飲料連鎖店的通路分析師想知道三種店型——捷運站店、校園店與郊區得來速店——的平均單日營收是否有差異。她隨機抽取 4 家捷運站店、5 家校園店與 3 家郊區店，記錄各店某一天的營收（新台幣千元）如下。在 <span class="math inline">\alpha = 0.05</span> 下，檢定「各平均數之間沒有差異」這項主張。</p>
+<pre><code>MRT       Campus    Suburban
+ 81         76          60
+ 75         68          51
+ 68         64          45
+ 64         60
+            57</code></pre>
+<p><em>（模擬資料）</em></p>
+<p>回到 <a href="#/example-12-3">範例 12-3</a> · 回到 <a href="#/example-12-5">範例 12-5</a></p>
 </div>
 </div>
 </div>
@@ -531,11 +607,17 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0: \mu_1 = \mu_2 = \mu_3</span>（主張）；<span class="math inline">H_1:</span> 至少有一個平均數不同</p>
-<p><strong>步驟二：</strong> <span class="math inline">k=3</span>，<span class="math inline">N=15</span>；<span class="math inline">d.f.N.=2</span>，<span class="math inline">d.f.D.=12</span> → 臨界值：<strong>3.89</strong></p>
-<p><strong>步驟三a：</strong> 各組平均數和變異數如上所示</p>
-<p><strong>步驟三b：</strong> 總平均數：<span class="math inline">\bar{X}_{GM} = \dfrac{116}{15} = 7.73</span></p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \mu_3 \ \textit{(claim)}</span> <span class="math display">H_1: \text{At least one mean is different from the others}</span></p>
+<p><strong>步驟 2.</strong> 求臨界值。由 <span class="math inline">N = 12</span>、<span class="math inline">k = 3</span>，</p>
+<p><span class="math display">d.f.N. = k - 1 = 3 - 1 = 2 \qquad d.f.D. = N - k = 12 - 3 = 9</span></p>
+<p>在 <span class="math inline">\alpha = 0.05</span> 下，附表 A-7 的臨界值為 <strong>4.26</strong>。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">9</span>)   <span class="co"># Table A-7 rounds this value to 4.26</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.256495</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -548,14 +630,64 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題（續）</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟三c：</strong> 組間變異數： <span class="math display">s_B^2 = \frac{5(11.8-7.73)^2 + 5(3.8-7.73)^2 + 5(7.6-7.73)^2}{3-1} = \frac{160.13}{2} = 80.07</span></p>
-<p><strong>步驟三d：</strong> 組內變異數： <span class="math display">s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73</span></p>
-<p><strong>步驟三e：</strong> <span class="math inline">F = \dfrac{80.07}{8.73} = 9.17</span></p>
-<p><strong>步驟四：</strong> <span class="math inline">9.17 &gt; 3.89</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟五：</strong> 有足夠的證據得出至少有一個平均數與其他不同的結論。</p>
+<p><strong>步驟 3a-b — 各組統計量與總平均數</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>mrt_kiosks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">81</span>, <span class="dv">75</span>, <span class="dv">68</span>, <span class="dv">64</span>)</span>
+<span id="cb4-2"><a href=""></a>campus     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">64</span>, <span class="dv">60</span>, <span class="dv">57</span>)</span>
+<span id="cb4-3"><a href=""></a>suburban   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">51</span>, <span class="dv">45</span>)</span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a>revenue <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-6"><a href=""></a>  <span class="at">daily_revenue =</span> <span class="fu">c</span>(mrt_kiosks, campus, suburban),</span>
+<span id="cb4-7"><a href=""></a>  <span class="at">store_format  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"MRT"</span>, <span class="st">"Campus"</span>, <span class="st">"Suburban"</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>)),</span>
+<span id="cb4-8"><a href=""></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"MRT"</span>, <span class="st">"Campus"</span>, <span class="st">"Suburban"</span>))</span>
+<span id="cb4-9"><a href=""></a>)</span>
+<span id="cb4-10"><a href=""></a></span>
+<span id="cb4-11"><a href=""></a>format_stats <span class="ot">&lt;-</span> revenue <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href=""></a>  <span class="fu">group_by</span>(store_format) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(daily_revenue), <span class="at">variance =</span> <span class="fu">var</span>(daily_revenue))</span>
+<span id="cb4-14"><a href=""></a></span>
+<span id="cb4-15"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(format_stats, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">store_format</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">MRT</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">72</td>
+<td style="text-align: center;">56.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Campus</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">65</td>
+<td style="text-align: center;">55.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Suburban</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">57.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>grand_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(revenue<span class="sc">$</span>daily_revenue)</span>
+<span id="cb5-2"><a href=""></a>grand_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 64.08333</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -571,43 +703,24 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>ANOVA 摘要表</strong></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>來源</th>
-<th>SS</th>
-<th>自由度</th>
-<th>MS</th>
-<th>F</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>組間</td>
-<td>160.13</td>
-<td>2</td>
-<td>80.07</td>
-<td><strong>9.17</strong></td>
-</tr>
-<tr class="even">
-<td>組內（誤差）</td>
-<td>104.80</td>
-<td>12</td>
-<td>8.73</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>總計</strong></td>
-<td><strong>264.93</strong></td>
-<td><strong>14</strong></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><span class="math inline">\alpha=0.05</span> 時的臨界值：<strong>3.89</strong></p>
-<p>由於 <span class="math inline">F = 9.17 &gt; 3.89</span>，我們<strong>拒絕</strong> <span class="math inline">H_0</span>。</p>
+<p><strong>步驟 3c-e — 兩個變異數估計值與 <span class="math inline">F</span></strong></p>
+<p><span class="math display">s_B^2 = \frac{4(72 - 64.083)^2 + 5(65 - 64.083)^2 + 3(52 - 64.083)^2}{3-1} = \frac{692.917}{2} = 346.458</span></p>
+<p><span class="math display">s_W^2 = \frac{(4-1)(56.667) + (5-1)(55) + (3-1)(57)}{(4-1)+(5-1)+(3-1)} = \frac{504}{9} = 56</span></p>
+<p><span class="math display">F = \frac{s_B^2}{s_W^2} = \frac{346.458}{56} = 6.187</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>between_var <span class="ot">&lt;-</span> <span class="fu">sum</span>(format_stats<span class="sc">$</span>n <span class="sc">*</span> (format_stats<span class="sc">$</span>mean <span class="sc">-</span> grand_mean)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-2"><a href=""></a>within_var  <span class="ot">&lt;-</span> <span class="fu">sum</span>((format_stats<span class="sc">$</span>n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> format_stats<span class="sc">$</span>variance) <span class="sc">/</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">3</span>)</span>
+<span id="cb7-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">between =</span> between_var, <span class="at">within =</span> within_var, <span class="at">F =</span> between_var <span class="sc">/</span> within_var), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>between  within       F 
+346.458  56.000   6.187 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>revenue_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(daily_revenue <span class="sc">~</span> store_format, <span class="at">data =</span> revenue)</span>
+<span id="cb9-2"><a href=""></a><span class="fu">anova</span>(revenue_aov)[[<span class="st">"Mean Sq"</span>]]   <span class="co"># aov reproduces the same two estimates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 346.4583  56.0000</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -623,23 +736,15 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 4-5 — 決策與總結</strong></p>
+<p><strong>步驟 4.</strong> 檢定統計量 <span class="math inline">6.187 &gt; 4.26</span>，因此決策為<strong>拒絕虛無假設</strong>。</p>
+<p><strong>步驟 5.</strong> 有足夠證據可以下結論：至少有一個平均數與其他平均數不同。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>medication <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">15</span>, <span class="dv">13</span>)</span>
-<span id="cb1-2"><a href=""></a>exercise   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb1-3"><a href=""></a>diet       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a>bp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-6"><a href=""></a>  <span class="at">reduction =</span> <span class="fu">c</span>(medication, exercise, diet),</span>
-<span id="cb1-7"><a href=""></a>  <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Medication"</span>,<span class="st">"Exercise"</span>,<span class="st">"Diet"</span>), <span class="at">each =</span> <span class="dv">5</span>)</span>
-<span id="cb1-8"><a href=""></a>)</span>
-<span id="cb1-9"><a href=""></a></span>
-<span id="cb1-10"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">aov</span>(reduction <span class="sc">~</span> group, <span class="at">data =</span> bp_data)</span>
-<span id="cb1-11"><a href=""></a><span class="fu">summary</span>(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">summary</span>(revenue_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
-group        2  160.1   80.07   9.168 0.00383 **
-Residuals   12  104.8    8.73                   
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+store_format  2  692.9   346.5   6.187 0.0204 *
+Residuals     9  504.0    56.0                 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -659,18 +764,75 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>視覺化</strong></p>
+<p><strong>表 12-2 — 範例 12-1 的變異數分析摘要表</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td>692.917</td>
+<td>2</td>
+<td>346.458</td>
+<td>6.187</td>
+</tr>
+<tr class="even">
+<td>Within groups (error)</td>
+<td>504.000</td>
+<td>9</td>
+<td>56.000</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>1196.917</td>
+<td>11</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>在附表 A-7 中，當 <span class="math inline">d.f.N. = 2</span>、<span class="math inline">d.f.D. = 9</span> 時，檢定統計量 6.187 落在 <span class="math inline">\alpha = 0.025</span> 的 5.71 與 <span class="math inline">\alpha = 0.01</span> 的 8.02 之間，因此 <span class="math inline">0.01 &lt; \text{P-value} &lt; 0.025</span>，在 <span class="math inline">\alpha = 0.05</span> 下拒絕 <span class="math inline">H_0</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">ggplot</span>(bp_data, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> reduction, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各治療方式的血壓降低量"</span>,</span>
-<span id="cb3-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"治療組別"</span>, <span class="at">y =</span> <span class="st">"降低量（毫米汞柱）"</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">round</span>(<span class="fu">summary</span>(revenue_aov)[[<span class="dv">1</span>]][[<span class="st">"Pr(&gt;F)"</span>]][<span class="dv">1</span>], <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0204</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-1-5" class="slide level2">
+<h2>範例 12-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>繪圖</strong> — 檢定背後的資料</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">ggplot</span>(revenue, <span class="fu">aes</span>(<span class="at">x =</span> store_format, <span class="at">y =</span> daily_revenue, <span class="at">fill =</span> store_format)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各店型的單日營收"</span>,</span>
+<span id="cb15-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"店型"</span>, <span class="at">y =</span> <span class="st">"單日營收（新台幣千元）"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12-zh_files/figure-revealjs/e12-1-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12-zh_files/figure-revealjs/e12-1-6-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -687,61 +849,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>收費站交流道員工數</strong></p>
+<p><strong>各承運商的運送時間</strong></p>
 </div>
 <div class="callout-content">
-<p>州政府官員想了解三條賓夕法尼亞州收費公路各交流道的員工數是否有顯著差異。在 <span class="math inline">\alpha = 0.05</span> 下，檢定此主張。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>PA 高速公路</th>
-<th>格林斯堡支線</th>
-<th>比弗谷</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>7</td>
-<td>10</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>1</td>
-<td>12</td>
-</tr>
-<tr class="odd">
-<td>32</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>0</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>11</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>1</td>
-<td>11</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\bar{X}_1=15.5</span></td>
-<td><span class="math inline">\bar{X}_2=4.0</span></td>
-<td><span class="math inline">\bar{X}_3=5.8</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">s_1^2=81.9</span></td>
-<td><span class="math inline">s_2^2=25.6</span></td>
-<td><span class="math inline">s_3^2=29.0</span></td>
-</tr>
-</tbody>
-</table>
+<p>台灣某出口商的物流團隊想知道，貨物由桃園送到東南亞集貨中心的門到門運送時間，在三家承運商之間是否有差異。三家承運商各隨機抽取 6 筆近期出貨，記錄運送時間（小時）如下。在 <span class="math inline">\alpha = 0.05</span> 下，是否可以下結論說三家承運商的平均運送時間有顯著差異？</p>
+<pre><code>Carrier A   Carrier B   Carrier C
+    53          46          62
+    50          45          56
+    48          42          54
+    45          38          50
+    42          36          47
+    38          33          43</code></pre>
+<p><em>（模擬資料）</em></p>
+<p>回到 <a href="#/example-12-4">範例 12-4</a></p>
 </div>
 </div>
 </div>
@@ -757,15 +877,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0: \mu_1 = \mu_2 = \mu_3</span>；<span class="math inline">H_1:</span> 至少有一個平均數不同（主張）</p>
-<p><strong>步驟二：</strong> <span class="math inline">k=3</span>，<span class="math inline">N=18</span>；<span class="math inline">d.f.N.=2</span>，<span class="math inline">d.f.D.=15</span> → 臨界值：<strong>3.68</strong></p>
-<p><strong>步驟三b：</strong> <span class="math inline">\bar{X}_{GM} = \dfrac{152}{18} \approx 8.444</span></p>
-<p><strong>步驟三c：</strong> <span class="math inline">s_B^2 = \dfrac{6(15.5-8.444)^2 + 6(4.0-8.444)^2 + 6(5.833-8.444)^2}{2} = \dfrac{458.11}{2} = 229.06</span></p>
-<p><strong>步驟三d：</strong> <span class="math inline">s_W^2 = \dfrac{5(81.9) + 5(25.6) + 5(28.97)}{15} = \dfrac{682.33}{15} = 45.49</span></p>
-<p><strong>步驟三e：</strong> <span class="math inline">F = \dfrac{229.06}{45.49} = 5.035</span></p>
-<p><strong>步驟四：</strong> <span class="math inline">5.035 &gt; 3.68</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>步驟五：</strong> 有足夠的證據得出至少有一個交流道的平均員工數與其他不同的結論。</p>
+<p><strong>步驟 1.</strong> 陳述假設並指出主張。</p>
+<p><span class="math display">H_0: \mu_1 = \mu_2 = \mu_3</span> <span class="math display">H_1: \text{At least one mean is different from the others} \ \textit{(claim)}</span></p>
+<p><strong>步驟 2.</strong> 求臨界值。由 <span class="math inline">k = 3</span>、<span class="math inline">N = 18</span>、<span class="math inline">\alpha = 0.05</span>，</p>
+<p><span class="math display">d.f.N. = k - 1 = 2 \qquad d.f.D. = N - k = 18 - 3 = 15</span></p>
+<p>臨界值為 <strong>3.68</strong>。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">15</span>)   <span class="co"># Table A-7 rounds this value to 3.68</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.68232</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -781,43 +903,60 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>ANOVA 摘要表</strong></p>
+<p><strong>步驟 3a-b — 各組統計量與總平均數</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>carrier_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">53</span>, <span class="dv">50</span>, <span class="dv">48</span>, <span class="dv">45</span>, <span class="dv">42</span>, <span class="dv">38</span>)</span>
+<span id="cb19-2"><a href=""></a>carrier_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">45</span>, <span class="dv">42</span>, <span class="dv">38</span>, <span class="dv">36</span>, <span class="dv">33</span>)</span>
+<span id="cb19-3"><a href=""></a>carrier_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">56</span>, <span class="dv">54</span>, <span class="dv">50</span>, <span class="dv">47</span>, <span class="dv">43</span>)</span>
+<span id="cb19-4"><a href=""></a></span>
+<span id="cb19-5"><a href=""></a>transit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-6"><a href=""></a>  <span class="at">transit_hours =</span> <span class="fu">c</span>(carrier_a, carrier_b, carrier_c),</span>
+<span id="cb19-7"><a href=""></a>  <span class="at">carrier =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Carrier A"</span>, <span class="st">"Carrier B"</span>, <span class="st">"Carrier C"</span>), <span class="at">each =</span> <span class="dv">6</span>))</span>
+<span id="cb19-8"><a href=""></a>)</span>
+<span id="cb19-9"><a href=""></a></span>
+<span id="cb19-10"><a href=""></a>carrier_stats <span class="ot">&lt;-</span> transit <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href=""></a>  <span class="fu">group_by</span>(carrier) <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean =</span> <span class="fu">mean</span>(transit_hours), <span class="at">variance =</span> <span class="fu">var</span>(transit_hours))</span>
+<span id="cb19-13"><a href=""></a></span>
+<span id="cb19-14"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(carrier_stats, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>來源</th>
-<th>SS</th>
-<th>自由度</th>
-<th>MS</th>
-<th>F</th>
+<th style="text-align: center;">carrier</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">mean</th>
+<th style="text-align: center;">variance</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>組間</td>
-<td>458.11</td>
-<td>2</td>
-<td>229.06</td>
-<td><strong>5.035</strong></td>
+<td style="text-align: center;">Carrier A</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">46</td>
+<td style="text-align: center;">30.0</td>
 </tr>
 <tr class="even">
-<td>組內（誤差）</td>
-<td>682.33</td>
-<td>15</td>
-<td>45.49</td>
-<td></td>
+<td style="text-align: center;">Carrier B</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">26.8</td>
 </tr>
 <tr class="odd">
-<td><strong>總計</strong></td>
-<td><strong>1140.44</strong></td>
-<td><strong>17</strong></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">Carrier C</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">52</td>
+<td style="text-align: center;">46.0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>P 值：</strong> <span class="math inline">0.01 &lt; P &lt; 0.025</span>（查 F 表）；計算機：<span class="math inline">P = 0.021</span></p>
-<p>由於 <span class="math inline">F = 5.035 &gt; 3.68</span>，我們<strong>拒絕</strong> <span class="math inline">H_0</span>。</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>transit_grand_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(transit<span class="sc">$</span>transit_hours)</span>
+<span id="cb20-2"><a href=""></a>transit_grand_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -833,25 +972,25 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3c-e — 兩個變異數估計值與 <span class="math inline">F</span></strong></p>
+<p><span class="math display">s_B^2 = \frac{6(46-46)^2 + 6(40-46)^2 + 6(52-46)^2}{3-1} = \frac{432}{2} = 216</span></p>
+<p><span class="math display">s_W^2 = \frac{5(30) + 5(26.8) + 5(46)}{5+5+5} = \frac{514}{15} = 34.267</span></p>
+<p><span class="math display">F = \frac{216}{34.267} = 6.304</span></p>
+<p><strong>步驟 4-5.</strong> 由於 <span class="math inline">6.304 &gt; 3.68</span>，<strong>拒絕 <span class="math inline">H_0</span></strong>：有足夠證據支持「至少有一個平均數與其他平均數不同」。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>pa_turnpike  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">32</span>, <span class="dv">19</span>, <span class="dv">10</span>, <span class="dv">11</span>)</span>
-<span id="cb4-2"><a href=""></a>greensburg   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">11</span>, <span class="dv">1</span>)</span>
-<span id="cb4-3"><a href=""></a>beaver       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">12</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">11</span>)</span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a>emp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb4-6"><a href=""></a>  <span class="at">employees =</span> <span class="fu">c</span>(pa_turnpike, greensburg, beaver),</span>
-<span id="cb4-7"><a href=""></a>  <span class="at">road =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"PA Turnpike"</span>,<span class="st">"Greensburg"</span>,<span class="st">"Beaver Valley"</span>), <span class="at">each =</span> <span class="dv">6</span>)</span>
-<span id="cb4-8"><a href=""></a>)</span>
-<span id="cb4-9"><a href=""></a></span>
-<span id="cb4-10"><a href=""></a>result2 <span class="ot">&lt;-</span> <span class="fu">aov</span>(employees <span class="sc">~</span> road, <span class="at">data =</span> emp_data)</span>
-<span id="cb4-11"><a href=""></a><span class="fu">summary</span>(result2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>transit_between_var <span class="ot">&lt;-</span> <span class="fu">sum</span>(carrier_stats<span class="sc">$</span>n <span class="sc">*</span></span>
+<span id="cb22-2"><a href=""></a>                             (carrier_stats<span class="sc">$</span>mean <span class="sc">-</span> transit_grand_mean)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb22-3"><a href=""></a>transit_within_var  <span class="ot">&lt;-</span> <span class="fu">sum</span>((carrier_stats<span class="sc">$</span>n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> carrier_stats<span class="sc">$</span>variance) <span class="sc">/</span> (<span class="dv">18</span> <span class="sc">-</span> <span class="dv">3</span>)</span>
+<span id="cb22-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">between =</span> transit_between_var, <span class="at">within =</span> transit_within_var,</span>
+<span id="cb22-5"><a href=""></a>        <span class="at">F =</span> transit_between_var <span class="sc">/</span> transit_within_var), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
-road         2  458.1  229.06   5.035 0.0212 *
-Residuals   15  682.3   45.49                 
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+<pre><code>between  within       F 
+216.000  34.267   6.304 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>transit_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(transit_hours <span class="sc">~</span> carrier, <span class="at">data =</span> transit)</span>
+<span id="cb24-2"><a href=""></a><span class="fu">anova</span>(transit_aov)[[<span class="st">"Mean Sq"</span>]]   <span class="co"># aov reproduces the same two estimates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 216.00000  34.26667</code></pre>
 </div>
 </div>
 </div>
@@ -869,18 +1008,79 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>視覺化</strong></p>
+<p><strong>表 12-3 — 範例 12-2 的變異數分析摘要表</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td>432.000</td>
+<td>2</td>
+<td>216.000</td>
+<td>6.304</td>
+</tr>
+<tr class="even">
+<td>Within groups (error)</td>
+<td>514.000</td>
+<td>15</td>
+<td>34.267</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>946.000</td>
+<td>17</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>在附表 A-7 中，6.304 落在 <span class="math inline">\alpha = 0.025</span> 的 4.77 與 <span class="math inline">\alpha = 0.01</span> 的 6.36 之間，因此 <span class="math inline">0.01 &lt; \text{P-value} &lt; 0.025</span>，拒絕 <span class="math inline">H_0</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(emp_data, <span class="fu">aes</span>(<span class="at">x =</span> road, <span class="at">y =</span> employees, <span class="at">fill =</span> road)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各收費公路交流道的員工數"</span>,</span>
-<span id="cb6-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"收費公路"</span>, <span class="at">y =</span> <span class="st">"員工數"</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">summary</span>(transit_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)  
+carrier      2    432  216.00   6.304 0.0103 *
+Residuals   15    514   34.27                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-2-4" class="slide level2">
+<h2>範例 12-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>繪圖</strong> — 檢定背後的資料</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">ggplot</span>(transit, <span class="fu">aes</span>(<span class="at">x =</span> carrier, <span class="at">y =</span> transit_hours, <span class="at">fill =</span> carrier)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb28-3"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各承運商的門到門運送時間"</span>,</span>
+<span id="cb28-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"承運商"</span>, <span class="at">y =</span> <span class="st">"運送時間（小時）"</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12-zh_files/figure-revealjs/e12-2-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12-zh_files/figure-revealjs/e12-2-5-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -888,62 +1088,50 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-</section></section>
-<section>
-<section id="第12-2節scheffé-檢定與-tukey-檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第12-2節：Scheffé 檢定與 Tukey 檢定</h1>
-
 </section>
-<section id="事後檢定概觀" class="slide level2">
-<h2>事後檢定：概觀</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="f-檢定之後" class="slide level2">
+<h2><span class="math inline">F</span> 檢定之後</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>為何需要事後檢定？</strong></p>
+<p><strong>注意</strong></p>
 </div>
 <div class="callout-content">
-<p>當 F 檢定拒絕 <span class="math inline">H_0</span> 時，我們知道<strong>至少有一個平均數不同</strong>，但不知道是<strong>哪幾個</strong>不同。</p>
-<p>事後檢定在 ANOVA 之後進行所有的兩兩比較：</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>檢定</th>
-<th>最適用時機</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Scheffé</strong></td>
-<td>樣本數不等時；最保守</td>
-</tr>
-<tr class="even">
-<td><strong>Tukey</strong></td>
-<td>樣本數相等時；兩兩比較更有效力</td>
-</tr>
-</tbody>
-</table>
-<p><strong>一般原則：</strong> 當 <span class="math inline">n_i = n_j</span> 時用 Tukey；當樣本數不等時用 Scheffé。</p>
+<p>ANOVA 拒絕虛無假設時，只代表<strong>至少有一個平均數與其他平均數不同</strong>。要找出差異落在哪些平均數之間，必須再使用 Tukey、Scheffé 或 Bonferroni 等檢定。</p>
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="第12-2節scheffé-檢定tukey-檢定與-bonferroni-檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第12-2節：Scheffé 檢定、Tukey 檢定與 Bonferroni 檢定</h1>
+
+</section>
+<section id="找出差異所在" class="slide level2">
+<h2>找出差異所在</h2>
+<p>當 <span class="math inline">F</span> 檢定拒絕虛無假設時，研究者往往想知道差異<strong>落在何處</strong>。統計學家發展出數種方法，用來在 ANOVA 之後判定顯著差異的所在，其中最常用的是 <strong>Scheffé 檢定</strong>、<strong>Tukey 檢定</strong>與 <strong>Bonferroni 檢定</strong>。</p>
+<p>進行 Scheffé 檢定時，必須就所有可能的組合，每次取兩個平均數互相比較。例如有三個平均數時，須進行的比較為</p>
+<p><span class="math display">\bar{X}_1 \text{ versus } \bar{X}_2 \qquad \bar{X}_1 \text{ versus } \bar{X}_3 \qquad \bar{X}_2 \text{ versus } \bar{X}_3</span></p>
 </section>
 <section id="scheffé-檢定" class="slide level2">
 <h2>Scheffé 檢定</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Scheffé 檢定公式</strong></p>
+<p><strong>Scheffé 檢定統計量公式</strong></p>
 </div>
 <div class="callout-content">
-<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}</span></p>
-<p><strong>Scheffé 的臨界值：</strong> <span class="math display">F' = (k-1) \times C.V._{\text{ANOVA}}</span></p>
-<p>若 <span class="math inline">F_S &gt; F'</span>，則拒絕該對的 <span class="math inline">H_0</span>。</p>
+<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]}</span></p>
+<p>其中 <span class="math inline">\bar{X}_i</span> 與 <span class="math inline">\bar{X}_j</span> 為所比較樣本的平均數，<span class="math inline">n_i</span> 與 <span class="math inline">n_j</span> 為對應的樣本數，<span class="math inline">s_W^2</span> 為組內變異數。</p>
+<p>Scheffé 檢定的臨界值 <span class="math inline">F'</span> 是把 <span class="math inline">F</span> 檢定的臨界值乘以 <span class="math inline">k - 1</span>：</p>
+<p><span class="math display">F' = (k - 1)(C.V.)</span></p>
+<p>當 <span class="math inline">F_S &gt; F'</span> 時，所比較的兩個平均數之間有顯著差異。</p>
 </div>
 </div>
 </div>
@@ -956,11 +1144,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>血壓資料的 Scheffé 檢定</strong></p>
+<p><strong>對店型營收資料進行 Scheffé 檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>使用 Scheffé 檢定，判斷範例 12-1 中哪些平均數對在 <span class="math inline">\alpha = 0.05</span> 下有顯著差異。</p>
-<p>已知：<span class="math inline">\bar{X}_1=11.8</span>，<span class="math inline">\bar{X}_2=3.8</span>，<span class="math inline">\bar{X}_3=7.6</span>，<span class="math inline">s_W^2=8.73</span>，各組 <span class="math inline">n_i=5</span>。</p>
+<p>對 <a href="#/example-12-1">範例 12-1</a> 中的每一對平均數進行 Scheffé 檢定，判斷各對平均數之間是否存在顯著差異。使用 <span class="math inline">\alpha = 0.05</span>。</p>
+<p>已知 <span class="math inline">\bar{X}_1 = 72</span> <span class="math inline">(n_1 = 4)</span>、<span class="math inline">\bar{X}_2 = 65</span> <span class="math inline">(n_2 = 5)</span>、<span class="math inline">\bar{X}_3 = 52</span> <span class="math inline">(n_3 = 3)</span>，且 <span class="math inline">s_W^2 = 56</span>。</p>
 </div>
 </div>
 </div>
@@ -976,12 +1164,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>臨界值：</strong> <span class="math inline">F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78</span></p>
-<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>： <span class="math display">F_S = \frac{(11.8 - 3.8)^2}{8.73(1/5 + 1/5)} = \frac{64}{3.492} = 18.33 \quad \checkmark &gt; 7.78</span></p>
-<p><strong>b.</strong> <span class="math inline">\bar{X}_2</span> vs <span class="math inline">\bar{X}_3</span>： <span class="math display">F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad \text{不顯著}</span></p>
-<p><strong>c.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_3</span>： <span class="math display">F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{不顯著}</span></p>
-<p><strong>結論：</strong> 只有<strong>藥物 vs.&nbsp;運動</strong>（<span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>）有顯著差異。</p>
+<p>範例 12-1 的 <span class="math inline">F</span> 臨界值為 4.256，附表 A-7 取為 4.26。在 <span class="math inline">d.f.N. = 2</span>、<span class="math inline">d.f.D. = 9</span> 下，個別比較的臨界值為</p>
+<p><span class="math display">F' = (k-1)(C.V.) = (3-1)(4.256) = 8.513</span></p>
+<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> 對 <span class="math inline">\bar{X}_2</span>：<span class="math inline">F_S = \dfrac{(72 - 65)^2}{56 \left( \frac{1}{4} + \frac{1}{5} \right)} = 1.944</span>。由於 <span class="math inline">1.944 &lt; 8.513</span>，<span class="math inline">\mu_1</span> 與 <span class="math inline">\mu_2</span> <strong>沒有</strong>顯著差異。</p>
+<p><strong>b.</strong> <span class="math inline">\bar{X}_1</span> 對 <span class="math inline">\bar{X}_3</span>：<span class="math inline">F_S = \dfrac{(72 - 52)^2}{56 \left( \frac{1}{4} + \frac{1}{3} \right)} = 12.245</span>。由於 <span class="math inline">12.245 &gt; 8.513</span>，<span class="math inline">\mu_1</span> 與 <span class="math inline">\mu_3</span> <strong>有</strong>顯著差異。</p>
+<p><strong>c.</strong> <span class="math inline">\bar{X}_2</span> 對 <span class="math inline">\bar{X}_3</span>：<span class="math inline">F_S = \dfrac{(65 - 52)^2}{56 \left( \frac{1}{5} + \frac{1}{3} \right)} = 5.658</span>。由於 <span class="math inline">5.658 &lt; 8.513</span>，<span class="math inline">\mu_2</span> 與 <span class="math inline">\mu_3</span> <strong>沒有</strong>顯著差異。</p>
+<p>因此只有捷運站店的平均營收與郊區店的平均營收有顯著差異。</p>
 </div>
 </div>
 </div>
@@ -997,45 +1185,78 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 進行相同的檢定</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># 使用 agricolae 套件的 Scheffé 檢定（或手動計算）</span></span>
-<span id="cb7-2"><a href=""></a><span class="co"># 手動 Scheffe 檢定</span></span>
-<span id="cb7-3"><a href=""></a>scheffe_fs <span class="ot">&lt;-</span> <span class="cf">function</span>(x1_bar, x2_bar, sw2, n1, n2) {</span>
-<span id="cb7-4"><a href=""></a>  (x1_bar <span class="sc">-</span> x2_bar)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sw2 <span class="sc">*</span> (<span class="dv">1</span><span class="sc">/</span>n1 <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>n2))</span>
-<span id="cb7-5"><a href=""></a>}</span>
-<span id="cb7-6"><a href=""></a></span>
-<span id="cb7-7"><a href=""></a>sw2 <span class="ot">&lt;-</span> <span class="fl">8.73</span></span>
-<span id="cb7-8"><a href=""></a>cv_scheffe <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">3.89</span>  <span class="co"># F' = 7.78</span></span>
-<span id="cb7-9"><a href=""></a></span>
-<span id="cb7-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value F' ="</span>, cv_scheffe, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Critical value F' = 7.78 </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>scheffe_f <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb29-2"><a href=""></a>  mean_gap <span class="ot">&lt;-</span> format_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> format_stats<span class="sc">$</span>mean[j]</span>
+<span id="cb29-3"><a href=""></a>  mean_gap<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (within_var <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[i] <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[j]))</span>
+<span id="cb29-4"><a href=""></a>}</span>
+<span id="cb29-5"><a href=""></a></span>
+<span id="cb29-6"><a href=""></a>scheffe_cv <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">2</span>, <span class="at">df2 =</span> <span class="dv">9</span>)</span>
+<span id="cb29-7"><a href=""></a></span>
+<span id="cb29-8"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb29-9"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"MRT vs Campus"</span>, <span class="st">"MRT vs Suburban"</span>, <span class="st">"Campus vs Suburban"</span>),</span>
+<span id="cb29-10"><a href=""></a>  <span class="at">Fs =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">scheffe_f</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">scheffe_f</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">scheffe_f</span>(<span class="dv">2</span>, <span class="dv">3</span>)), <span class="dv">3</span>)</span>
+<span id="cb29-11"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb29-12"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">if_else</span>(Fs <span class="sc">&gt;</span> scheffe_cv, <span class="st">"significant"</span>, <span class="st">"not significant"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-13"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">Fs</th>
+<th style="text-align: center;">decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">MRT vs Campus</td>
+<td style="text-align: center;">1.944</td>
+<td style="text-align: center;">not significant</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">MRT vs Suburban</td>
+<td style="text-align: center;">12.245</td>
+<td style="text-align: center;">significant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Campus vs Suburban</td>
+<td style="text-align: center;">5.658</td>
+<td style="text-align: center;">not significant</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>pairs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb9-2"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Medication vs Exercise"</span>, <span class="fl">11.8</span>, <span class="fl">3.8</span>),</span>
-<span id="cb9-3"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Exercise vs Diet"</span>,       <span class="fl">3.8</span>,  <span class="fl">7.6</span>),</span>
-<span id="cb9-4"><a href=""></a>  <span class="fu">c</span>(<span class="st">"Medication vs Diet"</span>,     <span class="fl">11.8</span>, <span class="fl">7.6</span>)</span>
-<span id="cb9-5"><a href=""></a>)</span>
-<span id="cb9-6"><a href=""></a></span>
-<span id="cb9-7"><a href=""></a><span class="cf">for</span> (p <span class="cf">in</span> pairs) {</span>
-<span id="cb9-8"><a href=""></a>  fs <span class="ot">&lt;-</span> <span class="fu">scheffe_fs</span>(<span class="fu">as.numeric</span>(p[<span class="dv">2</span>]), <span class="fu">as.numeric</span>(p[<span class="dv">3</span>]), sw2, <span class="dv">5</span>, <span class="dv">5</span>)</span>
-<span id="cb9-9"><a href=""></a>  sig <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(fs <span class="sc">&gt;</span> cv_scheffe, <span class="st">"SIGNIFICANT"</span>, <span class="st">"not significant"</span>)</span>
-<span id="cb9-10"><a href=""></a>  <span class="fu">cat</span>(p[<span class="dv">1</span>], <span class="st">": Fs ="</span>, <span class="fu">round</span>(fs, <span class="dv">2</span>), <span class="st">"-&gt;"</span>, sig, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb9-11"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">round</span>(scheffe_cv, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Medication vs Exercise : Fs = 18.33 -&gt; SIGNIFICANT 
-Exercise vs Diet : Fs = 4.14 -&gt; not significant 
-Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
+<pre><code>[1] 8.513</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
+<section id="關於-scheffé-檢定的補充" class="slide level2">
+<h2>關於 Scheffé 檢定的補充</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>有時候即使 <span class="math inline">F</span> 檢定統計量大於臨界值，Scheffé 檢定<strong>仍可能</strong>找不到任何一對顯著不同的平均數。這是因為差異其實可能落在「兩個以上平均數的平均」與另一個平均數之間。Scheffé 檢定可以做這類比較，但其技術已超出本書範圍。</p>
+</div>
+</div>
+</div>
+</section>
 <section id="tukey-檢定" class="slide level2">
 <h2>Tukey 檢定</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<p>在完成變異數分析之後，若<strong>各組樣本數相同</strong>，也可以使用 Tukey 檢定進行平均數的兩兩比較。Tukey 檢定的檢定統計量符號為 <span class="math inline">q</span>。</p>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
@@ -1044,14 +1265,10 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <p><strong>Tukey 檢定公式</strong></p>
 </div>
 <div class="callout-content">
-<p>當<strong>所有樣本數相等</strong>時使用：</p>
 <p><span class="math display">q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}</span></p>
-<p>將 <span class="math inline">|q|</span> 與 <strong>Tukey 表</strong>（表 N）中的臨界值比較：</p>
-<ul>
-<li>列：<span class="math inline">\nu</span> = <span class="math inline">s_W^2</span> 的自由度（= <span class="math inline">N - k</span>）</li>
-<li>欄：<span class="math inline">k</span> = 組數</li>
-</ul>
-<p>若 <span class="math inline">|q| &gt;</span> 臨界值，則拒絕該對的 <span class="math inline">H_0</span>。</p>
+<p>其中 <span class="math inline">\bar{X}_i</span> 與 <span class="math inline">\bar{X}_j</span> 為所比較樣本的平均數，<span class="math inline">n</span> 為共同的樣本數，<span class="math inline">s_W^2</span> 為組內變異數。</p>
+<p>當 <span class="math inline">q</span> 的<strong>絕對值</strong>大於 Tukey 檢定的臨界值時，所比較的兩個平均數之間有顯著差異。</p>
+<p>臨界值查<strong>附表 A-9</strong>：<span class="math inline">k</span> 為原問題中的平均數個數（查最上一列），<span class="math inline">v = N - k</span> 為 <span class="math inline">s_W^2</span> 的自由度（查最左一欄）。</p>
 </div>
 </div>
 </div>
@@ -1064,11 +1281,11 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>血壓資料的 Tukey 檢定</strong></p>
+<p><strong>對承運商運送時間資料進行 Tukey 檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>使用 Tukey 檢定，判斷範例 12-1 中哪些平均數對在 <span class="math inline">\alpha = 0.05</span> 下有顯著差異。</p>
-<p><span class="math inline">\bar{X}_1=11.8</span>，<span class="math inline">\bar{X}_2=3.8</span>，<span class="math inline">\bar{X}_3=7.6</span>，<span class="math inline">s_W^2=8.73</span>，<span class="math inline">n=5</span></p>
+<p>在 <span class="math inline">\alpha = 0.05</span> 下，以 Tukey 檢定檢驗 <a href="#/example-12-2">範例 12-2</a> 中的每一對平均數，判斷何處存在差異。</p>
+<p>已知 <span class="math inline">\bar{X}_1 = 46</span>（承運商 A）、<span class="math inline">\bar{X}_2 = 40</span>（承運商 B）、<span class="math inline">\bar{X}_3 = 52</span>（承運商 C）、<span class="math inline">s_W^2 = 34.267</span>，且 <span class="math inline">n = 6</span>。</p>
 </div>
 </div>
 </div>
@@ -1084,13 +1301,10 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><span class="math inline">\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321</span></p>
-<p><strong>臨界值：</strong> <span class="math inline">k=3</span>，<span class="math inline">d.f.=12</span>，<span class="math inline">\alpha=0.05</span> → <span class="math inline">q_{crit} = 3.77</span>（查 Tukey 表）</p>
-<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_2</span>： <span class="math display">q = \frac{11.8 - 3.8}{1.321} = \frac{8}{1.321} = 6.06 \quad \checkmark &gt; 3.77</span></p>
-<p><strong>b.</strong> <span class="math inline">\bar{X}_1</span> vs <span class="math inline">\bar{X}_3</span>： <span class="math display">q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{不顯著}</span></p>
-<p><strong>c.</strong> <span class="math inline">\bar{X}_2</span> vs <span class="math inline">\bar{X}_3</span>： <span class="math display">q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{不顯著}</span></p>
-<p><strong>結論：</strong> 只有<strong>藥物 vs.&nbsp;運動</strong>有顯著差異 — 與 Scheffé 結果一致。</p>
+<p><strong>a.</strong> <span class="math inline">\bar{X}_1</span> 對 <span class="math inline">\bar{X}_2</span>：<span class="math inline">q = \dfrac{46 - 40}{\sqrt{34.267/6}} = 2.511</span></p>
+<p><strong>b.</strong> <span class="math inline">\bar{X}_1</span> 對 <span class="math inline">\bar{X}_3</span>：<span class="math inline">q = \dfrac{46 - 52}{\sqrt{34.267/6}} = -2.511</span></p>
+<p><strong>c.</strong> <span class="math inline">\bar{X}_2</span> 對 <span class="math inline">\bar{X}_3</span>：<span class="math inline">q = \dfrac{40 - 52}{\sqrt{34.267/6}} = -5.021</span></p>
+<p>由於 <span class="math inline">k = 3</span>、<span class="math inline">d.f. = 18 - 3 = 15</span>、<span class="math inline">\alpha = 0.05</span>，附表 A-9 的臨界值為 <strong>3.67</strong>。唯一絕對值大於臨界值的 <span class="math inline">q</span> 值是 <span class="math inline">\bar{X}_2</span> 與 <span class="math inline">\bar{X}_3</span> 的差異。結論是承運商 B 與承運商 C 的平均運送時間有顯著差異。</p>
 </div>
 </div>
 </div>
@@ -1106,31 +1320,44 @@ Medication vs Diet : Fs = 5.05 -&gt; not significant </code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 進行相同的檢定</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># 使用 R 內建函數進行 Tukey HSD 檢定</span></span>
-<span id="cb11-2"><a href=""></a>medication <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">15</span>, <span class="dv">13</span>)</span>
-<span id="cb11-3"><a href=""></a>exercise   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb11-4"><a href=""></a>diet       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb11-5"><a href=""></a></span>
-<span id="cb11-6"><a href=""></a>bp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-7"><a href=""></a>  <span class="at">reduction =</span> <span class="fu">c</span>(medication, exercise, diet),</span>
-<span id="cb11-8"><a href=""></a>  <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Medication"</span>,<span class="st">"Exercise"</span>,<span class="st">"Diet"</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
-<span id="cb11-9"><a href=""></a>)</span>
-<span id="cb11-10"><a href=""></a></span>
-<span id="cb11-11"><a href=""></a>bp_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(reduction <span class="sc">~</span> group, <span class="at">data =</span> bp_data)</span>
-<span id="cb11-12"><a href=""></a><span class="fu">TukeyHSD</span>(bp_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>tukey_q <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb32-2"><a href=""></a>  (carrier_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> carrier_stats<span class="sc">$</span>mean[j]) <span class="sc">/</span> <span class="fu">sqrt</span>(transit_within_var <span class="sc">/</span> <span class="dv">6</span>)</span>
+<span id="cb32-3"><a href=""></a>}</span>
+<span id="cb32-4"><a href=""></a></span>
+<span id="cb32-5"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb32-6"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"A vs B"</span>, <span class="st">"A vs C"</span>, <span class="st">"B vs C"</span>),</span>
+<span id="cb32-7"><a href=""></a>  <span class="at">q =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">tukey_q</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">tukey_q</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">tukey_q</span>(<span class="dv">2</span>, <span class="dv">3</span>)), <span class="dv">3</span>)</span>
+<span id="cb32-8"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb32-9"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">q</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">A vs B</td>
+<td style="text-align: center;">2.511</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">A vs C</td>
+<td style="text-align: center;">-2.511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">B vs C</td>
+<td style="text-align: center;">-5.021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qtukey</span>(<span class="fl">0.95</span>, <span class="at">nmeans =</span> <span class="dv">3</span>, <span class="at">df =</span> <span class="dv">15</span>), <span class="dv">3</span>)   <span class="co"># Table A-9 rounds this value to 3.67</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Tukey multiple comparisons of means
-    95% family-wise confidence level
-
-Fit: aov(formula = reduction ~ group, data = bp_data)
-
-$group
-                    diff        lwr      upr     p adj
-Exercise-Diet       -3.8 -8.7863602  1.18636 0.1465881
-Medication-Diet      4.2 -0.7863602  9.18636 0.1031329
-Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
+<pre><code>[1] 3.673</code></pre>
 </div>
 </div>
 </div>
@@ -1148,14 +1375,46 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>視覺化</strong></p>
+<p><strong>Tukey 的誠實顯著差異（HSD）</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>tukey_result <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(bp_aov)</span>
-<span id="cb13-2"><a href=""></a><span class="fu">plot</span>(tukey_result, <span class="at">las =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>transit_tukey <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(transit_aov)</span>
+<span id="cb35-2"><a href=""></a>transit_tukey</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = transit_hours ~ carrier, data = transit)
+
+$carrier
+                    diff        lwr       upr     p adj
+Carrier B-Carrier A   -6 -14.778613  2.778613 0.2112790
+Carrier C-Carrier A    6  -2.778613 14.778613 0.2112790
+Carrier C-Carrier B   12   3.221387 20.778613 0.0076917</code></pre>
+</div>
+</div>
+<p>只有承運商 C 與承運商 B 這一對的調整後 P 值小於 <span class="math inline">0.05</span>，與手算結果一致。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-4-3" class="slide level2">
+<h2>範例 12-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>輸出圖形</strong> — 整體信賴區間</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">plot</span>(transit_tukey, <span class="at">las =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch12-zh_files/figure-revealjs/e12-4-2-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="ch12-zh_files/figure-revealjs/e12-4-3-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1164,204 +1423,37 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 </div>
 </div>
 </section>
-<section id="scheffé-vs.-tukey比較" class="slide level2">
-<h2>Scheffé vs.&nbsp;Tukey：比較</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>各檢定的適用時機</strong></p>
-</div>
-<div class="callout-content">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>特性</th>
-<th>Scheffé</th>
-<th>Tukey</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>樣本數</td>
-<td>不等或相等</td>
-<td>必須相等</td>
-</tr>
-<tr class="even">
-<td>效力</td>
-<td>較低（保守）</td>
-<td>兩兩比較較高</td>
-</tr>
-<tr class="odd">
-<td>比較類型</td>
-<td>兩兩比較及組合</td>
-<td>僅限兩兩比較</td>
-</tr>
-<tr class="even">
-<td>建議</td>
-<td><span class="math inline">n_i</span> 不等時</td>
-<td><span class="math inline">n_i</span> 相等時</td>
-</tr>
-</tbody>
-</table>
-<p><strong>重要提示：</strong> 當 F 檢定拒絕 <span class="math inline">H_0</span> 時，事後檢定有時可能找不到任何顯著的配對 — 差異可能在於多個平均數的組合，而非單一配對。</p>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="第12-3節二因子變異數分析" class="title-slide slide level1 center" data-background-color="#2c4a6e">
-<h1>第12-3節：二因子變異數分析</h1>
-
-</section>
-<section id="二因子-anova-簡介" class="slide level2">
-<h2>二因子 ANOVA 簡介</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>單因子 ANOVA 的延伸</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>單因子 ANOVA：</strong> 一個自變數（因子）</p>
-<p><strong>二因子 ANOVA：</strong> 兩個自變數（因子）</p>
-<p>二因子 ANOVA 的優點： - 在單一實驗中<strong>同時檢定兩個因子</strong> - 檢定兩個因子之間的<strong>交互作用效果</strong> - 比兩次單獨的單因子 ANOVA 更有效率</p>
-</div>
-</div>
-</div>
-</section>
-<section id="二因子-anova設計結構" class="slide level2">
-<h2>二因子 ANOVA：設計結構</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>因子設計術語</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li><strong>因子 A</strong> 有 <span class="math inline">a</span> 個水準</li>
-<li><strong>因子 B</strong> 有 <span class="math inline">b</span> 個水準</li>
-<li>每格有 <strong><span class="math inline">n</span></strong> 位受試者（必須相等）</li>
-<li><strong>受試者總數</strong> = <span class="math inline">abn</span></li>
-</ul>
-<p><strong><span class="math inline">2 \times 2</span> 設計</strong>每個因子各有2個水準 → 4個處理組。</p>
-<p>例如：植物肥料類型（A1, A2）<span class="math inline">\times</span> 土壤類型（I, II）→ 4組</p>
-</div>
-</div>
-</div>
-</section>
-<section id="二因子-anova三個假設" class="slide level2">
-<h2>二因子 ANOVA：三個假設</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>假設</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>1. 交互作用效果：</strong> <span class="math display">H_0: \text{因子 A 與因子 B 之間無交互作用}</span> <span class="math display">H_1: \text{A 與 B 之間有交互作用}</span></p>
-<p><strong>2. 因子 A 的主效果：</strong> <span class="math display">H_0: \text{A 各水準的平均數無差異}</span> <span class="math display">H_1: \text{至少有一個 A 的平均數不同}</span></p>
-<p><strong>3. 因子 B 的主效果：</strong> <span class="math display">H_0: \text{B 各水準的平均數無差異}</span> <span class="math display">H_1: \text{至少有一個 B 的平均數不同}</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="二因子-anova假設條件" class="slide level2">
-<h2>二因子 ANOVA：假設條件</h2>
+<section id="bonferroni-檢定" class="slide level2">
+<h2>Bonferroni 檢定</h2>
+<p>Bonferroni 檢定使用 <span class="math inline">t</span> 檢定，但會調整臨界值與 P 值，以克服「檢定次數增加導致顯著水準上升」的問題。</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>假設條件</strong></p>
+<p><strong>Bonferroni 檢定統計量公式</strong></p>
 </div>
 <div class="callout-content">
-<ol type="1">
-<li>母體必須<strong>服從常態分配或近似常態分配</strong></li>
-<li>所有樣本必須<strong>相互獨立</strong></li>
-<li><strong>各組母體變異數</strong>必須相等</li>
-<li><strong>各組樣本數必須相等</strong>（每格的 <span class="math inline">n</span> 相同）</li>
-</ol>
+<p><span class="math display">t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k</span></p>
+<p>其中 <span class="math inline">\bar{X}_i</span> 與 <span class="math inline">\bar{X}_j</span> 為所比較樣本的平均數，<span class="math inline">n_i</span> 與 <span class="math inline">n_j</span> 為對應的樣本數，<span class="math inline">N</span> 為研究中的總人數（或總個數），<span class="math inline">k</span> 為組數。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="二因子-anova摘要表" class="slide level2">
-<h2>二因子 ANOVA：摘要表</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="bonferroni-的調整" class="slide level2">
+<h2>Bonferroni 的調整</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>一般 ANOVA 表</strong></p>
+<p><strong>調整顯著水準與 P 值</strong></p>
 </div>
 <div class="callout-content">
-<table class="caption-top">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 18%">
-<col style="width: 29%">
-<col style="width: 18%">
-<col style="width: 11%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>來源</th>
-<th>SS</th>
-<th>自由度</th>
-<th>MS</th>
-<th>F</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>因子 A</td>
-<td>SSA</td>
-<td><span class="math inline">a-1</span></td>
-<td>MSA</td>
-<td><span class="math inline">F_A = MSA/MSW</span></td>
-</tr>
-<tr class="even">
-<td>因子 B</td>
-<td>SSB</td>
-<td><span class="math inline">b-1</span></td>
-<td>MSB</td>
-<td><span class="math inline">F_B = MSB/MSW</span></td>
-</tr>
-<tr class="odd">
-<td>交互作用 <span class="math inline">A \times B</span></td>
-<td>SS(<span class="math inline">A \times B</span>)</td>
-<td><span class="math inline">(a-1)(b-1)</span></td>
-<td>MS(<span class="math inline">A \times B</span>)</td>
-<td><span class="math inline">F_{A \times B} = MS(A \times B)/MSW</span></td>
-</tr>
-<tr class="even">
-<td>組內（誤差）</td>
-<td>SSW</td>
-<td><span class="math inline">ab(n-1)</span></td>
-<td>MSW</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>總計</td>
-<td>SST</td>
-<td><span class="math inline">abn-1</span></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>臨界值的調整方式是<strong>把 <span class="math inline">\alpha</span> 除以兩兩配對的組合數</strong> <span class="math inline">_kC_2</span>。若有 3 個平均數，<span class="math inline">_3C_2 = 3</span> 次比較，故 <span class="math inline">\alpha</span> 除以 3；若有 4 個平均數，<span class="math inline">_4C_2 = 6</span> 次比較，故 <span class="math inline">\alpha</span> 除以 6。</p>
+<p>至於 P 值，則是把單次比較兩個平均數所得的 P 值<strong>乘以</strong>配對組合數 <span class="math inline">_kC_2</span>。P 值不可能超過 1，因此調整後大於 1 的值一律記為 1。</p>
 </div>
 </div>
 </div>
@@ -1374,32 +1466,11 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>油耗</strong></p>
+<p><strong>對店型營收資料進行 Bonferroni 檢定</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者探討<strong>汽油類型</strong>（普通 vs.&nbsp;高辛烷值）和<strong>汽車類型</strong>（兩輪驅動 vs.&nbsp;四輪驅動）是否影響油耗（每加侖英里數）。四種組合各測試兩輛車。</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th></th>
-<th>兩輪驅動</th>
-<th>四輪驅動</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>普通</strong></td>
-<td>26.7, 25.2</td>
-<td>28.6, 29.3</td>
-</tr>
-<tr class="even">
-<td><strong>高辛烷值</strong></td>
-<td>32.3, 32.8</td>
-<td>26.1, 24.2</td>
-</tr>
-</tbody>
-</table>
-<p>在 <span class="math inline">\alpha = 0.05</span> 下進行檢定。</p>
+<p>在 <span class="math inline">\alpha = 0.05</span> 下，以 Bonferroni 檢定比較 <a href="#/example-12-1">範例 12-1</a> 中的每一對平均數。</p>
+<p>已知 <span class="math inline">\bar{X}_1 = 72</span> <span class="math inline">(n_1 = 4)</span>、<span class="math inline">\bar{X}_2 = 65</span> <span class="math inline">(n_2 = 5)</span>、<span class="math inline">\bar{X}_3 = 52</span> <span class="math inline">(n_3 = 3)</span>、<span class="math inline">s_W^2 = 56</span>、<span class="math inline">N = 12</span>、<span class="math inline">k = 3</span>，故 <span class="math inline">d.f. = 12 - 3 = 9</span>。</p>
 </div>
 </div>
 </div>
@@ -1415,10 +1486,12 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>交互作用（<span class="math inline">A \times B</span>）：</strong> <span class="math inline">H_0</span>：汽油類型與汽車類型之間無交互作用 <span class="math inline">H_1</span>：有交互作用效果</p>
-<p><strong>因子 A（汽油）：</strong> <span class="math inline">H_0</span>：各汽油類型的平均數無差異 <span class="math inline">H_1</span>：各汽油類型的平均數有差異</p>
-<p><strong>因子 B（汽車）：</strong> <span class="math inline">H_0</span>：各汽車類型的平均數無差異 <span class="math inline">H_1</span>：各汽車類型的平均數有差異</p>
-<p><strong>步驟二：</strong> <span class="math inline">a=2</span>，<span class="math inline">b=2</span>，<span class="math inline">n=2</span>；所有 F 臨界值的 <span class="math inline">d.f.N.=1</span>，<span class="math inline">d.f.D.=ab(n-1)=4</span> → <span class="math inline">F_{crit} = 7.71</span></p>
+<p><strong>a.</strong> <span class="math inline">H_0: \mu_1 = \mu_2</span>。<span class="math inline">\ t = \dfrac{72 - 65}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{5} \right)}} = \dfrac{7}{5.020} = 1.394</span></p>
+<p><span class="math inline">d.f. = 9</span> 時 <span class="math inline">t = 1.394</span> 的 P 值為 <span class="math inline">0.1966</span>，調整後為 <span class="math inline">0.1966 \times 3 = 0.5899</span>。<strong>不拒絕</strong> <span class="math inline">H_0</span>。</p>
+<p><strong>b.</strong> <span class="math inline">H_0: \mu_1 = \mu_3</span>。<span class="math inline">\ t = \dfrac{72 - 52}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{3} \right)}} = \dfrac{20}{5.715} = 3.499</span></p>
+<p>P 值為 <span class="math inline">0.0067</span>，調整後為 <span class="math inline">0.0067 \times 3 = 0.0202</span>。由於 <span class="math inline">0.0202 &lt; 0.05</span>，<strong>拒絕</strong> <span class="math inline">H_0</span>。</p>
+<p><strong>c.</strong> <span class="math inline">H_0: \mu_2 = \mu_3</span>。<span class="math inline">\ t = \dfrac{65 - 52}{\sqrt{56 \left( \frac{1}{5} + \frac{1}{3} \right)}} = \dfrac{13}{5.465} = 2.379</span></p>
+<p>P 值為 <span class="math inline">0.0413</span>，調整後為 <span class="math inline">0.0413 \times 3 = 0.1239</span>，並未小於 <span class="math inline">\alpha = 0.05</span>。<strong>不拒絕</strong> <span class="math inline">H_0</span>。</p>
 </div>
 </div>
 </div>
@@ -1434,55 +1507,56 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
+<p><strong>以 R 進行相同的檢定</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>bonferroni_t <span class="ot">&lt;-</span> <span class="cf">function</span>(i, j) {</span>
+<span id="cb38-2"><a href=""></a>  mean_gap <span class="ot">&lt;-</span> format_stats<span class="sc">$</span>mean[i] <span class="sc">-</span> format_stats<span class="sc">$</span>mean[j]</span>
+<span id="cb38-3"><a href=""></a>  mean_gap <span class="sc">/</span> <span class="fu">sqrt</span>(within_var <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[i] <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> format_stats<span class="sc">$</span>n[j]))</span>
+<span id="cb38-4"><a href=""></a>}</span>
+<span id="cb38-5"><a href=""></a></span>
+<span id="cb38-6"><a href=""></a>t_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">bonferroni_t</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="fu">bonferroni_t</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">bonferroni_t</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb38-7"><a href=""></a>p_values <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t_values), <span class="at">df =</span> <span class="dv">9</span>)</span>
+<span id="cb38-8"><a href=""></a></span>
+<span id="cb38-9"><a href=""></a><span class="fu">data.frame</span>(</span>
+<span id="cb38-10"><a href=""></a>  <span class="at">comparison =</span> <span class="fu">c</span>(<span class="st">"MRT vs Campus"</span>, <span class="st">"MRT vs Suburban"</span>, <span class="st">"Campus vs Suburban"</span>),</span>
+<span id="cb38-11"><a href=""></a>  <span class="at">t          =</span> <span class="fu">round</span>(t_values, <span class="dv">3</span>),</span>
+<span id="cb38-12"><a href=""></a>  <span class="at">p_single   =</span> <span class="fu">round</span>(p_values, <span class="dv">4</span>),</span>
+<span id="cb38-13"><a href=""></a>  <span class="at">p_adjusted =</span> <span class="fu">round</span>(<span class="fu">pmin</span>(<span class="dv">1</span>, <span class="dv">3</span> <span class="sc">*</span> p_values), <span class="dv">4</span>)</span>
+<span id="cb38-14"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb38-15"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>來源</th>
-<th>SS</th>
-<th>自由度</th>
-<th>MS</th>
-<th>F</th>
+<th style="text-align: center;">comparison</th>
+<th style="text-align: center;">t</th>
+<th style="text-align: center;">p_single</th>
+<th style="text-align: center;">p_adjusted</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>汽油 A</td>
-<td>3.920</td>
-<td>1</td>
-<td>3.920</td>
-<td>4.752</td>
+<td style="text-align: center;">MRT vs Campus</td>
+<td style="text-align: center;">1.394</td>
+<td style="text-align: center;">0.1966</td>
+<td style="text-align: center;">0.5899</td>
 </tr>
 <tr class="even">
-<td>汽車 B</td>
-<td>9.680</td>
-<td>1</td>
-<td>9.680</td>
-<td><strong>11.733</strong></td>
+<td style="text-align: center;">MRT vs Suburban</td>
+<td style="text-align: center;">3.499</td>
+<td style="text-align: center;">0.0067</td>
+<td style="text-align: center;">0.0202</td>
 </tr>
 <tr class="odd">
-<td>交互作用 <span class="math inline">A \times B</span></td>
-<td>54.080</td>
-<td>1</td>
-<td>54.080</td>
-<td><strong>65.552</strong></td>
-</tr>
-<tr class="even">
-<td>組內（誤差）</td>
-<td>3.300</td>
-<td>4</td>
-<td>0.825</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>總計</strong></td>
-<td><strong>70.980</strong></td>
-<td><strong>7</strong></td>
-<td></td>
-<td></td>
+<td style="text-align: center;">Campus vs Suburban</td>
+<td style="text-align: center;">2.379</td>
+<td style="text-align: center;">0.0413</td>
+<td style="text-align: center;">0.1239</td>
 </tr>
 </tbody>
 </table>
-<p>所有檢定的臨界值：<strong>7.71</strong></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1498,95 +1572,348 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>汽油 A：</strong> <span class="math inline">F_A = 4.752 &lt; 7.71</span> → <strong>無法拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>汽車 B：</strong> <span class="math inline">F_B = 11.733 &gt; 7.71</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>交互作用 <span class="math inline">A \times B</span>：</strong> <span class="math inline">F_{A \times B} = 65.552 &gt; 7.71</span> → <strong>拒絕</strong> <span class="math inline">H_0</span></p>
-<p><strong>重要：</strong> 由於交互作用<strong>顯著</strong>，汽車類型的主效果<strong>不應</strong>獨立解讀 — 其影響取決於使用哪種汽油。</p>
-<p><strong>結論：</strong> 汽油類型與汽車類型的組合對油耗有顯著影響。</p>
+<p><strong>使用 <code>pairwise.t.test</code></strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">pairwise.t.test</span>(revenue<span class="sc">$</span>daily_revenue, revenue<span class="sc">$</span>store_format,</span>
+<span id="cb39-2"><a href=""></a>                <span class="at">p.adjust.method =</span> <span class="st">"bonferroni"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  revenue$daily_revenue and revenue$store_format 
+
+         MRT  Campus
+Campus   0.59 -     
+Suburban 0.02 0.12  
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
+<p>調整後的 P 值為 0.59、0.02 與 0.12，與手算得到的決策相同。</p>
+<p>此處使用 P 值，是因為調整後的 <span class="math inline">\alpha</span> 為 <span class="math inline">0.05 \div 3 = 0.017</span>，而自由度 9、<span class="math inline">\alpha = 0.017</span> 的臨界 <span class="math inline">t</span> 值無法直接從附表 A-5 查得。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="範例-12-5-3" class="slide level2">
-<h2>範例 12-5</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
+<section id="應該使用哪一種檢定" class="slide level2">
+<h2>應該使用哪一種檢定？</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題</strong></p>
+<p><strong>三種檢定的取捨</strong></p>
 </div>
 <div class="callout-content">
-<p>格子平均數視覺化：</p>
+<ul>
+<li><strong>Scheffé 檢定</strong>最一般化。樣本數不同時也可使用，而且能比較例如 <span class="math inline">\bar{X}_1</span> 與 <span class="math inline">\bar{X}_2</span> 的平均和 <span class="math inline">\bar{X}_3</span> 之間的差異。</li>
+<li><strong>Tukey 檢定</strong>在兩兩比較平均數時比 Scheffé 檢定更有檢定力，但要求各組樣本數相等。</li>
+<li>兩兩比較的<strong>經驗法則</strong>：<strong>樣本數相等時用 Tukey 檢定</strong>，<strong>樣本數不等時用 Scheffé 檢定</strong>。本書遵循這項法則。</li>
+<li>由於臨界值的調整方式不同，且當檢定統計量接近臨界值時，三種檢定的結果可能不一致。統計學家對於該用哪一種檢定並無共識；應採用該研究所屬學術領域慣用的檢定。</li>
+</ul>
+</div>
+</div>
+</div>
+<p>在範例 12-3 與範例 12-5 中，Scheffé 檢定與 Bonferroni 檢定都找出 <span class="math inline">\mu_1</span> 與 <span class="math inline">\mu_3</span> 之間的差異。</p>
+</section></section>
+<section>
+<section id="第12-3節二因子變異數分析" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>第12-3節：二因子變異數分析</h1>
+
+</section>
+<section id="二因子變異數分析" class="slide level2">
+<h2>二因子變異數分析</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>二因子 ANOVA</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>二因子 ANOVA</strong> 是單因子變異數分析的延伸，涉及<strong>兩個自變數</strong>。這些自變數也稱為<strong>因子</strong>。</p>
+</div>
+</div>
+</div>
+<p>在使用二因子變異數分析的研究中，研究者可以檢定兩個自變數（因子）對一個依變數的效果；此外，還可以檢定兩個變數的<strong>交互作用效果</strong>。</p>
+<p>二因子變異數分析相當複雜，這裡僅作簡要介紹。</p>
+</section>
+<section id="處理組" class="slide level2">
+<h2>處理組</h2>
+<p>假設研究者想檢定兩種植物營養劑（<span class="math inline">A_1</span>、<span class="math inline">A_2</span>）與兩種土壤（I、II）對植物生長的影響，其他因素如水分、溫度與日照皆保持固定。於是設置四組植物（圖 12-4）。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>圖 12-4 — 營養劑與土壤實驗的處理組</strong></p>
+</div>
+<div class="callout-content">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th></th>
-<th>兩輪驅動</th>
-<th>四輪驅動</th>
+<th>Plant food</th>
+<th>Soil type I</th>
+<th>Soil type II</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>普通</strong></td>
-<td>25.95</td>
-<td>28.95</td>
+<td><span class="math inline">A_1</span></td>
+<td>第1組：營養劑 <span class="math inline">A_1</span>、土壤 I</td>
+<td>第2組：營養劑 <span class="math inline">A_1</span>、土壤 II</td>
 </tr>
 <tr class="even">
-<td><strong>高辛烷值</strong></td>
-<td>32.55</td>
-<td>25.15</td>
+<td><span class="math inline">A_2</span></td>
+<td>第3組：營養劑 <span class="math inline">A_2</span>、土壤 I</td>
+<td>第4組：營養劑 <span class="math inline">A_2</span>、土壤 II</td>
 </tr>
 </tbody>
 </table>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>gas_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb14-2"><a href=""></a>  <span class="at">mpg  =</span> <span class="fu">c</span>(<span class="fl">26.7</span>, <span class="fl">25.2</span>, <span class="fl">28.6</span>, <span class="fl">29.3</span>, <span class="fl">32.3</span>, <span class="fl">32.8</span>, <span class="fl">26.1</span>, <span class="fl">24.2</span>),</span>
-<span id="cb14-3"><a href=""></a>  <span class="at">gas  =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,<span class="st">"Regular"</span>,</span>
-<span id="cb14-4"><a href=""></a>               <span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>,<span class="st">"High-octane"</span>)),</span>
-<span id="cb14-5"><a href=""></a>  <span class="at">auto =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Two-wheel"</span>,<span class="st">"Two-wheel"</span>,<span class="st">"Four-wheel"</span>,<span class="st">"Four-wheel"</span>), <span class="dv">2</span>)</span>
-<span id="cb14-6"><a href=""></a>)</span>
-<span id="cb14-7"><a href=""></a></span>
-<span id="cb14-8"><a href=""></a>cell_means <span class="ot">&lt;-</span> gas_data <span class="sc">%&gt;%</span></span>
-<span id="cb14-9"><a href=""></a>  <span class="fu">group_by</span>(gas, auto) <span class="sc">%&gt;%</span></span>
-<span id="cb14-10"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean_mpg =</span> <span class="fu">mean</span>(mpg), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<p>二因子 ANOVA 中的各組稱為<strong>處理組</strong>。植物隨機分派到各組。這樣的設計稱為 <span class="math inline">2 \times 2</span> 設計，因為每個變數都有兩個<strong>水準</strong>，也就是兩種不同的處理。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="範例-12-5-4" class="slide level2">
-<h2>範例 12-5</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
+<section id="其他二因子設計" class="slide level2">
+<h2>其他二因子設計</h2>
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題（續）</strong></p>
+<p><strong>圖 12-5 — 幾種二因子 ANOVA 設計</strong></p>
 </div>
 <div class="callout-content">
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">ggplot</span>(cell_means, <span class="fu">aes</span>(<span class="at">x =</span> gas, <span class="at">y =</span> mean_mpg, <span class="at">color =</span> auto, <span class="at">group =</span> auto)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb15-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb15-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"交互作用圖：汽油 × 汽車類型"</span>,</span>
-<span id="cb15-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"汽油類型"</span>, <span class="at">y =</span> <span class="st">"平均油耗（mpg）"</span>, <span class="at">color =</span> <span class="st">"汽車類型"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ch12-zh_files/figure-revealjs/e12-5-1-fig-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
-</figure>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Design</th>
+<th>Rows (variable A)</th>
+<th>Columns (variable B)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">3 \times 2</span></td>
+<td>3 個水準</td>
+<td>2 個水準</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">3 \times 3</span></td>
+<td>3 個水準</td>
+<td>3 個水準</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">4 \times 3</span></td>
+<td>4 個水準</td>
+<td>3 個水準</td>
+</tr>
+</tbody>
+</table>
+<p>依兩個變數水準數的不同，二因子 ANOVA 有許多不同的設計。</p>
 </div>
 </div>
 </div>
+<p>二因子 ANOVA 讓研究者能在<strong>單一實驗</strong>中同時檢定營養劑與土壤的效果，而不必分別做「只看營養劑」與「只看土壤」兩個實驗。</p>
+</section>
+<section id="主效果與交互作用" class="slide level2">
+<h2>主效果與交互作用</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>主效果</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>某因子的效果</strong>是指改變該因子的水準或類型時，反應變數所產生的變化。兩個自變數的這兩種效果稱為<strong>主效果</strong>。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>交互作用效果</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>交互作用效果</strong>代表兩個因子在各自單獨效果之外所產生的聯合效果——也就是說，不同類型的營養劑在不同土壤中對植物生長的影響並不相同。</p>
+<p>當交互作用效果達到統計顯著時，研究者<strong>不應</strong>在未考慮交互作用效果的情況下，單獨解讀個別因子的效果。</p>
 </div>
 </div>
 </div>
 </section>
-<section id="範例-12-5-5" class="slide level2">
-<h2>範例 12-5</h2>
+<section id="三組假設" class="slide level2">
+<h2>三組假設</h2>
+<p>二因子 ANOVA 設計有數個虛無假設：每個自變數一個，交互作用一個。以營養劑與土壤的問題為例：</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>假設</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>1. 營養劑（因子 A）。</strong></p>
+<p><span class="math inline">H_0</span>：使用不同營養劑所種植物的平均高度沒有差異。</p>
+<p><span class="math inline">H_1</span>：使用不同營養劑所種植物的平均高度有差異。</p>
+<p><strong>2. 土壤（因子 B）。</strong></p>
+<p><span class="math inline">H_0</span>：在不同土壤中所種植物的平均高度沒有差異。</p>
+<p><span class="math inline">H_1</span>：在不同土壤中所種植物的平均高度有差異。</p>
+<p><strong>3. 交互作用。</strong></p>
+<p><span class="math inline">H_0</span>：所用營養劑的類型與土壤的類型，對植物生長沒有交互作用效果。</p>
+<p><span class="math inline">H_1</span>：營養劑類型與土壤類型對植物生長有交互作用效果。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="表-12-5二因子-anova-摘要表" class="slide level2">
+<h2>表 12-5：二因子 ANOVA 摘要表</h2>
+<p>與單因子 ANOVA 一樣，二因子 ANOVA 也會計算組間變異數估計值與組內變異數估計值，並對每個自變數與交互作用各進行一次 <span class="math inline">F</span> 檢定。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>表 12-5 — ANOVA 摘要表</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 34%">
+<col style="width: 13%">
+<col style="width: 28%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Row factor A</td>
+<td><span class="math inline">SS_A</span></td>
+<td><span class="math inline">a-1</span></td>
+<td><span class="math inline">MS_A</span></td>
+<td><span class="math inline">F_A</span></td>
+</tr>
+<tr class="even">
+<td>Column factor B</td>
+<td><span class="math inline">SS_B</span></td>
+<td><span class="math inline">b-1</span></td>
+<td><span class="math inline">MS_B</span></td>
+<td><span class="math inline">F_B</span></td>
+</tr>
+<tr class="odd">
+<td>Interaction <span class="math inline">A \times B</span></td>
+<td><span class="math inline">SS_{A \times B}</span></td>
+<td><span class="math inline">(a-1)(b-1)</span></td>
+<td><span class="math inline">MS_{A \times B}</span></td>
+<td><span class="math inline">F_{A \times B}</span></td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td><span class="math inline">SS_W</span></td>
+<td><span class="math inline">ab(n-1)</span></td>
+<td><span class="math inline">MS_W</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td><span class="math inline">SS_{\text{Total}}</span></td>
+<td><span class="math inline">N-1</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>其中 <span class="math inline">a</span> 為因子 A 的水準數，<span class="math inline">b</span> 為因子 B 的水準數，<span class="math inline">n</span> 為每組的個數。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="二因子-anova-的公式" class="slide level2">
+<h2>二因子 ANOVA 的公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>均方與 <span class="math inline">F</span> 比值</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W}, \quad d.f.N. = a-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W}, \quad d.f.N. = b-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W}, \quad d.f.N. = (a-1)(b-1), \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_W = \frac{SS_W}{ab(n-1)}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="二因子-anova-的假設條件" class="slide level2">
+<h2>二因子 ANOVA 的假設條件</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>抽取樣本的母體必須服從常態分配或近似常態分配。</li>
+<li>各樣本必須相互獨立。</li>
+<li>抽取樣本的各母體變異數必須相等。</li>
+<li><strong>各組的樣本數必須相等。</strong></li>
+</ol>
+</div>
+</div>
+</div>
+<p>這些假設與單因子 ANOVA 相同，<strong>只有樣本數這一項例外</strong>——二因子 ANOVA 要求各組樣本數相等。二因子變異數分析同樣依循五個步驟的假設檢定程序。</p>
+<p>平方和的計算過程相當冗長，因此範例 12-6 省略計算細節，只呈現二因子 ANOVA 摘要表。</p>
+</section>
+<section id="example-12-6" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>揀貨效率：揀貨方式與班別</strong></p>
+</div>
+<div class="callout-content">
+<p>桃園某物流中心的營運主管想知道，揀貨方式與班別是否會影響揀貨效率。揀貨方式有手持掃描器與語音揀貨兩種，班別有日班與夜班兩種，每一種組合各安排 2 名揀貨員，合計 8 名，並記錄每小時揀取的箱數如下。請以二因子變異數分析判斷是否存在交互作用效果、揀貨方式的效果，以及班別的效果。使用 <span class="math inline">\alpha = 0.05</span>。</p>
+<pre><code>Method        Day shift   Night shift
+Scanner          26.6         29.7
+                 25.4         28.3
+Voice            33.1         25.7
+                 31.9         24.3</code></pre>
+<p><em>（模擬資料）</em></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-6" class="slide level2">
+<h2>範例 12-6</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1596,22 +1923,202 @@ Medication-Exercise  8.0  3.0136398 12.98636 0.0028351</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>表 12-6 — 範例 12-6 的 ANOVA 摘要表</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Method (A)</td>
+<td>3.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Shift (B)</td>
+<td>10.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Interaction (<span class="math inline">A \times B</span>)</td>
+<td>55.125</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td>3.400</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>71.775</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>步驟 1.</strong> 陳述假設。</p>
+<p><em>揀貨方式。</em> <span class="math inline">H_0</span>：兩種揀貨方式的平均揀貨效率沒有差異。<span class="math inline">H_1</span>：有差異。</p>
+<p><em>班別。</em> <span class="math inline">H_0</span>：日班與夜班的平均揀貨效率沒有差異。<span class="math inline">H_1</span>：有差異。</p>
+<p><em>交互作用。</em> <span class="math inline">H_0</span>：揀貨方式與班別對揀貨效率沒有交互作用效果。<span class="math inline">H_1</span>：有交互作用效果。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-6-1" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 2 — 求各 <span class="math inline">F</span> 檢定的臨界值</strong></p>
+<p>兩個因子各有兩個水準，故 <span class="math inline">a = 2</span>、<span class="math inline">b = 2</span>、<span class="math inline">n = 2</span>。</p>
+<p><span class="math display">\text{Factor A: } d.f.N. = a-1 = 1 \qquad \text{Factor B: } d.f.N. = b-1 = 1</span> <span class="math display">\text{Interaction: } d.f.N. = (a-1)(b-1) = 1 \qquad \text{Within (error): } d.f.D. = ab(n-1) = 2 \cdot 2(2-1) = 4</span></p>
+<p>在 <span class="math inline">\alpha = 0.05</span>、<span class="math inline">d.f.N. = 1</span>、<span class="math inline">d.f.D. = 4</span> 下，三個臨界值皆為 <strong>7.71</strong>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>gas_data2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb16-2"><a href=""></a>  <span class="at">mpg  =</span> <span class="fu">c</span>(<span class="fl">26.7</span>, <span class="fl">25.2</span>, <span class="fl">28.6</span>, <span class="fl">29.3</span>, <span class="fl">32.3</span>, <span class="fl">32.8</span>, <span class="fl">26.1</span>, <span class="fl">24.2</span>),</span>
-<span id="cb16-3"><a href=""></a>  <span class="at">gas  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Regular"</span>,<span class="st">"High-octane"</span>), <span class="at">each =</span> <span class="dv">4</span>)),</span>
-<span id="cb16-4"><a href=""></a>  <span class="at">auto =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Two-wheel"</span>,<span class="st">"Two-wheel"</span>,<span class="st">"Four-wheel"</span>,<span class="st">"Four-wheel"</span>), <span class="dv">2</span>))</span>
-<span id="cb16-5"><a href=""></a>)</span>
-<span id="cb16-6"><a href=""></a></span>
-<span id="cb16-7"><a href=""></a>result5 <span class="ot">&lt;-</span> <span class="fu">aov</span>(mpg <span class="sc">~</span> gas <span class="sc">*</span> auto, <span class="at">data =</span> gas_data2)</span>
-<span id="cb16-8"><a href=""></a><span class="fu">summary</span>(result5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="at">df1 =</span> <span class="dv">1</span>, <span class="at">df2 =</span> <span class="dv">4</span>), <span class="dv">2</span>)   <span class="co"># Table A-7 gives 7.71</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
-gas          1   3.92    3.92   4.752 0.09477 . 
-auto         1   9.68    9.68  11.733 0.02665 * 
-gas:auto     1  54.08   54.08  65.552 0.00126 **
-Residuals    4   3.30    0.82                   
+<pre><code>[1] 7.71</code></pre>
+</div>
+</div>
+<p><em>註.</em> 若兩個因子的水準數不同，三個臨界值就不會相同。例如因子 A 有 3 個水準、因子 B 有 4 個水準、每組 2 個受試者時，<span class="math inline">d.f.N.</span> 分別為 <span class="math inline">2</span>、<span class="math inline">3</span>、<span class="math inline">6</span>，而 <span class="math inline">d.f.D. = 3 \cdot 4(2-1) = 12</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-6-2" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3 — 完成摘要表</strong></p>
+<p><span class="math display">MS_A = \frac{3.125}{2-1} = 3.125 \qquad MS_B = \frac{10.125}{2-1} = 10.125</span> <span class="math display">MS_{A \times B} = \frac{55.125}{(2-1)(2-1)} = 55.125 \qquad MS_W = \frac{3.400}{4} = 0.850</span></p>
+<p><span class="math display">F_A = \frac{3.125}{0.850} = 3.676 \qquad F_B = \frac{10.125}{0.850} = 11.912 \qquad F_{A \times B} = \frac{55.125}{0.850} = 64.853</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-6-3" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>表 12-7 — 範例 12-6 的 ANOVA 摘要表</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of squares</th>
+<th>d.f.</th>
+<th>Mean square</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Method (A)</td>
+<td>3.125</td>
+<td>1</td>
+<td>3.125</td>
+<td>3.676</td>
+</tr>
+<tr class="even">
+<td>Shift (B)</td>
+<td>10.125</td>
+<td>1</td>
+<td>10.125</td>
+<td>11.912</td>
+</tr>
+<tr class="odd">
+<td>Interaction (<span class="math inline">A \times B</span>)</td>
+<td>55.125</td>
+<td>1</td>
+<td>55.125</td>
+<td>64.853</td>
+</tr>
+<tr class="even">
+<td>Within (error)</td>
+<td>3.400</td>
+<td>4</td>
+<td>0.850</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>71.775</td>
+<td>7</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>步驟 4.</strong> 作出決策。由於 <span class="math inline">F_B = 11.912</span> 與 <span class="math inline">F_{A \times B} = 64.853</span> 都大於臨界值 7.71，班別與交互作用的虛無假設應予拒絕；<span class="math inline">F_A = 3.676</span> 小於 7.71，故揀貨方式的虛無假設不予拒絕。由於交互作用效果具有統計顯著性，<strong>在進一步研究之前不應對班別效果作出結論</strong>。</p>
+<p><strong>步驟 5.</strong> 總結結果。由於交互作用的虛無假設被拒絕，可以下結論：揀貨方式與班別的組合確實會影響揀貨效率。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-12-6-4" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 進行相同的分析</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>picking <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-2"><a href=""></a>  <span class="at">cartons_per_hour =</span> <span class="fu">c</span>(<span class="fl">26.6</span>, <span class="fl">25.4</span>, <span class="fl">29.7</span>, <span class="fl">28.3</span>, <span class="fl">33.1</span>, <span class="fl">31.9</span>, <span class="fl">25.7</span>, <span class="fl">24.3</span>),</span>
+<span id="cb44-3"><a href=""></a>  <span class="at">method =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb44-4"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>)),</span>
+<span id="cb44-5"><a href=""></a>  <span class="at">shift  =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Day"</span>, <span class="st">"Night"</span>, <span class="st">"Night"</span>), <span class="dv">2</span>),</span>
+<span id="cb44-6"><a href=""></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>))</span>
+<span id="cb44-7"><a href=""></a>)</span>
+<span id="cb44-8"><a href=""></a></span>
+<span id="cb44-9"><a href=""></a>picking_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(cartons_per_hour <span class="sc">~</span> method <span class="sc">*</span> shift, <span class="at">data =</span> picking)</span>
+<span id="cb44-10"><a href=""></a><span class="fu">summary</span>(picking_aov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+method        1   3.13    3.13   3.676 0.12765   
+shift         1  10.12   10.12  11.912 0.02602 * 
+method:shift  1  55.13   55.13  64.853 0.00129 **
+Residuals     4   3.40    0.85                   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -1620,70 +2127,282 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="詮釋交互作用效果" class="slide level2">
-<h2>詮釋交互作用效果</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="範例-12-6-5" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>交互作用的類型</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
+<p><strong>準備資料</strong> — 各處理組的平均數</p>
+<p>每個組平均數都是該處理組中兩名揀貨員的平均值。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>cell_means <span class="ot">&lt;-</span> picking <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href=""></a>  <span class="fu">group_by</span>(method, shift) <span class="sc">|&gt;</span></span>
+<span id="cb46-3"><a href=""></a>  <span class="fu">summarise</span>(<span class="at">mean_rate =</span> <span class="fu">mean</span>(cartons_per_hour), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb46-4"><a href=""></a></span>
+<span id="cb46-5"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(cell_means, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>圖形樣式</th>
-<th>交互作用類型</th>
-<th>詮釋</th>
+<th style="text-align: center;">method</th>
+<th style="text-align: center;">shift</th>
+<th style="text-align: center;">mean_rate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>線條<strong>平行</strong></td>
-<td>無交互作用</td>
-<td>可獨立詮釋主效果</td>
+<td style="text-align: center;">Scanner</td>
+<td style="text-align: center;">Day</td>
+<td style="text-align: center;">26.0</td>
 </tr>
 <tr class="even">
-<td>線條<strong>交叉</strong></td>
-<td><strong>非次序性</strong>交互作用</td>
-<td>不得獨立詮釋主效果</td>
+<td style="text-align: center;">Scanner</td>
+<td style="text-align: center;">Night</td>
+<td style="text-align: center;">29.0</td>
 </tr>
 <tr class="odd">
-<td>線條發散但<strong>不交叉</strong></td>
-<td>次序性交互作用</td>
-<td>仍可詮釋主效果</td>
+<td style="text-align: center;">Voice</td>
+<td style="text-align: center;">Day</td>
+<td style="text-align: center;">32.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Voice</td>
+<td style="text-align: center;">Night</td>
+<td style="text-align: center;">25.0</td>
 </tr>
 </tbody>
 </table>
-<p><strong>規則：</strong> 當交互作用 F 檢定顯著時： - 查看交互作用圖 - 若線條交叉 → <strong>非次序性</strong>交互作用 → 僅在考量交互作用的前提下詮釋 - 若線條不交叉 → <strong>次序性</strong>交互作用 → 可詮釋主效果</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section>
-<section id="第12章摘要" class="slide level2">
-<h2>第12章摘要</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="範例-12-6-6" class="slide level2">
+<h2>範例 12-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>重點整理</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>第12-1節 — 單因子 ANOVA：</strong> - F 檢定同時比較3個以上的平均數 - <span class="math inline">F = s_B^2 / s_W^2</span>；若 <span class="math inline">F &gt; F_{crit}</span> 則拒絕 <span class="math inline">H_0</span>（右尾） - 自由度：<span class="math inline">d.f.N. = k-1</span>，<span class="math inline">d.f.D. = N-k</span></p>
-<p><strong>第12-2節 — 事後檢定：</strong> - Scheffé：彈性較高，適用於 <span class="math inline">n</span> 不等的情況；較保守 - Tukey：在 <span class="math inline">n</span> 相等時，兩兩比較效力較強</p>
-<p><strong>第12-3節 — 二因子 ANOVA：</strong> - 同時檢定兩個因子及其交互作用 - 若交互作用顯著，不得獨立詮釋主效果 - 交互作用圖揭示關係的本質</p>
+<p><strong>輸出圖形</strong> — 圖 12-6，各平均數的折線圖</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">ggplot</span>(cell_means, <span class="fu">aes</span>(<span class="at">x =</span> shift, <span class="at">y =</span> mean_rate,</span>
+<span id="cb47-2"><a href=""></a>                       <span class="at">color =</span> method, <span class="at">group =</span> method)) <span class="sc">+</span></span>
+<span id="cb47-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb47-4"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb47-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 12-6 各變數平均數的折線圖"</span>,</span>
+<span id="cb47-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"班別"</span>, <span class="at">y =</span> <span class="st">"平均每小時揀貨箱數"</span>, <span class="at">color =</span> <span class="st">"揀貨方式"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch12-zh_files/figure-revealjs/e12-6-4-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>兩條線<strong>交叉</strong>，因此這是<strong>非順序型</strong>交互作用。</p>
 </div>
 </div>
 </div>
 </section>
+<section id="解讀交互作用" class="slide level2">
+<h2>解讀交互作用</h2>
+<p>要解讀二因子變異數分析的結果，統計學家建議畫圖：把各組的平均數點出來，分析圖形，再解讀結果。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解讀交互作用圖的規則</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 18%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern of the lines</th>
+<th>Interaction</th>
+<th>How to interpret the main effects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>兩線<strong>交叉</strong>且交互作用 <span class="math inline">F</span> 顯著</td>
+<td><strong>非順序型</strong>交互作用（圖 12-6）</td>
+<td><strong>不可</strong>在未考慮交互作用效果的情況下解讀主效果</td>
+</tr>
+<tr class="even">
+<td>兩線<strong>不交叉</strong>也<strong>不平行</strong>，交互作用 <span class="math inline">F</span> 顯著</td>
+<td><strong>順序型</strong>交互作用（圖 12-7）</td>
+<td>主效果<strong>可以</strong>各自獨立解讀</td>
+</tr>
+<tr class="odd">
+<td>兩線<strong>平行</strong>或近似平行，交互作用 <span class="math inline">F</span> 不顯著</td>
+<td><strong>無</strong>交互作用（圖 12-8）</td>
+<td>主效果可以各自獨立解讀</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>若交互作用效果不顯著，主效果可以各自獨立解讀；但若交互作用效果顯著，解讀主效果時必須格外謹慎，甚至根本不應單獨解讀。</p>
+</section>
+<section id="交互作用圖形樣態r-示範" class="slide level2">
+<h2>交互作用圖形樣態（R 示範）</h2>
+<p><strong>準備資料</strong> — 圖 12-6、12-7 與 12-8 的三種樣態</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>patterns <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb48-2"><a href=""></a>  <span class="at">pattern =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Disordinal (Fig. 12-6)"</span>,</span>
+<span id="cb48-3"><a href=""></a>                  <span class="st">"Ordinal (Fig. 12-7)"</span>,</span>
+<span id="cb48-4"><a href=""></a>                  <span class="st">"No interaction (Fig. 12-8)"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb48-5"><a href=""></a>  <span class="at">method  =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Scanner"</span>, <span class="st">"Voice"</span>), <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">3</span>),</span>
+<span id="cb48-6"><a href=""></a>  <span class="at">shift   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>), <span class="dv">6</span>),</span>
+<span id="cb48-7"><a href=""></a>  <span class="at">mean_rate =</span> <span class="fu">c</span>(<span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">32.5</span>, <span class="fl">25.0</span>,</span>
+<span id="cb48-8"><a href=""></a>                <span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">30.0</span>, <span class="fl">31.5</span>,</span>
+<span id="cb48-9"><a href=""></a>                <span class="fl">26.0</span>, <span class="fl">29.0</span>, <span class="fl">30.0</span>, <span class="fl">33.0</span>)</span>
+<span id="cb48-10"><a href=""></a>) <span class="sc">|&gt;</span></span>
+<span id="cb48-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">pattern =</span> <span class="fu">factor</span>(pattern, <span class="at">levels =</span> <span class="fu">unique</span>(pattern)),</span>
+<span id="cb48-12"><a href=""></a>         <span class="at">shift   =</span> <span class="fu">factor</span>(shift, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Day"</span>, <span class="st">"Night"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="交互作用圖形樣態r-示範-1" class="slide level2">
+<h2>交互作用圖形樣態（R 示範）</h2>
+<p><strong>輸出圖形</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">ggplot</span>(patterns, <span class="fu">aes</span>(<span class="at">x =</span> shift, <span class="at">y =</span> mean_rate, <span class="at">color =</span> method, <span class="at">group =</span> method)) <span class="sc">+</span></span>
+<span id="cb49-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb49-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb49-4"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> pattern) <span class="sc">+</span></span>
+<span id="cb49-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"交叉、順序與平行三種樣態"</span>,</span>
+<span id="cb49-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"班別"</span>, <span class="at">y =</span> <span class="st">"平均每小時揀貨箱數"</span>, <span class="at">color =</span> <span class="st">"揀貨方式"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch12-zh_files/figure-revealjs/s12-3-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
+<section id="超越-2-times-2-設計" class="slide level2">
+<h2>超越 <span class="math inline">2 \times 2</span> 設計</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>範例 12-6 是 <span class="math inline">2 \times 2</span> 的二因子變異數分析，因為每個自變數都只有兩個水準。對於 <span class="math inline">3 \times 2</span> 或 <span class="math inline">4 \times 3</span> 等其他設計，結果的解讀會相當複雜。雖然也有類似單因子 ANOVA 的 Tukey 與 Scheffé 等方法可用來分析細格平均數，但這些方法<strong>已超出本書範圍</strong>。其他許多設計，例如三因子設計與重複量數設計，同樣超出本書範圍。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要名詞" class="slide level2">
+<h2>重要名詞</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>第12章重要名詞</strong></p>
+</div>
+<div class="callout-content">
+<p>變異數分析（ANOVA）· 變異數分析摘要表 · 組間變異數 · Bonferroni 檢定 · 非順序型交互作用 · 因子 · 交互作用效果 · 水準 · 主效果 · 均方 · 單因子 ANOVA · 順序型交互作用 · Scheffé 檢定 · 組間平方和 · 組內平方和 · 處理組 · Tukey 檢定 · 二因子 ANOVA · 組內變異數</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>ANOVA 檢定的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\bar{X}_{GM} = \frac{\sum X}{N} \qquad F = \frac{s_B^2}{s_W^2}</span></p>
+<p><span class="math display">s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1} \qquad s_W^2 = \frac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}</span></p>
+<p><span class="math display">d.f.N. = k - 1 \qquad d.f.D. = N - k \qquad N = n_1 + n_2 + \cdots + n_k</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式-1" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Scheffé、Tukey 與 Bonferroni 檢定的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]} \qquad \text{and} \qquad F' = (k-1)(C.V.)</span></p>
+<p><span class="math display">q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}, \qquad d.f.N. = k \ \text{ and } \ d.f.D. = \text{degrees of freedom for } s_W^2</span></p>
+<p><span class="math display">t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式-2" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>二因子 ANOVA 的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W} \qquad d.f.N. = a-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W} \qquad d.f.N. = b-1, \ d.f.D. = ab(n-1)</span></p>
+<p><span class="math display">MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W} \qquad d.f.N. = (a-1)(b-1)</span></p>
+<p><span class="math display">MS_W = \frac{SS_W}{ab(n-1)}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="重點整理" class="slide level2">
+<h2>重點整理</h2>
+<ol type="1">
+<li><span class="math inline">F</span> 檢定可以比較<strong>三個或三個以上的平均數</strong>，這項技術稱為<strong>變異數分析（ANOVA）</strong>。不使用多次 <span class="math inline">t</span> 檢定的理由是：它會忽略其他平均數、使第一型錯誤率膨脹，而且檢定次數會急速增加。</li>
+<li>ANOVA 使用母體變異數的兩個估計值：<strong>組間變異數</strong> <span class="math inline">s_B^2</span>（各樣本平均數的變異數）與<strong>組內變異數</strong> <span class="math inline">s_W^2</span>（全部數值的整體變異數）。檢定統計量為 <span class="math inline">F = s_B^2 / s_W^2</span>，其中 <span class="math inline">d.f.N. = k-1</span>、<span class="math inline">d.f.D. = N-k</span>，且永遠是右尾檢定。</li>
+<li>各平均數沒有顯著差異時，兩個估計值大致相等，<span class="math inline">F</span> 接近 1；有差異時，<span class="math inline">s_B^2</span> 會大得多，<span class="math inline">F</span> 隨之顯著。</li>
+</ol>
+</section>
+<section id="重點整理-1" class="slide level2">
+<h2>重點整理</h2>
+<ol start="4" type="1">
+<li><span class="math inline">F</span> 顯著只說明<strong>至少有一個平均數不同</strong>；要找出差異所在，須用 <strong>Scheffé</strong>、<strong>Tukey</strong> 或 <strong>Bonferroni</strong> 檢定。樣本數相等時用 Tukey，不等時用 Scheffé；Scheffé 的臨界值為 <span class="math inline">F' = (k-1)(C.V.)</span>，Bonferroni 則把 P 值乘以 <span class="math inline">_kC_2</span>。</li>
+<li><strong>二因子 ANOVA</strong> 檢定<strong>兩個自變數</strong>及其<strong>交互作用</strong>對一個依變數的效果，並要求各組樣本數相等。</li>
+<li>若交互作用顯著且交互作用圖中兩線<strong>交叉</strong>，即為<strong>非順序型</strong>交互作用，此時不可單獨解讀主效果；若兩線不交叉，即為<strong>順序型</strong>交互作用，主效果可以各自獨立解讀；兩線<strong>平行</strong>則代表沒有交互作用。</li>
+</ol>
+</section>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

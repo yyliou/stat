@@ -45,71 +45,86 @@ library(tidyverse)
 ```
 
 ## Overview
-Chapter 3 develops tools for **describing a dataset** numerically — where it centers, how spread out it is, and where any individual value stands.
+Chapter 3 shows the statistical methods used to **summarize data** — measures of average, measures of variation, and measures of position.
 
 | Section | Topics |
 |---------|--------|
-| 3-1 | Measures of central tendency: mean, median, mode, midrange |
-| 3-2 | Measures of variation: range, variance, standard deviation, CVar, Chebyshev, empirical rule |
-| 3-3 | Measures of position: z-scores, percentiles, quartiles, outliers |
-| 3-4 | Exploratory data analysis: five-number summary and boxplots |
+| 3-1 | Mean, median, mode, midrange, weighted mean; distribution shapes |
+| 3-2 | Range, variance, standard deviation, coefficient of variation; range rule of thumb; Chebyshev's theorem; empirical rule; linear transformations |
+| 3-3 | Standard scores, percentiles, deciles, quartiles, outliers |
+| 3-4 | Five-number summary and boxplots |
+
+## Chapter Objectives
+
+:::{.callout-important}
+## After completing this chapter, you should be able to
+
+1. Summarize data, using measures of central tendency, such as the mean, median, mode, and midrange.
+2. Describe data, using measures of variation, such as the range, variance, and standard deviation.
+3. Identify the position of a data value in a data set, using various measures of position, such as percentiles, deciles, and quartiles.
+4. Use the techniques of exploratory data analysis, including boxplots and five-number summaries, to discover various aspects of data.
+:::
 
 # Section 3-1: Measures of Central Tendency {background-color="#2c4a6e"}
 
-## What Is a Measure of Central Tendency?
+## Statistics and Parameters
 
-A **measure of central tendency** is a single numerical value that summarizes the center or "typical" value of a dataset. Rather than examining every individual observation, a central tendency statistic provides a concise snapshot of where data tend to cluster.
-
-The four most widely used measures are:
-
-- **Mean** — arithmetic average of all values
-- **Median** — middle value when data are ordered
-- **Mode** — most frequently occurring value(s)
-- **Midrange** — midpoint between the highest and lowest values
-
----
+Loosely stated, the **average** means the center of the distribution or the most typical case. Measures of average are also called **measures of central tendency** and include the mean, median, mode, and midrange.
 
 :::{.callout-note}
-## Key Notation
+## Statistic and Parameter
 
-| Symbol | Meaning |
-|--------|---------|
-| $\bar{X}$ | Sample mean |
-| $\mu$ | Population mean |
-| $n$ | Sample size |
-| $N$ | Population size |
+- A **statistic** is a characteristic or measure obtained by using the data values from a **sample**.
+- A **parameter** is a characteristic or measure obtained by using all the data values from a specific **population**.
+:::
+
+:::{.callout-important}
+## General Rounding Rule
+
+Rounding should **not** be done until the final answer is calculated. Rounding in intermediate steps tends to increase the difference between that answer and the exact one.
 :::
 
 ## The Mean
 
-The **mean** is computed by summing all data values and dividing by the number of observations. It is the most commonly reported measure of center.
+The **mean**, also known as the arithmetic average, is found by adding the values of the data and dividing by the total number of values.
 
 :::{.callout-note}
-## Formulas for the Mean
+## The Mean
 
-**Sample mean:**
-$$\bar{X} = \frac{\Sigma X}{n}$$
+The **mean** is the sum of the values, divided by the total number of values.
 
-**Population mean:**
-$$\mu = \frac{\Sigma X}{N}$$
+The **sample mean**, denoted by $\bar{X}$, is a statistic:
+$$\bar{X} = \frac{X_1 + X_2 + \cdots + X_n}{n} = \frac{\Sigma X}{n}$$
 
-where $\Sigma X$ is the sum of all data values and $n$ (or $N$) is the count of values.
+The **population mean**, denoted by $\mu$, is a parameter:
+$$\mu = \frac{X_1 + X_2 + \cdots + X_N}{N} = \frac{\Sigma X}{N}$$
 :::
+
+## Rounding Rule for the Mean
 
 :::{.callout-important}
-## Rounding Rule
-Round the mean to **one more decimal place** than appears in the original data.
+## Rounding Rule for the Mean
+
+The mean should be rounded to **one more decimal place** than occurs in the raw data. If the raw data are whole numbers, round the mean to the nearest tenth; if the data are in tenths, round to the nearest hundredth.
 :::
+
+Greek letters denote parameters; Roman letters denote statistics. Assume the data are obtained from samples unless otherwise specified.
 
 ## Example 3-1 {#example-3-1}
 
 :::{.callout-warning}
-## Days Off per Year
+## Monthly Revenue of a Coffee Chain
 
-A survey of six countries found the following average number of days per year that workers receive as paid leave. Find the mean.
+The figures show last month's revenue (in NT\$ million) for the nine branches of a coffee chain. Find the mean.
 
-**Days:** 13, 15, 26, 36, 37, 42
+```
+2.8   3.5   4.1   2.6   5.0   3.9   4.4   3.2   4.7
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-1
 
@@ -119,26 +134,32 @@ A survey of six countries found the following average number of days per year th
 **Solve**
 
 ```{r e3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-days_off <- c(13, 15, 26, 36, 37, 42)
+coffee_revenue <- c(2.8, 3.5, 4.1, 2.6, 5.0, 3.9, 4.4, 3.2, 4.7)
 
-mean_val <- mean(days_off)
-cat("Sum of values:", sum(days_off), "\n")
-cat("Number of values:", length(days_off), "\n")
-cat("Mean:", mean_val, "\n")
+sum(coffee_revenue)
+round(mean(coffee_revenue), 2)
 ```
 
-The mean number of paid days off is approximately **`r round(mean(c(13,15,26,36,37,42)),1)` days**.
+$$\bar{X} = \frac{\Sigma X}{n} = \frac{34.2}{9} = 3.8$$
+
+The mean monthly revenue for the nine branches is **NT\$3.8 million**.
 :::
 
 ## Example 3-2 {#example-3-2}
 
 :::{.callout-warning}
-## Hospital Infections
+## Export Value of a Trading Company
 
-The number of hospital-acquired infections reported at a sample of hospitals over one year is listed below. Determine the mean.
+The data show the annual export value (in NT\$ million) of a small trading company over a 5-year period. Find the mean.
 
-**Values:** 62, 58, 71, 70, 69, 58, 51, 64, 66, 80
+```
+486   512   545   578   614
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-2
 
@@ -148,43 +169,78 @@ The number of hospital-acquired infections reported at a sample of hospitals ove
 **Solve**
 
 ```{r e3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-infections <- c(62, 58, 71, 70, 69, 58, 51, 64, 66, 80)
-cat("Mean number of infections:", mean(infections), "\n")
-cat("Sum:", sum(infections), "  n:", length(infections), "\n")
+export_value <- c(486, 512, 545, 578, 614)
+
+sum(export_value)
+mean(export_value)
 ```
 
-The mean is **`r mean(c(62,58,71,70,69,58,51,64,66,80))`** hospital-acquired infections.
+$$\bar{X} = \frac{\Sigma X}{n} = \frac{2735}{5} = 547$$
+
+The mean annual export value over the 5-year period is **NT\$547 million**.
 :::
 
-## Mean for Grouped Data
+## The Mean for Grouped Data
 
-When raw data are unavailable and only a frequency distribution is given, use the **midpoint** of each class to approximate the mean.
+The procedure for finding the mean for grouped data assumes that the mean of all the raw data values in each class is equal to the **midpoint** of the class.
 
-:::{.callout-note}
-## Formula — Mean for Grouped Data
+:::{.callout-important}
+## Procedure — Finding the Mean for Grouped Data
+
+1. Make a table with columns A (class), B (frequency $f$), C (midpoint $X_m$), D ($f \cdot X_m$).
+2. Find the midpoint of each class and place it in column C.
+3. Multiply the frequency by the midpoint for each class; place the product in column D.
+4. Find the sum of column D.
+5. Divide the sum of column D by the sum of the frequencies.
 
 $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
-
-where $f$ = class frequency, $X_m$ = class midpoint, $n = \Sigma f$.
 :::
 
 ## Example 3-3 {#example-3-3}
 
 :::{.callout-warning}
-## Miles Run per Week (Grouped Mean)
+## Revenue of Night Market Stalls
 
-Twenty runners recorded the number of miles they ran during one week. Using the frequency distribution below, find the mean.
+The frequency distribution shows last month's revenue (in NT\$10,000) for 25 stalls in a night market. Find the mean.
 
-| Class | Frequency |
-|-------|-----------|
-| 5.5–10.5 | 1 |
-| 10.5–15.5 | 2 |
-| 15.5–20.5 | 3 |
-| 20.5–25.5 | 5 |
-| 25.5–30.5 | 4 |
-| 30.5–35.5 | 3 |
-| 35.5–40.5 | 2 |
+```
+Class boundaries    Frequency
+    9.5-14.5             8
+   14.5-19.5             7
+   19.5-24.5             5
+   24.5-29.5             3
+   29.5-34.5             2
+             Total      25
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-9](#example-3-9)
 :::
+
+---
+
+## Example 3-3
+
+:::{.callout-tip}
+## Solution
+
+**Prepare data**
+
+```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+lower <- c(9.5, 14.5, 19.5, 24.5, 29.5)
+upper <- lower + 5
+
+stall_revenue <- tibble(Class = paste0(lower, "-", upper),
+                        f  = c(8, 7, 5, 3, 2),
+                        Xm = (lower + upper) / 2) |>
+  mutate(fXm = f * Xm)
+
+knitr::kable(stall_revenue, align = "c")
+```
+:::
+
+---
 
 ## Example 3-3
 
@@ -193,47 +249,52 @@ Twenty runners recorded the number of miles they ran during one week. Using the 
 
 **Solve**
 
-```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-midpoints <- c(8, 13, 18, 23, 28, 33, 38)
-freq      <- c(1,  2,  3,  5,  4,  3,  2)
-
-df_grouped <- data.frame(midpoint = midpoints, f = freq) |>
-  mutate(fXm = f * midpoint)
-
-knitr::kable(df_grouped, col.names = c("Midpoint (Xm)", "Frequency (f)", "f · Xm"),
-             caption = "Grouped Mean Calculation")
-```
-:::
----
-
 ```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n    <- sum(freq)
-xbar <- sum(df_grouped$fXm) / n
-cat("\nn =", n, "  Sum(f·Xm) =", sum(df_grouped$fXm),
-    "  Mean =", round(xbar, 1), "miles\n")
+sum(stall_revenue$f)
+sum(stall_revenue$fXm)
+sum(stall_revenue$fXm) / sum(stall_revenue$f)
 ```
+
+$$\bar{X} = \frac{\Sigma f \cdot X_m}{n} = \frac{470}{25} = 18.8$$
+
+The mean monthly revenue is **NT\$188,000** per stall.
+:::
 
 ## The Median
 
-The **median** is the value that sits at the exact center of an ordered dataset, dividing it into two equal halves. It is resistant to the influence of extreme values.
+An article reported that the median income for college professors was \$82,974: one-half of all professors surveyed earned more than that, and one-half earned less.
 
 :::{.callout-note}
-## Finding the Median
+## Data Array and Median
 
-1. Arrange all data values from **lowest to highest**.
-2. If $n$ is **odd**: the median is the middle value — position $\frac{n+1}{2}$.
-3. If $n$ is **even**: the median is the **average of the two middle values**.
+When the data set is ordered from lowest to highest, it is called a **data array**.
+
+The **median** is the midpoint of the data array. The symbol for the median is $MD$.
+:::
+
+:::{.callout-important}
+## Procedure — Finding the Median
+
+1. Arrange the data values in ascending order.
+2. Determine the number of values in the data set.
+3. If $n$ is **odd**, select the middle data value as the median. If $n$ is **even**, find the mean of the two middle values.
 :::
 
 ## Example 3-4 {#example-3-4}
 
 :::{.callout-warning}
-## Hotel Rooms
+## Passengers at MRT Stations
 
-The number of rooms in the seven hotels in a downtown district are listed below. Find the median.
+The data show the average number of daily passengers (in thousands) entering seven MRT stations. Find the median.
 
-**Rooms:** 713, 300, 618, 595, 311, 401, 292
+```
+42   57   38   61   49   55   44
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-4
 
@@ -243,269 +304,685 @@ The number of rooms in the seven hotels in a downtown district are listed below.
 **Solve**
 
 ```{r e3-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rooms <- c(713, 300, 618, 595, 311, 401, 292)
-sorted <- sort(rooms)
-cat("Sorted:", sorted, "\n")
-cat("Median position:", (length(rooms)+1)/2, "\n")
-cat("Median:", median(rooms), "\n")
+mrt_passengers <- c(42, 57, 38, 61, 49, 55, 44)
+
+sort(mrt_passengers)
+length(mrt_passengers)
+median(mrt_passengers)
 ```
 
-With 7 values (odd), the median is the **4th value** when sorted: **`r median(c(713,300,618,595,311,401,292))`** rooms.
+There are an odd number of data values, namely 7, so the middle data value is the median: $MD = 49$.
+
+The median number of daily passengers is **49 thousand**.
 :::
 
 ## Example 3-5 {#example-3-5}
 
 :::{.callout-warning}
-## National Park Costs (Even n)
+## Container Throughput
 
-The entrance fees (in dollars) for a random sample of national parks are: 25, 10, 8, 15, 5, 12, 14, 3. Find the median.
+The number of containers (in thousands of TEU) handled by a port over eight quarters is as follows. Find the median.
+
+```
+146   133   171   119   154   126   162   140
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-5
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-fees <- c(25, 10, 8, 15, 5, 12, 14, 3)
-sorted_fees <- sort(fees)
-cat("Sorted:", sorted_fees, "\n")
-cat("n =", length(fees), "(even) → average of positions",
-    length(fees)/2, "and", length(fees)/2 + 1, "\n")
-cat("Median:", median(fees), "\n")
+containers_teu <- c(146, 133, 171, 119, 154, 126, 162, 140)
+
+sort(containers_teu)
+length(containers_teu)
+median(containers_teu)
 ```
 
-With 8 values (even), the median is the average of the 4th and 5th sorted values: $MD = \frac{10+12}{2} = 11$.
+The middle two data values are 140 and 146, so
+
+$$MD = \frac{140 + 146}{2} = \frac{286}{2} = 143$$
+
+The median throughput is **143 thousand TEU**.
 :::
 
-## Example 3-6 & 3-7 {#example-3-6}
-:::{.callout-warning}
-## Tornadoes and Asthma Cases
-1. The number of tornadoes reported in 12 U.S. states during a recent year:
-188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810
+## The Mode
 
-2. Hospital emergency visits for asthma across 10 cities:
-345, 243, 111, 144, 280, 300, 213, 201, 403, 201
+The third measure of average is the **mode** — sometimes said to be the most typical case.
+
+:::{.callout-note}
+## Mode
+
+The value that occurs most often in a data set is called the **mode**.
+
+- **Unimodal** — only one value occurs with the greatest frequency.
+- **Bimodal** — two values occur with the same greatest frequency; both are modes.
+- **Multimodal** — more than two values occur with the same greatest frequency.
+- **No mode** — no data value occurs more than once.
+:::
+
+:::{.callout-warning}
+## Caution
+
+When no value occurs more than once, do **not** say that the mode is zero. That would be incorrect, because in some data, such as temperature, zero can be an actual value.
+:::
+
+## Example 3-6 {#example-3-6}
+
+:::{.callout-warning}
+## Food Delivery Times
+
+The delivery times, in minutes, for seven randomly selected food delivery orders are shown. Find the mode.
+
+```
+32   28   35   28   41   37   26
+```
+
+*(hypothetical data)*
 :::
 
 ---
 
-```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-tornadoes <- c(188, 967, 990, 1133, 630, 604, 294, 584, 276, 250, 451, 810)
-asthma    <- c(345, 243, 111, 144, 280, 300, 213, 201, 403, 201)
+## Example 3-6
 
-cat("Tornadoes — sorted:", paste(sort(tornadoes), collapse=", "), "\n")
-cat("Tornadoes median:", median(tornadoes), "\n\n")
-cat("Asthma — sorted:", paste(sort(asthma), collapse=", "), "\n")
-cat("Asthma median:", median(asthma), "\n")
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+delivery_time <- c(32, 28, 35, 28, 41, 37, 26)
+
+sort(delivery_time)
+table(delivery_time)
 ```
+
+The mode is **28 minutes**, because it occurs twice, which is more than any other value.
+:::
+
+## Example 3-7 {#example-3-7}
+
+:::{.callout-warning}
+## Pickers on Duty
+
+The data show the number of pickers on duty at a distribution center over a 15-day period. Find the mode.
+
+```
+18   18   18   18   18
+21   23   23   23   24
+23   25   26   25   23
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 3-7
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+pickers <- c(18, 18, 18, 18, 18,
+             21, 23, 23, 23, 24,
+             23, 25, 26, 25, 23)
+
+picker_counts <- table(pickers)
+picker_counts
+names(picker_counts)[picker_counts == max(picker_counts)]
+```
+
+Since the values 18 and 23 both occur 5 times, the modes are **18 and 23**. The data set is said to be **bimodal**.
+:::
 
 ## Example 3-8 {#example-3-8}
 
 :::{.callout-warning}
-## Magazines (Finding the Median from a Distribution)
+## Hotel Ratings
 
-Six randomly selected bookstores reported selling this many magazines per week: 3, 7, 8, 3, 1, 3. Find the median.
+The data show the average customer rating of 8 business hotels on a booking platform. Find the mode.
+
+```
+4.3   3.8   4.6   3.5   4.1   3.9   4.8   4.2
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-8
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mags <- c(3, 7, 8, 3, 1, 3)
-cat("Sorted:", sort(mags), "\n")
-cat("Median:", median(mags), "\n")
+hotel_rating <- c(4.3, 3.8, 4.6, 3.5, 4.1, 3.9, 4.8, 4.2)
+
+table(hotel_rating)
+max(table(hotel_rating))
 ```
 
-The median is **`r median(c(3,7,8,3,1,3))`** magazines per week.
+Since each value occurs only once, there is **no mode**.
 :::
 
-## The Mode
-
-The **mode** is the value that appears most frequently in a dataset. Unlike the mean and median, the mode can be used with both quantitative and qualitative data.
+## The Modal Class
 
 :::{.callout-note}
-## Key Properties of the Mode
+## Modal Class
 
-- A dataset may have **no mode** (all values appear once), **one mode** (unimodal), **two modes** (bimodal), or **more** (multimodal).
-- For grouped data, the **modal class** is the class with the highest frequency.
-- Mode is the **only** appropriate measure of center for nominal (categorical) data.
+The mode for grouped data is the **modal class** — the class with the largest frequency.
 :::
 
 ## Example 3-9 {#example-3-9}
 
 :::{.callout-warning}
-## NFL Signing Bonuses
+## Revenue of Night Market Stalls
 
-The signing bonuses (in millions of dollars) for a sample of NFL players are listed. Find the mode.
-
-**Values:** 18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8
+Find the modal class for the frequency distribution of night market stall revenue shown in [Example 3-3](#example-3-3).
 :::
+
+---
 
 ## Example 3-9
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-bonuses <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
+stall_revenue |> select(Class, f) |> knitr::kable(align = "c")
 
-mode_tbl <- sort(table(bonuses), decreasing = TRUE)
-print(mode_tbl)
-modes <- names(mode_tbl)[mode_tbl == max(mode_tbl)]
-cat("Modes:", paste0("$", modes, " million", collapse = " and "), "\n")
+stall_revenue$Class[which.max(stall_revenue$f)]
 ```
 
-Both 2 and 10 appear 3 times → dataset is **bimodal**: **$2M and $10M**.
+Since the class 9.5–14.5 has the largest frequency, 8, it is the **modal class**. Sometimes the midpoint of the class is used; in this case it is 12.
 :::
 
-## Example 3-10 & 3-11 {#example-3-10}
+## The Mode for Nominal Data
+
+The mode is the only measure of central tendency that can be used in finding the most typical case when the data are **nominal or categorical**.
+
+## Example 3-10 {#example-3-10}
+
 :::{.callout-warning}
-## Example 3-10 & 3-11
-1. Bank branches in 5 cities: 17, 23, 25, 3, 42 — each value appears exactly once → **no mode**.
+## Payment Methods
 
-2. Licensed nuclear reactors in the U.S. over 15 years:
-104, 104, 104, 104, 104, 107, 109, 109, 109, 110, 109, 111, 112, 111, 109
+The data show the payment method chosen by the customers of an online store on a single day. Find the mode.
+
+```
+Method            Number
+Credit card         214
+Mobile payment      168
+Cash                 95
+Store credit         32
+Bank transfer        11
+```
+
+*(hypothetical data)*
 :::
+
+---
+
+## Example 3-10
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 ```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-reactors <- c(104,104,104,104,104,107,109,109,109,110,109,111,112,111,109)
-mode_tbl <- sort(table(reactors), decreasing = TRUE)
-print(mode_tbl)
+payment <- tibble(Method = c("Credit card", "Mobile payment", "Cash",
+                             "Store credit", "Bank transfer"),
+                  Number = c(214, 168, 95, 32, 11))
+
+knitr::kable(payment, align = "c")
+payment$Method[which.max(payment$Number)]
 ```
 
-**104** appears 5 times and **109** appears 5 times → bimodal: **104 and 109**.
-
-## Example 3-12 {#example-3-12}
-
-:::{.callout-warning}
-## Modal Class for Grouped Data
-
-Find the modal class for the miles-run-per-week frequency distribution ([Example 3-3](#example-3-3)).
+Since the credit card category has the largest frequency, 214, the most typical payment method was the **credit card**.
 :::
----
 
-```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-classes <- c("5.5-10.5","10.5-15.5","15.5-20.5","20.5-25.5",
-             "25.5-30.5","30.5-35.5","35.5-40.5")
-freq <- c(1,2,3,5,4,3,2)
-df_mode <- data.frame(Class=classes, Frequency=freq)
-knitr::kable(df_mode, caption="Miles Run per Week")
-cat("\nModal class:", classes[which.max(freq)], "(frequency =", max(freq), ")\n")
-```
+## Outliers and the Mean
 
-The **modal class** is **20.5–25.5** miles, with the highest frequency of 5.
+An extremely high or extremely low data value in a data set can have a striking effect on the mean. These extreme values are called **outliers**. A method for identifying outliers is given in Section 3-3.
 
-## Example 3-13 {#example-3-13}
+## Example 3-11 {#example-3-11}
 
 :::{.callout-warning}
-## Mode for Qualitative Data
+## Salaries at a Trading Firm
 
-A survey recorded boat registrations (in thousands) for five Pennsylvania counties:
-Westmoreland: 11,008 | Butler: 9,147 | Allegheny: 5,765 | Beaver: 3,342 | Lawrence: 1,478
+A small trading firm consists of the owner, the manager, a sales representative, and two clerks, whose monthly salaries in NT dollars are listed here. (Assume that this is the entire population.) Find the mean, median, and mode.
+
+```
+Position            Salary
+Owner              180,000
+Manager             72,000
+Sales rep           48,000
+Clerk               35,000
+Clerk               35,000
+```
+
+*(hypothetical data)*
 :::
+
 ---
 
-```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-county <- c("Westmoreland","Butler","Allegheny","Beaver","Lawrence")
-boats  <- c(11008, 9147, 5765, 3342, 1478)
-df_boats <- data.frame(County=county, Registrations=boats)
-knitr::kable(df_boats, caption="Boat Registrations")
-cat("\nMode (highest registrations):", county[which.max(boats)],
-    "with", max(boats), "registrations\n")
+## Example 3-11
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+salary <- c(180000, 72000, 48000, 35000, 35000)
+
+mean(salary)
+median(salary)
+names(which.max(table(salary)))
 ```
 
-## Example 3-14 {#example-3-14}
+$$\mu = \frac{\Sigma X}{N} = \frac{370{,}000}{5} = 74{,}000$$
 
-:::{.callout-warning}
-## Effect of an Outlier on the Mean
-
-Six employees' salaries at a small firm: $5,000 | $6,000 | $9,000 | $12,000 | $15,000 | $45,000
-
-Which measure best represents this dataset?
+The mean is **NT\$74,000**, the median is **NT\$48,000**, and the mode is **NT\$35,000**.
 :::
----
-
-```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-salaries <- c(5000, 6000, 9000, 12000, 15000, 45000)
-cat("Mean:  $", mean(salaries), "\n")
-cat("Median: $", median(salaries), "\n")
-# Mode
-mode_s <- as.numeric(names(sort(table(salaries), decreasing=TRUE))[1])
-cat("Mode:  No mode (all values unique)\n")
-```
 
 ---
 
-The **mean (\$15,333)** is inflated by the \$45,000 outlier. The **median (\$10,500)** better represents the typical salary.
+## Example 3-11
 
-:::{.callout-warning}
-## When Outliers Are Present
-Use the **median** when a dataset contains extreme values, as the mean is strongly pulled in the direction of the outlier.
+:::{.callout-tip}
+## Solution
+
+**Interpretation**
+
+The mean is much higher than the median or the mode, because the extremely high salary of the owner tends to raise the value of the mean. In this and similar situations, the **median** should be used as the measure of central tendency.
 :::
 
 ## The Midrange
 
-The **midrange** is the arithmetic mean of the maximum and minimum data values. It is easy to calculate but highly sensitive to extreme values.
-
 :::{.callout-note}
-## Formula — Midrange
+## Midrange
+
+The **midrange** is defined as the sum of the lowest and highest values in the data set, divided by 2. The symbol $MR$ is used for the midrange.
 
 $$MR = \frac{\text{lowest value} + \text{highest value}}{2}$$
 :::
 
-## Example 3-15 & 3-16 {#example-3-15}
-:::{.callout-warning}
-## Example 3-15 & 3-16
-1. The number of water-line breaks in a city over 9 years: 2, 3, 6, 8, 4, 1, 3, 5, 7. Find the midrange.
+The midrange is a very rough estimate of the average and can be affected by one extremely high or low value.
 
-2. Using the data from [Example 3-9](#example-3-9) (min = $2M, max = $18M), find the midrange.
+## Example 3-12 {#example-3-12}
+
+:::{.callout-warning}
+## Flight Cancellations
+
+The number of flight cancellations recorded by an airline in each of five months is shown. Find the midrange.
+
+```
+6   41   97   112   58
+```
+
+*(hypothetical data)*
 :::
 
-```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-water_breaks <- c(2, 3, 6, 8, 4, 1, 3, 5, 7)
-nfl_bonuses  <- c(18, 14, 10, 10, 10, 7, 7, 3, 2, 2, 2, 8)
+---
 
-midrange <- function(x) (min(x) + max(x)) / 2
+## Example 3-12
 
-cat("Water-line breaks midrange:", midrange(water_breaks), "breaks\n")
-cat("NFL bonuses midrange: $", midrange(nfl_bonuses), "million\n")
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cancellations <- c(6, 41, 97, 112, 58)
+
+min(cancellations)
+max(cancellations)
+(min(cancellations) + max(cancellations)) / 2
 ```
+
+$$MR = \frac{6 + 112}{2} = \frac{118}{2} = 59$$
+
+The midrange for the number of flight cancellations is **59**.
+:::
+
+## Example 3-13 {#example-3-13}
+
+:::{.callout-warning}
+## Containers Loaded
+
+The number of containers (in thousands) loaded at an export terminal in each of five years is shown. Find the midrange.
+
+```
+318   742   906   455   264
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 3-13
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+containers_loaded <- c(318, 742, 906, 455, 264)
+
+min(containers_loaded)
+max(containers_loaded)
+(min(containers_loaded) + max(containers_loaded)) / 2
+```
+
+$$MR = \frac{264 + 906}{2} = \frac{1170}{2} = 585$$
+
+The midrange is **585 thousand containers**.
+:::
 
 ## The Weighted Mean
 
-When different values carry different levels of importance (weight), use the **weighted mean** to compute an accurate average.
+Sometimes you must find the mean of a data set in which not all values are equally represented.
 
 :::{.callout-note}
-## Formula — Weighted Mean
+## Weighted Mean
 
-$$\bar{X}_w = \frac{\Sigma w \cdot X}{\Sigma w}$$
+Find the **weighted mean** of a variable $X$ by multiplying each value by its corresponding weight and dividing the sum of the products by the sum of the weights.
 
-where $w$ = weight and $X$ = value.
+$$\bar{X} = \frac{w_1 X_1 + w_2 X_2 + \cdots + w_n X_n}{w_1 + w_2 + \cdots + w_n} = \frac{\Sigma wX}{\Sigma w}$$
+
+where $w_1, w_2, \ldots, w_n$ are the weights and $X_1, X_2, \ldots, X_n$ are the values.
+:::
+
+## Example 3-14 {#example-3-14}
+
+:::{.callout-warning}
+## Grade Point Average
+
+An ETP student received an A in International Trade Practice (4 credits), a B in Business Statistics (3 credits), a C in Managerial Accounting (3 credits), and a B in Business English Presentation (2 credits). Assuming A = 4 grade points, B = 3, C = 2, D = 1, and F = 0, find the student's grade point average.
+:::
+
+---
+
+## Example 3-14
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+courses <- tibble(
+  Course  = c("International Trade Practice", "Business Statistics",
+              "Managerial Accounting", "Business English Presentation"),
+  Credits = c(4, 3, 3, 2),
+  Grade   = c(4, 3, 2, 3))
+
+knitr::kable(courses, align = "c")
+round(sum(courses$Credits * courses$Grade) / sum(courses$Credits), 1)
+```
+
+$$\bar{X} = \frac{\Sigma wX}{\Sigma w} = \frac{4 \cdot 4 + 3 \cdot 3 + 3 \cdot 2 + 2 \cdot 3}{4+3+3+2} = \frac{37}{12} \approx 3.1$$
+
+The grade point average is **3.1**.
+:::
+
+## Table 3-1: Summary of Measures of Central Tendency
+
+| Measure | Definition | Symbol(s) |
+|---------|------------|-----------|
+| Mean | Sum of values, divided by total number of values | $\mu$, $\bar{X}$ |
+| Median | Middle point in data set that has been ordered | $MD$ |
+| Mode | Most frequent data value | None |
+| Midrange | Lowest value plus highest value, divided by 2 | $MR$ |
+
+## Properties and Uses of the Mean and Median
+
+:::{.callout-important}
+## The Mean
+
+1. The mean is found by using **all** the values of the data.
+2. The mean **varies less** than the median or mode when samples are taken from the same population.
+3. The mean is used in computing other statistics, such as the variance.
+4. The mean for the data set is **unique** and not necessarily one of the data values.
+5. The mean **cannot** be computed for a frequency distribution that has an **open-ended class**.
+6. The mean is **affected by outliers** and may not be the appropriate average in these situations.
+:::
+
+---
+
+## Properties and Uses of the Mean and Median
+
+:::{.callout-important}
+## The Median
+
+1. The median is used to find the center or middle value of a data set.
+2. The median is used when it is necessary to find out whether the data values fall into the **upper half or lower half** of the distribution.
+3. The median is used for an **open-ended** distribution.
+4. The median is **affected less** than the mean by extremely high or extremely low values.
+:::
+
+## Properties and Uses of the Mode and Midrange
+
+:::{.callout-important}
+## The Mode
+
+1. The mode is used when the **most typical case** is desired.
+2. The mode is the **easiest** average to compute.
+3. The mode can be used when the data are **nominal or categorical**, such as religious preference, gender, or political affiliation.
+4. The mode is **not always unique**. A data set can have more than one mode, or the mode may not exist.
+:::
+
+:::{.callout-important}
+## The Midrange
+
+1. The midrange is easy to compute.
+2. The midrange gives the midpoint.
+3. The midrange is affected by extremely high or low values in a data set.
+:::
+
+## Distribution Shapes
+
+Frequency distributions can assume many shapes. The three most important shapes are **positively skewed**, **symmetric**, and **negatively skewed** (Figure 3-1).
+
+:::{.callout-note}
+## Three Distribution Shapes
+
+- **Positively skewed (right-skewed)** — the majority of the data values fall to the **left** of the mean and cluster at the lower end; the tail is to the right. The **mean is to the right of the median**, and the **mode is to the left of the median**.
+- **Symmetric** — the data values are evenly distributed on both sides of the mean. When the distribution is unimodal, the **mean, median, and mode are the same** and lie at the center.
+- **Negatively skewed (left-skewed)** — the majority of the data values fall to the **right** of the mean and cluster at the upper end; the tail is to the left. The **mean is to the left of the median**, and the **mode is to the right of the median**.
+:::
+
+## Skewness and the Choice of Average
+
+Incomes in the United States are positively skewed: most incomes cluster at the low end, and the few high incomes form a tail on the right. If most students score very high on an examination, the distribution of scores is negatively skewed.
+
+:::{.callout-warning}
+## Caution
+
+When a distribution is **extremely skewed**, the value of the mean is pulled toward the tail, so the **median** rather than the mean is the more appropriate measure of central tendency. An extremely skewed distribution can also affect other statistics.
+:::
+
+---
+
+## Distribution Shapes in R
+
+**Draw figure**
+
+```{r s3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(2026)
+shapes <- tibble(
+  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2),
+            16 - rgamma(4000, 2, 0.5)),
+  shape = rep(c("(a) Positively skewed", "(b) Symmetric",
+                "(c) Negatively skewed"), each = 4000))
+
+p_shapes <- ggplot(shapes, aes(x = value)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  facet_wrap(~ shape, scales = "free") +
+  labs(title = "Figure 3-1: Types of Distributions", x = "", y = "Frequency") +
+  theme_minimal()
+```
+
+---
+
+## Distribution Shapes in R
+
+**Output figure**
+
+```{r s3-1-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.5}
+p_shapes
+```
+
+In the skewed panels the mean is pulled toward the long tail, while the median stays near the bulk of the data.
+
+# Section 3-2: Measures of Variation {background-color="#2c4a6e"}
+
+## Why Variation Matters
+
+Knowing the average of a data set is not enough to describe it entirely. A shoe store owner who knows that the average size of a man's shoe is size 10 would not be in business very long if she ordered only size 10 shoes.
+
+In addition to knowing the average, you must know how the data values are **dispersed**. The measures that determine the spread of the data values are called **measures of variation**, or **measures of dispersion**: the range, variance, and standard deviation.
+
+## Example 3-15 {#example-3-15}
+
+:::{.callout-warning}
+## Comparison of Two Suppliers
+
+A buyer wants to compare two overseas suppliers of packaging film on how long each takes to deliver an order. Six shipments were placed with each supplier. Since only six shipments are involved and no further shipments will be placed under the current contracts, these two groups constitute two small **populations**. The lead times (in days) are shown. Find the mean of each group.
+
+```
+Supplier A    Supplier B
+     9            14
+    21            10
+     3            13
+    15            11
+     6            14
+    18            10
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-16](#example-3-16), [Example 3-18](#example-3-18), [Example 3-19](#example-3-19)
+:::
+
+---
+
+## Example 3-15
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+supplier_a <- c(9, 21, 3, 15, 6, 18)
+supplier_b <- c(14, 10, 13, 11, 14, 10)
+
+c(sum = sum(supplier_a), mean = mean(supplier_a))
+c(sum = sum(supplier_b), mean = mean(supplier_b))
+```
+
+$$\mu_A = \frac{72}{6} = 12 \text{ days} \qquad \mu_B = \frac{72}{6} = 12 \text{ days}$$
+
+Both means are **12 days**.
+:::
+
+---
+
+## Example 3-15
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e3-15-2, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3}
+tibble(Supplier = rep(c("(a) Supplier A", "(b) Supplier B"), each = 6),
+       Days = c(supplier_a, supplier_b)) |>
+  ggplot(aes(x = Days, y = Supplier)) +
+  geom_point(size = 3, color = "steelblue") +
+  geom_vline(xintercept = 12, linetype = "dashed", color = "red") +
+  labs(title = "Figure 3-2: Examining Data Sets Graphically",
+       x = "Lead time (in days)", y = "") +
+  theme_minimal()
+```
+
+Even though the means are the same, the **spread** is quite different: supplier B delivers far more consistently.
+:::
+
+## The Range
+
+:::{.callout-note}
+## Range
+
+The **range** is the highest value minus the lowest value. The symbol $R$ is used for the range.
+
+$$R = \text{highest value} - \text{lowest value}$$
+:::
+
+Make sure the range is given as a **single number**.
+
+## Example 3-16 {#example-3-16}
+
+:::{.callout-warning}
+## Comparison of Two Suppliers
+
+Find the ranges for the two suppliers in [Example 3-15](#example-3-15).
+:::
+
+---
+
+## Example 3-16
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+diff(range(supplier_a))
+diff(range(supplier_b))
+```
+
+For supplier A, $R = 21 - 3 = 18$ days. For supplier B, $R = 14 - 10 = 4$ days.
+
+For supplier A, 18 days separate the largest data value from the smallest; for supplier B only 4 days do, which is less than one-fourth of supplier A's range.
 :::
 
 ## Example 3-17 {#example-3-17}
 
 :::{.callout-warning}
-## GPA Calculation
+## Parcel Volume
 
-A student earned the following grades. Compute the grade-point average (GPA), using credit hours as weights.
+The monthly parcel volumes (in ten thousands) handled by a logistics hub for six selected months are shown. Find the range.
 
-| Course | Grade | Credit Hours |
-|--------|-------|-------------|
-| English | A (4) | 3 |
-| Math | C (2) | 4 |
-| History | B (3) | 3 |
-| Art | D (1) | 2 |
+```
+37   62   19   48   55   41
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-17
 
@@ -515,629 +992,937 @@ A student earned the following grades. Compute the grade-point average (GPA), us
 **Solve**
 
 ```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-courses <- c("English", "Math", "History", "Art")
-grades  <- c(4, 2, 3, 1)         # A=4, B=3, C=2, D=1
-credits <- c(3, 4, 3, 2)
+parcels <- c(37, 62, 19, 48, 55, 41)
 
-df_gpa <- data.frame(Course=courses, Grade=grades, Credits=credits) |>
-  mutate(w_X = Grade * Credits)
-knitr::kable(df_gpa, col.names=c("Course","Grade Points","Credits","w × X"),
-             caption="GPA Calculation")
-
-gpa <- sum(df_gpa$w_X) / sum(credits)
-cat("\nWeighted Mean (GPA):", round(gpa, 2), "\n")
+diff(range(parcels))
 ```
 
-The student's GPA is **`r round(sum(c(4,2,3,1)*c(3,4,3,2))/sum(c(3,4,3,2)),2)`**.
+$$R = 62 - 19 = 43 \text{ (ten thousand parcels)}$$
+
+One extremely high or one extremely low data value can affect the range markedly, so statisticians use the **variance** and **standard deviation** for a more meaningful measure of variability.
 :::
 
-## Choosing the Right Measure of Center
+## Population Variance and Standard Deviation
 
-:::{.callout-important}
-## Which Measure to Use?
-
-| Situation | Best Measure |
-|-----------|-------------|
-| Most typical value desired | Mode |
-| Distribution is open-ended (no max/min) | Median |
-| Extreme values are present | Median |
-| Data are categorical (nominal) | Mode |
-| Further computations are needed | Mean |
-| Data must be split into two equal groups | Median |
-
-The **mean** is generally preferred when data are approximately symmetric with no extreme outliers, since it uses every data value in its computation.
-:::
-
-# Section 3-2: Measures of Variation {background-color="#2c4a6e"}
-
-## Why Variation Matters
-
-Two datasets can have identical means yet differ dramatically in their spread. **Measures of variation** quantify how spread out or clustered data values are around the center.
+Data variation is based on the difference or distance each data value is from the mean; this distance is called a **deviation**, $X - \mu$. The sum of the deviations about the mean is always zero, so the deviations are **squared**.
 
 :::{.callout-note}
-## Three Key Measures of Variation
+## Population Variance and Standard Deviation
 
-| Measure | Symbol(s) | Description |
-|---------|-----------|-------------|
-| Range | $R$ | Distance between highest and lowest |
-| Variance | $\sigma^2$, $s^2$ | Average squared distance from mean |
-| Standard Deviation | $\sigma$, $s$ | Square root of variance |
+The **population variance** is the average of the squares of the distance each value is from the mean:
+
+$$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N}$$
+
+The **population standard deviation** is the square root of the variance:
+
+$$\sigma = \sqrt{\sigma^2} = \sqrt{\frac{\Sigma(X - \mu)^2}{N}}$$
+
+where $X$ = individual value, $\mu$ = population mean, $N$ = population size.
+:::
+
+## Procedure and Rounding Rule
+
+:::{.callout-important}
+## Procedure — Population Variance and Standard Deviation
+
+1. Find the mean for the data, $\mu = \dfrac{\Sigma X}{N}$.
+2. Find the deviation for each data value, $X - \mu$.
+3. Square each of the deviations, $(X - \mu)^2$.
+4. Find the sum of the squares, $\Sigma(X - \mu)^2$.
+5. Divide by $N$ to get the variance.
+6. Take the square root of the variance to get the standard deviation.
+:::
+
+:::{.callout-important}
+## Rounding Rule for the Standard Deviation
+
+The final answer should be rounded to **one more decimal place** than that of the original data.
 :::
 
 ## Example 3-18 {#example-3-18}
 
 :::{.callout-warning}
-## Why the Mean Alone Is Insufficient
+## Comparison of Two Suppliers
 
-A testing laboratory evaluates two brands of outdoor paint to see how long (in months) each lasts before fading. Six cans of each brand were tested.
+Find the variance and standard deviation for the lead times of supplier A in [Example 3-15](#example-3-15). The lead times in days were
 
-**Brand A:** 10, 60, 50, 30, 40, 20 — Mean = 35 months
-**Brand B:** 35, 45, 30, 35, 40, 25 — Mean = 35 months
+```
+9   21   3   15   6   18
+```
 :::
+
+---
 
 ## Example 3-18
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Prepare data**
 
 ```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-B <- c(35, 45, 30, 35, 40, 25)
-cat("Brand A mean:", mean(A), "| Brand B mean:", mean(B), "\n")
+deviations_a <- tibble(X = supplier_a, dev = X - mean(supplier_a), dev2 = dev^2)
+
+knitr::kable(deviations_a, col.names = c("Values X", "X - mu", "(X - mu)^2"),
+             align = "c")
+sum(deviations_a$dev2)
 ```
 :::
 
-----
+---
+
+## Example 3-18
 
 :::{.callout-tip}
 ## Solution
+
+**Solve**
+
 ```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-data.frame(Brand = rep(c("A","B"), each=6),
-           Months = c(A, B)) |>
-  ggplot(aes(x = Brand, y = Months, color = Brand)) +
-  geom_jitter(size=3, width=0.1) +
-  geom_hline(yintercept=35, linetype="dashed") +
-  labs(title="Paint Brand Longevity: Same Mean, Different Spread",
-       y="Months before fading") +
-  theme_bw() + theme(legend.position="none")
+population_variance <- function(values) mean((values - mean(values))^2)
+
+variance_a <- population_variance(supplier_a)
+variance_a
+round(sqrt(variance_a), 1)
 ```
-:::
 
-## The Range
+$$\sigma^2 = \frac{252}{6} = 42 \qquad \sigma = \sqrt{42} \approx 6.5$$
 
-The **range** is the simplest measure of spread — the difference between the largest and smallest values.
-
-:::{.callout-note}
-## Formula — Range
-
-$$R = \text{highest value} - \text{lowest value}$$
-:::
-
-:::{.callout-warning}
-## Limitation of the Range
-A single extreme value can drastically inflate the range, making it a misleading indicator of typical variation.
+The variance is **42** and the standard deviation is **6.5 days**.
 :::
 
 ## Example 3-19 {#example-3-19}
 
 :::{.callout-warning}
-## Ranges for Paint Brands
+## Comparison of Two Suppliers
 
-Find the range for Brand A and Brand B from Example 3-18.
+Find the variance and standard deviation for the lead times of supplier B in [Example 3-15](#example-3-15). The lead times in days were
+
+```
+14   10   13   11   14   10
+```
 :::
+
+---
 
 ## Example 3-19
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-B <- c(35, 45, 30, 35, 40, 25)
-
-cat("Brand A range:", max(A) - min(A), "months\n")
-cat("Brand B range:", max(B) - min(B), "months\n")
-cat("\nBrand B is more consistent: range is less than half of Brand A's range.\n")
+deviations_b <- tibble(X = supplier_b, dev = X - mean(supplier_b), dev2 = dev^2)
+knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "c")
 ```
+:::
+
+---
+
+## Example 3-19
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-19-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+variance_b <- population_variance(supplier_b)
+variance_b
+round(sqrt(variance_b), 1)
+```
+
+$$\sigma^2 = \frac{18}{6} = 3 \qquad \sigma \approx 1.7$$
+
+With equal means, a larger $\sigma$ means more spread: supplier A ($6.5$) exceeds B ($1.7$).
+:::
+
+## Sample Variance and Standard Deviation
+
+Dividing by $n$ usually **underestimates** the population variance, so the sum of squares is divided by $n - 1$, giving a slightly larger value and an **unbiased estimate** of the population variance.
+
+:::{.callout-note}
+## Sample Variance and Standard Deviation
+
+$$s^2 = \frac{\Sigma(X - \bar{X})^2}{n - 1} \qquad s = \sqrt{s^2} = \sqrt{\frac{\Sigma(X - \bar{X})^2}{n - 1}}$$
+
+where $X$ = individual value, $\bar{X}$ = sample mean, $n$ = sample size.
 :::
 
 ## Example 3-20 {#example-3-20}
 
 :::{.callout-warning}
-## Employee Salaries Range
+## Export Orders
 
-Find the range for the following salaries at XYZ Manufacturing Co.:
+The numbers of export orders received last month by five randomly selected sales offices are shown. Find the variance and standard deviation for the data.
 
-Owner: $100,000 | Manager: $40,000 | Sales rep: $30,000 | Workers: $25,000, $15,000, $18,000
+```
+14   50   26   38   32
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-21](#example-3-21)
 :::
+
+---
 
 ## Example 3-20
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-salaries <- c(100000, 40000, 30000, 25000, 15000, 18000)
-cat("Minimum salary: $", min(salaries), "\n")
-cat("Maximum salary: $", max(salaries), "\n")
-cat("Range: $", max(salaries) - min(salaries), "\n")
+export_orders <- c(14, 50, 26, 38, 32)
+deviations <- tibble(X = export_orders, dev = X - mean(export_orders), dev2 = dev^2)
+knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align = "c")
 ```
-
-The range is **\$85,000** — heavily influenced by the owner's salary.
 :::
 
-## Population Variance and Standard Deviation
+---
 
-The **variance** measures the average squared deviation of each value from the mean. The **standard deviation** is its square root, expressed in the original units.
+## Example 3-20
 
-:::{.callout-note}
-## Population Formulas
+:::{.callout-tip}
+## Solution
 
-$$\sigma^2 = \frac{\Sigma(X - \mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X - \mu)^2}{N}}$$
+**Solve**
 
-**Step-by-step procedure:**
+```{r e3-20-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sum(deviations$dev2)
+var(export_orders)
+round(sd(export_orders), 1)
+```
 
-1. Find the population mean $\mu$.
-2. Subtract $\mu$ from each value: $(X - \mu)$.
-3. Square each difference: $(X - \mu)^2$.
-4. Sum all squared differences.
-5. Divide by $N$ to get variance; take the square root for $\sigma$.
+$$s^2 = \frac{720}{5 - 1} = 180 \qquad s = \sqrt{180} \approx 13.4$$
+:::
+
+## Shortcut (Computational) Formulas
+
+:::{.callout-important}
+## Shortcut Formulas for $s^2$ and $s$
+
+$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)}}$$
+
+These are mathematically equivalent to the previous formulas and do not involve using the mean. Note that $\Sigma X^2$ is **not** the same as $(\Sigma X)^2$: $\Sigma X^2$ means square the values first, then sum; $(\Sigma X)^2$ means sum the values first, then square the sum.
 :::
 
 ## Example 3-21 {#example-3-21}
 
 :::{.callout-warning}
-## Variance & SD — Paint Brand A
+## Export Orders
 
-Find the variance and standard deviation for Brand A paint data: 10, 60, 50, 30, 40, 20
+The numbers of export orders received last month by five randomly selected sales offices are shown. Find the variance and standard deviation for the data, using the shortcut formula.
+
+```
+14   50   26   38   32
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-20](#example-3-20)
 :::
+
 ---
 
+## Example 3-21
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
 ```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-A <- c(10, 60, 50, 30, 40, 20)
-mu <- mean(A)
-df_A <- data.frame(X = A) |>
-  mutate(`X - mu` = X - mu,
-         `(X-mu)^2` = (X - mu)^2)
-knitr::kable(df_A, caption=paste("Brand A: mu =", mu))
+n_offices <- length(export_orders)
+
+sum(export_orders)
+sum(export_orders^2)
+
+shortcut_variance <- (n_offices * sum(export_orders^2) - sum(export_orders)^2) /
+  (n_offices * (n_offices - 1))
+shortcut_variance
+var(export_orders)
 ```
 
-```{r e3-21-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sigma2 <- sum(df_A$`(X-mu)^2`) / length(A)
-sigma  <- sqrt(sigma2)
-cat("\nVariance (sigma^2):", round(sigma2, 1),
-    "\nStandard deviation (sigma):", round(sigma, 1), "months\n")
-```
+$$s^2 = \frac{5(5840) - 160^2}{5(4)} = \frac{3600}{20} = 180 \qquad s \approx 13.4$$
+
+The shortcut formula agrees with `var()`, and with [Example 3-20](#example-3-20).
+:::
+
+## Variance and Standard Deviation for Grouped Data
+
+:::{.callout-important}
+## Shortcut Formula for Grouped Data
+
+$$s^2 = \frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)}}$$
+
+where $X_m$ is the midpoint of each class and $f$ is the frequency of each class.
+
+Be sure to use the **sum of the frequencies** for $n$ — not the number of classes.
+:::
 
 ## Example 3-22 {#example-3-22}
 
 :::{.callout-warning}
-## Variance & SD — Paint Brand B
+## Picking Times at a Distribution Center
 
-Find the variance and standard deviation for Brand B: 35, 45, 30, 35, 40, 25
+Find the sample variance and the sample standard deviation for the frequency distribution shown. The data represent the time, in minutes, needed to pick each of 20 randomly selected orders.
+
+```
+  Class      Frequency   Midpoint
+  4.5-9.5         2           7
+  9.5-14.5        3          12
+ 14.5-19.5        5          17
+ 19.5-24.5        4          22
+ 24.5-29.5        3          27
+ 29.5-34.5        2          32
+ 34.5-39.5        1          37
+```
+
+*(hypothetical data)*
 :::
+
 ---
+
+## Example 3-22
+
+:::{.callout-tip}
+## Solution
+
+**Prepare data**
 
 ```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-B <- c(35, 45, 30, 35, 40, 25)
-mu_B <- mean(B)
-df_B <- data.frame(X = B) |>
-  mutate(`X - mu` = X - mu_B,
-         `(X-mu)^2` = (X - mu_B)^2)
-knitr::kable(df_B, caption=paste("Brand B: mu =", mu_B))
+picking_times <- tibble(
+  Class = c("4.5-9.5", "9.5-14.5", "14.5-19.5", "19.5-24.5",
+            "24.5-29.5", "29.5-34.5", "34.5-39.5"),
+  f  = c(2, 3, 5, 4, 3, 2, 1),
+  Xm = c(7, 12, 17, 22, 27, 32, 37)) |>
+  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
+
+knitr::kable(picking_times, align = "c")
 ```
-
-----
-
-```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sigma2_B <- sum(df_B$`(X-mu)^2`) / length(B)
-sigma_B  <- sqrt(sigma2_B)
-cat("\nVariance (sigma^2):", round(sigma2_B, 1),
-    "\nStandard deviation (sigma):", round(sigma_B, 1), "months\n")
-cat("\nBrand A sigma:", round(sqrt(1750/6), 1),
-    "vs Brand B sigma:", round(sigma_B, 1),
-    "→ Brand B is more consistent.\n")
-```
-
-## Sample Variance and Standard Deviation
-
-When data come from a **sample** (not the entire population), divide by $n - 1$ rather than $n$ to obtain an **unbiased** estimate of the population variance.
-
-:::{.callout-note}
-## Sample Formulas
-
-$$s^2 = \frac{\Sigma(X - \bar{X})^2}{n-1} \qquad s = \sqrt{\frac{\Sigma(X - \bar{X})^2}{n-1}}$$
-
-**Shortcut (computational) formulas:**
-
-$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)}}$$
 :::
 
 ---
 
+## Example 3-22
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n_orders  <- sum(picking_times$f)
+sum_fxm   <- sum(picking_times$fXm)
+sum_fxm2  <- sum(picking_times$fXm2)
+
+c(n = n_orders, sum_fxm = sum_fxm, sum_fxm2 = sum_fxm2)
+
+grouped_variance <- (n_orders * sum_fxm2 - sum_fxm^2) / (n_orders * (n_orders - 1))
+round(grouped_variance, 1)
+round(sqrt(grouped_variance), 1)
+```
+
+$$s^2 = \frac{20(9515) - 405^2}{20(19)} = \frac{26{,}275}{380} \approx 69.1 \qquad s \approx 8.3$$
+:::
+
+## Table 3-2: Summary of Measures of Variation
+
+| Measure | Definition | Symbol(s) |
+|---------|------------|-----------|
+| Range | Distance between highest value and lowest value | $R$ |
+| Variance | Average of the squares of the distance that each value is from the mean | $\sigma^2$, $s^2$ |
+| Standard deviation | Square root of the variance | $\sigma$, $s$ |
+
+## Uses of the Variance and Standard Deviation
+
 :::{.callout-important}
-## Why $n-1$?
-Dividing by $n-1$ corrects the tendency of sample variance to underestimate population variance. The value $n-1$ is called the **degrees of freedom**.
+## Four Uses
+
+1. They determine the **spread** of the data, and are useful in comparing two or more data sets to determine which is more variable.
+2. They determine the **consistency** of a variable. In the manufacture of nuts and bolts, the variation in diameters must be small or the parts will not fit together.
+3. They determine the **number of data values that fall within a specified interval** in a distribution — for example, Chebyshev's theorem shows that at least 75% of the data values fall within 2 standard deviations of the mean.
+4. They are used quite often in **inferential statistics**.
+:::
+
+## Coefficient of Variation
+
+When two samples have the same units of measure, their standard deviations can be compared directly. To compare the standard deviations of **two different variables**, use the coefficient of variation.
+
+:::{.callout-note}
+## Coefficient of Variation
+
+The **coefficient of variation**, denoted by $\text{CVar}$, is the standard deviation divided by the mean. The result is expressed as a percentage.
+
+$$\text{CVar} = \frac{s}{\bar{X}} \cdot 100\% \quad \text{(samples)} \qquad \text{CVar} = \frac{\sigma}{\mu} \cdot 100\% \quad \text{(populations)}$$
 :::
 
 ## Example 3-23 {#example-3-23}
 
 :::{.callout-warning}
-## European Auto Sales (Shortcut Formula)
+## Store Sales in Two Cities
 
-Find the sample variance and standard deviation for European auto sales (in billions of dollars) over 6 years: 11.2, 11.9, 12.0, 12.8, 13.4, 14.3
+For the stores of a coffee chain in Taipei, the mean monthly revenue is NT\$2.68 million with a standard deviation of NT\$523,000. For its stores in Kaohsiung, the mean monthly revenue is NT\$1.94 million with a standard deviation of NT\$417,000. Compute the coefficient of variation for the two cities. Which data set is more variable?
+
+*(hypothetical data)*
 :::
+
 ---
 
+## Example 3-23
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
 ```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-auto <- c(11.2, 11.9, 12.0, 12.8, 13.4, 14.3)
-n    <- length(auto)
+regional_sales <- tibble(City      = c("Taipei", "Kaohsiung"),
+                         mean_sales = c(268, 194),
+                         sd_sales   = c(52.3, 41.7)) |>
+  mutate(CVar = round(sd_sales / mean_sales * 100, 1))
 
-sum_X  <- sum(auto)
-sum_X2 <- sum(auto^2)
-
-s2 <- (n * sum_X2 - sum_X^2) / (n * (n - 1))
-s  <- sqrt(s2)
-
-cat("n =", n, "\n")
-cat("Sum(X) =", sum_X, "  Sum(X^2) =", sum_X2, "\n")
-cat("s^2 =", round(s2, 3), "\n")
-cat("s =", round(s, 2), "billion dollars\n")
-
-# Verify with built-in function
-cat("Verified with var():", round(var(auto), 3), "\n")
+knitr::kable(regional_sales, align = "c")
 ```
+
+$$\text{Taipei: } \text{CVar} = \frac{52.3}{268} \cdot 100\% = 19.5\% \qquad
+\text{Kaohsiung: } \text{CVar} = \frac{41.7}{194} \cdot 100\% = 21.5\%$$
+
+The variation of the Kaohsiung stores is only **slightly larger** than the variation of the Taipei stores. (Both revenue figures are expressed in NT\$10,000.)
+:::
 
 ## Example 3-24 {#example-3-24}
 
 :::{.callout-warning}
-## Standard Deviation for Grouped Data
+## Hotel Occupancy and Room Rates
 
-Find the variance and standard deviation for the miles-run-per-week grouped data ([Example 3-3](#example-3-3)), representing 20 runners.
+For a sample of international hotels in Taipei, the mean occupancy rate is 72.5% with a variance of 27.04, and the mean average daily room rate is NT\$4,850 with a variance of 336,400. Compare the variations of the two data sets.
+
+*(hypothetical data)*
 :::
+
 ---
+
+## Example 3-24
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 ```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-Xm   <- c(8, 13, 18, 23, 28, 33, 38)
-f    <- c(1,  2,  3,  5,  4,  3,  2)
-n    <- sum(f)
+hotel_measures <- tibble(Variable = c("Occupancy rate", "Daily room rate"),
+                         mean_value = c(72.5, 4850),
+                         variance   = c(27.04, 336400)) |>
+  mutate(CVar = round(sqrt(variance) / mean_value * 100, 1))
 
-df_g <- data.frame(Xm, f) |>
-  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
-knitr::kable(df_g, col.names=c("Xm","f","f·Xm","f·Xm²"),
-             caption="Grouped Variance Table")
+knitr::kable(hotel_measures, align = "c")
 ```
+
+$$\text{CVar}_{\text{occupancy}} = \frac{\sqrt{27.04}}{72.5} \cdot 100\% = 7.2\% \qquad
+\text{CVar}_{\text{rate}} = \frac{\sqrt{336{,}400}}{4850} \cdot 100\% = 12.0\%$$
+
+The variation in the **room rates** is larger than the variation in the occupancy rates.
+:::
+
+## Range Rule of Thumb
+
+:::{.callout-important}
+## The Range Rule of Thumb
+
+A rough estimate of the standard deviation is
+
+$$s \approx \frac{\text{range}}{4}$$
+
+The rule can also estimate the extreme data values: the smallest data value is approximately $\bar{X} - 2s$ and the largest is approximately $\bar{X} + 2s$.
+:::
+
+:::{.callout-warning}
+## Caution
+
+The range rule of thumb is **only an approximation** and should be used when the distribution of data values is **unimodal and roughly symmetric**.
+:::
 
 ---
 
-```{r e3-24-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s2 <- (n * sum(df_g$fXm2) - sum(df_g$fXm)^2) / (n * (n - 1))
-s  <- sqrt(s2)
-cat("\nn =", n, "  Sum(f·Xm) =", sum(df_g$fXm),
-    "  Sum(f·Xm^2) =", sum(df_g$fXm2))
-cat("\nVariance s^2 =", round(s2, 1), "  Std Dev s =", round(s, 1), "miles\n")
+## The Range Rule of Thumb in R
+
+```{r s3-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+containers_per_hour <- c(16, 13, 22, 10, 18, 14, 19, 16)
+
+mean(containers_per_hour)
+round(sd(containers_per_hour), 1)
+diff(range(containers_per_hour)) / 4
+round(mean(containers_per_hour) + c(-2, 2) * sd(containers_per_hour), 1)
 ```
 
-## Coefficient of Variation
+The actual standard deviation is 3.7 and the range is $22 - 10 = 12$, so the range rule of thumb gives $s \approx 3$. The mean is 16, so the estimated smallest and largest values are 8.5 and 23.5 — in the ballpark of the actual 10 and 22.
 
-The **coefficient of variation (CVar)** expresses the standard deviation as a percentage of the mean, enabling comparison of variability across datasets with different units or different scales.
+## Chebyshev's Theorem
 
-:::{.callout-note}
-## Formula — Coefficient of Variation
+:::{.callout-important}
+## Chebyshev's Theorem
 
-$$\text{CVar} = \frac{s}{\bar{X}} \times 100\% \quad \text{(samples)} \qquad \text{CVar} = \frac{\sigma}{\mu} \times 100\% \quad \text{(populations)}$$
+The proportion of values from a data set that will fall within $k$ standard deviations of the mean will be **at least** $1 - \dfrac{1}{k^2}$, where $k$ is a number greater than 1 ($k$ is not necessarily an integer).
+
+- At least three-fourths, or **75%**, of all data values fall within **2** standard deviations of the mean.
+- At least eight-ninths, or **89%**, of all data values fall within **3** standard deviations of the mean.
+
+This theorem can be applied to **any** distribution, regardless of its shape.
 :::
 
 ## Example 3-25 {#example-3-25}
 
 :::{.callout-warning}
-## Sales vs. Commissions
+## Rents near Campus
 
-The mean number of car sales per 3-month period is 87 with a standard deviation of 5. The mean commission amount is $5,225 with a standard deviation of $773. Which is more variable?
+The mean monthly rent for a studio apartment near campus is NT\$12,000, and the standard deviation is NT\$1,500. Find the rent range for which at least 75% of the studios will be listed.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-25
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cvar_sales <- (5 / 87) * 100
-cvar_comm  <- (773 / 5225) * 100
+mean_rent <- 12000
+sd_rent   <- 1500
+k <- 2
 
-cat("CVar (sales):", round(cvar_sales, 1), "%\n")
-cat("CVar (commissions):", round(cvar_comm, 1), "%\n")
-cat("\nConclusion: Commissions are more variable (larger CVar).\n")
+(1 - 1 / k^2) * 100
+mean_rent + c(-k, k) * sd_rent
 ```
+
+$$12{,}000 + 2(1{,}500) = 15{,}000 \qquad 12{,}000 - 2(1{,}500) = 9{,}000$$
+
+At least 75% of the studios near campus will be listed between **NT\$9,000 and NT\$15,000**.
 :::
 
 ## Example 3-26 {#example-3-26}
 
 :::{.callout-warning}
-## Pages vs. Advertisements
+## Fuel Cost per Delivery
 
-For women's fitness magazines: mean pages = 132, variance = 23; mean ads = 182, variance = 62. Which is more variable?
+A survey of delivery riders found that the mean fuel cost per order was NT\$8.00, with a standard deviation of NT\$1.20. Using Chebyshev's theorem, find the minimum percentage of the orders whose fuel cost falls between NT\$5.00 and NT\$11.00.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-26
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cvar_pages <- (sqrt(23) / 132) * 100
-cvar_ads   <- (sqrt(62) / 182) * 100
-
-cat("CVar (pages):", round(cvar_pages, 1), "%\n")
-cat("CVar (ads):", round(cvar_ads, 1), "%\n")
-cat("\nConclusion: Advertisements are more variable.\n")
+k <- (11.00 - 8.00) / 1.20
+k
+(1 - 1 / k^2) * 100
 ```
+
+**Step 1.** $11.00 - 8.00 = 3.00$.  **Step 2.** $k = \dfrac{3.00}{1.20} = 2.5$.
+
+**Step 3.** $1 - \dfrac{1}{2.5^2} = 1 - \dfrac{1}{6.25} = 1 - 0.16 = 0.84$.
+
+Hence, at least **84%** of the orders have a fuel cost between NT\$5.00 and NT\$11.00.
 :::
 
-## Range Rule of Thumb
+## The Empirical (Normal) Rule
 
-The **range rule of thumb** provides a quick approximation of the standard deviation using only the range.
+:::{.callout-important}
+## The Empirical Rule
 
-:::{.callout-note}
-## Range Rule of Thumb
+When a distribution is **bell-shaped (normal)**:
 
-$$s \approx \frac{\text{range}}{4}$$
+- Approximately **68%** of the data values will fall within **1** standard deviation of the mean.
+- Approximately **95%** of the data values will fall within **2** standard deviations of the mean.
+- Approximately **99.7%** of the data values will fall within **3** standard deviations of the mean.
 
-Conversely, most data values fall within the interval:
-$$[\bar{X} - 2s, \; \bar{X} + 2s]$$
+Because the empirical rule requires the distribution to be approximately bell-shaped, its results are **more accurate** than those of Chebyshev's theorem, which applies to all distributions.
 :::
 
-This approximation works best for unimodal, roughly symmetric distributions.
+---
 
-## Chebyshev's Theorem
+## The Empirical Rule in R
 
-**Chebyshev's theorem** provides a guaranteed lower bound on the proportion of data values that fall within $k$ standard deviations of the mean — regardless of the distribution's shape.
+**Draw figure**
+
+Suppose the monthly revenue of the stores in a convenience store chain is bell-shaped with a mean of NT\$1.8 million and a standard deviation of NT\$200,000 (figures below are in NT\$10,000).
+
+```{r s3-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean_revenue <- 180
+sd_revenue   <- 20
+
+p_empirical <- tibble(
+  x = seq(mean_revenue - 4 * sd_revenue, mean_revenue + 4 * sd_revenue,
+          length.out = 500),
+  y = dnorm(x, mean_revenue, sd_revenue)) |>
+  ggplot(aes(x, y)) +
+  geom_line(color = "#2c4a6e") +
+  geom_vline(xintercept = mean_revenue + c(-1, 1) * sd_revenue,
+             color = "blue", linetype = 2) +
+  geom_vline(xintercept = mean_revenue + c(-2, 2) * sd_revenue,
+             color = "red", linetype = 2) +
+  geom_vline(xintercept = mean_revenue + c(-3, 3) * sd_revenue,
+             color = "darkgreen", linetype = 2) +
+  labs(title = "Figure 3-4: The Empirical Rule",
+       x = "Monthly revenue (NT$10,000)", y = "Density") +
+  theme_minimal()
+```
+
+---
+
+## The Empirical Rule in R
+
+**Output figure**
+
+```{r s3-2-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3.5}
+p_empirical
+```
+
+Approximately 68% of the stores take between 160 and 200, approximately 95% between 140 and 220, and approximately 99.7% between 120 and 240 (NT\$10,000 per month).
+
+## Linear Transformation of Data
+
+Sometimes it is necessary to transform data values into other data values — for example, converting Celsius temperatures collected in Canada into Fahrenheit for a study used in the United States. This change is called the **linear transformation** of the data.
 
 :::{.callout-note}
-## Chebyshev's Theorem
+## Adding a Constant
 
-The proportion of values from any data set that will fall within $k$ standard deviations of the mean is at least:
+When a **constant is added to** each data value, the **mean increases by that constant** and the **standard deviation does not change**.
+:::
 
-$$1 - \frac{1}{k^2}, \quad k > 1$$
+:::{.callout-note}
+## Multiplying by a Constant
 
-| $k$ | Minimum % within $k$ SDs |
-|-----|--------------------------|
-| 2 | At least 75% |
-| 3 | At least 88.89% |
-| 2.5 | At least 84% |
+When each data value is **multiplied by a constant**, the **mean** of the new data set equals the constant times the old mean, and the **standard deviation** of the new data set equals the **absolute value** of the constant times the old standard deviation.
+:::
+
+---
+
+## Linear Transformation: Adding a Constant
+
+Suppose a logistics firm employs five part-time packers whose hourly wages are NT\$200, NT\$185, NT\$215, NT\$185, and NT\$215. After a profitable quarter every packer is given a raise of NT\$20 per hour.
+
+```{r s3-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+hourly_wage <- c(200, 185, 215, 185, 215)
+raised_wage <- hourly_wage + 20
+
+c(mean = mean(hourly_wage), sd = sd(hourly_wage))
+c(mean = mean(raised_wage), sd = sd(raised_wage))
+```
+
+The mean rises from NT\$200 to NT\$220 — exactly the amount added — while the standard deviation stays at **15**.
+
+## Linear Transformation: Multiplying by a Constant
+
+The same five packers worked 18, 14, 22, 14, and 22 hours last week. Suppose the payroll system records the hours in **minutes** instead, so every value is multiplied by 60.
+
+```{r s3-2-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+weekly_hours   <- c(18, 14, 22, 14, 22)
+weekly_minutes <- weekly_hours * 60
+
+c(mean = mean(weekly_hours),   sd = sd(weekly_hours))
+c(mean = mean(weekly_minutes), sd = sd(weekly_minutes))
+```
+
+The mean is multiplied by 60, from 18 hours to 1080 minutes, and the standard deviation is multiplied by 60 as well, from 4 to **240**.
+
+# Section 3-3: Measures of Position {background-color="#2c4a6e"}
+
+## Locating a Value Within a Distribution
+
+In addition to measures of central tendency and measures of variation, there are **measures of position** or location. These measures include **standard scores, percentiles, deciles, and quartiles**. They are used to locate the relative position of a data value in the data set.
+
+If a value is located at the 80th percentile, 80% of the values fall below it and 20% fall above it. The **median** is the value that corresponds to the 50th percentile.
+
+## Standard Scores
+
+A direct comparison of a score of 90 on a music test and 45 on an English exam is impossible, since the exams might not be equivalent in number of questions or value of each question. A comparison of a relative standard can be made using the mean and standard deviation.
+
+:::{.callout-note}
+## z Score (Standard Score)
+
+A **z score** or **standard score** for a value is obtained by subtracting the mean from the value and dividing the result by the standard deviation:
+
+$$z = \frac{\text{value} - \text{mean}}{\text{standard deviation}}$$
+
+$$z = \frac{X - \bar{X}}{s} \quad \text{(samples)} \qquad z = \frac{X - \mu}{\sigma} \quad \text{(populations)}$$
+
+The $z$ score represents the number of standard deviations that a data value falls above or below the mean. If $z > 0$ the score is above the mean; if $z = 0$ it equals the mean; if $z < 0$ it is below the mean.
 :::
 
 ## Example 3-27 {#example-3-27}
 
 :::{.callout-warning}
-## Home Prices (Chebyshev)
+## Call Handling Times
 
-The mean price of homes in a neighborhood is $50,000 and the standard deviation is $10,000. Find the price range in which at least 75% of homes will sell.
+At a call center's Taipei site the mean handling time is 4.8 minutes with a standard deviation of 0.6 minute; at its Taichung site the mean is 5.4 minutes with a standard deviation of 0.8 minute. One call in Taipei took 6.3 minutes and one call in Taichung took 6.8 minutes. Compare the relative positions of the two calls.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-27
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu  <- 50000
-sd  <- 10000
-k   <- 2   # gives at least 75%
+call_times <- tibble(Site      = c("Taipei", "Taichung"),
+                     time      = c(6.3, 6.8),
+                     mean_time = c(4.8, 5.4),
+                     sd_time   = c(0.6, 0.8)) |>
+  mutate(z = (time - mean_time) / sd_time)
 
-lower <- mu - k * sd
-upper <- mu + k * sd
-pct   <- (1 - 1/k^2) * 100
-
-cat("k =", k, "→ at least", pct, "% of values\n")
-cat("Price range: $", lower, "to $", upper, "\n")
+knitr::kable(call_times, align = "c")
 ```
 
-At least **75%** of homes will sell between **$30,000 and $70,000**.
+$$\text{Taipei: } z = \frac{6.3 - 4.8}{0.6} = 2.50 \qquad
+\text{Taichung: } z = \frac{6.8 - 5.4}{0.8} = 1.75$$
+
+Since the $z$ score for the Taipei call is higher, that call is **relatively longer** within its own site than the Taichung call is within its site.
 :::
 
 ## Example 3-28 {#example-3-28}
 
 :::{.callout-warning}
-## Travel Allowances (Chebyshev — Finding k)
+## Daily Revenue of Convenience Stores
 
-Executive travel allowances: mean = $0.25/mile, SD = $0.02/mile. Find the minimum percentage of values between $0.20 and $0.30.
+For a convenience store chain, the 24-hour branches have a mean daily revenue of NT\$52,000 with a standard deviation of NT\$5,000, while the campus branches have a mean daily revenue of NT\$38,000 with a standard deviation of NT\$4,000. Find the relative positions of a 24-hour branch that took NT\$45,000 and a campus branch that took NT\$33,000.
+
+*(hypothetical data)*
 :::
+
 ---
+
+## Example 3-28
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
 
 ```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu  <- 0.25
-sd  <- 0.02
+branch_revenue <- tibble(Branch       = c("24-hour", "Campus"),
+                         revenue      = c(45000, 33000),
+                         mean_revenue = c(52000, 38000),
+                         sd_revenue   = c(5000, 4000)) |>
+  mutate(z = (revenue - mean_revenue) / sd_revenue)
 
-# Distance from mean to boundary
-diff <- 0.30 - mu
-k    <- diff / sd
-pct  <- (1 - 1/k^2) * 100
-
-cat("Distance from mean to boundary: $", diff, "\n")
-cat("k = distance / SD =", k, "\n")
-cat("Minimum percentage: 1 - 1/k^2 =", pct, "%\n")
+knitr::kable(branch_revenue, align = "c")
 ```
 
-At least **84%** of travel allowances fall between $0.20 and $0.30 per mile.
+$$\text{24-hour: } z = \frac{45{,}000 - 52{,}000}{5{,}000} = -1.40 \qquad
+\text{Campus: } z = \frac{33{,}000 - 38{,}000}{4{,}000} = -1.25$$
 
-## The Empirical (Normal) Rule
+In this case, the **campus** branch stands relatively higher within its own group than the 24-hour branch does within its group.
 
-When a distribution is **bell-shaped (normal)**, tighter guarantees apply:
+When all data for a variable are transformed into $z$ scores, the resulting distribution has a mean of 0 and a standard deviation of 1.
+:::
+
+## Percentiles
 
 :::{.callout-note}
-## The Empirical Rule
+## Percentiles
 
-For bell-shaped distributions:
-
-| Interval | Approximate % of data |
-|----------|----------------------|
-| $\bar{X} \pm 1s$ | $\approx 68\%$ |
-| $\bar{X} \pm 2s$ | $\approx 95\%$ |
-| $\bar{X} \pm 3s$ | $\approx 99.7\%$ |
+**Percentiles** divide the data set into 100 equal groups. They are symbolized by $P_1, P_2, P_3, \ldots, P_{99}$.
 :::
+
+:::{.callout-warning}
+## Caution
+
+Percentiles are **not** the same as percentages. If a student gets 72 correct answers out of 100, she obtains a percentage score of 72, which says nothing about her position relative to the class. If a raw score of 72 corresponds to the 64th percentile, then she did better than 64% of the students in her class.
+:::
+
+## Table 3-3: Percentile Ranks on the Business English Placement Test
+
+| Scaled score | Sec. 1: Listening | Sec. 2: Grammar | Sec. 3: Reading | Total scaled | Percentile rank |
+|---|---|---|---|---|---|
+| 72 | 99 | 98 | 99 | 720 | 99 |
+| 70 | 97 | 95 | 97 | 700 | 96 |
+| 68 | 94 | 91 | 93 | 680 | 92 |
+| 66 | 89 | 85 | 88 | 660 | 87 |
+| 64 | 83 | 78 | 82 | 640 | 80 |
+| 62 | 75 | 70 | 74 | 620 | 72 |
+| 60 | 66 | 60 | 64 | 600 | 63 |
+
+Percentile ranks published by a business school for the English placement test it gives to incoming students. *(hypothetical data)*
 
 ---
 
-**Draw figure**
+## Table 3-3: Percentile Ranks (continued)
 
-```{r e3-28-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu <- 480; sigma <- 90
-p_emp <- tibble(x = seq(mu - 4*sigma, mu + 4*sigma, length.out = 500),
-       y = dnorm(x, mu, sigma)) |>
-  ggplot(aes(x, y)) +
-  geom_line() +
-  geom_area(aes(fill = "99.7%"), alpha=0.2) +
-  geom_vline(xintercept = c(mu-sigma, mu+sigma), color="blue", linetype=2) +
-  geom_vline(xintercept = c(mu-2*sigma, mu+2*sigma), color="red", linetype=2) +
-  geom_vline(xintercept = c(mu-3*sigma, mu+3*sigma), color="darkgreen", linetype=2) +
-  annotate("text", x=mu, y=0.003, label="68%", color="blue") +
-  annotate("text", x=mu+2.5*sigma, y=0.001, label="95%", color="red") +
-  labs(title="Empirical Rule (mu=480, sigma=90)",
-       x="Score", y="Density") +
-  theme_bw() + theme(legend.position="none")
-```
+| Scaled score | Sec. 1: Listening | Sec. 2: Grammar | Sec. 3: Reading | Total scaled | Percentile rank |
+|---|---|---|---|---|---|
+| 58 | 56 | 50 | 54 | 580 | 53 |
+| 56 | 45 | 40 | 43 | 560 | 42 |
+| 54 | 35 | 31 | 33 | 540 | 32 |
+| 52 | 26 | 23 | 25 | 520 | 24 |
+| 50 | 19 | 17 | 18 | 500 | 17 |
+| 48 | 13 | 12 | 13 | 480 | 12 |
+| 46 | 9 | 8 | 9 | 460 | 8 |
+| 44 | 6 | 5 | 6 | 440 | 5 |
 
 ---
 
-**Output figure**
+## Table 3-3: Percentile Ranks (continued)
 
-```{r e3-28-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_emp
-```
+| Scaled score | Sec. 1: Listening | Sec. 2: Grammar | Sec. 3: Reading | Total scaled | Percentile rank |
+|---|---|---|---|---|---|
+| 42 | 4 | 3 | 4 | 420 | 3 |
+| 40 | 2 | 2 | 2 | 400 | 2 |
+| 38 | 1 | 1 | 1 | 380 | 1 |
+| 36 | 1 | 1 | 1 | 360 | 1 |
+| 34 | 1 | 1 | 1 | 340 | 1 |
+| **Mean** | 58.4 | 59.1 | 58.7 | 588 | |
+| **S.D.** | 6.2 | 6.8 | 6.5 | 62 | |
 
-# Section 3-3: Measures of Position {background-color="#2c4a6e"}
-
-## Locating a Value Within a Distribution
-
-**Measures of position** describe where a particular value stands in relation to the rest of the dataset. They answer the question: *How does this value compare to others?*
-
-Key position measures include:
-
-- **Standard score (z-score)** — distance from mean in standard deviation units
-- **Percentiles** — divide data into 100 equal groups
-- **Deciles** — divide data into 10 equal groups
-- **Quartiles** — divide data into 4 equal groups
-
-## Standard Scores (z-Scores)
-
-A **z-score** (standard score) converts a raw value into the number of standard deviations it lies above or below the mean, enabling fair comparison across different distributions.
-
-:::{.callout-note}
-## z-Score Formulas
-
-$$z = \frac{X - \bar{X}}{s} \quad \text{(sample)} \qquad z = \frac{X - \mu}{\sigma} \quad \text{(population)}$$
-
-- $z > 0$: value is **above** the mean
-- $z = 0$: value **equals** the mean
-- $z < 0$: value is **below** the mean
-:::
+A student with a scaled score of 64 for section 1 has a percentile rank of 83 — that student did better than 83% of the students who took section 1 of the test.
 
 ## Example 3-29 {#example-3-29}
 
 :::{.callout-warning}
-## Comparing Test Performance
+## Order Values on an E-Commerce Platform
 
-A student scored 65 on a calculus exam ($\bar{X}=50$, $s=10$) and 30 on a history exam ($\bar{X}=25$, $s=5$). On which test did she perform relatively better?
+The frequency distribution for the order values (in NT dollars) of 200 randomly selected orders placed on an e-commerce platform is shown here. Construct a percentile graph.
+
+```
+Class boundaries      Frequency
+   199.5-399.5            18
+   399.5-599.5            52
+   599.5-799.5            68
+   799.5-999.5            38
+   999.5-1199.5           16
+  1199.5-1399.5            8
+               Total     200
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 3-29
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Prepare data**
+
+$$\text{Cumulative \%} = \frac{\text{cumulative frequency}}{n} \cdot 100$$
 
 ```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_calc <- (65 - 50) / 10
-z_hist <- (30 - 25) / 5
+order_values <- tibble(
+  Class = c("199.5-399.5", "399.5-599.5", "599.5-799.5",
+            "799.5-999.5", "999.5-1199.5", "1199.5-1399.5"),
+  upper = c(399.5, 599.5, 799.5, 999.5, 1199.5, 1399.5),
+  f     = c(18, 52, 68, 38, 16, 8)) |>
+  mutate(cum_f = cumsum(f), cum_pct = cum_f / sum(f) * 100)
 
-cat("Calculus z-score:", z_calc, "\n")
-cat("History z-score:", z_hist, "\n")
-cat("\nCalculus z-score (1.5) > History z-score (1.0)\n")
-cat("→ she performed relatively better on the calculus test.\n")
+knitr::kable(order_values, align = "c")
+```
+:::
+
+---
+
+## Example 3-29
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e3-29-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+bind_rows(tibble(upper = 199.5, cum_pct = 0), order_values) |>
+  ggplot(aes(upper, cum_pct)) +
+  geom_line(color = "#2c4a6e", linewidth = 1) +
+  geom_point(size = 2, color = "#2c4a6e") +
+  labs(title = "Figure 3-6: Percentile Graph for Example 3-29",
+       x = "Class boundaries (NT dollars)", y = "Cumulative percentages") +
+  theme_minimal()
 ```
 
-The calculus score is 1.5 standard deviations above its mean, while the history score is only 1.0 standard deviation above its mean — **she performed relatively better on the calculus test**.
+Reading from the graph, an order value of NT\$799.50 sits at the 69th percentile, and the 50th percentile falls somewhere between NT\$599.50 and NT\$799.50.
+:::
+
+## The Percentile Formula
+
+:::{.callout-important}
+## Percentile Formula
+
+The percentile corresponding to a given value $X$ is computed by using
+
+$$\text{Percentile} = \frac{(\text{number of values below } X) + 0.5}{\text{total number of values}} \cdot 100$$
 :::
 
 ## Example 3-30 {#example-3-30}
 
 :::{.callout-warning}
-## Which Score Is Relatively Higher?
+## Product Returns
 
-| Test | Score (X) | Mean ($\bar{X}$) | SD ($s$) |
-|------|-----------|-----------------|----------|
-| A | 38 | 40 | 5 |
-| B | 94 | 100 | 10 |
+The number of product returns processed each day by a fulfillment center over a 10-day period is shown. Find the percentile rank of 18.
 
-Find each z-score and identify the relatively higher score.
+```
+14   23   9   31   18   27   12   21   35   25
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-31](#example-3-31), [Example 3-32](#example-3-32), [Example 3-33](#example-3-33)
 :::
+
+---
 
 ## Example 3-30
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Solve**
 
 ```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_A <- (38 - 40) / 5
-z_B <- (94 - 100) / 10
+returns <- c(14, 23, 9, 31, 18, 27, 12, 21, 35, 25)
+sort(returns)
 
-cat("Test A z-score:", z_A, "\n")
-cat("Test B z-score:", z_B, "\n")
-cat("\nConclusion: Test A score is relatively higher (z = -0.4 > -0.6)\n")
+percentile_rank <- function(value, values) {
+  (sum(values < value) + 0.5) / length(values) * 100
+}
+percentile_rank(18, returns)
 ```
 
-The Test A score has a **higher relative position** (z = −0.4 vs z = −0.6).
-:::
+Since there are 3 numbers below the value of 18,
 
-## Percentiles
+$$\text{Percentile} = \frac{3 + 0.5}{10} \cdot 100 = 35\text{th percentile}$$
 
-**Percentiles** locate a data value's position in hundredths. A value at the $p$th percentile exceeds $p$% of all values in the distribution.
-
-:::{.callout-note}
-## Percentile Formula
-
-$$\text{Percentile rank of } X = \frac{(\text{number of values below } X) + 0.5}{\text{total number of values}} \times 100$$
-
-To find the **value** corresponding to a given percentile $p$:
-
-$$c = \frac{n \cdot p}{100}$$
-
-- If $c$ is **not** a whole number: round **up** and use that position.
-- If $c$ **is** a whole number: average the $c$th and $(c+1)$th values.
+Hence, the value of 18 is higher than **35%** of the data values.
 :::
 
 ## Example 3-31 {#example-3-31}
 
 :::{.callout-warning}
-## Percentile Graph (Systolic Blood Pressure)
+## Product Returns
 
-Construct a percentile graph for the systolic blood pressure readings of 200 college students.
-
-| Class Boundaries | Frequency |
-|-----------------|-----------|
-| 89.5–104.5 | 24 |
-| 104.5–119.5 | 62 |
-| 119.5–134.5 | 72 |
-| 134.5–149.5 | 26 |
-| 149.5–164.5 | 12 |
-| 164.5–179.5 | 4 |
+Using the data in [Example 3-30](#example-3-30), find the percentile rank of 31.
 :::
+
+---
 
 ## Example 3-31
 
@@ -1147,455 +1932,542 @@ Construct a percentile graph for the systolic blood pressure readings of 200 col
 **Solve**
 
 ```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-upper <- c(104.5, 119.5, 134.5, 149.5, 164.5, 179.5)
-freq  <- c(24, 62, 72, 26, 12, 4)
-cum_f <- cumsum(freq)
-cum_pct <- (cum_f / sum(freq)) * 100
-
-df_bp <- data.frame(upper, cum_f, cum_pct)
-knitr::kable(df_bp, col.names=c("Upper Boundary","Cumulative Freq","Cumulative %"),
-             caption="Systolic Blood Pressure — Percentile Table")
-```
-:::
----
-
-```{r e3-31-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ggplot(df_bp, aes(x=upper, y=cum_pct)) +
-  geom_line(color="#2c4a6e", linewidth=1) +
-  geom_point(size=3, color="#2c4a6e") +
-  labs(title="Percentile Graph — Systolic Blood Pressure",
-       x="Blood Pressure (mm Hg)", y="Cumulative Percentage") +
-  theme_bw()
+sum(returns < 31)
+percentile_rank(31, returns)
 ```
 
-## Examples 3-32 & 3-33: Finding Percentile Rank {#example-3-32}
+There are 8 values below 31; thus
 
-:::{.callout-warning}
-## Examples 3-32 & 3-33
-A teacher gives a 20-point test to 10 students. Scores: 18, 15, 12, 6, 8, 2, 3, 5, 20, 10
+$$\text{Percentile} = \frac{8 + 0.5}{10} \cdot 100 = 85\text{th percentile}$$
 
-Find the percentile rank of a score of **12** and a score of **6**.
+Therefore, the data value 31 is higher than **85%** of the values in the data set.
 :::
 
----
-
-```{r e3-31-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-scores <- c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10)
-n <- length(scores)
-
-prank <- function(x, data) {
-  below <- sum(data < x)
-  ((below + 0.5) / length(data)) * 100
-}
-
-cat("Sorted scores:", paste(sort(scores), collapse=", "), "\n\n")
-cat("Percentile rank of 12:", prank(12, scores), "\n")
-cat("Percentile rank of 6:", prank(6, scores), "\n")
-```
-
-Score 12 is at the **65th percentile** (did better than 65% of class). Score 6 is at the **35th percentile**.
-
-## Examples 3-34 & 3-35: Value at a Given Percentile
-
-:::{.callout-warning}
-## Example 3-34 {#example-3-34}
-1. Using the test scores from 3-32, find the value corresponding to the **25th percentile**.
-
-2. Find the value corresponding to the **60th percentile**.
-:::
-
----
-
-```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-scores_sorted <- sort(c(18, 15, 12, 6, 8, 2, 3, 5, 20, 10))
-n <- length(scores_sorted)
-cat("Sorted scores:", scores_sorted, "\n\n")
-
-# 25th percentile
-c25 <- n * 25 / 100
-cat("c for 25th percentile:", c25, "(not whole → round up to 3)\n")
-cat("Value at position 3:", scores_sorted[3], "\n\n")
-
-# 60th percentile
-c60 <- n * 60 / 100
-cat("c for 60th percentile:", c60, "(whole number → average positions 6 and 7)\n")
-cat("Average of positions 6 and 7:", (scores_sorted[6] + scores_sorted[7])/2, "\n")
-```
-
-## Quartiles and Deciles
-
-**Quartiles** divide the dataset into four equal groups ($Q_1$, $Q_2$, $Q_3$), while **deciles** divide it into ten groups ($D_1, \ldots, D_9$).
-
-:::{.callout-note}
-## Key Relationships
-
-| Position Measure | Percentile Equivalent |
-|-----------------|----------------------|
-| $Q_1$ (1st quartile) | $P_{25}$ |
-| $Q_2$ (2nd quartile = median) | $P_{50}$ |
-| $Q_3$ (3rd quartile) | $P_{75}$ |
-| $D_1$ (1st decile) | $P_{10}$ |
-| $D_5$ (5th decile) | $P_{50}$ |
-
-**Interquartile Range (IQR):** $\text{IQR} = Q_3 - Q_1$
-
-The IQR measures the spread of the middle 50% of the data.
-:::
-
-## Finding Quartiles — Procedure
+## Finding a Value for a Given Percentile
 
 :::{.callout-important}
-## Step-by-Step Procedure for Q1, Q2, Q3
+## Procedure — Finding a Data Value Corresponding to a Given Percentile
 
-1. Arrange data from lowest to highest.
-2. Find the median ($Q_2$) of the entire dataset.
-3. Find the median of the lower half (below $Q_2$) → this is $Q_1$.
-4. Find the median of the upper half (above $Q_2$) → this is $Q_3$.
+1. Arrange the data in order from lowest to highest.
+2. Substitute into the formula $c = \dfrac{n \cdot p}{100}$, where $n$ = total number of values and $p$ = percentile.
+3. **If $c$ is not a whole number**, round up to the next whole number and count over to that value from the lowest value.
+   **If $c$ is a whole number**, use the value halfway between the $c$th and $(c+1)$st values.
 :::
 
-## Example 3-36 {#example-3-36}
+## Example 3-32 {#example-3-32}
 
 :::{.callout-warning}
-## Finding Quartiles
+## Product Returns
 
-Find $Q_1$, $Q_2$, and $Q_3$ for the data set: 15, 13, 6, 5, 12, 50, 22, 18
-:::
-
-## Example 3-36
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(15, 13, 6, 5, 12, 50, 22, 18)
-xs <- sort(x)
-cat("Sorted data:", xs, "\n\n")
-```
-:::
----
-
-```{r e3-36-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-Q2 <- median(xs)
-lower <- xs[xs < Q2]
-upper <- xs[xs > Q2]
-
-Q1 <- median(lower)
-Q3 <- median(upper)
-IQR_val <- Q3 - Q1
-
-cat("Q2 (median):", Q2, "\n")
-cat("Lower half:", lower, "→ Q1 =", Q1, "\n")
-cat("Upper half:", upper, "→ Q3 =", Q3, "\n")
-cat("IQR:", IQR_val, "\n")
-```
-
-$Q_1 = 9$, $Q_2 = 14$, $Q_3 = 20$, $\text{IQR} = 11$.
-
-## Outliers
-
-An **outlier** is an extremely high or low data value that stands apart from the rest of the distribution. Outliers can distort the mean and standard deviation significantly.
-
-:::{.callout-important}
-## Procedure for Identifying Outliers
-
-1. Arrange data and find $Q_1$ and $Q_3$.
-2. Compute $\text{IQR} = Q_3 - Q_1$.
-3. Multiply: $1.5 \times \text{IQR}$.
-4. Compute fences: lower fence $= Q_1 - 1.5(\text{IQR})$; upper fence $= Q_3 + 1.5(\text{IQR})$.
-5. Any value **outside** these fences is a suspected outlier.
-:::
-
-## Example 3-37 {#example-3-37}
-
-:::{.callout-warning}
-## Checking for Outliers
-
-Check the following dataset for outliers: 5, 6, 12, 13, 15, 18, 22, 50
-
-(This is the sorted version of [Example 3-36](#example-3-36)'s data.)
-:::
-
-## Example 3-37
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(5, 6, 12, 13, 15, 18, 22, 50)
-
-Q1 <- 9; Q3 <- 20  # from Example 3-36
-IQR_val <- Q3 - Q1
-
-lower_fence <- Q1 - 1.5 * IQR_val
-upper_fence <- Q3 + 1.5 * IQR_val
-```
-:::
----
-
-```{r e3-37-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("Q1:", Q1, "  Q3:", Q3, "  IQR:", IQR_val, "\n")
-cat("1.5 × IQR:", 1.5 * IQR_val, "\n")
-cat("Lower fence:", lower_fence, "\n")
-cat("Upper fence:", upper_fence, "\n\n")
-
-outliers <- x[x < lower_fence | x > upper_fence]
-cat("Values outside fences:", outliers, "\n")
-cat("Conclusion: 50 is an outlier.\n")
-```
-
-# Section 3-4: Exploratory Data Analysis {background-color="#2c4a6e"}
-
-## Exploratory Data Analysis (EDA)
-
-**Exploratory data analysis (EDA)**, introduced by John Tukey, uses graphical and resistant statistics to uncover patterns, distribution shape, and potential outliers without assuming a particular model.
-
-:::{.callout-note}
-## Traditional vs. EDA Approaches
-
-| Traditional | Exploratory Data Analysis |
-|-------------|--------------------------|
-| Frequency distribution | Stem-and-leaf plot |
-| Histogram | Boxplot |
-| Mean | Median |
-| Standard deviation | Interquartile range (IQR) |
-
-EDA statistics (median, IQR) are **resistant** — less influenced by extreme values — while mean and standard deviation are **nonresistant**.
-:::
-
-## The Five-Number Summary
-
-A **five-number summary** captures the full spread and shape of a distribution using five key values:
-
-:::{.callout-note}
-## Five-Number Summary
-
-1. **Minimum** — lowest data value
-2. **$Q_1$** — first quartile (25th percentile)
-3. **Median ($Q_2$)** — middle value (50th percentile)
-4. **$Q_3$** — third quartile (75th percentile)
-5. **Maximum** — highest data value
-:::
-
-These five values form the basis of the **boxplot** (box-and-whisker plot).
-
-## Constructing a Boxplot
-
-:::{.callout-important}
-## Steps for Building a Boxplot
-
-1. Find the five-number summary.
-2. Draw a horizontal axis scaled to include the min and max.
-3. Draw a box from $Q_1$ to $Q_3$ with a vertical line at the median.
-4. Extend **whiskers** from the box to the minimum and maximum values.
-:::
-
-**Reading the Shape from a Boxplot:**
-
-- Median near center of box → approximately **symmetric**
-- Median left of center → **positively skewed** (right-skewed)
-- Median right of center → **negatively skewed** (left-skewed)
-- Longer right whisker → **positively skewed**
-- Longer left whisker → **negatively skewed**
-
-## Example 3-38 {#example-3-38}
-
-:::{.callout-warning}
-## Meteorites Found
-
-The number of meteorites found in 10 U.S. states: 89, 47, 164, 296, 30, 215, 138, 78, 48, 39. Construct a boxplot and describe the distribution.
-:::
-
-## Example 3-38
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
-xs <- sort(meteorites)
-cat("Sorted:", xs, "\n")
-
-five_num <- fivenum(meteorites)
-names(five_num) <- c("Min","Q1","Median","Q3","Max")
-print(five_num)
-```
+Using the data in [Example 3-30](#example-3-30), find the value corresponding to the 65th percentile.
 :::
 
 ---
 
-```{r e3-38-2, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-boxplot(meteorites, horizontal=TRUE,
-        main="Meteorites Found in 10 U.S. States",
-        xlab="Number of Meteorites",
-        col="#8db4d6")
-```
-
-The distribution is **positively skewed** — the right whisker extends much farther than the left.
-
-## Example 3-38
-
-:::{.callout-tip}
-## Solution
-
-```{r e3-38-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-meteorites <- c(89, 47, 164, 296, 30, 215, 138, 78, 48, 39)
-
-ggplot(data.frame(x = meteorites), aes(x = "", y = x)) +
-  geom_boxplot(fill="#8db4d6", color="#2c4a6e", width=0.4) +
-  coord_flip() +
-  labs(title="Boxplot: Meteorites Found in 10 U.S. States",
-       y="Number of Meteorites", x="") +
-  theme_bw()
-```
-:::
-
-## Example 3-39 {#example-3-39}
-
-:::{.callout-warning}
-## Comparing Two Distributions
-
-A dietitian compares the sodium content (mg) of real cheese vs. cheese substitute. Compare the two distributions using boxplots.
-
-**Real cheese:** 310, 420, 45, 40, 220, 240, 180, 90
-**Cheese substitute:** 270, 180, 250, 290, 130, 260, 340, 310
-:::
-
-## Example 3-39
+## Example 3-32
 
 :::{.callout-tip}
 ## Solution
 
 **Solve**
 
-```{r e3-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-real  <- c(310, 420, 45, 40, 220, 240, 180, 90)
-sub   <- c(270, 180, 250, 290, 130, 260, 340, 310)
+```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ordered_returns <- sort(returns)
+ordered_returns
 
-cat("Real cheese five-number summary:\n")
-print(fivenum(real))
-cat("\nCheese substitute five-number summary:\n")
-print(fivenum(sub))
-
-df_cheese <- data.frame(
-  sodium = c(real, sub),
-  type   = rep(c("Real Cheese","Cheese Substitute"), each=8)
-)
+position <- length(returns) * 65 / 100
+position
+ordered_returns[ceiling(position)]
 ```
+
+$$c = \frac{10 \cdot 65}{100} = 6.5$$
+
+Since $c$ is not a whole number, round it up to 7. Starting at the lowest value and counting over to the 7th value gives **25**. Hence, the value of 25 corresponds to the 65th percentile.
 :::
+
+## Example 3-33 {#example-3-33}
+
+:::{.callout-warning}
+## Product Returns
+
+Using the data in [Example 3-30](#example-3-30), find the data value corresponding to the 30th percentile.
+:::
+
 ---
 
-```{r e3-39-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ggplot(df_cheese, aes(x=type, y=sodium, fill=type)) +
-  geom_boxplot(alpha=0.7) +
-  coord_flip() +
-  scale_fill_manual(values=c("#2c4a6e","#8db4d6")) +
-  labs(title="Sodium Content: Real Cheese vs. Cheese Substitute",
-       y="Sodium (mg)", x="") +
-  theme_bw() + theme(legend.position="none")
-```
-
-## Example 3-39
+## Example 3-33
 
 :::{.callout-tip}
 ## Solution
 
-**Interpretation**
+**Solve**
 
-```{r e3-39-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-real <- c(310, 420, 45, 40, 220, 240, 180, 90)
-sub  <- c(270, 180, 250, 290, 130, 260, 340, 310)
-
-summary_df <- data.frame(
-  Measure = c("Minimum","Q1","Median","Q3","Maximum","IQR"),
-  `Real Cheese`    = c(min(real), quantile(real,0.25), median(real),
-                       quantile(real,0.75), max(real),
-                       IQR(real)),
-  `Cheese Sub`     = c(min(sub), quantile(sub,0.25), median(sub),
-                       quantile(sub,0.75), max(sub),
-                       IQR(sub))
-)
+```{r e3-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+position <- length(returns) * 30 / 100
+position
+mean(ordered_returns[c(position, position + 1)])
 ```
+
+$$c = \frac{10 \cdot 30}{100} = 3$$
+
+Since $c$ is a whole number, use the value halfway between the 3rd and 4th values. The halfway value between 14 and 18 is **16**, which corresponds to the 30th percentile.
 :::
+
+## Quartiles and Deciles
+
+:::{.callout-note}
+## Quartiles and Deciles
+
+**Quartiles** divide the distribution into four equal groups, denoted by $Q_1$, $Q_2$, $Q_3$.
+**Deciles** divide the distribution into 10 groups, denoted by $D_1, D_2, \ldots, D_9$.
+
+- $Q_1 = P_{25}$, $Q_2 = P_{50}$, $Q_3 = P_{75}$
+- $D_1 = P_{10}$, $D_2 = P_{20}$, ..., $D_9 = P_{90}$
+- The median is the same as $P_{50}$ or $Q_2$ or $D_5$.
+:::
+
+:::{.callout-important}
+## Procedure — Finding $Q_1$, $Q_2$, and $Q_3$
+
+1. Arrange the data in order from lowest to highest.
+2. Find the median of the data values. This is $Q_2$.
+3. Find the median of the data values that fall **below** $Q_2$. This is $Q_1$.
+4. Find the median of the data values that fall **above** $Q_2$. This is $Q_3$.
+:::
+
+## Example 3-34 {#example-3-34}
+
+:::{.callout-warning}
+## Deliveries per Rider
+
+The numbers of orders delivered in one hour by 9 riders on a food delivery platform are shown. Find $Q_1$, $Q_2$, and $Q_3$.
+
+```
+22   27   19   25   31   24   27   22   26
+```
+
+*(hypothetical data)*
+
+Back to [Example 3-35](#example-3-35)
+:::
+
 ---
 
-```{r e3-39-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(summary_df, caption="Five-Number Summary Comparison")
+## Example 3-34
+
+:::{.callout-tip}
+## Solution
+
+**Prepare data**
+
+The procedure above splits the ordered data at the median, so write one short helper that follows it step by step.
+
+```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quartiles_by_halves <- function(values) {
+  ordered <- sort(values)
+  half    <- floor(length(ordered) / 2)
+  c(Q1 = median(head(ordered, half)),
+    Q2 = median(ordered),
+    Q3 = median(tail(ordered, half)))
+}
+```
+:::
+
+---
+
+## Example 3-34
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-34-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+deliveries <- c(22, 27, 19, 25, 31, 24, 27, 22, 26)
+sort(deliveries)
+
+quartiles_by_halves(deliveries)
+quantile(deliveries, c(0.25, 0.50, 0.75))
 ```
 
-Note: the earlier five-number summaries use `fivenum()` hinges, while this table uses `quantile()` type-7 quartiles, so the two sets of values differ slightly.
+$$Q_2 = 25 \qquad Q_1 = \frac{22 + 22}{2} = 22 \qquad Q_3 = \frac{27 + 27}{2} = 27$$
 
-:::{.callout-note}
-**Interpretation:** The cheese substitute has a **higher median** sodium content (265 vs 200 mg) and **less variability** (IQR = 62.5 vs 178.75 mg). Real cheese data are more spread out and slightly positively skewed.
+Hence, $Q_1 = 22$, $Q_2 = 25$, and $Q_3 = 27$. The built-in `quantile()` returns the same three values, so the rest of the chapter simply uses `quantile()`.
 :::
 
-## Summary: Chapter 3 at a Glance
+## The Interquartile Range
 
 :::{.callout-note}
-## Section 3-1: Measures of Central Tendency
+## Interquartile Range
 
-**Mean** $\bar{X} = \frac{\Sigma X}{n}$ — uses all values; sensitive to outliers
+The **interquartile range (IQR)** is the difference between the third and first quartiles.
 
-**Median** — middle value; resistant to outliers
+$$\text{IQR} = Q_3 - Q_1$$
+:::
 
-**Mode** — most frequent; can be used with categorical data
+Quartiles can be used as a rough measure of variability: the IQR is the range of the **middle 50%** of the data values. Like the standard deviation, the more variable the data set is, the larger the IQR.
 
-**Midrange** $= \frac{\min + \max}{2}$ — easily computed; sensitive to extremes
+## Example 3-35 {#example-3-35}
 
-**Weighted Mean** $= \frac{\Sigma wX}{\Sigma w}$ — accounts for different weights
+:::{.callout-warning}
+## Deliveries per Rider
+
+Find the interquartile range for the data in [Example 3-34](#example-3-34).
+:::
+
+---
+
+## Example 3-35
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-35-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(deliveries, c(0.25, 0.75))
+IQR(deliveries)
+```
+
+$$\text{IQR} = Q_3 - Q_1 = 27 - 22 = 5$$
+
+The interquartile range is **5 orders per hour**.
+:::
+
+## Table 3-4: Summary of Position Measures
+
+| Measure | Definition | Symbol |
+|---------|------------|--------|
+| Standard score, or $z$ score | Standard deviations a value lies above or below the mean | $z$ |
+| Percentile | Position of a value in hundredths of the distribution | $P_n$ |
+| Decile | Position of a value in tenths of the distribution | $D_n$ |
+| Quartile | Position of a value in fourths of the distribution | $Q_n$ |
+
+## Outliers
+
+:::{.callout-note}
+## Outlier
+
+An **outlier** is an extremely high or an extremely low data value when compared with the rest of the data values.
 :::
 
 :::{.callout-note}
-## Section 3-2: Measures of Variation
+## Resistant and Nonresistant Statistics
 
-**Range** $R = \max - \min$
+The mean and standard deviation are affected by outliers, so they are called **nonresistant statistics**. The median and interquartile range are less affected by outliers, so they are called **resistant statistics**.
+:::
 
-**Variance** $s^2 = \frac{n(\Sigma X^2)-(\Sigma X)^2}{n(n-1)}$
+## Identifying Outliers
 
-**Standard Deviation** $s = \sqrt{s^2}$
+:::{.callout-important}
+## Procedure for Identifying Outliers
 
-**CVar** $= \frac{s}{\bar{X}} \times 100\%$ — compares variability across datasets
+1. Arrange the data in order from lowest to highest and find $Q_1$ and $Q_3$.
+2. Find the interquartile range: $\text{IQR} = Q_3 - Q_1$.
+3. Multiply the IQR by 1.5.
+4. Subtract the value obtained in step 3 from $Q_1$ and add it to $Q_3$.
+5. Check the data set for any value smaller than $Q_1 - 1.5(\text{IQR})$ or larger than $Q_3 + 1.5(\text{IQR})$.
+:::
 
-**Chebyshev's Theorem** — at least $1-\frac{1}{k^2}$ within $k$ SDs (any distribution)
+:::{.callout-warning}
+## Caution
 
-**Empirical Rule** — 68/95/99.7% within 1/2/3 SDs (bell-shaped only)
+There are **no hard-and-fast rules** on what to do with outliers, nor complete agreement among statisticians on ways to identify them. When a distribution is normal or bell-shaped, data values beyond 3 standard deviations of the mean can be considered suspected outliers.
+:::
+
+## Example 3-36 {#example-3-36}
+
+:::{.callout-warning}
+## Complaint Tickets
+
+The numbers of complaint tickets received by a customer service team on 8 randomly selected days are shown. Check the set for outliers.
+
+```
+8   4   18   12   57   8   14   18
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 3-36
+
+:::{.callout-tip}
+## Solution
+
+**Solve**
+
+```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+tickets <- c(8, 4, 18, 12, 57, 8, 14, 18)
+
+quantile(tickets, c(0.25, 0.75))
+IQR(tickets)
+
+fences <- quantile(tickets, c(0.25, 0.75)) + c(-1.5, 1.5) * IQR(tickets)
+fences
+tickets[tickets < fences[1] | tickets > fences[2]]
+```
+
+Here $Q_1 = 8$, $Q_3 = 18$, $\text{IQR} = 10$ and $1.5(10) = 15$, so the fences are $-7$ and $33$. The data value **57** is greater than 33; hence, it can be considered an outlier.
+:::
+
+# Section 3-4: Exploratory Data Analysis {background-color="#2c4a6e"}
+
+## Exploratory Data Analysis
+
+The purpose of **traditional analysis** is to confirm various conjectures about the nature of the data. The purpose of **exploratory data analysis** is to examine data to find out what information can be discovered about the data, such as the center and the spread.
+
+:::{.callout-note}
+## Exploratory Data Analysis (EDA)
+
+In **exploratory data analysis (EDA)**, data can be organized using a stem and leaf plot. The measure of central tendency used in EDA is the **median**; the measure of variation is the **interquartile range** $Q_3 - Q_1$; and the data are represented graphically using a **boxplot** (sometimes called a box and whisker plot).
+
+EDA was developed by **John Tukey** and presented in his book *Exploratory Data Analysis* (Addison-Wesley, 1977).
+:::
+
+## The Five-Number Summary and Boxplots
+
+:::{.callout-note}
+## Five-Number Summary
+
+A boxplot involves five specific values, called the **five-number summary** of the data set:
+
+1. The lowest value of the data set (minimum)
+2. $Q_1$
+3. The median
+4. $Q_3$
+5. The highest value of the data set (maximum)
+:::
+
+:::{.callout-note}
+## Boxplot
+
+A **boxplot** is a graph of a data set obtained by drawing a horizontal line from the minimum data value to $Q_1$, drawing a horizontal line from $Q_3$ to the maximum data value, and drawing a box whose vertical sides pass through $Q_1$ and $Q_3$ with a vertical line inside the box passing through the median or $Q_2$.
+:::
+
+## Constructing a Boxplot
+
+:::{.callout-important}
+## Procedure — Constructing a Boxplot
+
+1. Find the five-number summary for the data.
+2. Draw a horizontal axis and place the scale on the axis. The scale should start on or below the minimum data value and end on or above the maximum data value.
+3. Locate the lowest data value, $Q_1$, the median, $Q_3$, and the highest data value; draw a box whose vertical sides go through $Q_1$ and $Q_3$; draw a vertical line through the median; draw a line from the minimum data value to the left side of the box and from the maximum data value to the right side of the box.
+:::
+
+## Example 3-37 {#example-3-37}
+
+:::{.callout-warning}
+## Revenue of a Beverage Stand
+
+The daily revenue, in NT\$1,000, of a beverage stand on 10 randomly selected days is shown. Construct a boxplot for the data.
+
+```
+14   9   26   6   16   12   8   20   16   9
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 3-37
+
+:::{.callout-tip}
+## Solution
+
+**Prepare data**
+
+```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+daily_revenue <- c(14, 9, 26, 6, 16, 12, 8, 20, 16, 9)
+sort(daily_revenue)
+
+c(Min = min(daily_revenue),
+  quantile(daily_revenue, c(0.25, 0.50, 0.75)),
+  Max = max(daily_revenue))
+```
+
+The five-number summary is minimum 6, $Q_1 = 9$, median 13, $Q_3 = 16$, maximum 26.
+:::
+
+---
+
+## Example 3-37
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e3-37-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=2.6}
+ggplot(tibble(x = daily_revenue), aes(x = x, y = "")) +
+  geom_boxplot(fill = "#8db4d6", color = "#2c4a6e", width = 0.4) +
+  labs(title = "Figure 3-7: Boxplot for Example 3-37",
+       x = "Daily revenue (NT$1,000)", y = "") +
+  theme_minimal()
+```
+
+The right whisker is much longer than the left, so the distribution is **positively skewed**, with a high value of 26 and a low value of 6 thousand NT dollars.
+:::
+
+## Information Obtained from a Boxplot
+
+:::{.callout-important}
+## Reading a Boxplot
+
+1. **The median inside the box**
+   a. If the median is near the **center** of the box, the distribution is approximately **symmetric**.
+   b. If the median falls to the **left** of the center, the distribution is **positively skewed**.
+   c. If the median falls to the **right** of the center, the distribution is **negatively skewed**.
+2. **The lines (whiskers)**
+   a. If the lines are about the **same length**, the distribution is approximately **symmetric**.
+   b. If the **right** line is larger, the distribution is **positively skewed**.
+   c. If the **left** line is larger, the distribution is **negatively skewed**.
+:::
+
+## Example 3-38 {#example-3-38}
+
+:::{.callout-warning}
+## Customs Clearance Times at Two Ports
+
+The data shown are the customs clearance times, in hours, for a sample of export shipments at two ports. Compare the distributions by using boxplots.
+
+```
+      Port A                    Port B
+ 22   26   20   18       32   56   24   16
+ 24   28   20   26       48   64   56   24
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 3-38
+
+:::{.callout-tip}
+## Solution
+
+**Prepare data**
+
+```{r e3-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+port_a <- c(22, 26, 20, 18, 24, 28, 20, 26)
+port_b <- c(32, 56, 24, 16, 48, 64, 56, 24)
+
+quantile(port_a, c(0.25, 0.50, 0.75))
+quantile(port_b, c(0.25, 0.50, 0.75))
+```
+
+For port A, $Q_1 = 20$, $MD = 23$, $Q_3 = 26$; for port B, $Q_1 = 24$, $MD = 40$, $Q_3 = 56$.
+:::
+
+---
+
+## Example 3-38
+
+:::{.callout-tip}
+## Solution
+
+**Output figure**
+
+```{r e3-38-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
+tibble(Hours = c(port_a, port_b),
+       Port  = rep(c("Port A", "Port B"), each = 8)) |>
+  ggplot(aes(x = Hours, y = Port, fill = Port)) +
+  geom_boxplot(width = 0.4, show.legend = FALSE) +
+  scale_fill_manual(values = c("#2c4a6e", "#8db4d6")) +
+  labs(title = "Figure 3-8: Boxplots for Example 3-38",
+       x = "Customs clearance time (hours)", y = "") +
+  theme_minimal()
+```
+
+The **median** clearance time at port B is much higher, and both the **interquartile range** and the **range** at port B are much larger than those at port A.
+:::
+
+## Hinges versus Quartiles
+
+:::{.callout-warning}
+## Caution
+
+In exploratory data analysis, **hinges** are used instead of quartiles to construct boxplots. When the data set consists of an **even** number of values, hinges are the same as quartiles; hinges for a data set with an **odd** number of values differ somewhat from quartiles. Since most calculators and computer programs use quartiles, quartiles are used in this textbook.
+
+A **modified boxplot** can be drawn to check for outliers: the whiskers extend only to the highest and lowest values within $1.5(\text{IQR})$ of the box.
+:::
+
+## Table 3-5: Traditional versus EDA Techniques
+
+| Traditional | Exploratory data analysis |
+|-------------|---------------------------|
+| Frequency distribution | Stem and leaf plot |
+| Histogram | Boxplot |
+| Mean | Median |
+| Standard deviation | Interquartile range |
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 3 Vocabulary
+
+bimodal · boxplot · Chebyshev's theorem · coefficient of variation · data array · decile · empirical rule · exploratory data analysis (EDA) · five-number summary · interquartile range (IQR) · mean · median · midrange · modal class · mode · multimodal · negatively skewed or left-skewed distribution · nonresistant statistic · outlier · parameter · percentile · population mean · population standard deviation · population variance · positively skewed or right-skewed distribution · quartile · range · range rule of thumb · resistant statistic · sample mean · standard deviation · statistic · symmetric distribution · unimodal · variance · weighted mean · z score or standard score
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Central Tendency
+
+$$\bar{X} = \frac{\Sigma X}{n} \qquad \mu = \frac{\Sigma X}{N} \qquad \bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
+
+$$\bar{X} = \frac{\Sigma wX}{\Sigma w} \qquad MR = \frac{\text{lowest value} + \text{highest value}}{2}$$
+:::
+
+:::{.callout-important}
+## Variation
+
+$$R = \text{highest value} - \text{lowest value} \qquad \sigma^2 = \frac{\Sigma(X-\mu)^2}{N} \qquad \sigma = \sqrt{\frac{\Sigma(X-\mu)^2}{N}}$$
+
+$$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s^2 = \frac{n(\Sigma f \cdot X_m^2) - (\Sigma f \cdot X_m)^2}{n(n-1)}$$
+
+$$\text{CVar} = \frac{s}{\bar{X}} \cdot 100 \qquad s \approx \frac{\text{range}}{4} \qquad 1 - \frac{1}{k^2}$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Position
+
+$$z = \frac{X - \bar{X}}{s} \qquad z = \frac{X - \mu}{\sigma}$$
+
+$$\text{Cumulative \%} = \frac{\text{cumulative frequency}}{n} \cdot 100$$
+
+$$\text{Percentile} = \frac{(\text{number of values below } X) + 0.5}{\text{total number of values}} \cdot 100$$
+
+$$c = \frac{n \cdot p}{100} \qquad \text{IQR} = Q_3 - Q_1$$
 :::
 
 ## Key Takeaways
 
-:::{.callout-note}
-## Section 3-3: Measures of Position
-
-**z-score** $= \frac{X - \bar{X}}{s}$ — standard deviations from the mean
-
-**Percentile rank** $= \frac{(\text{\# below }X)+0.5}{n} \times 100$
-
-**Quartiles**: $Q_1 = P_{25}$, $Q_2 = P_{50}$, $Q_3 = P_{75}$
-
-**IQR** $= Q_3 - Q_1$ — spread of the middle 50%
-
-**Outlier fences**: $Q_1 - 1.5(\text{IQR})$ and $Q_3 + 1.5(\text{IQR})$
-:::
-
-:::{.callout-note}
-## Section 3-4: Exploratory Data Analysis
-
-**Five-number summary**: Min, $Q_1$, Median, $Q_3$, Max
-
-**Boxplot**: visual display of five-number summary revealing center, spread, and skew
-
-**EDA statistics** (median, IQR) are **resistant** to outliers
-
-**Traditional statistics** (mean, SD) are **nonresistant**
+:::{.callout-important}
+- **Measures of central tendency** — the mean, median, mode, and midrange; the weighted mean is used when values are not equally represented
+- **The mean uses every value** but is pulled toward outliers; the **median** is preferred for skewed or open-ended data; the **mode** is the only average for nominal data
+- **Distribution shapes** — positively skewed, symmetric, negatively skewed, with the mean pulled toward the tail
+- **Measures of variation** — the range, variance $\sigma^2$ or $s^2$, and standard deviation $\sigma$ or $s$; divide by $n-1$ for an unbiased sample estimate
+- **Coefficient of variation** compares variability across variables measured in different units
+- **Chebyshev's theorem** applies to any distribution: at least $1 - 1/k^2$ of the values lie within $k$ standard deviations; the **empirical rule** (68-95-99.7%) applies to bell-shaped data
+- **Linear transformation** — adding a constant shifts the mean and leaves the standard deviation unchanged; multiplying by a constant multiplies both
+- **Measures of position** — $z$ scores, percentiles, deciles and quartiles, with $Q_1 = P_{25}$, $Q_2 = P_{50} = MD$, $Q_3 = P_{75}$
+- **Outliers** lie beyond $Q_1 - 1.5(\text{IQR})$ or $Q_3 + 1.5(\text{IQR})$; the median and IQR are **resistant**, the mean and standard deviation are **nonresistant**
+- **Exploratory data analysis** uses the five-number summary and the boxplot to reveal center, spread, and skewness
 :::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

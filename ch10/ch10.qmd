@@ -43,65 +43,151 @@ include-after-body:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## Overview
-Researchers often ask: *Is there a relationship between two variables, and if so, how strong is it?*
 
-This chapter addresses four key questions:
+Chapter 10 is about **correlation and regression** — whether two variables are linearly related, how strong the relation is, and how to predict.
 
-1. Are two variables linearly related?
-2. If so, how strong is that relationship?
-3. What type of relationship exists (positive, negative, linear, curvilinear)?
-4. What predictions can be made from the relationship?
+| Section | Topics |
+|---------|--------|
+| 10-1 | Scatter plots; the correlation coefficient $r$ and its properties; testing $H_0: \rho = 0$; correlation vs. causation |
+| 10-2 | Regression line $y' = a + bx$; least squares and residuals; marginal change; extrapolation; influential points |
 
-**Tools:** Scatter plots, correlation coefficients, regression lines, and prediction intervals.
+---
+
+## Overview (continued)
+
+| Section | Topics |
+|---------|--------|
+| 10-3 | Types of variation; residual plots; $r^2$; $s_{est}$; prediction intervals |
+| 10-4 | Multiple regression; partial coefficients; $R$, the $F$ test, adjusted $R^2$ |
+
+## Chapter Objectives
+
+:::{.callout-important}
+## After completing this chapter, you should be able to
+
+1. Draw a scatter plot for a set of ordered pairs.
+2. Compute the correlation coefficient.
+3. Test the hypothesis $H_0: \rho = 0$.
+4. Compute the equation of the regression line.
+5. Compute the coefficient of determination.
+6. Compute the standard error of the estimate.
+7. Find a prediction interval.
+8. Be familiar with the concept of multiple regression.
+:::
+
+---
+
+## Four Questions This Chapter Answers
+
+Correlation and regression analysis are part of **inferential statistics**: they decide whether a relationship exists between two or more numerical variables and describe it.
+
+:::{.callout-important}
+## The Purpose of the Chapter
+
+1. Are two or more variables linearly related?
+2. If so, what is the strength of the relationship?
+3. What type of relationship exists?
+4. What kind of predictions can be made from the relationship?
+:::
 
 # Section 10-1: Scatter Plots and Correlation {background-color="#2c4a6e"}
 
-## Key Terms
+## Independent and Dependent Variables
+
+In simple correlation and regression studies, the researcher collects data on **two numerical (quantitative) variables** to see whether a relationship exists between them.
 
 :::{.callout-note}
-- **Independent variable (x):** The predictor variable — can be controlled or manipulated.
-- **Dependent variable (y):** The response variable — its value depends on x.
-- **Scatter plot:** A graph of ordered pairs (x, y) used to visually assess the relationship between two variables.
-- **Positive relationship:** Both variables move in the same direction.
-- **Negative relationship:** Variables move in opposite directions.
+## Independent and Dependent Variables
+
+The **independent variable** is the variable in regression that can be controlled or manipulated; it is designated $x$ and is also called the **explanatory variable**.
+
+The **dependent variable** is the variable in regression that cannot be controlled or manipulated; it is designated $y$ and is also called the **response variable**.
 :::
+
+The choice of $x$ and $y$ is not always clear-cut. Age can reasonably be taken to affect blood pressure, but for the attitudes of husbands and wives on the same issue the researcher may assign the roles arbitrarily.
+
+---
+
+## Scatter Plots
+
+:::{.callout-note}
+## Scatter Plot
+
+A **scatter plot** is a graph of the ordered pairs $(x, y)$ of numbers consisting of the independent variable $x$ and the dependent variable $y$.
+:::
+
+The independent variable $x$ is plotted on the horizontal axis and the dependent variable $y$ on the vertical axis. The scales of the two variables may differ; the coordinates of the axes are set by the smallest and largest data values.
+
+---
+
+## Types of Relationships
+
+Researchers look for patterns in a scatter plot (Figure 10-1).
+
+:::{.callout-important}
+## Four Patterns
+
+- **Positive linear relationship** — as $x$ increases, $y$ increases; the points form roughly a straight line rising from left to right.
+- **Negative linear relationship** — as $x$ increases, $y$ decreases; the points form roughly a straight line falling from left to right.
+- **Curvilinear (nonlinear) relationship** — the points follow a curve.
+- **No relationship** — no line or curve can be seen in the points.
+:::
+
+---
+
+## Procedure Table: Drawing a Scatter Plot
+
+:::{.callout-important}
+## Drawing a Scatter Plot
+
+**Step 1** Draw and label the $x$ and $y$ axes.
+
+**Step 2** Plot each point on the graph.
+
+**Step 3** Determine the type of relationship (if any) that exists for the variables.
+:::
+
+---
 
 ## Example 10-1 {#example-10-1}
 
 :::{.callout-warning}
-## Car Rental Companies — Scatter Plot
+## Advertising Spend and Orders
 
-Construct a scatter plot for the following car rental company data:
+A cross-border e-commerce team records, for six of its product lines, last month's online advertising spend (in thousands of NT dollars) and the number of orders received. Construct a scatter plot for the data.
 
-| Company | Cars ($\times$10,000) | Revenue (\$ billions) |$
-|---------|----------------|----------------------|
-| A | 63.0 | 7.0 |
-| B | 29.0 | 3.9 |
-| C | 20.8 | 2.1 |
-| D | 19.1 | 2.8 |
-| E | 13.4 | 1.4 |
-| F | 8.5 | 1.5 |
+```
+Ad spend, x     20     30     40     50     60     70
+Orders, y      200    180    235    265    270    350
+```
+
+*(hypothetical data)*
+
+Back to [Example 10-4](#example-10-4)
 :::
+
+---
 
 ## Example 10-1
 
 :::{.callout-tip}
 ## Solution
 
-**Draw figure**
+**Step 1 — draw and label the axes; Step 2 — plot each point**
 
 ```{r e10-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cars    <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
-revenue <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
-df <- data.frame(cars, revenue)
+ad_spend <- c(20, 30, 40, 50, 60, 70)
+orders   <- c(200, 180, 235, 265, 270, 350)
 
-p1 <- ggplot(df, aes(x = cars, y = revenue)) +
+scatter_ads <- ggplot(data.frame(ad_spend, orders),
+                      aes(x = ad_spend, y = orders)) +
   geom_point(size = 3, color = "steelblue") +
-  labs(x = "Cars (in 10,000s)", y = "Revenue ($ billions)",
-       title = "Car Rental Companies") +
+  labs(title = "Advertising Spend and Orders",
+       x = "Ad spend (thousand NT dollars)", y = "Orders") +
   theme_minimal()
 ```
 :::
@@ -113,51 +199,53 @@ p1 <- ggplot(df, aes(x = cars, y = revenue)) +
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Output figure (Figure 10-2)**
 
 ```{r e10-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-p1
+scatter_ads
 ```
 
-**Interpret**
-
-The scatter plot suggests a **positive linear relationship** — as fleet size increases, so does revenue.
+**Step 3** It looks like there is a **positive relationship** between advertising spend and the number of orders.
 :::
+
+---
 
 ## Example 10-2 {#example-10-2}
 
 :::{.callout-warning}
-## Absences and Final Grades — Scatter Plot
+## Days Late and Customer Rating
 
-Construct a scatter plot for the number of absences and final grades for seven statistics students:
+A freight forwarder in Taichung reviews seven export orders that reached the buyer after the promised date. For each order it records how many days late the shipment was and the satisfaction rating (out of 100) the customer gave afterwards. Construct a scatter plot for the data.
 
-| Student | Absences x | Final Grade y (%) |
-|---------|------------|-------------------|
-| A | 6 | 82 |
-| B | 2 | 86 |
-| C | 15 | 43 |
-| D | 9 | 74 |
-| E | 12 | 58 |
-| F | 5 | 90 |
-| G | 8 | 78 |
+```
+Order                     A      B      C      D      E      F      G
+Days late, x              1      2      3      4      5      6      7
+Customer rating, y       94     84     86     80     78     68     70
+```
+
+*(hypothetical data)*
+
+Back to [Example 10-5](#example-10-5)
 :::
+
+---
 
 ## Example 10-2
 
 :::{.callout-tip}
 ## Solution
 
-**Draw figure**
+**Step 1 — draw and label the axes; Step 2 — plot each point**
 
 ```{r e10-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-absences <- c(6, 2, 15, 9, 12, 5, 8)
-grade    <- c(82, 86, 43, 74, 58, 90, 78)
-df2 <- data.frame(absences, grade)
+days_late <- c(1, 2, 3, 4, 5, 6, 7)
+rating    <- c(94, 84, 86, 80, 78, 68, 70)
 
-p2 <- ggplot(df2, aes(x = absences, y = grade)) +
+scatter_rating <- ggplot(data.frame(days_late, rating),
+                         aes(x = days_late, y = rating)) +
   geom_point(size = 3, color = "tomato") +
-  labs(x = "Number of Absences", y = "Final Grade (%)",
-       title = "Absences vs. Final Grade") +
+  labs(title = "Days Late and Customer Rating",
+       x = "Days late", y = "Customer rating") +
   theme_minimal()
 ```
 :::
@@ -169,52 +257,53 @@ p2 <- ggplot(df2, aes(x = absences, y = grade)) +
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Output figure (Figure 10-3)**
 
 ```{r e10-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-p2
+scatter_rating
 ```
 
-**Interpret**
-
-The plot suggests a **negative linear relationship** — more absences correspond to lower grades.
+**Step 3** It looks as if a **negative linear relationship** exists between the number of days a shipment is late and the rating the customer gives.
 :::
+
+---
 
 ## Example 10-3 {#example-10-3}
 
 :::{.callout-warning}
-## Age and Wealth — Scatter Plot
+## Years in Operation and Order Growth
 
-A researcher examines the relationship between age and net worth (in $ billions) for the wealthiest people in the U.S.:$
+A trade association wishes to see whether there is a relationship between how long a small trading company has been in operation and how fast its orders grew last year. Seven member companies in Kaohsiung are selected. Construct a scatter plot for the data.
 
-| Person | Age x | Wealth y ($ billions) |$
-|--------|-------|-----------------------|
-| A | 73 | 16 |
-| B | 65 | 26 |
-| C | 53 | 50 |
-| D | 54 | 21.5 |
-| E | 79 | 40 |
-| F | 69 | 16 |
-| G | 61 | 19.6 |
-| H | 65 | 19 |
+```
+Company                      A      B      C      D      E      F      G
+Years in operation, x        2      4      6      8     10     12     14
+Order growth, y (%)          9     12      7      8     10      9     11
+```
+
+*(hypothetical data)*
+
+Back to [Example 10-6](#example-10-6)
 :::
+
+---
 
 ## Example 10-3
 
 :::{.callout-tip}
 ## Solution
 
-**Draw figure**
+**Step 1 — draw and label the axes; Step 2 — plot each point**
 
 ```{r e10-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-age   <- c(73, 65, 53, 54, 79, 69, 61, 65)
-wealth <- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)
-df3 <- data.frame(age, wealth)
+years_operating <- c(2, 4, 6, 8, 10, 12, 14)
+growth_rate     <- c(9, 12, 7, 8, 10, 9, 11)
 
-p3 <- ggplot(df3, aes(x = age, y = wealth)) +
+scatter_growth <- ggplot(data.frame(years_operating, growth_rate),
+                         aes(x = years_operating, y = growth_rate)) +
   geom_point(size = 3, color = "purple") +
-  labs(x = "Age", y = "Wealth ($ billions)",
-       title = "Age vs. Net Wealth") +
+  labs(title = "Years in Operation and Order Growth",
+       x = "Years in operation", y = "Order growth (%)") +
   theme_minimal()
 ```
 :::
@@ -226,814 +315,1531 @@ p3 <- ggplot(df3, aes(x = age, y = wealth)) +
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Output figure (Figure 10-4)**
 
 ```{r e10-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-p3
+scatter_growth
 ```
 
-**Interpret**
-
-No clear pattern is visible — this suggests **little or no linear relationship** between age and wealth.
+**Step 3** There is **no strong positive or negative linear relationship** between the number of years a company has been in operation and its order growth.
 :::
 
-## The Pearson Correlation Coefficient
+---
+
+## Correlation
+
+Statisticians use a measure called the **correlation coefficient** to determine the strength of the linear relationship between two variables. There are several types of correlation coefficients.
 
 :::{.callout-note}
-The **Pearson product moment correlation coefficient** (r) measures the strength and direction of the linear relationship between two variables.
+## Population and Sample Correlation Coefficients
 
-$$r = \frac{n\sum xy - (\sum x)(\sum y)}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}$$
+The **population correlation coefficient**, denoted by the Greek letter $\rho$, is the correlation computed by using all possible pairs of data values $(x, y)$ taken from a population.
 
-- Range: $-1 \leq r \leq +1$
-- Close to +1: strong positive relationship
-- Close to −1: strong negative relationship
-- Close to 0: weak or no linear relationship
-
-**Assumptions:** Random sample; approximately linear relationship; interval/ratio data; bivariate normal distribution.
+The **linear correlation coefficient** computed from the sample data measures the strength and direction of a linear relationship between two quantitative variables. The symbol for the sample correlation coefficient is $r$.
 :::
+
+The correlation coefficient of this section is the **Pearson product moment correlation coefficient (PPMC)**, named after Karl Pearson.
+
+---
+
+## Range of Values for $r$
+
+:::{.callout-important}
+## Interpreting the Value of $r$ (Figure 10-5)
+
+The range of the linear correlation coefficient is from $-1$ to $+1$.
+
+- $r$ close to $+1$: a **strong positive** linear relationship.
+- $r$ close to $-1$: a **strong negative** linear relationship.
+- $r$ close to $0$: **no linear relationship** or only a weak one.
+
+A value of $r$ equal to or close to $0$ implies only that there is **no linear** relationship; the data may still be related in some other, nonlinear way.
+:::
+
+---
+
+## Properties of the Linear Correlation Coefficient
+
+:::{.callout-important}
+## Five Properties
+
+1. The correlation coefficient is a **unitless** measure.
+2. The value of $r$ will always be between $-1$ and $+1$ inclusively, that is, $-1 \leq r \leq 1$.
+3. If the values of $x$ and $y$ are **interchanged**, the value of $r$ will be unchanged.
+4. If the values of $x$ and/or $y$ are converted to a **different scale**, the value of $r$ will be unchanged.
+5. The value of $r$ is **sensitive to outliers** and can change dramatically if they are present in the data.
+:::
+
+---
+
+## Assumptions for the Correlation Coefficient
+
+:::{.callout-important}
+## Three Assumptions
+
+1. The sample is a **random sample**.
+2. The data pairs fall **approximately on a straight line** and are measured at the **interval or ratio** level.
+3. The variables have a **bivariate normal distribution**: given any specific value of $x$, the $y$ values are normally distributed; and given any specific value of $y$, the $x$ values are normally distributed.
+:::
+
+In this book the assumptions are assumed to be met in the exercises; in other situations you must check them before proceeding.
+
+---
+
+## Formula for the Linear Correlation Coefficient
+
+:::{.callout-important}
+## Formula and Rounding Rule
+
+$$r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n(\sum x^2) - (\sum x)^2][n(\sum y^2) - (\sum y)^2]}}$$
+
+where $n$ is the number of data pairs.
+
+**Rounding Rule for the Correlation Coefficient.** Round the value of $r$ to **three decimal places**.
+:::
+
+---
+
+## Procedure Table: Finding the Value of $r$
+
+:::{.callout-important}
+## Finding the Value of the Linear Correlation Coefficient
+
+**Step 1** Make a table with columns $x$, $y$, $xy$, $x^2$, $y^2$.
+
+**Step 2** Place the values of $x$ and $y$ in the first two columns. Multiply each $x$ value by the corresponding $y$ value and place the products in the $xy$ column. Square each $x$ value and each $y$ value and place them in the $x^2$ and $y^2$ columns. Find the sum of each column.
+
+**Step 3** Substitute in the formula and find the value for $r$.
+:::
+
+---
 
 ## Example 10-4 {#example-10-4}
 
 :::{.callout-warning}
-## Correlation for Car Rental Companies
+## Advertising Spend and Orders
 
-Compute the correlation coefficient for the car rental data from [Example 10-1](#example-10-1).
+Compute the linear correlation coefficient for the data in [Example 10-1](#example-10-1).
+
+Back to [Example 10-9](#example-10-9)
 :::
+
+---
 
 ## Example 10-4
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Steps 1 and 2 — make the table and sum each column**
 
-Build the calculation table:
-
-| Company | x | y | xy | $x^2$ | $y^2$ |
-|---------|-----|------|--------|---------|-------|
-| A | 63.0 | 7.0 | 441.00 | 3969.00 | 49.00 |
-| B | 29.0 | 3.9 | 113.10 | 841.00 | 15.21 |
-| C | 20.8 | 2.1 | 43.68 | 432.64 | 4.41 |
-| D | 19.1 | 2.8 | 53.48 | 364.81 | 7.84 |
-| E | 13.4 | 1.4 | 18.76 | 179.56 | 1.96 |
-| F | 8.5 | 1.5 | 12.75 | 72.25 | 2.25 |
-| **$\sum$** | **153.8** | **18.7** | **682.77** | **5859.26** | **80.67** |
-
-$$r = \frac{6(682.77) - (153.8)(18.7)}{\sqrt{[6(5859.26) - 153.8^2][6(80.67) - 18.7^2]}} \approx \boxed{0.982}$$
+| Ad spend, $x$ | Orders, $y$ | $xy$ | $x^2$ | $y^2$ |
+|---|---|---|---|---|
+| 20 | 200 | 4,000 | 400 | 40,000 |
+| 30 | 180 | 5,400 | 900 | 32,400 |
+| 40 | 235 | 9,400 | 1,600 | 55,225 |
+| 50 | 265 | 13,250 | 2,500 | 70,225 |
+| 60 | 270 | 16,200 | 3,600 | 72,900 |
+| 70 | 350 | 24,500 | 4,900 | 122,500 |
+| $\sum x = 270$ | $\sum y = 1500$ | $\sum xy = 72{,}750$ | $\sum x^2 = 13{,}900$ | $\sum y^2 = 393{,}250$ |
 :::
+
+---
 
 ## Example 10-4
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 3 — substitute in the formula and solve for $r$**
+
+$$r = \frac{6(72{,}750) - (270)(1500)}{\sqrt{[6(13{,}900) - 270^2][6(393{,}250) - 1500^2]}} = \frac{31{,}500}{33{,}907.96} = 0.929$$
+
+The value of $r$ suggests a **strong positive linear relationship** between advertising spend and the number of orders: the more a product line spends on advertising, the more orders it takes.
+:::
+
+---
+
+## Example 10-4
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
 
 ```{r e10-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
-y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
-
-r <- cor(x, y)
-cat("Correlation coefficient r =", round(r, 4), "\n")
-cat("Strong positive relationship — r is close to 1.\n")
+round(cor(ad_spend, orders), 3)
 ```
 :::
+
+---
 
 ## Example 10-5 {#example-10-5}
 
 :::{.callout-warning}
-## Correlation for Absences and Final Grades
+## Days Late and Customer Rating
 
-Compute the correlation coefficient for the absences and final grade data from [Example 10-2](#example-10-2).
+Compute the value of the linear correlation coefficient for the data on the seven late export orders given in [Example 10-2](#example-10-2).
+
+Back to [Example 10-10](#example-10-10)
 :::
+
+---
 
 ## Example 10-5
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Steps 1 and 2 — make the table and sum each column**
+
+| Order | Days late, $x$ | Rating, $y$ | $xy$ | $x^2$ | $y^2$ |
+|---|---|---|---|---|---|
+| A | 1 | 94 | 94 | 1 | 8,836 |
+| B | 2 | 84 | 168 | 4 | 7,056 |
+| C | 3 | 86 | 258 | 9 | 7,396 |
+| D | 4 | 80 | 320 | 16 | 6,400 |
+| E | 5 | 78 | 390 | 25 | 6,084 |
+| F | 6 | 68 | 408 | 36 | 4,624 |
+| G | 7 | 70 | 490 | 49 | 4,900 |
+| | $\sum x = 28$ | $\sum y = 560$ | $\sum xy = 2128$ | $\sum x^2 = 140$ | $\sum y^2 = 45{,}296$ |
+:::
+
+---
+
+## Example 10-5
+
+:::{.callout-tip}
+## Solution
+
+**Step 3 — substitute in the formula and solve for $r$**
+
+$$r = \frac{7(2128) - (28)(560)}{\sqrt{[7(140) - 28^2][7(45{,}296) - 560^2]}} = \frac{-784}{824.93} = -0.950$$
 
 ```{r e10-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(6, 2, 15, 9, 12, 5, 8)
-y <- c(82, 86, 43, 74, 58, 90, 78)
-
-r <- cor(x, y)
-cat("r =", round(r, 4), "\n")
-cat("Strong negative relationship — more absences, lower grade.\n")
+round(cor(days_late, rating), 3)
 ```
 
-**Result:** $r \approx -0.944$ → strong negative linear relationship.
+The value of $r$ suggests a **strong negative linear relationship**: the later a shipment arrives, the lower the rating the customer gives.
 :::
+
+---
 
 ## Example 10-6 {#example-10-6}
 
 :::{.callout-warning}
-## Correlation for Age and Wealth
+## Years in Operation and Order Growth
 
-Compute the correlation coefficient for the age and wealth data from [Example 10-3](#example-10-3).
+Compute the value of the correlation coefficient for the data given in [Example 10-3](#example-10-3) for the years in operation and the order growth of the seven trading companies.
+
+Back to [Example 10-8](#example-10-8)
 :::
+
+---
 
 ## Example 10-6
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Steps 1 and 2 — make the table and sum each column**
+
+| Company | Years, $x$ | Growth, $y$ | $xy$ | $x^2$ | $y^2$ |
+|---|---|---|---|---|---|
+| A | 2 | 9 | 18 | 4 | 81 |
+| B | 4 | 12 | 48 | 16 | 144 |
+| C | 6 | 7 | 42 | 36 | 49 |
+| D | 8 | 8 | 64 | 64 | 64 |
+| E | 10 | 10 | 100 | 100 | 100 |
+| F | 12 | 9 | 108 | 144 | 81 |
+| G | 14 | 11 | 154 | 196 | 121 |
+| | $\sum x = 56$ | $\sum y = 66$ | $\sum xy = 534$ | $\sum x^2 = 560$ | $\sum y^2 = 640$ |
+:::
+
+---
+
+## Example 10-6
+
+:::{.callout-tip}
+## Solution
+
+**Step 3 — substitute in the formula and solve for $r$**
+
+$$r = \frac{7(534) - (56)(66)}{\sqrt{[7(560) - 56^2][7(640) - 66^2]}} = \frac{42}{311.79} = 0.135$$
 
 ```{r e10-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(73, 65, 53, 54, 79, 69, 61, 65)
-y <- c(16, 26, 50, 21.5, 40, 16, 19.6, 19)
-
-r <- cor(x, y)
-cat("r =", round(r, 4), "\n")
-cat("Very weak negative relationship — r is close to 0.\n")
+round(cor(years_operating, growth_rate), 3)
 ```
 
-**Result:** $r \approx -0.176$ → very weak relationship, likely due to chance.
+The value of $r$ indicates a **very weak positive linear relationship** between the years a company has been in operation and its order growth.
 :::
 
-## Testing the Significance of r
+---
 
-:::{.callout-note}
-To determine whether r reflects a true linear relationship (and not just sampling error), we test:
+## The Significance of the Correlation Coefficient
 
-$$H_0: \rho = 0 \quad H_1: \rho \neq 0$$
+Since $r$ is computed from sample data, there are two possibilities when $r$ is not zero: either $r$ is high enough to conclude that a **significant** linear relationship exists, or the value of $r$ is **due to chance**.
 
-**t test for the correlation coefficient:**
-$$t = r\sqrt{\frac{n-2}{1-r^2}}, \quad d.f. = n-2$$
+:::{.callout-important}
+## Traditional Method — Five Steps
 
-Alternatively, use **Table I** (critical values of r) directly — no need to compute t.
+**Step 1** State the hypotheses.
+
+**Step 2** Find the critical values.
+
+**Step 3** Compute the test statistic.
+
+**Step 4** Make the decision.
+
+**Step 5** Summarize the results.
 :::
+
+---
+
+## Assumptions for Testing the Significance of $r$
+
+:::{.callout-important}
+## Four Assumptions
+
+1. The data are **quantitative** and are obtained from a **simple random sample**.
+2. The scatter plot shows that the data are **approximately linearly related**.
+3. There are **no outliers** in the data.
+4. The variables $x$ and $y$ must come from **normally distributed populations**.
+:::
+
+---
+
+## The Hypotheses
+
+:::{.callout-important}
+## $H_0$ and $H_1$
+
+$$H_0: \rho = 0 \qquad H_1: \rho \neq 0$$
+
+$H_0$ means that there is **no correlation** between the $x$ and $y$ variables in the population. $H_1$ means that there is a **significant correlation** between the variables in the population.
+
+You do not have to identify the claim here, since the question will always be whether there is a significant linear relationship between the variables.
+:::
+
+When $H_0$ is rejected, $r$ differs significantly from $0$; when $H_0$ is not rejected, $r$ is probably due to chance.
+
+---
+
+## The $t$ Test for the Correlation Coefficient
+
+:::{.callout-important}
+## Formula for the $t$ Test for the Correlation Coefficient
+
+$$t = r \sqrt{\frac{n-2}{1-r^2}}$$
+
+with degrees of freedom equal to $n - 2$, where $n$ is the number of ordered pairs $(x, y)$.
+:::
+
+The **two-tailed** critical values are used; they are found in **Table A-5**. Both variables $x$ and $y$ must come from normally distributed populations.
+
+---
 
 ## Example 10-7 {#example-10-7}
 
 :::{.callout-warning}
-## Test Significance of r = 0.982
+## Testing the Significance of $r$
 
-Test whether the correlation r = 0.982 from [Example 10-4](#example-10-4) is significant at $\alpha$ = 0.05.
+Test the significance of the correlation coefficient found in [Example 10-4](#example-10-4). Use $\alpha = 0.05$ and $r = 0.929$.
 :::
+
+---
 
 ## Example 10-7
 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1** State the hypotheses: $H_0: \rho = 0$ and $H_1: \rho \neq 0$.
 
-**Step 1:** $H_0$: ρ = 0 &nbsp; $H_1$: ρ $\neq 0$
+**Step 2** Find the critical values. Since $\alpha = 0.05$ and there are $6 - 2 = 4$ degrees of freedom, the critical values from Table A-5 are $\pm 2.776$ (Figure 10-7).
 
-**Step 2:** d.f. = 6 − 2 = 4; CV = $\pm$2.776 (from t-table)
+**Step 3** Compute the test statistic.
 
-**Step 3:**
-$$t = 0.982\sqrt{\frac{6-2}{1-0.982^2}} = 0.982\sqrt{\frac{4}{0.0356}} \approx 10.4$$
+$$t = r \sqrt{\frac{n-2}{1-r^2}} = 0.929\sqrt{\frac{6-2}{1-(0.929)^2}} = 5.02$$
 
-**Step 4:** |10.4| > 2.776 → **Reject $H_0$**
+**Step 4** Make the decision: **reject the null hypothesis**, since the test statistic falls in the critical region (Figure 10-8).
 
-**Step 5:** There is a significant linear relationship between fleet size and revenue.
+**Step 5** Summarize the results: there is a **significant relationship** between advertising spend and the number of orders.
 :::
+
+---
 
 ## Example 10-7
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Compute in R**
 
 ```{r e10-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
-y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
+correlation_test <- cor.test(ad_spend, orders)
 
-test <- cor.test(x, y, alternative = "two.sided")
-cat("r =", round(test$estimate, 4), "\n")
-cat("t =", round(test$statistic, 4), "\n")
-cat("P-value =", round(test$p.value, 6), "\n")
-cat("Decision:", ifelse(test$p.value < 0.05, "Reject H0", "Do not reject H0"), "\n")
+round(c(t = unname(correlation_test$statistic),
+        p_value = correlation_test$p.value), 4)
+
+round(qt(c(0.025, 0.975), df = length(ad_spend) - 2), 3)
 ```
+
+`cor.test()` gives $t = 5.02$ with a P-value of $0.0074$, and the two-tailed critical values from Table A-5 are $\pm 2.776$.
 :::
+
+---
+
+## The P-Value Method
+
+:::{.callout-important}
+## Five Steps
+
+**Step 1** State the hypotheses.
+
+**Step 2** Find the test statistic (here, the $t$ test).
+
+**Step 3** Find the P-value (here, use Table A-5).
+
+**Step 4** Make the decision.
+
+**Step 5** Summarize the results.
+:::
+
+For the test in [Example 10-7](#example-10-7), $t = 5.02$ with $\text{d.f.} = 4$. In the *Two tails* row of Table A-5 the entry at $\alpha = 0.01$ for $\text{d.f.} = 4$ is $4.604$, and $5.02 > 4.604$, so the P-value is less than $0.01$; `cor.test()` gives $0.0074$. Since P-value $< 0.05$, reject $H_0$.
+
+---
+
+## Using Table A-8
+
+:::{.callout-important}
+## Critical Values for the PPMC
+
+**Table A-8** gives the values of the correlation coefficient that are significant for a specific $\alpha$ level and a specific number of degrees of freedom. For $\text{d.f.} = 7$ and $\alpha = 0.05$ the table gives $0.666$: any value of $r$ greater than $+0.666$ or less than $-0.666$ is significant, and $H_0$ is rejected (Figure 10-9).
+
+When Table A-8 is used, **you need not compute the $t$ test statistic**. Table A-8 is for **two-tailed tests only**.
+:::
+
+---
 
 ## Example 10-8 {#example-10-8}
 
 :::{.callout-warning}
-## Test Significance Using Table I (r = −0.176)
+## Using Table A-8
 
-Using Table I, test the significance of r = −0.176 from [Example 10-6](#example-10-6) at $\alpha$ = 0.01.
+Using Table A-8, test the significance at $\alpha = 0.05$ of the correlation coefficient $r = 0.135$ obtained in [Example 10-6](#example-10-6).
 :::
+
+---
 
 ## Example 10-8
 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+$$H_0: \rho = 0 \qquad H_1: \rho \neq 0$$
 
-**Step 1:** $H_0: \rho = 0$ &nbsp; $H_1: \rho \neq 0$
+The critical values from Table A-8 at $\alpha = 0.05$ with $5$ degrees of freedom are $\pm 0.754$. Since $0.135 < 0.754$, the decision is **do not reject the null hypothesis** (Figure 10-10).
 
-**Step 2:** n = 8, so d.f. = 8 − 2 = 6. From Table I, with d.f. = 6 and $\alpha$ = 0.01, the critical value is 0.834. A significant relationship requires $r > +0.834$ or $r < -0.834$.
-
-(Equivalently, $r_{crit} = \sqrt{t^2/(t^2 + d.f.)} = \sqrt{3.707^2/(3.707^2 + 6)} \approx 0.834$ using $t_{0.005,6} = 3.707$.)
-
-**Step 3:** $|r| = 0.176 < 0.834$, so r falls in the nonrejection region.
-
-**Step 4:** **Do not reject $H_0$.**
-
-**Step 5:** There is not enough evidence to say that a significant linear relationship exists between age and wealth.
+Hence, there is **not enough evidence** to say that there is a significant relationship between the number of years a company has been in operation and its order growth. *(Note: the P-value is $0.7734$.)*
 :::
+
+---
+
+## Example 10-8
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
+```{r e10-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+df_error   <- length(years_operating) - 2
+t_critical <- qt(0.975, df = df_error)
+
+round(sqrt(t_critical^2 / (t_critical^2 + df_error)), 3)
+
+round(cor.test(years_operating, growth_rate)$p.value, 4)
+```
+:::
+
+---
+
+## One-Tailed Tests
+
+:::{.callout-note}
+## One-Tailed Hypotheses
+
+Significance tests for correlation coefficients are generally **two-tailed**, but they can be one-tailed. For a hypothesized **positive** linear relationship,
+
+$$H_0: \rho = 0 \qquad H_1: \rho > 0$$
+
+and for a hypothesized **negative** linear relationship,
+
+$$H_0: \rho = 0 \qquad H_1: \rho < 0$$
+
+In these cases the $t$ test and the P-value test are one-tailed, and one-tailed versions of Table A-8 exist. In this book the examples and exercises involve two-tailed tests.
+:::
+
+---
 
 ## Correlation and Causation
 
-:::{.callout-note}
-A significant correlation between two variables does **not** prove causation. Possible explanations include:
+:::{.callout-important}
+## Possible Relationships Between Variables
 
-1. **Direct cause-and-effect** (x causes y)
-2. **Reverse causation** (y causes x)
-3. **Lurking variable** — a third variable causes both x and y
-4. **Complex interrelationships** among many variables
-5. **Coincidence** — the relationship is due to chance
+When $H_0$ has been rejected for a specific $\alpha$ value, any of the following **five** possibilities can exist.
 
+1. There is a **direct cause-and-effect** relationship: $x$ causes $y$ (water causes plants to grow, heat causes ice to melt).
+2. There is a **reverse cause-and-effect** relationship: $y$ causes $x$ (an extremely nervous person may crave coffee, rather than coffee causing nervousness).
+3. The relationship may be caused by a **third variable** (drowning deaths and soft-drink sales are both related to heat and humidity).
+4. There may be a **complexity of interrelationships** among many variables (high school and college grades are also tied to IQ, hours of study, motivation, age, instructors).
+5. The relationship may be **coincidental** (the rise in the number of people exercising and the rise in the number of people committing crimes).
+:::
 
-Always interpret a significant r cautiously and consider alternative explanations.
+---
+
+## Caution: Lurking Variables and Averages
+
+:::{.callout-warning}
+## Caution
+
+A third variable that is unknown to the researcher or not accounted for in the study is called a **lurking variable**. The researcher should try to identify such variables and control their influence.
+
+Even if the correlation between two variables is high, it **does not necessarily mean causation**.
+
+Be cautious when the data for one or both variables are **averages** rather than individual data. Using averages is not wrong, but the results cannot be generalized to individuals, since averaging smooths out the variability among individual values and can produce a **higher correlation than actually exists**.
 :::
 
 # Section 10-2: Regression {background-color="#2c4a6e"}
 
-## The Regression Line (Line of Best Fit)
+## Line of Best Fit
+
+If the value of the correlation coefficient is significant, the next step is to determine the equation of the **regression line**, the data's *line of best fit*.
 
 :::{.callout-note}
-When r is significant, we can describe the linear relationship with the **regression line**:
+## Best Fit, Residuals and Least Squares
 
-$$\hat{y} = a + bx$$
+**Best fit** means that the sum of the squares of the vertical distances from each point to the line is at a minimum.
 
-where:
-$$b = \frac{n\sum xy - (\sum x)(\sum y)}{n\sum x^2 - (\sum x)^2}$$
+The difference between the actual value $y$ and the predicted value $y'$ (the vertical distance) is called a **residual** or a *predicted error*.
 
-$$a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n\sum x^2 - (\sum x)^2}$$
-
-- $b$ = slope (marginal change in y per one-unit increase in x)
-- $a$ = y-intercept
-- **Round a and b to three decimal places**
+The method used for making the residuals as small as possible is the **method of least squares**; the regression line is therefore also called the **least squares regression line**.
 :::
+
+Determining the regression line when $r$ is **not** significant, and then making predictions with it, is meaningless.
+
+---
+
+## Determination of the Regression Line Equation
+
+:::{.callout-note}
+## Algebra Versus Statistics (Figure 10-13)
+
+In algebra the equation of a line is written $y = mx + b$, where $m$ is the slope and $b$ is the $y$ intercept.
+
+In statistics the equation of the regression line is written
+
+$$y' = a + bx$$
+
+where $a$ is the $y'$ **intercept** and $b$ is the **slope** of the line.
+:::
+
+When $r$ is positive the line slopes upward to the right; when $r$ is negative it slopes downward from left to right.
+
+---
+
+## Formulas for the Regression Line
+
+:::{.callout-important}
+## Formulas for the Regression Line $y' = a + bx$
+
+$$a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n(\sum x^2) - (\sum x)^2}$$
+
+$$b = \frac{n(\sum xy) - (\sum x)(\sum y)}{n(\sum x^2) - (\sum x)^2}$$
+
+where $a$ is the $y'$ intercept and $b$ is the slope of the line.
+
+**Rounding Rule for the Intercept and Slope.** Round the values of $a$ and $b$ to **three decimal places**.
+:::
+
+---
+
+## Procedure Table: Finding the Regression Line Equation
+
+:::{.callout-important}
+## Finding the Regression Line Equation
+
+**Step 1** Make a table with columns $x$, $y$, $xy$, $x^2$, $y^2$.
+
+**Step 2** Find the values of $xy$, $x^2$ and $y^2$, place them in the appropriate columns and sum each column.
+
+**Step 3** When $r$ is significant, substitute in the formulas to find the values of $a$ and $b$ for the regression line equation $y' = a + bx$.
+:::
+
+---
 
 ## Example 10-9 {#example-10-9}
 
 :::{.callout-warning}
-## Regression Line for Car Rental Data
+## Advertising Spend and Orders
 
-Find the equation of the regression line for the car rental data from [Example 10-4](#example-10-4).
-
-Known values: n = 6, $\sum x$ = 153.8, $\sum y$ = 18.7, $\sum xy$ = 682.77, $\sum x^2$ = 5859.26
+Find the equation of the regression line for the data in [Example 10-4](#example-10-4), and graph the line on the scatter plot of the data.
 :::
+
+---
 
 ## Example 10-9
 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+The values needed are $n = 6$, $\sum x = 270$, $\sum y = 1500$, $\sum xy = 72{,}750$, $\sum x^2 = 13{,}900$.
 
-**Solution:**
+$$a = \frac{(1500)(13{,}900) - (270)(72{,}750)}{6(13{,}900) - 270^2} = \frac{1{,}207{,}500}{10{,}500} = 115$$
 
-$$b = \frac{6(682.77) - (153.8)(18.7)}{6(5859.26) - 153.8^2} = \frac{4096.62 - 2876.06}{35155.56 - 23653.44} = \frac{1220.56}{11502.12} \approx 0.106$$
+$$b = \frac{6(72{,}750) - (270)(1500)}{6(13{,}900) - 270^2} = \frac{31{,}500}{10{,}500} = 3$$
 
-$$a = \frac{(18.7)(5859.26) - (153.8)(682.77)}{6(5859.26) - 153.8^2} \approx 0.396$$
+Hence the equation of the regression line is
 
-$$\boxed{\hat{y} = 0.396 + 0.106x}$$
+$$y' = 115 + 3x$$
 :::
+
+---
 
 ## Example 10-9
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Compute in R.** The two formulas above are worth writing out once; everywhere else `lm()` does the work.
 
 ```{r e10-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
-y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
+regression_coefficients <- function(x, y) {
+  denominator <- length(x) * sum(x^2) - sum(x)^2
+  c(a = (sum(y) * sum(x^2) - sum(x) * sum(x * y)) / denominator,
+    b = (length(x) * sum(x * y) - sum(x) * sum(y)) / denominator)
+}
 
-model <- lm(y ~ x)
-cat("Intercept a =", round(coef(model)[1], 3), "\n")
-cat("Slope b =",     round(coef(model)[2], 3), "\n")
+regression_coefficients(ad_spend, orders)
+
+model_ads <- lm(orders ~ ad_spend)
+coef(model_ads)
 ```
 :::
+
+---
 
 ## Example 10-9
 
 :::{.callout-tip}
-## Solution (cont.)
+## Solution
 
-```{r e10-9-1-fig, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
-ggplot(data.frame(x, y), aes(x, y)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(title = "Car Rental: Revenue vs Fleet Size",
-       x = "Cars (×10,000)", y = "Revenue ($ billions)") +
-  theme_minimal()
+**Output figure (Figure 10-14)**
+
+```{r e10-9-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
+scatter_ads +
+  geom_smooth(method = "lm", se = FALSE, color = "red")
 ```
 :::
+
+---
 
 ## Example 10-10 {#example-10-10}
 
 :::{.callout-warning}
-## Regression Line for Absences and Grades
+## Days Late and Customer Rating
 
-Find the equation of the regression line for the absences/grade data from [Example 10-2](#example-10-2).
+Find the equation of the regression line for the data in [Example 10-5](#example-10-5), and graph the line on the scatter plot.
 
-n = 7, $\sum x$ = 57, $\sum y$ = 511, $\sum xy$ = 3745, $\sum x^2$ = 579
+Back to [Example 10-11](#example-10-11)
 :::
+
+---
 
 ## Example 10-10
 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+The values needed are $n = 7$, $\sum x = 28$, $\sum y = 560$, $\sum xy = 2128$, $\sum x^2 = 140$.
 
-$$b = \frac{7(3745) - (57)(511)}{7(579) - 57^2} = \frac{26215 - 29127}{4053 - 3249} = \frac{-2912}{804} \approx -3.622$$
+$$a = \frac{(560)(140) - (28)(2128)}{7(140) - 28^2} = \frac{18{,}816}{196} = 96$$
 
-$$a = \frac{(511)(579) - (57)(3745)}{7(579) - 57^2} = \frac{295869 - 213465}{804} \approx 102.493$$
+$$b = \frac{7(2128) - (28)(560)}{7(140) - 28^2} = \frac{-784}{196} = -4$$
 
-$$\boxed{\hat{y} = 102.493 - 3.622x}$$
+Hence the equation of the regression line is
+
+$$y' = 96 - 4x$$
 :::
+
+---
 
 ## Example 10-10
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Compute in R and output the figure (Figure 10-15)**
 
-```{r e10-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(6, 2, 15, 9, 12, 5, 8)
-y <- c(82, 86, 43, 74, 58, 90, 78)
+```{r e10-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
+model_rating <- lm(rating ~ days_late)
+coef(model_rating)
 
-model2 <- lm(y ~ x)
-cat("Intercept a =", round(coef(model2)[1], 3), "\n")
-cat("Slope b =",     round(coef(model2)[2], 3), "\n")
-```
-:::
-
-## Example 10-10
-
-:::{.callout-tip}
-## Solution (cont.)
-
-```{r e10-10-1-fig, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
-ggplot(data.frame(x, y), aes(x, y)) +
-  geom_point(size = 3, color = "tomato") +
+scatter_rating +
   geom_smooth(method = "lm", se = FALSE, color = "darkred") +
-  labs(title = "Absences vs. Final Grade",
-       x = "Number of Absences", y = "Grade (%)") +
-  theme_minimal()
+  labs(title = "Regression Line for Days Late and Customer Rating")
 ```
 :::
+
+---
+
+## Properties of the Regression Line
+
+:::{.callout-note}
+## Two Properties
+
+The sign of the correlation coefficient and the sign of the slope of the regression line are **always the same**: if $r$ is positive, $b$ is positive; if $r$ is negative, $b$ is negative. The numerators of the two formulas are identical and the denominators are always positive.
+
+The regression line **always passes through the point $(\bar{x}, \bar{y})$**, whose coordinates are the mean of the $x$ values and the mean of the $y$ values.
+:::
+
+---
+
+## Guidelines for Making Predictions
+
+:::{.callout-important}
+## Use These Guidelines
+
+1. The points of the scatter plot fit the linear regression line reasonably well.
+2. The value of $r$ is **significant**.
+3. The value of a specific $x$ is **not much beyond the observed $x$ values** in the original data.
+4. If $r$ is **not** significant, then the best predicted value for a specific $x$ value is the **mean of the $y$ values** in the original data.
+:::
+
+---
+
+## Assumptions for Valid Predictions in Regression
+
+:::{.callout-important}
+## Three Assumptions (Figure 10-16)
+
+1. The sample is a **random sample**.
+2. For any specific value of the independent variable $x$, the value of the dependent variable $y$ must be **normally distributed about the regression line**.
+3. The **standard deviation of each of the dependent variables must be the same** for each value of the independent variable, that is, $\sigma_1 = \sigma_2 = \cdots = \sigma_n$.
+:::
+
+---
 
 ## Example 10-11 {#example-10-11}
 
 :::{.callout-warning}
-## Predicting Revenue
+## Days Late and Customer Rating
 
-Using the regression equation from [Example 10-9](#example-10-9), predict the revenue of a car rental agency with **200,000 automobiles**.
+Use the equation of the regression line in [Example 10-10](#example-10-10) to predict the customer rating for an order that arrives **2 days late**.
 :::
+
+---
 
 ## Example 10-11
 
 :::{.callout-tip}
 ## Solution
 
-Since x values are in units of 10,000: $x = 200{,}000 \div 10{,}000 = 20$
+Substitute $2$ for $x$ in the regression line equation $y' = 96 - 4x$:
 
-$$\hat{y} = 0.396 + 0.106(20) = 0.396 + 2.120 = \boxed{2.516 \text{ billion dollars}}$$
+$$y' = 96 - 4(2) = 88$$
 
 ```{r e10-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(63.0, 29.0, 20.8, 19.1, 13.4, 8.5)
-y <- c(7.0, 3.9, 2.1, 2.8, 1.4, 1.5)
-model <- lm(y ~ x)
-
-pred <- predict(model, newdata = data.frame(x = 20))
-cat("Predicted revenue for 200,000 cars: $", round(pred, 3), "billion\n")
+predict(model_rating, data.frame(days_late = 2))
 ```
 
-*(R uses the unrounded coefficients and gives 2.519; the hand value 2.516 uses a and b rounded to three decimals.)*
+Hence, an order that arrives 2 days late is predicted to receive a customer rating of about **88**. This is a **point prediction**: no degree of accuracy or confidence can be attached to it (see Section 10-3).
 :::
 
-:::{.callout-important}
-**Caution:** Only predict within the range of observed x values. Extrapolation beyond the data is unreliable.
+---
+
+## Marginal Change
+
+:::{.callout-note}
+## Marginal Change
+
+The magnitude of the change in one variable when the other variable changes **exactly 1 unit** is called a **marginal change**. The value of the slope $b$ of the regression line equation represents the marginal change.
+
+In [Example 10-10](#example-10-10), $b = -4$: for each additional day a shipment is late, the predicted customer rating falls by $4$ points, on average.
 :::
+
+---
+
+## Caution: Extrapolation
+
+:::{.callout-warning}
+## Caution
+
+**Extrapolation**, or making predictions beyond the bounds of the data, must be interpreted cautiously.
+
+Suppose the regression of monthly revenue on store floor area is fitted from branches of 8 to 18 ping. Using that line to predict the revenue of a 60-ping flagship store assumes the same straight-line relationship holds far outside the range that was measured. It usually does not: a store that large draws on a different catchment, carries a different product mix, and faces costs the sample never saw.
+
+Predictions are based on present conditions or on the premise that present trends will continue. That assumption may or may not prove true in the future.
+:::
+
+---
+
+## Outliers and Influential Points
+
+:::{.callout-note}
+## Influential Points
+
+A scatter plot should be checked for **outliers**: points that seem out of place compared with the other points. Outliers that affect the equation of the regression line are called **influential points** (or *influential observations*).
+
+An influential point tends to "pull" the regression line toward itself. To check, graph the regression line **with** the point and then **without** it; if the position of the line changes considerably, the point is influential. Points that are outliers in the $x$ direction tend to be influential.
+:::
+
+Researchers use their judgment about whether to include influential observations, or collect additional data near that $x$ value.
 
 # Section 10-3: Coefficient of Determination and Standard Error of the Estimate {background-color="#2c4a6e"}
 
-## Types of Variation
+## Types of Variation for the Regression Model
+
+Consider a small set of five observations (hypothetical data): $x$ is the number of staff on duty at a night-market stall and $y$ is the number of set meals sold per hour. Its regression equation is $y' = 8 + 4x$ and $r = 0.933$.
+
+```
+x     1     2     3     4     5
+y    14    16    16    24    30
+```
 
 :::{.callout-note}
-The **total variation** in y can be decomposed:
+## Three Types of Variation
 
-$$\underbrace{\sum(y - \bar{y})^2}_{\text{Total variation}} = \underbrace{\sum(\hat{y} - \bar{y})^2}_{\text{Explained variation}} + \underbrace{\sum(y - \hat{y})^2}_{\text{Unexplained variation}}$$
+The **total variation** $\sum(y - \bar{y})^2$ is the sum of the squares of the vertical distances each point is from the mean. It divides into two parts.
 
-- **Explained variation:** attributed to the linear relationship with x
-- **Unexplained variation:** due to chance or other factors (also called **residual** variation)
+The **explained variation** $\sum(y' - \bar{y})^2$ is the variation obtained from the relationship, that is, from the predicted $y'$ values.
+
+The **unexplained variation** $\sum(y - y')^2$ is the variation due to chance; it cannot be attributed to the relationship.
+
+$$\sum(y - \bar{y})^2 = \sum(y' - \bar{y})^2 + \sum(y - y')^2$$
 :::
+
+---
+
+## Types of Variation in R
+
+```{r s10-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+staff_on_duty <- 1:5
+units_sold    <- c(14, 16, 16, 24, 30)
+model_stall   <- lm(units_sold ~ staff_on_duty)
+
+mean_sold <- mean(units_sold)
+
+round(c(total = sum((units_sold - mean_sold)^2),
+        explained = sum((fitted(model_stall) - mean_sold)^2),
+        unexplained = sum(resid(model_stall)^2)), 3)
+```
+
+Total variation $= 184$, explained variation $= 160$, unexplained variation $= 24$, and $184 = 160 + 24$.
+
+---
+
+## Residual Plots
+
+:::{.callout-note}
+## Residual Plot
+
+The values $y - y'$ are called **residuals** (sometimes the *prediction errors*). These values can be plotted against the $x$ values, and the plot, called a **residual plot**, can be used to determine how well the regression line can be used to make predictions.
+:::
+
+The $x$ values are plotted on the horizontal axis and the residuals on the vertical axis. Since the **mean of the residuals is always zero**, a horizontal line at $0$ is drawn on the plot.
+
+```
+x            1      2      3      4      5
+y - y'       2      0     -4      0      2
+```
+
+---
+
+## Residual Plot in R
+
+```{r s10-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
+ggplot(data.frame(staff_on_duty, residual = resid(model_stall)),
+       aes(x = staff_on_duty, y = residual)) +
+  geom_point(size = 3) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Residual Plot", x = "Staff on duty", y = "Residual") +
+  theme_minimal()
+```
+
+---
+
+## Interpreting a Residual Plot
+
+:::{.callout-important}
+## Four Patterns (Figure 10-19)
+
+- **(a)** The residual values are more or less **evenly distributed about the line**: the relationship between $x$ and $y$ is linear and the regression line can be used to make predictions. This is the **homoscedasticity assumption** — the standard deviations of each of the dependent variables are the same for each value of the independent variable.
+- **(b)** The **variance of the residuals increases** as $x$ increases: the regression line is not suitable for predictions.
+- **(c)** A **curvilinear relationship** between the $x$ values and the residual values: the regression line is not suitable for predictions.
+- **(d)** As $x$ increases, the residuals **increase and become more dispersed**: the regression line is not suitable for predictions.
+:::
+
+The residual plot for $y' = 8 + 4x$ makes that line somewhat questionable for predictions, due to the small sample size.
+
+---
 
 ## Coefficient of Determination
 
 :::{.callout-note}
-$$r^2 = \frac{\text{Explained variation}}{\text{Total variation}}$$
+## Coefficient of Determination
 
-Equivalently, $r^2$ is obtained by **squaring the correlation coefficient**.
+The **coefficient of determination** is the ratio of the explained variation to the total variation, denoted by $r^2$:
 
-- $r^2$ expressed as a percentage tells us what proportion of variation in y is explained by x.
-- **Coefficient of nondetermination:** $1 - r^2$ (unexplained proportion)
+$$r^2 = \frac{\text{explained variation}}{\text{total variation}}$$
 
-**Example:** If r = 0.982, then $r^2$ = 0.964, meaning **96.4%** of the variation in revenue is explained by fleet size.
+It measures the variation of the dependent variable that is explained by the regression line and the independent variable, and $0 \leq r^2 \leq 1$.
 :::
 
-## Coefficient of Determination — R Examples
+For the stall data, $r^2 = 160 / 184 = 0.870$: $87.0\%$ of the total variation is explained by the regression line. Squaring $r = 0.933$ gives the same value.
 
-```{r e10-11-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-r_vals <- c(0.982, -0.944, -0.176, 0.90, 0.60)
-for (r in r_vals) {
-  cat(sprintf("r = %6.3f  →  r² = %.4f  (%.1f%% explained)\n",
-              r, r^2, r^2 * 100))
-}
+---
+
+## Coefficient of Nondetermination
+
+:::{.callout-important}
+## Coefficient of Nondetermination
+
+$$1.00 - r^2$$
+
+If $r = 0.90$, then $r^2 = 0.81$, so $81\%$ of the variation in the dependent variable is accounted for by the variation in the independent variable, and the remaining $0.19$, or $19\%$, is unexplained.
+
+As $r$ approaches $0$, $r^2$ decreases more rapidly: if $r = 0.6$, then $r^2 = 0.36$, so only $36\%$ of the variation is attributable to the independent variable.
+:::
+
+---
+
+## Coefficient of Determination in R
+
+```{r s10-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+r_squared_rating <- summary(model_rating)$r.squared
+
+round(c(r = cor(days_late, rating),
+        r_squared = r_squared_rating,
+        nondetermination = 1 - r_squared_rating), 3)
 ```
 
-## Standard Error of the Estimate
+In [Example 10-5](#example-10-5), $r = -0.950$, so $r^2 = 0.903$: about $90.3\%$ of the variation in the customer ratings can be explained by the linear relationship with the number of days late, and about $9.7\%$ cannot.
+
+---
+
+## Prediction Interval and Standard Error of the Estimate
+
+A point prediction gives no information about how accurate it is. The interval estimate used in regression is the **prediction interval**.
 
 :::{.callout-note}
-The **standard error of the estimate** ($s_{est}$) measures the spread of observed y values around the regression line:
+## Two Definitions
 
-$$s_{est} = \sqrt{\frac{\sum(y - \hat{y})^2}{n-2}}$$
+A **prediction interval** is an interval estimate of a predicted value of $y$ when the regression equation is used and a specific value of $x$ is given.
 
-Computational shortcut:
+The **standard error of the estimate**, denoted by $s_{est}$, is the standard deviation of the observed $y$ values about the predicted $y'$ values:
 
-$$s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}$$
-
-The smaller $s_{est}$, the better the regression line fits the data.
+$$s_{est} = \sqrt{\frac{\sum(y - y')^2}{n-2}}$$
 :::
+
+$s_{est}$ is the square root of the unexplained variation divided by $n - 2$: the closer the observed values are to the predicted values, the smaller it is.
+
+---
+
+## Procedure Table: Finding $s_{est}$
+
+:::{.callout-important}
+## Finding the Standard Error of the Estimate
+
+**Step 1** Make a table with columns $x$, $y$, $y'$, $y - y'$, $(y - y')^2$.
+
+**Step 2** Find the predicted values $y'$ for each $x$ value and place them under $y'$.
+
+**Step 3** Subtract each $y'$ value from each $y$ value and place the answers in the $y - y'$ column.
+
+**Step 4** Square each of the values in Step 3 and place them in the $(y - y')^2$ column.
+
+**Step 5** Find the sum of the values in the $(y - y')^2$ column.
+
+**Step 6** Substitute in the formula and find $s_{est}$.
+:::
+
+---
 
 ## Example 10-12 {#example-10-12}
 
 :::{.callout-warning}
-## Copy Machine Maintenance Costs
+## Store Floor Area and Monthly Revenue
 
-A researcher finds a significant relationship between the age of a copy machine (years) and its monthly maintenance cost (dollars). The regression equation is $\hat{y} = 55.57 + 8.13x$. Find the standard error of the estimate.
+A retail analyst collects the following data for six branches of a bubble-tea chain and determines that there is a significant relationship between a store's floor area and its average monthly revenue. The regression equation is $y' = 25 + 5x$. Find the standard error of the estimate.
 
-| Machine | Age x | Cost y |
-|---------|-------|--------|
-| A | 1 | $62 |$
-| B | 2 | $78 |$
-| C | 3 | $70 |$
-| D | 4 | $90 |$
-| E | 4 | $93 |$
-| F | 6 | $103 |$
+```
+Branch                              A      B      C      D      E      F
+Floor area, x (ping)                8     10     12     14     16     18
+Monthly revenue, y (NT$10,000)     70     75     80     90    105    120
+```
+
+*(hypothetical data)*
+
+Back to [Example 10-13](#example-10-13) and [Example 10-14](#example-10-14)
 :::
+
+---
 
 ## Example 10-12
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Steps 1 to 5 — build the table**
 
-Compute $\hat{y}$ and residuals for each observation:
-
-| x | y | $\hat{y}$ | $y - \hat{y}$ | $(y - \hat{y})^2$ |
-|---|---|-----------|----------------|---------------------|
-| 1 | 62 | 63.70 | −1.70 | 2.89 |
-| 2 | 78 | 71.83 | 6.17 | 38.07 |
-| 3 | 70 | 79.96 | −9.96 | 99.20 |
-| 4 | 90 | 88.09 | 1.91 | 3.65 |
-| 4 | 93 | 88.09 | 4.91 | 24.11 |
-| 6 | 103 | 104.35 | −1.35 | 1.82 |
-| | | | **$\sum$** | **169.74** |
-
-$$s_{est} = \sqrt{\frac{169.74}{6-2}} = \sqrt{42.44} \approx \boxed{6.51}$$
+| $x$ | $y$ | $y'$ | $y - y'$ | $(y - y')^2$ |
+|---|---|---|---|---|
+| 8 | 70 | 65 | 5 | 25 |
+| 10 | 75 | 75 | 0 | 0 |
+| 12 | 80 | 85 | $-5$ | 25 |
+| 14 | 90 | 95 | $-5$ | 25 |
+| 16 | 105 | 105 | 0 | 0 |
+| 18 | 120 | 115 | 5 | 25 |
+| | | | $\sum(y-y')^2$ | 100 |
 :::
+
+---
 
 ## Example 10-12
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Step 6 — substitute in the formula**
+
+$$s_{est} = \sqrt{\frac{\sum(y-y')^2}{n-2}} = \sqrt{\frac{100}{6-2}} = 5$$
 
 ```{r e10-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(1, 2, 3, 4, 4, 6)
-y <- c(62, 78, 70, 90, 93, 103)
+floor_area      <- c(8, 10, 12, 14, 16, 18)
+monthly_revenue <- c(70, 75, 80, 90, 105, 120)
+model_store     <- lm(monthly_revenue ~ floor_area)
 
-model3 <- lm(y ~ x)
-cat("Intercept a =", round(coef(model3)[1], 3), "\n")
-cat("Slope b =",     round(coef(model3)[2], 3), "\n")
+residuals_store <- resid(model_store)
 
-sest <- summary(model3)$sigma
-cat("Standard error of estimate s_est =", round(sest, 4), "\n")
-cat("r² =", round(summary(model3)$r.squared, 4), "\n")
+round(c(sse = sum(residuals_store^2),
+        s_est = sqrt(sum(residuals_store^2) / df.residual(model_store))), 3)
 ```
+
+The standard deviation of the observed values about the predicted values is **5**.
 :::
+
+---
+
+## Alternative Formula for $s_{est}$
+
+:::{.callout-important}
+## Alternative Method for Finding the Standard Error of the Estimate
+
+$$s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}$$
+
+**Step 1** Make a table with columns $x$, $y$, $xy$, $y^2$.
+
+**Step 2** Place the $x$ and $y$ values in the first two columns, the products $xy$ in the third and the squares $y^2$ in the fourth.
+
+**Step 3** Find the sum of the values in the $y$, $xy$ and $y^2$ columns.
+
+**Step 4** Identify $a$ and $b$ from the regression equation, substitute in the formula and evaluate.
+:::
+
+---
 
 ## Example 10-13 {#example-10-13}
 
 :::{.callout-warning}
-## Standard Error via Computational Formula
+## Store Floor Area and Monthly Revenue
 
-Using the shortcut formula and the data from [Example 10-12](#example-10-12) (where $\sum y^2$ = 42,186, $\sum y$ = 496, $\sum xy$ = 1778, a = 55.57, b = 8.13):
+Find the standard error of the estimate for the data in [Example 10-12](#example-10-12) by using the alternative formula. The equation of the regression line is $y' = 25 + 5x$.
+
+Back to [Example 10-14](#example-10-14)
 :::
+
+---
 
 ## Example 10-13
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Steps 1 to 3 — build the table**
 
-$$s_{est} = \sqrt{\frac{42186 - 55.57(496) - 8.13(1778)}{6-2}} \approx \boxed{6.48}$$
+| $x$ | $y$ | $xy$ | $y^2$ |
+|---|---|---|---|
+| 8 | 70 | 560 | 4,900 |
+| 10 | 75 | 750 | 5,625 |
+| 12 | 80 | 960 | 6,400 |
+| 14 | 90 | 1,260 | 8,100 |
+| 16 | 105 | 1,680 | 11,025 |
+| 18 | 120 | 2,160 | 14,400 |
+| | $\sum y = 540$ | $\sum xy = 7370$ | $\sum y^2 = 50{,}450$ |
+:::
+
+---
+
+## Example 10-13
+
+:::{.callout-tip}
+## Solution
+
+**Step 4 — substitute and solve**
+
+$$s_{est} = \sqrt{\frac{50{,}450 - (25)(540) - (5)(7370)}{6-2}} = \sqrt{\frac{100}{4}} = 5$$
 
 ```{r e10-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(1, 2, 3, 4, 4, 6)
-y <- c(62, 78, 70, 90, 93, 103)
-model3 <- lm(y ~ x)
-a <- coef(model3)[1]; b <- coef(model3)[2]
-sest_shortcut <- sqrt((sum(y^2) - a*sum(y) - b*sum(x*y)) / (length(y) - 2))
-cat("s_est (shortcut formula) =", round(sest_shortcut, 4), "\n")
+intercept <- coef(model_store)[["(Intercept)"]]
+slope     <- coef(model_store)[["floor_area"]]
+
+alternative_s_est <- sqrt((sum(monthly_revenue^2) -
+                           intercept * sum(monthly_revenue) -
+                           slope * sum(floor_area * monthly_revenue)) /
+                          df.residual(model_store))
+
+round(alternative_s_est, 3)
 ```
 
-*(Small discrepancy due to rounding in a and b.)*
+The alternative formula is algebraically the same expression, so it returns exactly the value found in [Example 10-12](#example-10-12), $s_{est} = 5$.
 :::
 
-## Prediction Interval
+---
 
-:::{.callout-note}
-A **prediction interval** provides a range within which a future individual y value is expected to fall for a given x:
+## Formula for the Prediction Interval
 
-$$\hat{y} \pm t_{\alpha/2} \cdot s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{X})^2}{n\sum x^2 - (\sum x)^2}}$$
+:::{.callout-important}
+## Prediction Interval about a Value $y'$
 
-with $d.f. = n - 2$
+$$y' - t_{\alpha/2}\, s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{x})^2}{n\sum x^2 - (\sum x)^2}} < y < y' + t_{\alpha/2}\, s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{x})^2}{n\sum x^2 - (\sum x)^2}}$$
+
+with $\text{d.f.} = n - 2$.
+
+**Step 1** Find $\sum x$, $\sum x^2$ and $\bar{x}$. **Step 2** Find $y'$ for the specific $x$ value. **Step 3** Find $s_{est}$. **Step 4** Substitute in the formula and evaluate.
 :::
+
+---
 
 ## Example 10-14 {#example-10-14}
 
 :::{.callout-warning}
-## 95% Prediction Interval
+## Store Floor Area and Monthly Revenue
 
-For the copy machine data, find the 95% prediction interval for the monthly maintenance cost when the machine is **3 years old**.
+For the data in [Example 10-12](#example-10-12), find the **95% prediction interval** for the average monthly revenue of a branch with a floor area of **12 ping**.
 :::
+
+---
 
 ## Example 10-14
 
 :::{.callout-tip}
 ## Solution
 
-**Solve**
+**Step 1** $\sum x = 78$, $\sum x^2 = 1084$, $\bar{x} = 78/6 = 13$.
 
-Known: $\sum x = 20$, $\sum x^2 = 82$, $\bar{X} = 20/6 = 3.3$, $\hat{y}(3) = 79.96$, $s_{est} = 6.48$, $t_{0.025, 4} = 2.776$
+**Step 2** $y' = 25 + 5(12) = 85$.
 
-$$\text{SE factor} = \sqrt{1 + \frac{1}{6} + \frac{6(3-3.3)^2}{6(82)-20^2}} = \sqrt{1 + 0.167 + \frac{0.54}{92}} \approx 1.08$$
+**Step 3** $s_{est} = 5$, as shown in [Example 10-13](#example-10-13).
 
-$$79.96 \pm 2.776(6.48)(1.08) = 79.96 \pm 19.43$$
+**Step 4** With $t_{\alpha/2} = 2.776$ and $\text{d.f.} = 6 - 2 = 4$ for 95%, the square-root factor is
 
-$$\boxed{60.53 < y < 99.39}$$
+$$\sqrt{1 + \frac{1}{6} + \frac{6(12 - 13)^2}{6(1084) - 78^2}} = 1.087$$
+
+$$85 - (2.776)(5)(1.087) < y < 85 + (2.776)(5)(1.087)$$
+
+$$\mathbf{69.91 < y < 100.09}$$
 :::
+
+---
 
 ## Example 10-14
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Compute in R**
 
 ```{r e10-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(1, 2, 3, 4, 4, 6)
-y <- c(62, 78, 70, 90, 93, 103)
-model3 <- lm(y ~ x)
+n_stores   <- length(floor_area)
+t_critical <- qt(0.975, df = df.residual(model_store))
 
-pred_int <- predict(model3, newdata = data.frame(x = 3),
-                    interval = "prediction", level = 0.95)
-cat("Predicted y at x=3:", round(pred_int[1], 2), "\n")
-cat("95% Prediction Interval: (",
-    round(pred_int[2], 2), ",", round(pred_int[3], 2), ")\n")
+spread <- sqrt(1 + 1 / n_stores + n_stores * (12 - mean(floor_area))^2 /
+                 (n_stores * sum(floor_area^2) - sum(floor_area)^2))
+
+margin_of_error <- t_critical * sigma(model_store) * spread
+
+round(c(t = t_critical, factor = spread, margin = margin_of_error), 3)
+round(c(lower = 85 - margin_of_error, upper = 85 + margin_of_error), 2)
 ```
-
-R's `predict()` gives the interval (**60.36, 99.55**), slightly different from the hand calculation (60.53, 99.39) because the hand calculation uses rounded values of a, b, $s_{est}$, and the SE factor. We are 95% confident the actual maintenance cost for a 3-year-old machine falls in this interval.
 :::
 
-## Residual Plot
+---
+
+## Example 10-14
+
+:::{.callout-tip}
+## Solution
+
+**Check with `predict()`**
 
 ```{r e10-14-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- c(1, 2, 3, 4, 4, 6)
-y <- c(62, 78, 70, 90, 93, 103)
-model3 <- lm(y ~ x)
-
-df_resid <- data.frame(x, residuals = resid(model3))
-ggplot(df_resid, aes(x = x, y = residuals)) +
-  geom_point(size = 3) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  labs(title = "Residual Plot", x = "Age (years)", y = "Residual") +
-  theme_minimal()
+round(predict(model_store, data.frame(floor_area = 12),
+              interval = "prediction", level = 0.95), 2)
 ```
 
-If residuals are randomly scattered around 0, the linear model is appropriate.
+`predict()` returns the same interval, $69.91 < y < 100.09$. You can be **95% confident** that a branch with 12 ping of floor space has an average monthly revenue between $69.91$ and $100.09$ (in units of ten thousand NT dollars). The range is wide because $n = 6$ is small.
+:::
 
 # Section 10-4: Multiple Regression (Optional) {background-color="#2c4a6e"}
 
-## Multiple Regression Overview
+## From Simple to Multiple Regression
 
-:::{.callout-note}
-**Multiple regression** uses two or more independent variables to predict a single dependent variable:
+In simple linear regression the equation contains one independent variable $x$ and one dependent variable $y'$, written $y' = a + bx$. In **multiple regression** there are several independent variables and one dependent variable.
 
-$$\hat{y} = a + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k$$
+:::{.callout-important}
+## General Form of the Multiple Regression Equation
 
-- Each $b_i$ is a **partial regression coefficient**: the change in y for a one-unit increase in $x_i$, holding all other x's constant.
+The general form of the multiple regression equation with $k$ independent variables is
 
-**Assumptions:**
-1. Normality of y values for each x
-2. Equal variances (homoscedasticity)
-3. Linearity
-4. Non-multicollinearity (independent variables not highly correlated)
-5. Independence of observations
+$$y' = a + b_1x_1 + b_2x_2 + \cdots + b_kx_k$$
+
+With two independent variables it is $y' = a + b_1x_1 + b_2x_2$; with three, $y' = a + b_1x_1 + b_2x_2 + b_3x_3$.
 :::
 
-## Multiple Regression: State Board Scores
+Multiple regression is used when a statistician thinks several independent variables contribute to the variation of the dependent variable; it increases the accuracy of predictions over one independent variable alone.
 
-:::{.callout-warning}
-## State Board Scores
-
-A nursing instructor wants to predict a student's state board score (y) from GPA ($x_1$) and age ($x_2$). Data for 5 students:
-
-| Student | GPA $x_1$ | Age $x_2$ | Score y |
-|---------|--------|--------|---------|
-| A | 3.2 | 22 | 550 |
-| B | 2.7 | 27 | 570 |
-| C | 2.5 | 24 | 525 |
-| D | 3.4 | 28 | 670 |
-| E | 2.2 | 23 | 490 |
-
-Find the multiple regression equation.
-:::
-
-## Multiple Regression: State Board Scores
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
-
-```{r e10-mr-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-gpa   <- c(3.2, 2.7, 2.5, 3.4, 2.2)
-age   <- c(22, 27, 24, 28, 23)
-score <- c(550, 570, 525, 670, 490)
-
-model_mr <- lm(score ~ gpa + age)
-summary(model_mr)
-```
-:::
 ---
 
-$$\boxed{\hat{y} = -44.81 + 87.64 \cdot \text{GPA} + 14.533 \cdot \text{Age}}$$
+## Shipping Costs: the Data
 
-For a student with GPA = 3.0 and age = 25: $\hat{y} = -44.81 + 87.64(3.0) + 14.533(25) \approx \mathbf{581}$
+A courier company wishes to see whether the distance a parcel travels and its weight are related to the shipping cost quoted for it. Five recent international shipments are selected *(hypothetical data)*.
 
-## Predicting with the Multiple Regression Equation
-
-```{r e10-mr-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-new_student <- data.frame(gpa = 3.0, age = 25)
-pred_score  <- predict(model_mr, newdata = new_student)
-cat("Predicted state board score:", round(pred_score, 1), "\n")
+```
+Shipment                          A       B       C       D       E
+Distance, x1 (100 km)             4       9       6      13       8
+Weight, x2 (kg)                  25      15      21      33      31
+Shipping cost, y (NT dollars)  5400    4950    4750    8200    6900
 ```
 
-**Interpretation of coefficients:**
-- For each 1-point increase in GPA (holding age constant), the score increases by about **87.64 points**
-- For each 1-year increase in age (holding GPA constant), the score increases by about **14.53 points**
+The multiple regression equation obtained from the data using technology is
 
-## Multiple Correlation Coefficient R
+$$y' = 844.016 + 205.440x_1 + 142.098x_2$$
+
+For a parcel travelling $1{,}000$ km that weighs $28$ kg,
+
+$$y' = 844.016 + 205.440(10) + 142.098(28) \approx 6877$$
+
+---
+
+## Multiple Regression in R
+
+```{r s10-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+distance      <- c(4, 9, 6, 13, 8)
+weight        <- c(25, 15, 21, 33, 31)
+shipping_cost <- c(5400, 4950, 4750, 8200, 6900)
+
+model_shipping <- lm(shipping_cost ~ distance + weight)
+round(coef(model_shipping), 3)
+
+round(predict(model_shipping, data.frame(distance = 10, weight = 28)))
+```
+
+The predicted shipping cost is **6877** NT dollars.
+
+---
+
+## Partial Regression Coefficients
 
 :::{.callout-note}
-The **multiple correlation coefficient R** measures the strength of the relationship between all predictors and the dependent variable:
+## Partial Regression Coefficients
 
-$$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1 - r_{x_1x_2}^2}}$$
+In $y' = a + b_1x_1 + b_2x_2 + \cdots + b_kx_k$, the $x$'s are the independent variables and $a$ is more or less an intercept — with two independent variables the equation describes a **plane** rather than a line.
 
-- Range: 0 to 1 (never negative)
-- $R^2$ = **coefficient of multiple determination** (proportion of variation explained)
-- $1 - R^2$ = residual/error variation
+The $b$'s are called **partial regression coefficients**. Each $b$ represents the amount of change in $y'$ for **one unit of change in the corresponding $x$ value when the other $x$ values are held constant**.
 :::
+
+For $y' = 844.016 + 205.440x_1 + 142.098x_2$: each additional 100 km of distance raises the predicted shipping cost by $205.440$ NT dollars with weight held constant, and each additional kilogram raises it by $142.098$ NT dollars with distance held constant.
+
+---
+
+## Assumptions for Multiple Regression
+
+:::{.callout-important}
+## Five Assumptions
+
+1. For any specific value of the independent variable, the values of the $y$ variable are **normally distributed** (the *normality* assumption).
+2. The variances (or standard deviations) for the $y$ variables are the **same for each value** of the independent variable (the *equal-variance* assumption).
+3. There is a **linear relationship** between the dependent variable and the independent variables (the *linearity* assumption).
+4. The independent variables are **not correlated** (the *nonmulticollinearity* assumption).
+5. The values for the $y$ variables are **independent** (the *independence* assumption).
+:::
+
+---
+
+## The Multiple Correlation Coefficient $R$
+
+:::{.callout-note}
+## Multiple Correlation Coefficient
+
+The strength of the relationship between the independent variables and the dependent variable is measured by the **multiple correlation coefficient**, symbolized by $R$.
+
+The value of $R$ can range from $0$ to $+1$ and **can never be negative**. The closer to $+1$, the stronger the relationship. $R$ takes into account all the independent variables and is **always higher than the individual correlation coefficients**.
+:::
+
+---
+
+## Formula for the Multiple Correlation Coefficient
+
+:::{.callout-important}
+## Formula for $R$ with Two Independent Variables
+
+$$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1} \cdot r_{yx_2} \cdot r_{x_1x_2}}{1 - r_{x_1x_2}^2}}$$
+
+where $r_{yx_1}$ is the correlation coefficient for $y$ and $x_1$, $r_{yx_2}$ is the correlation coefficient for $y$ and $x_2$, and $r_{x_1x_2}$ is the correlation coefficient for $x_1$ and $x_2$.
+:::
+
+---
 
 ## Example 10-15 {#example-10-15}
 
 :::{.callout-warning}
-## Multiple Correlation Coefficient
+## Shipping Costs
 
-For the state board score data, find R given:
-$r_{yx_1} = 0.845$, $r_{yx_2} = 0.791$, $r_{x_1x_2} = 0.371$
+For the data on the five international shipments, find the value of $R$. The values of the correlation coefficients are $r_{yx_1} = 0.744$, $r_{yx_2} = 0.890$ and $r_{x_1x_2} = 0.381$.
+
+Back to [Example 10-16](#example-10-16) and [Example 10-17](#example-10-17)
 :::
+
+---
 
 ## Example 10-15
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
-
-$$R = \sqrt{\frac{0.845^2 + 0.791^2 - 2(0.845)(0.791)(0.371)}{1 - 0.371^2}} = \sqrt{\frac{0.8438}{0.8624}} \approx \boxed{0.989}$$
+$$R = \sqrt{\frac{(0.744)^2 + (0.890)^2 - 2(0.744)(0.890)(0.381)}{1 - 0.381^2}} = \sqrt{\frac{0.841070}{0.854839}} = \sqrt{0.983893} = 0.992$$
 
 ```{r e10-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ryx1 <- 0.845; ryx2 <- 0.791; rx1x2 <- 0.371
-R <- sqrt((ryx1^2 + ryx2^2 - 2*ryx1*ryx2*rx1x2) / (1 - rx1x2^2))
-cat("Multiple correlation coefficient R =", round(R, 4), "\n")
-cat("Coefficient of multiple determination R² =", round(R^2, 4), "\n")
+r_cost_distance   <- cor(shipping_cost, distance)
+r_cost_weight     <- cor(shipping_cost, weight)
+r_distance_weight <- cor(distance, weight)
+
+round(c(r_yx1 = r_cost_distance, r_yx2 = r_cost_weight,
+        r_x1x2 = r_distance_weight), 3)
+
+multiple_r <- sqrt((r_cost_distance^2 + r_cost_weight^2 -
+                    2 * r_cost_distance * r_cost_weight * r_distance_weight) /
+                   (1 - r_distance_weight^2))
+
+round(c(formula = multiple_r,
+        from_model = sqrt(summary(model_shipping)$r.squared)), 3)
 ```
+
+The correlation between the distance and weight of a parcel and its shipping cost is **0.992**: a strong relationship, since $R$ is close to $1.00$. It is higher than either individual coefficient, $0.744$ and $0.890$.
 :::
 
-## F Test for Significance of R
+---
+
+## Coefficient of Multiple Determination
 
 :::{.callout-note}
-Test $H_0: \rho = 0$ vs $H_1: \rho \neq 0$ using:
+## $R^2$ and the Residual Variation
 
-$$F = \frac{R^2/k}{(1-R^2)/(n-k-1)}$$
+As with simple regression, $R^2$ is the **coefficient of multiple determination**: the amount of variation explained by the regression model.
 
-- d.f.N. = k &nbsp;&nbsp; d.f.D. = n − k − 1
-
-where k = number of independent variables, n = number of data groups.
+The expression $1 - R^2$ represents the amount of unexplained variation, called the **error** or **residual variation**.
 :::
+
+In [Example 10-15](#example-10-15), $R = 0.992$ and, to four decimal places, $R^2 = 0.9832$, so $1 - R^2 = 0.0168$.
+
+---
+
+## Testing the Significance of $R$
+
+:::{.callout-important}
+## $F$ Test for Significance of $R$
+
+The hypotheses are $H_0: \rho = 0$ and $H_1: \rho \neq 0$, where $\rho$ is the population correlation coefficient for multiple correlation. The test statistic is
+
+$$F = \frac{R^2 / k}{(1 - R^2)/(n - k - 1)}$$
+
+where $n$ is the number of data groups $(x_1, x_2, \ldots, y)$ and $k$ is the number of independent variables.
+
+The degrees of freedom are $\text{d.f.N.} = n - k$ and $\text{d.f.D.} = n - k - 1$.
+:::
+
+---
 
 ## Example 10-16 {#example-10-16}
 
 :::{.callout-warning}
-## F Test for Multiple Correlation
+## Shipping Costs
 
-Test the significance of R = 0.989 at $\alpha$ = 0.05 for the state board data (n = 5, k = 2).
+Test the significance of the $R$ obtained in [Example 10-15](#example-10-15) at $\alpha = 0.05$.
 :::
+
+---
 
 ## Example 10-16
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+Here $k = 2$ and $n - k - 1 = 2$, so the two divisors cancel and
 
-$$F = \frac{0.989^2/2}{(1-0.989^2)/(5-2-1)} = \frac{0.978121/2}{0.021879/2} = \frac{0.489061}{0.010940} \approx 44.71$$
+$$F = \frac{R^2/k}{(1-R^2)/(n-k-1)} = \frac{R^2}{1-R^2} = 58.6$$
 
-Critical value (Table H, d.f.N. = 2, d.f.D. = 2, $\alpha$ = 0.05): **19.00**
+The critical value obtained from Table A-7 with $\alpha = 0.05$, $\text{d.f.N.} = n - k = 3$ and $\text{d.f.D.} = n - k - 1 = 2$ is $19.16$.
 
-44.71 > 19.00 → **Reject $H_0$** — significant relationship exists.
+Hence, the decision is to **reject the null hypothesis** and conclude that there is a **significant relationship** among the distance a parcel travels, its weight and its shipping cost.
+:::
+
+---
+
+## Example 10-16
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
 
 ```{r e10-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-R2 <- 0.989^2; n <- 5; k <- 2
-F_stat <- (R2/k) / ((1-R2)/(n-k-1))
-cv <- qf(0.95, df1 = k, df2 = n-k-1)
-cat("F =", round(F_stat, 2), "  Critical value =", round(cv, 2), "\n")
-cat("Decision:", ifelse(F_stat > cv, "Reject H0", "Do not reject H0"), "\n")
+n_shipments <- length(shipping_cost)
+k_variables <- 2
+
+r_squared_shipping <- summary(model_shipping)$r.squared
+f_statistic <- (r_squared_shipping / k_variables) /
+  ((1 - r_squared_shipping) / (n_shipments - k_variables - 1))
+
+round(r_squared_shipping, 4)
+round(f_statistic, 2)
+round(qf(0.95, df1 = n_shipments - k_variables,
+         df2 = n_shipments - k_variables - 1), 2)
 ```
+
+$F = 58.6 > 19.16$, so reject $H_0$.
 :::
+
+---
+
+## Adjusted $R^2$
+
+:::{.callout-note}
+## Why Adjust $R^2$
+
+Since the value of $R^2$ depends on $n$ (the number of data pairs) and $k$ (the number of variables), statisticians also calculate an **adjusted $R^2$**, denoted $R^2_{adj}$, which is based on the number of degrees of freedom.
+:::
+
+:::{.callout-important}
+## Formula for the Adjusted $R^2$
+
+$$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
+:::
+
+The adjusted $R^2$ is **smaller than $R^2$** and takes into account that when $n$ and $k$ are approximately equal, $R$ may be artificially high because of sampling error rather than a true relationship. Both $R^2$ and $R^2_{adj}$ are usually reported.
+
+---
 
 ## Example 10-17 {#example-10-17}
 
 :::{.callout-warning}
-## Adjusted $R^2$
+## Shipping Costs
 
-Calculate the adjusted $R^2$ for R = 0.989, n = 5, k = 2.
-
-The **adjusted $R^2$** corrects for the number of predictors and sample size:
-
-$$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
-
-It is always $\leq R^2$ and penalizes for adding unnecessary predictors.
+Calculate the adjusted $R^2$ for the data in [Example 10-15](#example-10-15). The value for $R$ is $0.992$, so $R^2 = 0.9832$.
 :::
+
+---
 
 ## Example 10-17
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
-
-$$R^2_{adj} = 1 - \frac{(1-0.989^2)(5-1)}{5-2-1} = 1 - \frac{(0.022)(4)}{2} = 1 - 0.044 = \boxed{0.956}$$
+$$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1} = 1 - \frac{(1 - 0.9832)(5-1)}{5-2-1} = 1 - 0.0336 = 0.966$$
 
 ```{r e10-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-R2 <- 0.989^2; n <- 5; k <- 2
-R2_adj <- 1 - (1-R2)*(n-1)/(n-k-1)
-cat("R² =", round(R2, 4), "\n")
-cat("Adjusted R² =", round(R2_adj, 4), "\n")
+adjusted_r_squared <- 1 - (1 - r_squared_shipping) * (n_shipments - 1) /
+  (n_shipments - k_variables - 1)
+
+round(c(formula = adjusted_r_squared,
+        from_model = summary(model_shipping)$adj.r.squared), 3)
 ```
+
+When the number of data groups and the number of independent variables are accounted for, the adjusted multiple coefficient of determination is **0.966**.
+:::
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 10 Vocabulary
+
+adjusted $R^2$ · coefficient of determination · coefficient of multiple determination · correlation · correlation coefficient · dependent variable · extrapolation · independent variable · influential point or observation · lurking variable · marginal change · multiple correlation coefficient · multiple regression · negative linear relationship · Pearson product moment correlation coefficient (PPMC) · population correlation coefficient · positive linear relationship · prediction interval · regression line · residual · residual plot · scatter plot · standard error of the estimate
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Correlation and the Regression Line
+
+The correlation coefficient:
+
+$$r = \frac{n(\sum xy) - (\sum x)(\sum y)}{\sqrt{[n(\sum x^2) - (\sum x)^2][n(\sum y^2) - (\sum y)^2]}}$$
+
+The $t$ test for the correlation coefficient, $\text{d.f.} = n - 2$:
+
+$$t = r\sqrt{\frac{n-2}{1-r^2}}$$
+
+The regression line equation $y' = a + bx$, where
+
+$$a = \frac{(\sum y)(\sum x^2) - (\sum x)(\sum xy)}{n(\sum x^2) - (\sum x)^2} \qquad b = \frac{n(\sum xy) - (\sum x)(\sum y)}{n(\sum x^2) - (\sum x)^2}$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Variation, Prediction and Multiple Regression
+
+The standard error of the estimate:
+
+$$s_{est} = \sqrt{\frac{\sum(y-y')^2}{n-2}} \qquad \text{or} \qquad s_{est} = \sqrt{\frac{\sum y^2 - a\sum y - b\sum xy}{n-2}}$$
+
+The prediction interval for a value $y'$, $\text{d.f.} = n - 2$:
+
+$$y' \pm t_{\alpha/2}\, s_{est} \sqrt{1 + \frac{1}{n} + \frac{n(x - \bar{x})^2}{n\sum x^2 - (\sum x)^2}}$$
+
+The multiple correlation coefficient, the $F$ test for $R$ with $\text{d.f.N.} = n - k$ and $\text{d.f.D.} = n - k - 1$, and the adjusted $R^2$:
+
+$$R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1} r_{yx_2} r_{x_1x_2}}{1 - r_{x_1x_2}^2}} \qquad F = \frac{R^2/k}{(1-R^2)/(n-k-1)} \qquad R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
 :::
 
 ## Key Takeaways
 
-| Concept | Formula | Purpose |
-|--------|--------------|---------|
-| Correlation coefficient | $r = \frac{n\sum xy - \sum x \sum y}{\sqrt{[n\sum x^2 - (\sum x)^2][n\sum y^2 - (\sum y)^2]}}$ | Strength & direction of linear relationship |
-| t test for r | $t = r\sqrt{\frac{n-2}{1-r^2}}$, d.f. = n−2 | Test if r is significant |
-| Regression line | $\hat{y} = a + bx$ | Predict y from x |
-| Coefficient of determination | $r^2$ | % of variation in y explained by x |
+:::{.callout-important}
+- A **scatter plot** of the ordered pairs $(x, y)$ shows whether the relationship between the independent variable $x$ and the dependent variable $y$ is positive linear, negative linear, curvilinear or nonexistent
+- The **linear correlation coefficient** $r$ measures the strength and direction of a linear relationship, $-1 \leq r \leq 1$; it is unitless, unchanged when $x$ and $y$ are interchanged or rescaled, and sensitive to outliers; round $r$ to three decimal places
+- Test $H_0: \rho = 0$ against $H_1: \rho \neq 0$ with $t = r\sqrt{(n-2)/(1-r^2)}$ and $\text{d.f.} = n - 2$ using Table A-5, with the P-value method, or by comparing $r$ directly with the two-tailed critical values of Table A-8
+- A significant $r$ does **not** prove causation: the five possibilities are direct cause and effect, reverse cause and effect, a third (lurking) variable, a complexity of interrelationships, and coincidence
+- The **regression line** $y' = a + bx$ is the line of best fit found by the method of least squares; round $a$ and $b$ to three decimal places, and compute it only when $r$ is significant
+:::
 
----
+## Key Takeaways
 
-| Concept | Formula | Purpose |
-|--------|--------------|---------|
-| Standard error of estimate | $s_{est} = \sqrt{\frac{\sum(y-\hat{y})^2}{n-2}}$ | Accuracy of predictions |
-| Prediction interval | $\hat{y} \pm t_{\alpha/2} \cdot s_{est} \cdot \text{SE factor}$ | Range for individual y |
-| Multiple R | $R = \sqrt{\frac{r_{yx_1}^2 + r_{yx_2}^2 - 2r_{yx_1}r_{yx_2}r_{x_1x_2}}{1-r_{x_1x_2}^2}}$ | Multiple predictors |
+:::{.callout-important}
+- The slope $b$ is the **marginal change** in $y$ per one-unit change in $x$; **extrapolation** beyond the observed $x$ values is unreliable, and influential points can pull the line toward themselves
+- Total variation $=$ explained variation $+$ unexplained variation; the **residual plot** shows whether the line is suitable for predictions, and $r^2$ is the proportion of variation explained, with $1 - r^2$ the **coefficient of nondetermination**
+- The **standard error of the estimate** $s_{est}$ measures the spread of the observed $y$ values about the regression line and is used to build a **prediction interval** with $\text{d.f.} = n - 2$
+- In **multiple regression** $y' = a + b_1x_1 + \cdots + b_kx_k$ the $b$'s are partial regression coefficients; $R$ is never negative and is always higher than the individual correlation coefficients, its significance is tested with an $F$ test, and $R^2_{adj}$ corrects $R^2$ for $n$ and $k$
+:::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

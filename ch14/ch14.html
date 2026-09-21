@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,29 +227,70 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<p>Chapter 14 covers how researchers <strong>sample</strong>, how <strong>surveys</strong> bias results, <strong>simulation</strong> with random numbers, and <strong>big data</strong>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Topics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>14-1</td>
+<td>Why sample; unbiased vs.&nbsp;biased samples; four kinds of bias; the four basic sampling methods and others</td>
+</tr>
+<tr class="even">
+<td>14-2</td>
+<td>Survey types; five faulty-question mistakes; other sources of response bias; open- vs.&nbsp;closed-ended items</td>
+</tr>
+<tr class="odd">
+<td>14-3</td>
+<td>Simulation; the Monte Carlo method in five steps; random numbers</td>
+</tr>
+<tr class="even">
+<td>14-4</td>
+<td>Big data; the 3 V’s and variability; structured vs.&nbsp;unstructured data</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="chapter-objectives" class="slide level2">
+<h2>Chapter Objectives</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Why Sampling and Simulation?</strong></p>
+<p><strong>After completing this chapter, you should be able to</strong></p>
 </div>
 <div class="callout-content">
-<p>When populations are too large to study completely, researchers rely on <strong>samples</strong> to draw valid inferences. And when real-world experiments are too dangerous, expensive, or time-consuming, <strong>simulation</strong> provides a safe, cost-effective alternative.</p>
-<p>Random numbers are the engine behind both techniques.</p>
+<ol type="1">
+<li>Demonstrate a knowledge of the four basic sampling methods.</li>
+<li>Recognize faulty questions on a survey and other factors that can bias responses.</li>
+<li>Solve problems, using simulation techniques.</li>
+<li>Explain the basic concepts of big data.</li>
+</ol>
 </div>
 </div>
 </div>
-<p><strong>Topics covered:</strong></p>
+</section>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
+<p>Pollsters such as Gallup and Nielsen, and the U.S. Census Bureau, gather information by selecting <strong>samples</strong> from well-defined populations. As in Chapter 1, the subjects in the sample are a subgroup of the subjects in the population, and the sampling methods used to choose them rely on <strong>random numbers</strong>.</p>
 <ul>
-<li><strong>14-1:</strong> Common Sampling Techniques</li>
-<li><strong>14-2:</strong> Surveys and Questionnaire Design</li>
-<li><strong>14-3:</strong> Simulation Techniques and the Monte Carlo Method</li>
+<li>Since many statistical studies use surveys and questionnaires, Section 14-2 looks at how those instruments can go wrong.</li>
+<li>Random numbers are also used in <strong>simulation</strong>: instead of studying a real-life situation that may be costly or dangerous, researchers create a similar situation in a laboratory or on a computer and study that instead.</li>
+<li>Section 14-4 introduces <strong>big data</strong>, the very large, fast-growing and highly varied data sets that computers now make it possible to collect and analyze.</li>
 </ul>
 </section>
 <section>
@@ -257,61 +298,78 @@ Yu-You Liou
 <h1>Section 14-1: Common Sampling Techniques</h1>
 
 </section>
-<section id="why-use-samples" class="slide level2">
-<h2>Why Use Samples?</h2>
+<section id="populations-samples-and-randomness" class="slide level2">
+<h2>Populations, Samples and Randomness</h2>
+<p>In Chapter 1 a <strong>population</strong> was defined as all subjects (human or otherwise) under study. Since some populations are very large, researchers cannot use every single subject, so a <strong>sample</strong> must be selected. Technically any subgroup of the population can be called a sample, but for researchers to make valid inferences about population characteristics, the sample must be <strong>random</strong>.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Three Reasons to Sample</strong></p>
+<p><strong>Random Sample</strong></p>
 </div>
 <div class="callout-content">
-<ol type="1">
-<li><strong>Saves time and money</strong> — studying an entire population is often impractical</li>
-<li><strong>Enables otherwise impossible research</strong> — e.g., testing cable strength to destruction would leave nothing to sell; blood cholesterol analysis cannot use every drop</li>
-<li><strong>Allows more depth</strong> — smaller samples enable more detailed interviews and richer data collection</li>
-</ol>
-<p><strong>Key requirement:</strong> A sample must be <strong>random</strong> — every member of the population must have an equal chance of selection. Random samples are <strong>unbiased</strong>; non-random samples are <strong>biased</strong>.</p>
+<p>For a sample to be a <strong>random sample</strong>, every member of the population must have an equal chance of being selected.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="four-basic-sampling-methods" class="slide level2">
-<h2>Four Basic Sampling Methods</h2>
+<section id="unbiased-and-biased-samples" class="slide level2">
+<h2>Unbiased and Biased Samples</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Overview</strong></p>
+<p><strong>Unbiased Sample and Biased Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>When a sample is chosen at random from a population, it is said to be an <strong>unbiased sample</strong> — the sample is, for the most part, representative of the population.</p>
+<p>If a sample is selected incorrectly, it may be a <strong>biased sample</strong>. Samples are biased when some type of <strong>systematic error</strong> has been made in the selection of the subjects.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="four-types-of-biased-samples" class="slide level2">
+<h2>Four Types of Biased Samples</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ways a Sample Can Become Biased</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
+<colgroup>
+<col style="width: 46%">
+<col style="width: 53%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Method</th>
-<th>Core Idea</th>
+<th>Type of bias</th>
+<th>When it occurs</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Random</strong></td>
-<td>Use random numbers to select subjects</td>
+<td><strong>Sampling or selection bias</strong></td>
+<td>Some subjects are more likely to be included in the survey or study than others</td>
 </tr>
 <tr class="even">
-<td><strong>Systematic</strong></td>
-<td>Select every <span class="math inline">k</span>th element after a random start</td>
+<td><strong>Nonresponse bias</strong></td>
+<td>Subjects who do <strong>not</strong> respond to a survey question would answer it differently than those who do respond</td>
 </tr>
 <tr class="odd">
-<td><strong>Stratified</strong></td>
-<td>Divide into homogeneous subgroups; sample each</td>
+<td><strong>Response or interviewer bias</strong></td>
+<td>The subject gives a different response than the respondent truly believes</td>
 </tr>
 <tr class="even">
-<td><strong>Cluster</strong></td>
-<td>Select an intact, pre-existing group as the sample</td>
+<td><strong>Volunteer bias</strong></td>
+<td>Volunteers are used, and they may be more interested in the survey or study and so answer or participate differently than randomly selected subjects</td>
 </tr>
 </tbody>
 </table>
@@ -319,23 +377,106 @@ Yu-You Liou
 </div>
 </div>
 </section>
-<section id="random-sampling" class="slide level2">
-<h2>Random Sampling</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="why-a-sample-is-used" class="slide level2">
+<h2>Why a Sample Is Used</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Random Sampling</strong></p>
+<p><strong>Three Reasons for Sampling</strong></p>
 </div>
 <div class="callout-content">
-<p>Each element of the population is numbered, and random numbers are used to select the sample.</p>
-<p><strong>Common mistakes to avoid:</strong> - Interviewing “people on the street” (coverage bias) - Phone-in polls (self-selection bias) - Mail surveys (non-response bias)</p>
-<p><strong>Correct method:</strong> Use a random number table or computer-generated random numbers.</p>
+<ol type="1">
+<li><strong>It saves the researcher time and money.</strong></li>
+<li><strong>It enables the researcher to get information that might not be obtainable otherwise.</strong> A researcher cannot analyze every drop of a person’s blood for cholesterol without killing the person, and a company cannot test every cable to destruction, since it would then have no cables left to sell.</li>
+<li><strong>It enables the researcher to get more detailed information about a particular subject.</strong> With only a few people surveyed, in-depth interviews are possible.</li>
+</ol>
+<p>This does <strong>not</strong> mean that the smaller the sample, the better — the opposite is true. In general, larger samples, if correct sampling techniques are used, give more reliable information about the population.</p>
 </div>
 </div>
 </div>
+</section>
+<section id="a-representative-sample" class="slide level2">
+<h2>A Representative Sample</h2>
+<p>It would be ideal if the sample were a perfect miniature of the population in all characteristics. This ideal is impossible to achieve, because there are so many human traits (height, weight, IQ, and so on). The best that can be done is to select a sample that is representative with respect to <strong>some</strong> characteristics, preferably those pertaining to the study.</p>
+<p>For example, if one-half of the population subjects are female, then approximately one-half of the sample subjects should be female. Likewise, other characteristics such as age, socioeconomic status and IQ should be represented proportionately.</p>
+<p>To obtain unbiased samples, statisticians have developed several basic sampling methods. The most common are <strong>random</strong>, <strong>systematic</strong>, <strong>stratified</strong> and <strong>cluster</strong> sampling.</p>
+</section>
+<section id="random-sampling" class="slide level2">
+<h2>Random Sampling</h2>
+<p>A <strong>random sample</strong> is obtained by using methods such as random numbers, which can be generated from calculators, computers or tables. In random sampling the basic requirement is that, for a sample of size <span class="math inline">n</span>, <strong>all possible samples of this size have an equal chance of being selected</strong> from the population.</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Three commonly used methods are <strong>not</strong> random sampling, because not all possible samples of a specific size have an equal chance of being selected:</p>
+<ol type="1">
+<li>Asking “the person on the street” — many people are at home or at work while the interview is conducted and so have no chance of being selected.</li>
+<li>Asking a question on radio or television and having listeners or viewers call in — only those who feel strongly may respond, and many never heard or saw the program.</li>
+<li>Asking people to respond by mail or email — only those who are concerned and who have the time are likely to respond.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="two-correct-methods" class="slide level2">
+<h2>Two Correct Methods</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>How to Select a Random Sample</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Method 1.</strong> Number each element of the population, place the numbers on cards, put the cards in a hat or fishbowl, mix them, and select the sample by drawing the cards. The numbers must be <strong>well mixed</strong>; on occasion the numbers chosen turn out to be those that were placed in the bowl last.</p>
+<p><strong>Method 2 (preferred).</strong> Use a <strong>table of random numbers</strong>, such as Table A-1 in Appendix A, or numbers generated by a computer.</p>
+<p>Random samples can be selected <strong>with</strong> or <strong>without replacement</strong>. If the same member of the population cannot be used more than once in the study, the sample is selected <strong>without replacement</strong> — once a random number is selected, it cannot be used again.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="table-14-1-part-of-table-a-1-the-table-of-random-numbers" class="slide level2">
+<h2>Table 14-1: Part of Table A-1, the Table of Random Numbers</h2>
+<pre><code>60035  97320  62543  61404  94367  07080  66112  56180  15813  15978
+64072  76075  91393  88948  99244  60809  10784  36380  05721  24481
+14914  85608  96871  74743  73692  53664  67727  21440  13326  98590
+93723  60571  17559  96844  88678  89256  75120  62384  77414  24023
+86656  43736  62752  53819  81674  43490  07850  61439  52300  55063
+31286  27544  44129  51107  53727  65479  09688  57355  20426  44527
+95519  78485  20269  64027  53229  59060  99269  12140  97864  31064
+78019  75498  79017  22157  22893  88109  57998  02582  34259  11405
+45487  22433  62809  98924  96769  24955  60283  16837  02070  22051
+64769  25684  33490  25168  34405  58272  90124  92954  43663  39556</code></pre>
+<p>The theory behind random numbers is that each digit, 0 through 9, has an equal probability of occurring: in every sequence of 10 digits, each digit has a probability of <span class="math inline">\dfrac{1}{10}</span> of occurring. This does <strong>not</strong> mean that every sequence of 10 digits contains each digit. It means that <strong>on average</strong> each digit will occur once — the digit 2 may occur 3 times in one sequence of 10 digits and not at all in later ones, averaging to a probability of <span class="math inline">\dfrac{1}{10}</span>.</p>
+</section>
+<section id="generating-random-numbers-in-r" class="slide level2">
+<h2>Generating Random Numbers in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb2-2"><a href=""></a><span class="fu">matrix</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">size =</span> <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]    4    8    7    2    9    1    0    0    0     0
+[2,]    4    7    1    2    3    4    7    8    6     8
+[3,]    1    5    4    8    1    6    6    0    4     0
+[4,]    5    3    5    5    1    1    2    7    3     7
+[5,]    6    0    9    3    0    4    9    2    0     9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 15 21 12 48 31 28 43  9 22 27</code></pre>
+</div>
+</div>
+<p>Each digit 0 through 9 is equally likely, so the first call reproduces the behaviour of the random-number table. The second call draws ten numbers between 1 and 50 <strong>without replacement</strong>, which is what <code>sample()</code> does by default.</p>
 </section>
 <section id="example-14-1" class="slide level2">
 <h2>Example 14-1</h2>
@@ -345,10 +486,12 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>TV Show Interviews — Random Sample</strong></p>
+<p><strong>Auditing Convenience-Store Branches</strong></p>
 </div>
 <div class="callout-content">
-<p>A researcher producing a TV show can interview only <strong>10 governors</strong> from the 50 states. Select a random sample of 10 states using a random number table.</p>
+<p>A convenience-store chain operates <strong>50 branches</strong> in northern Taiwan and wants to send mystery shoppers to some of them. The audit budget covers only <strong>10 branches</strong>, and head office wants them chosen at random so that no district manager can predict who will be visited. <strong>Select a random sample of 10 branches from the 50.</strong> <em>(hypothetical data)</em></p>
+<p><em>Note: This answer is not unique.</em></p>
+<p>Back to <a href="#/example-14-2">Example 14-2</a></p>
 </div>
 </div>
 </div>
@@ -364,60 +507,20 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> Number the states 01–50 alphabetically (01 = Alabama, 02 = Alaska, …, 50 = Wyoming)</p>
-<p><strong>Step 2:</strong> Use the random number table. Start at a chosen point and read two-digit numbers:</p>
-<p>Selected numbers: <strong>27, 43, 34, 06, 13, 29, 01, 39, 23, 35</strong></p>
-<p>(Discard numbers &gt; 50 and duplicates; sample without replacement)</p>
-<p><strong>Step 3:</strong> Match to states:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>#</th>
-<th>State</th>
-<th></th>
-<th>#</th>
-<th>State</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>27</td>
-<td>Nebraska</td>
-<td></td>
-<td>29</td>
-<td>New Hampshire</td>
-</tr>
-<tr class="even">
-<td>43</td>
-<td>Texas</td>
-<td></td>
-<td>01</td>
-<td>Alabama</td>
-</tr>
-<tr class="odd">
-<td>34</td>
-<td>North Dakota</td>
-<td></td>
-<td>39</td>
-<td>Rhode Island</td>
-</tr>
-<tr class="even">
-<td>06</td>
-<td>Colorado</td>
-<td></td>
-<td>23</td>
-<td>Minnesota</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>Illinois</td>
-<td></td>
-<td>35</td>
-<td>Ohio</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Step 1.</strong> Number each branch from 1 to 50. Here the branches are numbered alphabetically by the district they serve.</p>
+<pre><code>01. Bade         14. Luzhou       27. Shilin       40. Wulai
+02. Bali         15. Luzhu        28. Shimen       41. Xindian
+03. Banqiao      16. Nangang      29. Shuangxi     42. Xinyi
+04. Beitou       17. Neihu        30. Shulin       43. Xinzhuang
+05. Daan         18. Pinglin      31. Songshan     44. Xizhi
+06. Datong       19. Pingxi       32. Taishan      45. Yangmei
+07. Daxi         20. Pingzhen     33. Tamsui       46. Yingge
+08. Gongliao     21. Ruifang      34. Taoyuan      47. Yonghe
+09. Guishan      22. Sanchong     35. Tucheng      48. Zhonghe
+10. Jinshan      23. Sanxia       36. Wanhua       49. Zhongli
+11. Keelung      24. Sanzhi       37. Wanli        50. Zhongshan
+12. Linkou       25. Shenkeng     38. Wenshan
+13. Longtan      26. Shiding      39. Wugu</code></pre>
 </div>
 </div>
 </div>
@@ -433,50 +536,190 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 2.</strong> Using the table of random numbers, find a starting point. Close your eyes and place your finger anywhere on the table. Here the finger lands on <strong>62543</strong>, the first number in the third column. Use the <strong>last two digits</strong>, 4 and 3, so the first random number is <strong>43</strong>.</p>
+<p>Continue down the column. The next number is 91393, but 93 is beyond 1 through 50, so skip it. Keep going until the column ends, then start at the top of the next column. If the same number appears twice, skip it: 74743 gives 43 again, which is already in the sample.</p>
+<p>The ten random numbers are <span class="math display">43,\ 29,\ 17,\ 09,\ 04,\ 48,\ 44,\ 19,\ 07,\ 27</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-1-3" class="slide level2">
+<h2>Example 14-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3.</strong> These correspond to the following branches, which the mystery shoppers will visit:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number</th>
+<th>Branch</th>
+<th style="text-align: center;">Number</th>
+<th>Branch</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">43</td>
+<td>Xinzhuang</td>
+<td style="text-align: center;">48</td>
+<td>Zhonghe</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">29</td>
+<td>Shuangxi</td>
+<td style="text-align: center;">44</td>
+<td>Xizhi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">17</td>
+<td>Neihu</td>
+<td style="text-align: center;">19</td>
+<td>Pingxi</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">09</td>
+<td>Guishan</td>
+<td style="text-align: center;">07</td>
+<td>Daxi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">04</td>
+<td>Beitou</td>
+<td style="text-align: center;">27</td>
+<td>Shilin</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-1-4" class="slide level2">
+<h2>Example 14-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Same selection in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>states <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Alabama"</span>,<span class="st">"Alaska"</span>,<span class="st">"Arizona"</span>,<span class="st">"Arkansas"</span>,<span class="st">"California"</span>,</span>
-<span id="cb1-2"><a href=""></a>            <span class="st">"Colorado"</span>,<span class="st">"Connecticut"</span>,<span class="st">"Delaware"</span>,<span class="st">"Florida"</span>,<span class="st">"Georgia"</span>,</span>
-<span id="cb1-3"><a href=""></a>            <span class="st">"Hawaii"</span>,<span class="st">"Idaho"</span>,<span class="st">"Illinois"</span>,<span class="st">"Indiana"</span>,<span class="st">"Iowa"</span>,</span>
-<span id="cb1-4"><a href=""></a>            <span class="st">"Kansas"</span>,<span class="st">"Kentucky"</span>,<span class="st">"Louisiana"</span>,<span class="st">"Maine"</span>,<span class="st">"Maryland"</span>,</span>
-<span id="cb1-5"><a href=""></a>            <span class="st">"Massachusetts"</span>,<span class="st">"Michigan"</span>,<span class="st">"Minnesota"</span>,<span class="st">"Mississippi"</span>,<span class="st">"Missouri"</span>,</span>
-<span id="cb1-6"><a href=""></a>            <span class="st">"Montana"</span>,<span class="st">"Nebraska"</span>,<span class="st">"Nevada"</span>,<span class="st">"New Hampshire"</span>,<span class="st">"New Jersey"</span>,</span>
-<span id="cb1-7"><a href=""></a>            <span class="st">"New Mexico"</span>,<span class="st">"New York"</span>,<span class="st">"North Carolina"</span>,<span class="st">"North Dakota"</span>,<span class="st">"Ohio"</span>,</span>
-<span id="cb1-8"><a href=""></a>            <span class="st">"Oklahoma"</span>,<span class="st">"Oregon"</span>,<span class="st">"Pennsylvania"</span>,<span class="st">"Rhode Island"</span>,<span class="st">"South Carolina"</span>,</span>
-<span id="cb1-9"><a href=""></a>            <span class="st">"South Dakota"</span>,<span class="st">"Tennessee"</span>,<span class="st">"Texas"</span>,<span class="st">"Utah"</span>,<span class="st">"Vermont"</span>,</span>
-<span id="cb1-10"><a href=""></a>            <span class="st">"Virginia"</span>,<span class="st">"Washington"</span>,<span class="st">"West Virginia"</span>,<span class="st">"Wisconsin"</span>,<span class="st">"Wyoming"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>branches <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-2"><a href=""></a>  <span class="st">"Bade"</span>,<span class="st">"Bali"</span>,<span class="st">"Banqiao"</span>,<span class="st">"Beitou"</span>,<span class="st">"Daan"</span>,<span class="st">"Datong"</span>,<span class="st">"Daxi"</span>,<span class="st">"Gongliao"</span>,<span class="st">"Guishan"</span>,<span class="st">"Jinshan"</span>,</span>
+<span id="cb7-3"><a href=""></a>  <span class="st">"Keelung"</span>,<span class="st">"Linkou"</span>,<span class="st">"Longtan"</span>,<span class="st">"Luzhou"</span>,<span class="st">"Luzhu"</span>,<span class="st">"Nangang"</span>,<span class="st">"Neihu"</span>,<span class="st">"Pinglin"</span>,<span class="st">"Pingxi"</span>,<span class="st">"Pingzhen"</span>,</span>
+<span id="cb7-4"><a href=""></a>  <span class="st">"Ruifang"</span>,<span class="st">"Sanchong"</span>,<span class="st">"Sanxia"</span>,<span class="st">"Sanzhi"</span>,<span class="st">"Shenkeng"</span>,<span class="st">"Shiding"</span>,<span class="st">"Shilin"</span>,<span class="st">"Shimen"</span>,<span class="st">"Shuangxi"</span>,<span class="st">"Shulin"</span>,</span>
+<span id="cb7-5"><a href=""></a>  <span class="st">"Songshan"</span>,<span class="st">"Taishan"</span>,<span class="st">"Tamsui"</span>,<span class="st">"Taoyuan"</span>,<span class="st">"Tucheng"</span>,<span class="st">"Wanhua"</span>,<span class="st">"Wanli"</span>,<span class="st">"Wenshan"</span>,<span class="st">"Wugu"</span>,<span class="st">"Wulai"</span>,</span>
+<span id="cb7-6"><a href=""></a>  <span class="st">"Xindian"</span>,<span class="st">"Xinyi"</span>,<span class="st">"Xinzhuang"</span>,<span class="st">"Xizhi"</span>,<span class="st">"Yangmei"</span>,<span class="st">"Yingge"</span>,<span class="st">"Yonghe"</span>,<span class="st">"Zhonghe"</span>,<span class="st">"Zhongli"</span>,<span class="st">"Zhongshan"</span>)</span>
+<span id="cb7-7"><a href=""></a></span>
+<span id="cb7-8"><a href=""></a>numbers_from_table <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">43</span>, <span class="dv">29</span>, <span class="dv">17</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">48</span>, <span class="dv">44</span>, <span class="dv">19</span>, <span class="dv">7</span>, <span class="dv">27</span>)</span>
+<span id="cb7-9"><a href=""></a>branches[numbers_from_table]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Xinzhuang" "Shuangxi"  "Neihu"     "Guishan"   "Beitou"    "Zhonghe"  
+ [7] "Xizhi"     "Pingxi"    "Daxi"      "Shilin"   </code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="example-14-1-5" class="slide level2">
+<h2>Example 14-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>A fresh random sample</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb2-2"><a href=""></a>sample_indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-3"><a href=""></a><span class="fu">cat</span>(<span class="st">"Selected state numbers:"</span>, sample_indices, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Selected state numbers: 31 15 14 3 42 43 37 48 25 26 </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1114</span>)</span>
+<span id="cb9-2"><a href=""></a>audit_numbers <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">sample</span>(<span class="fu">seq_along</span>(branches), <span class="at">size =</span> <span class="dv">10</span>))</span>
+<span id="cb9-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">Number =</span> <span class="fu">sprintf</span>(<span class="st">"%02d"</span>, audit_numbers),</span>
+<span id="cb9-4"><a href=""></a>                        <span class="at">Branch =</span> branches[audit_numbers]), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number</th>
+<th style="text-align: center;">Branch</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">09</td>
+<td style="text-align: center;">Guishan</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Jinshan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Keelung</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">Pingzhen</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">Sanzhi</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">Tamsui</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">Wanhua</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">Wulai</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">Xinzhuang</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">Zhonghe</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Selected states:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Selected states:</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">sort</span>(sample_indices)) {</span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  %02d. %s</span><span class="sc">\n</span><span class="st">"</span>, i, states[i]))</span>
-<span id="cb6-3"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  03. Arizona
-  14. Indiana
-  15. Iowa
-  25. Missouri
-  26. Montana
-  31. New Mexico
-  37. Oregon
-  42. Tennessee
-  43. Texas
-  48. West Virginia</code></pre>
+<p><code>sample()</code> draws without replacement; <strong>both samples are correct</strong>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="limitation-of-random-sampling" class="slide level2">
+<h2>Limitation of Random Sampling</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Random sampling has one limitation. If the population is extremely large, it is <strong>time-consuming to number and select</strong> the sample elements.</p>
+</div>
 </div>
 </div>
 </section>
@@ -488,17 +731,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Systematic Sampling</strong></p>
+<p><strong>Systematic Sample</strong></p>
 </div>
 <div class="callout-content">
-<ol type="1">
-<li>Number all population elements</li>
-<li>Determine interval <span class="math inline">k = N/n</span> (population size / sample size)</li>
-<li>Select a random starting point from 1 to <span class="math inline">k</span></li>
-<li>Select every <span class="math inline">k</span>th element thereafter</li>
-</ol>
-<p><strong>Advantage:</strong> Simple to execute; no full list of random numbers needed.</p>
-<p><strong>Caution:</strong> Avoid using systematic sampling on lists with a periodic pattern (e.g., alternating male/female) that matches the interval <span class="math inline">k</span>.</p>
+<p>A <strong>systematic sample</strong> is a sample obtained by numbering each element in the population, selecting some random starting point, and then selecting every <span class="math inline">k</span>th element (third or fifth or tenth, and so on) from the population to be included in the sample.</p>
 </div>
 </div>
 </div>
@@ -511,10 +747,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>TV Show Interviews — Systematic Sample</strong></p>
+<p><strong>A Systematic Audit Schedule</strong></p>
 </div>
 <div class="callout-content">
-<p>Using the same 50-state population, select a <strong>systematic sample</strong> of 10 states.</p>
+<p>Using the population of 50 branches in <a href="#/example-14-1">Example 14-1</a>, select a <strong>systematic sample</strong> of 10 branches.</p>
 </div>
 </div>
 </div>
@@ -530,59 +766,11 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> Number states 01–50</p>
-<p><strong>Step 2:</strong> <span class="math inline">k = 50 / 10 = 5</span> → select every 5th state</p>
-<p><strong>Step 3:</strong> Random start: <strong>4</strong> (selected from digits 1–5)</p>
-<p><strong>Step 4:</strong> Selected every 5th from 4: <span class="math display">4, 9, 14, 19, 24, 29, 34, 39, 44, 49</span></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>#</th>
-<th>State</th>
-<th></th>
-<th>#</th>
-<th>State</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>04</td>
-<td>Arkansas</td>
-<td></td>
-<td>29</td>
-<td>New Hampshire</td>
-</tr>
-<tr class="even">
-<td>09</td>
-<td>Florida</td>
-<td></td>
-<td>34</td>
-<td>North Dakota</td>
-</tr>
-<tr class="odd">
-<td>14</td>
-<td>Indiana</td>
-<td></td>
-<td>39</td>
-<td>Rhode Island</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>Maine</td>
-<td></td>
-<td>44</td>
-<td>Utah</td>
-</tr>
-<tr class="odd">
-<td>24</td>
-<td>Mississippi</td>
-<td></td>
-<td>49</td>
-<td>Wisconsin</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Step 1.</strong> Number the population units as shown in Example 14-1.</p>
+<p><strong>Step 2.</strong> Since there are 50 branches and 10 are to be selected, the rule is to select every <strong>fifth</strong> branch. This rule was determined by dividing 50 by 10, which yields 5.</p>
+<p><strong>Step 3.</strong> Using the table of random numbers, select the first number (from 1 to 5) at random. In this case <strong>2</strong> was selected.</p>
+<p><strong>Step 4.</strong> Select every fifth number starting with 2.</p>
+<p><span class="math display">2,\ 7,\ 12,\ 17,\ 22,\ 27,\ 32,\ 37,\ 42,\ 47</span></p>
 </div>
 </div>
 </div>
@@ -598,42 +786,102 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p>The branches selected are:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Number</th>
+<th>Branch</th>
+<th style="text-align: center;">Number</th>
+<th>Branch</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td>Bali</td>
+<td style="text-align: center;">27</td>
+<td>Shilin</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7</td>
+<td>Daxi</td>
+<td style="text-align: center;">32</td>
+<td>Taishan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">12</td>
+<td>Linkou</td>
+<td style="text-align: center;">37</td>
+<td>Wanli</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">17</td>
+<td>Neihu</td>
+<td style="text-align: center;">42</td>
+<td>Xinyi</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">22</td>
+<td>Sanchong</td>
+<td style="text-align: center;">47</td>
+<td>Yonghe</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-2-3" class="slide level2">
+<h2>Example 14-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Same selection in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>N <span class="ot">&lt;-</span> <span class="dv">50</span>; n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb8-2"><a href=""></a>k <span class="ot">&lt;-</span> N <span class="sc">/</span> n  <span class="co"># interval = 5</span></span>
-<span id="cb8-3"><a href=""></a></span>
-<span id="cb8-4"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb8-5"><a href=""></a>start <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="dv">1</span>)</span>
-<span id="cb8-6"><a href=""></a><span class="fu">cat</span>(<span class="st">"Random start:"</span>, start, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb10-2"><a href=""></a>sampling_interval <span class="ot">&lt;-</span> <span class="fu">length</span>(branches) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb10-3"><a href=""></a>random_start      <span class="ot">&lt;-</span> <span class="fu">sample</span>(sampling_interval, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb10-4"><a href=""></a></span>
+<span id="cb10-5"><a href=""></a>audit_schedule <span class="ot">&lt;-</span> <span class="fu">seq</span>(random_start, <span class="fu">length</span>(branches), <span class="at">by =</span> sampling_interval)</span>
+<span id="cb10-6"><a href=""></a>audit_schedule</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Random start: 2 </code></pre>
+<pre><code> [1]  2  7 12 17 22 27 32 37 42 47</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>sys_indices <span class="ot">&lt;-</span> <span class="fu">seq</span>(start, N, <span class="at">by =</span> k)</span>
-<span id="cb10-2"><a href=""></a><span class="fu">cat</span>(<span class="st">"Selected state numbers:"</span>, sys_indices, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>branches[audit_schedule]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Selected state numbers: 2 7 12 17 22 27 32 37 42 47 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Selected states:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Selected states:</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> sys_indices) {</span>
-<span id="cb14-2"><a href=""></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"  %02d. %s</span><span class="sc">\n</span><span class="st">"</span>, i, states[i]))</span>
-<span id="cb14-3"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  02. Alaska
-  07. Connecticut
-  12. Idaho
-  17. Kentucky
-  22. Michigan
-  27. Nebraska
-  32. New York
-  37. Oregon
-  42. Tennessee
-  47. Washington</code></pre>
+<pre><code> [1] "Bali"     "Daxi"     "Linkou"   "Neihu"    "Sanchong" "Shilin"  
+ [7] "Taishan"  "Wanli"    "Xinyi"    "Yonghe"  </code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="advantages-and-cautions-of-systematic-sampling" class="slide level2">
+<h2>Advantages and Cautions of Systematic Sampling</h2>
+<p>The advantage of systematic sampling is the <strong>ease of selecting</strong> the sample elements. In many cases a numbered list of the population units already exists, such as a factory manager’s list of employees or an in-house telephone directory.</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>You must be careful how the items are <strong>arranged on the list</strong>.</p>
+<ul>
+<li>If the list runs 1. Husband, 2. Wife, 3. Husband, 4. Wife, then the starting number could produce a sample of all males or all females, depending on whether the starting number and the number added are even or odd.</li>
+<li>If the list were arranged in order of the heights of individuals, two samples would give very different averages depending on whether the starting number was small or large.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -646,16 +894,14 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Stratified Sampling</strong></p>
+<p><strong>Stratified Sample</strong></p>
 </div>
 <div class="callout-content">
-<p>The population is divided into <strong>strata</strong> (subgroups) based on shared characteristics (e.g., gender, grade level, region). A random sample is then drawn <strong>from each stratum</strong>.</p>
-<p><strong>Advantage:</strong> Guarantees representation of every important subgroup.</p>
-<p><strong>Disadvantages:</strong> - Requires extensive effort when many strata exist - Difficult if grouping criteria are complex or ambiguous</p>
-<p><strong>Proportional stratification:</strong> Sample size from each stratum is proportional to that stratum’s share of the total population.</p>
+<p>A <strong>stratified sample</strong> is a sample obtained by dividing the population into subgroups, called <strong>strata</strong>, according to various homogeneous (similar) characteristics and then randomly selecting members from each stratum for the sample.</p>
 </div>
 </div>
 </div>
+<p>For example, a population may consist of males and females who are smokers or nonsmokers. The researcher divides the population into four subgroups — male smokers, male nonsmokers, female smokers, female nonsmokers — and then selects a random sample from each subgroup. This ensures the sample is representative on the basis of gender and smoking, although it may not be representative on the basis of other characteristics.</p>
 </section>
 <section id="example-14-3" class="slide level2">
 <h2>Example 14-3</h2>
@@ -665,29 +911,21 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Stratified Sample of Students</strong></p>
+<p><strong>Selecting Member Companies</strong></p>
 </div>
 <div class="callout-content">
-<p>From a class of 20 students (10 male, 10 female; mixed freshmen/sophomores), select a <strong>stratified sample of 8</strong> based on gender and grade level.</p>
-<p><strong>Four strata:</strong></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Group 1</th>
-<th>Male Freshmen (5)</th>
-<th>Group 3</th>
-<th>Female Freshmen (5)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Group 2</td>
-<td>Male Sophomores (5)</td>
-<td>Group 4</td>
-<td>Female Sophomores (5)</td>
-</tr>
-</tbody>
-</table>
+<p>An exporters’ association has the <strong>20 member companies</strong> listed below, each classified by industry (electronics or food) and by firm size (small or large). Select a sample of <strong>eight</strong> companies on the basis of industry and size by <strong>stratification</strong>. <em>(hypothetical data)</em></p>
+<pre><code> 1. Aurora Tech       E  S    11. Helios Optics      E  L
+ 2. Harvest Sauce     F  L    12. Ruby Fruit         F  L
+ 3. Camellia Tea      F  S    13. Orchid Circuits    E  S
+ 4. Beacon Semi       E  L    14. Pomelo Foods       F  S
+ 5. Jade Snack        F  S    15. Granite Boards     E  L
+ 6. Kingfisher Micro  E  S    16. Silver Carp Foods  F  L
+ 7. Skyline Vision    E  L    17. Zenith Modules     E  S
+ 8. Golden Grain      F  L    18. Willow Bakery      F  S
+ 9. Lotus Noodle      F  S    19. Summit Cable       E  L
+10. Nimbus Devices    E  S    20. Teal Bean Foods    F  L</code></pre>
+<p>E = electronics, F = food; S = small, L = large.</p>
 </div>
 </div>
 </div>
@@ -703,36 +941,21 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Step 1:</strong> Divide into 4 strata (Male/Female <span class="math inline">\times</span> Freshman/Sophomore)</p>
-<p><strong>Step 2:</strong> Each stratum has 5 members. Select <span class="math inline">8/4 = 2</span> from each.</p>
-<p><strong>Step 3:</strong> Using random numbers, select 2 from each group:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Group</th>
-<th>Selected</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Male Freshmen</td>
-<td>Peterson, John; Meloski, Gary</td>
-</tr>
-<tr class="even">
-<td>Male Sophomores</td>
-<td>Brown, Danny; Lyons, Larry</td>
-</tr>
-<tr class="odd">
-<td>Female Freshmen</td>
-<td>Bear, Theresa; Collins, Carolyn</td>
-</tr>
-<tr class="even">
-<td>Female Sophomores</td>
-<td>Toms, Debbie; Unger, Roberta</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Step 1.</strong> Divide the population into two subgroups, electronics firms and food firms.</p>
+<p><strong>Step 2.</strong> Divide each subgroup further into small firms and large firms.</p>
+<pre><code>Group 1 (E, S)              Group 2 (E, L)
+1. Aurora Tech              1. Beacon Semi
+2. Kingfisher Micro         2. Skyline Vision
+3. Nimbus Devices           3. Helios Optics
+4. Orchid Circuits          4. Granite Boards
+5. Zenith Modules           5. Summit Cable
+
+Group 3 (F, S)              Group 4 (F, L)
+1. Camellia Tea             1. Harvest Sauce
+2. Jade Snack               2. Golden Grain
+3. Lotus Noodle             3. Ruby Fruit
+4. Pomelo Foods             4. Silver Carp Foods
+5. Willow Bakery            5. Teal Bean Foods</code></pre>
 </div>
 </div>
 </div>
@@ -748,47 +971,193 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 3.</strong> Determine how many companies to select from each subgroup for proportional representation. There are four groups, and a total of eight companies is needed, so <strong>two</strong> companies must be selected from each subgroup.</p>
+<p><strong>Step 4.</strong> Select two companies from each group by using random numbers. In this case the random numbers are</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Group 1</th>
+<th style="text-align: center;">Group 2</th>
+<th style="text-align: center;">Group 3</th>
+<th style="text-align: center;">Group 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Companies 4 and 3</td>
+<td style="text-align: center;">Companies 4 and 2</td>
+<td style="text-align: center;">Companies 5 and 3</td>
+<td style="text-align: center;">Companies 2 and 3</td>
+</tr>
+</tbody>
+</table>
+<p>The stratified sample then consists of the following companies:</p>
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td>Orchid Circuits</td>
+<td>Granite Boards</td>
+</tr>
+<tr class="even">
+<td>Nimbus Devices</td>
+<td>Skyline Vision</td>
+</tr>
+<tr class="odd">
+<td>Willow Bakery</td>
+<td>Golden Grain</td>
+</tr>
+<tr class="even">
+<td>Lotus Noodle</td>
+<td>Ruby Fruit</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-3-3" class="slide level2">
+<h2>Example 14-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Prepare data</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>students <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb16-2"><a href=""></a>  <span class="at">name   =</span> <span class="fu">c</span>(<span class="st">"Ald P"</span>,<span class="st">"Brown D"</span>,<span class="st">"Bear T"</span>,<span class="st">"Carson S"</span>,<span class="st">"Collins C"</span>,</span>
-<span id="cb16-3"><a href=""></a>             <span class="st">"Davis W"</span>,<span class="st">"Hogan M"</span>,<span class="st">"Jones L"</span>,<span class="st">"Lutz H"</span>,<span class="st">"Lyons L"</span>,</span>
-<span id="cb16-4"><a href=""></a>             <span class="st">"Martin J"</span>,<span class="st">"Meloski G"</span>,<span class="st">"Oeler G"</span>,<span class="st">"Peters M"</span>,<span class="st">"Peterson J"</span>,</span>
-<span id="cb16-5"><a href=""></a>             <span class="st">"Smith N"</span>,<span class="st">"Thomas J"</span>,<span class="st">"Toms D"</span>,<span class="st">"Unger R"</span>,<span class="st">"Zibert M"</span>),</span>
-<span id="cb16-6"><a href=""></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,</span>
-<span id="cb16-7"><a href=""></a>             <span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"M"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>,<span class="st">"F"</span>),</span>
-<span id="cb16-8"><a href=""></a>  <span class="at">grade  =</span> <span class="fu">c</span>(<span class="st">"Fr"</span>,<span class="st">"So"</span>,<span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>,</span>
-<span id="cb16-9"><a href=""></a>             <span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>,<span class="st">"Fr"</span>,<span class="st">"Fr"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>,<span class="st">"So"</span>)</span>
-<span id="cb16-10"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>members <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-2"><a href=""></a>  <span class="at">company  =</span> <span class="fu">c</span>(<span class="st">"Aurora Tech"</span>,<span class="st">"Harvest Sauce"</span>,<span class="st">"Camellia Tea"</span>,<span class="st">"Beacon Semi"</span>,<span class="st">"Jade Snack"</span>,</span>
+<span id="cb16-3"><a href=""></a>               <span class="st">"Kingfisher Micro"</span>,<span class="st">"Skyline Vision"</span>,<span class="st">"Golden Grain"</span>,<span class="st">"Lotus Noodle"</span>,<span class="st">"Nimbus Devices"</span>,</span>
+<span id="cb16-4"><a href=""></a>               <span class="st">"Helios Optics"</span>,<span class="st">"Ruby Fruit"</span>,<span class="st">"Orchid Circuits"</span>,<span class="st">"Pomelo Foods"</span>,<span class="st">"Granite Boards"</span>,</span>
+<span id="cb16-5"><a href=""></a>               <span class="st">"Silver Carp Foods"</span>,<span class="st">"Zenith Modules"</span>,<span class="st">"Willow Bakery"</span>,<span class="st">"Summit Cable"</span>,<span class="st">"Teal Bean Foods"</span>),</span>
+<span id="cb16-6"><a href=""></a>  <span class="at">industry =</span> <span class="fu">c</span>(<span class="st">"Electronics"</span>,<span class="st">"Food"</span>,<span class="st">"Food"</span>,<span class="st">"Electronics"</span>,<span class="st">"Food"</span>,</span>
+<span id="cb16-7"><a href=""></a>               <span class="st">"Electronics"</span>,<span class="st">"Electronics"</span>,<span class="st">"Food"</span>,<span class="st">"Food"</span>,<span class="st">"Electronics"</span>,</span>
+<span id="cb16-8"><a href=""></a>               <span class="st">"Electronics"</span>,<span class="st">"Food"</span>,<span class="st">"Electronics"</span>,<span class="st">"Food"</span>,<span class="st">"Electronics"</span>,</span>
+<span id="cb16-9"><a href=""></a>               <span class="st">"Food"</span>,<span class="st">"Electronics"</span>,<span class="st">"Food"</span>,<span class="st">"Electronics"</span>,<span class="st">"Food"</span>),</span>
+<span id="cb16-10"><a href=""></a>  <span class="at">size     =</span> <span class="fu">c</span>(<span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Small"</span>,</span>
+<span id="cb16-11"><a href=""></a>               <span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Large"</span>,<span class="st">"Small"</span>,<span class="st">"Small"</span>,</span>
+<span id="cb16-12"><a href=""></a>               <span class="st">"Large"</span>,<span class="st">"Large"</span>,<span class="st">"Small"</span>,<span class="st">"Small"</span>,<span class="st">"Large"</span>,</span>
+<span id="cb16-13"><a href=""></a>               <span class="st">"Large"</span>,<span class="st">"Small"</span>,<span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Large"</span>)</span>
+<span id="cb16-14"><a href=""></a>)</span>
+<span id="cb16-15"><a href=""></a><span class="fu">table</span>(members<span class="sc">$</span>industry, members<span class="sc">$</span>size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Large Small
+  Electronics     5     5
+  Food            5     5</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="example-14-3-4" class="slide level2">
+<h2>Example 14-3</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Draw two companies from each stratum</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="co"># Stratify and sample 2 from each stratum</span></span>
-<span id="cb17-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb17-3"><a href=""></a>stratified <span class="ot">&lt;-</span> students <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href=""></a>  <span class="fu">group_by</span>(gender, grade) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-6"><a href=""></a>  <span class="fu">arrange</span>(gender, grade)</span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a><span class="fu">print</span>(stratified)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 8 × 3
-# Groups:   gender, grade [4]
-  name      gender grade
-  &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;
-1 Bear T    F      Fr   
-2 Smith N   F      Fr   
-3 Jones L   F      So   
-4 Zibert M  F      So   
-5 Davis W   M      Fr   
-6 Meloski G M      Fr   
-7 Lutz H    M      So   
-8 Thomas J  M      So   </code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1403</span>)</span>
+<span id="cb18-2"><a href=""></a>stratified_sample <span class="ot">&lt;-</span> members <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href=""></a>  <span class="fu">group_by</span>(industry, size) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href=""></a>  <span class="fu">arrange</span>(industry, size)</span>
+<span id="cb18-6"><a href=""></a></span>
+<span id="cb18-7"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(stratified_sample, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">company</th>
+<th style="text-align: center;">industry</th>
+<th style="text-align: center;">size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Granite Boards</td>
+<td style="text-align: center;">Electronics</td>
+<td style="text-align: center;">Large</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Skyline Vision</td>
+<td style="text-align: center;">Electronics</td>
+<td style="text-align: center;">Large</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Orchid Circuits</td>
+<td style="text-align: center;">Electronics</td>
+<td style="text-align: center;">Small</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Nimbus Devices</td>
+<td style="text-align: center;">Electronics</td>
+<td style="text-align: center;">Small</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Golden Grain</td>
+<td style="text-align: center;">Food</td>
+<td style="text-align: center;">Large</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Ruby Fruit</td>
+<td style="text-align: center;">Food</td>
+<td style="text-align: center;">Large</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Willow Bakery</td>
+<td style="text-align: center;">Food</td>
+<td style="text-align: center;">Small</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Lotus Noodle</td>
+<td style="text-align: center;">Food</td>
+<td style="text-align: center;">Small</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Each of the four strata contributes exactly two companies, so both industries and both size classes are represented.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="advantages-and-drawbacks-of-stratification" class="slide level2">
+<h2>Advantages and Drawbacks of Stratification</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Stratified Sampling</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Major advantage.</strong> It ensures representation of all population subgroups that are important to the study.</p>
+<p><strong>Two major drawbacks.</strong></p>
+<ol type="1">
+<li>If there are many variables of interest, dividing a large population into representative subgroups requires a great deal of effort.</li>
+<li>If the variables are somewhat complex or ambiguous, such as beliefs, attitudes or prejudices, it is difficult to separate individuals into subgroups according to those variables.</li>
+</ol>
+</div>
 </div>
 </div>
 </section>
@@ -800,94 +1169,189 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
+<p><strong>Cluster Sample</strong></p>
+</div>
+<div class="callout-content">
+<p>A <strong>cluster sample</strong> is a sample obtained by selecting a preexisting or natural group, called a <strong>cluster</strong>, and using the members in the cluster for the sample.</p>
+</div>
+</div>
+</div>
+<p>Many studies in education use already existing classes, such as the seventh grade in Wilson Junior High School. The voters of an electoral district might be surveyed about a mayoral candidate, or the residents of an entire city block polled about household incomes. Researchers may use all units of a cluster if that is feasible, or select only part of a cluster by random methods.</p>
+</section>
+<section id="advantages-and-disadvantage-of-cluster-sampling" class="slide level2">
+<h2>Advantages and Disadvantage of Cluster Sampling</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
 <p><strong>Cluster Sampling</strong></p>
 </div>
 <div class="callout-content">
-<p>A <strong>naturally occurring group</strong> (cluster) is selected as the sample. All members of the cluster may be used, or a random subset is taken.</p>
-<p><strong>Examples:</strong> An entire school classroom, all residents of a city block, all voters in an electoral district.</p>
-<p><strong>Advantages:</strong> Reduces cost; simplifies fieldwork; convenient.</p>
-<p><strong>Disadvantage:</strong> Members within a cluster tend to be more <strong>homogeneous</strong> than the general population — the sample may lack diversity.</p>
+<p><strong>Three advantages.</strong> A cluster sample (1) can reduce costs, (2) can simplify fieldwork, and (3) is convenient. In a dental study X-raying fourth-grade students’ teeth, it is simple to select a single classroom and bring the X-ray equipment to the school; other methods might require transporting the machine to several schools or the pupils to the dental office.</p>
+<p><strong>Major disadvantage.</strong> The elements in a cluster may <strong>not have the same variations in characteristics</strong> as elements selected individually from a population, because people in specific clusters such as neighborhoods or clubs tend to be more homogeneous — similar incomes, similar cars, similar houses and, for the most part, similar habits.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="sampling-methods-summary-comparison" class="slide level2">
-<h2>Sampling Methods: Summary Comparison</h2>
+<section id="other-types-of-sampling-techniques" class="slide level2">
+<h2>Other Types of Sampling Techniques</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>At a Glance</strong></p>
+<p><strong>Four Additional Methods</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Sequence sampling</strong>, used in quality control, samples successive units taken from production lines to ensure that the products meet certain standards set by the manufacturing company.</p>
+<p><strong>Double sampling</strong> gives a very large population a questionnaire to determine those who meet the qualifications for a study. After the questionnaires are reviewed, a second, smaller population is defined, and a sample is selected from this group.</p>
+<p><strong>Multistage sampling</strong> uses a <strong>combination</strong> of sampling methods.</p>
+<p><strong>Convenience sampling</strong> selects subjects from the population who are available to use. These samples are usually not representative of the population, and their use can lead to biased conclusions.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="a-multistage-example" class="slide level2">
+<h2>A Multistage Example</h2>
+<p>Suppose a research organization wants to conduct a nationwide survey for a new product being manufactured. A sample can be obtained by using the following combination of methods.</p>
+<ol type="1">
+<li>Divide the 50 states into four or five <strong>regions</strong> (or clusters).</li>
+<li>Select several states from each region <strong>at random</strong>.</li>
+<li>Divide the states into areas by using large cities and small towns, and select samples of these areas.</li>
+<li>Divide each city and each town into <strong>districts or wards</strong>.</li>
+<li>Select streets in these wards at random, and give the families living on these streets samples of the product to test and report on.</li>
+</ol>
+<p>This hypothetical example illustrates a typical multistage sampling method.</p>
+</section>
+<section id="procedure-table-conducting-a-sample-survey" class="slide level2">
+<h2>Procedure Table: Conducting a Sample Survey</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Nine Steps</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 32%">
-<col style="width: 44%">
+<col style="width: 42%">
+<col style="width: 57%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Method</th>
-<th>Best When</th>
-<th>Watch Out For</th>
+<th style="text-align: center;">Step</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Random</td>
-<td>General purpose</td>
-<td>Time-consuming with large <span class="math inline">N</span></td>
+<td style="text-align: center;">1</td>
+<td>Decide what information is needed.</td>
 </tr>
 <tr class="even">
-<td>Systematic</td>
-<td>Pre-numbered list exists</td>
-<td>Periodic patterns in list</td>
+<td style="text-align: center;">2</td>
+<td>Determine how the data will be collected (phone interview, mail survey, and so on).</td>
 </tr>
 <tr class="odd">
-<td>Stratified</td>
-<td>Subgroup representation matters</td>
-<td>Many strata = lots of effort</td>
+<td style="text-align: center;">3</td>
+<td>Select the information-gathering instrument or design the questionnaire if one is not available.</td>
 </tr>
 <tr class="even">
-<td>Cluster</td>
-<td>Cost/logistics drive decisions</td>
-<td>Within-cluster homogeneity</td>
+<td style="text-align: center;">4</td>
+<td>Set up a sampling list, if possible.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td>Select the best method for obtaining the sample (random, systematic, stratified, cluster or other).</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td>Conduct the survey and collect the data.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td>Tabulate the data.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td>Conduct the statistical analysis.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td>Report the results.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Other methods:</strong> sequence sampling (quality control), double sampling (two-stage eligibility), multistage sampling (combination approach for very large populations).</p>
 </div>
 </div>
 </div>
+</section>
+<section id="how-large-a-sample-do-i-need" class="slide level2">
+<h2>How Large a Sample Do I Need?</h2>
+<p>The answer is based on several things. Two important considerations are <strong>time and money</strong>: the more of both a researcher has, the larger the sample can be. When random samples are used, <strong>larger samples can result in more reliable conclusions</strong>.</p>
+<p>Also, as shown in Chapter 7, an actual sample size can be computed if the researcher knows the <strong>confidence level</strong> and the <strong>degree of accuracy</strong> (the margin of error) desired.</p>
 </section></section>
 <section>
 <section id="section-14-2-surveys-and-questionnaire-design" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>Section 14-2: Surveys and Questionnaire Design</h1>
 
 </section>
-<section id="types-of-surveys" class="slide level2">
-<h2>Types of Surveys</h2>
+<section id="what-is-a-survey" class="slide level2">
+<h2>What Is a Survey?</h2>
+<p>A <strong>survey</strong> is conducted when a sample of individuals is asked to respond to questions about a particular subject.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Two Survey Formats</strong></p>
+<p><strong>Two Types of Surveys</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Interviewer-administered:</strong> A person poses questions face-to-face, by phone, or in a mall.</p>
-<p><strong>Self-administered:</strong> Respondents complete the survey independently — by mail, email, or in a group setting.</p>
-<p><strong>Important:</strong> How a question is worded can dramatically change the responses. Researchers must design questions carefully to avoid leading respondents toward a predetermined answer.</p>
+<p><strong>Interviewer-administered surveys</strong> require a person to ask the questions. The interview can be conducted face to face in an office, on a street, or in the mall, or via telephone.</p>
+<p><strong>Self-administered surveys</strong> can be done by mail, email, the Internet, or in a group setting such as a classroom.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="five-common-questionnaire-flaws" class="slide level2">
-<h2>Five Common Questionnaire Flaws</h2>
+<section id="wording-changes-the-answer" class="slide level2">
+<h2>Wording Changes the Answer</h2>
+<p>When analyzing the results of surveys you should be very careful about the interpretations, because <strong>the way a question is phrased can influence the way people respond</strong>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 28%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question asked</th>
+<th style="text-align: center;">In favor</th>
+<th style="text-align: center;">Against</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Do you favor a small charge on single-use shopping bags, to cut plastic waste in the city?</td>
+<td style="text-align: center;">78%</td>
+<td style="text-align: center;">18%</td>
+</tr>
+<tr class="even">
+<td>Should shoppers be made to pay a new fee on every bag issued at a convenience store?</td>
+<td style="text-align: center;">34%</td>
+<td style="text-align: center;">59%</td>
+</tr>
+</tbody>
+</table>
+<p>Both questions ask about the <strong>same policy</strong>, yet the responses are almost reversed: the first names the purpose of the charge, the second names only its cost. Different phrasings of one question produce different answers. <em>(hypothetical data)</em></p>
+</section>
+<section id="five-common-mistakes-in-writing-questions" class="slide level2">
+<h2>Five Common Mistakes in Writing Questions</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -898,38 +1362,72 @@ Yu-You Liou
 </div>
 <div class="callout-content">
 <ol type="1">
-<li><strong>Biased questions</strong> — Wording steers the respondent toward a specific answer <em>e.g.,</em> “Are you going to vote for Jones even though polls show he will lose?”</li>
-<li><strong>Confusing words</strong> — Ambiguous terms lead to misinterpretation <em>e.g.,</em> “Do you think people live longer on a diet?” (which diet?)</li>
-<li><strong>Double-barreled questions</strong> — One question asks two things at once <em>e.g.,</em> “Do you favor a special tax to fund national health care?”</li>
-<li><strong>Double negatives</strong> — Two negatives create confusion <em>e.g.,</em> “Do you feel it is not appropriate to have areas where people cannot smoke?”</li>
-<li><strong>Improper question order</strong> — Earlier questions prime responses to later ones</li>
+<li><strong>Asking biased questions.</strong> “Are you going to vote for candidate Jones even though the latest survey indicates that he will lose the election?” may dissuade some people from answering in the affirmative, compared with “Are you going to vote for candidate Jones?”</li>
+<li><strong>Using confusing words.</strong> “Do you think people would live longer if they were on a diet?” can be misinterpreted, since there are weight-loss diets, low-salt diets, medically prescribed diets, and so on.</li>
+<li><strong>Asking double-barreled questions.</strong> “Are you in favor of a special tax to provide national health care for the citizens of the United States?” really asks two questions at once.</li>
+<li><strong>Using double negatives in questions.</strong> “Do you feel that it is not appropriate to have areas where people cannot smoke?” is very confusing since <em>not</em> is used twice.</li>
+<li><strong>Ordering questions improperly.</strong> Asking “At what age should an elderly person not be permitted to drive?” before asking respondents to list problems of elderly people leads them to answer <em>transportation</em>.</li>
 </ol>
 </div>
 </div>
 </div>
 </section>
-<section id="additional-survey-biases" class="slide level2">
-<h2>Additional Survey Biases</h2>
+<section id="other-factors-that-bias-a-survey" class="slide level2">
+<h2>Other Factors That Bias a Survey</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li><strong>Answering about an unknown subject.</strong> A participant may know nothing about the subject but answer anyway to avoid being considered uninformed. Many people would answer yes or no to “Would you be in favor of giving pensions to the widows of unknown soldiers?”, a question that makes no sense.</li>
+<li><strong>Telling the interviewer what they want to hear.</strong> Asked “How often do you lie?”, people understate the incidences of their lying.</li>
+<li><strong>Known identity.</strong> Participants respond differently depending on whether their identity is known, especially on sensitive issues such as income, sexuality and abortion. Researchers try to ensure <strong>confidentiality</strong> (keeping the respondent’s identity secret) rather than <strong>anonymity</strong> (soliciting unsigned responses); many people are suspicious in either case.</li>
+<li><strong>Time and place.</strong> A survey on airline safety conducted immediately after a major crash may give very different results from one taken in a year with no major disasters.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="open-ended-and-closed-ended-questions" class="slide level2">
+<h2>Open-Ended and Closed-Ended Questions</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Other Sources of Bias</strong></p>
+<p><strong>Two Types of Questions</strong></p>
+</div>
+<div class="callout-content">
+<p>An <strong>open-ended question</strong> is one such as “List three activities that you plan to spend more time on when you retire.”</p>
+<p>A <strong>closed-ended question</strong> is one such as “Which one of these activities do you plan to spend more time on after you retire: traveling; eating out; fishing and hunting; exercising; visiting relatives?”</p>
+<p><strong>The trade-off.</strong> With a closed-ended question, respondents are forced to choose the answers the researcher gives and cannot supply their own. With an open-ended question, the results may be so varied that summarizing them is difficult, if not impossible.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="designing-and-using-a-questionnaire" class="slide level2">
+<h2>Designing and Using a Questionnaire</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Good Practice</strong></p>
 </div>
 <div class="callout-content">
 <ul>
-<li><strong>Social desirability bias:</strong> Respondents answer what they think the interviewer wants to hear</li>
-<li><strong>Acquiescence bias:</strong> Some people agree with any statement to avoid conflict</li>
-<li><strong>Confidentiality vs.&nbsp;anonymity:</strong> Respondents behave differently when they believe their identity is known</li>
-<li><strong>Timing and location:</strong> Surveys about airline safety yield different results right after a crash</li>
-<li><strong>Open vs.&nbsp;closed questions:</strong>
-<ul>
-<li><em>Open-ended:</em> “List three retirement activities” — rich but hard to summarize</li>
-<li><em>Closed-ended:</em> Choose from given options — easy to tally but limits response</li>
-</ul></li>
+<li>Conduct a <strong>pilot study</strong> to test the design and usage of the questionnaire, that is, its <strong>validity</strong>. The pilot study helps the researcher to pretest the questionnaire to see whether it meets the objectives of the study, and to rewrite any questions that are misleading or ambiguous.</li>
+<li>If the questions are asked by an interviewer, give that person <strong>training</strong>.</li>
+<li>If the survey is done by mail or online, provide <strong>background information and clear directions</strong> with the questionnaire.</li>
 </ul>
+<p>Questionnaires help researchers gather needed statistical information, but much care must be given to proper design and usage; otherwise the results will be unreliable.</p>
 </div>
 </div>
 </div>
@@ -941,21 +1439,26 @@ Yu-You Liou
 </section>
 <section id="what-is-simulation" class="slide level2">
 <h2>What Is Simulation?</h2>
+<p>Many real-life problems can be solved by employing simulation techniques.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Simulation Defined</strong></p>
+<p><strong>Simulation Technique</strong></p>
 </div>
 <div class="callout-content">
-<p>A <strong>simulation technique</strong> uses a probability experiment to replicate a real-life situation that is too costly, dangerous, or time-consuming to study directly.</p>
-<p><strong>Historical roots:</strong> Chess was invented as a simulation of warfare. Modern mathematical simulation dates to the 1940s when physicists <strong>John Von Neumann</strong> and <strong>Stanislaw Ulam</strong> used it to study neutron behavior in nuclear reactor design.</p>
-<p><strong>Modern tools:</strong> Computers generate random numbers, tally outcomes, and compute probabilities millions of times per second.</p>
+<p>A <strong>simulation technique</strong> uses a probability experiment to mimic a real-life situation.</p>
 </div>
 </div>
 </div>
+<p>Instead of studying the actual situation, which might be too costly, too dangerous or too time-consuming, scientists and researchers create a similar situation but one that is less expensive, less dangerous or less time-consuming. NASA uses space shuttle flight simulators so astronauts can practice flying the shuttle, and most video games use the computer to simulate real-life sports.</p>
+</section>
+<section id="a-short-history-of-simulation" class="slide level2">
+<h2>A Short History of Simulation</h2>
+<p>Simulation techniques go back to ancient times when the game of <strong>chess</strong> was invented to simulate warfare. Modern techniques date to the mid-1940s, when two physicists, <strong>John Von Neumann</strong> and <strong>Stanislaw Ulam</strong>, developed simulation techniques to study the behavior of neutrons in the design of atomic reactors.</p>
+<p>Mathematical simulation techniques use <strong>probability and random numbers</strong> to create conditions similar to those of real-life problems. Computers have played an important role in simulation, since they can generate random numbers, perform experiments, tally the outcomes and compute the probabilities much faster than human beings.</p>
 </section>
 <section id="the-monte-carlo-method" class="slide level2">
 <h2>The Monte Carlo Method</h2>
@@ -965,77 +1468,132 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Six Steps of the Monte Carlo Method</strong></p>
+<p><strong>Monte Carlo Method</strong></p>
 </div>
 <div class="callout-content">
-<ol type="1">
-<li><strong>List</strong> all possible outcomes of the experiment</li>
-<li><strong>Assign probabilities</strong> to each outcome</li>
-<li><strong>Map</strong> outcomes to random number ranges</li>
-<li><strong>Draw</strong> random numbers and run the experiment</li>
-<li><strong>Repeat</strong> and tally results</li>
-<li><strong>Compute statistics</strong> and draw conclusions</li>
-</ol>
-<p><strong>Key insight:</strong> Results approach the theoretical values as the number of repetitions increases (Law of Large Numbers).</p>
+<p>The <strong>Monte Carlo method</strong> is a simulation technique using <strong>random numbers</strong>. Monte Carlo simulation techniques are used in business and industry to solve problems that are extremely difficult or involve a large number of variables.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="setting-up-random-number-correspondences" class="slide level2">
-<h2>Setting Up Random Number Correspondences</h2>
-<div class="callout callout-note callout-titled callout-style-default">
+<section id="procedure-table-simulating-experiments-using-the-monte-carlo-method" class="slide level2">
+<h2>Procedure Table: Simulating Experiments Using the Monte Carlo Method</h2>
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Examples of Outcome-to-Number Mapping</strong></p>
+<p><strong>Five Steps</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
 <colgroup>
-<col style="width: 34%">
-<col style="width: 25%">
-<col style="width: 40%">
+<col style="width: 42%">
+<col style="width: 57%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Experiment</th>
-<th>Outcome</th>
-<th>Random Digits</th>
+<th style="text-align: center;">Step</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Coin toss (50/50)</td>
-<td>Heads</td>
-<td>1,3,5,7,9</td>
+<td style="text-align: center;">1</td>
+<td>List all possible outcomes of the experiment.</td>
 </tr>
 <tr class="even">
-<td>Coin toss</td>
-<td>Tails</td>
-<td>0,2,4,6,8</td>
+<td style="text-align: center;">2</td>
+<td>Determine the probability of each outcome.</td>
 </tr>
 <tr class="odd">
-<td>Die roll (1/6 each)</td>
-<td>1–6</td>
-<td>1,2,3,4,5,6 (ignore 7,8,9,0)</td>
+<td style="text-align: center;">3</td>
+<td>Set up a correspondence between the outcomes of the experiment and the random numbers.</td>
 </tr>
 <tr class="even">
-<td>Spinner (4 values, 1/4 each)</td>
-<td>1</td>
-<td>1–2; 2→3–4; 3→5–6; 4→7–8 (ignore 9,0)</td>
+<td style="text-align: center;">4</td>
+<td>Select random numbers from a table and conduct the experiment.</td>
 </tr>
 <tr class="odd">
-<td>Snoring (20% chance)</td>
-<td>Snores</td>
-<td>1,2; Non-snore→3–9,0</td>
+<td style="text-align: center;">5</td>
+<td>Compute any statistics and state the conclusions.</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
+</section>
+<section id="setting-up-the-correspondence-step-3" class="slide level2">
+<h2>Setting Up the Correspondence (Step 3)</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Matching Outcomes to Random Digits</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Experiment</th>
+<th>Correspondence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tossing a coin</strong></td>
+<td>Two outcomes, each with probability <span class="math inline">\frac{1}{2}</span>: odd digits 1, 3, 5, 7, 9 represent a head; even digits 0, 2, 4, 6, 8 represent a tail</td>
+</tr>
+<tr class="even">
+<td><strong>Rolling one die</strong></td>
+<td>Digits 1, 2, 3, 4, 5, 6 represent the spots; the digits 7, 8, 9 and 0 are <strong>ignored</strong>, since they cannot be rolled</td>
+</tr>
+<tr class="odd">
+<td><strong>Rolling two dice</strong></td>
+<td>Two random digits are needed: 26 means a 2 on the first die and a 6 on the second; in 37 the 7 cannot be used, so another digit must be selected</td>
+</tr>
+<tr class="even">
+<td><strong>A three-digit daily lotto number</strong></td>
+<td>Use three-digit random numbers</td>
+</tr>
+<tr class="odd">
+<td><strong>A spinner with four numbers</strong> (Figure 14-3)</td>
+<td>Each number has probability <span class="math inline">\frac{1}{4}</span>: 1 and 2 represent 1, 3 and 4 represent 2, 5 and 6 represent 3, 7 and 8 represent 4; the digits 9 and 0 are ignored</td>
+</tr>
+</tbody>
+</table>
+<p>The random number 8631 represents four tosses of a single coin with the results T, T, H, H — or one toss of four coins with the same results.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="coins-dice-and-spinners-in-r" class="slide level2">
+<h2>Coins, Dice and Spinners in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>coin_digits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb19-2"><a href=""></a><span class="fu">ifelse</span>(coin_digits <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"H"</span>, <span class="st">"T"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "T" "T" "H" "H"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">143</span>)</span>
+<span id="cb21-2"><a href=""></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 6 4 1 4 6 1 1 2 3 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 2 4 3 4 4 2 4 2 2 1</code></pre>
+</div>
+</div>
+<p>The first two lines apply the coin correspondence to the digits 8631 of the table above. The last two lines skip the correspondence altogether: drawing from <code>1:6</code> and from <code>1:4</code> already discards the digits a die or a four-number spinner cannot produce.</p>
 </section>
 <section id="example-14-4" class="slide level2">
 <h2>Example 14-4</h2>
@@ -1045,10 +1603,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Snoring Simulation</strong></p>
+<p><strong>Late Deliveries on a Food Platform</strong></p>
 </div>
 <div class="callout-content">
-<p>According to the CDC, approximately <strong>20%</strong> of people snore while sleeping. Simulate a sample of <strong>20 people</strong> and identify how many snore.</p>
+<p>On a food-delivery platform, <strong>40%</strong> of the orders placed in one district arrive <strong>after</strong> the promised time window <em>(hypothetical data)</em>. Using random numbers, simulate a sample of <strong>20 orders</strong> and count how many of them arrive late.</p>
 </div>
 </div>
 </div>
@@ -1064,12 +1622,9 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p>Since <span class="math inline">20\% = 1/5</span>, one in five people snores.</p>
-<p><strong>Mapping:</strong> Digits 1, 2 → snores; digits 0, 3–9 → does not snore</p>
-<p><strong>Sample random digits:</strong> <span class="math display">7\ 2\ 7\ 4\ 8\ 2\ 2\ 3\ 6\ 1\ 6\ 0\ 4\ 6\ 1\ 5\ 5\ 3\ 8\ 9</span></p>
-<p>Snorers (digits 1 or 2): positions 2, 6, 7, 10, 15 → <strong>5 snorers out of 20</strong></p>
-<p>Proportion: <span class="math inline">5/20 = 0.25</span>, close to the theoretical 20%.</p>
+<p>Now 40% is <span class="math inline">\dfrac{40}{100} = \dfrac{4}{10}</span>, so out of every 10 orders, 4 arrive after the promised window.</p>
+<p>Using the table of random numbers, assign the digits <strong>1, 2, 3 and 4</strong> to the orders that arrive <strong>late</strong>, and the digits <strong>5 through 9 and 0</strong> to the orders that arrive on time.</p>
+<p>Then read 20 random digits and count how many fall in the set <span class="math inline">\{1, 2, 3, 4\}</span>.</p>
 </div>
 </div>
 </div>
@@ -1085,33 +1640,25 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Simulate the 20 orders in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
-<span id="cb19-2"><a href=""></a>n_people <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb19-3"><a href=""></a>p_snore  <span class="ot">&lt;-</span> <span class="fl">0.20</span></span>
-<span id="cb19-4"><a href=""></a></span>
-<span id="cb19-5"><a href=""></a><span class="co"># Simulate with R's built-in Bernoulli sampler</span></span>
-<span id="cb19-6"><a href=""></a>snores <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n_people, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> p_snore)</span>
-<span id="cb19-7"><a href=""></a></span>
-<span id="cb19-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"Simulation results (1 = snores, 0 = does not):</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb25-2"><a href=""></a>order_digits <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-3"><a href=""></a>order_digits</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simulation results (1 = snores, 0 = does not):</code></pre>
+<pre><code> [1] 8 8 6 0 9 5 2 2 8 2 2 1 3 4 0 0 5 7 9 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">cat</span>(snores, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>late_delivery <span class="ot">&lt;-</span> order_digits <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb27-2"><a href=""></a><span class="fu">sum</span>(late_delivery)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 </code></pre>
+<pre><code>[1] 8</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Number who snore:"</span>, <span class="fu">sum</span>(snores), <span class="st">"out of"</span>, n_people, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">mean</span>(late_delivery)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Number who snore: 3 out of 20 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Proportion:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(snores), <span class="dv">3</span>),</span>
-<span id="cb25-2"><a href=""></a>    <span class="st">"  (Theoretical: 0.20)</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Proportion: 0.15   (Theoretical: 0.20)</code></pre>
+<pre><code>[1] 0.4</code></pre>
 </div>
 </div>
+<p>Eight of the 20 simulated orders are late, a proportion of 0.4 that happens to land exactly on the theoretical 0.40. The correspondence, not the particular digits, is the answer; another block of digits gives a different count scattered around 40%.</p>
 </div>
 </div>
 </div>
@@ -1124,36 +1671,10 @@ Yu-You Liou
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tennis Game Simulation</strong></p>
+<p><strong>Winning a Freight Tender</strong></p>
 </div>
 <div class="callout-content">
-<p>Bill is <strong>twice as good</strong> as Mike at tennis. Simulate a <strong>5-game match</strong> between them.</p>
-<p>Since <span class="math inline">P(\text{Bill wins}) = 2/3</span> and <span class="math inline">P(\text{Mike wins}) = 1/3</span>:</p>
-<p><strong>Mapping:</strong> Digits 1–6 → Bill wins; digits 7–9 → Mike wins; digit 0 → ignore</p>
-<p><strong>Random number used:</strong> 86314</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Digit</th>
-<th>8</th>
-<th>6</th>
-<th>3</th>
-<th>1</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Winner</td>
-<td>Mike</td>
-<td>Bill</td>
-<td>Bill</td>
-<td>Bill</td>
-<td>Bill</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Result:</strong> Bill wins 4 games, Mike wins 1.</p>
+<p>Two freight forwarders, <strong>Northline</strong> and <strong>Southport</strong>, bid against each other for export shipments, and Northline wins <strong>twice as often</strong> as Southport. Using random numbers, simulate the outcomes of a series of <strong>five</strong> tenders. <em>(hypothetical data)</em></p>
 </div>
 </div>
 </div>
@@ -1169,39 +1690,41 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p>Since Northline wins twice as often as Southport, the probability that Northline wins a tender is <span class="math inline">\dfrac{2}{3}</span> and the probability that Southport wins is <span class="math inline">\dfrac{1}{3}</span>.</p>
+<p>Use random digits <strong>1 through 6</strong> to represent a win for Northline and <strong>7, 8 and 9</strong> to represent a win for Southport. <strong>Disregard 0.</strong></p>
+<p>Five random digits then make up one five-tender series.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-5-2" class="slide level2">
+<h2>Example 14-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Same correspondence in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
-<span id="cb27-2"><a href=""></a>n_games  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb27-3"><a href=""></a>p_bill   <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">3</span></span>
-<span id="cb27-4"><a href=""></a></span>
-<span id="cb27-5"><a href=""></a>winners <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Bill"</span>,<span class="st">"Mike"</span>),</span>
-<span id="cb27-6"><a href=""></a>                  <span class="at">size =</span> n_games,</span>
-<span id="cb27-7"><a href=""></a>                  <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb27-8"><a href=""></a>                  <span class="at">prob =</span> <span class="fu">c</span>(p_bill, <span class="dv">1</span> <span class="sc">-</span> p_bill))</span>
-<span id="cb27-9"><a href=""></a></span>
-<span id="cb27-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Game-by-game results:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">405</span>)</span>
+<span id="cb31-2"><a href=""></a>tender_digits <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">size =</span> <span class="dv">5</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-3"><a href=""></a>tender_digits</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Game-by-game results:</code></pre>
+<pre><code>[1] 9 4 1 1 3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(winners)) <span class="fu">cat</span>(<span class="st">"  Game"</span>, i, <span class="st">":"</span>, winners[i], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>winner <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(tender_digits <span class="sc">&lt;=</span> <span class="dv">6</span>, <span class="st">"Northline"</span>, <span class="st">"Southport"</span>)</span>
+<span id="cb33-2"><a href=""></a><span class="fu">table</span>(winner)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Game 1 : Bill 
-  Game 2 : Bill 
-  Game 3 : Mike 
-  Game 4 : Mike 
-  Game 5 : Bill </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Bill wins:"</span>, <span class="fu">sum</span>(winners <span class="sc">==</span> <span class="st">"Bill"</span>), <span class="st">"games</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Bill wins: 3 games</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Mike wins:"</span>, <span class="fu">sum</span>(winners <span class="sc">==</span> <span class="st">"Mike"</span>), <span class="st">"games</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Mike wins: 2 games</code></pre>
+<pre><code>winner
+Northline Southport 
+        4         1 </code></pre>
 </div>
 </div>
+<p>Drawing from <code>1:9</code> rather than <code>0:9</code> is how the instruction “disregard 0” is carried out. The digits drawn are 9, 4, 1, 1 and 3, so Northline wins four of the five tenders and Southport wins one.</p>
 </div>
 </div>
 </div>
@@ -1214,10 +1737,10 @@ Bill wins: 3 games</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Rolling a Die Until a 6 Appears</strong></p>
+<p><strong>Inspecting Export Containers</strong></p>
 </div>
 <div class="callout-content">
-<p>A die is rolled until a <strong>6</strong> appears. Using simulation, find the <strong>average number of rolls</strong> needed. Repeat the experiment <strong>20 times</strong>.</p>
+<p>At a container terminal, <strong>one container in six</strong> has an error in its shipping documents <em>(hypothetical data)</em>. An inspector opens containers one at a time until the first documentation error appears. Using simulation, find the <strong>average number of containers opened</strong>. Try the experiment <strong>20 times</strong>.</p>
 </div>
 </div>
 </div>
@@ -1233,12 +1756,10 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Mapping:</strong> Digits 1–6 → die face; digits 7, 8, 9, 0 → ignore</p>
-<p><strong>Example:</strong> Random block 857236 → ignore 8, roll 5, ignore 7, roll 2, roll 3, <strong>roll 6</strong> → <strong>4 rolls</strong> (5, 2, 3, 6)</p>
-<p>After 20 simulated trials, total rolls = <strong>96</strong>: <span class="math display">\bar{X} = \frac{96}{20} = 4.8 \text{ rolls}</span></p>
-<p><strong>Theoretical value</strong> (expected value of geometric distribution): <span class="math display">E(X) = \frac{1}{p} = \frac{1}{1/6} = 6</span></p>
-<p>More repetitions would push the simulation closer to 6.</p>
+<p><strong>Step 1.</strong> List all possible outcomes for one container. Number the six equally likely inspection results 1, 2, 3, 4, 5, 6, and let <strong>6</strong> stand for a documentation error.</p>
+<p><strong>Step 2.</strong> Determine the probabilities. Each outcome has a probability of <span class="math inline">\dfrac{1}{6}</span>.</p>
+<p><strong>Step 3.</strong> Set up a correspondence between the random numbers and the outcomes. Use random numbers 1 through 6; omit the numbers 7, 8, 9 and 0.</p>
+<p><strong>Step 4.</strong> Select a block of random numbers and count each digit 1 through 6 until the first 6 is obtained. For example, the block 40719236 means that <strong>5 containers</strong> were opened, since 0, 7 and 9 are omitted and the inspections are 4, 1, 2, 3, 6.</p>
 </div>
 </div>
 </div>
@@ -1254,38 +1775,19 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">55</span>)</span>
-<span id="cb35-2"><a href=""></a>n_trials <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb35-3"><a href=""></a></span>
-<span id="cb35-4"><a href=""></a>rolls_needed <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_trials, {</span>
-<span id="cb35-5"><a href=""></a>  count <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb35-6"><a href=""></a>  <span class="cf">repeat</span> {</span>
-<span id="cb35-7"><a href=""></a>    roll <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span>)</span>
-<span id="cb35-8"><a href=""></a>    count <span class="ot">&lt;-</span> count <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb35-9"><a href=""></a>    <span class="cf">if</span> (roll <span class="sc">==</span> <span class="dv">6</span>) <span class="cf">break</span></span>
-<span id="cb35-10"><a href=""></a>  }</span>
-<span id="cb35-11"><a href=""></a>  count</span>
-<span id="cb35-12"><a href=""></a>})</span>
-<span id="cb35-13"><a href=""></a></span>
-<span id="cb35-14"><a href=""></a><span class="fu">cat</span>(<span class="st">"Rolls per trial:"</span>, rolls_needed, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rolls per trial: 1 11 2 5 1 1 2 2 7 1 3 1 1 22 5 3 6 1 1 2 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Total rolls:"</span>, <span class="fu">sum</span>(rolls_needed), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Total rolls: 78 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Simulated average:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(rolls_needed), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Simulated average: 3.9 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Theoretical average (1/p = 6):"</span>, <span class="dv">6</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Theoretical average (1/p = 6): 6 </code></pre>
-</div>
-</div>
+<p><strong>Step 4 (continued).</strong> The 20 trials produced by the simulation below are:</p>
+<pre><code>Trial  Containers opened    Trial  Containers opened
+  1            1             11            5
+  2            7             12           11
+  3            4             13            8
+  4            9             14            8
+  5            2             15            1
+  6            2             16            6
+  7            1             17            5
+  8            2             18           12
+  9           11             19            8
+ 10            9             20            2
+                                  Total  114</code></pre>
 </div>
 </div>
 </div>
@@ -1301,37 +1803,106 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Visualization</strong></p>
+<p><strong>Step 5.</strong> Compute the results and draw a conclusion. Here you must find the average:</p>
+<p><span class="math display">\bar{X} = \frac{\Sigma X}{n} = \frac{114}{20} = 5.7</span></p>
+<p>Hence, <strong>the average is about 6 containers</strong>.</p>
+<p><em>Note:</em> the waiting time to the first success has expected value <span class="math inline">\dfrac{1}{p} = \dfrac{1}{1/6} = 6</span>, so the theoretical average is <strong>6</strong>. If this experiment is done many times, say 1000 times, the results should be closer to the theoretical result.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-6-4" class="slide level2">
+<h2>Example 14-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Same experiment in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">55</span>)</span>
-<span id="cb43-2"><a href=""></a>many_trials <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
-<span id="cb43-3"><a href=""></a>  count <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb43-4"><a href=""></a>  <span class="cf">repeat</span> {</span>
-<span id="cb43-5"><a href=""></a>    roll <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span>)</span>
-<span id="cb43-6"><a href=""></a>    count <span class="ot">&lt;-</span> count <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb43-7"><a href=""></a>    <span class="cf">if</span> (roll <span class="sc">==</span> <span class="dv">6</span>) <span class="cf">break</span></span>
-<span id="cb43-8"><a href=""></a>  }</span>
-<span id="cb43-9"><a href=""></a>  count</span>
-<span id="cb43-10"><a href=""></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb36-2"><a href=""></a>containers_opened <span class="ot">&lt;-</span> <span class="fu">rgeom</span>(<span class="dv">20</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb36-3"><a href=""></a>containers_opened</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  7  4  9  2  2  1  2 11  9  5 11  8  8  1  6  5 12  8  2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">sum</span>(containers_opened)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">mean</span>(containers_opened)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.7</code></pre>
+</div>
+</div>
+<p><code>rgeom()</code> counts the failures before the first success, so adding 1 gives the number of containers actually opened. No loop is needed.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-6-5" class="slide level2">
+<h2>Example 14-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Draw figure</strong> — 1000 trials instead of 20</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb42-2"><a href=""></a>many_inspections <span class="ot">&lt;-</span> <span class="fu">rgeom</span>(<span class="dv">1000</span>, <span class="at">prob =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb42-3"><a href=""></a><span class="fu">mean</span>(many_inspections)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.059</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>p146 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">opened =</span> many_inspections), <span class="fu">aes</span>(<span class="at">x =</span> opened)) <span class="sc">+</span></span>
+<span id="cb44-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb44-3"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb44-4"><a href=""></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb44-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Containers Opened Before the First Error (1000 trials)"</span>,</span>
+<span id="cb44-6"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Green line: the theoretical average of 6"</span>,</span>
+<span id="cb44-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"Number of containers opened"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb44-8"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>With 1000 trials the average is 6.059, much closer to the theoretical 6 than the 5.7 of 20 trials.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-6-6" class="slide level2">
+<h2>Example 14-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Output figure</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>p146</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch14_files/figure-revealjs/e14-6-3-1.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">rolls =</span> many_trials), <span class="fu">aes</span>(<span class="at">x =</span> rolls)) <span class="sc">+</span></span>
-<span id="cb44-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb44-3"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(many_trials), <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb44-4"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb44-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Rolls Until First 6 (1000 trials)"</span>,</span>
-<span id="cb44-6"><a href=""></a>       <span class="at">subtitle =</span> <span class="st">"Red = simulated mean | Green = theoretical mean (6)"</span>,</span>
-<span id="cb44-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"Number of Rolls"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb44-8"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-
-</div>
-<img data-src="ch14_files/figure-revealjs/e14-6-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="example-14-7" class="slide level2">
 <h2>Example 14-7</h2>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -1340,10 +1911,10 @@ Bill wins: 3 games</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Selecting a Key</strong></p>
+<p><strong>Finding the Right Pallet</strong></p>
 </div>
 <div class="callout-content">
-<p>A person has <strong>4 keys</strong>, only one of which opens a lock. She tries them at random (without replacement) until the correct one is found. Find the <strong>average number of tries</strong> needed. Repeat <strong>25 times</strong>.</p>
+<p>A picker at a distribution centre is told that a customer’s order is on <strong>one of four</strong> identical pallets. She checks the pallets one at a time, in random order, until she finds the order. Find the <strong>average number of pallets checked</strong>. Try the experiment <strong>25 times</strong>. <em>(hypothetical data)</em></p>
 </div>
 </div>
 </div>
@@ -1359,13 +1930,9 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Setup:</strong> Keys numbered 1–4; key 2 is the correct one.</p>
-<p><strong>Mapping:</strong> Use digits 1–4 only (ignore 5–9, 0). Count digits until 2 appears.</p>
-<p><strong>Example:</strong> 1432 → tries key 1, then 4, then 3, then <strong>2</strong> → <strong>4 tries</strong></p>
-<p>After 25 trials: <span class="math inline">\sum X = 54</span></p>
-<p><span class="math display">\bar{X} = \frac{54}{25} = 2.16 \text{ tries}</span></p>
-<p><strong>Theoretical average:</strong> <span class="math display">E(X) = \frac{n+1}{2} = \frac{4+1}{2} = 2.5</span></p>
+<p><strong>Step 1.</strong> List all possible outcomes of the experiment. They are pallet 1, pallet 2, pallet 3 and pallet 4.</p>
+<p><strong>Step 2.</strong> Determine the probability of each outcome. Since a pallet is checked at random and there are four pallets, the probability of checking each one first is <span class="math inline">\dfrac{1}{4}</span>.</p>
+<p><strong>Step 3.</strong> Set up a correspondence between the random numbers and the outcomes. Number the pallets 1 through 4 and assume that the order is on <strong>pallet 2</strong>. The picker does not know this, so she checks the pallets in random order. For the simulation, read a sequence of random digits using only 1 through 4, skipping any repeat, until the digit 2 is reached.</p>
 </div>
 </div>
 </div>
@@ -1381,34 +1948,78 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
+<p><strong>Step 4.</strong> Repeat the experiment 24 more times. The 25 trials produced by the simulation below are:</p>
+<pre><code>Trial  Pallets checked    Trial  Pallets checked
+  1           2            14           4
+  2           2            15           3
+  3           3            16           3
+  4           4            17           3
+  5           2            18           3
+  6           1            19           4
+  7           3            20           4
+  8           1            21           3
+  9           2            22           2
+ 10           3            23           3
+ 11           4            24           2
+ 12           2            25           3
+ 13           1                  Total  67</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-7-3" class="slide level2">
+<h2>Example 14-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 5.</strong> Compute any statistics and state the conclusions. Find the average:</p>
+<p><span class="math display">\bar{X} = \frac{\Sigma X}{n} = \frac{2 + 2 + \cdots + 3}{25} = \frac{67}{25} = 2.68</span></p>
+<p>The <strong>theoretical average is 2.5</strong>, since the order is equally likely to be found on the first, second, third or fourth pallet checked. Again, only 25 repetitions were used; more repetitions should give a result closer to the theoretical average.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-7-4" class="slide level2">
+<h2>Example 14-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Same experiment in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">77</span>)</span>
-<span id="cb45-2"><a href=""></a>n_trials   <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb45-3"><a href=""></a>correct_key <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb45-4"><a href=""></a></span>
-<span id="cb45-5"><a href=""></a>tries_needed <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_trials, {</span>
-<span id="cb45-6"><a href=""></a>  keys <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)  <span class="co"># random order</span></span>
-<span id="cb45-7"><a href=""></a>  <span class="fu">which</span>(keys <span class="sc">==</span> correct_key)               <span class="co"># position of correct key</span></span>
-<span id="cb45-8"><a href=""></a>})</span>
-<span id="cb45-9"><a href=""></a></span>
-<span id="cb45-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Tries per trial:"</span>, tries_needed, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1407</span>)</span>
+<span id="cb47-2"><a href=""></a>pallet_with_order <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb47-3"><a href=""></a></span>
+<span id="cb47-4"><a href=""></a>pallets_checked <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">25</span>, <span class="fu">which</span>(<span class="fu">sample</span>(<span class="dv">4</span>) <span class="sc">==</span> pallet_with_order))</span>
+<span id="cb47-5"><a href=""></a>pallets_checked</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Tries per trial: 1 3 2 1 1 4 3 4 2 4 3 2 3 2 2 3 3 4 1 2 2 1 1 4 2 </code></pre>
+<pre><code> [1] 2 2 3 4 2 1 3 1 2 3 4 2 1 4 3 3 3 3 4 4 3 2 3 2 3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Total tries:"</span>, <span class="fu">sum</span>(tries_needed), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">sum</span>(pallets_checked)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total tries: 60 </code></pre>
+<pre><code>[1] 67</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Simulated average:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(tries_needed), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">mean</span>(pallets_checked)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simulated average: 2.4 </code></pre>
+<pre><code>[1] 2.68</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Theoretical average ((n+1)/2 = 2.5):"</span>, <span class="fl">2.5</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">mean</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Theoretical average ((n+1)/2 = 2.5): 2.5 </code></pre>
+<pre><code>[1] 2.5</code></pre>
 </div>
 </div>
+<p><code>sample(4)</code> shuffles the four pallets into a checking order, and <code>which()</code> reports the position at which the order turns up. The last line is the theoretical average.</p>
 </div>
 </div>
 </div>
@@ -1421,10 +2032,10 @@ Bill wins: 3 games</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Selecting a Monetary Bill</strong></p>
+<p><strong>A Scratch-Card Promotion</strong></p>
 </div>
 <div class="callout-content">
-<p>A box contains <strong>5 one-dollar bills</strong>, <strong>3 five-dollar bills</strong>, and <strong>2 ten-dollar bills</strong>. A person randomly selects one bill. Find the <strong>expected value</strong> of the selected bill. Perform the experiment <strong>25 times</strong>.</p>
+<p>A convenience-store chain runs a scratch-card promotion. Of every 10 cards, five are worth NT$50, three are worth NT$100 and two are worth NT$300 <em>(hypothetical data)</em>. A customer scratches one card at random. What is the <strong>expected value</strong> of a card? Perform the experiment <strong>25 times</strong>.</p>
 </div>
 </div>
 </div>
@@ -1440,13 +2051,10 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Mathematical solution</strong></p>
-<p><strong>Probabilities:</strong> <span class="math inline">P(\$1) = 5/10 = 0.5</span>, <span class="math inline">P(\$5) = 3/10 = 0.3</span>, <span class="math inline">P(\$10) = 2/10 = 0.2</span></p>
-<p><strong>Mapping:</strong> Digits 1–5 → <span class="math inline">\$1</span>; digits 6–8 → <span class="math inline">\$5</span>; digits 9, 0 → <span class="math inline">\$10</span></p>
-<p><strong>25 simulated draws:</strong> Total = <span class="math inline">\$116</span></p>
-<p><span class="math display">\bar{X} = \frac{116}{25} = \$4.64</span></p>
-<p><strong>Theoretical expected value:</strong> <span class="math display">E(X) = 0.5(1) + 0.3(5) + 0.2(10) = 0.5 + 1.5 + 2.0 = \$4.00</span></p>
-<p>The simulation is close to the theoretical value; more repetitions bring the results even closer.</p>
+<p><strong>Step 1.</strong> List all possible outcomes. They are NT$50, NT$100 and NT$300.</p>
+<p><strong>Step 2.</strong> Assign the probabilities to each outcome:</p>
+<p><span class="math display">P(50) = \frac{5}{10} \qquad P(100) = \frac{3}{10} \qquad P(300) = \frac{2}{10}</span></p>
+<p><strong>Step 3.</strong> Set up a correspondence between the random numbers and the outcomes. Use random numbers <strong>1 through 5</strong> to represent an NT$50 card, <strong>6 through 8</strong> to represent an NT$100 card, and <strong>9 and 0</strong> to represent an NT$300 card.</p>
 </div>
 </div>
 </div>
@@ -1462,37 +2070,16 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R implementation</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">33</span>)</span>
-<span id="cb53-2"><a href=""></a>n_trials <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb53-3"><a href=""></a></span>
-<span id="cb53-4"><a href=""></a>bills    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
-<span id="cb53-5"><a href=""></a>probs    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>)</span>
-<span id="cb53-6"><a href=""></a></span>
-<span id="cb53-7"><a href=""></a>draws <span class="ot">&lt;-</span> <span class="fu">sample</span>(bills, <span class="at">size =</span> n_trials, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> probs)</span>
-<span id="cb53-8"><a href=""></a></span>
-<span id="cb53-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"Bill values drawn:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Bill values drawn:</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">cat</span>(draws, <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1 1 1 10 10 5 1 1 1 1 5 1 1 1 5 10 5 1 1 10 5 1 1 1 10 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Total:"</span>, <span class="fu">sum</span>(draws), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Total: 90 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Simulated average: $"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(draws), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Simulated average: $ 3.6 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Theoretical E(X): $"</span>, <span class="fu">sum</span>(bills <span class="sc">*</span> probs), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Theoretical E(X): $ 4 </code></pre>
-</div>
-</div>
+<p><strong>Step 4.</strong> Select 25 random numbers and tally the results.</p>
+<pre><code>Number      Results (NT$)
+96569       300, 100, 50, 100, 300
+56685       50, 100, 100, 100, 50
+53749       50, 50, 100, 50, 300
+52625       50, 50, 100, 50, 50
+43420       50, 50, 50, 50, 300</code></pre>
+<p><strong>Step 5.</strong> Compute the average:</p>
+<p><span class="math display">\bar{X} = \frac{\Sigma X}{n} = \frac{300 + 100 + 50 + \cdots + 300}{25} = \frac{2600}{25} = 104</span></p>
+<p>Hence, the simulated average value of a card is <strong>NT$104</strong>.</p>
 </div>
 </div>
 </div>
@@ -1508,19 +2095,30 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Draw figure</strong></p>
+<p>Recall that using the expected value formula <span class="math inline">E(X) = \Sigma[X \cdot P(X)]</span> gives a theoretical average of</p>
+<p><span class="math display">E(X) = (0.5)(50) + (0.3)(100) + (0.2)(300) = 115</span></p>
+<p><strong>Reproduce the 25 draws in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">33</span>)</span>
-<span id="cb63-2"><a href=""></a>many_draws <span class="ot">&lt;-</span> <span class="fu">sample</span>(bills, <span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> probs)</span>
-<span id="cb63-3"><a href=""></a></span>
-<span id="cb63-4"><a href=""></a>p148 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">value =</span> many_draws), <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(value))) <span class="sc">+</span></span>
-<span id="cb63-5"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"gold"</span>,<span class="st">"steelblue"</span>,<span class="st">"darkgreen"</span>), <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
-<span id="cb63-6"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1000</span> <span class="sc">*</span> probs, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb63-7"><a href=""></a>             <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"gold3"</span>,<span class="st">"steelblue4"</span>,<span class="st">"darkgreen"</span>), <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb63-8"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bill Selection Simulation (1000 trials)"</span>,</span>
-<span id="cb63-9"><a href=""></a>       <span class="at">x =</span> <span class="st">"Bill Value ($)"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb63-10"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">108</span>)</span>
+<span id="cb56-2"><a href=""></a>card_digits <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">size =</span> <span class="dv">25</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb56-3"><a href=""></a></span>
+<span id="cb56-4"><a href=""></a>value_of_digit <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">300</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">300</span>)</span>
+<span id="cb56-5"><a href=""></a>card_value <span class="ot">&lt;-</span> value_of_digit[card_digits <span class="sc">+</span> <span class="dv">1</span>]</span>
+<span id="cb56-6"><a href=""></a>card_value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 300 100  50 100 300  50 100 100 100  50  50  50 100  50 300  50  50 100  50
+[20]  50  50  50  50  50 300</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">sum</span>(card_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2600</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">mean</span>(card_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 104</code></pre>
+</div>
+</div>
+<p><code>value_of_digit</code> holds the correspondence for the digits 0 to 9 in order, so a single lookup replaces a chain of <code>ifelse()</code> tests.</p>
 </div>
 </div>
 </div>
@@ -1536,9 +2134,41 @@ Bill wins: 3 games</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
+<p><strong>Draw figure</strong> — 1000 cards instead of 25</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">1418</span>)</span>
+<span id="cb62-2"><a href=""></a>card_values  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>)</span>
+<span id="cb62-3"><a href=""></a>card_chances <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>)</span>
+<span id="cb62-4"><a href=""></a>many_cards   <span class="ot">&lt;-</span> <span class="fu">sample</span>(card_values, <span class="at">size =</span> <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> card_chances)</span>
+<span id="cb62-5"><a href=""></a><span class="fu">mean</span>(many_cards)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 113.85</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>p148 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">value =</span> <span class="fu">factor</span>(many_cards, <span class="at">levels =</span> card_values)), <span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb64-2"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb64-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scratch-Card Value (1000 cards)"</span>,</span>
+<span id="cb64-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"Value of the card (NT$)"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb64-5"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Over 1000 cards the average is 113.85, close to the theoretical NT$115.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-14-8-5" class="slide level2">
+<h2>Example 14-8</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
 <p><strong>Output figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>p148</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>p148</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1551,67 +2181,424 @@ Bill wins: 3 games</code></pre>
 </div>
 </div>
 </section>
-<section id="monte-carlo-method-summary" class="slide level2">
-<h2>Monte Carlo Method: Summary</h2>
+<section id="simulation-is-an-approximation" class="slide level2">
+<h2>Simulation Is an Approximation</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Caution</strong></p>
+</div>
+<div class="callout-content">
+<p>Remember that simulation techniques <strong>do not give exact results</strong>. The more times the experiment is performed, the closer the actual results should be to the theoretical results. (Recall the <strong>law of large numbers</strong>.)</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Example</th>
+<th style="text-align: center;">Simulated result</th>
+<th style="text-align: center;">Theoretical result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>14-6 Inspecting containers</td>
+<td style="text-align: center;">5.7 containers</td>
+<td style="text-align: center;">6 containers</td>
+</tr>
+<tr class="even">
+<td>14-7 Finding a pallet</td>
+<td style="text-align: center;">2.68 pallets</td>
+<td style="text-align: center;">2.5 pallets</td>
+</tr>
+<tr class="odd">
+<td>14-8 Scratch card</td>
+<td style="text-align: center;">NT$104</td>
+<td style="text-align: center;">NT$115</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="the-monty-hall-problem-in-r" class="slide level2">
+<h2>The Monty Hall Problem in R</h2>
+<p>On a game show the host gives a contestant a choice of three doors. A prize is behind one door. After the contestant selects a door, the host opens one of the other doors with no prize behind it and asks whether the contestant wants to switch. By switching, the probability of winning is <span class="math inline">\dfrac{2}{3}</span> and the probability of losing is <span class="math inline">\dfrac{1}{3}</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb66-2"><a href=""></a>prize_door <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-3"><a href=""></a>first_pick <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-4"><a href=""></a></span>
+<span id="cb66-5"><a href=""></a>switch_wins <span class="ot">&lt;-</span> first_pick <span class="sc">!=</span> prize_door</span>
+<span id="cb66-6"><a href=""></a><span class="fu">mean</span>(switch_wins)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6672</code></pre>
+</div>
+</div>
+<p>Switching wins exactly when the first pick was wrong, so the door the host opens never has to be simulated. The simulated win rate is 0.6672, against the theoretical <span class="math inline">\dfrac{2}{3} \approx 0.667</span>.</p>
+</section></section>
+<section>
+<section id="section-14-4-big-data" class="title-slide slide level1 center" data-background-color="#2c4a6e">
+<h1>Section 14-4: Big Data</h1>
+
+</section>
+<section id="what-is-big-data" class="slide level2">
+<h2>What Is Big Data?</h2>
+<p>With the advent of computers and their expanding capacity, companies can secure large amounts of data every day. Hence a relatively new field of applications of data, called <strong>big data</strong>, is emerging.</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Summary</strong></p>
+<p><strong>Big Data</strong></p>
+</div>
+<div class="callout-content">
+<p>Any kind of data which has these three characteristics is defined as <strong>big data</strong>:</p>
+<ol type="1">
+<li>There is an extremely large <strong>volume</strong> of data.</li>
+<li>There is an extremely high <strong>velocity</strong> of data. (This means that the size of the data set is increasing very rapidly.)</li>
+<li>There is an extremely wide <strong>variety</strong> of data in the data set.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="the-3-vs-and-a-fourth" class="slide level2">
+<h2>The 3 V’s, and a Fourth</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Volume, Velocity, Variety and Variability</strong></p>
 </div>
 <div class="callout-content">
 <table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Step</th>
-<th>Action</th>
+<th>V</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>List all possible outcomes</td>
+<td><strong>Volume</strong></td>
+<td>The data set is extremely large</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>Assign probabilities</td>
+<td><strong>Velocity</strong></td>
+<td>The size of the data set is increasing very rapidly</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>Map outcomes to random number ranges</td>
+<td><strong>Variety</strong></td>
+<td>The data set contains an extremely wide variety of data</td>
 </tr>
 <tr class="even">
-<td>4</td>
-<td>Draw random numbers, run experiment</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Repeat and tally</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Compute statistics, draw conclusions</td>
+<td><strong>Variability</strong></td>
+<td>The data can be collected at various times, such as monthly, seasonally, or per event</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Remember:</strong> Simulation approximates — it does not replace — exact probability calculations. The Law of Large Numbers guarantees convergence with enough repetitions.</p>
-<p><strong>Modern use:</strong> NASA flight simulators, video game physics, financial risk modeling, drug trial design, climate modeling.</p>
+<p>The first three characteristics are known as the <strong>3 V’s of big data</strong>, first developed by industrial analyst <strong>Doug Laney</strong>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="structured-and-unstructured-data" class="slide level2">
+<h2>Structured and Unstructured Data</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Two Kinds of Data</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Structured data</strong> are data that can be displayed in the form of tables using <strong>rows and columns</strong>. Numbers, names, dates, genders, income and groups of words are examples.</p>
+<p><strong>Unstructured data</strong> are data in which <strong>words and images</strong> are used. Text messages, comments about a business, emails, photographs, and data that include various profiles of situations where words and images are used are some examples.</p>
+<p>Most of what an organization collects today is unstructured: for every transaction record that fits neatly into rows and columns there are many more reviews, emails, photographs, voice recordings and sensor logs that do not.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="structured-and-unstructured-data-in-r" class="slide level2">
+<h2>Structured and Unstructured Data in R</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>structured_orders <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb68-2"><a href=""></a>  <span class="at">order_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb68-3"><a href=""></a>  <span class="at">date     =</span> <span class="fu">c</span>(<span class="st">"2026-03-05"</span>, <span class="st">"2026-03-06"</span>, <span class="st">"2026-03-06"</span>),</span>
+<span id="cb68-4"><a href=""></a>  <span class="at">amount   =</span> <span class="fu">c</span>(<span class="dv">245</span>, <span class="dv">138</span>, <span class="dv">1020</span>),</span>
+<span id="cb68-5"><a href=""></a>  <span class="at">store    =</span> <span class="fu">c</span>(<span class="st">"Taipei"</span>, <span class="st">"Kaohsiung"</span>, <span class="st">"Taipei"</span>)</span>
+<span id="cb68-6"><a href=""></a>)</span>
+<span id="cb68-7"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(structured_orders, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">order_id</th>
+<th style="text-align: center;">date</th>
+<th style="text-align: center;">amount</th>
+<th style="text-align: center;">store</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2026-03-05</td>
+<td style="text-align: center;">245</td>
+<td style="text-align: center;">Taipei</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2026-03-06</td>
+<td style="text-align: center;">138</td>
+<td style="text-align: center;">Kaohsiung</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2026-03-06</td>
+<td style="text-align: center;">1020</td>
+<td style="text-align: center;">Taipei</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a>unstructured_reviews <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"the delivery was late but the staff were kind"</span>,</span>
+<span id="cb69-2"><a href=""></a>                          <span class="st">"great coffee, terrible parking"</span>)</span>
+<span id="cb69-3"><a href=""></a><span class="fu">nchar</span>(unstructured_reviews)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 45 30</code></pre>
+</div>
+</div>
+<p>The orders sort, average and join at once; the reviews do not.</p>
+</section>
+<section id="structured-and-unstructured-data-in-r-1" class="slide level2">
+<h2>Structured and Unstructured Data in R</h2>
+<p><strong>Output figure</strong> — one retail chain’s monthly data volume <em>(hypothetical data)</em></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>monthly_records <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb71-2"><a href=""></a>  <span class="at">source   =</span> <span class="fu">c</span>(<span class="st">"POS transactions"</span>, <span class="st">"App clicks"</span>, <span class="st">"Customer reviews"</span>, <span class="st">"Sensor logs"</span>),</span>
+<span id="cb71-3"><a href=""></a>  <span class="at">kind     =</span> <span class="fu">c</span>(<span class="st">"Structured"</span>, <span class="st">"Unstructured"</span>, <span class="st">"Unstructured"</span>, <span class="st">"Unstructured"</span>),</span>
+<span id="cb71-4"><a href=""></a>  <span class="at">millions =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">48</span>, <span class="dv">3</span>, <span class="dv">95</span>)</span>
+<span id="cb71-5"><a href=""></a>)</span>
+<span id="cb71-6"><a href=""></a></span>
+<span id="cb71-7"><a href=""></a><span class="fu">ggplot</span>(monthly_records, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(source, millions), <span class="at">y =</span> millions, <span class="at">fill =</span> kind)) <span class="sc">+</span></span>
+<span id="cb71-8"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb71-9"><a href=""></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb71-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monthly Records Collected by One Retail Chain"</span>,</span>
+<span id="cb71-11"><a href=""></a>       <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Records (millions)"</span>, <span class="at">fill =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb71-12"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch14_files/figure-revealjs/s14-4-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="where-big-data-comes-from" class="slide level2">
+<h2>Where Big Data Comes From</h2>
+<p>Big data sets are obtained from a variety of sources.</p>
+<ul>
+<li><strong>Web-connected devices.</strong> Every time you conduct a web search, the sites you visit are recorded.</li>
+<li><strong>Marketing and sales systems</strong>, which log every transaction, every click and every returned item.</li>
+<li><strong>Government open-data portals</strong>, which publish large administrative data sets for anyone to download.</li>
+</ul>
+</section>
+<section id="three-aspects-of-big-data" class="slide level2">
+<h2>Three Aspects of Big Data</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>What Must Be Considered</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li><strong>How the data can be collected.</strong></li>
+<li><strong>How the data can be stored</strong> so that they can be retrieved.</li>
+<li><strong>How the data can be analyzed or used easily.</strong></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="aspect-1-collecting-the-data" class="slide level2">
+<h2>Aspect 1: Collecting the Data</h2>
+<p>Data can be collected on a day-to-day basis. In manufacturing processes, the information about the use of a credit card is recorded. In health care, records of illnesses, treatments and successes of patient treatments are recorded.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Machine-Generated and Human-Generated Data</strong></p>
+</div>
+<div class="callout-content">
+<p>Data can be <strong>machine-generated</strong>, <strong>computer-generated</strong> or <strong>human-generated</strong>; sometimes data are obtained by a <strong>combination</strong> of human- and machine-generated processes.</p>
+<ul>
+<li>Machine-generated data can be obtained at the <strong>point of sale</strong> of items.</li>
+<li>Human-generated data can be obtained when a <strong>human collects the data and inputs it</strong> into a computer for storage.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="aspect-2-storing-the-data" class="slide level2">
+<h2>Aspect 2: Storing the Data</h2>
+<p>The second aspect of big data is <strong>how and where it is stored</strong>. It is necessary to structure the data so that they can be retrieved to be analyzed. This is a complicated process, since a large variety of data is collected.</p>
+<p>For example, a single credit card transaction could include the customer’s name, address, phone number, type of card used, credit card number, the items purchased, the amount of the purchase, and the time and date of purchase.</p>
+<ul>
+<li>Storage is increasingly <strong>rented from cloud providers</strong> rather than built in-house, because the volume grows faster than any one organization’s own servers.</li>
+<li>Retrieving the right slice of a very large set means spreading it over many machines and processing the pieces in parallel, which is what <strong>distributed computing frameworks</strong> are designed to do.</li>
+</ul>
+</section>
+<section id="aspect-3-analyzing-the-data" class="slide level2">
+<h2>Aspect 3: Analyzing the Data</h2>
+<p>Big data sets are analyzed to give information that helps business owners make better decisions and run their businesses more efficiently.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>An Illustration: Routing a Delivery Fleet</strong></p>
+</div>
+<div class="callout-content">
+<p>Consider a parcel carrier whose vans carry sensors that record every stop, every idling minute and every door opening. One van’s log for one day is of little interest on its own. Pooled over thousands of vans and millions of stops, the same records show which turns, which delivery windows and which street sequences cost the most time and fuel.</p>
+<p>The output of the analysis is a <strong>route plan</strong>: the order in which each driver should make the day’s stops. Shorter routes mean less fuel, fewer driving hours and less wear on the vehicles — a saving that is invisible in any single day’s data but substantial across a fleet over a year.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="where-big-data-is-used" class="slide level2">
+<h2>Where Big Data Is Used</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Applications</strong></p>
+</div>
+<div class="callout-content">
+<table class="caption-top">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Use of big data analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Banking</strong></td>
+<td>Boost customer satisfaction with the banks’ services, minimize fraud, keep up with the services of other banks</td>
+</tr>
+<tr class="even">
+<td><strong>Education</strong></td>
+<td>Identify potential dropouts before they leave and provide services to keep them in school; track student progress against other schools; find better methods of student evaluation</td>
+</tr>
+<tr class="odd">
+<td><strong>Government</strong></td>
+<td>Manage utilities and agencies, reduce traffic congestion, reduce crime</td>
+</tr>
+<tr class="even">
+<td><strong>Health care</strong></td>
+<td>Improve patient care by keeping records of illnesses, prescriptions, treatments and recoveries; give doctors quick, accurate access to patient health records</td>
+</tr>
+<tr class="odd">
+<td><strong>Manufacturing</strong></td>
+<td>Boost output, minimize waste, make sound decisions about products and services</td>
+</tr>
+<tr class="even">
+<td><strong>Retail sales</strong></td>
+<td>Find the most effective way to handle customer complaints and bring back customers who no longer use the business</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="big-data-is-here-to-stay" class="slide level2">
+<h2>Big Data Is Here to Stay</h2>
+<p>Many of the statistical techniques in this book, along with other techniques such as <strong>optimization</strong>, <strong>affinity analysis</strong> and <strong>forecasting</strong>, can be used with big data to make our lives easier and more exciting.</p>
+</section>
+<section id="important-terms" class="slide level2">
+<h2>Important Terms</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Chapter 14 Vocabulary</strong></p>
+</div>
+<div class="callout-content">
+<p>biased sample · big data · cluster sample · convenience sample · double sampling · Monte Carlo method · multistage sampling · random sample · sequence sampling · simulation technique · stratified sample · structured data · systematic sample · unbiased sample · unstructured data</p>
 </div>
 </div>
 </div>
 </section>
 <section id="key-takeaways" class="slide level2">
 <h2>Key Takeaways</h2>
-<p><strong>Section 14-1 — Sampling:</strong> - Samples save time, money, and enable otherwise impossible research - Four methods: Random, Systematic, Stratified, Cluster - Unbiased samples require every subject to have an equal selection probability</p>
-<p><strong>Section 14-2 — Surveys:</strong> - Question wording, order, and format all affect results - Avoid: biased questions, confusing words, double-barreled questions, double negatives, improper ordering</p>
-<p><strong>Section 14-3 — Simulation:</strong> - Monte Carlo method: map outcomes to random number ranges, repeat, tally - Simulated averages approach theoretical values as <span class="math inline">n \to \infty</span> - R’s <code>sample()</code>, <code>rbinom()</code>, and <code>replicate()</code> make simulation straightforward</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key point</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>A <strong>sample</strong> is a subgroup of the population; sampling saves time and money, yields information that could not be obtained otherwise, and allows more detailed study</li>
+<li>For a sample to be <strong>random</strong>, every member of the population must have an equal chance of being selected; a randomly chosen sample is <strong>unbiased</strong>, and a sample chosen with systematic error is <strong>biased</strong></li>
+<li>Four kinds of bias: <strong>sampling or selection</strong>, <strong>nonresponse</strong>, <strong>response or interviewer</strong>, and <strong>volunteer</strong> bias</li>
+<li>The four basic sampling methods are <strong>random</strong>, <strong>systematic</strong> (every <span class="math inline">k</span>th element after a random start), <strong>stratified</strong> (random selection within homogeneous strata) and <strong>cluster</strong> (a preexisting natural group)</li>
+<li>Other methods are <strong>sequence sampling</strong> (quality control), <strong>double sampling</strong> (screen, then sample), <strong>multistage sampling</strong> (a combination of methods) and <strong>convenience sampling</strong></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="key-takeaways-1" class="slide level2">
+<h2>Key Takeaways</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Key point</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Survey questions must avoid <strong>bias</strong>, <strong>confusing words</strong>, <strong>double-barreled questions</strong>, <strong>double negatives</strong> and <strong>improper ordering</strong>; timing, known identity, and open- versus closed-ended wording also change the answers</li>
+<li>A <strong>simulation technique</strong> uses a probability experiment to mimic a real-life situation; the <strong>Monte Carlo method</strong> is a simulation technique using random numbers, carried out in five steps</li>
+<li>Simulation gives <strong>approximate</strong> results: 5.7 containers against a theoretical 6 in Example 14-6, 2.68 pallets against 2.5 in Example 14-7, and NT$104 against NT$115 in Example 14-8; the <strong>law of large numbers</strong> closes the gap as repetitions increase</li>
+<li><strong>Big data</strong> is defined by the 3 V’s — <strong>volume</strong>, <strong>velocity</strong> and <strong>variety</strong> — with <strong>variability</strong> often added; data are <strong>structured</strong> when they fit into rows and columns and <strong>unstructured</strong> when they are text, images or other free-form records</li>
+<li>Big data must be <strong>collected</strong>, <strong>stored</strong> and <strong>analyzed</strong>, and is used in banking, education, government, health care, manufacturing and retail</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

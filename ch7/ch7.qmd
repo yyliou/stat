@@ -47,777 +47,1332 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 ## Overview
-**Sections covered:**
 
-- **7-1** Confidence Intervals for the Mean When $\sigma$ Is Known
-- **7-2** Confidence Intervals for the Mean When $\sigma$ Is Unknown
-- **7-3** Confidence Intervals and Sample Size for Proportions
-- **7-4** Confidence Intervals for Variances and Standard Deviations
+Chapter 7 is about **estimation** — using a sample statistic to estimate a population parameter, with a stated confidence level and a stated sample size.
+
+| Section | Topics |
+|---------|--------|
+| 7-1 | Estimation; point estimates; properties of a good estimator; interval estimates; confidence level and interval; critical value $z_{\alpha/2}$; margin of error |
+| 7-2 | Confidence interval for the mean, $\sigma$ known; assumptions; rounding rule; minimum sample size |
+| 7-3 | The $t$ distribution; degrees of freedom; confidence interval for the mean, $\sigma$ unknown; $z$ versus $t$ |
 
 ---
 
-**Estimation** is the process of using sample data to approximate the value of a population parameter. Because collecting data from an entire population is usually impractical, we rely on sample statistics — estimators — to infer what the population looks like.
+## Overview (continued)
 
-This chapter introduces two types of estimates: **point estimates** (a single value) and **interval estimates** (a range of plausible values). It also addresses a critical practical question: *how large a sample do we need?*
+| Section | Topics |
+|---------|--------|
+| 7-4 | Sample proportion $\hat{p}$ and $\hat{q}$; confidence interval for a proportion; minimum sample size |
+| 7-5 | The chi-square distribution; confidence intervals for a variance and a standard deviation |
 
-# Section 7-1: Confidence Intervals for the Mean When $\sigma$ Is Known {background-color="#2c4a6e"}
+## Chapter Objectives
 
-## Point Estimates vs. Interval Estimates
+:::{.callout-important}
+## After completing this chapter, you should be able to
+
+1. Find the confidence interval for the mean when $\sigma$ is known.
+2. Determine the minimum sample size for finding a confidence interval for the mean.
+3. Find the confidence interval for the mean when $\sigma$ is unknown.
+4. Find the confidence interval for a proportion.
+5. Determine the minimum sample size for finding a confidence interval for a proportion.
+6. Find a confidence interval for a variance and a standard deviation.
+:::
+
+# Section 7-1: Confidence Intervals {background-color="#2c4a6e"}
+
+## Estimation
+
+One aspect of inferential statistics is **estimation**: the process of estimating the value of a parameter from information obtained from a sample.
+
+Sample measures (statistics) are used to estimate population measures (parameters) — a sample mean estimates a population mean, a sample proportion estimates a population proportion. Statistics used this way are called **estimators**.
+
+:::{.callout-note}
+## Estimation
+
+**Estimation** is the process of estimating the value of a parameter from information obtained from a sample.
+:::
+
+:::{.callout-important}
+## Common Assumptions for the Procedures in This Chapter
+
+1. The sample must be **randomly selected**.
+2. Either the sample size is $n \geq 30$, **or** the population is normally or approximately normally distributed when $n < 30$.
+
+Check the second assumption with the Chapter 6 methods: look at the histogram for a bell shape, check for outliers, and inspect a normal quantile plot.
+:::
+
+## Point Estimates
+
+A college president selects a random sample of 100 students and finds their average age to be 22.3 years. Inferring that the average age of *all* students is 22.3 years is a **point estimate**.
 
 :::{.callout-note}
 ## Point Estimate
-A **point estimate** is a single numerical value used to estimate a population parameter. The best point estimate of the population mean $\mu$ is the sample mean $\bar{X}$.
+
+A **point estimate** is a specific numerical value estimate of a parameter. The best point estimate of the population mean $\mu$ is the sample mean $\bar{X}$.
 :::
-
-:::{.callout-note}
-## Interval Estimate
-An **interval estimate** is a range of values used to estimate a parameter. It acknowledges that the sample mean will differ from $\mu$ due to sampling variability.
-:::
-
-A point estimate alone gives no sense of accuracy. An interval estimate — paired with a **confidence level** — tells us how reliable the estimate is.
-
-## Properties of a Good Estimator
 
 :::{.callout-important}
 ## Three Properties of a Good Estimator
-1. **Unbiased**: The expected value of the estimator equals the true parameter
-2. **Consistent**: As sample size grows, the estimator converges to the true value
-3. **Relatively Efficient**: Among all unbiased estimators, it has the smallest variance
+
+1. The estimator should be an **unbiased estimator** — the expected value (the mean of the estimates obtained from samples of a given size) equals the parameter being estimated.
+2. The estimator should be **consistent** — as the sample size increases, the value of the estimator approaches the value of the parameter estimated.
+3. The estimator should be a **relatively efficient estimator** — of all the statistics that can be used to estimate a parameter, it has the smallest variance.
 :::
 
-The sample mean $\bar{X}$ satisfies all three properties — it is the preferred estimator of $\mu$.
+## Interval Estimates
+
+A sample mean is almost always somewhat different from the population mean because of sampling error, and there is **no way of knowing** how close a particular point estimate is to $\mu$. For that reason statisticians prefer an interval estimate.
+
+:::{.callout-note}
+## Interval Estimate
+
+An **interval estimate** of a parameter is an interval or a range of values used to estimate the parameter. This estimate may or may not contain the value of the parameter being estimated.
+:::
+
+An interval estimate for the average age of all students might be $21.9 < \mu < 22.7$, or $22.3 \pm 0.4$ years. An interval estimate for a proportion might be $0.107 < p < 0.113$, or $11\% \pm 0.3\%$.
+
+Confidence intervals may also be written with parentheses: $(21.9,\ 22.7)$ and $(10.7\%,\ 11.3\%)$.
 
 ## Confidence Level and Confidence Interval
 
 :::{.callout-note}
 ## Confidence Level
-The **confidence level** is the probability that the interval estimate will contain the true population parameter, assuming the estimation process is repeated many times.
+
+The **confidence level** of an interval estimate of a parameter is the probability that the interval estimate will contain the parameter, assuming that a large number of samples are selected and that the estimation process on the same parameter is repeated.
 :::
 
 :::{.callout-note}
 ## Confidence Interval
-A **confidence interval** is a specific interval estimate of a parameter, determined from sample data and a chosen confidence level. Common levels: **90%, 95%, 99%**.
+
+A **confidence interval** is a specific interval estimate of a parameter determined by using data obtained from a sample and by using the specific confidence level of the estimate.
 :::
 
-Higher confidence → wider interval. There is always a trade-off between precision and certainty.
+Three common confidence intervals are used: the **90%**, the **95%**, and the **99%** confidence intervals.
 
-## Formula: Confidence Interval for $\mu$ ($\sigma$ Known)
+---
+
+## Confidence Level and Confidence Interval
+
+A population has a fixed value for the mean or proportion. A confidence interval constructed from one sample either includes that parameter or it does not. If 95% confidence intervals were constructed for **all possible samples** of a specific size, 95% of them would contain the population parameter.
+
+To be more confident — 99% instead of 95% — you must make the interval **wider**. A 99% interval for the mean age of college students might be $21.7 < \mu < 22.9$, or $22.3 \pm 0.6$. Hence a tradeoff occurs.
+
+:::{.callout-warning}
+## Caution
+
+The confidence level describes the long-run behaviour of the **procedure**, not one particular interval. Once an interval has been computed, the parameter is either in it or it is not.
+:::
+
+## The Critical Value $z_{\alpha/2}$
+
+The Greek letter $\alpha$ represents the total area in **both** tails of the standard normal distribution curve, and $\alpha/2$ represents the area in **each** tail. The value $z_{\alpha/2}$ is called a **critical value**.
+
+The stated confidence level is the percentage equivalent of $1 - \alpha$:
+
+- 95% confidence interval: $\alpha = 0.05$, since $1 - 0.05 = 0.95$
+- 99% confidence interval: $\alpha = 0.01$, since $1 - 0.01 = 0.99$
+
+---
+
+## The Critical Value $z_{\alpha/2}$
+
+Table A-4 is the paper route to these critical values; `qnorm()` is the R route. For a 95% confidence interval $z_{\alpha/2} = 1.960$, and for a 99% confidence interval $z_{\alpha/2} = 2.576$.
+
+```{r s7-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+confidence_level <- c(0.90, 0.95, 0.99)
+critical_z <- qnorm(1 - (1 - confidence_level) / 2)
+
+knitr::kable(data.frame(Confidence = paste0(confidence_level * 100, "%"),
+                        alpha = 1 - confidence_level,
+                        z = round(critical_z, 3)), align = "c")
+```
+
+## Margin of Error
 
 :::{.callout-note}
-## CI Formula ($\sigma$ Known)
-$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+## Margin of Error
 
-| Confidence Level | $z_{\alpha/2}$ |
-|-----------------|----------------|
-| 90% | 1.65 |
-| 95% | 1.96 |
-| 99% | 2.58 |
-
-The term $E = z_{\alpha/2}(\sigma/\sqrt{n})$ is the **margin of error**.
+The **margin of error**, also called the **maximum error of the estimate**, is the maximum likely difference between the point estimate of a parameter and the actual value of the parameter.
 :::
 
-**Assumptions:** 
+In the age-of-students example, where the confidence interval is $21.9 < \mu < 22.7$ or $22.3 \pm 0.4$, the margin of error is **0.4**. For the proportion interval $10.7\% < p < 11.3\%$, or $11\% \pm 0.3\%$, the margin of error is **0.003**, or 0.3%.
 
-(1) Random sample; 
+For a specific value, say $\alpha = 0.05$, 95% of the sample means or proportions will fall within this error value on either side of the population mean or proportion.
 
-(2) $n \geq 30$, OR population is normally distributed if n < 30.
+## 95% Confidence Intervals in R
 
-----
+**Prepare data** — repeated sampling from a population with $\mu = 50$, $\sigma = 10$, $n = 25$.
 
-**Find the z value in R**
+```{r s7-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(2023)
+pop_mean <- 50
+pop_sd <- 10
+sample_size <- 25
+margin_error <- qnorm(0.975) * pop_sd / sqrt(sample_size)
 
-```{r, echo=TRUE}
-round(qnorm((1-.9) / 2), 2)
-round(qnorm((1-.95) / 2), 2)
-round(qnorm((1-.99) / 2), 2)
+intervals <- tibble(
+  sample_id = 1:40,
+  sample_mean = replicate(40, mean(rnorm(sample_size, pop_mean, pop_sd)))) |>
+  mutate(lower = sample_mean - margin_error,
+         upper = sample_mean + margin_error,
+         result = if_else(lower <= pop_mean & pop_mean <= upper,
+                          "contains mu", "misses mu"))
+sum(intervals$result == "contains mu")
 ```
+
+---
+
+## 95% Confidence Intervals in R
+
+**Draw figure**
+
+```{r s7-1-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(intervals, aes(x = sample_id, y = sample_mean, color = result)) +
+  geom_pointrange(aes(ymin = lower, ymax = upper)) +
+  geom_hline(yintercept = pop_mean, linetype = "dashed") +
+  coord_flip() +
+  labs(title = "95% Confidence Intervals for 40 Sample Means",
+       x = "Sample", y = "Sample mean", color = "") +
+  theme_minimal()
+```
+
+About 95% of the intervals contain $\mu$; the ones that miss are the price of sampling variability.
+
+# Section 7-2: Confidence Intervals for the Mean When $\sigma$ Is Known {background-color="#2c4a6e"}
+
+## Assumptions and Formula
+
+:::{.callout-important}
+## Assumptions for Finding a Confidence Interval for a Mean When $\sigma$ Is Known
+
+1. The sample is a random sample.
+2. Either $n \geq 30$ or the population is normally distributed when $n < 30$.
+:::
+
+:::{.callout-note}
+## Robust
+
+A statistical technique is **robust** when the distribution of the variable can depart somewhat from normality and valid conclusions can still be obtained.
+:::
+
+When you estimate a population mean you should use the **sample mean**: the means of samples vary less than medians or modes when many samples are drawn from the same population.
+
+---
+
+## Assumptions and Formula
+
+:::{.callout-important}
+## Formula for the Confidence Interval of the Mean When $\sigma$ Is Known
+
+$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+
+For a 90% confidence interval $z_{\alpha/2} = 1.645$; for a 95% confidence interval $z_{\alpha/2} = 1.960$; and for a 99% confidence interval $z_{\alpha/2} = 2.576$.
+
+The term $z_{\alpha/2}\left(\sigma/\sqrt{n}\right)$ is the **margin of error**.
+:::
+
+:::{.callout-important}
+## Rounding Rule for a Confidence Interval for a Mean
+
+When computing a confidence interval for a population mean from **raw data**, round off to **one more decimal place** than the number of decimal places in the original data.
+
+When computing it from a **sample mean and a standard deviation**, round off to the **same number of decimal places** as given for the mean.
+:::
 
 ## Example 7-1 {#example-7-1}
 
 :::{.callout-warning}
-## Days It Takes to Sell an Aveo
+## Air-Freight Transit Time to Osaka
 
-A researcher wants to estimate the average number of days it takes to sell a Chevrolet Aveo. A sample of 50 cars had a mean time of 54 days on the dealer's lot. Assume the population standard deviation is 6.0 days. Find the best point estimate of the population mean and the **95% confidence interval**.
+A logistics analyst at a Taipei freight forwarder wants to estimate the mean transit time, in hours, of air-freight shipments from Taoyuan to Osaka. A random sample of 49 shipments had a mean transit time of 34.0 hours. Company records give a population standard deviation of 2.8 hours. Find the best point estimate of the mean and the **95% confidence interval** for the population mean.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-1
 
 :::{.callout-tip}
 ## Solution
 
-The best point estimate is $\bar{X}$ = **54 days**. For the 95% confidence interval, $z_{\alpha/2}$ = 1.96:
+**Step 1** The best point estimate of the mean is **34.0 hours**.
 
-$$54 - 1.96\left(\frac{6.0}{\sqrt{50}}\right) < \mu < 54 + 1.96\left(\frac{6.0}{\sqrt{50}}\right)$$
-$$54 - 1.7 < \mu < 54 + 1.7$$
-$$\mathbf{52.3 < \mu < 55.7}$$
+**Step 2** For the 95% confidence interval, use $z_{\alpha/2} = 1.96$.
+
+$$34.0 - 1.96\left(\frac{2.8}{\sqrt{49}}\right) < \mu < 34.0 + 1.96\left(\frac{2.8}{\sqrt{49}}\right)$$
+$$34.0 - 0.8 < \mu < 34.0 + 0.8$$
+$$\mathbf{33.2 < \mu < 34.8}$$
 :::
+
 ---
 
+## Example 7-1
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 54; sigma <- 6.0; n <- 50; z <- 1.96
-E <- z * sigma / sqrt(n)
-cat("Point estimate:", xbar, "\n")
-cat("95% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+sample_mean <- 34.0
+pop_sd <- 2.8
+sample_size <- 49
+
+margin_error <- qnorm(0.975) * pop_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
 
-**Interpretation:** We are 95% confident that the interval between 52.3 and 55.7 days contains the population mean, based on a sample of 50 automobiles.
+One can say with **95% confidence** that the interval between 33.2 and 34.8 hours contains the population mean transit time, based on a sample of 49 shipments.
+:::
 
 ## Example 7-2 {#example-7-2}
 
 :::{.callout-warning}
-## Waiting Times in Emergency Rooms
+## Value of Cross-Border Orders
 
-A survey of 30 emergency room patients found an average waiting time of 174.3 minutes. The population standard deviation is known to be 46.5 minutes. Find the best point estimate and the **99% confidence interval** of the true mean waiting time.
+A cross-border e-commerce team wants to estimate the average value, in US dollars, of the orders its Taiwanese sellers ship overseas. A random sample of 64 orders had a mean value of 84.5 dollars. Assume the population standard deviation is 12.0 dollars. Find the best point estimate of the mean and the **99% confidence interval** of the population mean.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-2
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** The best point estimate of the population mean is **84.5 dollars**.
 
-$$174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) < \mu < 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)$$
-$$174.3 - 21.9 < \mu < 174.3 + 21.9$$
-$$\mathbf{152.4 < \mu < 196.2}$$
+**Step 2** Use $z_{\alpha/2} = 2.576$ for the 99% confidence interval.
+
+$$84.5 - 2.576\left(\frac{12.0}{\sqrt{64}}\right) < \mu < 84.5 + 2.576\left(\frac{12.0}{\sqrt{64}}\right)$$
+$$84.5 - 3.9 < \mu < 84.5 + 3.9$$
+$$\mathbf{80.6 < \mu < 88.4}$$
 :::
+
 ---
 
+## Example 7-2
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 174.3; sigma <- 46.5; n <- 30; z <- 2.58
-E <- z * sigma / sqrt(n)
-cat("Point estimate:", xbar, "\n")
-cat("99% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+sample_mean <- 84.5
+pop_sd <- 12.0
+sample_size <- 64
+
+margin_error <- qnorm(0.995) * pop_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
 
-**Interpretation:** We are 99% confident that the true mean ER waiting time is between 152.4 and 196.2 minutes.
+One can be **99% confident** that the mean value of a cross-border order is between 80.6 and 88.4 dollars.
+:::
 
-## Finding Other $z_{\alpha/2}$ Values
+## Finding Other Values of $z_{\alpha/2}$
 
-For confidence levels other than 90%, 95%, or 99%, find $z_{\alpha/2}$ as follows:
+Confidence levels other than 90%, 95% and 99% are sometimes used. To find $z_{\alpha/2}$ for a **98%** confidence interval:
 
-1. Convert the confidence level to a decimal: e.g., 98% → 0.98
-2. Find $\alpha = 1 - 0.98 = 0.02$, so $\alpha/2 = 0.01$
-3. The area in each tail is 0.01; look up 1 − 0.01 = 0.9900 in Table E
-4. The corresponding z value is **2.33**
+1. Change 98% to 0.98 and find $\alpha = 1 - 0.98 = 0.02$.
+2. Divide by 2: $\alpha/2 = 0.02/2 = 0.01$.
+3. Subtract 0.01 from 1.0000 to get 0.9900. That is the area you look up in Table A-4, and `qnorm(0.99)` returns the same critical value, $z_{\alpha/2} = \mathbf{2.326}$.
 
-```{r e7-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# z_alpha/2 for common confidence levels
-conf_levels <- c(0.90, 0.95, 0.98, 0.99)
-z_vals <- qnorm(1 - (1 - conf_levels)/2)
-data.frame(Confidence = paste0(conf_levels*100, "%"),
-           z_alpha2 = round(z_vals, 3))
+---
+
+## Finding Other Values of $z_{\alpha/2}$
+
+For confidence intervals, only the **positive** $z$ score is used in the formula.
+
+```{r s7-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+confidence_level <- c(0.90, 0.94, 0.95, 0.98, 0.99)
+tail_area <- (1 - confidence_level) / 2
+
+knitr::kable(data.frame(Confidence = paste0(confidence_level * 100, "%"),
+                        alpha_half = tail_area,
+                        z = round(qnorm(1 - tail_area), 3)), align = "c")
 ```
 
 ## Example 7-3 {#example-7-3}
 
 :::{.callout-warning}
-## Credit Union Assets
+## Container Dwell Time at Kaohsiung Port
 
-The following data represent the assets (in millions of dollars) for a sample of 30 credit unions in southwestern Pennsylvania. Find the **90% confidence interval** of the mean. Assume $\sigma$ = 14.405.
+The following data represent the dwell time, in hours, of a random sample of 30 import containers at the Port of Kaohsiung. Assume the population standard deviation is 12.6 hours. Find the **90% confidence interval** of the mean.
 
-12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25, 1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78, 16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76
+```
+36.42    28.15    51.70
+19.83    44.26    33.08
+62.55    25.71    40.19
+47.63    30.94    22.38
+55.02    38.47    29.66
+43.81    26.50    58.24
+34.75    49.12    21.07
+31.89    45.33    27.46
+53.18    37.62    24.91
+41.05    32.27    46.88
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-3
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** Find the mean for the data: $\bar{X} = 38.002$ hours. The population standard deviation is 12.6 hours.
 
-The sample mean is $\bar{X}$ = 11.091. For a 90% CI, $z_{\alpha/2}$ = 1.65 (Table E; R gives the more precise 1.645):
+**Step 2** Find $\alpha/2$. For a 90% confidence interval, $\alpha = 1 - 0.90 = 0.10$ and $\alpha/2 = 0.10/2 = 0.05$.
 
-$$11.091 - 1.65\left(\frac{14.405}{\sqrt{30}}\right) < \mu < 11.091 + 1.65\left(\frac{14.405}{\sqrt{30}}\right)$$
-$$11.091 - 4.339 < \mu < 11.091 + 4.339$$
-$$\mathbf{6.752 < \mu < 15.430}$$
+**Step 3** Find $z_{\alpha/2}$. The area to the left of the critical value is $1 - 0.05 = 0.9500$; that is the column you look up in Table A-4, and `qnorm(0.95)` returns the same critical value, $z_{\alpha/2} = \mathbf{1.645}$.
+
+**Step 4** Substitute in the formula.
+
+$$38.002 - 1.645\left(\frac{12.6}{\sqrt{30}}\right) < \mu < 38.002 + 1.645\left(\frac{12.6}{\sqrt{30}}\right)$$
+$$38.002 - 3.784 < \mu < 38.002 + 3.784$$
+$$\mathbf{34.218 < \mu < 41.786}$$
 :::
+
 ---
 
+## Example 7-3
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-assets <- c(12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25,
-            1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78,
-            16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76)
-xbar <- mean(assets); sigma <- 14.405; n <- length(assets)
-z <- 1.65   # table value; qnorm(0.95) gives 1.645
-E <- z * sigma / sqrt(n)
-cat("X-bar =", round(xbar, 3), "\n")
-cat("90% CI: (", round(xbar - E, 3), ",", round(xbar + E, 3), ")\n")
+dwell_hours <- c(36.42, 28.15, 51.70, 19.83, 44.26, 33.08, 62.55, 25.71, 40.19, 47.63,
+                 30.94, 22.38, 55.02, 38.47, 29.66, 43.81, 26.50, 58.24, 34.75, 49.12,
+                 21.07, 31.89, 45.33, 27.46, 53.18, 37.62, 24.91, 41.05, 32.27, 46.88)
+sample_mean <- mean(dwell_hours)
+pop_sd <- 12.6
+
+margin_error <- qnorm(0.95) * pop_sd / sqrt(length(dwell_hours))
+round(c(mean = sample_mean, margin = margin_error), 3)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 3)
 ```
 
-**Interpretation:** We are 90% confident that the mean assets of all credit unions are between $6.752 million and $15.430 million.
+One can be **90% confident** that the mean dwell time of all import containers is between 34.218 and 41.786 hours, based on a sample of 30 containers.
+:::
 
-## Sample Size for Estimating the Mean
+## Sample Size for Estimating a Mean
 
-:::{.callout-note}
-## Formula
+How large a sample is necessary to make an accurate estimate? The answer depends on three things: the **margin of error**, the **population standard deviation**, and the **degree of confidence**.
+
+The formula is derived from the margin-of-error formula $E = z_{\alpha/2}\left(\sigma/\sqrt{n}\right)$, solved for $n$:
+
+$$E\sqrt{n} = z_{\alpha/2}\,\sigma \quad \Longrightarrow \quad \sqrt{n} = \frac{z_{\alpha/2} \cdot \sigma}{E}$$
+
+:::{.callout-important}
+## Formula for the Minimum Sample Size Needed for an Interval Estimate of the Population Mean
 
 $$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
 
-where E is the desired **margin of error**. Always round **up** to the next whole number.
+where $E$ is the margin of error. If necessary, **round the answer up** to obtain a whole number: if there is any fraction or decimal portion in the answer, use the next whole number for $n$.
 :::
-
-**What you need to know:**
-
-- The desired confidence level (determines $z_{\alpha/2}$)
-- The population standard deviation $\sigma$ (or an estimate from a prior study)
-- The acceptable margin of error E
 
 ## Example 7-4 {#example-7-4}
 
 :::{.callout-warning}
-A scientist wants to estimate the average depth of a river. She wants to be **99% confident** that the estimate is accurate within **2 feet**. A previous study found $\sigma$ = 4.33 feet. Find the minimum sample size needed.
+## Sample Size for Delivery Time
 
-**Mathematical solution**
+An operations manager at a food-delivery platform in Taichung wishes to estimate the average delivery time per order to within **2 minutes**. She wishes to be **99% confident**, and a previous study puts the standard deviation at 4.5 minutes. How many orders should she sample?
 
-$z_{\alpha/2} = 2.58$, $E = 2$, $\sigma = 4.33$
-
-$$n = \left(\frac{2.58 \times 4.33}{2}\right)^2 = \left(\frac{11.17}{2}\right)^2 = (5.585)^2 = 31.2 \rightarrow \mathbf{n = 32}$$
-
-```{r e7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z <- 2.58; sigma <- 4.33; E <- 2
-n_raw <- (z * sigma / E)^2
-n_raw
-ceiling(n_raw)  # Always round UP
-```
-
-**Answer:** The scientist needs at least **32 measurements** to achieve the desired precision with 99% confidence.
-
+*(hypothetical data)*
 :::
 
-# Section 7-2: Confidence Intervals for the Mean When $\sigma$ Is Unknown {background-color="#2c4a6e"}
-
-## The t Distribution
-
-When $\sigma$ is unknown, the sample standard deviation s is used as a substitute. However, this introduces additional uncertainty — especially for small samples. The appropriate distribution is the **Student's t distribution**.
-
-
-:::{.callout-note}
-## Characteristics of the t Distribution
-**Similar to the normal distribution:**
-1. Bell-shaped and symmetric about the mean
-2. Mean, median, and mode all equal 0
-3. The curve never touches the x-axis
-
-**Differences from the normal:**
-1. Variance is greater than 1 (heavier tails)
-2. It is a **family of curves** indexed by **degrees of freedom** (d.f.)
-3. As d.f. increases, the t distribution approaches the standard normal
-:::
 ---
 
-```{r e7-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df_plot <- data.frame(
-  x = rep(x, 3),
-  y = c(dnorm(x), dt(x, df = 5), dt(x, df = 20)),
-  dist = rep(c("Normal (z)", "t (df=5)", "t (df=20)"), each = 300)
-)
-ggplot(df_plot, aes(x, y, color = dist, linetype = dist)) +
+## Example 7-4
+
+:::{.callout-tip}
+## Solution
+
+Since $\alpha = 0.01$ (or $1 - 0.99$), $z_{\alpha/2} = 2.576$ and $E = 2$. Substitute in the formula.
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2 = \left[\frac{(2.576)(4.5)}{2}\right]^2 = 33.59$$
+
+```{r e7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+pop_sd <- 4.5
+margin_error <- 2
+
+required_n <- (qnorm(0.995) * pop_sd / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
+```
+
+Round the value up to **34**. To be 99% confident that the estimate is within 2 minutes of the true mean, the manager needs to sample at least 34 orders.
+:::
+
+## Notes on Sample Size
+
+:::{.callout-warning}
+## Caution
+
+In most cases in statistics we round off; however, when determining sample size we **always round up** to the next whole number.
+:::
+
+:::{.callout-important}
+## Practical Points
+
+- When the population is large or infinite, or when sampling is done with replacement, the **size of the population is irrelevant** to the sample size calculation.
+- The formula requires $\sigma$. When $\sigma$ is unknown, estimate it with the standard deviation $s$ from a previous sample, or by dividing the **range by 4**.
+- An interval estimate is often reported in words: "an American family of two spends an average of \$84 per week for groceries, accurate within \$3 with 95% confidence" means $81 < \mu < 87$.
+:::
+
+# Section 7-3: Confidence Intervals for the Mean When $\sigma$ Is Unknown {background-color="#2c4a6e"}
+
+## The $t$ Distribution
+
+Usually $\sigma$ is unknown and is estimated by $s$. Critical values **greater** than $z_{\alpha/2}$ are then needed, especially for small $n$; they come from the **Student's $t$ distribution**.
+
+:::{.callout-note}
+## Characteristics of the $t$ Distribution
+
+**Similar to the standard normal distribution:**
+
+1. It is bell-shaped.
+2. It is symmetric about the mean.
+3. The mean, median and mode are equal to 0 and are located at the center of the distribution.
+4. The curve approaches but never touches the $x$ axis.
+
+**Different from the standard normal distribution:**
+
+1. The variance is greater than 1.
+2. The $t$ distribution is a **family of curves** based on degrees of freedom, which is related to sample size.
+3. As the sample size increases, the $t$ distribution approaches the standard normal distribution.
+:::
+
+## The $t$ Family of Curves
+
+**Prepare data**
+
+```{r s7-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+grid_x <- seq(-4, 4, length.out = 300)
+
+t_curves <- tibble(
+  x = rep(grid_x, 3),
+  density = c(dnorm(grid_x), dt(grid_x, df = 5), dt(grid_x, df = 20)),
+  curve = rep(c("z curve", "t for d.f. = 5", "t for d.f. = 20"),
+              each = length(grid_x)))
+```
+
+---
+
+## The $t$ Family of Curves
+
+**Draw figure**
+
+```{r s7-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(t_curves, aes(x, density, color = curve, linetype = curve)) +
   geom_line(linewidth = 1) +
-  labs(title = "Comparing Normal and t Distributions",
-       x = "Value", y = "Density", color = "Distribution", linetype = "Distribution") +
+  labs(title = "The t Family of Curves",
+       x = "Value", y = "Density", color = "", linetype = "") +
   theme_minimal()
 ```
 
-## Degrees of Freedom and the t Formula
+## Degrees of Freedom
 
 :::{.callout-note}
 ## Degrees of Freedom
-For a confidence interval for the mean: **d.f. = n − 1**
 
-The degrees of freedom specify which t curve to use. In R: `qt(p, df = n-1)`
+The **degrees of freedom** are the number of values that are free to vary after a sample statistic has been computed, and they tell the researcher which specific curve to use when a distribution consists of a family of curves.
 :::
 
-:::{.callout-note}
-## CI Formula ($\sigma$ Unknown)
-$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+If the mean of 5 values is 10, then 4 of the 5 values are free to vary; once 4 are chosen the fifth must be a specific number so that the sum is 50. Hence $\text{d.f.} = 5 - 1 = 4$.
 
-where $t_{\alpha/2}$ is from Table F with d.f. = n − 1.
-:::
-
-**Assumptions:** (1) Random sample; (2) $n \geq 30$, OR population is approximately normally distributed if n < 30.
-
-## When to Use z vs. t
-
-:::{.callout-important}
-## Decision Rule
-- **$\sigma$ is known** → use $z_{\alpha/2}$ with $\sigma$ in the formula (any n, if normal or $n \geq 30$)
-- **$\sigma$ is unknown** → use $t_{\alpha/2}$ with s in the formula (normal population or $n \geq 30$)
-
-```{r e7-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(data.frame(
-  Condition = c("σ known, n ≥ 30", "σ known, n < 30 (normal pop.)",
-                "σ unknown, n ≥ 30", "σ unknown, n < 30 (normal pop.)"),
-  Use = c("z and σ", "z and σ", "t and s", "t and s")
-), caption = "When to Use z vs. t")
-```
-:::
-
-## Example 7-5: Finding $t_{\alpha/2}$ {#example-7-5 .smaller}
-
+The symbol **d.f.** is used for degrees of freedom. For a confidence interval for the mean, $\text{d.f.} = n - 1$. (For some tests later in the book the degrees of freedom are *not* $n - 1$.)
 
 :::{.callout-warning}
-Find the $t_{\alpha/2}$ value for a **95% confidence interval** when the sample size is 22.
+## Caution
 
-**Mathematical solution**
+The values $t_{\alpha/2}$ come from the row labelled **Confidence Intervals** at the top of Table A-5. The rows labelled *One tail* and *Two tails* belong to Chapter 8 and should not be used here. When d.f. is greater than 30 and falls between two printed rows, the table convention is to **round d.f. down** to the nearest row (a conservative choice): d.f. = 68 is read as 65. That convention is a lookup aid; `qt()` takes the exact d.f., and where the two differ these slides report the value R computes.
+:::
 
-d.f. = 22 − 1 = 21. Look in Table F, row 21, under the 95% confidence-level column.
+## Example 7-5 {#example-7-5}
 
-**$t_{\alpha/2} = 2.080$**
+:::{.callout-warning}
+## Finding a $t$ Critical Value
+
+Find the $t_{\alpha/2}$ value for a **95% confidence interval** when the sample size is 18.
+:::
+
+---
+
+## Example 7-5
+
+:::{.callout-tip}
+## Solution
+
+The $\text{d.f.} = 18 - 1$, or 17. Find 17 in the left column of Table A-5 and 95% in the row labelled **Confidence Intervals**; `qt(0.975, df = 17)` returns the same critical value, $t_{\alpha/2} = \mathbf{2.110}$.
 
 ```{r e7-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# t_alpha/2 for 95% CI with df = 21
-qt(0.975, df = 21)   # upper tail area = alpha/2 = 0.025
+sample_size <- 18
+
+round(qt(0.975, df = sample_size - 1), 3)
 ```
 
+In R a confidence-interval critical value is always `qt(1 - alpha/2, df = n - 1)`; for a 95% interval that is `qt(0.975, df = n - 1)`.
+:::
+
+## Formula for the Mean When $\sigma$ Is Unknown
+
+:::{.callout-important}
+## Formula for a Specific Confidence Interval for the Mean When $\sigma$ Is Unknown
+
+$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+
+The degrees of freedom are $n - 1$.
 :::
 
 :::{.callout-important}
-## Key Rule
-For a confidence interval, always use `qt(1 - alpha/2, df = n-1)`.
-For a 95% CI: `qt(0.975, df = n-1)`.
+## Assumptions for Finding a Confidence Interval for a Mean When $\sigma$ Is Unknown
+
+1. The sample is a random sample.
+2. Either $n \geq 30$ or the population is normally distributed when $n < 30$.
 :::
 
 ## Example 7-6 {#example-7-6}
 
 :::{.callout-warning}
-## Sleeping Time
+## Weekday Occupancy of Taipei Hotels
 
-Ten randomly selected people reported their nightly sleep duration. The sample mean was 7.1 hours and the standard deviation was 0.78 hour. Find the **95% confidence interval** of the mean. Assume the variable is normally distributed.
+A random sample of 16 business hotels in Taipei had a mean weekday occupancy rate of 72.4%. The standard deviation of the sample was 6.8 percentage points. Assume the variable is normally distributed. Find the **95% confidence interval** of the population mean weekday occupancy rate.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-6
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+$\bar{X} = 72.4$, $s = 6.8$, $n = 16$.
 
-$\sigma$ unknown, n = 10 < 30 → use t distribution. d.f. = 9, $t_{\alpha/2}$ = 2.262
+Since $\sigma$ is unknown and $s$ must replace it, the $t$ distribution is used. With 15 degrees of freedom, $t_{\alpha/2} = 2.131$.
 
-$$7.1 - 2.262\left(\frac{0.78}{\sqrt{10}}\right) < \mu < 7.1 + 2.262\left(\frac{0.78}{\sqrt{10}}\right)$$
-$$7.1 - 0.56 < \mu < 7.1 + 0.56$$
-$$\mathbf{6.54 < \mu < 7.66}$$
+$$72.4 - 2.131\left(\frac{6.8}{\sqrt{16}}\right) < \mu < 72.4 + 2.131\left(\frac{6.8}{\sqrt{16}}\right)$$
+$$72.4 - 3.6 < \mu < 72.4 + 3.6$$
+$$\mathbf{68.8 < \mu < 76.0}$$
 :::
+
 ---
 
+## Example 7-6
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 7.1; s <- 0.78; n <- 10
-t_crit <- qt(0.975, df = n - 1)
-E <- t_crit * s / sqrt(n)
-cat("t_alpha/2 =", round(t_crit, 3), "\n")
-cat("95% CI: (", round(xbar - E, 2), ",", round(xbar + E, 2), ")\n")
+sample_mean <- 72.4
+sample_sd <- 6.8
+sample_size <- 16
+
+margin_error <- qt(0.975, df = sample_size - 1) * sample_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
+
+One can be **95% confident** that the population mean weekday occupancy rate of Taipei business hotels is between 68.8% and 76.0%.
+:::
 
 ## Example 7-7 {#example-7-7}
 
 :::{.callout-warning}
-## Home Fires Started by Candles
+## Monthly Revenue of a Night-Market Stall
 
-The data below represent the number of home fires started by candles each year over a 7-year period. Find the **99% confidence interval** for the mean number of candle-caused home fires per year.
+The data represent the monthly revenue, in thousands of NT dollars, of a night-market beverage stall for a random sample of 7 months. Find the **99% confidence interval** for the mean monthly revenue.
 
-5460, 5900, 6090, 6310, 7160, 8440, 9930
-:::
----
-
-```{r e7-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-fires <- c(5460, 5900, 6090, 6310, 7160, 8440, 9930)
-n <- length(fires)
-xbar <- mean(fires); s <- sd(fires)
-cat("n =", n, "  X-bar =", round(xbar, 1), "  s =", round(s, 1), "\n")
-
-t_crit <- qt(0.995, df = n - 1)   # 99% CI
-cat("t_alpha/2 (df=6) =", round(t_crit, 3), "\n")
-E <- t_crit * s / sqrt(n)
-cat("99% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+```
+268    292    305    318    331    347    384
 ```
 
-**Answer:** $4785.2 < \mu < 9297.6$ fires per year (R gives 4785.0 and 9297.9 from unrounded values). We are 99% confident that the true mean falls in this range, based on 7 years of data.
+*(hypothetical data)*
+:::
 
-# Section 7-3: Confidence Intervals and Sample Size for Proportions {background-color="#2c4a6e"}
+---
+
+## Example 7-7
+
+:::{.callout-tip}
+## Solution
+
+**Step 1** Find the mean and standard deviation for the data: $\bar{X} = 320.7$ and $s = 38.0$.
+
+**Step 2** Find $t_{\alpha/2}$ for a 99% confidence interval with $\text{d.f.} = 6$. Table A-5 and `qt(0.995, df = 6)` both give **3.707**.
+
+**Step 3** Substitute in the formula and solve.
+
+$$320.7 - 3.707\left(\frac{38.0}{\sqrt{7}}\right) < \mu < 320.7 + 3.707\left(\frac{38.0}{\sqrt{7}}\right)$$
+$$320.7 - 53.2 < \mu < 320.7 + 53.2$$
+$$\mathbf{267.5 < \mu < 373.9}$$
+:::
+
+---
+
+## Example 7-7
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
+```{r e7-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+monthly_revenue <- c(268, 292, 305, 318, 331, 347, 384)
+sample_size <- length(monthly_revenue)
+sample_mean <- mean(monthly_revenue)
+sample_sd <- sd(monthly_revenue)
+
+margin_error <- qt(0.995, df = sample_size - 1) * sample_sd / sqrt(sample_size)
+round(c(mean = sample_mean, sd = sample_sd, margin = margin_error), 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
+```
+
+One can be **99% confident** that the mean monthly revenue of the stall is between 267.5 and 373.9 thousand NT dollars, based on a sample of 7 months.
+:::
+
+## When to Use $z$ or $t$
+
+:::{.callout-important}
+## Decision Rule (Figure 7-8)
+
+- **Is $\sigma$ known?** Yes: use $z_{\alpha/2}$ values and $\sigma$ in the formula.
+- **Is $\sigma$ known?** No: use $t_{\alpha/2}$ values and $s$ in the formula.
+
+In either case, if $n < 30$ the variable must be normally distributed.
+:::
+
+---
+
+## When to Use $z$ or $t$
+
+```{r s7-3-3, echo=T, warning=FALSE}
+knitr::kable(data.frame(
+  Situation = c("sigma known, n >= 30", "sigma known, n < 30 (normal)",
+                "sigma unknown, n >= 30", "sigma unknown, n < 30 (normal)"),
+  Use = c("z and sigma", "z and sigma", "t and s", "t and s"),
+  R = c("qnorm(1 - alpha/2)", "qnorm(1 - alpha/2)",
+        "qt(1 - alpha/2, df = n - 1)", "qt(1 - alpha/2, df = n - 1)")),
+  align = "c")
+```
+
+# Section 7-4: Confidence Intervals and Sample Size for Proportions {background-color="#2c4a6e"}
 
 ## Proportions
 
+A **proportion** represents a part of a whole; it can be expressed as a fraction, a decimal or a percentage. If 12% of the parcels a courier delivers in Taipei go to a convenience-store pickup point, then $12\% = 0.12 = \frac{12}{100} = \frac{3}{25}$, and the probability that a randomly selected parcel goes to a pickup point is 0.12.
+
 :::{.callout-note}
-## Notation for Proportions
-$$\hat{p} = \frac{X}{n} \quad \text{(sample proportion)} \qquad \hat{q} = \frac{n-X}{n} = 1 - \hat{p}$$
+## Symbols Used in Proportion Notation
 
-where X = number of units in the sample with the characteristic of interest, n = sample size.
+$$p = \text{population proportion} \qquad \hat{p} = \text{sample proportion (read "p hat")}$$
 
-The population proportion is denoted **p** (and q = 1 − p).
+For a sample proportion,
 
-The sample proportion $\hat{p}$ is an unbiased, consistent, and relatively efficient estimator of p. It also serves as the best point estimate of p.
+$$\hat{p} = \frac{X}{n} \qquad \text{and} \qquad \hat{q} = \frac{n - X}{n} \quad \text{or} \quad \hat{q} = 1 - \hat{p}$$
 
-**Confidence interval formula:**
-$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}$$
-
-**Condition:** $n\hat{p} \geq 5$ and $n\hat{q} \geq 5$
+where $X$ is the number of sample units that possess the characteristic of interest and $n$ is the sample size.
 :::
+
+When $\hat{p}$ and $\hat{q}$ are in decimal or fraction form, $\hat{p} + \hat{q} = 1$; when they are percentages, $\hat{p} + \hat{q} = 100\%$. The same relations hold for the population: $p + q = 1$.
 
 ## Example 7-8 {#example-7-8}
 
-
 :::{.callout-warning}
-## Air-Conditioned Households
+## Convenience-Store Pickup
 
-In a recent survey of 150 households, 54 had central air conditioning. Find $\hat{p}$ and $\hat{q}$, where $\hat{p}$ is the proportion of households with central air conditioning.
+A random sample of 180 online shoppers on a Taiwanese e-commerce platform found that 63 chose convenience-store pickup instead of home delivery. Find $\hat{p}$ and $\hat{q}$, where $\hat{p}$ is the proportion of shoppers who chose convenience-store pickup.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-8
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+In this case, $X = 63$ and $n = 180$.
 
-$$\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%$$
-$$\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%$$
-:::
----
+$$\hat{p} = \frac{X}{n} = \frac{63}{180} = 0.35 = 35\%$$
+$$\hat{q} = \frac{n - X}{n} = \frac{180 - 63}{180} = \frac{117}{180} = 0.65 = 65\%$$
 
 ```{r e7-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- 54; n <- 150
-p_hat <- X / n
-q_hat <- 1 - p_hat
-cat("p-hat =", p_hat, "  q-hat =", q_hat, "\n")
+pickup_count <- 63
+sample_size <- 180
+
+p_hat <- pickup_count / sample_size
+c(p_hat = p_hat, q_hat = 1 - p_hat)
 ```
 
-This gives the best point estimate: **36%** of households have central air conditioning.
+So **65%** of the shoppers chose home delivery instead.
+:::
+
+## Confidence Intervals for a Proportion
+
+For a point estimate of $p$, the sample proportion $\hat{p}$ is used; it is unbiased, consistent and relatively efficient. When $n$ is no more than 5% of the population size, the sampling distribution of $\hat{p}$ is approximately normal with mean $p$ and standard deviation $\sqrt{pq/n}$.
+
+:::{.callout-important}
+## Formula for a Specific Confidence Interval for a Proportion
+
+$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}$$
+
+when $n\hat{p}$ and $n\hat{q}$ are each greater than or equal to 5. The margin of error is $E = z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}$.
+:::
+
+---
+
+## Confidence Intervals for a Proportion
+
+:::{.callout-important}
+## Assumptions for Finding a Confidence Interval for a Population Proportion
+
+1. The sample is a random sample.
+2. The conditions for a binomial experiment are satisfied (see Chapter 5).
+:::
+
+:::{.callout-important}
+## Rounding Rule for a Confidence Interval for a Proportion
+
+Round off to **three decimal places**.
+:::
+
+:::{.callout-warning}
+## Caution
+
+When a specific percentage is given in a problem, that percentage becomes $\hat{p}$ once it is changed to a decimal. If 12% of the applicants were men, then $\hat{p} = 0.12$.
+:::
 
 ## Example 7-9 {#example-7-9}
 
 :::{.callout-warning}
-## Covering College Costs
+## Transfer Experience at Taoyuan Airport
 
-A survey of 1404 respondents found that 323 students paid for their education using student loans. Find the **90% confidence interval** for the true proportion of students who fund their education through student loans.
+A passenger survey at Taoyuan International Airport sampled 1250 transfer passengers, and 375 of them rated the transfer experience as excellent. Find the **90% confidence interval** of the true proportion of transfer passengers who rate the experience as excellent.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-9
 
 :::{.callout-tip}
 ## Solution
 
-**Solution:**
+**Step 1** Determine $\hat{p}$ and $\hat{q}$.
 
-$\hat{p} = 323/1404 = 0.230$, $\hat{q} = 0.770$, $z_{\alpha/2} = 1.65$
+$$\hat{p} = \frac{X}{n} = \frac{375}{1250} = 0.30 \qquad \hat{q} = 1 - \hat{p} = 1.00 - 0.30 = 0.70$$
 
-$$0.230 \pm 1.65\sqrt{\frac{(0.230)(0.770)}{1404}} = 0.230 \pm 0.019$$
-$$\mathbf{0.211 < p < 0.249}$$
+**Step 2** Determine the critical value. $\alpha = 1 - 0.90 = 0.10$, so $\alpha/2 = 0.05$ and $z_{\alpha/2} = 1.645$.
 
-(Lower bound table-rounded to 0.211; R gives 0.212 from unrounded values.)
+**Step 3** Substitute in the formula.
+
+$$0.30 - 1.645\sqrt{\frac{(0.30)(0.70)}{1250}} < p < 0.30 + 1.645\sqrt{\frac{(0.30)(0.70)}{1250}}$$
+$$0.30 - 0.021 < p < 0.30 + 0.021$$
+$$\mathbf{0.279 < p < 0.321} \qquad \text{or} \qquad 27.9\% < p < 32.1\%$$
 :::
+
 ---
 
+## Example 7-9
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- 323; n <- 1404
-p_hat <- X / n; q_hat <- 1 - p_hat
-z <- qnorm(0.95)   # 90% CI
-E <- z * sqrt(p_hat * q_hat / n)
-cat("p-hat =", round(p_hat, 3), "\n")
-cat("90% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
+excellent_count <- 375
+sample_size <- 1250
+
+p_hat <- excellent_count / sample_size
+c(p_hat = p_hat, n_p_hat = sample_size * p_hat, n_q_hat = sample_size * (1 - p_hat))
+
+margin_error <- qnorm(0.95) * sqrt(p_hat * (1 - p_hat) / sample_size)
+round(margin_error, 3)
+round(c(p_hat - margin_error, p_hat + margin_error), 3)
 ```
 
-**Interpretation:** We are 90% confident that between **21.1%** and **24.9%** of students pay for college via student loans.
+You can be **90% confident** that the percentage of transfer passengers who rate the experience as excellent is between 27.9% and 32.1%.
+:::
 
 ## Example 7-10 {#example-7-10}
 
 :::{.callout-warning}
-## Religious Books
+## Buying from Overseas Sellers
 
-A survey of 1721 people found that 15.9% purchase religious books at a Christian bookstore. Find the **95% confidence interval** for the true proportion of people who purchase religious books there.
+A survey of 2400 online shoppers in Taiwan found that 64% had bought at least one item from an overseas seller in the past year. Find the **90% confidence interval** of the true proportion of shoppers who buy from overseas sellers.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-10
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** Determine $\hat{p}$ and $\hat{q}$. Here $\hat{p}$ is already given: 64%, or 0.64. Then $\hat{q} = 1 - 0.64 = 0.36$.
 
-$\hat{p} = 0.159$, $\hat{q} = 0.841$, $z_{\alpha/2} = 1.96$
+**Step 2** Determine the critical value. $\alpha = 1 - 0.90 = 0.10$, so $\alpha/2 = 0.05$ and $z_{\alpha/2} = 1.645$.
 
-$$0.159 \pm 1.96\sqrt{\frac{(0.159)(0.841)}{1721}} = 0.159 \pm 0.017$$
-$$\mathbf{0.142 < p < 0.176}$$
+**Step 3** Substitute in the formula.
+
+$$0.64 - 1.645\sqrt{\frac{(0.64)(0.36)}{2400}} < p < 0.64 + 1.645\sqrt{\frac{(0.64)(0.36)}{2400}}$$
+$$0.64 - 0.016 < p < 0.64 + 0.016$$
+$$\mathbf{0.624 < p < 0.656} \qquad \text{or} \qquad 62.4\% < p < 65.6\%$$
 :::
+
 ---
 
+## Example 7-10
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
 ```{r e7-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.159; n <- 1721
-q_hat <- 1 - p_hat
-z <- qnorm(0.975)   # 95% CI
-E <- z * sqrt(p_hat * q_hat / n)
-cat("p-hat =", p_hat, "\n")
-cat("95% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
+p_hat <- 0.64
+sample_size <- 2400
+
+margin_error <- qnorm(0.95) * sqrt(p_hat * (1 - p_hat) / sample_size)
+round(margin_error, 3)
+round(c(p_hat - margin_error, p_hat + margin_error), 3)
 ```
 
-**Interpretation:** We are 95% confident that between **14.2%** and **17.6%** of people purchase religious books at a Christian bookstore.
+You can say with **90% confidence** that the true percentage of shoppers who buy from overseas sellers is between 62.4% and 65.6%.
+:::
 
 ## Sample Size for Proportions
 
-:::{.callout-note}
-## Formula
+:::{.callout-important}
+## Formula for Minimum Sample Size Needed for Interval Estimate of a Population Proportion
 
 $$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2$$
 
-- If a prior estimate of $\hat{p}$ is available, use it
-- If no prior estimate is available, use $\hat{p} = 0.5$ (maximizes n, giving the most conservative estimate)
-
-Always round **up** to the next whole number.
+If necessary, **round up** to obtain a whole number.
 :::
 
-## Example 7-11 {#example-7-11}
-:::{.callout-warning}
-A researcher wishes to estimate with **95% confidence** the proportion of people who own a home computer, to within **2%** of the true proportion. A previous study showed that 40% had a computer at home. Find the minimum sample size needed.
+There are two situations to consider:
 
-**Solution:**
+1. If some approximation of $\hat{p}$ is known (for example, from a previous study), that value is used in the formula.
+2. If no approximation of $\hat{p}$ is known, use $\hat{p} = 0.5$. This gives a sample size large enough to guarantee an accurate prediction, because the product $\hat{p}\hat{q}$ is at a maximum when $\hat{p} = \hat{q} = 0.5$.
 
-$z_{\alpha/2} = 1.96$, $E = 0.02$, $\hat{p} = 0.40$, $\hat{q} = 0.60$
+The disadvantage of the second method is that it can lead to a larger sample size than is necessary.
 
-$$n = (0.40)(0.60)\left(\frac{1.96}{0.02}\right)^2 = (0.24)(9604) = 2304.96 \rightarrow \mathbf{n = 2305}$$
+---
 
-```{r e7-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.40; q_hat <- 0.60; z <- 1.96; E <- 0.02
-n_raw <- p_hat * q_hat * (z / E)^2
-n_raw
-ceiling(n_raw)
+## Sample Size for Proportions
+
+**Prepare data**
+
+```{r s7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+p_hat <- seq(0.1, 0.9, by = 0.1)
+pq_table <- data.frame(p_hat = p_hat, q_hat = 1 - p_hat,
+                       p_times_q = round(p_hat * (1 - p_hat), 2))
 ```
 
+The product $\hat{p}\hat{q}$ is largest at $\hat{p} = \hat{q} = 0.5$. Using that maximum value yields the largest possible value of $n$ for a given margin of error and a given confidence interval.
+
+---
+
+## Sample Size for Proportions
+
+```{r s7-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+knitr::kable(pq_table, align = "c")
+```
+
+## Example 7-11 {#example-7-11}
+
+:::{.callout-warning}
+## Mobile Payment at Checkout
+
+A market-research team wishes to estimate, with **95% confidence**, the proportion of Taiwanese online shoppers who pay with a mobile wallet at checkout. A previous study shows that 65% of shoppers did so. The team wishes to be accurate within **3%** of the true proportion. Find the minimum sample size necessary.
+
+*(hypothetical data)*
+
+Continued in [Example 7-12](#example-7-12)
+:::
+
+---
+
+## Example 7-11
+
+:::{.callout-tip}
+## Solution
+
+Since $z_{\alpha/2} = 1.960$, $E = 0.03$, $\hat{p} = 0.65$ and $\hat{q} = 0.35$, then
+
+$$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.65)(0.35)\left(\frac{1.960}{0.03}\right)^2 = 971.04$$
+
+```{r e7-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+p_hat <- 0.65
+margin_error <- 0.03
+
+required_n <- p_hat * (1 - p_hat) * (qnorm(0.975) / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
+```
+
+Which, when rounded up, is **972** shoppers to interview.
 :::
 
 ## Example 7-12 {#example-7-12}
 
 :::{.callout-warning}
-A researcher wishes to estimate the percentage of M&M's that are brown. He wants to be **95% confident** and accurate within **3%** of the true proportion. No prior estimate of $\hat{p}$ is available. Find the minimum sample size.
+## No Previous Study
 
-**Solution:**
-
-Since no prior $\hat{p}$ is known, use $\hat{p} = \hat{q} = 0.5$
-
-$$n = (0.5)(0.5)\left(\frac{1.96}{0.03}\right)^2 = (0.25)(4268.4) = 1067.1 \rightarrow \mathbf{n = 1068}$$
+In [Example 7-11](#example-7-11) assume that no previous study was done, so no approximation of $\hat{p}$ is available. Find the minimum sample size necessary to be accurate within **3%** of the true proportion.
 :::
+
 ---
 
+## Example 7-12
+
+:::{.callout-tip}
+## Solution
+
+Here we do not know the values of $\hat{p}$ and $\hat{q}$, so we use $\hat{p} = 0.5$ and $\hat{q} = 0.5$, with $E = 0.03$ and $z_{\alpha/2} = 1.960$.
+
+$$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.5)(0.5)\left(\frac{1.960}{0.03}\right)^2 = 1067.07$$
+
 ```{r e7-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.5; q_hat <- 0.5; z <- 1.96; E <- 0.03
-n_raw <- p_hat * q_hat * (z / E)^2
-n_raw
-ceiling(n_raw)
+p_hat <- 0.5
+margin_error <- 0.03
+
+required_n <- p_hat * (1 - p_hat) * (qnorm(0.975) / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
 ```
 
-:::{.callout-important}
-## Key Rule
-When $\hat{p}$ is unknown, always use $\hat{p} = 0.5$ — it produces the **largest possible** sample size, ensuring sufficient precision regardless of the true proportion.
+Hence **1068** shoppers must be interviewed when $\hat{p}$ is unknown — 96 more than are needed when $\hat{p}$ is known.
 :::
 
-# Section 7-4: Confidence Intervals for Variances and Standard Deviations {background-color="#2c4a6e"}
+---
+
+## Sample Size for Proportions
+
+:::{.callout-warning}
+## Caution
+
+In determining the sample size, the **size of the population is irrelevant**. Only the degree of confidence and the margin of error are necessary to make the determination.
+:::
+
+# Section 7-5: Confidence Intervals for Variances and Standard Deviations {background-color="#2c4a6e"}
 
 ## The Chi-Square Distribution
 
-Confidence intervals for variances and standard deviations require a different distribution — the **chi-square** ($\chi^2$) distribution.
+The variance and standard deviation of a variable are as important as the mean. When pipes that must fit together are made, the variation of the diameters must stay small; in medicines, the variance of the amount of medication in each pill decides whether patients receive the proper dosage.
+
+These confidence intervals need a new distribution: the **chi-square distribution**, written $\chi^2$ (Greek letter chi, pronounced "ki"). It is obtained from the values of $(n-1)s^2/\sigma^2$ for random samples from a normally distributed population with variance $\sigma^2$.
 
 :::{.callout-note}
-## Chi-Square Distribution Properties
-- Obtained from values of $(n-1)s^2/\sigma^2$ from normal populations
-- Cannot be negative; skewed to the right
-- A family of curves indexed by **degrees of freedom** (d.f. = n − 1)
-- Total area under each curve = 1
-- Approaches symmetry as d.f. increases (around 100+)
+## Characteristics of the Chi-Square Distribution
 
-**Key difference from z and t:** The chi-square distribution is **not symmetric**, so two separate critical values ($\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$) are needed.
+1. All chi-square values are greater than or equal to 0.
+2. The chi-square distribution is a **family of curves** based on the degrees of freedom.
+3. The area under each chi-square distribution curve is equal to 1.
+4. The chi-square distributions are **positively skewed**.
+
+At about 100 degrees of freedom the chi-square distribution becomes somewhat symmetric.
 :::
 
+## The Chi-Square Family of Curves
+
+**Prepare data**
+
+```{r s7-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+chi_curves <- expand_grid(df = c(1, 4, 9, 15),
+                          x = seq(0, 40, length.out = 400)) |>
+  mutate(density = dchisq(x, df),
+         curve = fct_inorder(paste("d.f. =", df)))
+```
+
 ---
+
+## The Chi-Square Family of Curves
 
 **Draw figure**
 
-```{r e7-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(0, 40, length.out = 300)
-df_plot <- data.frame(
-  x = rep(x, 4),
-  y = c(dchisq(x, 1), dchisq(x, 4), dchisq(x, 9), dchisq(x, 15)),
-  df = rep(c("df=1","df=4","df=9","df=15"), each = 300)
-)
-p <- ggplot(df_plot, aes(x, y, color = df)) +
+```{r s7-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(chi_curves, aes(x, density, color = curve)) +
   geom_line(linewidth = 1) +
   coord_cartesian(ylim = c(0, 0.5)) +
-  labs(title = "Chi-Square Family of Curves",
-       x = expression(chi^2), y = "Density", color = "d.f.") +
+  labs(title = "The Chi-Square Family of Curves",
+       x = "Chi-square value", y = "Density", color = "") +
   theme_minimal()
 ```
 
----
+## Finding the Two Critical Values
 
-## The Chi-Square Distribution
+Because the chi-square distribution is **not symmetric**, two different values are used in the formulas: $\chi^2_{\text{left}}$ and $\chi^2_{\text{right}}$.
 
-**Output figure**
+Table A-6 lists degrees of freedom in the left column and the **area to the right** of the critical value across the top row. For a 95% confidence interval:
 
-```{r e7-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p
-```
+1. Change 95% to a decimal and subtract from 1: $1 - 0.95 = 0.05$.
+2. Divide by 2: $\alpha/2 = 0.05/2 = 0.025$. This column gives $\chi^2_{\text{right}}$.
+3. Subtract $\alpha/2$ from 1: $1 - 0.025 = 0.975$. This column gives $\chi^2_{\text{left}}$.
+4. Read the row for $\text{d.f.} = n - 1$.
 
-## Formulas for Variance and Standard Deviation CIs
+:::{.callout-warning}
+## Caution
 
-:::{.callout-note}
-## Confidence Interval for a Variance
-$$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}}$$
-d.f. = n − 1
+If the number for the degrees of freedom is not printed in Table A-6, use the **closest lower value** in the table. For example, for $\text{d.f.} = 53$, use $\text{d.f.} = 50$. This is a conservative approach for a paper lookup; `qchisq()` takes the exact d.f., and where the two differ these slides report the value R computes.
 :::
-
-:::{.callout-note}
-## Confidence Interval for a Standard Deviation
-$$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}}$$
-:::
-
-**Assumptions:** (1) Random sample; (2) Population **must** be normally distributed.
-
-**Finding critical values:** Use `qchisq()` in R. For a 95% CI with d.f. = n − 1:
-- $\chi^2_{\text{right}}$: `qchisq(0.975, df = n-1)`
-- $\chi^2_{\text{left}}$: `qchisq(0.025, df = n-1)`
 
 ## Example 7-13 {#example-7-13}
 
 :::{.callout-warning}
 ## Finding Chi-Square Critical Values
 
-Find the values $\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$ for a **90% confidence interval** when n = 25.
+Find the values for $\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$ for a **95% confidence interval** when $n = 20$.
 :::
+
+---
 
 ## Example 7-13
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+To find $\chi^2_{\text{right}}$, subtract $1 - 0.95 = 0.05$; then divide 0.05 by 2 to get 0.025.
+To find $\chi^2_{\text{left}}$, subtract $1 - 0.025 = 0.975$.
 
-d.f. = 25 − 1 = 24
+Then use the 0.975 and 0.025 columns of Table A-6 with $\text{d.f.} = n - 1 = 20 - 1 = 19$.
 
-- $\alpha = 1 - 0.90 = 0.10$, so $\alpha/2 = 0.05$
-- $\chi^2_{\text{right}}$: area to right = 0.05 → column 0.05 → **36.415**
-- $\chi^2_{\text{left}}$: area to right = 0.95 → column 0.95 → **13.848**
-:::
----
+$$\chi^2_{\text{right}} = 32.852 \qquad \chi^2_{\text{left}} = 8.907$$
 
 ```{r e7-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 25; df <- n - 1
-chi_right <- qchisq(0.95, df = df)   # upper critical value
-chi_left  <- qchisq(0.05, df = df)   # lower critical value
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
-```
+degrees_freedom <- 20 - 1
 
-:::{.callout-warning}
-## Caution
-Note the counterintuitive naming: $\chi^2_{\text{right}}$ is the **larger** value used in the **denominator of the lower bound**, while $\chi^2_{\text{left}}$ is the **smaller** value used in the **denominator of the upper bound**.
+round(c(chi_right = qchisq(0.975, df = degrees_freedom),
+        chi_left  = qchisq(0.025, df = degrees_freedom)), 3)
+```
+:::
+
+## Formulas for Variance and Standard Deviation
+
+:::{.callout-important}
+## Formula for the Confidence Interval for a Variance
+
+$$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \text{d.f.} = n - 1$$
+:::
+
+:::{.callout-important}
+## Formula for the Confidence Interval for a Standard Deviation
+
+$$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}} \qquad \text{d.f.} = n - 1$$
+:::
+
+Useful estimates for $\sigma^2$ and $\sigma$ are $s^2$ and $s$. If the problem gives the sample standard deviation $s$, be sure to **square it**; if the problem gives the sample variance $s^2$, do **not** square it, since the variance is already in square units.
+
+---
+
+## Formulas for Variance and Standard Deviation
+
+:::{.callout-important}
+## Assumptions for Finding a Confidence Interval for a Variance or Standard Deviation
+
+1. The sample is a random sample.
+2. The population **must** be normally distributed.
+:::
+
+:::{.callout-important}
+## Rounding Rule for a Confidence Interval for a Variance or Standard Deviation
+
+When computing from **raw data**, round off to **one more decimal place** than the number of decimal places in the original data.
+
+When computing from a **sample variance or standard deviation**, round off to the **same number of decimal places** as given for the sample variance or standard deviation.
 :::
 
 ## Example 7-14 {#example-7-14}
 
 :::{.callout-warning}
-## Nicotine Content
+## Variation in Batch Defect Rates
 
-Find the **95% confidence interval** for the variance and standard deviation of the nicotine content of cigarettes manufactured, given that a sample of n = 20 cigarettes has a standard deviation of s = 1.6 milligrams.
+A quality engineer at an electronics plant sampled 30 production batches and found that the standard deviation of the defect rate is 1.6 defects per thousand units. Find the **95% confidence interval** of the variance and standard deviation of the defect rate. Assume the variable is normally distributed.
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-14
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+Since $\alpha = 0.05$ and the degrees of freedom is 29, the two critical values are $\chi^2_{\text{left}} = 16.047$ and $\chi^2_{\text{right}} = 45.722$.
 
-d.f. = 19; 95% CI → $\chi^2_{\text{right}} = 32.852$, $\chi^2_{\text{left}} = 8.907$
+$$\frac{(30-1)(1.6)^2}{45.722} < \sigma^2 < \frac{(30-1)(1.6)^2}{16.047}$$
+$$\mathbf{1.62 < \sigma^2 < 4.63}$$
 
-$$\frac{(19)(1.6)^2}{32.852} < \sigma^2 < \frac{(19)(1.6)^2}{8.907}$$
-$$\frac{48.64}{32.852} < \sigma^2 < \frac{48.64}{8.907} \implies \mathbf{1.5 < \sigma^2 < 5.5}$$
+For the standard deviation, take the square root of each limit:
 
-$$\sqrt{1.5} < \sigma < \sqrt{5.5} \implies \mathbf{1.2 < \sigma < 2.3}$$
+$$\mathbf{1.27 < \sigma < 2.15}$$
 :::
+
 ---
 
-```{r e7-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 20; s <- 1.6; df <- n - 1
-chi_right <- qchisq(0.975, df = df)
-chi_left  <- qchisq(0.025, df = df)
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
+## Example 7-14
 
-var_lower <- (df * s^2) / chi_right
-var_upper <- (df * s^2) / chi_left
-cat("95% CI for variance: (", round(var_lower, 1), ",", round(var_upper, 1), ")\n")
-cat("95% CI for std dev:  (", round(sqrt(var_lower), 1), ",",
-    round(sqrt(var_upper), 1), ")\n")
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
+
+```{r e7-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sample_sd <- 1.6
+degrees_freedom <- 30 - 1
+
+chi_limits <- qchisq(c(0.975, 0.025), df = degrees_freedom)
+round(chi_limits, 3)
+
+variance_limits <- degrees_freedom * sample_sd^2 / chi_limits
+round(variance_limits, 2)
+round(sqrt(variance_limits), 2)
 ```
+
+One can be **95% confident** that the true variance of the defect rate is between 1.62 and 4.63, and that the true standard deviation is between 1.27 and 2.15 defects per thousand units, based on a sample of 30 batches.
+:::
 
 ## Example 7-15 {#example-7-15}
 
 :::{.callout-warning}
-## Cost of Ski Lift Tickets
+## Daily Call Volume at a Service Centre
 
-The data below represent the prices (in dollars) of adult single-day ski lift tickets at a sample of nationwide ski resorts. Find the **90% confidence interval** for the variance and standard deviation. Assume the variable is normally distributed.
+Find the **90% confidence interval** for the variance and standard deviation of the number of inbound calls received per day at a customer-service centre. A random sample of 10 days has been used. Assume the distribution is approximately normal.
 
-59, 54, 53, 52, 51, 39, 49, 46, 49, 48
+```
+124   127   130   130   135
+140   148   155   158   163
+```
+
+*(hypothetical data)*
 :::
+
+---
 
 ## Example 7-15
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1** Find the variance for the data: $s^2 = 198$.
 
-From the data, $s^2 \approx 28.2$; d.f. = 9; 90% CI → $\chi^2_{\text{right}} = 16.919$, $\chi^2_{\text{left}} = 3.325$
+**Step 2** Find $\chi^2_{\text{right}}$ and $\chi^2_{\text{left}}$ from Table A-6, using $10 - 1 = 9$ degrees of freedom. With $\alpha/2 = 0.05$ and $1 - \alpha/2 = 0.95$: $\chi^2_{\text{right}} = 16.919$ and $\chi^2_{\text{left}} = 3.325$.
 
-$$\frac{(9)(28.2)}{16.919} < \sigma^2 < \frac{(9)(28.2)}{3.325} \implies \mathbf{15.0 < \sigma^2 < 76.4}$$
+**Step 3** Substitute in the formula.
 
-$$\sqrt{15.0} < \sigma < \sqrt{76.4} \implies \mathbf{3.87 < \sigma < 8.74}$$
+$$\frac{(10-1)(198)}{16.919} < \sigma^2 < \frac{(10-1)(198)}{3.325}$$
+$$\mathbf{105.3 < \sigma^2 < 535.9}$$
+$$\sqrt{105.3} < \sigma < \sqrt{535.9} \qquad \Longrightarrow \qquad \mathbf{10.3 < \sigma < 23.1}$$
 :::
 
-----
+---
+
+## Example 7-15
+
+:::{.callout-tip}
+## Solution
+
+**Compute in R**
 
 ```{r e7-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-tickets <- c(59, 54, 53, 52, 51, 39, 49, 46, 49, 48)
-n <- length(tickets)
-s2 <- var(tickets); s <- sd(tickets)
-df <- n - 1
-cat("n =", n, "  s² =", round(s2, 1), "  s =", round(s, 2), "\n")
+daily_calls <- c(124, 127, 130, 130, 135,
+                 140, 148, 155, 158, 163)
+degrees_freedom <- length(daily_calls) - 1
+sample_variance <- var(daily_calls)
+sample_variance
 
-chi_right <- qchisq(0.95, df = df)   # 90% CI
-chi_left  <- qchisq(0.05, df = df)
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
+chi_limits <- qchisq(c(0.95, 0.05), df = degrees_freedom)
+round(chi_limits, 3)
 
-var_lower <- (df * s2) / chi_right
-var_upper <- (df * s2) / chi_left
-cat("90% CI for variance: (", round(var_lower, 1), ",", round(var_upper, 1), ")\n")
-cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
-    round(sqrt(var_upper), 2), ")\n")
+variance_limits <- degrees_freedom * sample_variance / chi_limits
+round(variance_limits, 1)
+round(sqrt(variance_limits), 1)
 ```
 
-**Answer:** $15.0 < \sigma^2 < 76.4$; $3.87 < \sigma < 8.74$ dollars.
+One can be **90% confident** that the standard deviation of the daily number of inbound calls is between 10.3 and 23.1 calls, based on a random sample of 10 days.
+:::
 
-## Chapter 7 Summary {.smaller}
+## Important Terms
 
-| Parameter | Formula | R Function |
-|-----------|---------|------------|
-| Mean ($\sigma$ known) | $\bar{X} \pm z_{\alpha/2}(\sigma/\sqrt{n})$ | `qnorm(1-alpha/2)` |
-| Mean ($\sigma$ unknown) | $\bar{X} \pm t_{\alpha/2}(s/\sqrt{n})$ | `qt(1-alpha/2, df=n-1)` |
-| Sample size (mean) | $n = (z_{\alpha/2} \cdot \sigma / E)^2$ | `ceiling(...)` |
-| Proportion | $\hat{p} \pm z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}$ | `prop.test()` |
-| Sample size (proportion) | $n = \hat{p}\hat{q}(z_{\alpha/2}/E)^2$ | `ceiling(...)` |
-| Variance | $(n-1)s^2/\chi^2_R < \sigma^2 < (n-1)s^2/\chi^2_L$ | `qchisq(...)` |
+:::{.callout-important}
+## Chapter 7 Vocabulary
+
+assumptions · chi-square distribution · confidence interval · confidence level · consistent estimator · degrees of freedom · estimation · estimator · interval estimate · margin of error · point estimate · proportion · relatively efficient estimator · robust · $t$ distribution · unbiased estimator
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Confidence Intervals for a Mean
+
+Confidence interval of the mean when $\sigma$ is known (when $n \geq 30$, $s$ can be used if $\sigma$ is unknown):
+
+$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+
+Confidence interval of the mean when $\sigma$ is unknown, with $\text{d.f.} = n - 1$:
+
+$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+
+Sample size for means, where $E$ is the margin of error:
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Proportions, Variances and Standard Deviations
+
+Confidence interval for a proportion, where $\hat{p} = X/n$ and $\hat{q} = 1 - \hat{p}$:
+
+$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} \qquad n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2$$
+
+Confidence interval for a variance and for a standard deviation, with $\text{d.f.} = n - 1$:
+
+$$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}}$$
+:::
 
 ## Key Takeaways
 
-1. Use z when $\sigma$ is known; use t when $\sigma$ is unknown
-2. Wider confidence intervals → more confidence, less precision
-3. Larger samples → narrower intervals → more precision
-4. When no prior $\hat{p}$ is known for proportions, use $\hat{p} = 0.5$
-5. Chi-square CIs for variance **require** the population to be normally distributed
-6. Always round sample size calculations **up** to the nearest whole number
+:::{.callout-important}
+- **Estimation** uses a sample statistic to estimate a parameter; a good estimator is **unbiased**, **consistent** and **relatively efficient**, and $\bar{X}$ is the best point estimate of $\mu$
+- A **point estimate** is a single value; an **interval estimate** is a range, and its **confidence level** is the long-run probability that such intervals capture the parameter
+- The **margin of error** (maximum error of the estimate) is the largest likely gap between the point estimate and the parameter; higher confidence means a **wider** interval
+- Use $z_{\alpha/2}$ and $\sigma$ when $\sigma$ is known; use $t_{\alpha/2}$ and $s$ with $\text{d.f.} = n - 1$ when $\sigma$ is unknown — and if $n < 30$ the variable must be normally distributed
+- Sample sizes come from $n = \left(z_{\alpha/2}\sigma/E\right)^2$ and $n = \hat{p}\hat{q}\left(z_{\alpha/2}/E\right)^2$, and are **always rounded up**; the population size is irrelevant
+- For proportions, $\hat{p} = X/n$ and $\hat{q} = 1 - \hat{p}$, the interval requires $n\hat{p} \geq 5$ and $n\hat{q} \geq 5$, and limits are rounded to **three decimal places**; when $\hat{p}$ is unknown use $\hat{p} = 0.5$
+- Confidence intervals for $\sigma^2$ and $\sigma$ use the **positively skewed** chi-square distribution with two critical values, and **require** a normally distributed population
+:::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

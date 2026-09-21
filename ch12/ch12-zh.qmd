@@ -64,760 +64,1314 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 本章概覽
 
-:::{.callout-note}
-## 為何要用 ANOVA？
-比較**三個或三個以上組別平均數**時，使用多次 t 檢定會有問題：
+第12章介紹**變異數分析（ANOVA）**——一種透過比較同一母體變異數的兩個估計值，來比較**三個或三個以上平均數**的 $F$ 檢定。
 
-- 每增加一次比較，就會使第一型錯誤率膨脹
-- 有 $k$ 個組別，需要 $\binom{k}{2}$ 次兩兩比較
-- **F 檢定**在單次檢定中同時比較所有平均數
+| Section | Topics |
+|---------|--------|
+| 12-1 | 單因子 ANOVA；為何不用多次 $t$ 檢定；$F = s_B^2 / s_W^2$；$d.f.N. = k-1$、$d.f.D. = N-k$；摘要表 |
+| 12-2 | Scheffé 檢定與 $F' = (k-1)(C.V.)$；Tukey 的 $q$ 檢定；Bonferroni 校正；三者的取捨 |
+| 12-3 | 二因子 ANOVA；因子、水準與處理組；主效果與交互作用；順序型與非順序型 |
+
+## 本章學習目標
+
+:::{.callout-important}
+## 讀完本章後，你應該能夠
+
+1. 使用單因子 ANOVA 技術，判斷三個或三個以上平均數之間是否有顯著差異。
+2. 當 ANOVA 拒絕虛無假設時，使用 Scheffé、Tukey 或 Bonferroni 檢定找出哪些平均數不同。
+3. 使用二因子 ANOVA 技術，判斷主效果或交互作用是否有顯著差異。
 :::
 
-**涵蓋主題：**
+---
 
-- **第12-1節：** 單因子變異數分析（One-Way ANOVA）
-- **第12-2節：** 事後檢定 — Scheffé 法與 Tukey 法
-- **第12-3節：** 二因子變異數分析（Two-Way ANOVA）
+## 導論
 
-## 歷史背景
+第9章用來比較兩個變異數的 $F$ 檢定，也可以用來比較**三個或三個以上的平均數**，這項技術稱為**變異數分析**，簡稱 **ANOVA**。
+
+比較三個或三個以上平均數時，不應使用 $z$ 檢定或 $t$ 檢定。對三組資料而言，$F$ 檢定只能顯示這三個平均數之間*是否*存在差異，卻無法指出差異*落在何處*——是 $\bar{X}_1$ 與 $\bar{X}_2$、$\bar{X}_1$ 與 $\bar{X}_3$，還是 $\bar{X}_2$ 與 $\bar{X}_3$。要找出差異所在，必須使用 Scheffé、Tukey 或 Bonferroni 等檢定。
 
 :::{.callout-note}
-## ANOVA 的起源
-變異數分析方法由 **R. A. Fisher** 在1920年代初期發展出來。
+## 單因子與二因子 ANOVA
 
-ANOVA 利用**變異數**對**平均數**進行推論 — 故得名「變異數分析」。
+用來比較三個或三個以上平均數的變異數分析稱為**單因子變異數分析**，因為其中只涉及一個變數。若研究涉及兩個變數，則使用**二因子變異數分析**（第12-3節）。
 :::
-
 
 # 第12-1節：單因子變異數分析 {background-color="#2c4a6e"}
 
-## 為何不使用多次 t 檢定？
-
-:::{.callout-important}
-## 避免多次 t 檢定的三個原因
-1. **忽略其他組：** 每次兩兩比較都忽略了剩餘的組別
-2. **第一型錯誤率膨脹：** 比較次數越多，誤判顯著的機率越高
-3. **檢定次數暴增：** 3個平均數 → 3次；5個平均數 → 10次；10個平均數 → 45次
-:::
-
-**F 檢定**同時比較所有平均數，解決上述三個問題。
-
-## 單因子 ANOVA 的假設
-
-:::{.callout-important}
-## 假設條件
-1. 每個母體必須**服從常態分配或近似常態分配**
-2. 所有樣本必須**相互獨立**
-3. **所有母體的變異數**必須相等（變異數同質性）
-:::
-
-## ANOVA 的邏輯
+## 變異數分析
 
 :::{.callout-note}
-## 兩種變異數估計量
-| 估計量 | 衡量什麼 |
-|--------|---------|
-| **組間變異數** ($s_B^2$) | 樣本平均數之間的變異 |
-| **組內變異數** ($s_W^2$) | 每組內部的變異（合併） |
+## 單因子變異數分析
 
-- 若 $H_0$ 為**真**：$s_B^2 \approx s_W^2$，因此 $F \approx 1$
-- 若 $H_0$ 為**假**：$s_B^2 \gg s_W^2$，因此 $F \gg 1$
+**單因子變異數分析檢定**利用樣本變異數，檢定三個或三個以上平均數是否相等。
+:::
+
+之所以稱為*單因子*，是因為研究中只有**一個自變數**用來區分不同的母體。這個自變數也稱為**因子**。
+
+---
+
+## 為何不使用多次 $t$ 檢定？
+
+乍看之下，似乎可以每次取兩個平均數、用多次 $t$ 檢定來比較三個以上的樣本平均數。但有三個理由說明不該這樣做。
+
+:::{.callout-important}
+## 三個理由
+
+1. **忽略了其他平均數。** 每次只比較兩個平均數時，其餘的平均數都被忽略；而 $F$ 檢定則同時比較所有平均數。
+2. **第一型錯誤率上升。** 進行的 $t$ 檢定愈多，純粹因機遇而得到顯著差異的可能性就愈大，因此拒絕正確虛無假設的機率隨之上升。待比較的母體數目愈多，在給定 $\alpha$ 下犯第一型錯誤的機率也愈高。
+3. **檢定次數暴增。** 3 個平均數兩兩比較需要 3 次 $t$ 檢定；5 個平均數需要 10 次；10 個平均數需要 45 次。
+:::
+
+---
+
+## $F$ 分配的特性
+
+:::{.callout-important}
+## 回顧第9章
+
+1. $F$ 值不可能為負，因為變異數恆為正數或零。
+2. 此分配為右偏。
+3. $F$ 的平均值約等於 1。
+4. $F$ 分配是一族曲線，取決於分子變異數的自由度與分母變異數的自由度。
+:::
+
+雖然比較的是三個以上的**平均數**，檢定中使用的卻是**變異數**。
+
+---
+
+## 母體變異數的兩個估計值
+
+:::{.callout-note}
+## 組間變異數與組內變異數
+
+**組間變異數**是母體變異數的第一個估計值，做法是求各平均數的變異數。
+
+**組內變異數**是第二個估計值，做法是使用全部資料計算變異數，不受各平均數差異的影響。
+:::
+
+---
+
+## 母體變異數的兩個估計值（續）
+
+- 若各平均數**沒有差異**，組間估計值會與組內估計值大致相等，$F$ 檢定統計量約為 1，不拒絕 $H_0$。
+- 若各平均數**有顯著差異**，組間變異數會遠大於組內變異數，$F$ 明顯大於 1，拒絕 $H_0$。
+
+$$F = \frac{\text{variance between groups}}{\text{variance within groups}}$$
+
+---
+
+## $F$ 檢定的公式
+
+:::{.callout-important}
+## 總平均數、$s_B^2$ 與 $s_W^2$
+
+**總平均數** $\bar{X}_{GM}$ 是所有樣本中全部數值的平均數：
+
+$$\bar{X}_{GM} = \frac{\sum X}{N}$$
+
+**組間變異數**是以樣本數為權重、各平均數之間的變異數：
+
+$$s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k - 1}$$
+
+**組內變異數**是各樣本變異數的加權平均，不涉及平均數之間的差：
+
+$$s_W^2 = \frac{\sum (n_i - 1) s_i^2}{\sum (n_i - 1)}$$
+
+其中 $k$ 為組數，$n_i$ 為樣本數，$\bar{X}_i$ 為樣本平均數，$s_i^2$ 為樣本變異數。
+:::
+
+---
+
+## $F$ 檢定統計量
+
+:::{.callout-important}
+## 單因子變異數分析的 $F$ 檢定公式
 
 $$F = \frac{s_B^2}{s_W^2}$$
 
-比較平均數的 F 檢定永遠是**右尾**。
+其中 $s_B^2$ 為組間變異數，$s_W^2$ 為組內變異數。
 :::
 
-## 假設與自由度
-
-
 :::{.callout-note}
-## ANOVA 假設
+## ANOVA 的假設
+
 $$H_0: \mu_1 = \mu_2 = \cdots = \mu_k$$
-$$H_1: \text{至少有一個平均數與其他不同}$$
+$$H_1: \text{At least one mean is different from the others}$$
+
+檢定統計量顯著，代表平均數的這項差異極可能不是機遇造成的，但它**並不**指出差異落在何處。
 :::
 
-:::{.callout-note}
+---
+
 ## 自由度
+
+:::{.callout-important}
+## $d.f.N.$ 與 $d.f.D.$
+
 $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
-其中 $k$ = 組數，$N = n_1 + n_2 + \cdots + n_k$
+其中 $k$ 為組數，$N = n_1 + n_2 + \cdots + n_k$ 為各樣本數之和。
+
+各組樣本數**不必相等**。用於比較平均數的 $F$ 檢定永遠是**右尾檢定**。
 :::
 
-## ANOVA 計算公式
+---
 
-:::{.callout-note}
-## 逐步計算程序
-**步驟一：** 求每個樣本的平均數和變異數：$(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)$
+## 表 12-1：變異數分析摘要表
 
-**步驟二：** 總平均數：$\bar{X}_{GM} = \dfrac{\sum X}{N}$
+:::{.callout-important}
+## 表 12-1 — 變異數分析摘要表
 
-**步驟三：** 組間變異數：$s_B^2 = \dfrac{\sum n_i(\bar{X}_i - \bar{X}_{GM})^2}{k-1}$
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | SSB | $k-1$ | MSB | |
+| Within groups (error) | SSW | $N-k$ | MSW | |
+| Total | | | | |
 
-**步驟四：** 組內變異數：$s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$
+$$SSB = \sum n_i (\bar{X}_i - \bar{X}_{GM})^2 \qquad SSW = \sum (n_i - 1) s_i^2$$
 
-**步驟五：** $F = \dfrac{s_B^2}{s_W^2}$
+$$MSB = s_B^2 = \frac{SSB}{k-1} \qquad MSW = s_W^2 = \frac{SSW}{N-k} \qquad F = \frac{s_B^2}{s_W^2} = \frac{MSB}{MSW}$$
 :::
 
-## ANOVA 摘要表
+$SSB$ 為**組間平方和**，$SSW$ 為**組內平方和**（即誤差平方和），$MSB$ 與 $MSW$ 稱為**均方**。
 
-:::{.callout-note}
-## 標準摘要表格式
-| 來源 | SS | 自由度 | MS | F |
-|------|-----|--------|-----|---|
-| 組間（處理） | SSB | $k-1$ | MSB = SSB/$(k-1)$ | MSB/MSW |
-| 組內（誤差） | SSW | $N-k$ | MSW = SSW/$(N-k)$ | |
-| 總計 | SST | $N-1$ | | |
+---
 
-其中：
-- $SSB = \sum n_i(\bar{X}_i - \bar{X}_{GM})^2$
-- $SSW = \sum (n_i - 1)s_i^2$
+## $F$ 檢定的假設條件
+
+:::{.callout-important}
+## 比較三個或三個以上平均數的 $F$ 檢定假設條件
+
+1. 抽取樣本的母體必須服從常態分配或近似常態分配。
+2. 各樣本之間必須相互獨立。
+3. 各母體的變異數必須相等。
+4. 各樣本必須是簡單隨機樣本，每個母體各取一個。
 :::
+
+本書在習題中會直接載明這些假設；但在其他情境下遇到統計問題時，必須先確認這些假設成立才能進行分析。
+
+---
+
+## 程序表
+
+:::{.callout-important}
+## 求變異數分析的 $F$ 檢定統計量
+
+**步驟 1.** 求各樣本的平均數與變異數：$(\bar{X}_1, s_1^2), (\bar{X}_2, s_2^2), \ldots, (\bar{X}_k, s_k^2)$。
+
+**步驟 2.** 求總平均數：$\bar{X}_{GM} = \dfrac{\sum X}{N}$。
+
+**步驟 3.** 求組間變異數：$s_B^2 = \dfrac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1}$。
+
+**步驟 4.** 求組內變異數：$s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$。
+
+**步驟 5.** 求 $F$ 檢定統計量：$F = \dfrac{s_B^2}{s_W^2}$，其中 $d.f.N. = k-1$、$d.f.D. = N-k$。
+:::
+
+---
+
+## 五個步驟
+
+:::{.callout-important}
+## 單因子 ANOVA 依循一般的假設檢定程序
+
+**步驟 1.** 陳述假設。
+
+**步驟 2.** 求臨界值。
+
+**步驟 3.** 計算檢定統計量。
+
+**步驟 4.** 做成決策。
+
+**步驟 5.** 總結結果。
+:::
+
+---
 
 ## 範例 12-1 {#example-12-1}
 
 :::{.callout-warning}
-## 降低血壓
+## 各店型的單日營收
 
-研究者測試三種降低血壓的技術：**藥物**、**運動**和**飲食**。4週後記錄血壓降低量。在 $\alpha = 0.05$ 下，檢定各組平均數無差異的主張。
+台北某飲料連鎖店的通路分析師想知道三種店型——捷運站店、校園店與郊區得來速店——的平均單日營收是否有差異。她隨機抽取 4 家捷運站店、5 家校園店與 3 家郊區店，記錄各店某一天的營收（新台幣千元）如下。在 $\alpha = 0.05$ 下，檢定「各平均數之間沒有差異」這項主張。
 
-| 藥物 | 運動 | 飲食 |
-|------|------|------|
-| 10 | 6 | 5 |
-| 12 | 8 | 9 |
-| 9 | 3 | 12 |
-| 15 | 0 | 8 |
-| 13 | 2 | 4 |
-| $\bar{X}_1=11.8$ | $\bar{X}_2=3.8$ | $\bar{X}_3=7.6$ |
-| $s_1^2=5.7$ | $s_2^2=10.2$ | $s_3^2=10.3$ |
+```
+MRT       Campus    Suburban
+ 81         76          60
+ 75         68          51
+ 68         64          45
+ 64         60
+            57
+```
+
+*（模擬資料）*
+
+回到 [範例 12-3](#example-12-3) · 回到 [範例 12-5](#example-12-5)
 :::
+
+---
 
 ## 範例 12-1
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出主張。
 
-**步驟一：** $H_0: \mu_1 = \mu_2 = \mu_3$（主張）；$H_1:$ 至少有一個平均數不同
+$$H_0: \mu_1 = \mu_2 = \mu_3 \ \textit{(claim)}$$
+$$H_1: \text{At least one mean is different from the others}$$
 
-**步驟二：** $k=3$，$N=15$；$d.f.N.=2$，$d.f.D.=12$ → 臨界值：**3.89**
+**步驟 2.** 求臨界值。由 $N = 12$、$k = 3$，
 
-**步驟三a：** 各組平均數和變異數如上所示
+$$d.f.N. = k - 1 = 3 - 1 = 2 \qquad d.f.D. = N - k = 12 - 3 = 9$$
 
-**步驟三b：** 總平均數：$\bar{X}_{GM} = \dfrac{116}{15} = 7.73$
-
-:::
-
-## 範例 12-1
-
-:::{.callout-tip}
-## 解題（續）
-
-**步驟三c：** 組間變異數：
-$$s_B^2 = \frac{5(11.8-7.73)^2 + 5(3.8-7.73)^2 + 5(7.6-7.73)^2}{3-1} = \frac{160.13}{2} = 80.07$$
-
-**步驟三d：** 組內變異數：
-$$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
-
-**步驟三e：** $F = \dfrac{80.07}{8.73} = 9.17$
-
-**步驟四：** $9.17 > 3.89$ → **拒絕** $H_0$
-
-**步驟五：** 有足夠的證據得出至少有一個平均數與其他不同的結論。
-
-:::
-
-## 範例 12-1
-
-:::{.callout-tip}
-## 解題
-
-**ANOVA 摘要表**
-
-| 來源 | SS | 自由度 | MS | F |
-|------|-----|--------|-----|---|
-| 組間 | 160.13 | 2 | 80.07 | **9.17** |
-| 組內（誤差） | 104.80 | 12 | 8.73 | |
-| **總計** | **264.93** | **14** | | |
-
-$\alpha=0.05$ 時的臨界值：**3.89**
-
-由於 $F = 9.17 > 3.89$，我們**拒絕** $H_0$。
-:::
-
-## 範例 12-1
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
+在 $\alpha = 0.05$ 下，附表 A-7 的臨界值為 **4.26**。
 
 ```{r e12-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-medication <- c(10, 12, 9, 15, 13)
-exercise   <- c(6, 8, 3, 0, 2)
-diet       <- c(5, 9, 12, 8, 4)
-
-bp_data <- data.frame(
-  reduction = c(medication, exercise, diet),
-  group = rep(c("Medication","Exercise","Diet"), each = 5)
-)
-
-result <- aov(reduction ~ group, data = bp_data)
-summary(result)
+qf(0.95, df1 = 2, df2 = 9)   # Table A-7 rounds this value to 4.26
 ```
 :::
 
+---
+
 ## 範例 12-1
 
 :::{.callout-tip}
 ## 解題
 
-**視覺化**
+**步驟 3a-b — 各組統計量與總平均數**
 
-```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
+```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mrt_kiosks <- c(81, 75, 68, 64)
+campus     <- c(76, 68, 64, 60, 57)
+suburban   <- c(60, 51, 45)
+
+revenue <- data.frame(
+  daily_revenue = c(mrt_kiosks, campus, suburban),
+  store_format  = factor(rep(c("MRT", "Campus", "Suburban"), c(4, 5, 3)),
+                         levels = c("MRT", "Campus", "Suburban"))
+)
+
+format_stats <- revenue |>
+  group_by(store_format) |>
+  summarise(n = n(), mean = mean(daily_revenue), variance = var(daily_revenue))
+
+knitr::kable(format_stats, align = "c", digits = 3)
+
+grand_mean <- mean(revenue$daily_revenue)
+grand_mean
+```
+:::
+
+---
+
+## 範例 12-1
+
+:::{.callout-tip}
+## 解題
+
+**步驟 3c-e — 兩個變異數估計值與 $F$**
+
+$$s_B^2 = \frac{4(72 - 64.083)^2 + 5(65 - 64.083)^2 + 3(52 - 64.083)^2}{3-1} = \frac{692.917}{2} = 346.458$$
+
+$$s_W^2 = \frac{(4-1)(56.667) + (5-1)(55) + (3-1)(57)}{(4-1)+(5-1)+(3-1)} = \frac{504}{9} = 56$$
+
+$$F = \frac{s_B^2}{s_W^2} = \frac{346.458}{56} = 6.187$$
+
+```{r e12-1-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+between_var <- sum(format_stats$n * (format_stats$mean - grand_mean)^2) / (3 - 1)
+within_var  <- sum((format_stats$n - 1) * format_stats$variance) / (12 - 3)
+round(c(between = between_var, within = within_var, F = between_var / within_var), 3)
+
+revenue_aov <- aov(daily_revenue ~ store_format, data = revenue)
+anova(revenue_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+```
+:::
+
+---
+
+## 範例 12-1
+
+:::{.callout-tip}
+## 解題
+
+**步驟 4-5 — 決策與總結**
+
+**步驟 4.** 檢定統計量 $6.187 > 4.26$，因此決策為**拒絕虛無假設**。
+
+**步驟 5.** 有足夠證據可以下結論：至少有一個平均數與其他平均數不同。
+
+```{r e12-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+summary(revenue_aov)
+```
+:::
+
+---
+
+## 範例 12-1
+
+:::{.callout-tip}
+## 解題
+
+**表 12-2 — 範例 12-1 的變異數分析摘要表**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | 692.917 | 2 | 346.458 | 6.187 |
+| Within groups (error) | 504.000 | 9 | 56.000 | |
+| Total | 1196.917 | 11 | | |
+
+在附表 A-7 中，當 $d.f.N. = 2$、$d.f.D. = 9$ 時，檢定統計量 6.187 落在 $\alpha = 0.025$ 的 5.71 與 $\alpha = 0.01$ 的 8.02 之間，因此 $0.01 < \text{P-value} < 0.025$，在 $\alpha = 0.05$ 下拒絕 $H_0$。
+
+```{r e12-1-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(summary(revenue_aov)[[1]][["Pr(>F)"]][1], 4)
+```
+:::
+
+---
+
+## 範例 12-1
+
+:::{.callout-tip}
+## 解題
+
+**繪圖** — 檢定背後的資料
+
+```{r e12-1-6, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
+ggplot(revenue, aes(x = store_format, y = daily_revenue, fill = store_format)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
-  labs(title = "各治療方式的血壓降低量",
-       x = "治療組別", y = "降低量（毫米汞柱）") +
+  labs(title = "各店型的單日營收",
+       x = "店型", y = "單日營收（新台幣千元）") +
   theme(legend.position = "none")
 ```
 :::
+
+---
 
 ## 範例 12-2 {#example-12-2}
 
 :::{.callout-warning}
-## 收費站交流道員工數
+## 各承運商的運送時間
 
-州政府官員想了解三條賓夕法尼亞州收費公路各交流道的員工數是否有顯著差異。在 $\alpha = 0.05$ 下，檢定此主張。
+台灣某出口商的物流團隊想知道，貨物由桃園送到東南亞集貨中心的門到門運送時間，在三家承運商之間是否有差異。三家承運商各隨機抽取 6 筆近期出貨，記錄運送時間（小時）如下。在 $\alpha = 0.05$ 下，是否可以下結論說三家承運商的平均運送時間有顯著差異？
 
-| PA 高速公路 | 格林斯堡支線 | 比弗谷 |
-|------------|------------|--------|
-| 7 | 10 | 1 |
-| 14 | 1 | 12 |
-| 32 | 1 | 1 |
-| 19 | 0 | 9 |
-| 10 | 11 | 1 |
-| 11 | 1 | 11 |
-| $\bar{X}_1=15.5$ | $\bar{X}_2=4.0$ | $\bar{X}_3=5.8$ |
-| $s_1^2=81.9$ | $s_2^2=25.6$ | $s_3^2=29.0$ |
+```
+Carrier A   Carrier B   Carrier C
+    53          46          62
+    50          45          56
+    48          42          54
+    45          38          50
+    42          36          47
+    38          33          43
+```
+
+*（模擬資料）*
+
+回到 [範例 12-4](#example-12-4)
 :::
+
+---
 
 ## 範例 12-2
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出主張。
 
-**步驟一：** $H_0: \mu_1 = \mu_2 = \mu_3$；$H_1:$ 至少有一個平均數不同（主張）
+$$H_0: \mu_1 = \mu_2 = \mu_3$$
+$$H_1: \text{At least one mean is different from the others} \ \textit{(claim)}$$
 
-**步驟二：** $k=3$，$N=18$；$d.f.N.=2$，$d.f.D.=15$ → 臨界值：**3.68**
+**步驟 2.** 求臨界值。由 $k = 3$、$N = 18$、$\alpha = 0.05$，
 
-**步驟三b：** $\bar{X}_{GM} = \dfrac{152}{18} \approx 8.444$
+$$d.f.N. = k - 1 = 2 \qquad d.f.D. = N - k = 18 - 3 = 15$$
 
-**步驟三c：** $s_B^2 = \dfrac{6(15.5-8.444)^2 + 6(4.0-8.444)^2 + 6(5.833-8.444)^2}{2} = \dfrac{458.11}{2} = 229.06$
-
-**步驟三d：** $s_W^2 = \dfrac{5(81.9) + 5(25.6) + 5(28.97)}{15} = \dfrac{682.33}{15} = 45.49$
-
-**步驟三e：** $F = \dfrac{229.06}{45.49} = 5.035$
-
-**步驟四：** $5.035 > 3.68$ → **拒絕** $H_0$
-
-**步驟五：** 有足夠的證據得出至少有一個交流道的平均員工數與其他不同的結論。
-
-:::
-
-## 範例 12-2
-
-:::{.callout-tip}
-## 解題
-
-**ANOVA 摘要表**
-
-| 來源 | SS | 自由度 | MS | F |
-|------|-----|--------|-----|---|
-| 組間 | 458.11 | 2 | 229.06 | **5.035** |
-| 組內（誤差） | 682.33 | 15 | 45.49 | |
-| **總計** | **1140.44** | **17** | | |
-
-**P 值：** $0.01 < P < 0.025$（查 F 表）；計算機：$P = 0.021$
-
-由於 $F = 5.035 > 3.68$，我們**拒絕** $H_0$。
-:::
-
-## 範例 12-2
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
+臨界值為 **3.68**。
 
 ```{r e12-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-pa_turnpike  <- c(7, 14, 32, 19, 10, 11)
-greensburg   <- c(10, 1, 1, 0, 11, 1)
-beaver       <- c(1, 12, 1, 9, 1, 11)
-
-emp_data <- data.frame(
-  employees = c(pa_turnpike, greensburg, beaver),
-  road = rep(c("PA Turnpike","Greensburg","Beaver Valley"), each = 6)
-)
-
-result2 <- aov(employees ~ road, data = emp_data)
-summary(result2)
+qf(0.95, df1 = 2, df2 = 15)   # Table A-7 rounds this value to 3.68
 ```
 :::
 
+---
+
 ## 範例 12-2
 
 :::{.callout-tip}
 ## 解題
 
-**視覺化**
+**步驟 3a-b — 各組統計量與總平均數**
 
-```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
+```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+carrier_a <- c(53, 50, 48, 45, 42, 38)
+carrier_b <- c(46, 45, 42, 38, 36, 33)
+carrier_c <- c(62, 56, 54, 50, 47, 43)
+
+transit <- data.frame(
+  transit_hours = c(carrier_a, carrier_b, carrier_c),
+  carrier = factor(rep(c("Carrier A", "Carrier B", "Carrier C"), each = 6))
+)
+
+carrier_stats <- transit |>
+  group_by(carrier) |>
+  summarise(n = n(), mean = mean(transit_hours), variance = var(transit_hours))
+
+knitr::kable(carrier_stats, align = "c", digits = 2)
+
+transit_grand_mean <- mean(transit$transit_hours)
+transit_grand_mean
+```
+:::
+
+---
+
+## 範例 12-2
+
+:::{.callout-tip}
+## 解題
+
+**步驟 3c-e — 兩個變異數估計值與 $F$**
+
+$$s_B^2 = \frac{6(46-46)^2 + 6(40-46)^2 + 6(52-46)^2}{3-1} = \frac{432}{2} = 216$$
+
+$$s_W^2 = \frac{5(30) + 5(26.8) + 5(46)}{5+5+5} = \frac{514}{15} = 34.267$$
+
+$$F = \frac{216}{34.267} = 6.304$$
+
+**步驟 4-5.** 由於 $6.304 > 3.68$，**拒絕 $H_0$**：有足夠證據支持「至少有一個平均數與其他平均數不同」。
+
+```{r e12-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+transit_between_var <- sum(carrier_stats$n *
+                             (carrier_stats$mean - transit_grand_mean)^2) / (3 - 1)
+transit_within_var  <- sum((carrier_stats$n - 1) * carrier_stats$variance) / (18 - 3)
+round(c(between = transit_between_var, within = transit_within_var,
+        F = transit_between_var / transit_within_var), 3)
+transit_aov <- aov(transit_hours ~ carrier, data = transit)
+anova(transit_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+```
+:::
+
+---
+
+## 範例 12-2
+
+:::{.callout-tip}
+## 解題
+
+**表 12-3 — 範例 12-2 的變異數分析摘要表**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | 432.000 | 2 | 216.000 | 6.304 |
+| Within groups (error) | 514.000 | 15 | 34.267 | |
+| Total | 946.000 | 17 | | |
+
+在附表 A-7 中，6.304 落在 $\alpha = 0.025$ 的 4.77 與 $\alpha = 0.01$ 的 6.36 之間，因此 $0.01 < \text{P-value} < 0.025$，拒絕 $H_0$。
+
+```{r e12-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+summary(transit_aov)
+```
+:::
+
+---
+
+## 範例 12-2
+
+:::{.callout-tip}
+## 解題
+
+**繪圖** — 檢定背後的資料
+
+```{r e12-2-5, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
+ggplot(transit, aes(x = carrier, y = transit_hours, fill = carrier)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
-  labs(title = "各收費公路交流道的員工數",
-       x = "收費公路", y = "員工數") +
+  labs(title = "各承運商的門到門運送時間",
+       x = "承運商", y = "運送時間（小時）") +
   theme(legend.position = "none")
 ```
 :::
 
-# 第12-2節：Scheffé 檢定與 Tukey 檢定 {background-color="#2c4a6e"}
+---
 
-## 事後檢定：概觀
+## $F$ 檢定之後
 
-:::{.callout-note}
-## 為何需要事後檢定？
-當 F 檢定拒絕 $H_0$ 時，我們知道**至少有一個平均數不同**，但不知道是**哪幾個**不同。
+:::{.callout-warning}
+## 注意
 
-事後檢定在 ANOVA 之後進行所有的兩兩比較：
-
-| 檢定 | 最適用時機 |
-|------|----------|
-| **Scheffé** | 樣本數不等時；最保守 |
-| **Tukey** | 樣本數相等時；兩兩比較更有效力 |
-
-**一般原則：** 當 $n_i = n_j$ 時用 Tukey；當樣本數不等時用 Scheffé。
+ANOVA 拒絕虛無假設時，只代表**至少有一個平均數與其他平均數不同**。要找出差異落在哪些平均數之間，必須再使用 Tukey、Scheffé 或 Bonferroni 等檢定。
 :::
+
+# 第12-2節：Scheffé 檢定、Tukey 檢定與 Bonferroni 檢定 {background-color="#2c4a6e"}
+
+## 找出差異所在
+
+當 $F$ 檢定拒絕虛無假設時，研究者往往想知道差異**落在何處**。統計學家發展出數種方法，用來在 ANOVA 之後判定顯著差異的所在，其中最常用的是 **Scheffé 檢定**、**Tukey 檢定**與 **Bonferroni 檢定**。
+
+進行 Scheffé 檢定時，必須就所有可能的組合，每次取兩個平均數互相比較。例如有三個平均數時，須進行的比較為
+
+$$\bar{X}_1 \text{ versus } \bar{X}_2 \qquad \bar{X}_1 \text{ versus } \bar{X}_3 \qquad \bar{X}_2 \text{ versus } \bar{X}_3$$
+
+---
 
 ## Scheffé 檢定
 
-:::{.callout-note}
-## Scheffé 檢定公式
-$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}$$
+:::{.callout-important}
+## Scheffé 檢定統計量公式
 
-**Scheffé 的臨界值：**
-$$F' = (k-1) \times C.V._{\text{ANOVA}}$$
+$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]}$$
 
-若 $F_S > F'$，則拒絕該對的 $H_0$。
+其中 $\bar{X}_i$ 與 $\bar{X}_j$ 為所比較樣本的平均數，$n_i$ 與 $n_j$ 為對應的樣本數，$s_W^2$ 為組內變異數。
+
+Scheffé 檢定的臨界值 $F'$ 是把 $F$ 檢定的臨界值乘以 $k - 1$：
+
+$$F' = (k - 1)(C.V.)$$
+
+當 $F_S > F'$ 時，所比較的兩個平均數之間有顯著差異。
 :::
+
+---
 
 ## 範例 12-3 {#example-12-3}
 
 :::{.callout-warning}
-## 血壓資料的 Scheffé 檢定
+## 對店型營收資料進行 Scheffé 檢定
 
-使用 Scheffé 檢定，判斷範例 12-1 中哪些平均數對在 $\alpha = 0.05$ 下有顯著差異。
+對 [範例 12-1](#example-12-1) 中的每一對平均數進行 Scheffé 檢定，判斷各對平均數之間是否存在顯著差異。使用 $\alpha = 0.05$。
 
-已知：$\bar{X}_1=11.8$，$\bar{X}_2=3.8$，$\bar{X}_3=7.6$，$s_W^2=8.73$，各組 $n_i=5$。
+已知 $\bar{X}_1 = 72$ $(n_1 = 4)$、$\bar{X}_2 = 65$ $(n_2 = 5)$、$\bar{X}_3 = 52$ $(n_3 = 3)$，且 $s_W^2 = 56$。
 :::
+
+---
 
 ## 範例 12-3
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+範例 12-1 的 $F$ 臨界值為 4.256，附表 A-7 取為 4.26。在 $d.f.N. = 2$、$d.f.D. = 9$ 下，個別比較的臨界值為
 
-**臨界值：** $F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78$
+$$F' = (k-1)(C.V.) = (3-1)(4.256) = 8.513$$
 
-**a.** $\bar{X}_1$ vs $\bar{X}_2$：
-$$F_S = \frac{(11.8 - 3.8)^2}{8.73(1/5 + 1/5)} = \frac{64}{3.492} = 18.33 \quad \checkmark > 7.78$$
+**a.** $\bar{X}_1$ 對 $\bar{X}_2$：$F_S = \dfrac{(72 - 65)^2}{56 \left( \frac{1}{4} + \frac{1}{5} \right)} = 1.944$。由於 $1.944 < 8.513$，$\mu_1$ 與 $\mu_2$ **沒有**顯著差異。
 
-**b.** $\bar{X}_2$ vs $\bar{X}_3$：
-$$F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad \text{不顯著}$$
+**b.** $\bar{X}_1$ 對 $\bar{X}_3$：$F_S = \dfrac{(72 - 52)^2}{56 \left( \frac{1}{4} + \frac{1}{3} \right)} = 12.245$。由於 $12.245 > 8.513$，$\mu_1$ 與 $\mu_3$ **有**顯著差異。
 
-**c.** $\bar{X}_1$ vs $\bar{X}_3$：
-$$F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{不顯著}$$
+**c.** $\bar{X}_2$ 對 $\bar{X}_3$：$F_S = \dfrac{(65 - 52)^2}{56 \left( \frac{1}{5} + \frac{1}{3} \right)} = 5.658$。由於 $5.658 < 8.513$，$\mu_2$ 與 $\mu_3$ **沒有**顯著差異。
 
-**結論：** 只有**藥物 vs. 運動**（$\bar{X}_1$ vs $\bar{X}_2$）有顯著差異。
-
+因此只有捷運站店的平均營收與郊區店的平均營收有顯著差異。
 :::
+
+---
 
 ## 範例 12-3
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 進行相同的檢定**
 
 ```{r e12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# 使用 agricolae 套件的 Scheffé 檢定（或手動計算）
-# 手動 Scheffe 檢定
-scheffe_fs <- function(x1_bar, x2_bar, sw2, n1, n2) {
-  (x1_bar - x2_bar)^2 / (sw2 * (1/n1 + 1/n2))
+scheffe_f <- function(i, j) {
+  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
+  mean_gap^2 / (within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
 }
 
-sw2 <- 8.73
-cv_scheffe <- (3 - 1) * 3.89  # F' = 7.78
+scheffe_cv <- (3 - 1) * qf(0.95, df1 = 2, df2 = 9)
 
-cat("Critical value F' =", cv_scheffe, "\n\n")
+data.frame(
+  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
+  Fs = round(c(scheffe_f(1, 2), scheffe_f(1, 3), scheffe_f(2, 3)), 3)
+) |>
+  mutate(decision = if_else(Fs > scheffe_cv, "significant", "not significant")) |>
+  knitr::kable(align = "c")
 
-pairs <- list(
-  c("Medication vs Exercise", 11.8, 3.8),
-  c("Exercise vs Diet",       3.8,  7.6),
-  c("Medication vs Diet",     11.8, 7.6)
-)
-
-for (p in pairs) {
-  fs <- scheffe_fs(as.numeric(p[2]), as.numeric(p[3]), sw2, 5, 5)
-  sig <- ifelse(fs > cv_scheffe, "SIGNIFICANT", "not significant")
-  cat(p[1], ": Fs =", round(fs, 2), "->", sig, "\n")
-}
+round(scheffe_cv, 3)
 ```
 :::
 
+---
+
+## 關於 Scheffé 檢定的補充
+
+:::{.callout-warning}
+## 注意
+
+有時候即使 $F$ 檢定統計量大於臨界值，Scheffé 檢定**仍可能**找不到任何一對顯著不同的平均數。這是因為差異其實可能落在「兩個以上平均數的平均」與另一個平均數之間。Scheffé 檢定可以做這類比較，但其技術已超出本書範圍。
+:::
+
+---
+
 ## Tukey 檢定
 
-:::{.callout-note}
+在完成變異數分析之後，若**各組樣本數相同**，也可以使用 Tukey 檢定進行平均數的兩兩比較。Tukey 檢定的檢定統計量符號為 $q$。
+
+:::{.callout-important}
 ## Tukey 檢定公式
-當**所有樣本數相等**時使用：
 
 $$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}$$
 
-將 $|q|$ 與 **Tukey 表**（表 N）中的臨界值比較：
+其中 $\bar{X}_i$ 與 $\bar{X}_j$ 為所比較樣本的平均數，$n$ 為共同的樣本數，$s_W^2$ 為組內變異數。
 
-- 列：$\nu$ = $s_W^2$ 的自由度（= $N - k$）
-- 欄：$k$ = 組數
+當 $q$ 的**絕對值**大於 Tukey 檢定的臨界值時，所比較的兩個平均數之間有顯著差異。
 
-若 $|q| >$ 臨界值，則拒絕該對的 $H_0$。
+臨界值查**附表 A-9**：$k$ 為原問題中的平均數個數（查最上一列），$v = N - k$ 為 $s_W^2$ 的自由度（查最左一欄）。
 :::
+
+---
 
 ## 範例 12-4 {#example-12-4}
 
 :::{.callout-warning}
-## 血壓資料的 Tukey 檢定
+## 對承運商運送時間資料進行 Tukey 檢定
 
-使用 Tukey 檢定，判斷範例 12-1 中哪些平均數對在 $\alpha = 0.05$ 下有顯著差異。
+在 $\alpha = 0.05$ 下，以 Tukey 檢定檢驗 [範例 12-2](#example-12-2) 中的每一對平均數，判斷何處存在差異。
 
-$\bar{X}_1=11.8$，$\bar{X}_2=3.8$，$\bar{X}_3=7.6$，$s_W^2=8.73$，$n=5$
+已知 $\bar{X}_1 = 46$（承運商 A）、$\bar{X}_2 = 40$（承運商 B）、$\bar{X}_3 = 52$（承運商 C）、$s_W^2 = 34.267$，且 $n = 6$。
 :::
+
+---
 
 ## 範例 12-4
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**a.** $\bar{X}_1$ 對 $\bar{X}_2$：$q = \dfrac{46 - 40}{\sqrt{34.267/6}} = 2.511$
 
-$\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321$
+**b.** $\bar{X}_1$ 對 $\bar{X}_3$：$q = \dfrac{46 - 52}{\sqrt{34.267/6}} = -2.511$
 
-**臨界值：** $k=3$，$d.f.=12$，$\alpha=0.05$ → $q_{crit} = 3.77$（查 Tukey 表）
+**c.** $\bar{X}_2$ 對 $\bar{X}_3$：$q = \dfrac{40 - 52}{\sqrt{34.267/6}} = -5.021$
 
-**a.** $\bar{X}_1$ vs $\bar{X}_2$：
-$$q = \frac{11.8 - 3.8}{1.321} = \frac{8}{1.321} = 6.06 \quad \checkmark > 3.77$$
-
-**b.** $\bar{X}_1$ vs $\bar{X}_3$：
-$$q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{不顯著}$$
-
-**c.** $\bar{X}_2$ vs $\bar{X}_3$：
-$$q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{不顯著}$$
-
-**結論：** 只有**藥物 vs. 運動**有顯著差異 — 與 Scheffé 結果一致。
-
+由於 $k = 3$、$d.f. = 18 - 3 = 15$、$\alpha = 0.05$，附表 A-9 的臨界值為 **3.67**。唯一絕對值大於臨界值的 $q$ 值是 $\bar{X}_2$ 與 $\bar{X}_3$ 的差異。結論是承運商 B 與承運商 C 的平均運送時間有顯著差異。
 :::
+
+---
 
 ## 範例 12-4
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 進行相同的檢定**
 
 ```{r e12-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# 使用 R 內建函數進行 Tukey HSD 檢定
-medication <- c(10, 12, 9, 15, 13)
-exercise   <- c(6, 8, 3, 0, 2)
-diet       <- c(5, 9, 12, 8, 4)
+tukey_q <- function(i, j) {
+  (carrier_stats$mean[i] - carrier_stats$mean[j]) / sqrt(transit_within_var / 6)
+}
 
-bp_data <- data.frame(
-  reduction = c(medication, exercise, diet),
-  group = factor(rep(c("Medication","Exercise","Diet"), each = 5))
-)
+data.frame(
+  comparison = c("A vs B", "A vs C", "B vs C"),
+  q = round(c(tukey_q(1, 2), tukey_q(1, 3), tukey_q(2, 3)), 3)
+) |>
+  knitr::kable(align = "c")
 
-bp_aov <- aov(reduction ~ group, data = bp_data)
-TukeyHSD(bp_aov)
+round(qtukey(0.95, nmeans = 3, df = 15), 3)   # Table A-9 rounds this value to 3.67
 ```
 :::
+
+---
 
 ## 範例 12-4
 
 :::{.callout-tip}
 ## 解題
 
-**視覺化**
+**Tukey 的誠實顯著差異（HSD）**
 
-```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.5}
-tukey_result <- TukeyHSD(bp_aov)
-plot(tukey_result, las = 1)
+```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+transit_tukey <- TukeyHSD(transit_aov)
+transit_tukey
+```
+
+只有承運商 C 與承運商 B 這一對的調整後 P 值小於 $0.05$，與手算結果一致。
+:::
+
+---
+
+## 範例 12-4
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形** — 整體信賴區間
+
+```{r e12-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
+plot(transit_tukey, las = 1)
 ```
 :::
 
-## Scheffé vs. Tukey：比較
+---
 
-:::{.callout-note}
-## 各檢定的適用時機
+## Bonferroni 檢定
 
-| 特性 | Scheffé | Tukey |
-|------|---------|-------|
-| 樣本數 | 不等或相等 | 必須相等 |
-| 效力 | 較低（保守） | 兩兩比較較高 |
-| 比較類型 | 兩兩比較及組合 | 僅限兩兩比較 |
-| 建議 | $n_i$ 不等時 | $n_i$ 相等時 |
-
-**重要提示：** 當 F 檢定拒絕 $H_0$ 時，事後檢定有時可能找不到任何顯著的配對 — 差異可能在於多個平均數的組合，而非單一配對。
-:::
-
-
-# 第12-3節：二因子變異數分析 {background-color="#2c4a6e"}
-
-## 二因子 ANOVA 簡介
-
-:::{.callout-note}
-## 單因子 ANOVA 的延伸
-**單因子 ANOVA：** 一個自變數（因子）
-
-**二因子 ANOVA：** 兩個自變數（因子）
-
-二因子 ANOVA 的優點：
-- 在單一實驗中**同時檢定兩個因子**
-- 檢定兩個因子之間的**交互作用效果**
-- 比兩次單獨的單因子 ANOVA 更有效率
-:::
-
-## 二因子 ANOVA：設計結構
-
-:::{.callout-note}
-## 因子設計術語
-- **因子 A** 有 $a$ 個水準
-- **因子 B** 有 $b$ 個水準
-- 每格有 **$n$** 位受試者（必須相等）
-- **受試者總數** = $abn$
-
-**$2 \times 2$ 設計**每個因子各有2個水準 → 4個處理組。
-
-例如：植物肥料類型（A1, A2）$\times$ 土壤類型（I, II）→ 4組
-:::
-
-## 二因子 ANOVA：三個假設
-
-:::{.callout-note}
-## 假設
-**1. 交互作用效果：**
-$$H_0: \text{因子 A 與因子 B 之間無交互作用}$$
-$$H_1: \text{A 與 B 之間有交互作用}$$
-
-**2. 因子 A 的主效果：**
-$$H_0: \text{A 各水準的平均數無差異}$$
-$$H_1: \text{至少有一個 A 的平均數不同}$$
-
-**3. 因子 B 的主效果：**
-$$H_0: \text{B 各水準的平均數無差異}$$
-$$H_1: \text{至少有一個 B 的平均數不同}$$
-:::
-
-## 二因子 ANOVA：假設條件
+Bonferroni 檢定使用 $t$ 檢定，但會調整臨界值與 P 值，以克服「檢定次數增加導致顯著水準上升」的問題。
 
 :::{.callout-important}
-## 假設條件
-1. 母體必須**服從常態分配或近似常態分配**
-2. 所有樣本必須**相互獨立**
-3. **各組母體變異數**必須相等
-4. **各組樣本數必須相等**（每格的 $n$ 相同）
+## Bonferroni 檢定統計量公式
+
+$$t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k$$
+
+其中 $\bar{X}_i$ 與 $\bar{X}_j$ 為所比較樣本的平均數，$n_i$ 與 $n_j$ 為對應的樣本數，$N$ 為研究中的總人數（或總個數），$k$ 為組數。
 :::
 
-## 二因子 ANOVA：摘要表
+---
 
-:::{.callout-note}
-## 一般 ANOVA 表
-| 來源 | SS | 自由度 | MS | F |
-|------|-----|--------|-----|---|
-| 因子 A | SSA | $a-1$ | MSA | $F_A = MSA/MSW$ |
-| 因子 B | SSB | $b-1$ | MSB | $F_B = MSB/MSW$ |
-| 交互作用 $A \times B$ | SS($A \times B$) | $(a-1)(b-1)$ | MS($A \times B$) | $F_{A \times B} = MS(A \times B)/MSW$ |
-| 組內（誤差） | SSW | $ab(n-1)$ | MSW | |
-| 總計 | SST | $abn-1$ | | |
+## Bonferroni 的調整
+
+:::{.callout-important}
+## 調整顯著水準與 P 值
+
+臨界值的調整方式是**把 $\alpha$ 除以兩兩配對的組合數** $_kC_2$。若有 3 個平均數，$_3C_2 = 3$ 次比較，故 $\alpha$ 除以 3；若有 4 個平均數，$_4C_2 = 6$ 次比較，故 $\alpha$ 除以 6。
+
+至於 P 值，則是把單次比較兩個平均數所得的 P 值**乘以**配對組合數 $_kC_2$。P 值不可能超過 1，因此調整後大於 1 的值一律記為 1。
 :::
+
+---
 
 ## 範例 12-5 {#example-12-5}
 
 :::{.callout-warning}
-## 油耗
+## 對店型營收資料進行 Bonferroni 檢定
 
-研究者探討**汽油類型**（普通 vs. 高辛烷值）和**汽車類型**（兩輪驅動 vs. 四輪驅動）是否影響油耗（每加侖英里數）。四種組合各測試兩輛車。
+在 $\alpha = 0.05$ 下，以 Bonferroni 檢定比較 [範例 12-1](#example-12-1) 中的每一對平均數。
 
-|  | 兩輪驅動 | 四輪驅動 |
-|--|---------|---------|
-| **普通** | 26.7, 25.2 | 28.6, 29.3 |
-| **高辛烷值** | 32.3, 32.8 | 26.1, 24.2 |
-
-在 $\alpha = 0.05$ 下進行檢定。
+已知 $\bar{X}_1 = 72$ $(n_1 = 4)$、$\bar{X}_2 = 65$ $(n_2 = 5)$、$\bar{X}_3 = 52$ $(n_3 = 3)$、$s_W^2 = 56$、$N = 12$、$k = 3$，故 $d.f. = 12 - 3 = 9$。
 :::
+
+---
 
 ## 範例 12-5
 
 :::{.callout-tip}
 ## 解題
 
-**交互作用（$A \times B$）：**
-$H_0$：汽油類型與汽車類型之間無交互作用
-$H_1$：有交互作用效果
+**a.** $H_0: \mu_1 = \mu_2$。$\ t = \dfrac{72 - 65}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{5} \right)}} = \dfrac{7}{5.020} = 1.394$
 
-**因子 A（汽油）：**
-$H_0$：各汽油類型的平均數無差異
-$H_1$：各汽油類型的平均數有差異
+$d.f. = 9$ 時 $t = 1.394$ 的 P 值為 $0.1966$，調整後為 $0.1966 \times 3 = 0.5899$。**不拒絕** $H_0$。
 
-**因子 B（汽車）：**
-$H_0$：各汽車類型的平均數無差異
-$H_1$：各汽車類型的平均數有差異
+**b.** $H_0: \mu_1 = \mu_3$。$\ t = \dfrac{72 - 52}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{3} \right)}} = \dfrac{20}{5.715} = 3.499$
 
-**步驟二：** $a=2$，$b=2$，$n=2$；所有 F 臨界值的 $d.f.N.=1$，$d.f.D.=ab(n-1)=4$ → $F_{crit} = 7.71$
+P 值為 $0.0067$，調整後為 $0.0067 \times 3 = 0.0202$。由於 $0.0202 < 0.05$，**拒絕** $H_0$。
+
+**c.** $H_0: \mu_2 = \mu_3$。$\ t = \dfrac{65 - 52}{\sqrt{56 \left( \frac{1}{5} + \frac{1}{3} \right)}} = \dfrac{13}{5.465} = 2.379$
+
+P 值為 $0.0413$，調整後為 $0.0413 \times 3 = 0.1239$，並未小於 $\alpha = 0.05$。**不拒絕** $H_0$。
 :::
+
+---
 
 ## 範例 12-5
 
 :::{.callout-tip}
 ## 解題
 
-| 來源 | SS | 自由度 | MS | F |
-|------|-----|--------|-----|---|
-| 汽油 A | 3.920 | 1 | 3.920 | 4.752 |
-| 汽車 B | 9.680 | 1 | 9.680 | **11.733** |
-| 交互作用 $A \times B$ | 54.080 | 1 | 54.080 | **65.552** |
-| 組內（誤差） | 3.300 | 4 | 0.825 | |
-| **總計** | **70.980** | **7** | | |
-
-所有檢定的臨界值：**7.71**
-:::
-
-## 範例 12-5
-
-:::{.callout-tip}
-## 解題
-
-**汽油 A：** $F_A = 4.752 < 7.71$ → **無法拒絕** $H_0$
-
-**汽車 B：** $F_B = 11.733 > 7.71$ → **拒絕** $H_0$
-
-**交互作用 $A \times B$：** $F_{A \times B} = 65.552 > 7.71$ → **拒絕** $H_0$
-
-**重要：** 由於交互作用**顯著**，汽車類型的主效果**不應**獨立解讀 — 其影響取決於使用哪種汽油。
-
-**結論：** 汽油類型與汽車類型的組合對油耗有顯著影響。
-:::
-
-## 範例 12-5
-
-:::{.callout-tip}
-## 解題
-
-格子平均數視覺化：
-
-|  | 兩輪驅動 | 四輪驅動 |
-|--|---------|---------|
-| **普通** | 25.95 | 28.95 |
-| **高辛烷值** | 32.55 | 25.15 |
+**以 R 進行相同的檢定**
 
 ```{r e12-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-gas_data <- data.frame(
-  mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
-  gas  = rep(c("Regular","Regular","Regular","Regular",
-               "High-octane","High-octane","High-octane","High-octane")),
-  auto = rep(c("Two-wheel","Two-wheel","Four-wheel","Four-wheel"), 2)
-)
+bonferroni_t <- function(i, j) {
+  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
+  mean_gap / sqrt(within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
+}
 
-cell_means <- gas_data %>%
-  group_by(gas, auto) %>%
-  summarise(mean_mpg = mean(mpg), .groups = "drop")
+t_values <- c(bonferroni_t(1, 2), bonferroni_t(1, 3), bonferroni_t(2, 3))
+p_values <- 2 * pt(-abs(t_values), df = 9)
+
+data.frame(
+  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
+  t          = round(t_values, 3),
+  p_single   = round(p_values, 4),
+  p_adjusted = round(pmin(1, 3 * p_values), 4)
+) |>
+  knitr::kable(align = "c")
 ```
 :::
 
-## 範例 12-5
-
-:::{.callout-tip}
-## 解題（續）
-
-```{r e12-5-1-fig, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
-ggplot(cell_means, aes(x = gas, y = mean_mpg, color = auto, group = auto)) +
-  geom_line(size = 1.2) +
-  geom_point(size = 3) +
-  labs(title = "交互作用圖：汽油 × 汽車類型",
-       x = "汽油類型", y = "平均油耗（mpg）", color = "汽車類型")
-```
-:::
+---
 
 ## 範例 12-5
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**使用 `pairwise.t.test`**
 
 ```{r e12-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-gas_data2 <- data.frame(
-  mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
-  gas  = factor(rep(c("Regular","High-octane"), each = 4)),
-  auto = factor(rep(c("Two-wheel","Two-wheel","Four-wheel","Four-wheel"), 2))
+pairwise.t.test(revenue$daily_revenue, revenue$store_format,
+                p.adjust.method = "bonferroni")
+```
+
+調整後的 P 值為 0.59、0.02 與 0.12，與手算得到的決策相同。
+
+此處使用 P 值，是因為調整後的 $\alpha$ 為 $0.05 \div 3 = 0.017$，而自由度 9、$\alpha = 0.017$ 的臨界 $t$ 值無法直接從附表 A-5 查得。
+:::
+
+---
+
+## 應該使用哪一種檢定？
+
+:::{.callout-important}
+## 三種檢定的取捨
+
+- **Scheffé 檢定**最一般化。樣本數不同時也可使用，而且能比較例如 $\bar{X}_1$ 與 $\bar{X}_2$ 的平均和 $\bar{X}_3$ 之間的差異。
+- **Tukey 檢定**在兩兩比較平均數時比 Scheffé 檢定更有檢定力，但要求各組樣本數相等。
+- 兩兩比較的**經驗法則**：**樣本數相等時用 Tukey 檢定**，**樣本數不等時用 Scheffé 檢定**。本書遵循這項法則。
+- 由於臨界值的調整方式不同，且當檢定統計量接近臨界值時，三種檢定的結果可能不一致。統計學家對於該用哪一種檢定並無共識；應採用該研究所屬學術領域慣用的檢定。
+:::
+
+在範例 12-3 與範例 12-5 中，Scheffé 檢定與 Bonferroni 檢定都找出 $\mu_1$ 與 $\mu_3$ 之間的差異。
+
+# 第12-3節：二因子變異數分析 {background-color="#2c4a6e"}
+
+## 二因子變異數分析
+
+:::{.callout-note}
+## 二因子 ANOVA
+
+**二因子 ANOVA** 是單因子變異數分析的延伸，涉及**兩個自變數**。這些自變數也稱為**因子**。
+
+:::
+
+在使用二因子變異數分析的研究中，研究者可以檢定兩個自變數（因子）對一個依變數的效果；此外，還可以檢定兩個變數的**交互作用效果**。
+
+二因子變異數分析相當複雜，這裡僅作簡要介紹。
+
+---
+
+## 處理組
+
+假設研究者想檢定兩種植物營養劑（$A_1$、$A_2$）與兩種土壤（I、II）對植物生長的影響，其他因素如水分、溫度與日照皆保持固定。於是設置四組植物（圖 12-4）。
+
+:::{.callout-note}
+## 圖 12-4 — 營養劑與土壤實驗的處理組
+
+| Plant food | Soil type I | Soil type II |
+|------------|-------------|--------------|
+| $A_1$ | 第1組：營養劑 $A_1$、土壤 I | 第2組：營養劑 $A_1$、土壤 II |
+| $A_2$ | 第3組：營養劑 $A_2$、土壤 I | 第4組：營養劑 $A_2$、土壤 II |
+
+二因子 ANOVA 中的各組稱為**處理組**。植物隨機分派到各組。這樣的設計稱為 $2 \times 2$ 設計，因為每個變數都有兩個**水準**，也就是兩種不同的處理。
+:::
+
+---
+
+## 其他二因子設計
+
+:::{.callout-note}
+## 圖 12-5 — 幾種二因子 ANOVA 設計
+
+| Design | Rows (variable A) | Columns (variable B) |
+|--------|-------------------|----------------------|
+| $3 \times 2$ | 3 個水準 | 2 個水準 |
+| $3 \times 3$ | 3 個水準 | 3 個水準 |
+| $4 \times 3$ | 4 個水準 | 3 個水準 |
+
+依兩個變數水準數的不同，二因子 ANOVA 有許多不同的設計。
+:::
+
+二因子 ANOVA 讓研究者能在**單一實驗**中同時檢定營養劑與土壤的效果，而不必分別做「只看營養劑」與「只看土壤」兩個實驗。
+
+---
+
+## 主效果與交互作用
+
+:::{.callout-note}
+## 主效果
+
+**某因子的效果**是指改變該因子的水準或類型時，反應變數所產生的變化。兩個自變數的這兩種效果稱為**主效果**。
+:::
+
+:::{.callout-note}
+## 交互作用效果
+
+**交互作用效果**代表兩個因子在各自單獨效果之外所產生的聯合效果——也就是說，不同類型的營養劑在不同土壤中對植物生長的影響並不相同。
+
+當交互作用效果達到統計顯著時，研究者**不應**在未考慮交互作用效果的情況下，單獨解讀個別因子的效果。
+:::
+
+---
+
+## 三組假設
+
+二因子 ANOVA 設計有數個虛無假設：每個自變數一個，交互作用一個。以營養劑與土壤的問題為例：
+
+:::{.callout-note}
+## 假設
+
+**1. 營養劑（因子 A）。**
+
+$H_0$：使用不同營養劑所種植物的平均高度沒有差異。
+
+$H_1$：使用不同營養劑所種植物的平均高度有差異。
+
+**2. 土壤（因子 B）。**
+
+$H_0$：在不同土壤中所種植物的平均高度沒有差異。
+
+$H_1$：在不同土壤中所種植物的平均高度有差異。
+
+**3. 交互作用。**
+
+$H_0$：所用營養劑的類型與土壤的類型，對植物生長沒有交互作用效果。
+
+$H_1$：營養劑類型與土壤類型對植物生長有交互作用效果。
+:::
+
+---
+
+## 表 12-5：二因子 ANOVA 摘要表
+
+與單因子 ANOVA 一樣，二因子 ANOVA 也會計算組間變異數估計值與組內變異數估計值，並對每個自變數與交互作用各進行一次 $F$ 檢定。
+
+:::{.callout-important}
+## 表 12-5 — ANOVA 摘要表
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Row factor A | $SS_A$ | $a-1$ | $MS_A$ | $F_A$ |
+| Column factor B | $SS_B$ | $b-1$ | $MS_B$ | $F_B$ |
+| Interaction $A \times B$ | $SS_{A \times B}$ | $(a-1)(b-1)$ | $MS_{A \times B}$ | $F_{A \times B}$ |
+| Within (error) | $SS_W$ | $ab(n-1)$ | $MS_W$ | |
+| Total | $SS_{\text{Total}}$ | $N-1$ | | |
+
+其中 $a$ 為因子 A 的水準數，$b$ 為因子 B 的水準數，$n$ 為每組的個數。
+:::
+
+---
+
+## 二因子 ANOVA 的公式
+
+:::{.callout-important}
+## 均方與 $F$ 比值
+
+$$MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W}, \quad d.f.N. = a-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W}, \quad d.f.N. = b-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W}, \quad d.f.N. = (a-1)(b-1), \ d.f.D. = ab(n-1)$$
+
+$$MS_W = \frac{SS_W}{ab(n-1)}$$
+:::
+
+---
+
+## 二因子 ANOVA 的假設條件
+
+:::{.callout-important}
+## 假設條件
+
+1. 抽取樣本的母體必須服從常態分配或近似常態分配。
+2. 各樣本必須相互獨立。
+3. 抽取樣本的各母體變異數必須相等。
+4. **各組的樣本數必須相等。**
+:::
+
+這些假設與單因子 ANOVA 相同，**只有樣本數這一項例外**——二因子 ANOVA 要求各組樣本數相等。二因子變異數分析同樣依循五個步驟的假設檢定程序。
+
+平方和的計算過程相當冗長，因此範例 12-6 省略計算細節，只呈現二因子 ANOVA 摘要表。
+
+---
+
+## 範例 12-6 {#example-12-6}
+
+:::{.callout-warning}
+## 揀貨效率：揀貨方式與班別
+
+桃園某物流中心的營運主管想知道，揀貨方式與班別是否會影響揀貨效率。揀貨方式有手持掃描器與語音揀貨兩種，班別有日班與夜班兩種，每一種組合各安排 2 名揀貨員，合計 8 名，並記錄每小時揀取的箱數如下。請以二因子變異數分析判斷是否存在交互作用效果、揀貨方式的效果，以及班別的效果。使用 $\alpha = 0.05$。
+
+```
+Method        Day shift   Night shift
+Scanner          26.6         29.7
+                 25.4         28.3
+Voice            33.1         25.7
+                 31.9         24.3
+```
+
+*（模擬資料）*
+:::
+
+---
+
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**表 12-6 — 範例 12-6 的 ANOVA 摘要表**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Method (A) | 3.125 | | | |
+| Shift (B) | 10.125 | | | |
+| Interaction ($A \times B$) | 55.125 | | | |
+| Within (error) | 3.400 | | | |
+| Total | 71.775 | | | |
+
+**步驟 1.** 陳述假設。
+
+*揀貨方式。* $H_0$：兩種揀貨方式的平均揀貨效率沒有差異。$H_1$：有差異。
+
+*班別。* $H_0$：日班與夜班的平均揀貨效率沒有差異。$H_1$：有差異。
+
+*交互作用。* $H_0$：揀貨方式與班別對揀貨效率沒有交互作用效果。$H_1$：有交互作用效果。
+:::
+
+---
+
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**步驟 2 — 求各 $F$ 檢定的臨界值**
+
+兩個因子各有兩個水準，故 $a = 2$、$b = 2$、$n = 2$。
+
+$$\text{Factor A: } d.f.N. = a-1 = 1 \qquad \text{Factor B: } d.f.N. = b-1 = 1$$
+$$\text{Interaction: } d.f.N. = (a-1)(b-1) = 1 \qquad \text{Within (error): } d.f.D. = ab(n-1) = 2 \cdot 2(2-1) = 4$$
+
+在 $\alpha = 0.05$、$d.f.N. = 1$、$d.f.D. = 4$ 下，三個臨界值皆為 **7.71**。
+
+```{r e12-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(qf(0.95, df1 = 1, df2 = 4), 2)   # Table A-7 gives 7.71
+```
+
+*註.* 若兩個因子的水準數不同，三個臨界值就不會相同。例如因子 A 有 3 個水準、因子 B 有 4 個水準、每組 2 個受試者時，$d.f.N.$ 分別為 $2$、$3$、$6$，而 $d.f.D. = 3 \cdot 4(2-1) = 12$。
+:::
+
+---
+
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**步驟 3 — 完成摘要表**
+
+$$MS_A = \frac{3.125}{2-1} = 3.125 \qquad MS_B = \frac{10.125}{2-1} = 10.125$$
+$$MS_{A \times B} = \frac{55.125}{(2-1)(2-1)} = 55.125 \qquad MS_W = \frac{3.400}{4} = 0.850$$
+
+$$F_A = \frac{3.125}{0.850} = 3.676 \qquad F_B = \frac{10.125}{0.850} = 11.912 \qquad F_{A \times B} = \frac{55.125}{0.850} = 64.853$$
+:::
+
+---
+
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**表 12-7 — 範例 12-6 的 ANOVA 摘要表**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Method (A) | 3.125 | 1 | 3.125 | 3.676 |
+| Shift (B) | 10.125 | 1 | 10.125 | 11.912 |
+| Interaction ($A \times B$) | 55.125 | 1 | 55.125 | 64.853 |
+| Within (error) | 3.400 | 4 | 0.850 | |
+| Total | 71.775 | 7 | | |
+
+**步驟 4.** 作出決策。由於 $F_B = 11.912$ 與 $F_{A \times B} = 64.853$ 都大於臨界值 7.71，班別與交互作用的虛無假設應予拒絕；$F_A = 3.676$ 小於 7.71，故揀貨方式的虛無假設不予拒絕。由於交互作用效果具有統計顯著性，**在進一步研究之前不應對班別效果作出結論**。
+
+**步驟 5.** 總結結果。由於交互作用的虛無假設被拒絕，可以下結論：揀貨方式與班別的組合確實會影響揀貨效率。
+:::
+
+---
+
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**以 R 進行相同的分析**
+
+```{r e12-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+picking <- data.frame(
+  cartons_per_hour = c(26.6, 25.4, 29.7, 28.3, 33.1, 31.9, 25.7, 24.3),
+  method = factor(rep(c("Scanner", "Voice"), each = 4),
+                  levels = c("Scanner", "Voice")),
+  shift  = factor(rep(c("Day", "Day", "Night", "Night"), 2),
+                  levels = c("Day", "Night"))
 )
 
-result5 <- aov(mpg ~ gas * auto, data = gas_data2)
-summary(result5)
+picking_aov <- aov(cartons_per_hour ~ method * shift, data = picking)
+summary(picking_aov)
 ```
 :::
 
-## 詮釋交互作用效果
+---
 
-:::{.callout-note}
-## 交互作用的類型
-| 圖形樣式 | 交互作用類型 | 詮釋 |
-|---------|------------|------|
-| 線條**平行** | 無交互作用 | 可獨立詮釋主效果 |
-| 線條**交叉** | **非次序性**交互作用 | 不得獨立詮釋主效果 |
-| 線條發散但**不交叉** | 次序性交互作用 | 仍可詮釋主效果 |
+## 範例 12-6
 
-**規則：** 當交互作用 F 檢定顯著時：
-- 查看交互作用圖
-- 若線條交叉 → **非次序性**交互作用 → 僅在考量交互作用的前提下詮釋
-- 若線條不交叉 → **次序性**交互作用 → 可詮釋主效果
+:::{.callout-tip}
+## 解題
+
+**準備資料** — 各處理組的平均數
+
+每個組平均數都是該處理組中兩名揀貨員的平均值。
+
+```{r e12-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cell_means <- picking |>
+  group_by(method, shift) |>
+  summarise(mean_rate = mean(cartons_per_hour), .groups = "drop")
+
+knitr::kable(cell_means, align = "c", digits = 2)
+```
 :::
 
-## 第12章摘要
+---
 
-:::{.callout-note}
+## 範例 12-6
+
+:::{.callout-tip}
+## 解題
+
+**輸出圖形** — 圖 12-6，各平均數的折線圖
+
+```{r e12-6-4, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3.2}
+ggplot(cell_means, aes(x = shift, y = mean_rate,
+                       color = method, group = method)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  labs(title = "範例 12-6 各變數平均數的折線圖",
+       x = "班別", y = "平均每小時揀貨箱數", color = "揀貨方式")
+```
+
+兩條線**交叉**，因此這是**非順序型**交互作用。
+:::
+
+---
+
+## 解讀交互作用
+
+要解讀二因子變異數分析的結果，統計學家建議畫圖：把各組的平均數點出來，分析圖形，再解讀結果。
+
+:::{.callout-important}
+## 解讀交互作用圖的規則
+
+| Pattern of the lines | Interaction | How to interpret the main effects |
+|----------------------|-------------|-----------------------------------|
+| 兩線**交叉**且交互作用 $F$ 顯著 | **非順序型**交互作用（圖 12-6） | **不可**在未考慮交互作用效果的情況下解讀主效果 |
+| 兩線**不交叉**也**不平行**，交互作用 $F$ 顯著 | **順序型**交互作用（圖 12-7） | 主效果**可以**各自獨立解讀 |
+| 兩線**平行**或近似平行，交互作用 $F$ 不顯著 | **無**交互作用（圖 12-8） | 主效果可以各自獨立解讀 |
+:::
+
+若交互作用效果不顯著，主效果可以各自獨立解讀；但若交互作用效果顯著，解讀主效果時必須格外謹慎，甚至根本不應單獨解讀。
+
+---
+
+## 交互作用圖形樣態（R 示範）
+
+**準備資料** — 圖 12-6、12-7 與 12-8 的三種樣態
+
+```{r s12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+patterns <- data.frame(
+  pattern = rep(c("Disordinal (Fig. 12-6)",
+                  "Ordinal (Fig. 12-7)",
+                  "No interaction (Fig. 12-8)"), each = 4),
+  method  = rep(rep(c("Scanner", "Voice"), each = 2), 3),
+  shift   = rep(c("Day", "Night"), 6),
+  mean_rate = c(26.0, 29.0, 32.5, 25.0,
+                26.0, 29.0, 30.0, 31.5,
+                26.0, 29.0, 30.0, 33.0)
+) |>
+  mutate(pattern = factor(pattern, levels = unique(pattern)),
+         shift   = factor(shift, levels = c("Day", "Night")))
+```
+
+---
+
+## 交互作用圖形樣態（R 示範）
+
+**輸出圖形**
+
+```{r s12-3-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.4}
+ggplot(patterns, aes(x = shift, y = mean_rate, color = method, group = method)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2.5) +
+  facet_wrap(~ pattern) +
+  labs(title = "交叉、順序與平行三種樣態",
+       x = "班別", y = "平均每小時揀貨箱數", color = "揀貨方式")
+```
+
+---
+
+## 超越 $2 \times 2$ 設計
+
+:::{.callout-warning}
+## 注意
+
+範例 12-6 是 $2 \times 2$ 的二因子變異數分析，因為每個自變數都只有兩個水準。對於 $3 \times 2$ 或 $4 \times 3$ 等其他設計，結果的解讀會相當複雜。雖然也有類似單因子 ANOVA 的 Tukey 與 Scheffé 等方法可用來分析細格平均數，但這些方法**已超出本書範圍**。其他許多設計，例如三因子設計與重複量數設計，同樣超出本書範圍。
+:::
+
+## 重要名詞
+
+:::{.callout-important}
+## 第12章重要名詞
+
+變異數分析（ANOVA）· 變異數分析摘要表 · 組間變異數 · Bonferroni 檢定 · 非順序型交互作用 · 因子 · 交互作用效果 · 水準 · 主效果 · 均方 · 單因子 ANOVA · 順序型交互作用 · Scheffé 檢定 · 組間平方和 · 組內平方和 · 處理組 · Tukey 檢定 · 二因子 ANOVA · 組內變異數
+:::
+
+## 重要公式
+
+:::{.callout-important}
+## ANOVA 檢定的公式
+
+$$\bar{X}_{GM} = \frac{\sum X}{N} \qquad F = \frac{s_B^2}{s_W^2}$$
+
+$$s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1} \qquad s_W^2 = \frac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$$
+
+$$d.f.N. = k - 1 \qquad d.f.D. = N - k \qquad N = n_1 + n_2 + \cdots + n_k$$
+:::
+
+---
+
+## 重要公式
+
+:::{.callout-important}
+## Scheffé、Tukey 與 Bonferroni 檢定的公式
+
+$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]} \qquad \text{and} \qquad F' = (k-1)(C.V.)$$
+
+$$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}, \qquad d.f.N. = k \ \text{ and } \ d.f.D. = \text{degrees of freedom for } s_W^2$$
+
+$$t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k$$
+:::
+
+---
+
+## 重要公式
+
+:::{.callout-important}
+## 二因子 ANOVA 的公式
+
+$$MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W} \qquad d.f.N. = a-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W} \qquad d.f.N. = b-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W} \qquad d.f.N. = (a-1)(b-1)$$
+
+$$MS_W = \frac{SS_W}{ab(n-1)}$$
+:::
+
 ## 重點整理
 
-**第12-1節 — 單因子 ANOVA：**
-- F 檢定同時比較3個以上的平均數
-- $F = s_B^2 / s_W^2$；若 $F > F_{crit}$ 則拒絕 $H_0$（右尾）
-- 自由度：$d.f.N. = k-1$，$d.f.D. = N-k$
+1. $F$ 檢定可以比較**三個或三個以上的平均數**，這項技術稱為**變異數分析（ANOVA）**。不使用多次 $t$ 檢定的理由是：它會忽略其他平均數、使第一型錯誤率膨脹，而且檢定次數會急速增加。
+2. ANOVA 使用母體變異數的兩個估計值：**組間變異數** $s_B^2$（各樣本平均數的變異數）與**組內變異數** $s_W^2$（全部數值的整體變異數）。檢定統計量為 $F = s_B^2 / s_W^2$，其中 $d.f.N. = k-1$、$d.f.D. = N-k$，且永遠是右尾檢定。
+3. 各平均數沒有顯著差異時，兩個估計值大致相等，$F$ 接近 1；有差異時，$s_B^2$ 會大得多，$F$ 隨之顯著。
 
-**第12-2節 — 事後檢定：**
-- Scheffé：彈性較高，適用於 $n$ 不等的情況；較保守
-- Tukey：在 $n$ 相等時，兩兩比較效力較強
+## 重點整理
 
-**第12-3節 — 二因子 ANOVA：**
-- 同時檢定兩個因子及其交互作用
-- 若交互作用顯著，不得獨立詮釋主效果
-- 交互作用圖揭示關係的本質
-:::
+4. $F$ 顯著只說明**至少有一個平均數不同**；要找出差異所在，須用 **Scheffé**、**Tukey** 或 **Bonferroni** 檢定。樣本數相等時用 Tukey，不等時用 Scheffé；Scheffé 的臨界值為 $F' = (k-1)(C.V.)$，Bonferroni 則把 P 值乘以 $_kC_2$。
+5. **二因子 ANOVA** 檢定**兩個自變數**及其**交互作用**對一個依變數的效果，並要求各組樣本數相等。
+6. 若交互作用顯著且交互作用圖中兩線**交叉**，即為**非順序型**交互作用，此時不可單獨解讀主效果；若兩線不交叉，即為**順序型**交互作用，主效果可以各自獨立解讀；兩線**平行**則代表沒有交互作用。
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

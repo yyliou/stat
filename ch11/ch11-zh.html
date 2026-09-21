@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-08-03">
+  <meta name="dcterms.date" content="2026-09-20">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,43 +227,268 @@
     </div>
 </div>
 
-  <p class="date">2026-08-03</p>
+  <p class="date">2026-09-20</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
-<p><strong>卡方分配</strong>除了用於單一變異數檢定外，還有幾個重要應用：</p>
+<p>第11章運用<strong>卡方分配</strong>檢定關於<strong>次數分配</strong>的假設，而不是關於平均數、比例或變異數的假設。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 52%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>節次</th>
+<th>主題</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>11-1</td>
+<td>卡方適合度檢定；觀察次數與期望次數；<span class="math inline">\text{d.f.} = k - 1</span>；程序表；常態性檢定</td>
+</tr>
+<tr class="even">
+<td>11-2</td>
+<td>列聯表；卡方獨立性檢定；期望值的算法；<span class="math inline">\text{d.f.} = (R-1)(C-1)</span>；比例同質性檢定；Yates 校正</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="本章學習目標" class="slide level2">
+<h2>本章學習目標</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>讀完本章後，你應該能夠</strong></p>
+</div>
+<div class="callout-content">
 <ol type="1">
-<li><strong>適合度檢定</strong> — 分配是否符合某假設的樣式？</li>
-<li><strong>獨立性檢定</strong> — 兩個類別變數是否有關聯？</li>
-<li><strong>同質性檢定</strong> — 各母體的比例是否相等？</li>
+<li>使用卡方檢定一個分配的適合度。</li>
+<li>使用卡方檢定兩個變數是否獨立。</li>
+<li>使用卡方檢定多個比例是否同質。</li>
 </ol>
-<p>三種檢定皆使用相同的卡方統計量，且<strong>永遠是右尾檢定</strong>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="導論" class="slide level2">
+<h2>導論</h2>
+<p>第7章與第8章用卡方分配求單一變異數或標準差的信賴區間，並檢定關於單一變異數或標準差的假設。卡方分配也可以用來檢定關於<strong>次數分配</strong>的問題。</p>
+<ul>
+<li><em>如果讓消費者自由選擇付款方式，每一種方式被使用的次數會一樣多嗎？</em>——這是<strong>適合度</strong>的問題。</li>
+<li><em>顧客申訴的類型與門市型態無關嗎？</em>——這是兩個變數是否<strong>獨立</strong>的問題。</li>
+<li><em>各地區持有高階會員資格的比例是否相同？</em>——這是<strong>比例同質性</strong>的問題。</li>
+</ul>
+<p>這三種檢定都以 <span class="math inline">\chi^2 = \sum \dfrac{(O-E)^2}{E}</span> 為基礎，而且都是<strong>右尾檢定</strong>。</p>
 </section>
 <section>
 <section id="第11-1節適合度檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>第11-1節：適合度檢定</h1>
 
 </section>
-<section id="適合度檢定" class="slide level2">
-<h2>適合度檢定</h2>
+<section id="檢定一個分配是否符合某種型態" class="slide level2">
+<h2>檢定一個分配是否符合某種型態</h2>
+<p>卡方統計量除了用來檢定單一變異數之外，還可以用來判斷一個次數分配是否符合某種特定型態。例如：零售業者想知道消費者是否偏好某種付款方式；物流規劃人員想知道包裹是否在某幾天特別常被取件；客服中心想知道某些時段的來電是否特別多。</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>說明</strong></p>
+<p><strong>卡方分配的特性</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>卡方適合度檢定</strong>比較觀測次數與期望次數，以判斷某分配是否符合特定樣式。</p>
-<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<ol type="1">
+<li>卡方分配是依自由度而定的一族曲線。</li>
+<li>卡方分配呈正偏（右偏）。</li>
+<li>所有卡方值都大於或等於零。</li>
+<li>每一條卡方分配曲線下的總面積都等於 1。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="卡方適合度檢定" class="slide level2">
+<h2>卡方適合度檢定</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>卡方適合度檢定</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>卡方適合度檢定</strong>用來檢定「觀察到的次數分配符合某個給定的期望次數分配」這項主張。</p>
+</div>
+</div>
+</div>
+<p>假設你想知道某超商通路的顧客在四種付款方式上是否平均分布。隨機抽出 200 筆交易，得到下列分配（模擬資料）。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>付款方式</th>
+<th>現金</th>
+<th>儲值卡</th>
+<th>行動支付</th>
+<th>信用卡</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>觀察次數</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="觀察次數與期望次數" class="slide level2">
+<h2>觀察次數與期望次數</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>觀察次數與期望次數</strong></p>
+</div>
+<div class="callout-content">
+<p>各付款方式的次數是從樣本得來的，這些實際發生的次數稱為<strong>觀察次數</strong>；以計算方式求得（假設沒有偏好時應該出現）的次數稱為<strong>期望次數</strong>。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>計算期望次數的兩個規則</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>若所有期望次數<strong>相等</strong>，期望次數 <span class="math inline">E</span> 可用 <span class="math inline">E = n/k</span> 計算，其中 <span class="math inline">n</span> 為觀察值總數，<span class="math inline">k</span> 為類別數。</li>
+<li>若所有期望次數<strong>不相等</strong>，期望次數 <span class="math inline">E</span> 可用 <span class="math inline">E = n \cdot p</span> 計算，其中 <span class="math inline">n</span> 為觀察值總數，<span class="math inline">p</span> 為該類別的機率。</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="付款方式資料的完整表格" class="slide level2">
+<h2>付款方式資料的完整表格</h2>
+<p>若各類別沒有差異，每一種付款方式應有 <span class="math inline">200 \div 4 = 50</span> 筆交易。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>次數</th>
+<th>現金</th>
+<th>儲值卡</th>
+<th>行動支付</th>
+<th>信用卡</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>觀察次數</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
+</tr>
+<tr class="even">
+<td>期望次數</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<p>觀察次數幾乎一定會因<strong>抽樣誤差</strong>而與期望次數不同。這些差異是<strong>顯著的</strong>還是純屬機遇？<span class="math inline">H_0</span> 寫成「沒有差異」：</p>
 <ul>
-<li><span class="math inline">O</span> = 觀測次數</li>
-<li><span class="math inline">E</span> = 期望次數</li>
-<li><strong>自由度</strong> = 類別數 − 1</li>
+<li><span class="math inline">H_0</span>：各種付款方式的交易筆數沒有差異。</li>
+<li><span class="math inline">H_1</span>：各種付款方式的交易筆數有差異。</li>
 </ul>
-<p><strong>假設：</strong> 1. 資料來自隨機樣本 2. 每個類別的期望次數 <span class="math inline">\geq 5</span></p>
-<p>此檢定永遠是<strong>右尾</strong>（<span class="math inline">\chi^2</span> 小 → 適合度佳；<span class="math inline">\chi^2</span> 大 → 適合度差）。</p>
+</section>
+<section id="卡方適合度檢定公式" class="slide level2">
+<h2>卡方適合度檢定公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>檢定統計量與自由度</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p>自由度等於<strong>類別數減 1</strong>，其中</p>
+<ul>
+<li><span class="math inline">O</span> = 觀察次數</li>
+<li><span class="math inline">E</span> = 期望次數</li>
+</ul>
+<p>當觀察值與期望值完全一致時 <span class="math inline">\chi^2 = 0</span>；<span class="math inline">\chi^2</span> 也永遠不會是負數。由於「<span class="math inline">H_0</span>：適合良好」與「<span class="math inline">H_1</span>：適合不佳」分別對應到小的與大的 <span class="math inline">\chi^2</span>，本檢定一律是<strong>右尾檢定</strong>。</p>
+</div>
+</div>
+</div>
+<p>付款方式的例子有四個類別，所以 <span class="math inline">\text{d.f.} = 4 - 1 = 3</span>：前三個類別的交易筆數可以自由變動，但為了讓總和等於 200，最後一個類別的筆數就被固定了。</p>
+</section>
+<section id="假設條件與期望次數過小的處理" class="slide level2">
+<h2>假設條件與期望次數過小的處理</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>卡方適合度檢定的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>資料取自<strong>隨機樣本</strong>。</li>
+<li>每一個類別的<strong>期望次數</strong>必須為 <strong>5 以上</strong>。</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>統計學家要求期望次數至少為 5，是因為卡方分配是連續的，而適合度檢定的資料是離散的。只有當每一組的期望值至少為 5 時，連續分配才是良好的近似。<strong>若某一組的期望次數小於 5，可以把該組與其他組合併</strong>，使期望次數達到 5 以上。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="程序表卡方適合度檢定" class="slide level2">
+<h2>程序表：卡方適合度檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 由表 A-6 求臨界值。本檢定一律為<strong>右尾</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量——把各個 <span class="math inline">\dfrac{(O-E)^2}{E}</span> 值加總。</p>
+<p><strong>步驟 4.</strong> 做出決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
+<p>在 R 中，臨界值為 <code>qchisq(1 - alpha, df)</code>，P 值為 <code>pchisq(chi2, df, lower.tail = FALSE)</code>。</p>
 </div>
 </div>
 </div>
@@ -276,41 +501,30 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>水果汽水口味偏好</strong></p>
+<p><strong>超商通路的付款方式</strong></p>
 </div>
 <div class="callout-content">
-<p>一位市場分析師調查100人對五種新口味水果汽水的偏好。若消費者沒有特別偏好，每種口味應同樣受歡迎。結果如下：</p>
+<p>是否有足夠證據拒絕「四種付款方式被使用的次數相同」這項主張？取 <span class="math inline">\alpha = 0.05</span>（模擬資料）。</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>口味</th>
-<th>櫻桃</th>
-<th>草莓</th>
-<th>柳橙</th>
-<th>萊姆</th>
-<th>葡萄</th>
+<th>次數</th>
+<th>現金</th>
+<th>儲值卡</th>
+<th>行動支付</th>
+<th>信用卡</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>觀測次數</td>
-<td>32</td>
-<td>28</td>
-<td>16</td>
-<td>14</td>
-<td>10</td>
-</tr>
-<tr class="even">
-<td>期望次數</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
-<td>20</td>
+<td>觀察次數</td>
+<td>40</td>
+<td>62</td>
+<td>42</td>
+<td>56</td>
 </tr>
 </tbody>
 </table>
-<p>在 <span class="math inline">\alpha</span> = 0.05 下，是否有足夠的證據拒絕「消費者沒有偏好」的主張？</p>
 </div>
 </div>
 </div>
@@ -326,12 +540,12 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：消費者沒有偏好（主張） &nbsp;&nbsp; <span class="math inline">H_1</span>：消費者有偏好</p>
-<p><strong>步驟二：</strong> 自由度 = 5 − 1 = 4；CV = 9.488</p>
-<p><strong>步驟三：</strong> <span class="math display">\chi^2 = \frac{(32-20)^2}{20} + \frac{(28-20)^2}{20} + \frac{(16-20)^2}{20} + \frac{(14-20)^2}{20} + \frac{(10-20)^2}{20}</span> <span class="math display">= \frac{144}{20} + \frac{64}{20} + \frac{16}{20} + \frac{36}{20} + \frac{100}{20} = 7.2 + 3.2 + 0.8 + 1.8 + 5.0 = \boxed{18.0}</span></p>
-<p><strong>步驟四：</strong> 18.0 &gt; 9.488 → <strong>拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 有足夠的證據得出消費者對某些口味有偏好的結論。</p>
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：各種付款方式的交易筆數沒有差異（主張）。</p>
+<p><span class="math inline">H_1</span>：各種付款方式的交易筆數有差異。</p>
+<p><strong>步驟 2.</strong> 求臨界值。自由度為 <span class="math inline">4 - 1 = 3</span>，在 <span class="math inline">\alpha = 0.05</span> 下由表 A-6 查得臨界值為 <strong>7.815</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。期望值由 <span class="math inline">E = n/k = 200/4 = 50</span> 求得。</p>
+<p><span class="math display">\chi^2 = \frac{(40-50)^2}{50} + \frac{(62-50)^2}{50} + \frac{(42-50)^2}{50} + \frac{(56-50)^2}{50} = 2.00 + 2.88 + 1.28 + 0.72 = 6.88</span></p>
 </div>
 </div>
 </div>
@@ -347,51 +561,77 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 執行步驟 3</strong>——先手算，再用 <code>chisq.test()</code> 驗證同一個檢定。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">28</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">10</span>)</span>
-<span id="cb1-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>)</span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb1-5"><a href=""></a>df   <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb1-6"><a href=""></a>cv   <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.95</span>, df)</span>
-<span id="cb1-7"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>payment_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Cash =</span> <span class="dv">40</span>, <span class="st">`</span><span class="at">Stored value</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">62</span>, <span class="st">`</span><span class="at">Mobile pay</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">42</span>, <span class="st">`</span><span class="at">Credit card</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">56</span>)</span>
+<span id="cb1-2"><a href=""></a>expected_equal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">mean</span>(payment_counts), <span class="fu">length</span>(payment_counts))</span>
+<span id="cb1-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((payment_counts <span class="sc">-</span> expected_equal)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_equal)</span>
+<span id="cb1-4"><a href=""></a>chi_square</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 18 </code></pre>
+<pre><code>[1] 6.88</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 9.488 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">chisq.test</span>(payment_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.001234 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  payment_counts
+X-squared = 6.88, df = 3, p-value = 0.07582</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
+<pre><code>[1] 7.814728</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="slide level2">
-
+<section id="範例-11-1-2" class="slide level2">
+<h2>範例 11-1</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做出決策。因為 <span class="math inline">6.88 &lt; 7.815</span>，決策是<strong>不拒絕虛無假設</strong>。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據拒絕「各種付款方式的交易筆數沒有差異」這項主張。</p>
+<p><strong>P 值。</strong> 在表 A-6 中 <span class="math inline">\text{d.f.} = 3</span> 那一列，檢定統計量 6.88 落在 6.251 與 7.815 之間，所以 <span class="math inline">0.05 &lt; P &lt; 0.10</span>；R 給出 <span class="math inline">P = 0.0758</span>。因為 P 值大於 0.05，同樣不拒絕 <span class="math inline">H_0</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="觀察值與期望值的-r-繪圖" class="slide level2">
+<h2>觀察值與期望值的 R 繪圖</h2>
+<p><strong>繪製圖形</strong>——比較付款方式資料的觀察值與期望值。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># 視覺化</span></span>
-<span id="cb9-2"><a href=""></a>df_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-3"><a href=""></a>  <span class="at">Flavor =</span> <span class="fu">c</span>(<span class="st">"Cherry"</span>,<span class="st">"Strawberry"</span>,<span class="st">"Orange"</span>,<span class="st">"Lime"</span>,<span class="st">"Grape"</span>),</span>
-<span id="cb9-4"><a href=""></a>  <span class="at">Observed =</span> observed, <span class="at">Expected =</span> expected)</span>
-<span id="cb9-5"><a href=""></a>df_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(df_plot, <span class="sc">-</span>Flavor, <span class="at">names_to =</span> <span class="st">"Type"</span>, <span class="at">values_to =</span> <span class="st">"Count"</span>)</span>
-<span id="cb9-6"><a href=""></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> Flavor, <span class="at">y =</span> Count, <span class="at">fill =</span> Type)) <span class="sc">+</span></span>
-<span id="cb9-7"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"觀測次數 vs. 期望次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>payment_fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href=""></a>  <span class="at">Method   =</span> <span class="fu">factor</span>(<span class="fu">names</span>(payment_counts), <span class="at">levels =</span> <span class="fu">names</span>(payment_counts)),</span>
+<span id="cb7-3"><a href=""></a>  <span class="at">Observed =</span> <span class="fu">as.numeric</span>(payment_counts),</span>
+<span id="cb7-4"><a href=""></a>  <span class="at">Expected =</span> expected_equal)</span>
+<span id="cb7-5"><a href=""></a>payment_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(payment_fit, <span class="sc">-</span>Method,</span>
+<span id="cb7-6"><a href=""></a>                             <span class="at">names_to =</span> <span class="st">"Source"</span>, <span class="at">values_to =</span> <span class="st">"Frequency"</span>)</span>
+<span id="cb7-7"><a href=""></a>payment_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(payment_long, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Frequency, <span class="at">fill =</span> Source)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"付款方式的觀察值與期望值"</span>,</span>
+<span id="cb7-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"付款方式"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="觀察值與期望值的-r-繪圖-1" class="slide level2">
+<h2>觀察值與期望值的 R 繪圖</h2>
+<p><strong>輸出圖形</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>payment_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch11-zh_files/figure-revealjs/e11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<img data-src="ch11-zh_files/figure-revealjs/s11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>當觀察值與期望值<strong>接近</strong>時，檢定統計量會很小，不拒絕 <span class="math inline">H_0</span>——也就是「適合良好」。當兩者<strong>相差很大</strong>時，檢定統計量會很大，拒絕 <span class="math inline">H_0</span>——也就是「適合不佳」。</p>
+</section>
 <section id="example-11-2" class="slide level2">
 <h2>範例 11-2</h2>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -400,10 +640,10 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>退休高管重返職場</strong></p>
+<p><strong>電商倉庫的配送方式</strong></p>
 </div>
 <div class="callout-content">
-<p>一項調查發現，退休高管重返職場後的分布如下：38% 受雇於其他機構、32% 自行創業、23% 自由接案或顧問工作、7% 自己成立公司。一位地方研究者調查了300位高管，發現：122人為其他公司工作、85人自行創業、76人自由接案或顧問、17人自己成立公司。在 <span class="math inline">\alpha</span> = 0.10 下，檢定這些比例是否與全國調查相同。</p>
+<p>某物流主管認為台北一座電商倉庫出貨的包裹比例為：超商取貨 45%、宅配到府 30%、智取櫃取貨 15%、當日快遞 10%。上個月隨機抽出 400 件出貨包裹，其中超商取貨 208 件、宅配到府 99 件、智取櫃取貨 61 件、當日快遞 32 件。在 <span class="math inline">\alpha = 0.10</span> 下，檢定「各比例與主管所述相同」這項主張（模擬資料）。</p>
 </div>
 </div>
 </div>
@@ -419,13 +659,39 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：分布為 38%/32%/23%/7%（主張） &nbsp;&nbsp; <span class="math inline">H_1</span>：分布不同</p>
-<p><strong>步驟二：</strong> 自由度 = 4 − 1 = 3；CV = 6.251</p>
-<p><strong>步驟三：</strong> 期望次數：<span class="math inline">0.38 \times 300 = 114</span>；<span class="math inline">0.32 \times 300 = 96</span>；<span class="math inline">0.23 \times 300 = 69</span>；<span class="math inline">0.07 \times 300 = 21</span></p>
-<p><span class="math display">\chi^2 = \frac{(122-114)^2}{114} + \frac{(85-96)^2}{96} + \frac{(76-69)^2}{69} + \frac{(17-21)^2}{21}</span> <span class="math display">= 0.561 + 1.260 + 0.710 + 0.762 = \boxed{3.293}</span></p>
-<p><strong>步驟四：</strong> 3.293 &lt; 6.251 → <strong>不拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 沒有足夠的證據得出當地分布與全國調查不同的結論。</p>
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：超商取貨的比例為 45%、宅配到府為 30%、智取櫃取貨為 15%、當日快遞為 10%（主張）。</p>
+<p><span class="math inline">H_1</span>：此分配與虛無假設所述不同。</p>
+<p><strong>步驟 2.</strong> 求臨界值。因為 <span class="math inline">\alpha = 0.10</span> 且 <span class="math inline">\text{d.f.} = 4 - 1 = 3</span>，臨界值為 <strong>6.251</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。期望值以 <span class="math inline">E = n \cdot p</span> 求得：<span class="math inline">0.45(400) = 180</span>、<span class="math inline">0.30(400) = 120</span>、<span class="math inline">0.15(400) = 60</span>、<span class="math inline">0.10(400) = 40</span>。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>次數</th>
+<th>超商取貨</th>
+<th>宅配到府</th>
+<th>智取櫃</th>
+<th>當日快遞</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>觀察次數</td>
+<td>208</td>
+<td>99</td>
+<td>61</td>
+<td>32</td>
+</tr>
+<tr class="even">
+<td>期望次數</td>
+<td>180</td>
+<td>120</td>
+<td>60</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = \frac{(208-180)^2}{180} + \frac{(99-120)^2}{120} + \frac{(61-60)^2}{60} + \frac{(32-40)^2}{40} = 9.647</span></p>
 </div>
 </div>
 </div>
@@ -441,38 +707,46 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 執行步驟 3</strong>——期望次數不相等時，把主張的比例傳給 <code>chisq.test()</code>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">122</span>, <span class="dv">85</span>, <span class="dv">76</span>, <span class="dv">17</span>)</span>
-<span id="cb10-2"><a href=""></a>props    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.38</span>, <span class="fl">0.32</span>, <span class="fl">0.23</span>, <span class="fl">0.07</span>)</span>
-<span id="cb10-3"><a href=""></a>expected <span class="ot">&lt;-</span> props <span class="sc">*</span> <span class="dv">300</span></span>
-<span id="cb10-4"><a href=""></a></span>
-<span id="cb10-5"><a href=""></a>chi2  <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb10-6"><a href=""></a>df    <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb10-7"><a href=""></a>cv    <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.90</span>, df)</span>
-<span id="cb10-8"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-9"><a href=""></a></span>
-<span id="cb10-10"><a href=""></a><span class="fu">cat</span>(<span class="st">"Expected:"</span>, expected, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>parcel_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">store_pickup =</span> <span class="dv">208</span>, <span class="at">home_delivery =</span> <span class="dv">99</span>, <span class="at">locker =</span> <span class="dv">61</span>, <span class="at">courier =</span> <span class="dv">32</span>)</span>
+<span id="cb9-2"><a href=""></a>claimed_share <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>)</span>
+<span id="cb9-3"><a href=""></a>gof_parcels <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(parcel_counts, <span class="at">p =</span> claimed_share)</span>
+<span id="cb9-4"><a href=""></a>gof_parcels<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Expected: 114 96 69 21 </code></pre>
+<pre><code> store_pickup home_delivery        locker       courier 
+          180           120            60            40 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>gof_parcels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 3.2939 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  parcel_counts
+X-squared = 9.6472, df = 3, p-value = 0.02182</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 6.251 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.3485 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Do not reject H0 </code></pre>
+<pre><code>[1] 6.251389</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-11-2-2" class="slide level2">
+<h2>範例 11-2</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做出決策。因為 <span class="math inline">9.647 &gt; 6.251</span>，決策是<strong>拒絕虛無假設</strong>。</p>
+<p><strong>步驟 5.</strong> 總結結果。有足夠證據拒絕虛無假設，可以推論各比例與主管所述有顯著差異。</p>
 </div>
 </div>
 </div>
@@ -485,10 +759,10 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>槍枝死亡事件</strong></p>
+<p><strong>跨境訂單的商品組合</strong></p>
 </div>
 <div class="callout-content">
-<p>一位研究者讀到，1至18歲與槍枝相關的死亡事件分布為：74% 意外、16% 他殺、10% 自殺。在她所在的地區，過去一年有68件意外死亡、27件他殺、5件自殺（共100件）。在 <span class="math inline">\alpha</span> = 0.10 下，檢定此主張。</p>
+<p>某跨境賣家宣稱其台灣賣場的訂單有 55% 為服飾、30% 為美妝、15% 為家用品。上一季隨機抽出 200 筆訂單，其中服飾 92 筆、美妝 68 筆、家用品 40 筆。在 <span class="math inline">\alpha = 0.10</span> 下，檢定「各百分比與所述相同」這項主張（模擬資料）。</p>
 </div>
 </div>
 </div>
@@ -504,13 +778,36 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：死亡事件為74%意外、16%他殺、10%自殺（主張） &nbsp;&nbsp; <span class="math inline">H_1</span>：分布不同</p>
-<p><strong>步驟二：</strong> 自由度 = 3 − 1 = 2；CV = 4.605</p>
-<p><strong>步驟三：</strong> 期望次數：74、16、10</p>
-<p><span class="math display">\chi^2 = \frac{(68-74)^2}{74} + \frac{(27-16)^2}{16} + \frac{(5-10)^2}{10} = 0.486 + 7.5625 + 2.5 = \boxed{10.549}</span></p>
-<p><strong>步驟四：</strong> 10.549 &gt; 4.605 → <strong>拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 有足夠的證據拒絕該地區分布與全國樣式相符的主張。</p>
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：訂單的分配為 55% 服飾、30% 美妝、15% 家用品（主張）。</p>
+<p><span class="math inline">H_1</span>：此分配與虛無假設所述不同。</p>
+<p><strong>步驟 2.</strong> 求臨界值。因為 <span class="math inline">\alpha = 0.10</span> 且 <span class="math inline">\text{d.f.} = 3 - 1 = 2</span>，臨界值為 <strong>4.605</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。期望值以 <span class="math inline">E = n \cdot p</span> 求得：<span class="math inline">200(0.55) = 110</span>、<span class="math inline">200(0.30) = 60</span>、<span class="math inline">200(0.15) = 30</span>。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>次數</th>
+<th>服飾</th>
+<th>美妝</th>
+<th>家用品</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>觀察次數</td>
+<td>92</td>
+<td>68</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>期望次數</td>
+<td>110</td>
+<td>60</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = \frac{(92-110)^2}{110} + \frac{(68-60)^2}{60} + \frac{(40-30)^2}{30} = 2.945 + 1.067 + 3.333 = 7.345</span></p>
 </div>
 </div>
 </div>
@@ -526,33 +823,53 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 執行步驟 3</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">68</span>, <span class="dv">27</span>, <span class="dv">5</span>)</span>
-<span id="cb20-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">74</span>, <span class="dv">16</span>, <span class="dv">10</span>)</span>
-<span id="cb20-3"><a href=""></a></span>
-<span id="cb20-4"><a href=""></a>chi2  <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
-<span id="cb20-5"><a href=""></a>df    <span class="ot">&lt;-</span> <span class="fu">length</span>(observed) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb20-6"><a href=""></a>cv    <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.90</span>, df)</span>
-<span id="cb20-7"><a href=""></a>p_val <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(chi2, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb20-8"><a href=""></a></span>
-<span id="cb20-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>order_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">apparel =</span> <span class="dv">92</span>, <span class="at">cosmetics =</span> <span class="dv">68</span>, <span class="at">household =</span> <span class="dv">40</span>)</span>
+<span id="cb15-2"><a href=""></a>claimed_mix <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>)</span>
+<span id="cb15-3"><a href=""></a>gof_orders <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(order_counts, <span class="at">p =</span> claimed_mix)</span>
+<span id="cb15-4"><a href=""></a>gof_orders<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 10.549 </code></pre>
+<pre><code>  apparel cosmetics household 
+      110        60        30 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Critical value ="</span>, <span class="fu">round</span>(cv, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>gof_orders</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Critical value = 4.605 </code></pre>
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  order_counts
+X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(p_val, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.0051 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(chi2 <span class="sc">&gt;</span> cv, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
+<pre><code>[1] 4.60517</code></pre>
 </div>
 </div>
+<p><strong>步驟 4.</strong> 因為 <span class="math inline">7.345 &gt; 4.605</span>，拒絕虛無假設。</p>
+<p><strong>步驟 5.</strong> 有足夠證據拒絕「訂單組合為 55% 服飾、30% 美妝、15% 家用品」這項主張。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="常態性檢定選讀" class="slide level2">
+<h2>常態性檢定（選讀）</h2>
+<p>卡方適合度檢定也可以用來檢定一個變數是否<strong>服從常態分配</strong>。虛無假設與對立假設為</p>
+<ul>
+<li><span class="math inline">H_0</span>：該變數服從常態分配。</li>
+<li><span class="math inline">H_1</span>：該變數不服從常態分配。</li>
+</ul>
+<p>計算程序稍微複雜：先用<strong>標準常態分配</strong>求出次數分配中每一組的期望次數，再以卡方適合度檢定比較觀察次數與期望次數。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>常態性檢定的自由度</strong></p>
+</div>
+<div class="callout-content">
+<p>自由度等於<strong>類別數減 3</strong>，因為每估計一個參數就損失 1 個自由度。這裡的<strong>平均數</strong>與<strong>標準差</strong>都是由資料估計而得，所以要多扣 2 個自由度。</p>
 </div>
 </div>
 </div>
@@ -565,44 +882,44 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>常態性檢定（選讀）</strong></p>
+<p><strong>報關通關時間</strong></p>
 </div>
 <div class="callout-content">
-<p>使用卡方適合度檢定，判斷下列次數分配是否服從常態分配。使用 <span class="math inline">\alpha</span> = 0.05。</p>
+<p>某報關業者記錄 200 筆隨機抽出的進口報單各自的通關時間（分鐘）。用卡方檢定判斷下列次數分配中的變數是否服從常態分配。取 <span class="math inline">\alpha = 0.05</span>（模擬資料）。</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>組距</th>
+<th>組界（分鐘）</th>
 <th>次數</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>89.5–104.5</td>
-<td>24</td>
+<td>24.5–39.5</td>
+<td>18</td>
 </tr>
 <tr class="even">
-<td>104.5–119.5</td>
+<td>39.5–54.5</td>
 <td>62</td>
 </tr>
 <tr class="odd">
-<td>119.5–134.5</td>
+<td>54.5–69.5</td>
 <td>72</td>
 </tr>
 <tr class="even">
-<td>134.5–149.5</td>
-<td>26</td>
+<td>69.5–84.5</td>
+<td>30</td>
 </tr>
 <tr class="odd">
-<td>149.5–164.5</td>
-<td>12</td>
+<td>84.5–99.5</td>
+<td>14</td>
 </tr>
 <tr class="even">
-<td>164.5–179.5</td>
+<td>99.5–114.5</td>
 <td>4</td>
 </tr>
 <tr class="odd">
-<td><strong>合計</strong></td>
+<td><strong>總計</strong></td>
 <td><strong>200</strong></td>
 </tr>
 </tbody>
@@ -622,58 +939,19 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>解題</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：變數服從常態分配。 &nbsp; <span class="math inline">H_1</span>：變數不服從常態分配。</p>
-<p><strong>步驟二：</strong> 由分組資料（組中點 97、112、…、172）求得 <span class="math inline">\bar{X} = 123.4</span>、<span class="math inline">s = 17.03</span>。將每個組界轉換為 z 值，查出每組對應的常態曲線面積，再乘以 n = 200 得到期望次數：</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>組別</th>
-<th>面積</th>
-<th>期望次數 E</th>
-<th>觀測次數 O</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>104.5 以下</td>
-<td>0.1335</td>
-<td>26.7</td>
-<td>24</td>
-</tr>
-<tr class="even">
-<td>104.5–119.5</td>
-<td>0.2755</td>
-<td>55.1</td>
-<td>62</td>
-</tr>
-<tr class="odd">
-<td>119.5–134.5</td>
-<td>0.3332</td>
-<td>66.64</td>
-<td>72</td>
-</tr>
-<tr class="even">
-<td>134.5–149.5</td>
-<td>0.1948</td>
-<td>38.96</td>
-<td>26</td>
-</tr>
-<tr class="odd">
-<td>149.5–164.5</td>
-<td>0.0550</td>
-<td>11.0</td>
-<td>12</td>
-</tr>
-<tr class="even">
-<td>164.5 以上</td>
-<td>0.0080</td>
-<td>1.6</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
-<p>由於最後一組的期望次數小於 5，將最後兩組合併：E = 12.6，O = 16。</p>
+<p><strong>步驟 1.</strong> <span class="math inline">H_0</span>：該變數服從常態分配。<span class="math inline">H_1</span>：該變數不服從常態分配。</p>
+<p><strong>步驟 2——求平均數與標準差。</strong> 每筆觀察值都以其組中點 <span class="math inline">X_m</span>（32、47、62、77、92、107）代表，因此分組資料的平均數與標準差就是把組中點展開後的 <code>mean()</code> 與 <code>sd()</code>（以 <span class="math inline">s</span> 近似 <span class="math inline">\sigma</span>）。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>clearance_freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">30</span>, <span class="dv">14</span>, <span class="dv">4</span>)</span>
+<span id="cb21-2"><a href=""></a>class_midpoint <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">47</span>, <span class="dv">62</span>, <span class="dv">77</span>, <span class="dv">92</span>, <span class="dv">107</span>)</span>
+<span id="cb21-3"><a href=""></a>clearance_times <span class="ot">&lt;-</span> <span class="fu">rep</span>(class_midpoint, clearance_freq)</span>
+<span id="cb21-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(clearance_times), <span class="at">sd =</span> <span class="fu">sd</span>(clearance_times)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> mean    sd 
+59.90 16.88 </code></pre>
+</div>
+</div>
+<p>平均數為 59.9 分鐘，標準差為 16.88 分鐘。</p>
 </div>
 </div>
 </div>
@@ -686,12 +964,24 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>解題（續）</strong></p>
+<p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟三：</strong> <span class="math display">\chi^2 = \frac{(24-26.7)^2}{26.7} + \frac{(62-55.1)^2}{55.1} + \frac{(72-66.64)^2}{66.64} + \frac{(26-38.96)^2}{38.96} + \frac{(16-12.6)^2}{12.6} \approx \boxed{6.797}</span></p>
-<p><strong>步驟四：</strong> 自由度 = 5 − 1 − 2 = 2（每估計一個母數就再損失一個自由度：平均數與標準差）。CV = 5.991。由於 6.797 &gt; 5.991 → <strong>拒絕 <span class="math inline">H_0</span></strong>。</p>
-<p><strong>步驟五：</strong> 此分配可視為<strong>不服從常態分配</strong>。（註：若 <span class="math inline">\alpha</span> = 0.01，CV = 9.210，則不會拒絕 <span class="math inline">H_0</span>。）</p>
+<p><strong>步驟 3——求面積與期望次數。</strong> 把各組界換算成 <span class="math inline">z</span> 分數，再把對應的常態面積乘以 <span class="math inline">n = 200</span>；頭尾兩組都視為開放組。以手算查表 A-4 也會得到同樣的面積。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>class_bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">24.5</span>, <span class="fl">39.5</span>, <span class="fl">54.5</span>, <span class="fl">69.5</span>, <span class="fl">84.5</span>, <span class="fl">99.5</span>, <span class="fl">114.5</span>)</span>
+<span id="cb23-2"><a href=""></a>upper_area <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(class_bounds, <span class="fu">mean</span>(clearance_times), <span class="fu">sd</span>(clearance_times))</span>
+<span id="cb23-3"><a href=""></a>class_area <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">c</span>(<span class="dv">0</span>, upper_area[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">1</span>))</span>
+<span id="cb23-4"><a href=""></a>expected_all <span class="ot">&lt;-</span> class_area <span class="sc">*</span> <span class="fu">length</span>(clearance_times)</span>
+<span id="cb23-5"><a href=""></a><span class="fu">round</span>(class_area, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1135 0.2611 0.3407 0.2123 0.0630 0.0095</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">round</span>(expected_all, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22.7 52.2 68.1 42.5 12.6  1.9</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -707,38 +997,259 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p>各組的面積與期望次數如下。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>組別</th>
+<th><span class="math inline">z</span> 分數</th>
+<th>面積</th>
+<th><span class="math inline">E = \text{面積} \times 200</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>39.5 以下</td>
+<td><span class="math inline">z &lt; -1.21</span></td>
+<td>0.1135</td>
+<td>22.7</td>
+</tr>
+<tr class="even">
+<td>39.5–54.5</td>
+<td><span class="math inline">-1.21 &lt; z &lt; -0.32</span></td>
+<td>0.2611</td>
+<td>52.2</td>
+</tr>
+<tr class="odd">
+<td>54.5–69.5</td>
+<td><span class="math inline">-0.32 &lt; z &lt; 0.57</span></td>
+<td>0.3407</td>
+<td>68.1</td>
+</tr>
+<tr class="even">
+<td>69.5–84.5</td>
+<td><span class="math inline">0.57 &lt; z &lt; 1.46</span></td>
+<td>0.2123</td>
+<td>42.5</td>
+</tr>
+<tr class="odd">
+<td>84.5–99.5</td>
+<td><span class="math inline">1.46 &lt; z &lt; 2.35</span></td>
+<td>0.0630</td>
+<td>12.6</td>
+</tr>
+<tr class="even">
+<td>99.5 以上</td>
+<td><span class="math inline">z &gt; 2.35</span></td>
+<td>0.0095</td>
+<td>1.9</td>
+</tr>
+</tbody>
+</table>
+<p>因為最後一組的期望次數小於 5，將它<strong>與前一組合併</strong>：<span class="math inline">O = 18</span>、<span class="math inline">E = 14.5</span>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-11-4-3" class="slide level2">
+<h2>範例 11-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 3——計算檢定統計量。</strong> 合併後剩下五個類別。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><span class="math inline">O</span></th>
+<th>18</th>
+<th>62</th>
+<th>72</th>
+<th>30</th>
+<th>18</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">E</span></td>
+<td>22.7</td>
+<td>52.2</td>
+<td>68.1</td>
+<td>42.5</td>
+<td>14.5</td>
+</tr>
+</tbody>
+</table>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>f   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span>, <span class="dv">4</span>)</span>
-<span id="cb28-2"><a href=""></a>mid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">97</span>, <span class="dv">112</span>, <span class="dv">127</span>, <span class="dv">142</span>, <span class="dv">157</span>, <span class="dv">172</span>)</span>
-<span id="cb28-3"><a href=""></a>n   <span class="ot">&lt;-</span> <span class="fu">sum</span>(f)</span>
-<span id="cb28-4"><a href=""></a>xbar <span class="ot">&lt;-</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid) <span class="sc">/</span> n</span>
-<span id="cb28-5"><a href=""></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((n <span class="sc">*</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">sum</span>(f <span class="sc">*</span> mid)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb28-6"><a href=""></a>bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">89.5</span>, <span class="fl">104.5</span>, <span class="fl">119.5</span>, <span class="fl">134.5</span>, <span class="fl">149.5</span>, <span class="fl">164.5</span>, <span class="fl">179.5</span>)</span>
-<span id="cb28-7"><a href=""></a>p <span class="ot">&lt;-</span> <span class="fu">pnorm</span>((bounds <span class="sc">-</span> xbar) <span class="sc">/</span> s)</span>
-<span id="cb28-8"><a href=""></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(p[<span class="dv">2</span>], <span class="fu">diff</span>(p)[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">1</span> <span class="sc">-</span> p[<span class="dv">6</span>])   <span class="co"># 兩端為開放尾端</span></span>
-<span id="cb28-9"><a href=""></a>E <span class="ot">&lt;-</span> areas <span class="sc">*</span> n</span>
-<span id="cb28-10"><a href=""></a>O <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">26</span>, <span class="dv">12</span> <span class="sc">+</span> <span class="dv">4</span>)             <span class="co"># 合併最後兩組（E &lt; 5）</span></span>
-<span id="cb28-11"><a href=""></a>E <span class="ot">&lt;-</span> <span class="fu">c</span>(E[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], E[<span class="dv">5</span>] <span class="sc">+</span> E[<span class="dv">6</span>])</span>
-<span id="cb28-12"><a href=""></a>chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((O <span class="sc">-</span> E)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> E)</span>
-<span id="cb28-13"><a href=""></a><span class="fu">cat</span>(<span class="st">"mean ="</span>, <span class="fu">round</span>(xbar, <span class="dv">1</span>), <span class="st">"  s ="</span>, <span class="fu">round</span>(s, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>observed_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(clearance_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(clearance_freq[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
+<span id="cb27-2"><a href=""></a>expected_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(expected_all[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(expected_all[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
+<span id="cb27-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed_counts <span class="sc">-</span> expected_counts)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_counts)</span>
+<span id="cb27-4"><a href=""></a><span class="fu">round</span>(chi_square, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>mean = 123.4   s = 17.03 </code></pre>
+<pre><code>[1] 7.516</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(chi2, <span class="dv">3</span>), <span class="st">"  CV ="</span>, <span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">2</span>), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pchisq</span>(chi_square, <span class="at">df =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 6.788   CV = 5.991 </code></pre>
+<pre><code>[1] 0.0233</code></pre>
 </div>
 </div>
-<p>R 求得 <span class="math inline">\chi^2 \approx 6.788</span>（使用未四捨五入的面積）；手算值 6.797 的差異僅來自查表面積的四捨五入。</p>
+<p>把五個 <span class="math inline">\dfrac{(O-E)^2}{E}</span> 項加總得到 <span class="math inline">\chi^2 = 7.516</span>，<span class="math inline">P = 0.0233</span>。</p>
 </div>
 </div>
 </div>
+</section>
+<section id="範例-11-4-4" class="slide level2">
+<h2>範例 11-4</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4 與 5.</strong> 在 <span class="math inline">\text{d.f.} = 5 - 3 = 2</span> 且 <span class="math inline">\alpha = 0.05</span> 下臨界值為 <strong>5.991</strong>，因此<strong>拒絕</strong>虛無假設。也就是說，可以認為通關時間<strong>不服從常態分配</strong>。</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.99</span>), <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.991465 9.210340</code></pre>
+</div>
+</div>
+<p><strong>注意。</strong> 若取 <span class="math inline">\alpha = 0.01</span>，臨界值為 9.210，就<strong>不會</strong>拒絕虛無假設，此時可以認為該變數服從常態分配。因此在做檢定<strong>之前</strong>就決定要用哪個顯著水準非常重要。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="口味偏好的-r-實作" class="slide level2">
+<h2>口味偏好的 R 實作</h2>
+<p>某飲料連鎖店隨機訪問 100 位顧客最偏好哪一種口味，並在 <span class="math inline">\alpha = 0.05</span> 下檢定「顧客<strong>沒有偏好</strong>」這項主張（模擬資料）。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>次數</th>
+<th>珍珠奶茶</th>
+<th>黑糖鮮奶</th>
+<th>抹茶</th>
+<th>芋頭</th>
+<th>水果茶</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>觀察次數</td>
+<td>34</td>
+<td>26</td>
+<td>18</td>
+<td>12</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>期望次數</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>flavour_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">pearl_milk =</span> <span class="dv">34</span>, <span class="at">brown_sugar =</span> <span class="dv">26</span>, <span class="at">matcha =</span> <span class="dv">18</span>, <span class="at">taro =</span> <span class="dv">12</span>, <span class="at">fruit_tea =</span> <span class="dv">10</span>)</span>
+<span id="cb33-2"><a href=""></a><span class="fu">chisq.test</span>(flavour_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  flavour_counts
+X-squared = 20, df = 4, p-value = 0.0004994</code></pre>
+</div>
+</div>
+<p>因為 P 值 <span class="math inline">0.0004994 &lt; 0.05</span>，拒絕 <span class="math inline">H_0</span>：有足夠證據拒絕「顧客對五種口味沒有偏好」這項主張。</p>
 </section></section>
 <section>
 <section id="第11-2節列聯表檢定" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>第11-2節：列聯表檢定</h1>
 
+</section>
+<section id="兩種使用列聯表的檢定" class="slide level2">
+<h2>兩種使用列聯表的檢定</h2>
+<p>當資料可以用次數整理成表格時，卡方檢定可以檢定好幾類假設。其中兩種就是<strong>變數獨立性檢定</strong>與<strong>比例同質性檢定</strong>。</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>兩種檢定</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>變數獨立性檢定</strong>用來判斷<strong>在抽取單一樣本</strong>時，兩個變數彼此獨立或互有關聯。</p>
+<p><strong>比例同質性檢定</strong>用來判斷<strong>從不同母體抽取數個樣本</strong>時，某變數的各比例是否相等。</p>
+</div>
+</div>
+</div>
+<p>兩種檢定都使用卡方分配與列聯表，檢定統計量的求法也完全相同。</p>
+</section>
+<section id="獨立性檢定" class="slide level2">
+<h2>獨立性檢定</h2>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>卡方獨立性檢定</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>卡方獨立性檢定</strong>用來檢定兩個變數是否彼此獨立。</p>
+</div>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>卡方獨立性檢定公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p>自由度等於（列數減 1）（行數減 1），其中 <span class="math inline">O</span> 為觀察次數、<span class="math inline">E</span> 為期望次數。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="假設條件與假設" class="slide level2">
+<h2>假設條件與假設</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>卡方獨立性檢定的假設條件</strong></p>
+</div>
+<div class="callout-content">
+<ol type="1">
+<li>資料取自<strong>隨機樣本</strong>。</li>
+<li><strong>每一個細格的期望值必須為 5 以上</strong>。若期望值未達 5，就把類別合併。</li>
+</ol>
+</div>
+</div>
+</div>
+<p>卡方獨立性檢定的假設一般寫成（可能略有變化）：</p>
+<ul>
+<li><span class="math inline">H_0</span>：兩個變數彼此獨立。</li>
+<li><span class="math inline">H_1</span>：兩個變數彼此相依。</li>
+</ul>
+<p>拒絕 <span class="math inline">H_0</span> 表示兩個變數<strong>有關聯</strong>；但它並沒有說哪一組偏好什麼，只說明各比例有所不同。</p>
 </section>
 <section id="列聯表" class="slide level2">
 <h2>列聯表</h2>
@@ -748,32 +1259,210 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>說明</strong></p>
+<p><strong>列聯表與細格值</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>列聯表</strong>（<span class="math inline">R \times C</span> 表）將來自兩個類別變數的資料進行交叉分類。</p>
-<p><strong>兩種卡方檢定使用列聯表：</strong></p>
-<ol type="1">
-<li><strong>獨立性檢定</strong> — 兩個變數是否有關聯？（單一樣本，同時觀測兩個變數）</li>
-<li><strong>同質性檢定</strong> — 各母體的比例是否相等？（多個樣本，樣本數事先確定）</li>
-</ol>
-<p><strong>兩者使用相同公式：</strong></p>
-<p><span class="math display">E = \frac{\text{（列總和）} \times \text{（欄總和）}}{\text{總計}}, \quad \chi^2 = \sum \frac{(O-E)^2}{E}</span></p>
-<p><span class="math display">d.f. = (R-1)(C-1)</span></p>
-<p><strong>假設：</strong> 所有期望格次數 <span class="math inline">\geq 5</span>。</p>
+<p>兩個變數的資料會放進<strong>列聯表</strong>中。其中一個變數稱為<strong>列變數</strong>，另一個稱為<strong>行變數</strong>。這種表格稱為 <span class="math inline">R \times C</span> 表，<span class="math inline">R</span> 為列數、<span class="math inline">C</span> 為行數。</p>
+<p>表中的每一個數值稱為<strong>細格值</strong>。例如細格值 <span class="math inline">C_{2,3}</span> 位於第二列第三行。</p>
 </div>
+</div>
+</div>
+<p>一個 <span class="math inline">2 \times 3</span> 列聯表長這樣。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th></th>
+<th>第 1 行</th>
+<th>第 2 行</th>
+<th>第 3 行</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>第 1 列</strong></td>
+<td><span class="math inline">C_{1,1}</span></td>
+<td><span class="math inline">C_{1,2}</span></td>
+<td><span class="math inline">C_{1,3}</span></td>
+</tr>
+<tr class="even">
+<td><strong>第 2 列</strong></td>
+<td><span class="math inline">C_{2,1}</span></td>
+<td><span class="math inline">C_{2,2}</span></td>
+<td><span class="math inline">C_{2,3}</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">2 \times 3</span> 表的自由度為 <span class="math inline">(2-1)(3-1) = 2</span>。</p>
+</section>
+<section id="期望值的計算" class="slide level2">
+<h2>期望值的計算</h2>
+<p>觀察值來自樣本資料；期望值則由觀察值計算而得，而且是在「兩個變數彼此<strong>獨立</strong>」的假設下算出來的。</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>各細格期望值的公式</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\text{期望值} = \frac{(\text{列總和})(\text{行總和})}{\text{總計}}</span></p>
+<p>自由度為 <span class="math inline">\text{d.f.} = (R - 1)(C - 1)</span>，且本檢定一律是<strong>右尾檢定</strong>。</p>
+</div>
+</div>
+</div>
+<p>若觀察值與期望值差異不大，檢定統計量會很小，不拒絕 <span class="math inline">H_0</span>，兩個變數彼此獨立。若差異很大，檢定統計量會很大，拒絕 <span class="math inline">H_0</span>，兩個變數彼此相依或有關聯。</p>
+</section>
+<section id="示範新版線上訂艙系統" class="slide level2">
+<h2>示範：新版線上訂艙系統</h2>
+<p>某國際物流業者就一套新的線上訂艙系統，訪問 200 位業務人員與 200 位作業人員。問題不在於兩個部門是否喜歡這套系統，而在於兩個部門之間是否存在<strong>意見差異</strong>（模擬資料）。</p>
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 20%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>部門</th>
+<th>偏好新系統</th>
+<th>偏好現行系統</th>
+<th>沒有偏好</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>業務</td>
+<td>104</td>
+<td>70</td>
+<td>26</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>作業</td>
+<td>56</td>
+<td>110</td>
+<td>34</td>
+<td>200</td>
+</tr>
+<tr class="odd">
+<td><strong>總和</strong></td>
+<td><strong>160</strong></td>
+<td><strong>180</strong></td>
+<td><strong>60</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">H_0</span>：對訂艙系統的意見與部門別獨立。</li>
+<li><span class="math inline">H_1</span>：對訂艙系統的意見與部門別相依。</li>
+</ul>
+</section>
+<section id="示範新版線上訂艙系統-1" class="slide level2">
+<h2>示範：新版線上訂艙系統</h2>
+<p>例如 <span class="math inline">E_{1,2} = \dfrac{(200)(180)}{400} = 90</span>，<span class="math inline">E_{1,1} = \dfrac{(200)(160)}{400} = 80</span>。其背後的道理是比例：400 人中有 160 人偏好新系統，而業務人員有 200 人，若虛無假設為真，預期會有 <span class="math inline">(160/400)(200) = 80</span> 位業務人員偏好新系統。</p>
+</section>
+<section id="示範新版線上訂艙系統-2" class="slide level2">
+<h2>示範：新版線上訂艙系統</h2>
+<p>期望值以括號標示在觀察值旁邊。</p>
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 20%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>部門</th>
+<th>偏好新系統</th>
+<th>偏好現行系統</th>
+<th>沒有偏好</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>業務</td>
+<td>104 (80)</td>
+<td>70 (90)</td>
+<td>26 (30)</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>作業</td>
+<td>56 (80)</td>
+<td>110 (90)</td>
+<td>34 (30)</td>
+<td>200</td>
+</tr>
+<tr class="odd">
+<td><strong>總和</strong></td>
+<td><strong>160</strong></td>
+<td><strong>180</strong></td>
+<td><strong>60</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>booking_survey <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">104</span>,  <span class="dv">70</span>, <span class="dv">26</span>,</span>
+<span id="cb35-2"><a href=""></a>                            <span class="dv">56</span>, <span class="dv">110</span>, <span class="dv">34</span>),</span>
+<span id="cb35-3"><a href=""></a>                         <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-4"><a href=""></a>                         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Operations"</span>),</span>
+<span id="cb35-5"><a href=""></a>                                         <span class="fu">c</span>(<span class="st">"New"</span>, <span class="st">"Current"</span>, <span class="st">"None"</span>)))</span>
+<span id="cb35-6"><a href=""></a>booking_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(booking_survey)</span>
+<span id="cb35-7"><a href=""></a>booking_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           New Current None
+Sales       80      90   30
+Operations  80      90   30</code></pre>
 </div>
 </div>
 </section>
-<section id="獨立性檢定-概觀" class="slide level2">
-<h2>獨立性檢定 — 概觀</h2>
-<p>當檢定兩個變數是否<strong>獨立</strong>時：</p>
-<ul>
-<li><strong><span class="math inline">H_0</span>：</strong> 變數 A 與變數 B 獨立</li>
-<li><strong><span class="math inline">H_1</span>：</strong> 變數 A 與變數 B 有關聯（主張）</li>
-</ul>
-<p>拒絕 <span class="math inline">H_0</span> 表示變數<strong>有關聯</strong> — 但並不指明關係的方向。</p>
-<p>此檢定永遠是<strong>右尾</strong>。</p>
+<section id="示範新版線上訂艙系統-3" class="slide level2">
+<h2>示範：新版線上訂艙系統</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>booking_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  booking_survey
+X-squared = 24.356, df = 2, p-value = 5.143e-06</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.991465</code></pre>
+</div>
+</div>
+<p>因為 <span class="math inline">24.356 &gt; 5.991</span>，拒絕 <span class="math inline">H_0</span>：意見與部門別有關（相依）。由表 A-6 可知 P 值小於 0.005。</p>
+</section>
+<section id="程序表卡方獨立性檢定" class="slide level2">
+<h2>程序表：卡方獨立性檢定</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>五個步驟</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><strong>步驟 2.</strong> 由表 A-6 求右尾的臨界值。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。先以 <span class="math inline">E = \dfrac{(\text{列總和})(\text{行總和})}{\text{總計}}</span> 求出列聯表中每個細格的期望值，再用 <span class="math inline">\chi^2 = \sum \dfrac{(O-E)^2}{E}</span>。</p>
+<p><strong>步驟 4.</strong> 做出決策。</p>
+<p><strong>步驟 5.</strong> 總結結果。</p>
+<p>在 R 中，對觀察次數矩陣使用 <code>chisq.test(M)</code> 會回傳檢定統計量、自由度、P 值與 <code>$expected</code>。</p>
+</div>
+</div>
+</div>
 </section>
 <section id="example-11-5" class="slide level2">
 <h2>範例 11-5</h2>
@@ -783,52 +1472,59 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>醫院與感染</strong></p>
+<p><strong>門市型態與申訴類型</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者檢驗醫院感染類型是否與發生的醫院有關。3家醫院共582件感染事件的資料：</p>
+<p>某零售集團想知道門市型態與顧客申訴類型之間是否有關聯。隨機抽出去年的 596 件申訴案件，分類如下（模擬資料）。</p>
 <table class="caption-top">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 29%">
+<col style="width: 24%">
+<col style="width: 26%">
+<col style="width: 7%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>醫院</th>
-<th>手術部位</th>
-<th>肺炎</th>
-<th>血流</th>
-<th>合計</th>
+<th>門市型態</th>
+<th>配送延遲</th>
+<th>商品損壞</th>
+<th>帳務錯誤</th>
+<th>總和</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>A</td>
-<td>41</td>
-<td>27</td>
-<td>51</td>
-<td>119</td>
+<td>量販店</td>
+<td>44</td>
+<td>62</td>
+<td>34</td>
+<td>140</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td>36</td>
-<td>3</td>
-<td>40</td>
-<td>79</td>
+<td>超市</td>
+<td>50</td>
+<td>38</td>
+<td>42</td>
+<td>130</td>
 </tr>
 <tr class="odd">
-<td>C</td>
-<td>169</td>
-<td>106</td>
-<td>109</td>
-<td>384</td>
+<td>便利商店</td>
+<td>164</td>
+<td>76</td>
+<td>86</td>
+<td>326</td>
 </tr>
 <tr class="even">
-<td><strong>合計</strong></td>
-<td><strong>246</strong></td>
-<td><strong>136</strong></td>
-<td><strong>200</strong></td>
-<td><strong>582</strong></td>
+<td><strong>總和</strong></td>
+<td><strong>258</strong></td>
+<td><strong>176</strong></td>
+<td><strong>162</strong></td>
+<td><strong>596</strong></td>
 </tr>
 </tbody>
 </table>
-<p>在 <span class="math inline">\alpha</span> = 0.05 下，檢定感染類型是否取決於醫院的主張。</p>
+<p>在 <span class="math inline">\alpha = 0.05</span> 下，能否推論申訴類型與門市型態有關？</p>
 </div>
 </div>
 </div>
@@ -844,13 +1540,52 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：感染類型與醫院無關 &nbsp;&nbsp; <span class="math inline">H_1</span>：感染類型取決於醫院（主張）</p>
-<p><strong>步驟二：</strong> 自由度 = (3−1)(3−1) = 4；CV = 9.488</p>
-<p><strong>步驟三：</strong> 期望值（E = 列<span class="math inline">\times</span>欄/總計）： <span class="math display">E_{A,\text{手術}} = \frac{119 \times 246}{582} = 50.30, \quad E_{B,\text{肺炎}} = \frac{79 \times 136}{582} = 18.46, \quad \ldots</span></p>
-<p><span class="math display">\chi^2 = \frac{(41-50.30)^2}{50.30} + \frac{(27-27.81)^2}{27.81} + \frac{(51-40.89)^2}{40.89} + \cdots \approx \boxed{30.698}</span></p>
-<p><strong>步驟四：</strong> 30.698 &gt; 9.488 → <strong>拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 有足夠的證據得出感染類型與發生的醫院有關的結論。</p>
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：申訴類型與門市型態獨立。</p>
+<p><span class="math inline">H_1</span>：申訴類型與門市型態相依（主張）。</p>
+<p><strong>步驟 2.</strong> 求臨界值。自由度為 <span class="math inline">(3-1)(3-1) = 4</span>，在 <span class="math inline">\alpha = 0.05</span> 下由表 A-6 查得臨界值為 <strong>9.488</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。先求期望值，例如 <span class="math inline">E_{1,1} = \dfrac{(140)(258)}{596} = 60.60</span>、<span class="math inline">E_{2,2} = \dfrac{(130)(176)}{596} = 38.39</span>。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>門市型態</th>
+<th>配送延遲</th>
+<th>商品損壞</th>
+<th>帳務錯誤</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>量販店</td>
+<td>44 (60.60)</td>
+<td>62 (41.34)</td>
+<td>34 (38.05)</td>
+<td>140</td>
+</tr>
+<tr class="even">
+<td>超市</td>
+<td>50 (56.28)</td>
+<td>38 (38.39)</td>
+<td>42 (35.34)</td>
+<td>130</td>
+</tr>
+<tr class="odd">
+<td>便利商店</td>
+<td>164 (141.12)</td>
+<td>76 (96.27)</td>
+<td>86 (88.61)</td>
+<td>326</td>
+</tr>
+<tr class="even">
+<td><strong>總和</strong></td>
+<td><strong>258</strong></td>
+<td><strong>176</strong></td>
+<td><strong>162</strong></td>
+<td><strong>596</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -866,45 +1601,53 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 執行步驟 3</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">41</span>, <span class="dv">27</span>, <span class="dv">51</span>,</span>
-<span id="cb32-2"><a href=""></a>              <span class="dv">36</span>,  <span class="dv">3</span>, <span class="dv">40</span>,</span>
-<span id="cb32-3"><a href=""></a>             <span class="dv">169</span>, <span class="dv">106</span>, <span class="dv">109</span>),</span>
-<span id="cb32-4"><a href=""></a>            <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb32-5"><a href=""></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>),</span>
-<span id="cb32-6"><a href=""></a>                            <span class="fu">c</span>(<span class="st">"Surgical"</span>,<span class="st">"Pneumonia"</span>,<span class="st">"Bloodstream"</span>)))</span>
-<span id="cb32-7"><a href=""></a></span>
-<span id="cb32-8"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M)</span>
-<span id="cb32-9"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="dv">44</span>, <span class="dv">62</span>, <span class="dv">34</span>,</span>
+<span id="cb41-2"><a href=""></a>                        <span class="dv">50</span>, <span class="dv">38</span>, <span class="dv">42</span>,</span>
+<span id="cb41-3"><a href=""></a>                       <span class="dv">164</span>, <span class="dv">76</span>, <span class="dv">86</span>),</span>
+<span id="cb41-4"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-5"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Hypermarket"</span>, <span class="st">"Supermarket"</span>, <span class="st">"Convenience"</span>),</span>
+<span id="cb41-6"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Delay"</span>, <span class="st">"Damage"</span>, <span class="st">"Billing"</span>)))</span>
+<span id="cb41-7"><a href=""></a>complaint_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(complaints)</span>
+<span id="cb41-8"><a href=""></a><span class="fu">round</span>(complaint_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 30.6962 </code></pre>
+<pre><code>             Delay Damage Billing
+Hypermarket  60.60  41.34   38.05
+Supermarket  56.28  38.39   35.34
+Convenience 141.12  96.27   88.61</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 4 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result<span class="sc">$</span>p.value, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 4e-06 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>complaint_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  complaints
+X-squared = 25.317, df = 4, p-value = 4.343e-05</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">round</span>(result<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Surgical Pneumonia Bloodstream
-A    50.30     27.81       40.89
-B    33.39     18.46       27.15
-C   162.31     89.73      131.96</code></pre>
+<pre><code>[1] 9.487729</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-11-5-2" class="slide level2">
+<h2>範例 11-5</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\chi^2 = 4.549 + 10.322 + 0.432 + 0.700 + 0.004 + 1.257 + 3.709 + 4.267 + 0.077 = 25.317</span></p>
+<p><strong>步驟 4.</strong> 做出決策。因為 <span class="math inline">25.317 &gt; 9.488</span>，決策是<strong>拒絕虛無假設</strong>；檢定統計量落在臨界區內。</p>
+<p><strong>步驟 5.</strong> 總結結果。有足夠證據支持「申訴類型與門市型態有關」這項主張。</p>
 </div>
 </div>
 </div>
@@ -917,45 +1660,44 @@ C   162.31     89.73      131.96</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>飲酒量與性別</strong></p>
+<p><strong>旅客類型與訂房通路</strong></p>
 </div>
 <div class="callout-content">
-<p>研究者檢驗飲酒量是否與性別有關。68人的樣本結果如下：</p>
+<p>某旅館集團想知道商務旅客與休閒旅客在訂房通路上是否有差異。集團隨機抽出 38 位商務旅客與 34 位休閒旅客，記錄他們使用的訂房通路，結果如下。在 <span class="math inline">\alpha = 0.10</span> 下，訂房通路是否有差異（模擬資料）？</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>性別</th>
-<th>低</th>
-<th>中</th>
-<th>高</th>
-<th>合計</th>
+<th>旅客類型</th>
+<th>旅行社</th>
+<th>旅館官網</th>
+<th>訂房 App</th>
+<th>總和</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>男</td>
-<td>10</td>
-<td>9</td>
-<td>8</td>
-<td>27</td>
+<td>商務</td>
+<td>12</td>
+<td>14</td>
+<td>12</td>
+<td>38</td>
 </tr>
 <tr class="even">
-<td>女</td>
-<td>13</td>
-<td>16</td>
-<td>12</td>
-<td>41</td>
+<td>休閒</td>
+<td>8</td>
+<td>11</td>
+<td>15</td>
+<td>34</td>
 </tr>
 <tr class="odd">
-<td><strong>合計</strong></td>
-<td><strong>23</strong></td>
-<td><strong>25</strong></td>
+<td><strong>總和</strong></td>
 <td><strong>20</strong></td>
-<td><strong>68</strong></td>
+<td><strong>25</strong></td>
+<td><strong>27</strong></td>
+<td><strong>72</strong></td>
 </tr>
 </tbody>
 </table>
-<p>在 <span class="math inline">\alpha</span> = 0.10 下，檢定飲酒量是否取決於性別。</p>
 </div>
 </div>
 </div>
@@ -971,14 +1713,45 @@ C   162.31     89.73      131.96</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：飲酒量與性別獨立 &nbsp;&nbsp; <span class="math inline">H_1</span>：飲酒量取決於性別（主張）</p>
-<p><strong>步驟二：</strong> 自由度 = (2−1)(3−1) = 2；CV = 4.605</p>
-<p><strong>步驟三：</strong> 期望值： <span class="math display">E_{\text{男, 低}} = \frac{27 \times 23}{68} = 9.13, \quad E_{\text{男, 中}} = \frac{27 \times 25}{68} = 9.93, \quad \ldots</span></p>
-<p><span class="math display">\chi^2 = \frac{(10-9.13)^2}{9.13} + \frac{(9-9.93)^2}{9.93} + \frac{(8-7.94)^2}{7.94} + \frac{(13-13.87)^2}{13.87} + \cdots \approx \boxed{0.283}</span></p>
-<p>（手算值 0.283 使用四捨五入後的期望次數；R 求得 0.281）</p>
-<p><strong>步驟四：</strong> 0.283 &lt; 4.605 → <strong>不拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 沒有足夠的證據得出飲酒量與性別有關的結論。</p>
+<p><strong>步驟 1.</strong> 寫出假設並指出主張。</p>
+<p><span class="math inline">H_0</span>：訂房通路與旅客類型獨立。</p>
+<p><span class="math inline">H_1</span>：訂房通路與旅客類型有關（主張）。</p>
+<p><strong>步驟 2.</strong> 求臨界值。自由度為 <span class="math inline">(2-1)(3-1) = 2</span>，臨界值為 <strong>4.605</strong>。</p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。先求期望值，例如 <span class="math inline">E_{1,1} = \dfrac{(38)(20)}{72} = 10.56</span>、<span class="math inline">E_{2,3} = \dfrac{(34)(27)}{72} = 12.75</span>。</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>旅客類型</th>
+<th>旅行社</th>
+<th>旅館官網</th>
+<th>訂房 App</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>商務</td>
+<td>12 (10.56)</td>
+<td>14 (13.19)</td>
+<td>12 (14.25)</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td>休閒</td>
+<td>8 (9.44)</td>
+<td>11 (11.81)</td>
+<td>15 (12.75)</td>
+<td>34</td>
+</tr>
+<tr class="odd">
+<td><strong>總和</strong></td>
+<td><strong>20</strong></td>
+<td><strong>25</strong></td>
+<td><strong>27</strong></td>
+<td><strong>72</strong></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -994,43 +1767,51 @@ C   162.31     89.73      131.96</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>以 R 執行步驟 3</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>M2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">8</span>,</span>
-<span id="cb44-2"><a href=""></a>               <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">12</span>),</span>
-<span id="cb44-3"><a href=""></a>             <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb44-4"><a href=""></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Male"</span>,<span class="st">"Female"</span>),</span>
-<span id="cb44-5"><a href=""></a>                             <span class="fu">c</span>(<span class="st">"Low"</span>,<span class="st">"Moderate"</span>,<span class="st">"High"</span>)))</span>
-<span id="cb44-6"><a href=""></a></span>
-<span id="cb44-7"><a href=""></a>result2 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M2)</span>
-<span id="cb44-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result2<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>bookings <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
+<span id="cb47-2"><a href=""></a>                      <span class="dv">8</span>, <span class="dv">11</span>, <span class="dv">15</span>),</span>
+<span id="cb47-3"><a href=""></a>                   <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb47-4"><a href=""></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Business"</span>, <span class="st">"Leisure"</span>),</span>
+<span id="cb47-5"><a href=""></a>                                   <span class="fu">c</span>(<span class="st">"Agency"</span>, <span class="st">"Website"</span>, <span class="st">"App"</span>)))</span>
+<span id="cb47-6"><a href=""></a>booking_channel_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(bookings)</span>
+<span id="cb47-7"><a href=""></a><span class="fu">round</span>(booking_channel_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 0.2809 </code></pre>
+<pre><code>         Agency Website   App
+Business  10.56   13.19 14.25
+Leisure    9.44   11.81 12.75</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result2<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 2 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result2<span class="sc">$</span>p.value, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.869 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result2<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.10</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Do not reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>booking_channel_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  bookings
+X-squared = 1.275, df = 2, p-value = 0.5286</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">round</span>(result2<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Low Moderate  High
-Male    9.13     9.93  7.94
-Female 13.87    15.07 12.06</code></pre>
+<pre><code>[1] 4.60517</code></pre>
 </div>
 </div>
+<p><span class="math display">\chi^2 = 0.198 + 0.049 + 0.355 + 0.221 + 0.055 + 0.397 = 1.275</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-11-6-2" class="slide level2">
+<h2>範例 11-6</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>步驟 4.</strong> 做出決策。因為 <span class="math inline">1.275 &lt; 4.605</span>，決策是<strong>不拒絕虛無假設</strong>。</p>
+<p><strong>步驟 5.</strong> 總結結果。沒有足夠證據支持「訂房通路與旅客類型有關」這項主張。</p>
 </div>
 </div>
 </div>
@@ -1043,20 +1824,35 @@ Female 13.87    15.07 12.06</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>說明</strong></p>
+<p><strong>比例同質性檢定</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>同質性檢定</strong>用於判斷多個獨立抽樣母體的比例是否相等。</p>
-<ul>
-<li>樣本數事先由研究者<strong>固定</strong></li>
-<li><span class="math inline">H_0</span>：<span class="math inline">p_1</span> = <span class="math inline">p_2</span> = … = pₖ</li>
-<li><span class="math inline">H_1</span>：至少有一個比例不同</li>
-</ul>
-<p><strong>計算程序與獨立性檢定完全相同</strong> — E 與 <span class="math inline">\chi^2</span> 使用相同公式。</p>
-<p><strong>關鍵區別：</strong> 獨立性檢定 → 單一樣本，兩個變數；同質性檢定 → 多個樣本，一個變數。</p>
+<p><strong>比例同質性檢定</strong>用來檢定「不同母體中具有某種態度或特徵的受試者比例相同」這項主張。</p>
 </div>
 </div>
 </div>
+<p>樣本分別取自數個不同的母體，研究者要判斷各母體中具有共同特徵的比例是否相同。<strong>樣本大小是事先指定的</strong>，因此在抽樣<strong>之前</strong>，列聯表的列總和或行總和就已經確定。</p>
+<p>例如研究者可以選出 50 位大一、50 位大二、50 位大三與 50 位大四學生，再求出各年級打工的比例。</p>
+</section>
+<section id="同質性檢定的假設寫法" class="slide level2">
+<h2>同質性檢定的假設寫法</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>兩種檢定的假設差異</strong></p>
+</div>
+<div class="callout-content">
+<p>同質性檢定的假設是以<strong>比例</strong>來寫：</p>
+<p><span class="math display">H_0:\ p_1 = p_2 = p_3 = p_4 \qquad H_1:\ \text{至少有一個比例與其他比例不同。}</span></p>
+<p>獨立性檢定的假設則是以<strong>兩個變數</strong>是否獨立或相依來寫。</p>
+<p>比例同質性檢定的<strong>假設條件</strong>與卡方獨立性檢定相同，<strong>計算程序也相同</strong>：一樣的期望值公式、一樣的檢定統計量、一樣的 <span class="math inline">\text{d.f.} = (R-1)(C-1)</span>。</p>
+</div>
+</div>
+</div>
+<p>若不拒絕虛無假設，就可以認為各比例相等，其差異來自機遇；若拒絕虛無假設，就表示各比例並非全部相等。</p>
 </section>
 <section id="example-11-7" class="slide level2">
 <h2>範例 11-7</h2>
@@ -1066,49 +1862,10 @@ Female 13.87    15.07 12.06</code></pre>
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>金錢與幸福感</strong></p>
+<p><strong>各地區的高階會員比例</strong></p>
 </div>
 <div class="callout-content">
-<p>心理學家從四個收入群體各選取100人，詢問他們是否「非常幸福」。結果：</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th></th>
-<th>&lt;$30K</th>
-<th>$30K–$74.9K</th>
-<th>$75K–$99.9K</th>
-<th><span class="math inline">\geq</span> $100K</th>
-<th>合計</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>是</td>
-<td>24</td>
-<td>33</td>
-<td>38</td>
-<td>49</td>
-<td>144</td>
-</tr>
-<tr class="even">
-<td>否</td>
-<td>76</td>
-<td>67</td>
-<td>62</td>
-<td>51</td>
-<td>256</td>
-</tr>
-<tr class="odd">
-<td><strong>合計</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>100</strong></td>
-<td><strong>400</strong></td>
-</tr>
-</tbody>
-</table>
-<p>在 <span class="math inline">\alpha</span> = 0.05 下，檢定各收入群體的幸福比例相同的主張。</p>
+<p>某零售連鎖在四家地區旗艦店各隨機抽出 100 位會員，記錄他們是否持有高階會員資格。台北為 26%、台中為 34%、台南為 40%、高雄為 52%。在 <span class="math inline">\alpha = 0.05</span> 下，檢定「四個地區的高階會員比例沒有差異」這項主張（模擬資料）。</p>
 </div>
 </div>
 </div>
@@ -1124,19 +1881,58 @@ Female 13.87    15.07 12.06</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>數學解法</strong></p>
-<p><strong>步驟一：</strong> <span class="math inline">H_0</span>：<span class="math inline">p_1</span> = <span class="math inline">p_2</span> = p₃ = p₄（主張） &nbsp;&nbsp; <span class="math inline">H_1</span>：至少有一個比例不同</p>
-<p><strong>步驟二：</strong> 自由度 = (2−1)(4−1) = 3；CV = 7.815</p>
-<p><strong>步驟三：</strong> 因每欄總和 = 100，「是」的總和 = 144： <span class="math display">E_{\text{是, 每欄}} = \frac{144 \times 100}{400} = 36, \quad E_{\text{否, 每欄}} = \frac{256 \times 100}{400} = 64 \quad \text{（各欄相同）}</span></p>
-<p><span class="math display">\chi^2 = \frac{(24-36)^2}{36} + \frac{(33-36)^2}{36} + \frac{(38-36)^2}{36} + \frac{(49-36)^2}{36}</span> <span class="math display">+ \frac{(76-64)^2}{64} + \frac{(67-64)^2}{64} + \frac{(62-64)^2}{64} + \frac{(51-64)^2}{64}</span> <span class="math display">= 4 + 0.25 + 0.111 + 4.694 + 2.25 + 0.141 + 0.063 + 2.641 = \boxed{14.149}</span></p>
+<p><strong>整理資料。</strong> 台北有 26% 持有高階會員資格，也就是 <span class="math inline">0.26(100) = 26</span> 位高階會員、<span class="math inline">100 - 26 = 74</span> 位一般會員；其餘各地區同理。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 19%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>地區</th>
+<th>台北</th>
+<th>台中</th>
+<th>台南</th>
+<th>高雄</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>高階</td>
+<td>26</td>
+<td>34</td>
+<td>40</td>
+<td>52</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>一般</td>
+<td>74</td>
+<td>66</td>
+<td>60</td>
+<td>48</td>
+<td>248</td>
+</tr>
+<tr class="odd">
+<td><strong>總和</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>步驟 1.</strong> <span class="math inline">H_0:\ p_1 = p_2 = p_3 = p_4</span>（主張）；<span class="math inline">H_1</span>：至少有一個比例與其他比例不同。</p>
+<p><strong>步驟 2.</strong> 求臨界值。<span class="math inline">\text{d.f.} = (2-1)(4-1) = 3</span>，臨界值為 <strong>7.815</strong>。</p>
 </div>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
-<p><strong>步驟四：</strong> 14.149 &gt; 7.815 → <strong>拒絕 <span class="math inline">H_0</span></strong></p>
-<p><strong>步驟五：</strong> 有足夠的證據得出各收入群體的幸福比例不同的結論。</p>
 </section>
 <section id="範例-11-7-1" class="slide level2">
 <h2>範例 11-7</h2>
@@ -1149,85 +1945,158 @@ Female 13.87    15.07 12.06</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>R 程式</strong></p>
+<p><strong>步驟 3.</strong> 計算檢定統計量。「高階」這一列的每個期望值都是 <span class="math inline">\dfrac{(152)(100)}{400} = 38</span>，「一般」這一列的每個期望值都是 <span class="math inline">\dfrac{(248)(100)}{400} = 62</span>。</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 19%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>地區</th>
+<th>台北</th>
+<th>台中</th>
+<th>台南</th>
+<th>高雄</th>
+<th>總和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>高階</td>
+<td>26 (38)</td>
+<td>34 (38)</td>
+<td>40 (38)</td>
+<td>52 (38)</td>
+<td>152</td>
+</tr>
+<tr class="even">
+<td>一般</td>
+<td>74 (62)</td>
+<td>66 (62)</td>
+<td>60 (62)</td>
+<td>48 (62)</td>
+<td>248</td>
+</tr>
+<tr class="odd">
+<td><strong>總和</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>100</strong></td>
+<td><strong>400</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\chi^2 = 3.789 + 0.421 + 0.105 + 5.158 + 2.323 + 0.258 + 0.065 + 3.161 = 15.280</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="範例-11-7-2" class="slide level2">
+<h2>範例 11-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>以 R 執行步驟 3</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>M3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">33</span>, <span class="dv">38</span>, <span class="dv">49</span>,</span>
-<span id="cb56-2"><a href=""></a>               <span class="dv">76</span>, <span class="dv">67</span>, <span class="dv">62</span>, <span class="dv">51</span>),</span>
-<span id="cb56-3"><a href=""></a>             <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb56-4"><a href=""></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Yes"</span>,<span class="st">"No"</span>),</span>
-<span id="cb56-5"><a href=""></a>                             <span class="fu">c</span>(<span class="st">"&lt;30K"</span>,<span class="st">"30-74.9K"</span>,<span class="st">"75-99.9K"</span>,<span class="st">"&gt;=100K"</span>)))</span>
-<span id="cb56-6"><a href=""></a></span>
-<span id="cb56-7"><a href=""></a>result3 <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(M3)</span>
-<span id="cb56-8"><a href=""></a><span class="fu">cat</span>(<span class="st">"chi-square ="</span>, <span class="fu">round</span>(result3<span class="sc">$</span>statistic, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>membership <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">34</span>, <span class="dv">40</span>, <span class="dv">52</span>,</span>
+<span id="cb53-2"><a href=""></a>                       <span class="dv">74</span>, <span class="dv">66</span>, <span class="dv">60</span>, <span class="dv">48</span>),</span>
+<span id="cb53-3"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb53-4"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Premium"</span>, <span class="st">"Standard"</span>),</span>
+<span id="cb53-5"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Taipei"</span>, <span class="st">"Taichung"</span>, <span class="st">"Tainan"</span>, <span class="st">"Kaohsiung"</span>)))</span>
+<span id="cb53-6"><a href=""></a>membership_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(membership)</span>
+<span id="cb53-7"><a href=""></a>membership_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi-square = 14.1493 </code></pre>
+<pre><code>         Taipei Taichung Tainan Kaohsiung
+Premium      38       38     38        38
+Standard     62       62     62        62</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"d.f. ="</span>, result3<span class="sc">$</span>parameter, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>d.f. = 3 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"P-value ="</span>, <span class="fu">round</span>(result3<span class="sc">$</span>p.value, <span class="dv">6</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>P-value = 0.002709 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"Decision:"</span>, <span class="fu">ifelse</span>(result3<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"Reject H0"</span>, <span class="st">"Do not reject H0"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Decision: Reject H0 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Expected frequencies:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>membership_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Expected frequencies:</code></pre>
+    Pearson's Chi-squared test
+
+data:  membership
+X-squared = 15.28, df = 3, p-value = 0.001592</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">round</span>(result3<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    &lt;30K 30-74.9K 75-99.9K &gt;=100K
-Yes   36       36       36     36
-No    64       64       64     64</code></pre>
+<pre><code>[1] 7.814728</code></pre>
 </div>
 </div>
+<p><strong>步驟 4.</strong> 因為 <span class="math inline">15.280 &gt; 7.815</span>，拒絕虛無假設。</p>
+<p><strong>步驟 5.</strong> 有足夠證據拒絕「各比例沒有差異」這項主張。因此地區似乎會造成高階會員比例上的差異。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="yates-連續性校正" class="slide level2">
+<h2>Yates 連續性校正</h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>注意</strong></p>
+</div>
+<div class="callout-content">
+<p>當列聯表的自由度等於 1——也就是 <span class="math inline">2 \times 2</span> 表——時，有些統計學家建議使用 <strong>Yates 連續性校正</strong>：</p>
+<p><span class="math display">\chi^2 = \sum \frac{(|O - E| - 0.5)^2}{E}</span></p>
+<p>由於卡方檢定本來就偏保守，多數統計學家認為 Yates 校正<strong>並無必要</strong>。R 對 <span class="math inline">2 \times 2</span> 表預設會套用此校正，因此要得到未校正的數值，請使用 <code>chisq.test(M, correct = FALSE)</code>。</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要名詞" class="slide level2">
+<h2>重要名詞</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>第11章詞彙</strong></p>
+</div>
+<div class="callout-content">
+<p>細格值（cell value）· 卡方適合度檢定（chi-square goodness-of-fit test）· 列聯表（contingency table）· 期望次數（expected frequency）· 比例同質性檢定（homogeneity of proportions test）· 獨立性檢定（independence test）· 觀察次數（observed frequency）</p>
+</div>
+</div>
+</div>
+</section>
+<section id="重要公式" class="slide level2">
+<h2>重要公式</h2>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>重要公式</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>適合度</strong>卡方檢定公式，自由度等於類別數減 1：</p>
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}</span></p>
+<p><strong>獨立性</strong>與<strong>比例同質性</strong>卡方檢定公式，自由度等於（列數 <span class="math inline">-</span> 1）乘以（行數 <span class="math inline">-</span> 1）：</p>
+<p><span class="math display">\chi^2 = \sum \frac{(O - E)^2}{E}, \qquad E = \frac{(\text{列總和})(\text{行總和})}{\text{總計}}</span></p>
+<p>其中 <span class="math inline">O</span> 為觀察次數、<span class="math inline">E</span> 為期望次數。</p>
 </div>
 </div>
 </div>
 </section>
 <section id="重點整理" class="slide level2">
 <h2>重點整理</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 31%">
-<col style="width: 27%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>檢定</th>
-<th>使用時機</th>
-<th>自由度</th>
-<th>公式</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>適合度</td>
-<td>單一樣本 vs.&nbsp;假設分配</td>
-<td>k − 1</td>
-<td><span class="math inline">\chi^2 = \sum\frac{(O-E)^2}{E}</span>，<span class="math inline">E</span> 由比例決定</td>
-</tr>
-<tr class="even">
-<td>獨立性</td>
-<td>單一樣本；兩個類別變數</td>
-<td>(R−1)(C−1)</td>
-<td><span class="math inline">E = \frac{\text{列} \times \text{欄}}{\text{總計}}</span></td>
-</tr>
-<tr class="odd">
-<td>同質性</td>
-<td>多個樣本；一個類別變數</td>
-<td>(R−1)(C−1)</td>
-<td>與獨立性相同</td>
-</tr>
-</tbody>
-</table>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1237,7 +2106,16 @@ No    64       64       64     64</code></pre>
 <p><strong>重點</strong></p>
 </div>
 <div class="callout-content">
-<p>本章所有卡方檢定均為<strong>右尾檢定</strong>。每格的期望次數必須 <strong><span class="math inline">\geq 5</span></strong>。若不足，須合併類別。</p>
+<ul>
+<li><strong>卡方適合度檢定</strong>檢定「觀察到的次數分配符合某個給定的期望次數分配」這項主張；它一律是<strong>右尾檢定</strong>，自由度為 <span class="math inline">\text{d.f.} = k - 1</span></li>
+<li>各類別期望次數相等時以 <span class="math inline">E = n/k</span> 計算期望次數，不相等時以 <span class="math inline">E = n \cdot p</span> 計算</li>
+<li>本章兩種卡方檢定都假設資料取自<strong>隨機樣本</strong>，且每個類別或細格的<strong>期望次數為 5 以上</strong>；<span class="math inline">E &lt; 5</span> 的組別要合併</li>
+<li><strong>獨立性檢定</strong>使用<strong>單一樣本</strong>，問的是兩個變數獨立還是有關聯；<span class="math inline">H_0</span> 主張兩變數獨立</li>
+<li><strong>比例同質性檢定</strong>使用<strong>樣本大小事先固定的數個樣本</strong>，問的是各母體的比例是否相同；<span class="math inline">H_0: p_1 = p_2 = \cdots = p_k</span></li>
+<li>兩種列聯表檢定都使用 <span class="math inline">E = \dfrac{(\text{列總和})(\text{行總和})}{\text{總計}}</span>、相同的檢定統計量，以及 <span class="math inline">\text{d.f.} = (R-1)(C-1)</span></li>
+<li><span class="math inline">\chi^2</span> 很小代表觀察值與期望值接近——「適合良好」；<span class="math inline">\chi^2</span> 很大代表兩者相差很遠，拒絕 <span class="math inline">H_0</span></li>
+<li>在列聯表檢定中拒絕 <span class="math inline">H_0</span>，只說明變數有關聯或各比例不同——它<strong>不會</strong>告訴你差異是哪一個細格造成的</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1245,7 +2123,8 @@ No    64       64       64     64</code></pre>
 <section id="acknowledgement" class="slide level2">
 <h2>Acknowledgement</h2>
 <ul>
-<li><p><strong>Copyright notice.</strong> These teaching materials have been adapted from <strong>Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill</strong>. All rights are reserved by the original authors and publishers.</p></li>
+<li><p><strong>Copyright notice.</strong> These teaching materials follow the organization and terminology of <strong>Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill</strong>. All rights in the original work are reserved by its authors and publishers.</p></li>
+<li><p><strong>Original examples.</strong> Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.</p></li>
 <li><p><strong>Non-commercial use only.</strong> These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.</p></li>
 <li><p><strong>Proper attribution.</strong> Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.</p></li>
 </ul>

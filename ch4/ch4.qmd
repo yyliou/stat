@@ -45,334 +45,470 @@ library(tidyverse)
 ```
 
 ## Overview
-**Chapter 4: Probability and Counting Rules**
+Chapter 4 explains **probability** and the counting rules used to count outcomes.
 
-Probability is the foundation of statistical inference. This chapter covers:
+| Section | Topics |
+|---------|--------|
+| 4-1 | Sample spaces; classical, empirical and subjective probability; complements; law of large numbers |
+| 4-2 | Mutually exclusive events; addition rules 1 and 2 |
+| 4-3 | Independent and dependent events; multiplication rules 1 and 2 |
+| 4-4 | Fundamental counting rule; factorial notation; permutations; combinations |
+| 4-5 | Probability and counting rules combined |
 
-- **Section 4-1**: Sample Spaces and Probability
-- **Section 4-2**: The Addition Rules for Probability
-- **Section 4-3**: The Multiplication Rules and Conditional Probability
-- **Section 4-4**: Counting Rules
-- **Section 4-5**: Probability and Counting Rules
+## Chapter Objectives
 
-## Learning Objectives
+:::{.callout-important}
+## After completing this chapter, you should be able to
 
-By the end of this chapter, you will be able to:
-
-1. Determine sample spaces and compute classical probability
-2. Compute empirical probability using frequency distributions
-3. Find the probability of compound events using the addition rules
-4. Find the probability of compound events using the multiplication rules
-5. Compute conditional probability
-6. Find the total number of outcomes using the fundamental counting rule
-7. Find the number of ways using the permutation rule
-8. Find the number of ways using the combination rule
+1. Determine sample spaces and find the probability of an event, using classical probability or empirical probability.
+2. Find the probability of compound events, using the addition rules.
+3. Find the probability of compound events, using the multiplication rules.
+4. Find the conditional probability of an event.
+5. Find the total number of outcomes in a sequence of events, using the fundamental counting rule.
+6. Find the number of ways that $r$ objects can be selected from $n$ objects, using the permutation rule.
+7. Find the number of ways that $r$ objects can be selected from $n$ objects without regard to order, using the combination rule.
+8. Find the probability of an event, using the counting rules.
+:::
 
 # Section 4-1: Sample Spaces and Probability {background-color="#2c4a6e"}
 
-## Key Vocabulary
+## Basic Concepts
+
+Processes such as flipping a coin, rolling a die, or drawing a card from a deck are called **probability experiments**.
 
 :::{.callout-note}
-## Probability Experiment
-A **probability experiment** is a process that leads to well-defined results called **outcomes**.
+## Probability Experiment and Outcome
+
+A **probability experiment** is a chance process that leads to well-defined results called **outcomes**.
+
+An **outcome** is the result of a single **trial** of a probability experiment.
 :::
 
 :::{.callout-note}
-## Sample Space and Events
-- **Sample space** (*S*): the set of all possible outcomes of a probability experiment
-- **Outcome**: a single result from one trial
-- **Event** (*E*): one or more outcomes — a subset of the sample space
-- **Simple event**: an event with exactly one outcome
-- **Compound event**: an event with more than one outcome
+## Sample Space
+
+A **sample space** is the set of all possible outcomes of a probability experiment.
 :::
+
+## Some Sample Spaces
+
+| Experiment | Sample space |
+|------------|--------------|
+| Toss one coin | Head, tail |
+| Roll a die | 1, 2, 3, 4, 5, 6 |
+| Answer a true/false question | True, false |
+| Toss two coins | Head-head, tail-tail, head-tail, tail-head |
+
+Heads and tails are abbreviated **H** and **T** throughout this chapter. Probability theory also commonly assumes that the probability of a boy being born is $\tfrac{1}{2}$ and the probability of a girl being born is $\tfrac{1}{2}$, although biological sex is not necessarily binary and the split varies from location to location.
 
 ## Example 4-1 {#example-4-1}
 
 :::{.callout-warning}
 ## Rolling Two Dice
 
-Find the sample space for rolling two dice.
+A green die and an orange die are rolled together and the pair of numbers is recorded. List the sample space and state how many outcomes it contains.
+
+Back to [Example 4-5](#example-4-5)
 :::
+
+---
 
 ## Example 4-1
 
 :::{.callout-tip}
 ## Solution
 
+**Build the rectangular array**
+
 ```{r e4-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Generate sample space for two dice
-die1 <- 1:6
-die2 <- 1:6
-sample_space <- expand.grid(Die1 = die1, Die2 = die2)
-sample_space$Sum <- sample_space$Die1 + sample_space$Die2
+dice <- expand.grid(green = 1:6, orange = 1:6)
+nrow(dice)
 
-cat("Total outcomes:", nrow(sample_space), "\n")
-
-# Display as grid
-ss_matrix <- matrix(paste0("(", rep(1:6, each=6), ",", rep(1:6, 6), ")"),
-                    nrow = 6, ncol = 6, byrow = TRUE)
-rownames(ss_matrix) <- paste("Die1 =", 1:6)
-colnames(ss_matrix) <- paste("Die2 =", 1:6)
-knitr::kable(ss_matrix, caption = "Sample space for two dice (36 outcomes)")
+pairs <- matrix(paste0("(", dice$green, ", ", dice$orange, ")"), nrow = 6)
+dimnames(pairs) <- list(paste("Green =", 1:6), paste("Orange =", 1:6))
+knitr::kable(pairs, align = "c", caption = "Sample space for two dice")
 ```
+
+There are $6 \times 6 = 36$ outcomes in the sample space.
 :::
 
 ## Example 4-2 {#example-4-2}
 
 :::{.callout-warning}
-## Drawing a Card
+## Drawing One Card
 
-Find the sample space for drawing one card from an ordinary deck.
+One card is drawn from a well-shuffled standard deck and both its rank and its suit are recorded. Find the sample space for this experiment.
 :::
+
+---
 
 ## Example 4-2
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Build the deck**
+
+There are 4 suits (hearts, diamonds, clubs, and spades) and 13 ranks in each suit (ace through king), so the sample space has 52 outcomes.
 
 ```{r e4-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
-ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
-deck <- expand.grid(Rank = ranks, Suit = suits)
-deck$Card <- paste(deck$Rank, deck$Suit)
-cat("Total cards in sample space:", nrow(deck), "\n\n")
-cat("First 8 cards shown:\n")
-print(deck$Card[1:8])
+ranks <- c("A", 2:10, "J", "Q", "K")
+deck  <- expand.grid(rank = ranks, suit = suits, stringsAsFactors = FALSE)
+
+nrow(deck)
+head(paste(deck$rank, deck$suit), 5)
 ```
 :::
 
 ## Example 4-3 {#example-4-3}
 
 :::{.callout-warning}
-## Gender of Three Children
+## Rolling a Die Three Times
 
-Find the sample space for a family with three children, where the gender of each child is recorded.
+A die is rolled three times. Each roll is recorded as a *hit* (H) if the number of spots is 5 or 6, and as a *miss* (M) otherwise. Find the sample space for the experiment.
 :::
+
+---
 
 ## Example 4-3
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Use H for a hit and M for a miss**
+
+Each roll can be classified in two ways, so there are $2^3 = 8$ possibilities.
 
 ```{r e4-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-genders <- c("B", "G")
-ss <- expand.grid(Child1 = genders, Child2 = genders, Child3 = genders)
-ss$Outcome <- paste0(ss$Child1, ss$Child2, ss$Child3)
-cat("Sample space (", nrow(ss), "outcomes ):\n")
-print(ss$Outcome)
+result <- c("H", "M")
+rolls  <- expand.grid(third = result, second = result, first = result)
+
+outcomes <- paste0(rolls$first, rolls$second, rolls$third)
+outcomes
 ```
+
+The sample space is HHH, HHM, HMH, HMM, MHH, MHM, MMH, MMM.
+:::
+
+## Tree Diagrams
+
+In Examples 4-1 through 4-3 the sample spaces were found by observation and reasoning. Another way to find all possible outcomes of a probability experiment is to use a tree diagram.
+
+:::{.callout-note}
+## Tree Diagram
+
+A **tree diagram** is a device consisting of line segments emanating from a starting point and also from the outcome point. It is used to determine all possible outcomes of a probability experiment.
 :::
 
 ## Example 4-4 {#example-4-4}
 
 :::{.callout-warning}
-## Tree Diagram — Gender of Children
+## Three Drink Orders
 
-Draw a tree diagram for the gender of three children.
+The next three customers at a coffee chain each order either a hot drink (H) or an iced drink (I). Use a tree diagram to find the sample space for the sequence of three orders.
+
+Back to [Example 4-6](#example-4-6)
 :::
+
+---
 
 ## Example 4-4
 
 :::{.callout-tip}
 ## Solution
 
-```{r e4-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-library(ggplot2)
+**Prepare the nodes**
 
-# Manually specify tree structure for 3 children
-nodes <- data.frame(
-  label = c("Start",
-            "B","G",
-            "BB","BG","GB","GG",
-            "BBB","BBG","BGB","BGG","GBB","GBG","GGB","GGG"),
-  x = c(0,
-        -3, 3,
-        -4.5,-1.5,1.5,4.5,
-        -5,-4,-2,-1,1,2,4,5),
-  y = c(4,
-        3,3,
-        2,2,2,2,
-        1,1,1,1,1,1,1,1)
-)
+Each level of the tree doubles the number of branches, and the nodes at level $d$ are spread evenly across the width of the diagram.
+
+```{r e4-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+drink <- c("H", "I")
+
+tree_level <- function(depth) {
+  paths  <- expand.grid(rep(list(drink), depth), stringsAsFactors = FALSE)
+  labels <- do.call(paste0, rev(paths))
+  data.frame(label = labels,
+             x = (seq_along(labels) - (length(labels) + 1) / 2) * 8 / 2^depth,
+             y = 3 - depth)
+}
+
+nodes <- rbind(data.frame(label = "Start", x = 0, y = 3),
+               tree_level(1), tree_level(2), tree_level(3))
 ```
 :::
 
 ---
+
+## Example 4-4
 
 :::{.callout-tip}
 ## Solution
 
 **Draw figure**
 
-```{r e4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-edges <- data.frame(
-  x1=c(0,0,-3,-3,3,3,-4.5,-4.5,-1.5,-1.5,1.5,1.5,4.5,4.5),
-  y1=c(4,4,3,3,3,3,2,2,2,2,2,2,2,2),
-  x2=c(-3,3,-4.5,-1.5,1.5,4.5,-5,-4,-2,-1,1,2,4,5),
-  y2=c(3,3,2,2,2,2,1,1,1,1,1,1,1,1)
-)
+Every node except the root hangs from the node whose label is its own label with the last letter removed.
 
-dia <- ggplot() +
-  geom_segment(data=edges, aes(x=x1,y=y1,xend=x2,yend=y2), color="steelblue") +
-  geom_label(data=nodes, aes(x=x, y=y, label=label), size=3, fill="lightyellow") +
+```{r e4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+edges <- nodes |>
+  filter(label != "Start") |>
+  mutate(parent = if_else(nchar(label) == 1, "Start",
+                          substr(label, 1, nchar(label) - 1))) |>
+  left_join(nodes, by = c("parent" = "label"), suffix = c("", "_from"))
+
+tree_plot <- ggplot(nodes, aes(x, y)) +
+  geom_segment(data = edges, aes(xend = x_from, yend = y_from),
+               colour = "steelblue") +
+  geom_label(aes(label = label), size = 3, fill = "lightyellow") +
   theme_void() +
-  labs(title="Tree Diagram: Gender of Three Children") +
-  theme(plot.title = element_text(hjust=0.5))
+  labs(title = "Tree Diagram for Three Drink Orders") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 :::
 
 ---
 
+## Example 4-4
+
 :::{.callout-tip}
 ## Solution
 
-**Output**
+**Output figure**
 
-```{r e4-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-dia
+```{r e4-4-3, echo=T, warning=FALSE, out.width="68%", fig.align='center'}
+tree_plot
 ```
+
+The sample space is HHH, HHI, HIH, HII, IHH, IHI, IIH, III.
 :::
 
+## Events
 
-## Classical Probability
+An outcome is the result of a single trial. In many problems we must find the probability of two or more outcomes, so we distinguish between an outcome and an event.
 
 :::{.callout-note}
-## Classical Probability
-When all outcomes in the sample space are **equally likely**:
+## Event, Simple Event, Compound Event
 
-$$P(E) = \frac{n(E)}{n(S)} = \frac{\text{number of outcomes in event } E}{\text{total outcomes in sample space}}$$
+An **event** consists of a set of outcomes of a probability experiment.
+
+An event with one outcome is called a **simple event**. A **compound event** consists of two or more outcomes or simple events — for example, getting an odd number when a die is rolled.
+:::
+
+There are three basic interpretations of probability: **classical probability**, **empirical (relative frequency) probability**, and **subjective probability**.
+
+## Classical Probability
+
+Classical probability uses sample spaces to determine the numerical probability that an event will happen. You do not actually have to perform the experiment. Classical probability assumes that all outcomes in the sample space are **equally likely** to occur.
+
+:::{.callout-note}
+## Equally Likely Events
+
+**Equally likely events** are events that have the same probability of occurring.
 :::
 
 :::{.callout-important}
-## Probability Rules
-1. $0 \leq P(E) \leq 1$ for any event $E$
-2. $P(S) = 1$ (sum of all outcomes = 1)
-3. $P(\emptyset) = 0$ (impossible event)
-4. $\sum P(E_i) = 1$ for all simple events
+## Formula for Classical Probability
+
+The probability of any event $E$ is
+
+$$P(E) = \frac{\text{Number of outcomes in } E}{\text{Total number of outcomes in the sample space}} = \frac{n(E)}{n(S)}$$
+
+where $n(E)$ is the number of outcomes in $E$ and $n(S)$ is the number of outcomes in the sample space $S$.
+:::
+
+## Rounding Rule for Probabilities
+
+:::{.callout-important}
+## Rounding Rule for Probabilities
+
+Probabilities should be expressed as **reduced fractions** or **rounded to three decimal places**. When the probability of an event is an extremely small decimal, it is permissible to round the decimal to the first nonzero digit after the point — for example, $0.0000587$ becomes $0.00006$.
+
+When probabilities are obtained from one of the tables in Appendix A, use the number of decimal places given in the table. Probabilities can also be expressed as percentages.
 :::
 
 ## Example 4-5 {#example-4-5}
 
 :::{.callout-warning}
-## Drawing a Card
+## Rolling Two Dice
 
-A card is drawn from a standard 52-card deck. Find the probability of getting a black 10.
+When the two dice are rolled, find the probability that the two numbers add up to 5.
+
+Use the sample space from [Example 4-1](#example-4-1).
 :::
+
+---
 
 ## Example 4-5
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the favourable outcomes**
+
+There are 36 outcomes when two dice are rolled. Four of them add up to 5, namely $(1, 4)$, $(2, 3)$, $(3, 2)$, and $(4, 1)$.
 
 ```{r e4-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Two black 10s: 10 of Clubs and 10 of Spades
-n_event <- 2   # black 10s
-n_sample <- 52 # total cards
-prob <- n_event / n_sample
-cat("P(black 10) =", n_event, "/", n_sample, "=", round(prob, 4), "=", "1/26\n")
+sums_to_five <- dice$green + dice$orange == 5
+sum(sums_to_five)
+round(mean(sums_to_five), 3)
 ```
 
-**Solution:** There are 2 black 10s (10 of clubs, 10 of spades) in a 52-card deck.
-$$P(\text{black 10}) = \frac{2}{52} = \frac{1}{26}$$
+$$P(\text{sum of 5}) = \frac{4}{36} = \frac{1}{9} \approx 0.111$$
 :::
 
 ## Example 4-6 {#example-4-6}
 
 :::{.callout-warning}
-## Gender of Children
+## Three Drink Orders
 
-If a family has three children, find the probability of having exactly two girls.
+If the next three customers each order a hot or an iced drink, find the probability that exactly two of the three order an iced drink.
+
+Use the sample space from [Example 4-4](#example-4-4).
 :::
+
+---
 
 ## Example 4-6
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the outcomes with exactly two iced drinks**
 
 ```{r e4-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-genders <- c("B","G")
-ss <- expand.grid(C1=genders, C2=genders, C3=genders)
-ss$Outcome <- paste0(ss$C1, ss$C2, ss$C3)
-ss$TwoGirls <- rowSums(ss[,1:3] == "G") == 2
+orders <- expand.grid(third = drink, second = drink, first = drink)
 
-cat("Sample space:", paste(ss$Outcome, collapse=", "), "\n")
-cat("Outcomes with exactly 2 girls:", paste(ss$Outcome[ss$TwoGirls], collapse=", "), "\n")
-cat("P(exactly 2 girls) =", sum(ss$TwoGirls), "/", nrow(ss), "=",
-    round(mean(ss$TwoGirls), 4), "\n")
+two_iced <- rowSums(orders == "I") == 2
+paste0(orders$first, orders$second, orders$third)[two_iced]
+mean(two_iced)
 ```
+
+The three favourable outcomes are HII, IHI, and IIH, so the probability is $\tfrac{3}{8} = 0.375$.
 :::
+
+## The Words "And" and "Or"
+
+In probability theory it is important to understand the meaning of the words *and* and *or*.
+
+- **And** means "at the same time". The probability of getting a queen **and** a heart on one draw is the probability of the queen of hearts.
+- **Or** has two meanings. Finding a queen **or** a heart uses the **inclusive or**: the queen of hearts is counted in both cases, so there are $4 + 13 - 1 = 16$ possibilities.
+- Finding a queen **or** a king uses the **exclusive or**, because both events cannot occur at the same time: there are $4 + 4 = 8$ possibilities.
 
 ## Example 4-7 {#example-4-7}
 
 :::{.callout-warning}
-## Drawing a Card — Multiple Events
+## Drawing One Card
 
-A card is drawn from a standard deck. Find the probability of:
+A card is drawn at random from a well-shuffled standard deck. Find the probability of getting
 
-- (a) a jack, 
-
-- (b) the 6 of clubs, 
-
-- (c) a 3 or a diamond, 
-
-- (d) a 3 or a 6.
+```
+a. A diamond              d. A ten
+b. A black card           e. A card ranked 2, 3, 4, or 5
+c. The ace of spades
+```
 :::
+
+---
 
 ## Example 4-7
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count each event in the 52-card deck**
 
 ```{r e4-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-suits <- c("Hearts","Diamonds","Clubs","Spades")
-ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
-deck <- expand.grid(Rank=ranks, Suit=suits)
+card_probs <- c(
+  diamond       = mean(deck$suit == "Diamonds"),
+  black         = mean(deck$suit %in% c("Clubs", "Spades")),
+  ace_of_spades = mean(deck$rank == "A" & deck$suit == "Spades"),
+  ten           = mean(deck$rank == "10"),
+  low_card      = mean(deck$rank %in% c("2", "3", "4", "5")))
 
-p_jack <- sum(deck$Rank=="J") / 52
-p_6clubs <- sum(deck$Rank=="6" & deck$Suit=="Clubs") / 52
-p_3_or_diamond <- sum(deck$Rank=="3" | deck$Suit=="Diamonds") / 52
-p_3_or_6 <- sum(deck$Rank=="3" | deck$Rank=="6") / 52
-
-cat("(a) P(jack)          =", p_jack, "= 4/52 = 1/13\n")
-cat("(b) P(6 of clubs)    =", p_6clubs, "= 1/52\n")
-cat("(c) P(3 or diamond)  =", p_3_or_diamond, "= 16/52 = 4/13\n")
-cat("(d) P(3 or 6)        =", p_3_or_6, "= 8/52 = 2/13\n")
+round(card_probs, 3)
 ```
+
+$P(\text{diamond}) = \tfrac{13}{52} = \tfrac{1}{4} = 0.25$; $P(\text{black}) = \tfrac{26}{52} = \tfrac{1}{2} = 0.5$; $P(\text{ace of spades}) = \tfrac{1}{52} \approx 0.019$; $P(\text{ten}) = \tfrac{4}{52} = \tfrac{1}{13} \approx 0.077$; $P(\text{rank 2 to 5}) = \tfrac{16}{52} = \tfrac{4}{13} \approx 0.308$.
 :::
 
-## Examples 4-8 & 4-9: Impossible and Certain Events {#example-4-8}
+## Probability Rules
+
+:::{.callout-important}
+## Four Basic Probability Rules
+
+1. The probability of any event $E$ is a number (either a fraction or a decimal) between and including 0 and 1: $0 \leq P(E) \leq 1$.
+2. The sum of the probabilities of all the outcomes in a sample space is 1.
+3. If an event $E$ cannot occur (i.e., the event contains no members in the sample space), its probability is 0.
+4. If an event $E$ is certain, then the probability of $E$ is 1.
+:::
+
+When the probability of an event is close to 0, its occurrence is highly unlikely; near 0.5 there is about a 50-50 chance; close to 1 the event is highly likely to occur.
+
+## Example 4-8 {#example-4-8}
 
 :::{.callout-warning}
-## Example 4-8 — Impossible Event
-When a single die is rolled, find the probability of getting a 9.
+## Drawing a Card
+
+All 13 hearts are removed from a standard deck. The remaining 39 cards are well shuffled and one card is selected. Find the probability of getting a heart.
 :::
 
-$$P(9) = \frac{0}{6} = 0$$
+---
+
+## Example 4-8
 
 :::{.callout-tip}
-## Example 4-9 — Certain Event
-When a single die is rolled, find the probability of getting a number less than 7.
+## Solution
+
+**Rule 3 — an impossible event**
+
+```{r e4-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+remaining <- deck[deck$suit != "Hearts", ]
+
+nrow(remaining)
+mean(remaining$suit == "Hearts")
+```
+
+No heart is left among the 39 cards, so the event cannot occur and $P(\text{heart}) = \tfrac{0}{39} = 0$.
 :::
 
-$$P(\text{number} < 7) = \frac{6}{6} = 1$$
+## Example 4-9 {#example-4-9}
+
+:::{.callout-warning}
+## Drawing a Card
+
+The 13 hearts are removed from a standard deck. The remaining 39 cards are well shuffled and one card is selected. Find the probability that the card is not a heart.
+:::
+
+---
+
+## Example 4-9
+
+:::{.callout-tip}
+## Solution
+
+**Rule 4 — a certain event**
+
+```{r e4-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(remaining$suit != "Hearts")
+```
+
+All 39 remaining cards satisfy the event, so $P(\text{not a heart}) = \tfrac{39}{39} = 1$.
+:::
 
 ## Complementary Events
 
 :::{.callout-note}
-## Complement Rule
-The **complement** of event $E$, denoted $\bar{E}$, consists of all outcomes **not** in $E$.
+## Complement of an Event
 
-$$P(\bar{E}) = 1 - P(E)$$
+The **complement** of an event $E$ is the set of outcomes in the sample space that are not included in the outcomes of event $E$. The complement of $E$ is denoted by $\bar{E}$ (read "E bar").
+:::
+
+:::{.callout-important}
+## Rule for Complementary Events
+
+$$P(\bar{E}) = 1 - P(E) \qquad \text{or} \qquad P(E) = 1 - P(\bar{E}) \qquad \text{or} \qquad P(E) + P(\bar{E}) = 1$$
+
+If the probability of an event or the probability of its complement is known, then the other can be found by subtracting the probability from 1.
 :::
 
 ## Example 4-10 {#example-4-10}
@@ -382,503 +518,665 @@ $$P(\bar{E}) = 1 - P(E)$$
 
 Find the complement of each event:
 
-- (a) Rolling a die and getting a 4
-
-- (b) Selecting a month and getting a month with 31 days
-
-- (c) Selecting a day and getting a weekday
+```
+a. Selecting a month whose name begins with the letter J
+b. Selecting a day of the week that falls on the weekend
+c. Rolling two dice and getting a sum greater than 9
+d. Selecting a digit from 0 through 9 that is odd
+```
 :::
+
+---
 
 ## Example 4-10
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**List the outcomes that are left over**
 
 ```{r e4-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-months_31 <- c("Jan","Mar","May","Jul","Aug","Oct","Dec")
-months_not_31 <- c("Feb","Apr","Jun","Sep","Nov")
-
-cat("(a) Complement of getting a 4: {1, 2, 3, 5, 6}\n")
-cat("(b) Complement of 31-day month: {", paste(months_not_31, collapse=", "), "}\n")
-cat("(c) Complement of weekday: {Saturday, Sunday}\n")
+month.name[!startsWith(month.name, "J")]
+setdiff(c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), c("Sat", "Sun"))
+setdiff(2:12, 10:12)
+setdiff(0:9, c(1, 3, 5, 7, 9))
 ```
+
+**a.** Selecting a month whose name begins with F, M, A, S, O, N, or D. **b.** Selecting a weekday, Monday through Friday. **c.** Rolling two dice and getting a sum of 2 through 9. **d.** Selecting an even digit, including 0.
 :::
+
+## Venn Diagrams for Probability
+
+The outcomes of an event and the outcomes of its complement make up the entire sample space, so $P(E) + P(\bar{E}) = 1$. Probabilities can be represented pictorially by **Venn diagrams**.
+
+```{r s4-1-1, echo=FALSE, warning=FALSE, out.width="75%", fig.align='center'}
+circle_points <- function(cx, cy, r, n_points = 200) {
+  theta <- seq(0, 2 * pi, length.out = n_points)
+  data.frame(x = cx + r * cos(theta), y = cy + r * sin(theta))
+}
+
+panel_a <- "(a) Simple probability P(E)"
+panel_b <- "(b) Complement of E"
+
+circles <- rbind(transform(circle_points(0, 0, 1), panel = panel_a, fill = "#377eb8"),
+                 transform(circle_points(0, 0, 1), panel = panel_b, fill = "white"))
+frames  <- data.frame(panel = c(panel_a, panel_b), fill = c("white", "#377eb8"))
+
+ggplot() +
+  geom_rect(data = frames, aes(xmin = -2, xmax = 2, ymin = -1.5, ymax = 1.5,
+                               fill = fill), color = "black") +
+  geom_polygon(data = circles, aes(x = x, y = y, fill = fill), color = "black") +
+  geom_text(data = frames, aes(x = 0, y = 0, label = "E"), size = 6) +
+  scale_fill_identity() +
+  facet_wrap(~panel) +
+  coord_fixed() +
+  theme_void() +
+  theme(strip.text = element_text(size = 12, face = "bold"))
+```
+
+The rectangle represents the whole sample space, where $P(S) = 1$; the shaded region in panel (b) is $P(\bar{E})$.
 
 ## Example 4-11 {#example-4-11}
 
 :::{.callout-warning}
-## Residence
+## Delivery Speed
 
-If the probability that a person lives in an industrialized country is 1/5, find the probability that a person does **not** live in an industrialized country.
+On an online marketplace, 58% of orders reach the buyer within 1 day, 31% take 2 days, and 11% take 3 or more days. If an order is selected at random, find the probability that it takes 2 or more days to arrive. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-11
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Use the complement**
 
 ```{r e4-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_industrial <- 1/5
-p_not_industrial <- 1 - p_industrial
-cat("P(industrialized) =", p_industrial, "\n")
-cat("P(not industrialized) = 1 -", p_industrial, "=", p_not_industrial, "\n")
+p_within_one_day <- 0.58
+1 - p_within_one_day
 ```
+
+$$P(\text{2 or more days}) = 1 - P(\text{within 1 day}) = 1 - 0.58 = 0.42 = 42\%$$
+:::
+
+## Empirical Probability
+
+The difference between classical and empirical probability is that classical probability assumes that certain outcomes are equally likely, while **empirical probability relies on actual experience** to determine the likelihood of outcomes.
+
+:::{.callout-important}
+## Formula for Empirical Probability
+
+Given a frequency distribution, the probability of an event being in a given class is
+
+$$P(E) = \frac{\text{frequency for the class}}{\text{total frequencies in the distribution}} = \frac{f}{n}$$
+
+This probability is called **empirical probability** and is based on observation.
 :::
 
 ## Example 4-12 {#example-4-12}
 
 :::{.callout-warning}
-## Travel Survey
+## Payment Methods
 
-In a survey, 3 out of 25 people said they traveled by airplane in the past year. Find the probability that a randomly selected person has **not** flown in the past year.
+An online store asked 80 shoppers which payment method they used for their most recent order.
+
+```
+Method             Frequency
+Credit card            32
+Mobile wallet          28
+Store cash             16
+Bank transfer           4
+                       80
+```
+
+Find the probability that a shopper paid with a mobile wallet. *(hypothetical data)*
+
+Back to [Example 4-13](#example-4-13)
 :::
+
+---
 
 ## Example 4-12
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Apply the empirical probability formula**
 
 ```{r e4-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_fly <- 3/25
-p_not_fly <- 1 - p_fly
-cat("P(fly) =", p_fly, "\n")
-cat("P(not fly) = 1 -", p_fly, "=", p_not_fly, "=", 22, "/", 25, "\n")
+payment <- data.frame(
+  method    = c("Credit card", "Mobile wallet", "Store cash", "Bank transfer"),
+  frequency = c(32, 28, 16, 4))
+payment$rel_freq <- payment$frequency / sum(payment$frequency)
+
+knitr::kable(payment, align = "c", digits = 3,
+             caption = "Payment method used (n = 80)")
 ```
-:::
 
-## Empirical Probability
+$$P(\text{mobile wallet}) = \frac{28}{80} = \frac{7}{20} = 0.35$$
 
-:::{.callout-note}
-## Empirical Probability
-**Empirical (relative frequency) probability** is based on observed data:
-
-$$P(E) = \frac{\text{frequency of event } E}{\text{total frequencies}} = \frac{f}{n}$$
+The relative frequency column is the empirical probability of each category.
 :::
 
 ## Example 4-13 {#example-4-13}
 
 :::{.callout-warning}
-## Blood Types
+## Payment Methods
 
-In a sample of 50 people, 21 had type O blood, 22 type A, 5 type B, and 2 type AB. Find the probability that a randomly selected person has type O or type B.
+Using the survey of 80 shoppers from [Example 4-12](#example-4-12), find the following probabilities.
+
+```
+a. A shopper paid by credit card
+b. A shopper paid by mobile wallet or store cash
+c. A shopper used neither a credit card nor a mobile wallet
+d. A shopper did not use a bank transfer
+```
 :::
+
+---
 
 ## Example 4-13
 
 :::{.callout-tip}
 ## Solution
 
+**Read the frequency distribution**
+
 ```{r e4-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-blood <- data.frame(
-  Type = c("O","A","B","AB"),
-  Frequency = c(21,22,5,2)
-)
-blood$RelFreq <- blood$Frequency / sum(blood$Frequency)
-knitr::kable(blood, digits=3, col.names=c("Blood Type","Frequency","Relative Frequency"),
-             caption="Blood Type Distribution (n=50)")
+n_shoppers <- sum(payment$frequency)
+n_shoppers
+
+knitr::kable(payment[, c("method", "frequency")], align = "c",
+             caption = "Payment method used (n = 80)")
 ```
 :::
 
 ---
 
+## Example 4-13
+
 :::{.callout-tip}
 ## Solution
 
-**Compute**
+**Compute the four probabilities**
 
 ```{r e4-13-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_O <- 21/50
-p_B <- 5/50
-cat("\nP(type O) =", p_O, "\n")
-cat("P(type B) =", p_B, "\n")
-cat("P(O or B) =", p_O + p_B, "\n")
+n_by_method <- setNames(payment$frequency, payment$method)
+
+c(credit_card       = n_by_method[["Credit card"]],
+  wallet_or_cash    = n_by_method[["Mobile wallet"]] + n_by_method[["Store cash"]],
+  neither_of_top_two = n_by_method[["Store cash"]] + n_by_method[["Bank transfer"]],
+  not_bank_transfer = n_shoppers - n_by_method[["Bank transfer"]]) / n_shoppers
 ```
+
+**a.** $P(\text{credit card}) = \tfrac{32}{80} = \tfrac{2}{5} = 0.4$. **b.** $\tfrac{28}{80} + \tfrac{16}{80} = \tfrac{44}{80} = \tfrac{11}{20} = 0.55$. **c.** Neither means store cash or bank transfer: $\tfrac{16}{80} + \tfrac{4}{80} = \tfrac{20}{80} = \tfrac{1}{4} = 0.25$. **d.** $1 - \tfrac{4}{80} = \tfrac{76}{80} = \tfrac{19}{20} = 0.95$.
 :::
 
 ## Example 4-14 {#example-4-14}
 
 :::{.callout-warning}
-## Hospital Stays
+## Party Size at Check-in
 
-The following distribution shows the number of days 127 maternity patients stayed in the hospital. Find the probability that a patient stayed: 
+A hotel in Taipei recorded the party size of 200 check-ins during one week. *(hypothetical data)*
 
-- (a) exactly 4 days, 
+```
+Party size          Frequency
+1 guest                 46
+2 guests                78
+3 guests                34
+4 guests                30
+5 or more guests        12
+                       200
+```
 
-- (b) at most 4 days, 
-
-- (c) at least 5 days.
+If one check-in is selected at random, find the probability that the party had (a) 2 guests, (b) fewer than 3 guests, (c) at most 3 guests, (d) at least 4 guests.
 :::
+
+---
 
 ## Example 4-14
 
 :::{.callout-tip}
 ## Solution
 
+**Add the frequencies in each set of classes**
+
 ```{r e4-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-hospital <- data.frame(Days=3:7, Freq=c(15,32,56,19,5))
-hospital$P <- hospital$Freq / sum(hospital$Freq)
-knitr::kable(hospital, digits=4, col.names=c("Days","Frequency","P(X)"),
-             caption="Hospital Stay Distribution (n=127)")
-cat("(a) P(exactly 4 days) =", round(32/127,4), "\n")
-cat("(b) P(at most 4 days) =", round((15+32)/127,4), "\n")
-cat("(c) P(at least 5 days)=", round((56+19+5)/127,4), "\n")
+party <- data.frame(
+  size      = c("1 guest", "2 guests", "3 guests", "4 guests", "5 or more"),
+  frequency = c(46, 78, 34, 30, 12))
+knitr::kable(party, align = "c", caption = "Party size at check-in (n = 200)")
+
+counts <- party$frequency
+c(two_guests = counts[2], fewer_than_3 = sum(counts[1:2]),
+  at_most_3 = sum(counts[1:3]), at_least_4 = sum(counts[4:5])) / sum(counts)
 ```
+
+**a.** $0.39$. **b.** $\tfrac{124}{200} = 0.62$. **c.** $\tfrac{158}{200} = 0.79$. **d.** $\tfrac{42}{200} = 0.21$.
 :::
 
-## Types of Probability
-
-:::{.callout-note}
-## Three Types of Probability
-| Type | Definition | Example |
-|---|---|---|
-| **Classical** | Equal outcomes; based on theory | Rolling a fair die |
-| **Empirical** | Based on observation/experiment | Frequency survey data |
-| **Subjective** | Based on educated guess | Weather forecast |
-:::
+## Law of Large Numbers
 
 :::{.callout-important}
 ## Law of Large Numbers
-As the number of trials of an experiment increases, the **empirical probability** approaches the **theoretical (classical) probability**.
+
+When a coin is tossed a small number of times, the empirical probability of a head is usually not exactly $\tfrac{1}{2}$. As the **number of trials increases**, the empirical probability of getting a head will approach the theoretical probability of $\tfrac{1}{2}$, if the coin is fair.
+
+Be careful **not** to think that the numbers of heads and tails "even out". It is the **proportion** of heads to the total number of trials that approaches $\tfrac{1}{2}$.
+:::
+
+---
+
+## Law of Large Numbers in R
+
+```{r s4-1-2, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+set.seed(2023)
+tosses  <- sample(c(1, 0), 5000, replace = TRUE)
+running <- tibble(n = seq_along(tosses),
+                  proportion = cumsum(tosses) / seq_along(tosses))
+
+ggplot(running, aes(n, proportion)) +
+  geom_line(color = "steelblue") +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  scale_x_log10() +
+  labs(x = "Number of tosses (log scale)", y = "Proportion of heads",
+       title = "The proportion of heads approaches 0.5") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## Subjective Probability
+
+:::{.callout-note}
+## Subjective Probability
+
+**Subjective probability** uses a probability value based on an educated guess or estimate, employing opinions and inexact information.
+:::
+
+A sportswriter may say there is a 70% probability that a team will win the pennant; a physician might say there is a 30% chance a patient will need an operation; a seismologist might say there is an 80% probability of an earthquake in a certain area. All three types of probability — classical, empirical, and subjective — are used to solve problems in business, engineering, and other fields.
+
+## Probability and Risk Taking
+
+People often fear situations that have a relatively small probability of happening rather than those events that are much more likely to occur.
+
+- If a person is 20% overweight, the loss of life expectancy is about 900 days; the loss of life expectancy from exposure to radiation emitted by nuclear power plants is about 0.02 day.
+- Most people think their chances of dying of a heart attack are 1 in 20, when in fact they are almost 1 in 3; the chances of dying by pesticide poisoning are 1 in 200,000.
+
+:::{.callout-warning}
+## Caution
+
+When you make a decision based on probability, get the actual numbers from accredited statistical agencies or reliable studies, make sure you understand the true probability of the event occurring, weigh the cost of the action, and look for alternatives with less risk.
 :::
 
 # Section 4-2: The Addition Rules for Probability {background-color="#2c4a6e"}
 
 ## Mutually Exclusive Events
 
+At a large political gathering you might wish to know the probability that a randomly selected person is a female **or** a Republican — a person can be both at the same time. By contrast, a person cannot be both a Democrat and an Independent at the same time.
+
 :::{.callout-note}
 ## Mutually Exclusive Events
-Two events $A$ and $B$ are **mutually exclusive** if they **cannot occur at the same time** — they share no outcomes in common.
+
+Two events are **mutually exclusive events** or **disjoint events** if they cannot occur at the same time (i.e., they have no outcomes in common).
 :::
 
-:::{.callout-note}
-## Addition Rule 1 — Mutually Exclusive Events
-When two events $A$ and $B$ are mutually exclusive:
-$$P(A \text{ or } B) = P(A) + P(B)$$
-:::
-
-:::{.callout-note}
-## Addition Rule 2 — Non-Mutually Exclusive Events
-When $A$ and $B$ are **not** mutually exclusive:
-$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$$
-:::
+Getting a 4 and getting a 6 on a single card draw are mutually exclusive; getting a 4 and getting a heart are **not**, since the 4 of hearts satisfies both.
 
 ## Example 4-15 {#example-4-15}
 
 :::{.callout-warning}
-## Rolling a Die — Mutual Exclusivity
+## Determining Mutually Exclusive Events
 
-Determine which pairs of events are mutually exclusive when a single die is rolled:
+Determine whether the two events are mutually exclusive. Explain your answer.
 
-- (a) odd number and even number; 
-
-- (b) getting a 3 and getting an odd number;
-
-- (c) odd number and number less than 4; 
-
-- (d) number greater than 4 and number less than 4.
+```
+a. Randomly selecting an order that was paid by credit card
+   Randomly selecting an order that was shipped overseas
+b. Randomly selecting an employee based in the Taipei office
+   Randomly selecting an employee based in the Kaohsiung office
+c. Rolling a die and getting an even number
+   Rolling a die and getting a number greater than 4
+d. Randomly selecting an order worth less than NTD 500
+   Randomly selecting an order worth more than NTD 2,000
+```
 :::
+
+---
 
 ## Example 4-15
 
 :::{.callout-tip}
 ## Solution
 
-```{r e4-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-outcomes <- 1:6
-odd <- outcomes[outcomes %% 2 != 0]
-even <- outcomes[outcomes %% 2 == 0]
-lt4 <- outcomes[outcomes < 4]
-gt4 <- outcomes[outcomes > 4]
+**Look for outcomes the two events share**
 
-cat("(a) Odd:", odd, "| Even:", even, "| Overlap:", intersect(odd, even),
-    "→ MUTUALLY EXCLUSIVE\n")
-cat("(b) {3} vs Odd:", odd, "| Overlap:", intersect(3, odd),
-    "→ NOT mutually exclusive\n")
-cat("(c) Odd:", odd, "vs <4:", lt4, "| Overlap:", intersect(odd, lt4),
-    "→ NOT mutually exclusive\n")
-cat("(d) >4:", gt4, "vs <4:", lt4, "| Overlap:", intersect(gt4, lt4),
-    "→ MUTUALLY EXCLUSIVE\n")
+```{r e4-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+even      <- c(2, 4, 6)
+greater_4 <- c(5, 6)
+intersect(even, greater_4)
 ```
+
+**a.** Not mutually exclusive — an order can be paid by credit card and shipped overseas. **b.** Mutually exclusive — an employee is based in one office only. **c.** Not mutually exclusive — a 6 is even and greater than 4. **d.** Mutually exclusive — one order cannot be worth both less than NTD 500 and more than NTD 2,000.
 :::
 
 ## Example 4-16 {#example-4-16}
 
 :::{.callout-warning}
-## Drawing a Card — Mutual Exclusivity
+## Drawing a Card
 
-Determine which events are mutually exclusive when drawing one card:
+Determine which events are mutually exclusive when a single card is drawn at random from a deck of cards.
 
-- (a) 7 and jack; 
-
-- (b) club and king; 
-
-- (c) face card and ace; 
-
-- (d) face card and spade.
+```
+a. Getting a king and getting a ten
+b. Getting a queen and getting a heart
+c. Getting a spade and getting a black card
+d. Getting a face card and getting an ace
+```
 :::
+
+---
 
 ## Example 4-16
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the cards that belong to both events**
 
 ```{r e4-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("(a) Getting a 7 AND a jack: cannot both be on one card → MUTUALLY EXCLUSIVE\n")
-cat("(b) Getting a club AND a king: king of clubs exists → NOT mutually exclusive\n")
-cat("(c) Face card AND ace: aces are not face cards → MUTUALLY EXCLUSIVE\n")
-cat("(d) Face card AND spade: jack/queen/king of spades exist → NOT mutually exclusive\n")
+is_king  <- deck$rank == "K"
+is_ten   <- deck$rank == "10"
+is_queen <- deck$rank == "Q"
+is_heart <- deck$suit == "Hearts"
+is_spade <- deck$suit == "Spades"
+is_black <- deck$suit %in% c("Clubs", "Spades")
+is_face  <- deck$rank %in% c("J", "Q", "K")
+is_ace   <- deck$rank == "A"
+
+c(king_and_ten    = sum(is_king & is_ten),
+  queen_and_heart = sum(is_queen & is_heart),
+  spade_and_black = sum(is_spade & is_black),
+  face_and_ace    = sum(is_face & is_ace))
 ```
+
+**a.** Mutually exclusive. **b.** Not mutually exclusive — the queen of hearts. **c.** Not mutually exclusive — every spade is a black card. **d.** Mutually exclusive — an ace is not a face card.
 :::
+
+## Addition Rule 1
+
+:::{.callout-important}
+## Addition Rule 1
+
+When two events $A$ and $B$ are **mutually exclusive**, the probability that $A$ **or** $B$ will occur is
+
+$$P(A \text{ or } B) = P(A) + P(B)$$
+
+For three mutually exclusive events $A$, $B$, and $C$:
+$$P(A \text{ or } B \text{ or } C) = P(A) + P(B) + P(C)$$
+:::
+
+The Venn diagram for addition rule 1 (Figure 4-6) shows two circles that do not overlap: the probability of $A$ or $B$ is the sum of the areas of the two circles.
 
 ## Example 4-17 {#example-4-17}
 
 :::{.callout-warning}
-## Coffee Shop Selection
+## Export Containers
 
-A city has 9 coffee shops: 3 Starbucks, 2 Caribou Coffees, and 4 Crazy Mocha Coffees. Find the probability that a randomly selected shop is either a Starbucks or a Crazy Mocha.
+Last month a freight forwarder shipped 48 containers to Japan, 35 containers to Vietnam, and 57 containers to the United States. If one container is selected at random from last month's records, find the probability that it went to Japan or to the United States. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-17
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The events are mutually exclusive, so add**
 
 ```{r e4-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-shops <- data.frame(Brand = c("Starbucks","Caribou","Crazy Mocha"), Count=c(3,2,4))
-total <- sum(shops$Count)
-p_starbucks <- 3/total
-p_crazy <- 4/total
-p_or <- p_starbucks + p_crazy
+containers <- c(japan = 48, vietnam = 35, united_states = 57)
 
-cat("P(Starbucks or Crazy Mocha) = P(Starbucks) + P(Crazy Mocha)\n")
-cat("                            =", p_starbucks, "+", p_crazy, "=", p_or, "= 7/9\n")
+sum(containers)
+sum(containers[c("japan", "united_states")]) / sum(containers)
 ```
+
+$$P(\text{Japan or United States}) = \frac{48}{140} + \frac{57}{140} = \frac{105}{140} = \frac{3}{4} = 0.75$$
 :::
 
 ## Example 4-18 {#example-4-18}
 
 :::{.callout-warning}
-## R&D Employees
+## Distribution Centre Staff
 
-Three companies have R&D centers with 110 (US Steel), 750 (Alcoa), and 250 (Bayer) employees. Find the probability that a randomly selected employee works at US Steel or Alcoa.
+A convenience-store chain staffs its three distribution centres as follows. *(hypothetical data)*
+
+```
+Taoyuan       180
+Taichung      420
+Tainan        150
+```
+
+If one distribution-centre employee is selected at random, find the probability that the employee works in Taoyuan or Taichung.
 :::
+
+---
 
 ## Example 4-18
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Add the two mutually exclusive probabilities**
 
 ```{r e4-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-employees <- c("US Steel"=110, "Alcoa"=750, "Bayer"=250)
-total <- sum(employees)
-p <- employees / total
-cat("Total employees:", total, "\n")
-cat("P(US Steel or Alcoa) =", employees["US Steel"], "+", employees["Alcoa"],
-    "/", total, "=", (employees["US Steel"]+employees["Alcoa"])/total, "\n")
-cat("                     = 860/1110 = 86/111 ≈", round(860/1110,4), "\n")
+staff <- c(taoyuan = 180, taichung = 420, tainan = 150)
+
+sum(staff)
+sum(staff[c("taoyuan", "taichung")]) / sum(staff)
 ```
+
+$$P(\text{Taoyuan or Taichung}) = \frac{180}{750} + \frac{420}{750} = \frac{600}{750} = \frac{4}{5} = 0.8$$
 :::
 
 ## Example 4-19 {#example-4-19}
 
 :::{.callout-warning}
-## Day of the Week
+## Getting to the Night Market
 
-A day is selected at random. Find the probability that it is a weekend day.
+A survey of visitors to a night market found that 46% arrived by MRT, 28% by scooter, 18% on foot, and 8% by car. If a visitor is selected at random, find the probability that the visitor arrived by scooter or on foot. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-19
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**These categories are mutually exclusive**
 
 ```{r e4-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_saturday <- 1/7
-p_sunday <- 1/7
-p_weekend <- p_saturday + p_sunday
-cat("P(Saturday or Sunday) = 1/7 + 1/7 =", p_weekend, "= 2/7\n")
+arrival <- c(mrt = 0.46, scooter = 0.28, on_foot = 0.18, car = 0.08)
+
+sum(arrival[c("scooter", "on_foot")])
 ```
+
+$$P(\text{scooter or on foot}) = 0.28 + 0.18 = 0.46 = 46\%$$
+:::
+
+## Addition Rule 2
+
+:::{.callout-important}
+## Addition Rule 2
+
+If $A$ and $B$ are **not mutually exclusive**, then
+
+$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$$
+
+For three events that are not mutually exclusive:
+
+$$\begin{aligned}
+P(A \text{ or } B \text{ or } C) = {} & P(A) + P(B) + P(C) \\
+& - P(A \text{ and } B) - P(A \text{ and } C) - P(B \text{ and } C) \\
+& + P(A \text{ and } B \text{ and } C)
+\end{aligned}$$
+:::
+
+:::{.callout-warning}
+## Caution
+
+Addition rule 2 can also be used when the events **are** mutually exclusive, since $P(A \text{ and } B)$ will always equal 0. It is nevertheless important to make a distinction between the two situations.
 :::
 
 ## Example 4-20 {#example-4-20}
 
 :::{.callout-warning}
-## Drawing a Card (Non-Mutually Exclusive)
+## Drawing a Card
 
-Find the probability that a single card drawn from a deck is either an ace or a black card.
+A single card is drawn at random from an ordinary deck of cards. Find the probability that it is a face card or a diamond.
 :::
+
+---
 
 ## Example 4-20
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Subtract the overlap — the jack, queen, and king of diamonds**
 
 ```{r e4-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-suits <- c("Hearts","Diamonds","Clubs","Spades")
-ranks <- c("A","2","3","4","5","6","7","8","9","10","J","Q","K")
-deck <- expand.grid(Rank=ranks, Suit=suits)
-deck$IsAce <- deck$Rank=="A"
-deck$IsBlack <- deck$Suit %in% c("Clubs","Spades")
-deck$IsAceOrBlack <- deck$IsAce | deck$IsBlack
+is_diamond <- deck$suit == "Diamonds"
 
-cat("Aces:", sum(deck$IsAce), "| Black cards:", sum(deck$IsBlack),
-    "| Black aces:", sum(deck$IsAce & deck$IsBlack), "\n")
-cat("P(ace or black) = 4/52 + 26/52 - 2/52 =", (4+26-2)/52, "= 28/52 = 7/13\n")
+c(face = sum(is_face), diamond = sum(is_diamond),
+  both = sum(is_face & is_diamond))
+round(mean(is_face | is_diamond), 3)
 ```
+
+$$P(\text{face card or diamond}) = \frac{12}{52} + \frac{13}{52} - \frac{3}{52} = \frac{22}{52} = \frac{11}{26} \approx 0.423$$
 :::
 
 ## Example 4-21 {#example-4-21}
 
 :::{.callout-warning}
-## Medical Staff
+## Trade Fair Visitors
 
-A hospital unit has 8 nurses and 5 physicians; 7 nurses and 3 physicians are female. Find the probability that a randomly selected staff member is a nurse or male.
+A booth at a trade fair logged 30 visitors: 18 were retail buyers and 12 were distributors. Seven of the retail buyers and nine of the distributors came from overseas. If one visitor is selected at random, find the probability that the visitor is a distributor or came from overseas. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-21
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Build the contingency table**
 
 ```{r e4-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-staff <- data.frame(
-  Staff = c("Nurses","Physicians","Total"),
-  Female = c(7,3,10),
-  Male = c(1,2,3),
-  Total = c(8,5,13)
-)
-knitr::kable(staff, caption="Hospital Staff Composition")
+visitors <- matrix(c(7, 11, 9, 3), nrow = 2, byrow = TRUE,
+                   dimnames = list(c("Retail buyer", "Distributor"),
+                                   c("Overseas", "Domestic")))
+knitr::kable(addmargins(visitors), align = "c",
+             caption = "Trade fair visitors (n = 30)")
 
-cat("\nP(nurse or male) = P(nurse) + P(male) - P(male nurse)\n")
-cat("                 = 8/13 + 3/13 - 1/13 =", (8+3-1)/13, "= 10/13\n")
+distributor <- sum(visitors["Distributor", ])
+overseas    <- sum(visitors[, "Overseas"])
+round((distributor + overseas - visitors["Distributor", "Overseas"]) / sum(visitors), 3)
 ```
+
+$$P(\text{distributor or overseas}) = \frac{12}{30} + \frac{16}{30} - \frac{9}{30} = \frac{19}{30} \approx 0.633$$
 :::
 
 ## Example 4-22 {#example-4-22}
 
 :::{.callout-warning}
-## Driving While Intoxicated
+## Customs Inspection
 
-P(driving while intoxicated) = 0.32, P(having an accident) = 0.09, P(intoxicated and accident) = 0.06. Find P(intoxicated or accident).
+At a logistics hub the probability that a shipment is selected for customs inspection is 0.24, the probability that a shipment is delayed is 0.15, and the probability that a shipment is both inspected and delayed is 0.09. What is the probability that a shipment is inspected **or** delayed? *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-22
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The events are not mutually exclusive**
 
 ```{r e4-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_int <- 0.32
-p_acc <- 0.09
-p_both <- 0.06
-p_or <- p_int + p_acc - p_both
-cat("P(intoxicated or accident) = P(intox) + P(acc) - P(both)\n")
-cat("                           =", p_int, "+", p_acc, "-", p_both, "=", p_or, "\n")
+p_inspected <- 0.24
+p_delayed   <- 0.15
+p_both      <- 0.09
+
+p_inspected + p_delayed - p_both
 ```
+
+$$P(\text{inspected or delayed}) = 0.24 + 0.15 - 0.09 = 0.30$$
 :::
 
-## Venn Diagrams for Addition Rules
+## Venn Diagrams for the Addition Rules
 
-```{r e4-22-2, warning=FALSE, out.width="80%", fig.align='center', echo=FALSE}
-library(ggplot2)
+```{r s4-2-1, echo=FALSE, warning=FALSE, out.width="85%", fig.align='center'}
+exclusive   <- "Figure 4-6  Mutually exclusive"
+overlapping <- "Figure 4-7  Not mutually exclusive"
 
-# Helper function to generate coordinates for a circle
-get_circle_coords <- function(cx, cy, r, group, npoints = 100) {
-  theta <- seq(0, 2 * pi, length.out = npoints)
-  data.frame(
-    x = cx + r * cos(theta),
-    y = cy + r * sin(theta),
-    group = group
-  )
-}
+venn <- rbind(
+  transform(circle_points(2, 5, 1.5), group = "A", condition = exclusive),
+  transform(circle_points(6, 5, 1.5), group = "B", condition = exclusive),
+  transform(circle_points(3, 5, 1.5), group = "A", condition = overlapping),
+  transform(circle_points(5, 5, 1.5), group = "B", condition = overlapping))
 
-# 1. Generate data for Mutually Exclusive (No Overlap)
-me_A <- get_circle_coords(cx = 2, cy = 5, r = 1.5, group = "A")
-me_B <- get_circle_coords(cx = 6, cy = 5, r = 1.5, group = "B")
-me_data <- rbind(me_A, me_B)
-me_data$condition <- "Mutually Exclusive (No Overlap)"
+labels <- data.frame(
+  x = c(2, 6, 4, 2.3, 5.7, 4, 4),
+  y = c(5, 5, 2.8, 5, 5, 5, 2.8),
+  label = c("A", "B", "P(A or B) = P(A) + P(B)",
+            "A", "B", "A and B",
+            "P(A or B) = P(A) + P(B) - P(A and B)"),
+  condition = c(rep(exclusive, 3), rep(overlapping, 4)))
 
-# 2. Generate data for Not Mutually Exclusive (With Overlap)
-nme_A <- get_circle_coords(cx = 3, cy = 5, r = 1.5, group = "A")
-nme_B <- get_circle_coords(cx = 5, cy = 5, r = 1.5, group = "B")
-nme_data <- rbind(nme_A, nme_B)
-nme_data$condition <- "Not Mutually Exclusive (Overlap)"
-
-# Combine datasets
-venn_data <- rbind(me_data, nme_data)
-
-# Create a data frame for text annotations 
-labels_data <- data.frame(
-  x = c(2, 6,                             
-        2.3, 5.7, 4,                     
-        4,                               
-        4),                               
-  y = c(5, 5, 
-        5, 5, 5, 
-        2.8,                              
-        2.8),                             
-  label = c("A", "B", 
-            "A", "B", "A and B", 
-            "P(A or B) = P(A) + P(B)",     
-            "P(A or B) = P(A) + P(B) - P(A and B)"), 
-  condition = c("Mutually Exclusive (No Overlap)", "Mutually Exclusive (No Overlap)",
-                "Not Mutually Exclusive (Overlap)", "Not Mutually Exclusive (Overlap)",
-                "Not Mutually Exclusive (Overlap)",
-                "Mutually Exclusive (No Overlap)",  
-                "Not Mutually Exclusive (Overlap)")
-)
-
-# Plot using ggplot2
-ggplot(venn_data, aes(x = x, y = y, fill = group)) +
+ggplot(venn, aes(x = x, y = y, fill = group)) +
   geom_polygon(alpha = 0.4, color = "black", linewidth = 1) +
-  geom_text(data = labels_data, aes(x = x, y = y, label = label), 
-            inherit.aes = FALSE, size = 4.5, fontface = "bold") +
+  geom_text(data = labels, aes(x = x, y = y, label = label),
+            inherit.aes = FALSE, size = 4, fontface = "bold") +
   facet_wrap(~condition) +
   scale_fill_manual(values = c("A" = "#377eb8", "B" = "#e41a1c")) +
   theme_void() +
-  theme(
-    strip.text = element_text(size = 14, face = "bold", margin = margin(b = 10)),
-    legend.position = "none"
-  ) +
+  theme(strip.text = element_text(size = 13, face = "bold",
+                                  margin = margin(b = 10)),
+        legend.position = "none") +
   coord_fixed()
 ```
 
-
+In summary: when the two events are **mutually exclusive**, use addition rule 1; when the events are **not mutually exclusive**, use addition rule 2.
 
 # Section 4-3: The Multiplication Rules and Conditional Probability {background-color="#2c4a6e"}
 
-## Independent and Dependent Events
+## Independent Events
+
+The **multiplication rules** can be used to find the probability of two or more events that occur in sequence. If you toss a coin and then roll a die, the outcome of the first event does not affect the second.
 
 :::{.callout-note}
 ## Independent Events
-Two events $A$ and $B$ are **independent** if the occurrence of $A$ does **not** affect the probability of $B$ occurring.
+
+Two events $A$ and $B$ are **independent events** if the fact that $A$ occurs does not affect the probability of $B$ occurring.
 :::
 
-:::{.callout-note}
-## Multiplication Rule 1 — Independent Events
+Other examples: rolling a die and getting a 6, then rolling a second die and getting a 3; drawing a card and getting a queen, **replacing** it, and drawing a second queen.
+
+:::{.callout-important}
+## Multiplication Rule 1
+
+When two events are **independent**, the probability of both occurring is
+
 $$P(A \text{ and } B) = P(A) \cdot P(B)$$
 
-For multiple independent events: $P(A_1 \text{ and } A_2 \cdots \text{ and } A_k) = P(A_1) \cdot P(A_2) \cdots P(A_k)$
+Extended to three or more independent events:
+$$P(A \text{ and } B \text{ and } C \text{ and } \cdots \text{ and } K) = P(A) \cdot P(B) \cdot P(C) \cdots P(K)$$
 :::
 
 ## Example 4-23 {#example-4-23}
@@ -886,1024 +1184,1223 @@ For multiple independent events: $P(A_1 \text{ and } A_2 \cdots \text{ and } A_k
 :::{.callout-warning}
 ## Tossing a Coin and Rolling a Die
 
-A coin is flipped and a die is rolled. Find P(head and 4).
+A coin is flipped and a die is rolled. Find the probability of getting a head on the coin and a number greater than 4 on the die.
 :::
+
+---
 
 ## Example 4-23
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Multiply the two independent probabilities**
 
 ```{r e4-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_head <- 1/2
-p_four <- 1/6
-p_both <- p_head * p_four
-cat("P(head and 4) = P(head) × P(4) =", p_head, "×", p_four, "=", p_both, "= 1/12\n")
+p_head      <- 1 / 2
+p_over_four <- 2 / 6
+round(p_head * p_over_four, 3)
 
-# Verify with sample space
-ss <- expand.grid(Coin=c("H","T"), Die=1:6)
-cat("P from sample space:", sum(ss$Coin=="H" & ss$Die==4)/nrow(ss), "\n")
+toss_roll <- expand.grid(coin = c("H", "T"), die = 1:6)
+mean(toss_roll$coin == "H" & toss_roll$die > 4)
 ```
+
+$$P(\text{head and a number over 4}) = \frac{1}{2} \cdot \frac{2}{6} = \frac{2}{12} = \frac{1}{6} \approx 0.167$$
+
+The sample space confirms it: H5 and H6 are 2 of the 12 outcomes.
 :::
 
 ## Example 4-24 {#example-4-24}
 
 :::{.callout-warning}
-## Drawing a Card (with Replacement)
+## Drawing a Card
 
-A card is drawn from a deck and replaced; then a second card is drawn. Find P(queen and then ace).
+A card is drawn from a deck and **replaced**, and then a second card is drawn. Find the probability of getting a face card and then a spade.
 :::
+
+---
 
 ## Example 4-24
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**With replacement the two draws are independent**
 
 ```{r e4-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_queen <- 4/52
-p_ace <- 4/52
-p_both <- p_queen * p_ace
-cat("P(queen then ace) = P(queen) × P(ace) =", p_queen, "×", p_ace, "\n")
-cat("                  =", p_both, "= 16/2704 = 1/169\n")
+p_face  <- 12 / 52
+p_spade <- 13 / 52
+round(p_face * p_spade, 3)
 ```
+
+$$P(\text{face card and then a spade}) = \frac{3}{13} \cdot \frac{1}{4} = \frac{3}{52} \approx 0.058$$
 :::
 
 ## Example 4-25 {#example-4-25}
 
 :::{.callout-warning}
-## Selecting Colored Balls (with Replacement)
+## Selecting a Coloured Token
 
-An urn contains 3 red, 2 blue, and 5 white balls. A ball is selected, noted, and replaced. A second is selected. Find: 
+A box contains 4 red tokens, 3 green tokens, and 5 yellow tokens. A token is selected and its colour is noted. Then it is **replaced** and the next token is selected. Find the probability of each of these events.
 
-1. P(2 blue), 
-
-2. P(blue then white), 
-
-3. P(red then blue).
+```
+a. Selecting 3 yellow tokens
+b. Selecting 1 green token and then a red token
+c. Selecting 2 red tokens and then a green token
+```
 :::
+
+---
 
 ## Example 4-25
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Every draw has the same probabilities because the token is replaced**
 
 ```{r e4-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_blue <- 2/10; p_white <- 5/10; p_red <- 3/10
-cat("1. P(blue and blue)  =", p_blue, "×", p_blue, "=", p_blue^2, "= 4/100 = 1/25\n")
-cat("2. P(blue and white) =", p_blue, "×", p_white, "=", p_blue*p_white, "= 1/10\n")
-cat("3. P(red and blue)   =", p_red, "×", p_blue, "=", p_red*p_blue, "= 6/100 = 3/50\n")
+p_red    <- 4 / 12
+p_green  <- 3 / 12
+p_yellow <- 5 / 12
+
+round(c(three_yellow      = p_yellow^3,
+        green_then_red    = p_green * p_red,
+        two_red_one_green = p_red^2 * p_green), 3)
 ```
+
+**a.** $\left(\tfrac{5}{12}\right)^3 = \tfrac{125}{1728} \approx 0.072$. **b.** $\tfrac{3}{12} \cdot \tfrac{4}{12} = \tfrac{1}{12} \approx 0.083$. **c.** $\left(\tfrac{4}{12}\right)^2 \cdot \tfrac{3}{12} = \tfrac{1}{36} \approx 0.028$.
 :::
 
 ## Example 4-26 {#example-4-26}
 
 :::{.callout-warning}
-## Survey on Stress
+## Mobile Wallet Payments
 
-A Harris poll found that 46% of Americans suffer great stress at least once a week. If 3 people are randomly selected, find the probability that all 3 experience great stress at least once a week.
+In a recent month, 45% of the orders placed on an e-commerce platform were paid with a mobile wallet. If three orders are selected at random, find the probability that all three were paid with a mobile wallet. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-26
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Treat the three selections as independent**
 
 ```{r e4-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_stress <- 0.46
-p_all3 <- p_stress^3
-cat("P(S and S and S) = (0.46)³ =", round(p_all3, 4), "≈ 0.097\n")
+p_wallet <- 0.45
+round(p_wallet^3, 3)
 ```
+
+$$P(W \text{ and } W \text{ and } W) = (0.45)(0.45)(0.45) \approx 0.091$$
+
+There is a 9.1% chance that all three orders were paid with a mobile wallet.
 :::
 
 ## Example 4-27 {#example-4-27}
 
 :::{.callout-warning}
-## Color Blindness
+## Second Delivery Attempts
 
-About 9% of men have red-green color blindness. If 3 men are randomly selected, find the probability that all three are color-blind.
+About 6% of the parcels handled by a courier need a second delivery attempt. If 3 parcels are selected at random, find the probability that all of them need a second attempt. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-27
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Multiply the three probabilities**
 
 ```{r e4-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_cb <- 0.09
-p_all3 <- p_cb^3
-cat("P(all 3 color blind) = (0.09)³ =", p_all3, "≈ 0.0007\n")
+p_retry <- 0.06
+p_retry^3
 ```
+
+$$P(R \text{ and } R \text{ and } R) = (0.06)(0.06)(0.06) = 0.000216$$
+
+There is about a 0.02% chance that all three parcels need a second delivery attempt.
 :::
 
 ## Dependent Events
 
+When the occurrence of the first event changes the probability of the second event, the events are **dependent**.
+
 :::{.callout-note}
 ## Dependent Events
-When the outcome or probability of the **first event affects** the probability of the **second event**, the events are **dependent**.
+
+When the outcome or occurrence of the first event affects the outcome or occurrence of the second event in such a way that the probability is changed, the events are said to be **dependent events**.
 :::
 
-:::{.callout-note}
-## Multiplication Rule 2 — Dependent Events
-$$P(A \text{ and } B) = P(A) \cdot P(B|A)$$
+Examples: drawing a card and **not** replacing it, then drawing a second card; selecting a ball from an urn without replacement; being a lifeguard and getting a suntan; having high grades and getting a scholarship; parking in a no-parking zone and getting a parking ticket.
 
-where $P(B|A)$ is the conditional probability of $B$ given $A$ has occurred.
+:::{.callout-important}
+## Multiplication Rule 2
+
+When two events are **dependent**, the probability of both occurring is
+
+$$P(A \text{ and } B) = P(A) \cdot P(B \mid A)$$
+
+where $P(B \mid A)$ is the **conditional probability** that $B$ occurs after $A$ has already occurred.
 :::
 
 ## Example 4-28 {#example-4-28}
 
 :::{.callout-warning}
-## University Crime
+## Escalated Service Calls
 
-A university had 5 burglaries in 2003, 16 in 2004, and 32 in 2005. A researcher selects 2 cases at random to investigate; find the probability both occurred in 2004.
+At a customer service centre, 4.5% of incoming calls are escalated to a supervisor. Of the calls that are escalated, 40% end with a refund. If a call is selected at random, find the probability that the call is escalated and ends with a refund. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-28
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Apply multiplication rule 2**
 
 ```{r e4-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-total <- 5 + 16 + 32  # 53
-p_c1 <- 16/53
-p_c2_given_c1 <- 15/52  # not replaced
-p_both <- p_c1 * p_c2_given_c1
-cat("Total burglaries:", total, "\n")
-cat("P(both in 2004) = 16/53 × 15/52 =", round(p_both,4), "= 60/689\n")
+p_escalated <- 0.045
+p_refund_given_escalated <- 0.40
+
+p_escalated * p_refund_given_escalated
 ```
+
+$$P(E \text{ and } R) = P(E) \cdot P(R \mid E) = (0.045)(0.40) = 0.018$$
 :::
 
 ## Example 4-29 {#example-4-29}
 
 :::{.callout-warning}
-## Homeowner's and Auto Insurance
+## Hotel Booking Add-ons
 
-53% of city residents have homeowner's insurance (H), and 27% of those also have auto insurance (A) with the same company. Find P(H and A).
+A hotel found that 35% of the visitors to its website complete a room booking, and that 60% of those who book add the breakfast package. If a website visitor is selected at random, find the probability that the visitor books a room and adds the breakfast package. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-29
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Let $K$ = booking a room and $B$ = adding breakfast**
 
 ```{r e4-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_H <- 0.53
-p_A_given_H <- 0.27
-p_both <- p_H * p_A_given_H
-cat("P(H and A) = P(H) × P(A|H) =", p_H, "×", p_A_given_H, "=", p_both, "\n")
+p_booking <- 0.35
+p_breakfast_given_booking <- 0.60
+
+p_booking * p_breakfast_given_booking
 ```
+
+$$P(K \text{ and } B) = P(K) \cdot P(B \mid K) = (0.35)(0.60) = 0.21$$
+
+There is a 21% probability that a visitor books a room and adds the breakfast package.
 :::
 
 ## Example 4-30 {#example-4-30}
 
 :::{.callout-warning}
-## Drawing Cards (without Replacement)
+## Drawing Cards
 
-Three cards are drawn from a deck without replacement. Find: 
+Three cards are drawn from an ordinary deck and **not replaced**. Find the probability of these events.
 
-1. P(3 jacks), 
-
-2. P(ace, king, queen in order),
-
-3. P(club, spade, heart in order), 
-
-4. P(3 clubs).
+```
+a. Getting 3 kings
+b. Getting a ten, a jack, and a queen in order
+c. Getting 3 diamonds
+d. Getting a red card, a black card, and a red card in order
+```
 :::
+
+---
 
 ## Example 4-30
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The denominators drop by one at each draw**
 
 ```{r e4-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("1. P(3 jacks)  = 4/52 × 3/51 × 2/50 =",
-    round(4/52 * 3/51 * 2/50, 6), "= 1/5525\n")
-cat("2. P(A,K,Q)    = 4/52 × 4/51 × 4/50 =",
-    round(4/52 * 4/51 * 4/50, 6), "= 8/16575\n")
-cat("3. P(C,S,H)    = 13/52 × 13/51 × 13/50 =",
-    round(13/52 * 13/51 * 13/50, 6), "= 169/10200\n")
-cat("4. P(3 clubs)  = 13/52 × 12/51 × 11/50 =",
-    round(13/52 * 12/51 * 11/50, 6), "= 11/850\n")
+round(c(three_kings    = 4/52 * 3/51 * 2/50,
+        ten_jack_queen = 4/52 * 4/51 * 4/50,
+        three_diamonds = 13/52 * 12/51 * 11/50,
+        red_black_red  = 26/52 * 26/51 * 25/50), 4)
 ```
+
+**a.** $\tfrac{24}{132{,}600} = \tfrac{1}{5525} \approx 0.0002$. **b.** $\tfrac{64}{132{,}600} = \tfrac{8}{16{,}575} \approx 0.0005$. **c.** $\tfrac{1716}{132{,}600} = \tfrac{11}{850} \approx 0.0129$. **d.** $\tfrac{16{,}900}{132{,}600} = \tfrac{13}{102} \approx 0.1275$.
 :::
 
 ## Example 4-31 {#example-4-31}
 
 :::{.callout-warning}
-## Selecting Colored Balls (Tree Diagram)
+## Selecting a Part from a Bin
 
-Box 1 has 2 red and 1 blue ball. Box 2 has 3 blue and 1 red ball. A coin is tossed: heads → Box 1; tails → Box 2. A ball is drawn. Find P(red).
+Bin 1 contains 3 A-grade parts and 2 B-grade parts. Bin 2 contains 1 A-grade part and 4 B-grade parts. A coin is tossed. If it falls heads up, bin 1 is selected and one part is drawn; if it falls tails up, bin 2 is selected and one part is drawn. Find the probability of drawing an A-grade part.
 :::
+
+---
 
 ## Example 4-31
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Multiply along each branch of the tree diagram**
 
 ```{r e4-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Using law of total probability
-p_box1 <- 1/2; p_box2 <- 1/2
-p_red_box1 <- 2/3; p_red_box2 <- 1/4
-
-p_red <- p_box1 * p_red_box1 + p_box2 * p_red_box2
-cat("P(red) = P(Box1)×P(R|B1) + P(Box2)×P(R|B2)\n")
-cat("       =", p_box1, "×", p_red_box1, "+", p_box2, "×", p_red_box2, "\n")
-cat("       =", p_box1*p_red_box1, "+", p_box2*p_red_box2, "=", p_red, "= 11/24\n")
+branches <- data.frame(
+  bin              = c("Bin 1", "Bin 1", "Bin 2", "Bin 2"),
+  part             = c("A grade", "B grade", "A grade", "B grade"),
+  p_bin            = 1 / 2,
+  p_part_given_bin = c(3/5, 2/5, 1/5, 4/5))
+branches$product <- branches$p_bin * branches$p_part_given_bin
+knitr::kable(branches, align = "c", digits = 3, caption = "Tree branches")
+sum(branches$product[branches$part == "A grade"])
 ```
+
+$$P(\text{A grade}) = \frac{1}{2} \cdot \frac{3}{5} + \frac{1}{2} \cdot \frac{1}{5} = \frac{3}{10} + \frac{1}{10} = \frac{2}{5} = 0.4$$
 :::
 
 ## Conditional Probability
 
-:::{.callout-note}
-## Conditional Probability Formula
-The **conditional probability** of event $B$ given event $A$ has occurred:
+Dividing both sides of multiplication rule 2 by $P(A)$ gives the formula for conditional probability.
 
-$$P(B|A) = \frac{P(A \text{ and } B)}{P(A)}$$
+:::{.callout-important}
+## Formula for Conditional Probability
+
+The probability that the second event $B$ occurs given that the first event $A$ has occurred can be found by dividing the probability that both events occurred by the probability that the first event has occurred:
+
+$$P(B \mid A) = \frac{P(A \text{ and } B)}{P(A)}$$
 :::
+
+In the Venn diagram (Figure 4-9), $P(B \mid A)$ is the area of the intersection of $A$ and $B$ divided by the area of circle $A$: **imposing a condition reduces the sample space**.
 
 ## Example 4-32 {#example-4-32}
 
 :::{.callout-warning}
-## Selecting Colored Chips
+## Selecting Coloured Tokens
 
-P(black chip and white chip) = 15/56. P(black chip on first draw) = 3/8. Find P(white | black first).
+A bin contains red tokens and green tokens. A worker selects two tokens **without replacement**. The probability of selecting a red token and then a green token is $\tfrac{8}{33}$, and the probability of selecting a red token on the first draw is $\tfrac{4}{11}$. Find the probability of selecting a green token on the second draw, given that the first token selected was red.
 :::
+
+---
 
 ## Example 4-32
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Let $R$ = selecting a red token, $G$ = selecting a green token**
 
 ```{r e4-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_B_and_W <- 15/56
-p_B <- 3/8
-p_W_given_B <- p_B_and_W / p_B
-cat("P(W|B) = P(B and W) / P(B) =", p_B_and_W, "/", p_B, "=", p_W_given_B, "= 5/7\n")
+p_red_then_green <- 8 / 33
+p_red_first      <- 4 / 11
+
+round(p_red_then_green / p_red_first, 3)
 ```
+
+$$P(G \mid R) = \frac{P(R \text{ and } G)}{P(R)} = \frac{8/33}{4/11} = \frac{8}{33} \cdot \frac{11}{4} = \frac{2}{3} \approx 0.667$$
 :::
 
 ## Example 4-33 {#example-4-33}
 
 :::{.callout-warning}
-## Parking Tickets
+## Customs Clearance and On-time Delivery
 
-P(parks in no-parking zone and gets ticket) = 0.06. P(parks in no-parking zone) = 0.20. Find P(ticket | parks in no-parking zone).
+For a certain trade lane, the probability that a shipment clears customs on the same day **and** is delivered on time is 0.28, and the probability that a shipment clears customs on the same day is 0.40. A shipment has just cleared customs on the same day. Find the probability that it is delivered on time. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-33
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Let $C$ = clearing customs the same day, $D$ = on-time delivery**
 
 ```{r e4-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_N_and_T <- 0.06
-p_N <- 0.20
-p_T_given_N <- p_N_and_T / p_N
-cat("P(T|N) = P(N and T)/P(N) =", p_N_and_T, "/", p_N, "=", p_T_given_N, "\n")
+p_cleared_and_on_time <- 0.28
+p_cleared             <- 0.40
+
+p_cleared_and_on_time / p_cleared
 ```
+
+$$P(D \mid C) = \frac{P(C \text{ and } D)}{P(C)} = \frac{0.28}{0.40} = 0.70$$
+
+A shipment that clears customs the same day has a 70% chance of arriving on time.
 :::
 
 ## Example 4-34 {#example-4-34}
 
 :::{.callout-warning}
-## Women in the Military Survey
+## Survey on Expansion Plans
 
-A survey of 100 people asked if women should serve in combat. Results:
+A trade office asked 120 exporters whether they plan to open a sales office in Southeast Asia next year. The results are shown. *(hypothetical data)*
 
-| | Yes | No | Total |
-|--|--|--|--|
-| Male | 32 | 18 | 50 |
-| Female | 8 | 42 | 50 |
-| **Total** | 40 | 60 | 100 |
+```
+Firm size     Yes     No    Total
+Small          18     42       60
+Large          36     24       60
+Total          54     66      120
+```
 
-Find: 
-
-1. P(yes | female),
-
-2. P(male | no).
+Find (a) the probability that the exporter answered yes, given that the firm is large, and (b) the probability that the firm is small, given that the exporter answered no.
 :::
+
+---
 
 ## Example 4-34
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Condition on the row or the column total**
 
 ```{r e4-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-survey <- matrix(c(32,18,8,42), nrow=2,
-                 dimnames=list(c("Male","Female"), c("Yes","No")))
-total <- sum(survey)
+plans <- matrix(c(18, 42, 36, 24), nrow = 2, byrow = TRUE,
+                dimnames = list(c("Small", "Large"), c("Yes", "No")))
+knitr::kable(addmargins(plans), align = "c",
+             caption = "Plan to open a Southeast Asia office (n = 120)")
 
-p_yes_given_female <- survey["Female","Yes"] / sum(survey["Female",])
-p_male_given_no <- survey["Male","No"] / sum(survey[,"No"])
-
-cat("1. P(Yes | Female) =", survey["Female","Yes"], "/", sum(survey["Female",]),
-    "=", round(p_yes_given_female,4), "= 4/25\n")
-cat("2. P(Male | No)    =", survey["Male","No"], "/", sum(survey[,"No"]),
-    "=", round(p_male_given_no,4), "= 3/10\n")
+round(c(yes_given_large = plans["Large", "Yes"] / sum(plans["Large", ]),
+        small_given_no  = plans["Small", "No"] / sum(plans[, "No"])), 3)
 ```
+
+**a.** $P(Y \mid L) = \dfrac{36/120}{60/120} = \dfrac{3}{5} = 0.6$. **b.** $P(S \mid N) = \dfrac{42/120}{66/120} = \dfrac{7}{11} \approx 0.636$.
 :::
 
 ## Probabilities for "At Least"
 
 :::{.callout-important}
-## At Least Strategy
-For "at least one" problems, use the complement:
+## The "At Least" Strategy
+
+The multiplication rules can be used with the **complementary event rule** to simplify problems involving "at least":
+
 $$P(\text{at least one}) = 1 - P(\text{none})$$
+
+It is much easier to find the probability that the event does **not** happen at all and subtract from 1 than to add the probabilities of exactly one, exactly two, and so on.
 :::
 
 ## Example 4-35 {#example-4-35}
 
 :::{.callout-warning}
-## Drawing Cards — At Least One Ace
+## Drawing Cards
 
-A game draws 4 cards with replacement. Find P(at least 1 ace).
+A person selects 4 cards from an ordinary deck and **replaces** each card after it is drawn. Find the probability that the person will get at least one spade.
 :::
+
+---
 
 ## Example 4-35
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Let $E$ = at least 1 spade; $\bar{E}$ = no spades**
 
 ```{r e4-35-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_no_ace_one <- 48/52
-p_no_ace_four <- p_no_ace_one^4
-p_at_least_one_ace <- 1 - p_no_ace_four
-cat("P(no ace in 4 draws) = (48/52)⁴ =", round(p_no_ace_four, 4), "\n")
-cat("P(at least 1 ace)    = 1 -", round(p_no_ace_four,4), "=", round(p_at_least_one_ace,4), "\n")
+p_no_spade <- (39 / 52)^4
+p_no_spade
+round(1 - p_no_spade, 3)
 ```
+
+$$P(\bar{E}) = \left(\frac{3}{4}\right)^4 = \frac{81}{256}, \qquad P(E) = 1 - \frac{81}{256} = \frac{175}{256} \approx 0.684 = 68.4\%$$
 :::
 
 ## Example 4-36 {#example-4-36}
 
 :::{.callout-warning}
-## Tossing Coins
+## Rolling a Die
 
-A coin is tossed 5 times. Find P(at least 1 tail).
+A single die is rolled 4 times; find the probability of getting at least one 6.
 :::
+
+---
 
 ## Example 4-36
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Find the probability of getting no sixes and subtract from 1**
 
 ```{r e4-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_all_heads <- (1/2)^5
-p_at_least_one_tail <- 1 - p_all_heads
-cat("P(all heads) = (1/2)⁵ =", p_all_heads, "= 1/32\n")
-cat("P(at least 1 tail) = 1 - 1/32 =", p_at_least_one_tail, "= 31/32\n")
+p_no_six <- (5 / 6)^4
+p_no_six
+round(1 - p_no_six, 3)
 ```
+
+$$P(\text{at least one 6}) = 1 - \left(\frac{5}{6}\right)^4 = 1 - \frac{625}{1296} = \frac{671}{1296} \approx 0.518$$
+
+There is a 51.8% chance of getting at least one 6 when a die is rolled 4 times.
 :::
 
 ## Example 4-37 {#example-4-37}
 
 :::{.callout-warning}
-## Bow Ties
+## Defective Units
 
-3% of ties sold are bow ties. If 4 customers who bought a tie are selected, find P(at least 1 bought a bow tie).
+A factory's records show that 4% of the units in a production batch are defective. If 5 units are selected at random from the batch, find the probability that at least 1 of them is defective. *(hypothetical data)*
 :::
+
+---
 
 ## Example 4-37
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Let $E$ = at least 1 defective unit is selected**
 
 ```{r e4-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_bow <- 0.03
-p_not_bow <- 1 - p_bow
-p_none <- p_not_bow^4
-p_at_least_one <- 1 - p_none
-cat("P(no bow ties) = (0.97)⁴ =", round(p_none,4), "\n")
-cat("P(at least 1 bow tie) = 1 -", round(p_none,4), "=", round(p_at_least_one,4), "\n")
+p_none_defective <- (1 - 0.04)^5
+round(p_none_defective, 3)
+round(1 - p_none_defective, 3)
 ```
+
+$$P(\text{no defectives}) = (0.96)^5 \approx 0.815, \qquad P(\text{at least one defective}) = 1 - 0.815 = 0.185$$
+
+There is an 18.5% chance that at least one of the 5 units is defective.
 :::
 
 # Section 4-4: Counting Rules {background-color="#2c4a6e"}
 
+## The Fundamental Counting Rule
 
-## Three Counting Rules
+Many times a person must know the number of all possible outcomes for a sequence of events. Three rules can be used: the **fundamental counting rule**, the **permutation rule**, and the **combination rule**.
 
-:::{.callout-note}
-## Three Counting Rules
-To determine the total number of possible outcomes:
-
-1. **Fundamental Counting Rule**: multiply the number of choices at each step
-
-2. **Permutation Rule**: arrangements where **order matters**
-
-3. **Combination Rule**: selections where **order does not matter**
-:::
-
-:::{.callout-note}
+:::{.callout-important}
 ## Fundamental Counting Rule
-In a sequence of $n$ events where the first has $k_1$ possibilities, the second $k_2$, etc.:
-$$\text{Total outcomes} = k_1 \cdot k_2 \cdot k_3 \cdots k_n$$
+
+In a sequence of $n$ events in which the first one has $k_1$ possibilities and the second event has $k_2$ and the third has $k_3$, and so forth, the total number of possibilities of the sequence will be
+
+$$k_1 \cdot k_2 \cdot k_3 \cdots k_n$$
+
+*Note:* In this case **and** means to multiply.
 :::
 
 ## Example 4-38 {#example-4-38}
 
 :::{.callout-warning}
-## Tossing a Coin and Rolling a Die
+## Building a Drink
 
-A coin is tossed and a die is rolled. Find the total number of outcomes.
+A bubble-tea shop lets a customer choose one tea base and one topping. There are 3 tea bases and 5 toppings. Find the number of different drinks that can be ordered.
 :::
+
+---
 
 ## Example 4-38
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Multiply the number of possibilities at each stage**
 
 ```{r e4-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-coin_outcomes <- 2
-die_outcomes <- 6
-total <- coin_outcomes * die_outcomes
-cat("Total outcomes = 2 × 6 =", total, "\n")
+bases    <- c("Black", "Green", "Oolong")
+toppings <- c("Pearls", "Grass jelly", "Pudding", "Taro", "Aloe")
 
-# Show all outcomes
-ss <- expand.grid(Coin=c("H","T"), Die=1:6)
-ss$Outcome <- paste0(ss$Coin, ss$Die)
-cat("Sample space:", paste(ss$Outcome, collapse=", "), "\n")
+drinks <- expand.grid(base = bases, topping = toppings)
+nrow(drinks)
+paste(drinks$base, drinks$topping, sep = " + ")
 ```
+
+The base can be chosen in 3 ways and the topping in 5 ways, so there are $3 \cdot 5 = 15$ possible drinks.
 :::
 
 ## Example 4-39 {#example-4-39}
 
 :::{.callout-warning}
-## Types of Paint
+## Configuring a Shipment
 
-A paint manufacturer offers 7 colors, 2 types (latex/oil), 3 textures (flat/semigloss/high gloss), and 2 uses (outdoor/indoor). How many different paints can be made?
+An exporter must settle four details for every outbound shipment:
+
+```
+Port of departure:  Keelung, Taichung, Kaohsiung
+Trade term:         FOB, CIF, EXW, DDP
+Container type:     20-foot, 40-foot
+Cargo insurance:    Basic, Full
+```
+
+How many different shipment configurations are possible?
 :::
+
+---
 
 ## Example 4-39
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**One selection is made from each category**
 
 ```{r e4-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-colors <- 7; types <- 2; textures <- 3; uses <- 2
-total <- colors * types * textures * uses
-cat("Total paints = 7 × 2 × 3 × 2 =", total, "\n")
+choices_per_step <- c(port = 3, term = 4, container = 2, insurance = 2)
+prod(choices_per_step)
 ```
+
+$$3 \cdot 4 \cdot 2 \cdot 2 = 48$$
+
+The exporter can configure a shipment in 48 different ways.
 :::
 
 ## Example 4-40 {#example-4-40}
 
 :::{.callout-warning}
-## Blood Type Labeling
+## Labelling a Product
 
-Blood can be typed as A, B, AB, or O; Rh+ or Rh−; and gender (M or F). How many different labels are possible?
+An online store labels every item of clothing by size (S, M, L, XL), by colour (black, white, navy), and by fit (regular, slim). How many different labels are possible?
 :::
+
+---
 
 ## Example 4-40
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Multiply the three classifications**
 
 ```{r e4-40-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-blood_type <- 4; rh_factor <- 2; gender <- 2
-total <- blood_type * rh_factor * gender
-cat("Total labels = 4 × 2 × 2 =", total, "\n")
-labels <- expand.grid(Type=c("A","B","AB","O"), Rh=c("+","-"), Gender=c("M","F"))
-cat("Example labels:", paste(labels$Type[1:4], labels$Rh[1:4], labels$Gender[1:4], sep=""), "\n")
+labels <- expand.grid(size   = c("S", "M", "L", "XL"),
+                      colour = c("Black", "White", "Navy"),
+                      fit    = c("Regular", "Slim"))
+nrow(labels)
+head(paste(labels$size, labels$colour, labels$fit, sep = ", "), 6)
 ```
+
+$$4 \cdot 3 \cdot 2 = 24 \text{ different labels}$$
 :::
 
 ## Example 4-41 {#example-4-41}
 
 :::{.callout-warning}
-## Identification Cards
+## Pallet Codes
 
-A store uses four-digit ID cards with digits 1–6. How many different cards are possible if repetition is
-
-1. permitted, 
-
-2. not permitted?
+A warehouse identifies each pallet with a code made of **three digits**. Assuming that repetitions are allowed, how many pallet codes can be issued?
 :::
+
+---
 
 ## Example 4-41
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Three spaces, 10 digits each**
 
 ```{r e4-41-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# With repetition
-with_rep <- 6^4
-cat("1. With repetition:    6 × 6 × 6 × 6 =", with_rep, "\n")
-
-# Without repetition
-without_rep <- 6 * 5 * 4 * 3
-cat("2. Without repetition: 6 × 5 × 4 × 3 =", without_rep, "\n")
+10^3
+prod(10:8)
 ```
+
+$$10 \cdot 10 \cdot 10 = 1000$$
+
+If repetitions were **not** permitted, the second calculation shows that the total would drop to $10 \cdot 9 \cdot 8 = 720$.
 :::
 
-## Factorial Notation and Permutations
+## Repetitions Permitted or Not
 
-:::{.callout-note}
+:::{.callout-warning}
+## Caution
+
+When determining the number of different possibilities of a sequence of events, you must know whether **repetitions are permissible**.
+
+- If repetitions **are** permitted, the numbers stay the same going from left to right.
+- If repetitions are **not** permitted, the numbers decrease by 1 for each place left to right.
+
+The same situation occurs when drawing balls from an urn or cards from a deck: replacing the item permits repetitions, not replacing it does not.
+:::
+
 ## Factorial Notation
-$$n! = n \cdot (n-1) \cdot (n-2) \cdots 1 \qquad \text{and} \qquad 0! = 1$$
+
+The permutation and combination rules use **factorial notation**, which uses the exclamation point: $5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1$ and $9! = 9 \cdot 8 \cdot 7 \cdot 6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1$.
+
+:::{.callout-important}
+## Factorial Formulas
+
+For any counting number $n$,
+
+$$n! = n(n-1)(n-2)\cdots 1 \qquad \text{and} \qquad 0! = 1$$
 :::
 
+```{r s4-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+factorial(5)
+factorial(9)
+factorial(0)
+```
+
+## Permutations
+
 :::{.callout-note}
-## Permutation Rule
-An arrangement of $n$ objects taking $r$ at a time (order matters):
-$$_nP_r = \frac{n!}{(n-r)!}$$
+## Permutation
+
+A **permutation** is an arrangement of $n$ objects in a specific order.
 :::
 
 ## Example 4-42 {#example-4-42}
 
 :::{.callout-warning}
-## Business Location
+## Product Photographs
 
-A business owner ranks all 5 locations. How many different rankings are possible?
+A landing page shows 6 product photographs in a single row. How many different orders can the photographs be arranged in?
 :::
+
+---
 
 ## Example 4-42
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**All six objects are used up**
 
 ```{r e4-42-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 5
-total <- factorial(n)
-cat("5! = 5 × 4 × 3 × 2 × 1 =", total, "different rankings\n")
-cat("Using permutation: ₅P₅ =", factorial(5)/factorial(5-5), "\n")
+factorial(6)
 ```
 
-```{r e4-42-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-factorial(5) / factorial(5-5)
-```
+There are 6 choices for the first position, 5 for the second, and so on, so there are $6! = 6 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 720$ different arrangements.
 :::
 
 ## Example 4-43 {#example-4-43}
-:::{.callout-warning}
-## Example 4-43 & 4-44: Permutations
-1. How many ways to rank the top 3 of 5 locations?
 
-2. The advertising director for a television show has 7 ads to use on the program. If she selects 1 of them for the opening of the show, 1 for the middle of the show, and 1 for the ending of the show, how many possible ways can this be accomplished?
+:::{.callout-warning}
+## Ranking Suppliers
+
+A sourcing manager wishes to rank the top **3** suppliers out of 7 shortlisted suppliers. How many different rankings are possible?
 :::
 
 ---
 
+## Example 4-43
+
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Not all objects are used up**
 
 ```{r e4-43-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Example 4-43
-n <- 5; r <- 3
-perm_5_3 <- factorial(n)/factorial(n-r)
-cat("\nExample 4-43: ₅P₃ = 5!/(5-3)! = 5!/2! =", perm_5_3, "\n")
-
-# Example 4-44: TV ads
-n2 <- 7; r2 <- 3
-perm_7_3 <- factorial(n2)/factorial(n2-r2)
-cat("\nExample 4-44: ₇P₃ = 7!/(7-3)! =", perm_7_3, "ways to place 3 of 7 ads\n")
+prod(7:5)
 ```
 
-```{r e4-43-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Example 4-43
-n <- 5; r <- 3
-factorial(n) / factorial(n-r)
+$$7 \cdot 6 \cdot 5 = 210$$
 
-# Example 4-44: TV ads
-n2 <- 7; r2 <- 3
-factorial(n2) / factorial(n2-r2)
+The solutions in Examples 4-42 and 4-43 are **permutations**.
+:::
+
+## Permutation Rule 1
+
+:::{.callout-important}
+## Permutation Rule 1
+
+The arrangement of $n$ objects in a specific order using $r$ objects at a time is called a permutation of $n$ objects taking $r$ objects at a time. It is written as ${}_nP_r$, and the formula is
+
+$${}_nP_r = \frac{n!}{(n-r)!}$$
+:::
+
+Examples 4-42 and 4-43 can now be solved with the rule: $_6P_6 = \dfrac{6!}{0!} = 720$ (recall $0! = 1$) and $_7P_3 = \dfrac{7!}{4!} = 210$.
+
+```{r s4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+n_permutations <- function(n, r) factorial(n) / factorial(n - r)
+
+c(P_6_6 = n_permutations(6, 6), P_7_3 = n_permutations(7, 3))
+c(P_6_6 = choose(6, 6) * factorial(6), P_7_3 = choose(7, 3) * factorial(3))
 ```
+
+## Example 4-44 {#example-4-44}
+
+:::{.callout-warning}
+## Conference Programme
+
+A conference organiser can schedule 4 of the 7 invited speakers in the morning session. The order in which the talks are given matters. How many different programmes can be built?
+:::
+
+---
+
+## Example 4-44
+
+:::{.callout-tip}
+## Solution
+
+**Order matters, so use ${}_nP_r$**
+
+```{r e4-44-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+factorial(7) / factorial(7 - 4)
+```
+
+$$_7P_4 = \frac{7!}{(7-4)!} = \frac{7!}{3!} = 840$$
+
+There are 840 different morning programmes.
 :::
 
 ## Example 4-45 {#example-4-45}
 
 :::{.callout-warning}
-## School Musical Plays
+## Seasonal Campaigns
 
-A director selects 2 of 9 plays — one for fall, one for spring. How many arrangements are possible?
+A marketing team will run one campaign in the spring and a different campaign in the autumn. If the team has 8 proposals to pick from, how many different possibilities are there?
 :::
+
+---
 
 ## Example 4-45
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Order is important — spring versus autumn**
 
 ```{r e4-45-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 9; r <- 2
-perm <- factorial(n)/factorial(n-r)
-cat("₉P₂ = 9!/(9-2)! = 9!/7! =", perm, "different arrangements\n")
+factorial(8) / factorial(8 - 2)
 ```
 
-```{r e4-45-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 9; r <- 2
-factorial(n) / factorial(n-r)
-```
+$$_8P_2 = \frac{8!}{(8-2)!} = \frac{8!}{6!} = 56$$
+
+There are 56 different possibilities.
 :::
 
-## Combinations
+## Permutation Rule 2
 
-:::{.callout-note}
-## Combination Rule
-A selection of $r$ objects from $n$ objects where **order does not matter**:
-$$_nC_r = \frac{n!}{(n-r)!\, r!}$$
+:::{.callout-important}
+## Permutation Rule 2 — Identical Objects
+
+The number of permutations of $n$ objects when $r_1$ objects are identical, $r_2$ objects are identical, ..., $r_p$ objects are identical is
+
+$$\frac{n!}{r_1!\, r_2! \cdots r_p!}$$
+
+where $r_1 + r_2 + \cdots + r_p = n$.
 :::
-
-**Key distinction:** In a **permutation**, $AB \neq BA$. In a **combination**, AB = BA.
 
 ## Example 4-46 {#example-4-46}
 
 :::{.callout-warning}
-## Letters — Permutations vs. Combinations
+## Letter Permutations
 
-List permutations and combinations of selecting 2 letters from {A, B, C, D}.
+How many permutations of the letters can be made from the word **LOGISTICS**?
 :::
+
+---
 
 ## Example 4-46
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the repeated letters**
+
+In LOGISTICS there are 2 I's, 2 S's, and one each of L, O, G, T, and C.
 
 ```{r e4-46-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-letters4 <- c("A","B","C","D")
-# Permutations: order matters
-perms <- expand.grid(First=letters4, Second=letters4)
-perms <- perms[perms$First != perms$Second, ]
-perms$Perm <- paste0(perms$First, perms$Second)
-cat("Permutations (", nrow(perms), "):", paste(perms$Perm, collapse=", "), "\n\n")
-
-# Combinations: order doesn't matter
-combos <- t(combn(letters4, 2))
-combo_strings <- paste0(combos[,1], combos[,2])
-cat("Combinations (", length(combo_strings), "):", paste(combo_strings, collapse=", "), "\n")
+letter_counts <- table(strsplit("LOGISTICS", "")[[1]])
+letter_counts
+factorial(9) / prod(factorial(as.integer(letter_counts)))
 ```
 
+$$\frac{9!}{2!\,2!\,1!\,1!\,1!\,1!\,1!} = 90{,}720$$
 :::
 
----
+## Combinations
 
-:::{.callout-tip}
-## Solution
+Order is **not** important in a combination: if a designer selects yellow and red, that is the same as red and yellow.
 
-**Compute**
+:::{.callout-note}
+## Combination
 
-```{r e4-46-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 4; r <- 2
-factorial(n) / factorial(n-r)
-```
-
-```{r e4-46-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 4; r <- 2
-factorial(n) / factorial(n-r) / factorial(r)
-```
+A selection of distinct objects **without regard to order** is called a **combination**.
 :::
 
-## Examples 4-47 & 4-48: Combination Calculations {#example-4-47}
+With the letters A, B, C, D, the permutations taken two at a time are AB, AC, AD, BA, BC, BD, CA, CB, CD, DA, DB, DC. Removing the duplicates leaves the combinations **AB, AC, AD, BC, BD, CD**.
+
+## The Combination Rule
+
+:::{.callout-important}
+## Combination Rule
+
+The number of combinations of $r$ objects selected from $n$ objects is denoted by ${}_nC_r$ and is given by
+
+$${}_nC_r = \frac{n!}{(n-r)!\,r!}$$
+
+Notice that this is the permutation formula with $r!$ in the denominator, so
+
+$${}_nC_r = \frac{{}_nP_r}{r!} \qquad \text{and} \qquad {}_nC_n = 1$$
+
+The $r!$ divides out the duplicates from the number of permutations.
+:::
+
+## Example 4-47 {#example-4-47}
 
 :::{.callout-warning}
-## Example 4-47 & 4-48 — Combinations
-1. How many combinations of 4 objects taken 2 at a time?
+## Combinations
 
-2. A newspaper editor has received 8 books to review. He decides that he can use 3 reviews in his newspaper. How many different ways can these 3 reviews be selected?
+How many combinations of 5 objects are there, taken 3 at a time?
 :::
 
 ---
 
+## Example 4-47
+
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
-```{r e4-46-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("Example 4-47:\n")
-cat("₄C₂ = 4!/(4-2)!2! = 4!/(2!2!) =", choose(4,2), "\n\n")
+**Apply the combination rule**
 
-cat("Example 4-48: A newspaper editor has 8 books; selects 3 to review.\n")
-cat("₈C₃ = 8!/(8-3)!3! = 8!/(5!3!) =", choose(8,3), "\n")
+```{r e4-47-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+choose(5, 3)
+t(combn(c("A", "B", "C", "D", "E"), 3))
 ```
 
-```{r e4-46-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Example 4-47
-choose(4,2)
+$$_5C_3 = \frac{5!}{(5-3)!\,3!} = \frac{5!}{2!\,3!} = 10$$
 
-# Example 4-48
-choose(8,3)
+The listing confirms the count: ABC and CBA are the same selection, so each group of three letters is counted only once.
+:::
+
+## Example 4-48 {#example-4-48}
+
+:::{.callout-warning}
+## Supplier Visits
+
+A purchasing manager must visit 3 of the 9 shortlisted suppliers before placing an order. How many different selections can be made?
+:::
+
+---
+
+## Example 4-48
+
+:::{.callout-tip}
+## Solution
+
+**Order is not important**
+
+```{r e4-48-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+choose(9, 3)
 ```
+
+$$_9C_3 = \frac{9!}{(9-3)!\,3!} = \frac{9!}{6!\,3!} = 84$$
+
+The manager has 84 different ways to choose the three suppliers to visit.
 :::
 
 ## Example 4-49 {#example-4-49}
 
 :::{.callout-warning}
-## Committee Selection
+## Project Team
 
-A club has 7 women and 5 men. A committee of 3 women and 2 men is to be formed. How many possibilities are there?
+A company has 6 analysts and 7 engineers. A project team of 2 analysts and 3 engineers is to be formed. How many different teams are possible?
 :::
+
+---
 
 ## Example 4-49
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Combine the two selections with the fundamental counting rule**
 
 ```{r e4-49-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-women_choices <- choose(7, 3)
-men_choices <- choose(5, 2)
-total <- women_choices * men_choices
-
-cat("Choose 3 women from 7: ₇C₃ =", women_choices, "\n")
-cat("Choose 2 men from 5:   ₅C₂ =", men_choices, "\n")
-cat("Total = ₇C₃ × ₅C₂ =", women_choices, "×", men_choices, "=", total, "\n")
+c(analysts = choose(6, 2), engineers = choose(7, 3))
+choose(6, 2) * choose(7, 3)
 ```
 
-```{r e4-49-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-choose(7, 3)*choose(5, 2)
-```
+$$_6C_2 \cdot {}_7C_3 = \frac{6!}{(6-2)!\,2!} \cdot \frac{7!}{(7-3)!\,3!} = 15 \cdot 35 = 525$$
 :::
 
-## Summary: Counting Rules
+## Summary of Counting Rules
 
-```{r e4-49-3, echo=F, warning=FALSE, out.width="80%", fig.align='center'}
-summary_table <- data.frame(
-  Rule = c("Fundamental Counting","Permutation","Combination"),
-  `When to Use` = c("Sequence of independent choices",
-                    "Arrangement, order matters",
-                    "Selection, order does NOT matter"),
-  Formula = c("k₁ × k₂ × ··· × kₙ",
-              "ₙPᵣ = n!/(n-r)!",
-              "ₙCᵣ = n!/[(n-r)!r!]")
-)
-knitr::kable(summary_table, caption="Summary of Counting Rules")
+```{r s4-4-3, echo=FALSE, warning=FALSE, out.width="90%", fig.align='center'}
+counting <- data.frame(
+  Rule = c("Fundamental counting rule",
+           "Permutation rule 1",
+           "Permutation rule 2",
+           "Combination rule"),
+  Definition = c(
+    "The number of ways a sequence of n events can occur if the first event can occur in k1 ways, the second event can occur in k2 ways, etc.",
+    "The number of permutations of n objects taking r objects at a time (order is important)",
+    "The number of permutations of n objects when r1 objects are identical, r2 objects are identical, ..., rp objects are identical",
+    "The number of combinations of r objects taken from n objects (order is not important)"),
+  Formula = c("k1 * k2 * k3 * ... * kn",
+              "nPr = n! / (n - r)!",
+              "n! / (r1! r2! ... rp!)",
+              "nCr = n! / [(n - r)! r!]"))
+knitr::kable(counting, align = "l",
+             caption = "Table 4-1  Summary of Counting Rules")
 ```
 
 # Section 4-5: Probability and Counting Rules {background-color="#2c4a6e"}
 
-## Combining Counting and Probability
+## Combining the Counting and Probability Rules
 
 :::{.callout-important}
 ## Strategy
-Use counting rules to determine the number of outcomes in the **event** and in the **sample space**, then apply the classical probability formula:
+
+The counting rules can be combined with the probability rules to solve many types of probability problems. Use the fundamental counting rule, the permutation rules, and the combination rule to count the outcomes in the event and in the sample space, then apply
+
 $$P(E) = \frac{n(E)}{n(S)}$$
 :::
+
+Typical applications are getting a particular hand when 5 cards are dealt, or forming a project team of analysts and engineers from a larger pool of staff.
 
 ## Example 4-50 {#example-4-50}
 
 :::{.callout-warning}
-## Four Aces
+## Three Kings
 
-Find the probability of getting 4 aces when 5 cards are drawn from an ordinary deck.
+Find the probability of getting exactly 3 kings when 5 cards are drawn from an ordinary deck of cards.
 :::
+
+---
 
 ## Example 4-50
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the 5-card hands and the favourable hands**
 
 ```{r e4-50-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Total ways to draw 5 cards from 52
-total_5card <- choose(52, 5)
-cat("Total 5-card hands: C(52,5) =", total_5card, "\n")
-
-# Ways to get 4 aces: C(4,4) × C(48,1) = 1 × 48
-ways_4aces <- choose(4,4) * choose(48,1)
-cat("Ways to get 4 aces: C(4,4) × C(48,1) =", ways_4aces, "\n")
-
-p_4aces <- ways_4aces / total_5card
-cat("P(4 aces) =", ways_4aces, "/", total_5card, "=", round(p_4aces, 6), "= 1/54145\n")
+choose(52, 5)
+choose(4, 3) * choose(48, 2)
+choose(4, 3) * choose(48, 2) / choose(52, 5)
 ```
 
-```{r e4-50-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-choose(4, 4)*choose(48, 1)/choose(52, 5)
-```
+$$P(\text{exactly 3 kings}) = \frac{{}_4C_3 \cdot {}_{48}C_2}{{}_{52}C_5} = \frac{4512}{2{,}598{,}960} = \frac{94}{54{,}145} \approx 0.0017$$
 :::
 
 ## Example 4-51 {#example-4-51}
 
 :::{.callout-warning}
-## Defective Transistors
+## Scratched Phone Cases
 
-A box has 24 transistors, 4 defective. If 4 are sold at random, find: 
+A carton contains 20 phone cases, 5 of which are scratched. If 3 cases are shipped at random, find the following probabilities.
 
-1. P(exactly 2 defective), 
-
-2. P(none defective),
-
-3. P(all defective), 
-
-4. P(at least 1 defective).
+```
+a. Exactly 1 is scratched      c. All are scratched
+b. None is scratched           d. At least 1 is scratched
+```
 :::
+
+---
 
 ## Example 4-51
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The denominator is $_{20}C_3$ in every case**
 
 ```{r e4-51-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-total_4 <- choose(24, 4)
-cat("Total ways to select 4 from 24: C(24,4) =", total_4, "\n\n")
+n_shipments <- choose(20, 3)
+n_shipments
 
-# 1. Exactly 2 defective: C(4,2) × C(20,2)
-a <- choose(4,2) * choose(20,2)
-cat("(a) P(exactly 2 defective) = C(4,2)×C(20,2)/C(24,4) =",
-    a, "/", total_4, "=", round(a/total_4, 4), "\n")
-
-# 2. No defective: C(20,4)
-b <- choose(20,4)
-cat("(b) P(none defective)      = C(20,4)/C(24,4) =",
-    b, "/", total_4, "=", round(b/total_4, 4), "\n")
+c(exactly_1 = choose(5, 1) * choose(15, 2),
+  none      = choose(15, 3),
+  all       = choose(5, 3))
 ```
+
+There are $_{20}C_3 = 1140$ ways to ship 3 of the 20 phone cases.
 :::
 
 ---
+
+## Example 4-51
 
 :::{.callout-tip}
 ## Solution
 
-**Compute**
+**Divide each count by 1140**
 
 ```{r e4-51-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# 3. All defective: C(4,4)=1
-c_val <- choose(4,4)
-cat("(c) P(all defective)       =", c_val, "/", total_4, "=", round(c_val/total_4, 8), "\n")
-
-# 4. At least 1 defective
-d_val <- 1 - b/total_4
-cat("(d) P(at least 1 defective)= 1 -", round(b/total_4,4), "=", round(d_val,4), "\n")
+round(c(exactly_1  = choose(5, 1) * choose(15, 2),
+        none       = choose(15, 3),
+        all        = choose(5, 3),
+        at_least_1 = n_shipments - choose(15, 3)) / n_shipments, 4)
 ```
+
+**a.** $\dfrac{525}{1140} = \dfrac{35}{76} \approx 0.4605$. **b.** $\dfrac{455}{1140} = \dfrac{91}{228} \approx 0.3991$. **c.** $\dfrac{10}{1140} = \dfrac{1}{114} \approx 0.0088$. **d.** $1 - \dfrac{91}{228} = \dfrac{137}{228} \approx 0.6009$.
 :::
----
-
-```{r e4-51-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-den <- choose(24,4)
-choose(4,2) * choose(20,2) / den
-choose(20,4) / den
-choose(4,4) / den
-1 - choose(20,4) / den
-```
 
 ## Example 4-52 {#example-4-52}
 
 :::{.callout-warning}
-## Magazines
+## Elective Modules
 
-A store has 6 *TV Graphic* and 8 *Newstime* magazines. Two customers each buy one magazine. Find P(one of each type).
+A management trainee must choose 2 elective modules from a catalogue that contains 5 finance modules and 10 marketing modules. Find the probability that the trainee ends up with one finance module and one marketing module.
 :::
+
+---
 
 ## Example 4-52
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**One from each group, out of all pairs of the 15 modules**
 
 ```{r e4-52-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# One TV Graphic and one Newstime
-ways_event <- choose(6,1) * choose(8,1)
-ways_total <- choose(14,2)
-
-cat("Ways to select 1 of each: C(6,1) × C(8,1) =", ways_event, "\n")
-cat("Total ways to select 2 from 14: C(14,2) =", ways_total, "\n")
-cat("P(one of each) =", ways_event, "/", ways_total, "=", round(ways_event/ways_total, 4), "= 48/91\n")
+choose(5, 1) * choose(10, 1)
+choose(15, 2)
+round(choose(5, 1) * choose(10, 1) / choose(15, 2), 3)
 ```
 
-```{r e4-52-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-choose(6,1) * choose(8,1) / choose(14,2)
-```
+$$P(\text{one finance and one marketing}) = \frac{{}_5C_1 \cdot {}_{10}C_1}{{}_{15}C_2} = \frac{50}{105} = \frac{10}{21} \approx 0.476 = 47.6\%$$
 :::
 
 ## Example 4-53 {#example-4-53}
 
 :::{.callout-warning}
-## Combination Lock
+## Promotion Code
 
-A combination lock uses the 26 letters of the alphabet. Find the probability that a 3-letter combination is ABC in that exact order (repetitions allowed).
+A shopping app gives away prizes by drawing a **four-digit** promotion code at random; repetitions of digits are permitted. Find the probability that the winning code has all four digits the same.
 :::
+
+---
 
 ## Example 4-53
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count with the fundamental counting rule**
+
+There are ten codes with four identical digits, from 0000 to 9999.
 
 ```{r e4-53-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Total ordered combinations with repetition: 26^3
-total <- 26^3
-p_ABC <- 1 / total
-cat("Total 3-letter combinations (with repetition): 26³ =", total, "\n")
-cat("P(ABC in order) = 1/", total, "=", round(p_ABC, 8), "\n")
+n_codes  <- 10^4
+all_same <- 10
+
+n_codes
+all_same / n_codes
 ```
 
-```{r e4-53-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-1 / 26^3
-```
+$$P(\text{four identical digits}) = \frac{10}{10{,}000} = \frac{1}{1000} = 0.001$$
 :::
 
 ## Example 4-54 {#example-4-54}
 
 :::{.callout-warning}
-## Tennis Tournament
+## Sharing an Office
 
-A tennis club has 8 married couples. If 1 man and 1 woman are selected at random to plan the tournament, find P(they are married to each other).
+A department has 20 employees who work in 10 two-person offices. If two employees are selected at random to organise the year-end party, find the probability that the two selected share an office.
 :::
+
+---
 
 ## Example 4-54
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Count the ways to select the pair**
 
 ```{r e4-54-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Total ways: 8 men × 8 women = 64 ways
-total_ways <- 8 * 8
-# Favorable: 8 married couples
-favorable <- 8
-p_married <- favorable / total_ways
-cat("Total ways to select 1 man and 1 woman:", total_ways, "\n")
-cat("Favorable outcomes (married couples):", favorable, "\n")
-cat("P(married couple) =", favorable, "/", total_ways, "=", p_married, "= 1/8\n")
+n_pairs <- choose(20, 2)
+n_pairs
+round(10 / n_pairs, 4)
 ```
 
-```{r e4-54-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-8 / (8 * 8)
-```
+Two employees can be chosen from 20 in $_{20}C_2 = 190$ ways, and only 10 of those pairs share an office, so
+
+$$P(\text{share an office}) = \frac{10}{190} = \frac{1}{19} \approx 0.0526$$
 :::
 
-## Poker Hand Probabilities
+## The Mathematics of Gambling
 
-```{r e4-54-3, echo=F, warning=FALSE, out.width="80%", fig.align='center'}
+Using permutations, combinations, and the probability rules, the probabilities of the various 5-card poker hands can be found.
+
+```{r s4-5-1, echo=FALSE, warning=FALSE, out.width="80%", fig.align='center'}
 poker <- data.frame(
-  Hand = c("Straight flush","Four of a kind","Full house","Flush",
-           "Straight","Three of a kind","Two pairs","One pair","Less than one pair"),
-  Ways = c(40,624,3744,5108,10200,54912,123552,1098240,1302540),
-  Probability = c(0.000015,0.000240,0.001441,0.001965,0.003925,
-                  0.021129,0.047539,0.422569,0.501177)
-)
-knitr::kable(poker, caption="5-Card Poker Hand Probabilities", digits=6)
+  Hand = c("Straight flush (including a royal flush)", "Four of a kind",
+           "Full house", "Flush", "Straight", "Three of a kind",
+           "Two pairs", "One pair", "Less than one pair", "Total"),
+  Ways = c(40, 624, 3744, 5108, 10200, 54912, 123552, 1098240, 1302540, 2598960),
+  Probability = c(0.000015, 0.000240, 0.001441, 0.001965, 0.003925,
+                  0.021129, 0.047539, 0.422569, 0.501177, 1.000000))
+knitr::kable(head(poker, 5), align = "c", digits = 6, row.names = FALSE,
+             caption = "Probabilities of 5-card poker hands")
 ```
+
+---
+
+## The Mathematics of Gambling (continued)
+
+```{r s4-5-2, echo=FALSE, warning=FALSE, out.width="80%", fig.align='center'}
+knitr::kable(tail(poker, 5), align = "c", digits = 6, row.names = FALSE,
+             caption = "Probabilities of 5-card poker hands (continued)")
+```
+
+The **house advantage** is about 5.26% for roulette, 1.4% to 15% for craps, and 29.5% for Keno. The lower the house advantage, the more favorable the game is to the player.
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 4 Vocabulary
+
+classical probability · combination · complement of an event · compound event · conditional probability · dependent events · disjoint events · empirical probability · equally likely events · event · fundamental counting rule · independent events · law of large numbers · mutually exclusive events · outcome · permutation · probability · probability experiment · sample space · simple event · subjective probability · tree diagram · Venn diagrams
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Probability of an Event
+
+$$P(E) = \frac{\text{number of outcomes in } E}{\text{total number of outcomes}} = \frac{n(E)}{n(S)} \qquad P(E) = \frac{\text{frequency for class}}{\text{total frequencies}} = \frac{f}{n}$$
+
+$$P(\bar{E}) = 1 - P(E) \qquad P(E) = 1 - P(\bar{E}) \qquad P(E) + P(\bar{E}) = 1$$
+:::
+
+:::{.callout-important}
+## Addition and Multiplication Rules
+
+$$P(A \text{ or } B) = P(A) + P(B) \qquad \text{(mutually exclusive)}$$
+
+$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B) \qquad \text{(not mutually exclusive)}$$
+
+$$P(A \text{ and } B) = P(A) \cdot P(B) \qquad \text{(independent)}$$
+
+$$P(A \text{ and } B) = P(A) \cdot P(B \mid A) \qquad \text{(dependent)} \qquad P(B \mid A) = \frac{P(A \text{ and } B)}{P(A)}$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Counting Rules
+
+$$k_1 \cdot k_2 \cdot k_3 \cdots k_n \qquad n! = n(n-1)(n-2)\cdots 1 \qquad 0! = 1$$
+
+$${}_nP_r = \frac{n!}{(n-r)!} \qquad \frac{n!}{r_1!\, r_2! \cdots r_p!} \qquad {}_nC_r = \frac{n!}{(n-r)!\,r!}$$
+:::
 
 ## Key Takeaways
 
-:::{.callout-note}
-## Key Formulas
-| Concept | Formula |
-|---|---|
-| Classical probability | $P(E) = n(E)/n(S)$ |
-| Empirical probability | $P(E) = f/n$ |
-| Complement | $P(\bar{E}) = 1 - P(E)$ |
-| Addition Rule 1 (mutually exclusive) | $P(A \text{ or } B) = P(A) + P(B)$ |
-| Addition Rule 2 | $P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$ |
-| Multiplication Rule 1 (independent) | $P(A \text{ and } B) = P(A) \cdot P(B)$ |
-| Multiplication Rule 2 (dependent) | $P(A \text{ and } B) = P(A) \cdot P(B\|A)$ |
-| Conditional probability | $P(B\|A) = P(A \text{ and } B)/P(A)$ |
-| Permutation | $_nP_r = n!/(n-r)!$ |
-| Combination | $_nC_r = n!/[(n-r)!\,r!]$ |
+:::{.callout-important}
+- **Three interpretations of probability** — classical probability uses sample spaces, empirical probability uses frequency distributions, and subjective probability uses an educated guess.
+- **Probability rules** — $0 \leq P(E) \leq 1$; the probabilities of all outcomes in a sample space sum to 1; an impossible event has probability 0; a certain event has probability 1.
+- **Complementary events** — $P(\bar{E}) = 1 - P(E)$; finding the complement is often the easiest route to an answer.
+- **Law of large numbers** — as the number of trials increases, the empirical probability approaches the theoretical probability; the *proportion*, not the count, evens out.
+- **Addition rules** — add the probabilities when the events are **mutually exclusive**; subtract $P(A \text{ and } B)$ when they are not.
+- **Multiplication rules** — multiply the probabilities when the events are **independent**; use $P(A) \cdot P(B \mid A)$ when they are **dependent**.
+- **Conditional probability** — $P(B \mid A) = P(A \text{ and } B) / P(A)$: imposing a condition reduces the sample space.
+- **"At least" problems** are solved with the complement: $P(\text{at least one}) = 1 - P(\text{none})$.
+- **Counting rules** — the fundamental counting rule multiplies the possibilities at each stage; use ${}_nP_r$ when **order matters** and ${}_nC_r$ when it does not, with ${}_nC_r = {}_nP_r / r!$.
+- **Counting and probability combine** — count $n(E)$ and $n(S)$ with the counting rules, then divide.
 :::
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

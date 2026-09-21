@@ -64,778 +64,1329 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 本章概覽
 
-**涵蓋章節：**
+第7章談的是**估計**——以樣本統計量估計母體參數，並附上信賴水準與所需的樣本大小。
 
-- **7-1** $\sigma$ 已知時母體平均數的信賴區間
-- **7-2** $\sigma$ 未知時母體平均數的信賴區間
-- **7-3** 比例的信賴區間與樣本大小
-- **7-4** 變異數與標準差的信賴區間
+| 節次 | 主題 |
+|---------|--------|
+| 7-1 | 估計；點估計；良好估計式的性質；區間估計；信賴水準與信賴區間；臨界值 $z_{\alpha/2}$；誤差界限 |
+| 7-2 | $\sigma$ 已知時平均數的信賴區間；假設條件；四捨五入規則；最小樣本大小 |
+| 7-3 | $t$ 分配；自由度；$\sigma$ 未知時平均數的信賴區間；$z$ 與 $t$ 的取捨 |
 
 ---
 
-**估計**是利用樣本資料來近似母體參數值的過程。由於從整個母體蒐集資料通常不切實際，我們依賴樣本統計量——估計量——來推論母體的樣貌。
+## 本章概覽（續）
 
-本章介紹兩種估計類型：**點估計**（單一數值）與**區間估計**（一組合理值的範圍）。此外，本章也探討一個重要的實務問題：*我們需要多大的樣本？*
+| 節次 | 主題 |
+|---------|--------|
+| 7-4 | 樣本比例 $\hat{p}$ 與 $\hat{q}$；比例的信賴區間；最小樣本大小 |
+| 7-5 | 卡方分配；變異數與標準差的信賴區間 |
 
-# 第 7-1 節：$\sigma$ 已知時母體平均數的信賴區間 {background-color="#2c4a6e"}
+## 本章學習目標
 
-## 點估計與區間估計
+:::{.callout-important}
+## 讀完本章後，你應該能夠
+
+1. 求 $\sigma$ 已知時母體平均數的信賴區間。
+2. 決定求母體平均數信賴區間所需的最小樣本大小。
+3. 求 $\sigma$ 未知時母體平均數的信賴區間。
+4. 求母體比例的信賴區間。
+5. 決定求母體比例信賴區間所需的最小樣本大小。
+6. 求變異數與標準差的信賴區間。
+:::
+
+# 第7-1節：信賴區間 {background-color="#2c4a6e"}
+
+## 估計
+
+推論統計的一個面向是**估計**：由樣本所得的資訊推估參數值的過程。
+
+我們以樣本測度（統計量）估計母體測度（參數）——以樣本平均數估計母體平均數，以樣本比例估計母體比例。這樣使用的統計量稱為**估計式**。
+
+:::{.callout-note}
+## 估計
+
+**估計**是由樣本所獲得的資訊推估某一參數值的過程。
+:::
+
+:::{.callout-important}
+## 本章各項程序的共同假設
+
+1. 樣本必須是**隨機抽取**的。
+2. 樣本大小 $n \geq 30$，**或**當 $n < 30$ 時母體為常態或近似常態分配。
+
+第二項假設可用第6章的方法檢查：看直方圖是否呈鐘形、檢查有無離群值，並觀察常態分位圖上的點是否接近一直線。
+:::
+
+## 點估計
+
+某大學校長隨機抽取 100 名學生，算得平均年齡為 22.3 歲。若據此推斷**全體**學生的平均年齡為 22.3 歲，這就是一個**點估計**。
 
 :::{.callout-note}
 ## 點估計
-**點估計**是用來估計母體參數的單一數值。母體平均數 $\mu$ 的最佳點估計量為樣本平均數 $\bar{X}$。
+
+**點估計**是對某一參數所做的單一數值估計。母體平均數 $\mu$ 的最佳點估計是樣本平均數 $\bar{X}$。
 :::
+
+:::{.callout-important}
+## 良好估計式的三項性質
+
+1. 估計式應為**不偏估計式**——由特定大小的樣本所得各估計值的期望值（平均數）等於被估計的參數。
+2. 估計式應具**一致性**——隨著樣本數增加，估計式的值會趨近被估計的參數值。
+3. 估計式應為**相對有效估計式**——在所有可用來估計該參數的統計量中，它的變異數最小。
+:::
+
+## 區間估計
+
+由於抽樣誤差，樣本平均數幾乎總是與母體平均數有些差距，而且我們**無從知道**某一個點估計離 $\mu$ 有多近。正因如此，統計學家偏好使用區間估計。
 
 :::{.callout-note}
 ## 區間估計
-**區間估計**是用來估計參數的一個數值範圍。它承認樣本平均數會因抽樣變異而與 $\mu$ 有所不同。
+
+某一參數的**區間估計**是用來估計該參數的一個區間或一段數值範圍。這個估計可能包含、也可能不包含被估計的參數值。
 :::
 
-單獨的點估計無法提供精確度的概念。區間估計——搭配**信賴水準**——告訴我們估計的可靠程度。
+全體學生平均年齡的區間估計可能是 $21.9 < \mu < 22.7$，或 $22.3 \pm 0.4$ 歲；比例的區間估計可能是 $0.107 < p < 0.113$，或 $11\% \pm 0.3\%$。
 
-## 良好估計量的性質
-
-:::{.callout-important}
-## 良好估計量的三項性質
-1. **不偏性**：估計量的期望值等於真實參數值
-2. **一致性**：隨著樣本大小增加，估計量收斂至真實值
-3. **相對有效性**：在所有不偏估計量中，其變異數最小
-:::
-
-樣本平均數 $\bar{X}$ 滿足所有三項性質——它是 $\mu$ 的首選估計量。
+信賴區間也可以用括號寫成 $(21.9,\ 22.7)$ 與 $(10.7\%,\ 11.3\%)$。
 
 ## 信賴水準與信賴區間
 
 :::{.callout-note}
 ## 信賴水準
-**信賴水準**是指在重複估計的過程中，區間估計將包含真實母體參數的機率。
+
+某一參數區間估計的**信賴水準**，是指在抽取大量樣本、並對同一參數重複進行估計程序的前提下，該區間估計包含此參數的機率。
 :::
 
 :::{.callout-note}
 ## 信賴區間
-**信賴區間**是根據樣本資料與選定的信賴水準所決定的參數特定區間估計。常見水準：**90%、95%、99%**。
+
+**信賴區間**是利用樣本所得資料、並搭配指定的信賴水準所決定的特定區間估計。
 :::
 
-信賴水準越高 → 區間越寬。精確度與確定性之間永遠存在取捨關係。
+常用的信賴區間有三種：**90%**、**95%** 與 **99%** 信賴區間。
 
-## 公式：$\mu$ 的信賴區間（$\sigma$ 已知）
+---
+
+## 信賴水準與信賴區間
+
+母體的平均數或比例是一個固定值。由某一個樣本建構出的信賴區間，不是包含該參數、就是不包含。若對某特定大小的**所有可能樣本**都建構 95% 信賴區間，其中有 95% 會包含該母體參數。
+
+若要更有信心——由 95% 提高到 99%——就必須把區間**加寬**。大學生平均年齡的 99% 信賴區間可能是 $21.7 < \mu < 22.9$，或 $22.3 \pm 0.6$。這其中存在取捨。
+
+:::{.callout-warning}
+## 注意
+
+信賴水準描述的是**程序**的長期表現，而不是某一個特定區間。區間一旦算出來，參數不是在裡面、就是不在裡面。
+:::
+
+## 臨界值 $z_{\alpha/2}$
+
+希臘字母 $\alpha$ 代表標準常態分配曲線**兩側尾端**的總面積，$\alpha/2$ 則代表**每一側**尾端的面積。$z_{\alpha/2}$ 稱為**臨界值**。
+
+所述的信賴水準即為 $1 - \alpha$ 的百分比：
+
+- 95% 信賴區間：$\alpha = 0.05$，因為 $1 - 0.05 = 0.95$
+- 99% 信賴區間：$\alpha = 0.01$，因為 $1 - 0.01 = 0.99$
+
+---
+
+## 臨界值 $z_{\alpha/2}$
+
+表 A-4 是查出這些臨界值的紙本途徑，`qnorm()` 則是 R 的途徑。95% 信賴區間取 $z_{\alpha/2} = 1.960$，99% 信賴區間取 $z_{\alpha/2} = 2.576$。
+
+```{r s7-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+confidence_level <- c(0.90, 0.95, 0.99)
+critical_z <- qnorm(1 - (1 - confidence_level) / 2)
+
+knitr::kable(data.frame(Confidence = paste0(confidence_level * 100, "%"),
+                        alpha = 1 - confidence_level,
+                        z = round(critical_z, 3)), align = "c")
+```
+
+## 誤差界限
 
 :::{.callout-note}
-## 信賴區間公式（$\sigma$ 已知）
-$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+## 誤差界限
 
-| 信賴水準 | $z_{\alpha/2}$ |
-|---------|----------------|
-| 90% | 1.65 |
-| 95% | 1.96 |
-| 99% | 2.58 |
-
-其中 $E = z_{\alpha/2}(\sigma/\sqrt{n})$ 稱為**誤差邊界**。
+**誤差界限**（也稱為**估計的最大誤差**）是參數的點估計值與該參數真值之間最大的可能差距。
 :::
 
-**假設條件：**
+在學生年齡的例子中，信賴區間為 $21.9 < \mu < 22.7$ 或 $22.3 \pm 0.4$，誤差界限即為 **0.4**。在比例區間 $10.7\% < p < 11.3\%$ 或 $11\% \pm 0.3\%$ 中，誤差界限為 **0.003**，即 0.3%。
 
-(1) 隨機樣本；
+對某一特定的 $\alpha$（例如 $\alpha = 0.05$），有 95% 的樣本平均數或樣本比例會落在母體平均數或母體比例兩側此一誤差值之內。
 
-(2) $n \geq 30$，或若 n < 30 則母體為常態分配。
+## 以 R 呈現 95% 信賴區間
 
-----
+**Prepare data**——自 $\mu = 50$、$\sigma = 10$ 的母體重複抽取 $n = 25$ 的樣本。
 
-**在 R 中求 z 值**
+```{r s7-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+set.seed(2023)
+pop_mean <- 50
+pop_sd <- 10
+sample_size <- 25
+margin_error <- qnorm(0.975) * pop_sd / sqrt(sample_size)
 
-```{r, echo=TRUE}
-round(qnorm((1-.9) / 2), 2)
-round(qnorm((1-.95) / 2), 2)
-round(qnorm((1-.99) / 2), 2)
+intervals <- tibble(
+  sample_id = 1:40,
+  sample_mean = replicate(40, mean(rnorm(sample_size, pop_mean, pop_sd)))) |>
+  mutate(lower = sample_mean - margin_error,
+         upper = sample_mean + margin_error,
+         result = if_else(lower <= pop_mean & pop_mean <= upper,
+                          "contains mu", "misses mu"))
+sum(intervals$result == "contains mu")
 ```
+
+---
+
+## 以 R 呈現 95% 信賴區間
+
+**Draw figure**
+
+```{r s7-1-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(intervals, aes(x = sample_id, y = sample_mean, color = result)) +
+  geom_pointrange(aes(ymin = lower, ymax = upper)) +
+  geom_hline(yintercept = pop_mean, linetype = "dashed") +
+  coord_flip() +
+  labs(title = "40 個樣本平均數的 95% 信賴區間",
+       x = "樣本", y = "樣本平均數", color = "")
+```
+
+約有 95% 的區間包含 $\mu$；未包含的那些，正是抽樣變異必須付出的代價。
+
+# 第7-2節：$\sigma$ 已知時母體平均數的信賴區間 {background-color="#2c4a6e"}
+
+## 假設條件與公式
+
+:::{.callout-important}
+## $\sigma$ 已知時求平均數信賴區間的假設
+
+1. 樣本是隨機樣本。
+2. $n \geq 30$，或當 $n < 30$ 時母體為常態分配。
+:::
+
+:::{.callout-note}
+## 穩健
+
+當變數的分配可以稍微偏離常態、卻仍能得到有效結論時，該統計方法稱為**穩健**的。
+
+:::
+
+估計母體平均數時應使用**樣本平均數**：從同一母體重複抽樣時，樣本平均數的變動小於中位數或眾數。
+
+---
+
+## 假設條件與公式
+
+:::{.callout-important}
+## $\sigma$ 已知時母體平均數信賴區間的公式
+
+$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+
+90% 信賴區間取 $z_{\alpha/2} = 1.645$；95% 信賴區間取 $z_{\alpha/2} = 1.960$；99% 信賴區間取 $z_{\alpha/2} = 2.576$。
+
+其中 $z_{\alpha/2}\left(\sigma/\sqrt{n}\right)$ 即為**誤差界限**。
+:::
+
+:::{.callout-important}
+## 平均數信賴區間的四捨五入規則
+
+以**原始資料**計算母體平均數的信賴區間時，取到比原始資料**多一位**小數。
+
+以**樣本平均數與標準差**計算時，取到與所給平均數**相同位數**的小數。
+:::
 
 ## 範例 7-1 {#example-7-1}
 
 :::{.callout-warning}
-## 銷售 Aveo 所需天數
+## 台北飛大阪的空運運送時間
 
-一位研究人員想估計銷售一輛雪佛蘭 Aveo 平均所需的天數。抽取 50 輛汽車的樣本，其在展示場停留的平均時間為 54 天。假設母體標準差為 6.0 天。求母體平均數的最佳點估計及 **95% 信賴區間**。
+某台北承攬業者的物流分析師想估計由桃園運往大阪之空運貨件的平均運送時間（小時）。隨機抽取 49 批貨件，平均運送時間為 34.0 小時。公司歷年紀錄顯示母體標準差為 2.8 小時。求平均數的最佳點估計，以及母體平均數的 **95% 信賴區間**。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-1
 
 :::{.callout-tip}
 ## 解題
 
-最佳點估計為 $\bar{X}$ = **54 天**。95% 信賴區間使用 $z_{\alpha/2}$ = 1.96：
+**步驟 1** 平均數的最佳點估計為 **34.0 小時**。
 
-$$54 - 1.96\left(\frac{6.0}{\sqrt{50}}\right) < \mu < 54 + 1.96\left(\frac{6.0}{\sqrt{50}}\right)$$
-$$54 - 1.7 < \mu < 54 + 1.7$$
-$$\mathbf{52.3 < \mu < 55.7}$$
+**步驟 2** 95% 信賴區間取 $z_{\alpha/2} = 1.96$。
+
+$$34.0 - 1.96\left(\frac{2.8}{\sqrt{49}}\right) < \mu < 34.0 + 1.96\left(\frac{2.8}{\sqrt{49}}\right)$$
+$$34.0 - 0.8 < \mu < 34.0 + 0.8$$
+$$\mathbf{33.2 < \mu < 34.8}$$
 :::
+
 ---
 
+## 範例 7-1
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 54; sigma <- 6.0; n <- 50; z <- 1.96
-E <- z * sigma / sqrt(n)
-cat("Point estimate:", xbar, "\n")
-cat("95% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+sample_mean <- 34.0
+pop_sd <- 2.8
+sample_size <- 49
+
+margin_error <- qnorm(0.975) * pop_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
 
-**解讀：** 根據 50 輛汽車的樣本，我們有 95% 的把握，母體平均數落在 52.3 至 55.7 天之間。
+根據 49 批貨件的樣本，我們有 **95% 的信心**認為 33.2 至 34.8 小時這個區間包含母體平均運送時間。
+:::
 
 ## 範例 7-2 {#example-7-2}
 
 :::{.callout-warning}
-## 急診室等候時間
+## 跨境電商的訂單金額
 
-一項針對 30 位急診室病患的調查發現，平均等候時間為 174.3 分鐘。母體標準差已知為 46.5 分鐘。求真實平均等候時間的最佳點估計及 **99% 信賴區間**。
+某跨境電商團隊想知道台灣賣家寄往海外之訂單的平均金額（美元），隨機抽取 64 筆訂單，樣本平均數為 84.5 美元。假設母體標準差為 12.0 美元。求平均數的最佳點估計，以及母體平均數的 **99% 信賴區間**。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-2
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+**步驟 1** 母體平均數的最佳點估計為 **84.5 美元**。
 
-$$174.3 - 2.58\left(\frac{46.5}{\sqrt{30}}\right) < \mu < 174.3 + 2.58\left(\frac{46.5}{\sqrt{30}}\right)$$
-$$174.3 - 21.9 < \mu < 174.3 + 21.9$$
-$$\mathbf{152.4 < \mu < 196.2}$$
+**步驟 2** 99% 信賴區間取 $z_{\alpha/2} = 2.576$。
+
+$$84.5 - 2.576\left(\frac{12.0}{\sqrt{64}}\right) < \mu < 84.5 + 2.576\left(\frac{12.0}{\sqrt{64}}\right)$$
+$$84.5 - 3.9 < \mu < 84.5 + 3.9$$
+$$\mathbf{80.6 < \mu < 88.4}$$
 :::
+
 ---
 
+## 範例 7-2
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 174.3; sigma <- 46.5; n <- 30; z <- 2.58
-E <- z * sigma / sqrt(n)
-cat("Point estimate:", xbar, "\n")
-cat("99% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+sample_mean <- 84.5
+pop_sd <- 12.0
+sample_size <- 64
+
+margin_error <- qnorm(0.995) * pop_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
 
-**解讀：** 我們有 99% 的把握，急診室真實平均等候時間介於 152.4 至 196.2 分鐘之間。
+我們有 **99% 的信心**認為，跨境訂單的平均金額介於 80.6 至 88.4 美元之間。
+:::
 
-## 求其他 $z_{\alpha/2}$ 值
+## 求其他的 $z_{\alpha/2}$ 值
 
-對於 90%、95%、99% 以外的信賴水準，$z_{\alpha/2}$ 的求法如下：
+統計上有時會用到 90%、95%、99% 以外的信賴水準。以 **98%** 信賴區間為例，求 $z_{\alpha/2}$ 的步驟是：
 
-1. 將信賴水準轉換為小數：例如 98% → 0.98
-2. 求 $\alpha = 1 - 0.98 = 0.02$，故 $\alpha/2 = 0.01$
-3. 每尾面積為 0.01；在表 E 中查 1 − 0.01 = 0.9900
-4. 對應的 z 值為 **2.33**
+1. 把 98% 化為 0.98，求 $\alpha = 1 - 0.98 = 0.02$。
+2. 除以 2：$\alpha/2 = 0.02/2 = 0.01$。
+3. 以 $1.0000 - 0.01 = 0.9900$ 在表 A-4 中查出對應的 $z$ 值；`qnorm(0.99)` 回傳同一個臨界值 $z_{\alpha/2} = \mathbf{2.326}$。
 
-```{r e7-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# 常見信賴水準對應的 z_alpha/2
-conf_levels <- c(0.90, 0.95, 0.98, 0.99)
-z_vals <- qnorm(1 - (1 - conf_levels)/2)
-data.frame(Confidence = paste0(conf_levels*100, "%"),
-           z_alpha2 = round(z_vals, 3))
+---
+
+## 求其他的 $z_{\alpha/2}$ 值
+
+求信賴區間時，公式中只取**正的** $z$ 值。
+
+```{r s7-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+confidence_level <- c(0.90, 0.94, 0.95, 0.98, 0.99)
+tail_area <- (1 - confidence_level) / 2
+
+knitr::kable(data.frame(Confidence = paste0(confidence_level * 100, "%"),
+                        alpha_half = tail_area,
+                        z = round(qnorm(1 - tail_area), 3)), align = "c")
 ```
 
 ## 範例 7-3 {#example-7-3}
 
 :::{.callout-warning}
-## 信用合作社資產
+## 高雄港的貨櫃停留時間
 
-下列資料為賓州西南部 30 家信用合作社的資產（單位：百萬美元）樣本。假設 $\sigma$ = 14.405，求平均數的 **90% 信賴區間**。
+以下資料是高雄港 30 只進口貨櫃停留時間（單位：小時）的隨機樣本。假設母體標準差為 12.6 小時，求平均數的 **90% 信賴區間**。
 
-12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25, 1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78, 16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76
+```
+36.42    28.15    51.70
+19.83    44.26    33.08
+62.55    25.71    40.19
+47.63    30.94    22.38
+55.02    38.47    29.66
+43.81    26.50    58.24
+34.75    49.12    21.07
+31.89    45.33    27.46
+53.18    37.62    24.91
+41.05    32.27    46.88
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-3
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+**步驟 1** 求資料的平均數：$\bar{X} = 38.002$ 小時。母體標準差為 12.6 小時。
 
-樣本平均數 $\bar{X}$ = 11.091。90% 信賴區間使用 $z_{\alpha/2}$ = 1.65（查表值；R 給出更精確的 1.645）：
+**步驟 2** 求 $\alpha/2$。90% 信賴區間下 $\alpha = 1 - 0.90 = 0.10$，故 $\alpha/2 = 0.10/2 = 0.05$。
 
-$$11.091 - 1.65\left(\frac{14.405}{\sqrt{30}}\right) < \mu < 11.091 + 1.65\left(\frac{14.405}{\sqrt{30}}\right)$$
-$$11.091 - 4.339 < \mu < 11.091 + 4.339$$
-$$\mathbf{6.752 < \mu < 15.430}$$
+**步驟 3** 求 $z_{\alpha/2}$。臨界值左側的面積為 $1 - 0.05 = 0.9500$，即表 A-4 中要查的那一欄；`qnorm(0.95)` 回傳同一個臨界值 $z_{\alpha/2} = \mathbf{1.645}$。
+
+**步驟 4** 代入公式。
+
+$$38.002 - 1.645\left(\frac{12.6}{\sqrt{30}}\right) < \mu < 38.002 + 1.645\left(\frac{12.6}{\sqrt{30}}\right)$$
+$$38.002 - 3.784 < \mu < 38.002 + 3.784$$
+$$\mathbf{34.218 < \mu < 41.786}$$
 :::
+
 ---
 
+## 範例 7-3
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-assets <- c(12.23, 16.56, 4.39, 2.89, 1.24, 2.17, 13.19, 9.16, 1.42, 73.25,
-            1.91, 14.64, 11.59, 6.69, 1.06, 8.74, 3.17, 18.13, 7.92, 4.78,
-            16.85, 40.22, 2.42, 21.58, 5.01, 1.47, 12.24, 2.27, 12.77, 2.76)
-xbar <- mean(assets); sigma <- 14.405; n <- length(assets)
-z <- 1.65   # 查表值；qnorm(0.95) 給出 1.645
-E <- z * sigma / sqrt(n)
-cat("X-bar =", round(xbar, 3), "\n")
-cat("90% CI: (", round(xbar - E, 3), ",", round(xbar + E, 3), ")\n")
+dwell_hours <- c(36.42, 28.15, 51.70, 19.83, 44.26, 33.08, 62.55, 25.71, 40.19, 47.63,
+                 30.94, 22.38, 55.02, 38.47, 29.66, 43.81, 26.50, 58.24, 34.75, 49.12,
+                 21.07, 31.89, 45.33, 27.46, 53.18, 37.62, 24.91, 41.05, 32.27, 46.88)
+sample_mean <- mean(dwell_hours)
+pop_sd <- 12.6
+
+margin_error <- qnorm(0.95) * pop_sd / sqrt(length(dwell_hours))
+round(c(mean = sample_mean, margin = margin_error), 3)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 3)
 ```
 
-**解讀：** 我們有 90% 的把握，所有信用合作社的平均資產介於 $6.752 百萬至 $15.430 百萬之間。
+根據 30 只貨櫃的樣本，我們有 **90% 的信心**認為，所有進口貨櫃停留時間的母體平均數介於 34.218 小時與 41.786 小時之間。
+:::
 
 ## 估計平均數所需的樣本大小
 
-:::{.callout-note}
-## 公式
+究竟要多大的樣本才能做出準確的估計？答案取決於三件事：**誤差界限**、**母體標準差**與**信賴程度**。
+
+此公式由誤差界限公式 $E = z_{\alpha/2}\left(\sigma/\sqrt{n}\right)$ 解 $n$ 而得：
+
+$$E\sqrt{n} = z_{\alpha/2}\,\sigma \quad \Longrightarrow \quad \sqrt{n} = \frac{z_{\alpha/2} \cdot \sigma}{E}$$
+
+:::{.callout-important}
+## 母體平均數區間估計所需最小樣本大小的公式
 
 $$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
 
-其中 E 為期望的**誤差邊界**。計算結果一律**無條件進位**至最近的整數。
+其中 $E$ 為誤差界限。必要時將答案**無條件進位**成整數：只要結果有小數部分，就取下一個整數作為樣本大小 $n$。
 :::
-
-**所需資訊：**
-
-- 期望的信賴水準（決定 $z_{\alpha/2}$）
-- 母體標準差 $\sigma$（或來自先前研究的估計值）
-- 可接受的誤差邊界 E
 
 ## 範例 7-4 {#example-7-4}
 
 :::{.callout-warning}
-## 問題
-一位科學家想估計某河流的平均深度。她希望以 **99% 的信賴水準**，估計誤差在 **2 英尺**以內。先前研究發現 $\sigma$ = 4.33 英尺。求所需的最小樣本大小。
+## 外送時間所需的樣本大小
 
-**解題步驟（數學）：**
+台中某外送平台的營運主管想估計每筆訂單的平均外送時間，誤差要在 **2 分鐘**之內，並希望有 **99% 的信心**。先前的研究顯示標準差為 4.5 分鐘。她應該抽取幾筆訂單？
 
-$z_{\alpha/2} = 2.58$，$E = 2$，$\sigma = 4.33$
-
-$$n = \left(\frac{2.58 \times 4.33}{2}\right)^2 = \left(\frac{11.17}{2}\right)^2 = (5.585)^2 = 31.2 \rightarrow \mathbf{n = 32}$$
-
-```{r e7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z <- 2.58; sigma <- 4.33; E <- 2
-n_raw <- (z * sigma / E)^2
-n_raw
-ceiling(n_raw)  # 一律無條件進位
-```
-
-**答案：** 科學家至少需要 **32 次測量**，才能以 99% 的信賴水準達到所需精確度。
+*（模擬資料）*
 :::
 
-# 第 7-2 節：$\sigma$ 未知時母體平均數的信賴區間 {background-color="#2c4a6e"}
-
-## t 分配
-
-當 $\sigma$ 未知時，以樣本標準差 s 作為替代。然而，這會引入額外的不確定性——尤其是小樣本時。適用的分配為 **Student's t 分配**。
-
-
-:::{.callout-note}
-## t 分配的特性
-**與常態分配相似：**
-1. 鐘形且對稱於平均數
-2. 平均數、中位數與眾數皆等於 0
-3. 曲線永不觸及 x 軸
-
-**與常態分配的差異：**
-1. 變異數大於 1（尾部較厚）
-2. 它是以**自由度**（d.f.）為索引的**曲線族**
-3. 隨著自由度增加，t 分配趨近標準常態分配
-:::
 ---
 
-```{r e7-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(-4, 4, length.out = 300)
-df_plot <- data.frame(
-  x = rep(x, 3),
-  y = c(dnorm(x), dt(x, df = 5), dt(x, df = 20)),
-  dist = rep(c("Normal (z)", "t (df=5)", "t (df=20)"), each = 300)
-)
-ggplot(df_plot, aes(x, y, color = dist, linetype = dist)) +
-  geom_line(linewidth = 1) +
-  labs(title = "常態分配與 t 分配的比較",
-       x = "數值", y = "密度", color = "分配", linetype = "分配")
+## 範例 7-4
+
+:::{.callout-tip}
+## 解題
+
+由於 $\alpha = 0.01$（即 $1 - 0.99$），$z_{\alpha/2} = 2.576$，$E = 2$。代入公式。
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2 = \left[\frac{(2.576)(4.5)}{2}\right]^2 = 33.59$$
+
+```{r e7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+pop_sd <- 4.5
+margin_error <- 2
+
+required_n <- (qnorm(0.995) * pop_sd / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
 ```
 
-## 自由度與 t 公式
+進位後得 **34**。若要有 99% 的信心使估計值與真正平均數相差在 2 分鐘之內，該主管至少須抽取 34 筆訂單。
+:::
+
+## 關於樣本大小的補充
+
+:::{.callout-warning}
+## 注意
+
+統計上多數情況採四捨五入；但決定樣本大小時，一律**無條件進位**到下一個整數。
+:::
+
+:::{.callout-important}
+## 實務要點
+
+- 當母體很大或為無限母體、或採放回抽樣時，**母體大小與樣本大小的計算無關**。
+- 公式需要 $\sigma$。若 $\sigma$ 未知，可用先前樣本的標準差 $s$ 估計，或以**全距除以 4** 估計。
+- 區間估計常以文字敘述呈現：「兩人家庭每週平均花費 84 美元購買食品雜貨，在 95% 信心下誤差在 3 美元以內」，即 $81 < \mu < 87$。
+:::
+
+# 第7-3節：$\sigma$ 未知時母體平均數的信賴區間 {background-color="#2c4a6e"}
+
+## $t$ 分配
+
+多數情況下 $\sigma$ 並不知道，必須以樣本標準差 $s$ 估計。使用 $s$ 時——尤其樣本數較小時——需要比 $z_{\alpha/2}$ **更大**的臨界值，才能維持所述的信賴水準。這些值來自 **Student's $t$ 分配**。
+
+:::{.callout-note}
+## $t$ 分配的特性
+
+**與標準常態分配相似之處：**
+
+1. 呈鐘形。
+2. 對平均數左右對稱。
+3. 平均數、中位數與眾數皆為 0，且位於分配的中央。
+4. 曲線趨近但永不接觸 $x$ 軸。
+
+**與標準常態分配相異之處：**
+
+1. 變異數大於 1。
+2. $t$ 分配其實是依自由度而定的**一族曲線**，自由度與樣本大小有關。
+3. 隨著樣本數增加，$t$ 分配趨近標準常態分配。
+:::
+
+## $t$ 分配曲線族
+
+**Prepare data**
+
+```{r s7-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+grid_x <- seq(-4, 4, length.out = 300)
+
+t_curves <- tibble(
+  x = rep(grid_x, 3),
+  density = c(dnorm(grid_x), dt(grid_x, df = 5), dt(grid_x, df = 20)),
+  curve = rep(c("z curve", "t for d.f. = 5", "t for d.f. = 20"),
+              each = length(grid_x)))
+```
+
+---
+
+## $t$ 分配曲線族
+
+**Draw figure**
+
+```{r s7-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(t_curves, aes(x, density, color = curve, linetype = curve)) +
+  geom_line(linewidth = 1) +
+  labs(title = "t 分配曲線族",
+       x = "數值", y = "機率密度", color = "", linetype = "")
+```
+
+## 自由度
 
 :::{.callout-note}
 ## 自由度
-對於平均數的信賴區間：**d.f. = n − 1**
 
-自由度決定應使用哪條 t 曲線。在 R 中：`qt(p, df = n-1)`
+**自由度**是在算出某一樣本統計量之後，仍可自由變動的數值個數；當一個分配是由一族曲線構成時，自由度告訴研究者該用哪一條曲線。
 :::
 
-:::{.callout-note}
-## 信賴區間公式（$\sigma$ 未知）
-$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+若 5 個數值的平均數是 10，則其中 4 個可以自由變動；一旦前 4 個確定，第 5 個就必須是特定的數，好讓總和等於 50。因此 $\text{d.f.} = 5 - 1 = 4$。
 
-其中 $t_{\alpha/2}$ 取自表 F，自由度 d.f. = n − 1。
-:::
-
-**假設條件：** (1) 隨機樣本；(2) $n \geq 30$，或若 n < 30 則母體近似常態分配。
-
-## 何時使用 z 與 t
-
-:::{.callout-important}
-## 決策規則
-- **$\sigma$ 已知** → 使用 $z_{\alpha/2}$ 並以 $\sigma$ 代入公式（若常態分配或 $n \geq 30$）
-- **$\sigma$ 未知** → 使用 $t_{\alpha/2}$ 並以 s 代入公式（常態母體或 $n \geq 30$）
-
-```{r e7-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(data.frame(
-  Condition = c("σ known, n ≥ 30", "σ known, n < 30 (normal pop.)",
-                "σ unknown, n ≥ 30", "σ unknown, n < 30 (normal pop.)"),
-  Use = c("z and σ", "z and σ", "t and s", "t and s")
-), caption = "When to Use z vs. t")
-```
-:::
-
-## 範例 7-5：求 $t_{\alpha/2}$ {#example-7-5 .smaller}
-
+自由度以 **d.f.** 表示。求平均數的信賴區間時，$\text{d.f.} = n - 1$。（本書後面某些檢定的自由度*不是* $n - 1$。）
 
 :::{.callout-warning}
-## 問題
-當樣本大小 n = 22 時，求 **95% 信賴區間**的 $t_{\alpha/2}$ 值。
+## 注意
 
-**解題步驟（數學）：**
+$t_{\alpha/2}$ 取自表 A-5 最上方標示 **Confidence Intervals** 的那一列；標示 *One tail* 與 *Two tails* 的兩列屬於第8章，此處不可使用。當自由度大於 30 且落在兩個表列值之間時，查表的慣例是**無條件捨去**到較小的表列值（較保守的作法）：d.f. = 68 視為 65。此慣例只是查表的輔助；`qt()` 接受確切的自由度，兩者不一致時，投影片一律採用 R 算出的值。
+:::
 
-d.f. = 22 − 1 = 21。在表 F 第 21 列的 95% 欄查值。
+## 範例 7-5 {#example-7-5}
 
-**$t_{\alpha/2} = 2.080$**
+:::{.callout-warning}
+## 查出 $t$ 臨界值
+
+樣本大小為 18 時，求 **95% 信賴區間**的 $t_{\alpha/2}$ 值。
+:::
+
+---
+
+## 範例 7-5
+
+:::{.callout-tip}
+## 解題
+
+$\text{d.f.} = 18 - 1 = 17$。在表 A-5 左欄找到 17，並在標示 **Confidence Intervals** 的列中找到 95%；`qt(0.975, df = 17)` 回傳同一個臨界值 $t_{\alpha/2} = \mathbf{2.110}$。
 
 ```{r e7-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# t_alpha/2 for 95% CI with df = 21
-qt(0.975, df = 21)   # upper tail area = alpha/2 = 0.025
+sample_size <- 18
+
+round(qt(0.975, df = sample_size - 1), 3)
 ```
 
+在 R 中，信賴區間的臨界值一律是 `qt(1 - alpha/2, df = n - 1)`；95% 信賴區間即 `qt(0.975, df = n - 1)`。
+:::
+
+## $\sigma$ 未知時平均數的公式
+
+:::{.callout-important}
+## $\sigma$ 未知時母體平均數信賴區間的公式
+
+$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+
+自由度為 $n - 1$。
 :::
 
 :::{.callout-important}
-## 重要規則
-對於信賴區間，一律使用 `qt(1 - alpha/2, df = n-1)`。
-對於 95% CI：`qt(0.975, df = n-1)`。
+## $\sigma$ 未知時求平均數信賴區間的假設
+
+1. 樣本是隨機樣本。
+2. $n \geq 30$，或當 $n < 30$ 時母體為常態分配。
 :::
 
 ## 範例 7-6 {#example-7-6}
 
 :::{.callout-warning}
-## 睡眠時間
+## 台北商務旅館的平日住房率
 
-10 位隨機受訪者報告了其每晚睡眠時數。樣本平均數為 7.1 小時，標準差為 0.78 小時。假設變數服從常態分配，求平均數的 **95% 信賴區間**。
+隨機抽取 16 家台北商務旅館，平日平均住房率為 72.4%，樣本標準差為 6.8 個百分點。假設該變數為常態分配，求平日住房率之母體平均數的 **95% 信賴區間**。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-6
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+$\bar{X} = 72.4$、$s = 6.8$、$n = 16$。
 
-$\sigma$ 未知，n = 10 < 30 → 使用 t 分配。d.f. = 9，$t_{\alpha/2}$ = 2.262
+由於 $\sigma$ 未知而必須以 $s$ 取代，因此使用 $t$ 分配。自由度為 15 時，$t_{\alpha/2} = 2.131$。
 
-$$7.1 - 2.262\left(\frac{0.78}{\sqrt{10}}\right) < \mu < 7.1 + 2.262\left(\frac{0.78}{\sqrt{10}}\right)$$
-$$7.1 - 0.56 < \mu < 7.1 + 0.56$$
-$$\mathbf{6.54 < \mu < 7.66}$$
+$$72.4 - 2.131\left(\frac{6.8}{\sqrt{16}}\right) < \mu < 72.4 + 2.131\left(\frac{6.8}{\sqrt{16}}\right)$$
+$$72.4 - 3.6 < \mu < 72.4 + 3.6$$
+$$\mathbf{68.8 < \mu < 76.0}$$
 :::
+
 ---
 
+## 範例 7-6
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 7.1; s <- 0.78; n <- 10
-t_crit <- qt(0.975, df = n - 1)
-E <- t_crit * s / sqrt(n)
-cat("t_alpha/2 =", round(t_crit, 3), "\n")
-cat("95% CI: (", round(xbar - E, 2), ",", round(xbar + E, 2), ")\n")
+sample_mean <- 72.4
+sample_sd <- 6.8
+sample_size <- 16
+
+margin_error <- qt(0.975, df = sample_size - 1) * sample_sd / sqrt(sample_size)
+round(margin_error, 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
 ```
+
+我們有 **95% 的信心**認為，台北商務旅館平日住房率的母體平均數介於 68.8% 與 76.0% 之間。
+:::
 
 ## 範例 7-7 {#example-7-7}
 
 :::{.callout-warning}
-## 蠟燭引發的住宅火災
+## 夜市攤位的月營業額
 
-下列資料為連續 7 年中，每年因蠟燭引發的住宅火災次數。求每年蠟燭引發住宅火災平均次數的 **99% 信賴區間**。
+以下資料是某夜市飲料攤位月營業額（單位：新台幣千元）隨機抽取 7 個月的樣本。求月營業額之平均數的 **99% 信賴區間**。
 
-5460, 5900, 6090, 6310, 7160, 8440, 9930
-:::
----
-
-```{r e7-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-fires <- c(5460, 5900, 6090, 6310, 7160, 8440, 9930)
-n <- length(fires)
-xbar <- mean(fires); s <- sd(fires)
-cat("n =", n, "  X-bar =", round(xbar, 1), "  s =", round(s, 1), "\n")
-
-t_crit <- qt(0.995, df = n - 1)   # 99% CI
-cat("t_alpha/2 (df=6) =", round(t_crit, 3), "\n")
-E <- t_crit * s / sqrt(n)
-cat("99% CI: (", round(xbar - E, 1), ",", round(xbar + E, 1), ")\n")
+```
+268    292    305    318    331    347    384
 ```
 
-**答案：** $4785.2 < \mu < 9297.6$ 次/年（R 以未捨入數值計算得 4785.0 與 9297.9）。根據 7 年的資料，我們有 99% 的把握，真實平均值落在此範圍內。
+*（模擬資料）*
+:::
 
-# 第 7-3 節：比例的信賴區間與樣本大小 {background-color="#2c4a6e"}
+---
+
+## 範例 7-7
+
+:::{.callout-tip}
+## 解題
+
+**步驟 1** 求資料的平均數與標準差：$\bar{X} = 320.7$，$s = 38.0$。
+
+**步驟 2** 求 99% 信賴區間、$\text{d.f.} = 6$ 的 $t_{\alpha/2}$。表 A-5 與 `qt(0.995, df = 6)` 都給出 **3.707**。
+
+**步驟 3** 代入公式求解。
+
+$$320.7 - 3.707\left(\frac{38.0}{\sqrt{7}}\right) < \mu < 320.7 + 3.707\left(\frac{38.0}{\sqrt{7}}\right)$$
+$$320.7 - 53.2 < \mu < 320.7 + 53.2$$
+$$\mathbf{267.5 < \mu < 373.9}$$
+:::
+
+---
+
+## 範例 7-7
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
+```{r e7-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+monthly_revenue <- c(268, 292, 305, 318, 331, 347, 384)
+sample_size <- length(monthly_revenue)
+sample_mean <- mean(monthly_revenue)
+sample_sd <- sd(monthly_revenue)
+
+margin_error <- qt(0.995, df = sample_size - 1) * sample_sd / sqrt(sample_size)
+round(c(mean = sample_mean, sd = sample_sd, margin = margin_error), 1)
+round(c(sample_mean - margin_error, sample_mean + margin_error), 1)
+```
+
+根據 7 個月的樣本，我們有 **99% 的信心**認為，該攤位月營業額的母體平均數介於 267.5 千元與 373.9 千元之間。
+:::
+
+## 該用 $z$ 還是 $t$
+
+:::{.callout-important}
+## 判斷準則（圖 7-8）
+
+- **$\sigma$ 已知嗎？** 已知：公式中使用 $z_{\alpha/2}$ 與 $\sigma$。
+- **$\sigma$ 已知嗎？** 未知：公式中使用 $t_{\alpha/2}$ 與 $s$。
+
+無論哪一種情形，若 $n < 30$，該變數都必須為常態分配。
+:::
+
+---
+
+## 該用 $z$ 還是 $t$
+
+```{r s7-3-3, echo=T, warning=FALSE}
+knitr::kable(data.frame(
+  Situation = c("sigma known, n >= 30", "sigma known, n < 30 (normal)",
+                "sigma unknown, n >= 30", "sigma unknown, n < 30 (normal)"),
+  Use = c("z and sigma", "z and sigma", "t and s", "t and s"),
+  R = c("qnorm(1 - alpha/2)", "qnorm(1 - alpha/2)",
+        "qt(1 - alpha/2, df = n - 1)", "qt(1 - alpha/2, df = n - 1)")),
+  align = "c")
+```
+
+# 第7-4節：比例的信賴區間與樣本大小 {background-color="#2c4a6e"}
 
 ## 比例
 
+**比例**代表整體中的一部分，可以用分數、小數或百分比表示。若某快遞在台北配送的包裹中有 12% 送往超商取貨點，則 $12\% = 0.12 = \frac{12}{100} = \frac{3}{25}$，而隨機抽出一件包裹送往超商取貨點的機率為 0.12。
+
 :::{.callout-note}
-## 比例的符號表示
-$$\hat{p} = \frac{X}{n} \quad \text{（樣本比例）} \qquad \hat{q} = \frac{n-X}{n} = 1 - \hat{p}$$
+## 比例的符號
 
-其中 X = 樣本中具有感興趣特性的單位數，n = 樣本大小。
+$$p = \text{母體比例} \qquad \hat{p} = \text{樣本比例（讀作 "p hat"）}$$
 
-母體比例以 **p** 表示（且 q = 1 − p）。
+樣本比例為
 
-樣本比例 $\hat{p}$ 是 p 的不偏、一致且相對有效的估計量，也是 p 的最佳點估計量。
+$$\hat{p} = \frac{X}{n} \qquad \text{且} \qquad \hat{q} = \frac{n - X}{n} \quad \text{或} \quad \hat{q} = 1 - \hat{p}$$
 
-**信賴區間公式：**
-$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}$$
-
-**條件：** $n\hat{p} \geq 5$ 且 $n\hat{q} \geq 5$
+其中 $X$ 為樣本中具有所關切特徵的單位數，$n$ 為樣本大小。
 :::
+
+當 $\hat{p}$ 與 $\hat{q}$ 以小數或分數表示時，$\hat{p} + \hat{q} = 1$；以百分比表示時，$\hat{p} + \hat{q} = 100\%$。母體亦然：$p + q = 1$。
 
 ## 範例 7-8 {#example-7-8}
 
-
 :::{.callout-warning}
-## 裝有冷氣的家庭
+## 超商取貨
 
-在一項針對 150 個家庭的近期調查中，54 個家庭裝有中央冷氣。求 $\hat{p}$ 與 $\hat{q}$，其中 $\hat{p}$ 為裝有中央冷氣的家庭比例。
+隨機抽取某台灣電商平台的 180 位網購消費者，其中 63 人選擇超商取貨而非宅配到府。求 $\hat{p}$ 與 $\hat{q}$，其中 $\hat{p}$ 為選擇超商取貨的消費者比例。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-8
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+本例中 $X = 63$、$n = 180$。
 
-$$\hat{p} = \frac{X}{n} = \frac{54}{150} = 0.36 = 36\%$$
-$$\hat{q} = \frac{n - X}{n} = \frac{150 - 54}{150} = \frac{96}{150} = 0.64 = 64\%$$
-:::
----
+$$\hat{p} = \frac{X}{n} = \frac{63}{180} = 0.35 = 35\%$$
+$$\hat{q} = \frac{n - X}{n} = \frac{180 - 63}{180} = \frac{117}{180} = 0.65 = 65\%$$
 
 ```{r e7-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- 54; n <- 150
-p_hat <- X / n
-q_hat <- 1 - p_hat
-cat("p-hat =", p_hat, "  q-hat =", q_hat, "\n")
+pickup_count <- 63
+sample_size <- 180
+
+p_hat <- pickup_count / sample_size
+c(p_hat = p_hat, q_hat = 1 - p_hat)
 ```
 
-這給出最佳點估計：**36%** 的家庭裝有中央冷氣。
+因此有 **65%** 的消費者選擇宅配到府。
+:::
+
+## 比例的信賴區間
+
+$p$ 的點估計使用樣本比例 $\hat{p}$，它是不偏、一致且相對有效的估計式。當樣本數不超過母體的 5% 時，$\hat{p}$ 的抽樣分配近似常態，其平均數為 $p$、標準差為 $\sqrt{pq/n}$。
+
+:::{.callout-important}
+## 比例信賴區間的公式
+
+$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}}$$
+
+適用條件為 $n\hat{p}$ 與 $n\hat{q}$ 皆大於或等於 5。其誤差界限為 $E = z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}$。
+:::
+
+---
+
+## 比例的信賴區間
+
+:::{.callout-important}
+## 求母體比例信賴區間的假設
+
+1. 樣本是隨機樣本。
+2. 滿足二項實驗的各項條件（見第5章）。
+:::
+
+:::{.callout-important}
+## 比例信賴區間的四捨五入規則
+
+取到**小數第三位**。
+:::
+
+:::{.callout-warning}
+## 注意
+
+題目若直接給出某個百分比，將其化為小數後即為 $\hat{p}$。若申請者中有 12% 為男性，則 $\hat{p} = 0.12$。
+:::
 
 ## 範例 7-9 {#example-7-9}
 
 :::{.callout-warning}
-## 支付大學學費
+## 桃園機場的轉機體驗
 
-一項針對 1404 位受訪者的調查發現，323 位學生透過學生貸款支付學費。求真實比例（透過學生貸款支付學費的學生比例）的 **90% 信賴區間**。
+桃園國際機場的旅客調查抽取 1250 位轉機旅客，其中 375 位認為轉機體驗「非常好」。求認為轉機體驗非常好之旅客真實比例的 **90% 信賴區間**。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-9
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟：**
+**步驟 1** 求 $\hat{p}$ 與 $\hat{q}$。
 
-$\hat{p} = 323/1404 = 0.230$，$\hat{q} = 0.770$，$z_{\alpha/2} = 1.65$
+$$\hat{p} = \frac{X}{n} = \frac{375}{1250} = 0.30 \qquad \hat{q} = 1 - \hat{p} = 1.00 - 0.30 = 0.70$$
 
-$$0.230 \pm 1.65\sqrt{\frac{(0.230)(0.770)}{1404}} = 0.230 \pm 0.019$$
-$$\mathbf{0.211 < p < 0.249}$$
+**步驟 2** 求臨界值。$\alpha = 1 - 0.90 = 0.10$，故 $\alpha/2 = 0.05$，$z_{\alpha/2} = 1.645$。
 
-（下界查表捨入為 0.211；R 以未捨入數值計算得 0.212。）
+**步驟 3** 代入公式。
+
+$$0.30 - 1.645\sqrt{\frac{(0.30)(0.70)}{1250}} < p < 0.30 + 1.645\sqrt{\frac{(0.30)(0.70)}{1250}}$$
+$$0.30 - 0.021 < p < 0.30 + 0.021$$
+$$\mathbf{0.279 < p < 0.321} \qquad \text{或} \qquad 27.9\% < p < 32.1\%$$
 :::
+
 ---
 
+## 範例 7-9
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-X <- 323; n <- 1404
-p_hat <- X / n; q_hat <- 1 - p_hat
-z <- qnorm(0.95)   # 90% CI
-E <- z * sqrt(p_hat * q_hat / n)
-cat("p-hat =", round(p_hat, 3), "\n")
-cat("90% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
+excellent_count <- 375
+sample_size <- 1250
+
+p_hat <- excellent_count / sample_size
+c(p_hat = p_hat, n_p_hat = sample_size * p_hat, n_q_hat = sample_size * (1 - p_hat))
+
+margin_error <- qnorm(0.95) * sqrt(p_hat * (1 - p_hat) / sample_size)
+round(margin_error, 3)
+round(c(p_hat - margin_error, p_hat + margin_error), 3)
 ```
 
-**解讀：** 我們有 90% 的把握，透過學生貸款支付學費的學生比例介於 **21.1%** 至 **24.9%** 之間。
+我們有 **90% 的信心**認為，認為轉機體驗非常好的旅客比例介於 27.9% 與 32.1% 之間。
+:::
 
 ## 範例 7-10 {#example-7-10}
 
 :::{.callout-warning}
-## 宗教書籍
+## 向海外賣家購物
 
-一項針對 1721 人的調查發現，15.9% 的人在基督教書店購買宗教書籍。求在該書店購買宗教書籍的真實人口比例的 **95% 信賴區間**。
+一項針對台灣 2400 位網購消費者的調查顯示，64% 在過去一年中至少向海外賣家買過一件商品。求向海外賣家購物之真實比例的 **90% 信賴區間**。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-10
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+**步驟 1** 求 $\hat{p}$ 與 $\hat{q}$。本例已直接給出 $\hat{p}$：64%，即 0.64。故 $\hat{q} = 1 - 0.64 = 0.36$。
 
-$\hat{p} = 0.159$，$\hat{q} = 0.841$，$z_{\alpha/2} = 1.96$
+**步驟 2** 求臨界值。$\alpha = 1 - 0.90 = 0.10$，故 $\alpha/2 = 0.05$，$z_{\alpha/2} = 1.645$。
 
-$$0.159 \pm 1.96\sqrt{\frac{(0.159)(0.841)}{1721}} = 0.159 \pm 0.017$$
-$$\mathbf{0.142 < p < 0.176}$$
+**步驟 3** 代入公式。
+
+$$0.64 - 1.645\sqrt{\frac{(0.64)(0.36)}{2400}} < p < 0.64 + 1.645\sqrt{\frac{(0.64)(0.36)}{2400}}$$
+$$0.64 - 0.016 < p < 0.64 + 0.016$$
+$$\mathbf{0.624 < p < 0.656} \qquad \text{或} \qquad 62.4\% < p < 65.6\%$$
 :::
+
 ---
 
+## 範例 7-10
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
 ```{r e7-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.159; n <- 1721
-q_hat <- 1 - p_hat
-z <- qnorm(0.975)   # 95% CI
-E <- z * sqrt(p_hat * q_hat / n)
-cat("p-hat =", p_hat, "\n")
-cat("95% CI: (", round(p_hat - E, 3), ",", round(p_hat + E, 3), ")\n")
+p_hat <- 0.64
+sample_size <- 2400
+
+margin_error <- qnorm(0.95) * sqrt(p_hat * (1 - p_hat) / sample_size)
+round(margin_error, 3)
+round(c(p_hat - margin_error, p_hat + margin_error), 3)
 ```
 
-**解讀：** 我們有 95% 的把握，在基督教書店購買宗教書籍的人口比例介於 **14.2%** 至 **17.6%** 之間。
+我們有 **90% 的信心**認為，向海外賣家購物的真實百分比介於 62.4% 與 65.6% 之間。
+:::
 
-## 估計比例所需的樣本大小
+## 比例所需的樣本大小
 
-:::{.callout-note}
-## 公式
+:::{.callout-important}
+## 母體比例區間估計所需最小樣本大小的公式
 
 $$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2$$
 
-- 若有 $\hat{p}$ 的先驗估計，則使用之
-- 若無先驗估計，使用 $\hat{p} = 0.5$（最大化 n，給出最保守的估計）
-
-計算結果一律**無條件進位**至最近的整數。
+必要時**無條件進位**成整數。
 :::
 
+需要分成兩種情況考慮：
+
+1. 若已有 $\hat{p}$ 的某個近似值（例如來自先前的研究），即以該值代入公式。
+2. 若沒有 $\hat{p}$ 的任何近似值，則取 $\hat{p} = 0.5$。因為 $\hat{p} = \hat{q} = 0.5$ 時乘積 $\hat{p}\hat{q}$ 最大，如此可確保樣本夠大、預測足夠準確。
+
+第二種作法的缺點是可能得到比實際所需更大的樣本。
+
+---
+
+## 比例所需的樣本大小
+
+**準備資料**
+
+```{r s7-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+p_hat <- seq(0.1, 0.9, by = 0.1)
+pq_table <- data.frame(p_hat = p_hat, q_hat = 1 - p_hat,
+                       p_times_q = round(p_hat * (1 - p_hat), 2))
+```
+
+乘積 $\hat{p}\hat{q}$ 在 $\hat{p} = \hat{q} = 0.5$ 時最大；採用最大值可在既定的誤差界限與信賴區間下，得到最大可能的 $n$。
+
+---
+
+## 比例所需的樣本大小
+
+```{r s7-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+knitr::kable(pq_table, align = "c")
+```
+
 ## 範例 7-11 {#example-7-11}
+
 :::{.callout-warning}
-## 問題
-一位研究人員希望以 **95% 的信賴水準**，估計擁有家用電腦的人口比例，且誤差在真實比例的 **2%** 以內。先前研究顯示有 40% 的人家中有電腦。求所需的最小樣本大小。
+## 結帳使用行動支付
 
-**解題步驟：**
+某市場研究團隊想以 **95% 的信心**估計台灣網購消費者結帳時使用行動支付的比例。先前的研究顯示有 65% 的消費者這麼做。團隊希望誤差在真實比例的 **3%** 之內。求所需的最小樣本大小。
 
-$z_{\alpha/2} = 1.96$，$E = 0.02$，$\hat{p} = 0.40$，$\hat{q} = 0.60$
+*（模擬資料）*
 
-$$n = (0.40)(0.60)\left(\frac{1.96}{0.02}\right)^2 = (0.24)(9604) = 2304.96 \rightarrow \mathbf{n = 2305}$$
+接續[範例 7-12](#example-7-12)
+:::
+
+---
+
+## 範例 7-11
+
+:::{.callout-tip}
+## 解題
+
+由於 $z_{\alpha/2} = 1.960$、$E = 0.03$、$\hat{p} = 0.65$、$\hat{q} = 0.35$，因此
+
+$$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.65)(0.35)\left(\frac{1.960}{0.03}\right)^2 = 971.04$$
 
 ```{r e7-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.40; q_hat <- 0.60; z <- 1.96; E <- 0.02
-n_raw <- p_hat * q_hat * (z / E)^2
-n_raw
-ceiling(n_raw)
+p_hat <- 0.65
+margin_error <- 0.03
+
+required_n <- p_hat * (1 - p_hat) * (qnorm(0.975) / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
 ```
+
+進位後為須訪問 **972** 位消費者。
 :::
 
 ## 範例 7-12 {#example-7-12}
 
 :::{.callout-warning}
-## 問題
-一位研究人員想估計棕色 M&M 巧克力的百分比。他希望以 **95% 的信賴水準**，誤差在真實比例的 **3%** 以內。目前沒有 $\hat{p}$ 的先驗估計。求最小樣本大小。
+## 沒有先前研究時
 
-**解題步驟：**
-
-由於 $\hat{p}$ 未知，使用 $\hat{p} = \hat{q} = 0.5$
-
-$$n = (0.5)(0.5)\left(\frac{1.96}{0.03}\right)^2 = (0.25)(4268.4) = 1067.1 \rightarrow \mathbf{n = 1068}$$
+承[範例 7-11](#example-7-11)，假設先前並未做過任何研究，因此沒有 $\hat{p}$ 的近似值。求誤差在真實比例 **3%** 之內所需的最小樣本大小。
 :::
+
 ---
+
+## 範例 7-12
+
+:::{.callout-tip}
+## 解題
+
+此處不知道 $\hat{p}$ 與 $\hat{q}$ 的值，因此取 $\hat{p} = 0.5$、$\hat{q} = 0.5$，並以 $E = 0.03$、$z_{\alpha/2} = 1.960$ 代入。
+
+$$n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2 = (0.5)(0.5)\left(\frac{1.960}{0.03}\right)^2 = 1067.07$$
 
 ```{r e7-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_hat <- 0.5; q_hat <- 0.5; z <- 1.96; E <- 0.03
-n_raw <- p_hat * q_hat * (z / E)^2
-n_raw
-ceiling(n_raw)
+p_hat <- 0.5
+margin_error <- 0.03
+
+required_n <- p_hat * (1 - p_hat) * (qnorm(0.975) / margin_error)^2
+round(required_n, 2)
+ceiling(required_n)
 ```
 
-:::{.callout-important}
-## 重要規則
-當 $\hat{p}$ 未知時，一律使用 $\hat{p} = 0.5$——這會產生**最大可能的**樣本大小，確保無論真實比例為何，精確度都足夠。
-:::
-
-# 第 7-4 節：變異數與標準差的信賴區間 {background-color="#2c4a6e"}
-
-## 卡方分配
-
-變異數與標準差的信賴區間需要不同的分配——**卡方**（$\chi^2$）分配。
-
-:::{.callout-note}
-## 卡方分配的性質
-- 由常態母體的 $(n-1)s^2/\sigma^2$ 值所得
-- 不能為負值；向右偏斜
-- 以**自由度**（d.f. = n − 1）為索引的曲線族
-- 每條曲線下的總面積 = 1
-- 隨著自由度增加（約 100 以上），趨近於對稱
-
-**與 z 和 t 的主要差異：** 卡方分配**不對稱**，因此需要兩個獨立的臨界值（$\chi^2_{\text{右}}$ 和 $\chi^2_{\text{左}}$）。
+因此在 $\hat{p}$ 未知時須訪問 **1068** 位消費者——比 $\hat{p}$ 已知時多了 96 位。
 :::
 
 ---
 
-**繪製圖形**
+## 比例所需的樣本大小
 
-```{r e7-12-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x <- seq(0, 40, length.out = 300)
-df_plot <- data.frame(
-  x = rep(x, 4),
-  y = c(dchisq(x, 1), dchisq(x, 4), dchisq(x, 9), dchisq(x, 15)),
-  df = rep(c("df=1","df=4","df=9","df=15"), each = 300)
-)
-p <- ggplot(df_plot, aes(x, y, color = df)) +
+:::{.callout-warning}
+## 注意
+
+決定樣本大小時，**母體的大小無關緊要**。只需要信賴程度與誤差界限兩項資訊即可決定。
+:::
+
+# 第7-5節：變異數與標準差的信賴區間 {background-color="#2c4a6e"}
+
+## 卡方分配
+
+在統計上，變數的變異數與標準差和平均數同等重要。製造必須互相接合的水管時，管徑的變異必須夠小；製造藥品時，藥錠中藥量的變異數決定病患能否獲得正確劑量。
+
+要計算這類信賴區間，需要一個新的分配：**卡方分配**，記為 $\chi^2$（希臘字母 chi，讀作「kai」）。當由變異數為 $\sigma^2$ 的常態母體隨機抽樣時，$(n-1)s^2/\sigma^2$ 的各個值即構成卡方分配。
+
+:::{.callout-note}
+## 卡方分配的特性
+
+1. 所有卡方值都大於或等於 0。
+2. 卡方分配是依自由度而定的**一族曲線**。
+3. 每一條卡方分配曲線下的面積等於 1。
+4. 卡方分配為**右偏**。
+
+自由度約達 100 時，卡方分配會變得相當對稱。
+:::
+
+## 卡方分配曲線族
+
+**Prepare data**
+
+```{r s7-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+chi_curves <- expand_grid(df = c(1, 4, 9, 15),
+                          x = seq(0, 40, length.out = 400)) |>
+  mutate(density = dchisq(x, df),
+         curve = fct_inorder(paste("d.f. =", df)))
+```
+
+---
+
+## 卡方分配曲線族
+
+**Draw figure**
+
+```{r s7-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(chi_curves, aes(x, density, color = curve)) +
   geom_line(linewidth = 1) +
   coord_cartesian(ylim = c(0, 0.5)) +
-  labs(title = "卡方曲線族",
-       x = expression(chi^2), y = "密度", color = "自由度")
+  labs(title = "卡方分配曲線族",
+       x = "卡方值", y = "機率密度", color = "")
 ```
 
----
+## 查出兩個臨界值
 
-## 卡方分配
+由於卡方分配**不對稱**，公式中要使用兩個不同的值：$\chi^2_{\text{left}}$ 與 $\chi^2_{\text{right}}$。
 
-**輸出圖形**
+表 A-6 的左欄為自由度，最上一列為臨界值**右側的面積**。以 95% 信賴區間為例：
 
-```{r e7-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p
-```
+1. 把 95% 化為小數並以 1 減去：$1 - 0.95 = 0.05$。
+2. 除以 2：$\alpha/2 = 0.05/2 = 0.025$。此欄給出 $\chi^2_{\text{right}}$。
+3. 以 1 減去 $\alpha/2$：$1 - 0.025 = 0.975$。此欄給出 $\chi^2_{\text{left}}$。
+4. 查 $\text{d.f.} = n - 1$ 所在的列。
 
-## 變異數與標準差信賴區間的公式
+:::{.callout-warning}
+## 注意
 
-:::{.callout-note}
-## 變異數的信賴區間
-$$\frac{(n-1)s^2}{\chi^2_{\text{右}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{左}}}$$
-d.f. = n − 1
+若表 A-6 中沒有所需的自由度，使用表中**最接近的較小值**。例如 $\text{d.f.} = 53$ 時改用 $\text{d.f.} = 50$。這是查表時較保守的作法；`qchisq()` 接受確切的自由度，兩者不一致時，投影片一律採用 R 算出的值。
 :::
-
-:::{.callout-note}
-## 標準差的信賴區間
-$$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{右}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{左}}}}$$
-:::
-
-**假設條件：** (1) 隨機樣本；(2) 母體**必須**服從常態分配。
-
-**求臨界值：** 在 R 中使用 `qchisq()`。對於自由度 d.f. = n − 1 的 95% CI：
-- $\chi^2_{\text{右}}$：`qchisq(0.975, df = n-1)`
-- $\chi^2_{\text{左}}$：`qchisq(0.025, df = n-1)`
 
 ## 範例 7-13 {#example-7-13}
 
 :::{.callout-warning}
-## 求卡方臨界值
+## 查出卡方臨界值
 
-當 n = 25 時，求 **90% 信賴區間**的 $\chi^2_{\text{右}}$ 與 $\chi^2_{\text{左}}$ 值。
+$n = 20$ 時，求 **95% 信賴區間**的 $\chi^2_{\text{right}}$ 與 $\chi^2_{\text{left}}$。
 :::
+
+---
 
 ## 範例 7-13
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+求 $\chi^2_{\text{right}}$：先算 $1 - 0.95 = 0.05$，再將 0.05 除以 2 得 0.025。
+求 $\chi^2_{\text{left}}$：再算 $1 - 0.025 = 0.975$。
 
-d.f. = 25 − 1 = 24
+然後以 $\text{d.f.} = n - 1 = 20 - 1 = 19$ 查表 A-6 的 0.975 與 0.025 兩欄。
 
-- $\alpha = 1 - 0.90 = 0.10$，故 $\alpha/2 = 0.05$
-- $\chi^2_{\text{右}}$：右側面積 = 0.05 → 0.05 欄 → **36.415**
-- $\chi^2_{\text{左}}$：右側面積 = 0.95 → 0.95 欄 → **13.848**
-:::
----
+$$\chi^2_{\text{right}} = 32.852 \qquad \chi^2_{\text{left}} = 8.907$$
 
 ```{r e7-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 25; df <- n - 1
-chi_right <- qchisq(0.95, df = df)   # upper critical value
-chi_left  <- qchisq(0.05, df = df)   # lower critical value
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
+degrees_freedom <- 20 - 1
+
+round(c(chi_right = qchisq(0.975, df = degrees_freedom),
+        chi_left  = qchisq(0.025, df = degrees_freedom)), 3)
 ```
+:::
+
+## 變異數與標準差的公式
 
 :::{.callout-important}
-## 注意
-命名方式看似反直覺：$\chi^2_{\text{右}}$ 是**較大**的值，用於**下界的分母**；而 $\chi^2_{\text{左}}$ 是**較小**的值，用於**上界的分母**。
+## 變異數信賴區間的公式
+
+$$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \text{d.f.} = n - 1$$
+:::
+
+:::{.callout-important}
+## 標準差信賴區間的公式
+
+$$\sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}} \qquad \text{d.f.} = n - 1$$
+:::
+
+$\sigma^2$ 與 $\sigma$ 的有用估計值分別是 $s^2$ 與 $s$。題目若給的是樣本標準差 $s$，代入時務必**先平方**；若給的是樣本變異數 $s^2$，則**不要**再平方，因為變異數已是平方單位。
+
+---
+
+## 變異數與標準差的公式
+
+:::{.callout-important}
+## 求變異數或標準差信賴區間的假設
+
+1. 樣本是隨機樣本。
+2. 母體**必須**為常態分配。
+:::
+
+:::{.callout-important}
+## 變異數或標準差信賴區間的四捨五入規則
+
+以**原始資料**計算時，取到比原始資料**多一位**小數。
+
+以**樣本變異數或標準差**計算時，取到與所給樣本變異數或標準差**相同位數**的小數。
 :::
 
 ## 範例 7-14 {#example-7-14}
 
 :::{.callout-warning}
-## 香菸尼古丁含量
+## 批次不良率的變異
 
-已知一個 n = 20 支香菸的樣本，其標準差 s = 1.6 毫克。求製造香菸尼古丁含量之變異數與標準差的 **95% 信賴區間**。
+某電子廠的品管工程師抽驗 30 個生產批次，發現不良率（每千件的不良品數）的標準差為 1.6。求不良率之變異數與標準差的 **95% 信賴區間**。假設該變數為常態分配。
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-14
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+由於 $\alpha = 0.05$、自由度為 29，兩個臨界值為 $\chi^2_{\text{left}} = 16.047$ 與 $\chi^2_{\text{right}} = 45.722$。
 
-d.f. = 19；95% CI → $\chi^2_{\text{右}} = 32.852$，$\chi^2_{\text{左}} = 8.907$
+$$\frac{(30-1)(1.6)^2}{45.722} < \sigma^2 < \frac{(30-1)(1.6)^2}{16.047}$$
+$$\mathbf{1.62 < \sigma^2 < 4.63}$$
 
-$$\frac{(19)(1.6)^2}{32.852} < \sigma^2 < \frac{(19)(1.6)^2}{8.907}$$
-$$\frac{48.64}{32.852} < \sigma^2 < \frac{48.64}{8.907} \implies \mathbf{1.5 < \sigma^2 < 5.5}$$
+標準差方面，將兩個上下限各取平方根：
 
-$$\sqrt{1.5} < \sigma < \sqrt{5.5} \implies \mathbf{1.2 < \sigma < 2.3}$$
+$$\mathbf{1.27 < \sigma < 2.15}$$
 :::
+
 ---
 
-```{r e7-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n <- 20; s <- 1.6; df <- n - 1
-chi_right <- qchisq(0.975, df = df)
-chi_left  <- qchisq(0.025, df = df)
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
+## 範例 7-14
 
-var_lower <- (df * s^2) / chi_right
-var_upper <- (df * s^2) / chi_left
-cat("95% CI for variance: (", round(var_lower, 1), ",", round(var_upper, 1), ")\n")
-cat("95% CI for std dev:  (", round(sqrt(var_lower), 1), ",",
-    round(sqrt(var_upper), 1), ")\n")
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
+
+```{r e7-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sample_sd <- 1.6
+degrees_freedom <- 30 - 1
+
+chi_limits <- qchisq(c(0.975, 0.025), df = degrees_freedom)
+round(chi_limits, 3)
+
+variance_limits <- degrees_freedom * sample_sd^2 / chi_limits
+round(variance_limits, 2)
+round(sqrt(variance_limits), 2)
 ```
+
+根據 30 個批次的樣本，我們有 **95% 的信心**認為不良率的真實變異數介於 1.62 與 4.63 之間，真實標準差介於 1.27 與 2.15 之間。
+:::
 
 ## 範例 7-15 {#example-7-15}
 
 :::{.callout-warning}
-## 滑雪纜車票價
+## 客服中心的每日來電量
 
-下列資料為全國各地滑雪度假村成人單日纜車票價（美元）樣本。假設變數服從常態分配，求變異數與標準差的 **90% 信賴區間**。
+求某客服中心每日來電件數之變異數與標準差的 **90% 信賴區間**。所用樣本為隨機抽取的 10 天。假設其分配近似常態。
 
-59, 54, 53, 52, 51, 39, 49, 46, 49, 48
+```
+124   127   130   130   135
+140   148   155   158   163
+```
+
+*（模擬資料）*
 :::
+
+---
 
 ## 範例 7-15
 
 :::{.callout-tip}
 ## 解題
 
-**解題步驟（數學）：**
+**步驟 1** 求資料的變異數：$s^2 = 198$。
 
-由資料求得 $s^2 \approx 28.2$；d.f. = 9；90% CI → $\chi^2_{\text{右}} = 16.919$，$\chi^2_{\text{左}} = 3.325$
+**步驟 2** 以 $10 - 1 = 9$ 的自由度，由表 A-6 查 $\chi^2_{\text{right}}$ 與 $\chi^2_{\text{left}}$。取 $\alpha/2 = 0.05$ 與 $1 - \alpha/2 = 0.95$：$\chi^2_{\text{right}} = 16.919$，$\chi^2_{\text{left}} = 3.325$。
 
-$$\frac{(9)(28.2)}{16.919} < \sigma^2 < \frac{(9)(28.2)}{3.325} \implies \mathbf{15.0 < \sigma^2 < 76.4}$$
+**步驟 3** 代入公式。
 
-$$\sqrt{15.0} < \sigma < \sqrt{76.4} \implies \mathbf{3.87 < \sigma < 8.74}$$
+$$\frac{(10-1)(198)}{16.919} < \sigma^2 < \frac{(10-1)(198)}{3.325}$$
+$$\mathbf{105.3 < \sigma^2 < 535.9}$$
+$$\sqrt{105.3} < \sigma < \sqrt{535.9} \qquad \Longrightarrow \qquad \mathbf{10.3 < \sigma < 23.1}$$
 :::
 
-----
+---
+
+## 範例 7-15
+
+:::{.callout-tip}
+## 解題
+
+**以 R 計算**
 
 ```{r e7-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-tickets <- c(59, 54, 53, 52, 51, 39, 49, 46, 49, 48)
-n <- length(tickets)
-s2 <- var(tickets); s <- sd(tickets)
-df <- n - 1
-cat("n =", n, "  s² =", round(s2, 1), "  s =", round(s, 2), "\n")
+daily_calls <- c(124, 127, 130, 130, 135,
+                 140, 148, 155, 158, 163)
+degrees_freedom <- length(daily_calls) - 1
+sample_variance <- var(daily_calls)
+sample_variance
 
-chi_right <- qchisq(0.95, df = df)   # 90% CI
-chi_left  <- qchisq(0.05, df = df)
-cat("chi-sq right =", round(chi_right, 3), "\n")
-cat("chi-sq left  =", round(chi_left, 3), "\n")
+chi_limits <- qchisq(c(0.95, 0.05), df = degrees_freedom)
+round(chi_limits, 3)
 
-var_lower <- (df * s2) / chi_right
-var_upper <- (df * s2) / chi_left
-cat("90% CI for variance: (", round(var_lower, 1), ",", round(var_upper, 1), ")\n")
-cat("90% CI for std dev:  (", round(sqrt(var_lower), 2), ",",
-    round(sqrt(var_upper), 2), ")\n")
+variance_limits <- degrees_freedom * sample_variance / chi_limits
+round(variance_limits, 1)
+round(sqrt(variance_limits), 1)
 ```
 
-**答案：** $15.0 < \sigma^2 < 76.4$；$3.87 < \sigma < 8.74$ 美元。
+根據隨機抽取的 10 天，我們有 **90% 的信心**認為每日來電件數的標準差介於 10.3 件與 23.1 件之間。
+:::
 
-## 第7章摘要 {.smaller}
+## 重要名詞
 
-| 參數 | 公式 | R 函數 |
-|-----------|---------|------------|
-| 平均數（$\sigma$ 已知） | $\bar{X} \pm z_{\alpha/2}(\sigma/\sqrt{n})$ | `qnorm(1-alpha/2)` |
-| 平均數（$\sigma$ 未知） | $\bar{X} \pm t_{\alpha/2}(s/\sqrt{n})$ | `qt(1-alpha/2, df=n-1)` |
-| 樣本大小（平均數） | $n = (z_{\alpha/2} \cdot \sigma / E)^2$ | `ceiling(...)` |
-| 比例 | $\hat{p} \pm z_{\alpha/2}\sqrt{\hat{p}\hat{q}/n}$ | `prop.test()` |
-| 樣本大小（比例） | $n = \hat{p}\hat{q}(z_{\alpha/2}/E)^2$ | `ceiling(...)` |
-| 變異數 | $(n-1)s^2/\chi^2_R < \sigma^2 < (n-1)s^2/\chi^2_L$ | `qchisq(...)` |
+:::{.callout-important}
+## 第7章詞彙
+
+假設 · 卡方分配 · 信賴區間 · 信賴水準 · 一致估計式 · 自由度 · 估計 · 估計式 · 區間估計 · 誤差界限 · 點估計 · 比例 · 相對有效估計式 · 穩健 · $t$ 分配 · 不偏估計式
+:::
+
+## 重要公式
+
+:::{.callout-important}
+## 母體平均數的信賴區間
+
+$\sigma$ 已知時母體平均數的信賴區間（當 $n \geq 30$ 且 $\sigma$ 未知時可用 $s$ 代替）：
+
+$$\bar{X} - z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right) < \mu < \bar{X} + z_{\alpha/2}\left(\frac{\sigma}{\sqrt{n}}\right)$$
+
+$\sigma$ 未知時母體平均數的信賴區間，$\text{d.f.} = n - 1$：
+
+$$\bar{X} - t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right) < \mu < \bar{X} + t_{\alpha/2}\left(\frac{s}{\sqrt{n}}\right)$$
+
+估計平均數所需的樣本大小，其中 $E$ 為誤差界限：
+
+$$n = \left(\frac{z_{\alpha/2} \cdot \sigma}{E}\right)^2$$
+:::
+
+---
+
+## 重要公式
+
+:::{.callout-important}
+## 比例、變異數與標準差
+
+比例的信賴區間，其中 $\hat{p} = X/n$、$\hat{q} = 1 - \hat{p}$：
+
+$$\hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} < p < \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\hat{q}}{n}} \qquad n = \hat{p}\hat{q}\left(\frac{z_{\alpha/2}}{E}\right)^2$$
+
+變異數與標準差的信賴區間，$\text{d.f.} = n - 1$：
+
+$$\frac{(n-1)s^2}{\chi^2_{\text{right}}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{\text{left}}} \qquad \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{right}}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{\text{left}}}}$$
+:::
 
 ## 重點整理
 
-1. $\sigma$ 已知時使用 z；$\sigma$ 未知時使用 t
-2. 信賴區間越寬 → 信賴程度越高，精確度越低
-3. 樣本越大 → 區間越窄 → 精確度越高
-4. 當比例 $\hat{p}$ 未知時，使用 $\hat{p} = 0.5$
-5. 變異數的卡方信賴區間**要求**母體服從常態分配
-6. 樣本大小的計算結果一律**無條件進位**至最近的整數
+:::{.callout-important}
+- **估計**是以樣本統計量推估參數；良好的估計式應為**不偏**、**一致**且**相對有效**，而 $\bar{X}$ 是 $\mu$ 的最佳點估計
+- **點估計**是單一數值，**區間估計**是一段範圍，其**信賴水準**是這類區間長期而言捕捉到參數的機率
+- **誤差界限**（估計的最大誤差）是點估計與參數之間最大的可能差距；信賴水準越高，區間越**寬**
+- $\sigma$ 已知時用 $z_{\alpha/2}$ 與 $\sigma$；$\sigma$ 未知時用 $t_{\alpha/2}$ 與 $s$，且 $\text{d.f.} = n - 1$——若 $n < 30$，變數必須為常態分配
+- 樣本大小由 $n = \left(z_{\alpha/2}\sigma/E\right)^2$ 與 $n = \hat{p}\hat{q}\left(z_{\alpha/2}/E\right)^2$ 求得，且一律**無條件進位**；母體大小無關緊要
+- 比例方面，$\hat{p} = X/n$、$\hat{q} = 1 - \hat{p}$，區間需滿足 $n\hat{p} \geq 5$ 與 $n\hat{q} \geq 5$，上下限取到**小數第三位**；$\hat{p}$ 未知時取 $\hat{p} = 0.5$
+- $\sigma^2$ 與 $\sigma$ 的信賴區間使用**右偏**的卡方分配與兩個臨界值，且**必須**假設母體為常態分配
+:::
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 

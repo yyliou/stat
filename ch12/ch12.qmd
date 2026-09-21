@@ -43,774 +43,1323 @@ include-after-body:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Chapter 12: Analysis of Variance {background-color="#2c4a6e"}
-
 ## Overview
-:::{.callout-note}
-## Why ANOVA?
-When comparing **three or more group means**, using multiple t-tests is problematic:
 
-- Each additional comparison inflates the Type I error rate
-- With $k$ groups, you need $\binom{k}{2}$ pairwise tests
-- The **F test** compares all means simultaneously in a single test
+Chapter 12 is about the **analysis of variance (ANOVA)** — an $F$ test that compares **three or more means** by comparing two estimates of the same population variance.
+
+| Section | Topics |
+|---------|--------|
+| 12-1 | One-way ANOVA; why not multiple $t$ tests; $F = s_B^2 / s_W^2$; $d.f.N. = k-1$, $d.f.D. = N-k$; summary table |
+| 12-2 | Scheffé test, $F' = (k-1)(C.V.)$; Tukey $q$ test; Bonferroni adjustment; which test to use |
+| 12-3 | Two-way ANOVA; factors, levels, treatment groups; main and interaction effects; ordinal vs. disordinal |
+
+## Chapter Objectives
+
+:::{.callout-important}
+## After completing this chapter, you should be able to
+
+1. Use the one-way ANOVA technique to determine if there is a significant difference among three or more means.
+2. Determine which means differ, using the Scheffé, Tukey, or Bonferroni tests if the null hypothesis is rejected in the ANOVA.
+3. Use the two-way ANOVA technique to determine if there is a significant difference in the main effects or interaction.
 :::
 
-**Topics covered:**
+---
 
-- **Section 12-1:** One-Way Analysis of Variance (ANOVA)
-- **Section 12-2:** Post-hoc Tests — Scheffé and Tukey
-- **Section 12-3:** Two-Way Analysis of Variance
+## Introduction
 
-## Historical Note
+The $F$ test of Chapter 9, which compares two variances, can also be used to compare **three or more means**. This technique is called the **analysis of variance**, or **ANOVA**.
+
+The $z$ and $t$ tests should not be used when three or more means are compared. For three groups, the $F$ test can show only *whether* a difference exists among the three means; it cannot reveal *where* the difference lies — between $\bar{X}_1$ and $\bar{X}_2$, $\bar{X}_1$ and $\bar{X}_3$, or $\bar{X}_2$ and $\bar{X}_3$. Other tests, such as the Scheffé, Tukey and Bonferroni tests, are used to locate the difference.
 
 :::{.callout-note}
-## Origin of ANOVA
-The methods of analysis of variance were developed by **R. A. Fisher** in the early 1920s.
+## One-Way and Two-Way ANOVA
 
-ANOVA uses **variances** to make inferences about **means** — hence the name "Analysis of Variance."
+The analysis of variance used to compare three or more means is called a **one-way analysis of variance**, since it involves only one variable. When the study involves two variables, a **two-way analysis of variance** is used (Section 12-3).
 :::
-
 
 # Section 12-1: One-Way Analysis of Variance {background-color="#2c4a6e"}
 
-## Why Not Multiple t-Tests?
-
-:::{.callout-important}
-## Three Reasons to Avoid Multiple t-Tests
-1. **Ignores other groups:** Each pairwise comparison ignores the remaining groups
-2. **Inflated Type I error:** More comparisons = higher chance of false significance
-3. **Explosion of tests:** 3 means → 3 tests; 5 means → 10 tests; 10 means → 45 tests
-:::
-
-The **F test** overcomes all three issues by comparing all means at once.
-
-## Assumptions for One-Way ANOVA
-
-:::{.callout-important}
-## Assumptions
-1. Each population must be **normally or approximately normally distributed**
-2. All samples must be **independent** of one another
-3. The **variances of all populations** must be equal (homogeneity of variance)
-:::
-
-## The Logic of ANOVA
+## Analysis of Variance
 
 :::{.callout-note}
-## Two Variance Estimates
-| Estimate | What it measures |
-|----------|-----------------|
-| **Between-group variance** ($s_B^2$) | Variation among sample means |
-| **Within-group variance** ($s_W^2$) | Variation within each group (pooled) |
+## One-Way Analysis of Variance
 
-- If $H_0$ is **true**: $s_B^2 \approx s_W^2$, so $F \approx 1$
-- If $H_0$ is **false**: $s_B^2 \gg s_W^2$, so $F \gg 1$
+The **one-way analysis of variance test** is used to test the equality of three or more means using sample variances.
+:::
+
+The procedure is called *one-way* because there is only **one independent variable** that distinguishes between the different populations in the study. The independent variable is also called a **factor**.
+
+---
+
+## Why Not Multiple $t$ Tests?
+
+At first glance it might seem that three or more sample means could be compared with multiple $t$ tests, two means at a time. There are three reasons why this should not be done.
+
+:::{.callout-important}
+## Three Reasons
+
+1. **The other means are ignored.** When two means are compared at a time, the rest of the means under study are ignored. With the $F$ test, all the means are compared simultaneously.
+2. **The type I error rate increases.** The more $t$ tests that are conducted, the greater the likelihood of getting significant differences by chance alone, so the probability of rejecting a true null hypothesis is increased. As the number of populations compared increases, the probability of making a type I error at a given $\alpha$ also increases.
+3. **The number of tests explodes.** Comparing 3 means two at a time requires 3 $t$ tests; 5 means require 10 tests; 10 means require 45 tests.
+:::
+
+---
+
+## Characteristics of the $F$ Distribution
+
+:::{.callout-important}
+## Recall from Chapter 9
+
+1. The values of $F$ cannot be negative, because variances are always positive or zero.
+2. The distribution is positively skewed.
+3. The mean value of $F$ is approximately equal to 1.
+4. The $F$ distribution is a family of curves based on the degrees of freedom of the variance of the numerator and the degrees of freedom of the variance of the denominator.
+:::
+
+Even though three or more **means** are being compared, **variances** are used in the test.
+
+---
+
+## Two Estimates of the Population Variance
+
+:::{.callout-note}
+## Between-Group and Within-Group Variance
+
+The **between-group variance** is the first estimate of the population variance; it involves finding the variance of the means.
+
+The **within-group variance** is the second estimate; it is made by computing the variance using all the data and is not affected by differences in the means.
+:::
+
+---
+
+## Two Estimates of the Population Variance (cont.)
+
+- If there is **no difference** in the means, the between-group estimate is approximately equal to the within-group estimate, the $F$ test statistic is approximately 1, and $H_0$ is not rejected.
+- When the means **differ significantly**, the between-group variance is much larger than the within-group variance, $F$ is significantly greater than 1, and $H_0$ is rejected.
+
+$$F = \frac{\text{variance between groups}}{\text{variance within groups}}$$
+
+---
+
+## Formulas for the $F$ Test
+
+:::{.callout-important}
+## Grand Mean, $s_B^2$ and $s_W^2$
+
+The **grand mean** $\bar{X}_{GM}$ is the mean of all the values in all of the samples:
+
+$$\bar{X}_{GM} = \frac{\sum X}{N}$$
+
+The **between-group variance** is the variance among the means, using the sample sizes as weights:
+
+$$s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k - 1}$$
+
+The **within-group variance** is a weighted average of the individual sample variances; it does not involve differences of means:
+
+$$s_W^2 = \frac{\sum (n_i - 1) s_i^2}{\sum (n_i - 1)}$$
+
+where $k$ is the number of groups, $n_i$ is a sample size, $\bar{X}_i$ a sample mean and $s_i^2$ a sample variance.
+:::
+
+---
+
+## The $F$ Test Statistic
+
+:::{.callout-important}
+## Formula for the $F$ Test for One-Way Analysis of Variance
 
 $$F = \frac{s_B^2}{s_W^2}$$
 
-The F test for comparing means is always **right-tailed**.
+where $s_B^2$ is the between-group variance and $s_W^2$ is the within-group variance.
 :::
 
-## Hypotheses and Degrees of Freedom
-
-
 :::{.callout-note}
-## ANOVA Hypotheses
+## Hypotheses for the ANOVA
+
 $$H_0: \mu_1 = \mu_2 = \cdots = \mu_k$$
-$$H_1: \text{At least one mean differs from the others}$$
+$$H_1: \text{At least one mean is different from the others}$$
+
+A significant test statistic means there is a high probability that the difference in means is not due to chance, but it does **not** indicate where the difference lies.
 :::
 
-:::{.callout-note}
+---
+
 ## Degrees of Freedom
+
+:::{.callout-important}
+## $d.f.N.$ and $d.f.D.$
+
 $$d.f.N. = k - 1 \qquad d.f.D. = N - k$$
 
-where $k$ = number of groups and $N = n_1 + n_2 + \cdots + n_k$
+where $k$ is the number of groups and $N = n_1 + n_2 + \cdots + n_k$ is the sum of the sample sizes.
+
+The sample sizes **need not be equal**. The $F$ test to compare means is always **right-tailed**.
 :::
 
-## ANOVA Computational Formulas
+---
 
-:::{.callout-note}
-## Step-by-Step Procedure
-**Step 1:** Find the mean and variance of each sample: $(\bar{X}_1, s_1^2), \ldots, (\bar{X}_k, s_k^2)$
+## Table 12-1: Analysis of Variance Summary Table
 
-**Step 2:** Grand mean: $\bar{X}_{GM} = \dfrac{\sum X}{N}$
+:::{.callout-important}
+## Table 12-1 — Analysis of Variance Summary Table
 
-**Step 3:** Between-group variance: $s_B^2 = \dfrac{\sum n_i(\bar{X}_i - \bar{X}_{GM})^2}{k-1}$
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | SSB | $k-1$ | MSB | |
+| Within groups (error) | SSW | $N-k$ | MSW | |
+| Total | | | | |
 
-**Step 4:** Within-group variance: $s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$
+$$SSB = \sum n_i (\bar{X}_i - \bar{X}_{GM})^2 \qquad SSW = \sum (n_i - 1) s_i^2$$
 
-**Step 5:** $F = \dfrac{s_B^2}{s_W^2}$
+$$MSB = s_B^2 = \frac{SSB}{k-1} \qquad MSW = s_W^2 = \frac{SSW}{N-k} \qquad F = \frac{s_B^2}{s_W^2} = \frac{MSB}{MSW}$$
 :::
 
-## ANOVA Summary Table
+$SSB$ is the **sum of squares between groups**, $SSW$ the **sum of squares within groups** (the error sum of squares), and $MSB$, $MSW$ the **mean squares**.
 
-:::{.callout-note}
-## Standard Summary Table Format
-| Source | SS | d.f. | MS | F |
-|--------|-----|------|-----|---|
-| Between (Treatment) | SSB | $k-1$ | MSB = SSB/$(k-1)$ | MSB/MSW |
-| Within (Error) | SSW | $N-k$ | MSW = SSW/$(N-k)$ | |
-| Total | SST | $N-1$ | | |
+---
 
-Where:
-- $SSB = \sum n_i(\bar{X}_i - \bar{X}_{GM})^2$
-- $SSW = \sum (n_i - 1)s_i^2$
+## Assumptions for the $F$ Test
+
+:::{.callout-important}
+## Assumptions for the $F$ Test for Comparing Three or More Means
+
+1. The populations from which the samples were obtained must be normally or approximately normally distributed.
+2. The samples must be independent of one another.
+3. The variances of the populations must be equal.
+4. The samples must be simple random samples, one from each of the populations.
 :::
+
+In this book the assumptions are stated in the exercises; in other situations you must check that they have been met before proceeding.
+
+---
+
+## Procedure Table
+
+:::{.callout-important}
+## Finding the $F$ Test Statistic for the Analysis of Variance
+
+**Step 1.** Find the mean and variance of each sample: $(\bar{X}_1, s_1^2), (\bar{X}_2, s_2^2), \ldots, (\bar{X}_k, s_k^2)$.
+
+**Step 2.** Find the grand mean: $\bar{X}_{GM} = \dfrac{\sum X}{N}$.
+
+**Step 3.** Find the between-group variance: $s_B^2 = \dfrac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1}$.
+
+**Step 4.** Find the within-group variance: $s_W^2 = \dfrac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$.
+
+**Step 5.** Find the $F$ test statistic: $F = \dfrac{s_B^2}{s_W^2}$, with $d.f.N. = k-1$ and $d.f.D. = N-k$.
+:::
+
+---
+
+## The Five-Step Procedure
+
+:::{.callout-important}
+## The One-Way ANOVA Follows the Regular Hypothesis-Testing Procedure
+
+**Step 1.** State the hypotheses.
+
+**Step 2.** Find the critical values.
+
+**Step 3.** Compute the test statistic.
+
+**Step 4.** Make the decision.
+
+**Step 5.** Summarize the results.
+:::
+
+---
 
 ## Example 12-1 {#example-12-1}
 
 :::{.callout-warning}
-## Lowering Blood Pressure
+## Daily Revenue by Store Format
 
-A researcher tests three techniques to reduce blood pressure: **medication**, **exercise**, and **diet**. After 4 weeks, blood pressure reductions are recorded. At $\alpha = 0.05$, test the claim that there is no difference among the means.
+A retail analyst at a Taipei beverage chain wishes to see if there is a difference in mean daily revenue among three store formats: MRT-station kiosks, campus outlets and suburban drive-through stores. She randomly samples four MRT kiosks, five campus outlets and three suburban stores and records one day's revenue (NTD thousand) at each. At $\alpha = 0.05$, test the claim that there is no difference among the means.
 
-| Medication | Exercise | Diet |
-|-----------|---------|------|
-| 10 | 6 | 5 |
-| 12 | 8 | 9 |
-| 9 | 3 | 12 |
-| 15 | 0 | 8 |
-| 13 | 2 | 4 |
-| $\bar{X}_1=11.8$ | $\bar{X}_2=3.8$ | $\bar{X}_3=7.6$ |
-| $s_1^2=5.7$ | $s_2^2=10.2$ | $s_3^2=10.3$ |
+```
+MRT       Campus    Suburban
+ 81         76          60
+ 75         68          51
+ 68         64          45
+ 64         60
+            57
+```
 
+*(hypothetical data)*
+
+Back to [Example 12-3](#example-12-3) · Back to [Example 12-5](#example-12-5)
 :::
+
+---
 
 ## Example 12-1
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0: \mu_1 = \mu_2 = \mu_3$ (claim); $H_1:$ At least one mean differs
+$$H_0: \mu_1 = \mu_2 = \mu_3 \ \textit{(claim)}$$
+$$H_1: \text{At least one mean is different from the others}$$
 
-**Step 2:** $k=3$, $N=15$; $d.f.N.=2$, $d.f.D.=12$ → Critical value: **3.89**
+**Step 2.** Find the critical value. With $N = 12$ and $k = 3$,
 
-**Step 3a:** Means and variances given above
+$$d.f.N. = k - 1 = 3 - 1 = 2 \qquad d.f.D. = N - k = 12 - 3 = 9$$
 
-**Step 3b:** Grand mean: $\bar{X}_{GM} = \dfrac{116}{15} = 7.73$
-
-:::
-
-## Example 12-1
-
-:::{.callout-tip}
-## Solution (cont.)
-
-**Step 3c:** Between-group variance:
-$$s_B^2 = \frac{5(11.8-7.73)^2 + 5(3.8-7.73)^2 + 5(7.6-7.73)^2}{3-1} = \frac{160.13}{2} = 80.07$$
-
-**Step 3d:** Within-group variance:
-$$s_W^2 = \frac{4(5.7) + 4(10.2) + 4(10.3)}{4+4+4} = \frac{104.80}{12} = 8.73$$
-
-**Step 3e:** $F = \dfrac{80.07}{8.73} = 9.17$
-
-**Step 4:** $9.17 > 3.89$ → **Reject** $H_0$
-
-**Step 5:** There is sufficient evidence that at least one mean differs from the others.
-
-:::
-
-## Example 12-1
-
-:::{.callout-tip}
-## Solution
-
-**ANOVA summary table**
-
-| Source | SS | d.f. | MS | F |
-|--------|-----|------|-----|---|
-| Between | 160.13 | 2 | 80.07 | **9.17** |
-| Within (Error) | 104.80 | 12 | 8.73 | |
-| **Total** | **264.93** | **14** | | |
-
-Critical value at $\alpha=0.05$: **3.89**
-
-Since $F = 9.17 > 3.89$, we **reject** $H_0$.
-:::
-
-## Example 12-1
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
+The critical value from Table A-7 with $\alpha = 0.05$ is **4.26**.
 
 ```{r e12-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-medication <- c(10, 12, 9, 15, 13)
-exercise   <- c(6, 8, 3, 0, 2)
-diet       <- c(5, 9, 12, 8, 4)
-
-bp_data <- data.frame(
-  reduction = c(medication, exercise, diet),
-  group = rep(c("Medication","Exercise","Diet"), each = 5)
-)
-
-result <- aov(reduction ~ group, data = bp_data)
-summary(result)
+qf(0.95, df1 = 2, df2 = 9)   # Table A-7 rounds this value to 4.26
 ```
 :::
 
+---
+
 ## Example 12-1
 
 :::{.callout-tip}
 ## Solution
 
-**Visualization**
+**Step 3a-b — the group statistics and the grand mean**
 
-```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(bp_data, aes(x = group, y = reduction, fill = group)) +
+```{r e12-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mrt_kiosks <- c(81, 75, 68, 64)
+campus     <- c(76, 68, 64, 60, 57)
+suburban   <- c(60, 51, 45)
+
+revenue <- data.frame(
+  daily_revenue = c(mrt_kiosks, campus, suburban),
+  store_format  = factor(rep(c("MRT", "Campus", "Suburban"), c(4, 5, 3)),
+                         levels = c("MRT", "Campus", "Suburban"))
+)
+
+format_stats <- revenue |>
+  group_by(store_format) |>
+  summarise(n = n(), mean = mean(daily_revenue), variance = var(daily_revenue))
+
+knitr::kable(format_stats, align = "c", digits = 3)
+
+grand_mean <- mean(revenue$daily_revenue)
+grand_mean
+```
+:::
+
+---
+
+## Example 12-1
+
+:::{.callout-tip}
+## Solution
+
+**Step 3c-e — the two variance estimates and $F$**
+
+$$s_B^2 = \frac{4(72 - 64.083)^2 + 5(65 - 64.083)^2 + 3(52 - 64.083)^2}{3-1} = \frac{692.917}{2} = 346.458$$
+
+$$s_W^2 = \frac{(4-1)(56.667) + (5-1)(55) + (3-1)(57)}{(4-1)+(5-1)+(3-1)} = \frac{504}{9} = 56$$
+
+$$F = \frac{s_B^2}{s_W^2} = \frac{346.458}{56} = 6.187$$
+
+```{r e12-1-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+between_var <- sum(format_stats$n * (format_stats$mean - grand_mean)^2) / (3 - 1)
+within_var  <- sum((format_stats$n - 1) * format_stats$variance) / (12 - 3)
+round(c(between = between_var, within = within_var, F = between_var / within_var), 3)
+
+revenue_aov <- aov(daily_revenue ~ store_format, data = revenue)
+anova(revenue_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+```
+:::
+
+---
+
+## Example 12-1
+
+:::{.callout-tip}
+## Solution
+
+**Steps 4-5 — the decision and the summary**
+
+**Step 4.** The test statistic $6.187 > 4.26$, so the decision is to **reject the null hypothesis**.
+
+**Step 5.** There is enough evidence to conclude that at least one mean is different from the others.
+
+```{r e12-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+summary(revenue_aov)
+```
+:::
+
+---
+
+## Example 12-1
+
+:::{.callout-tip}
+## Solution
+
+**Table 12-2 — Analysis of Variance Summary Table for Example 12-1**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | 692.917 | 2 | 346.458 | 6.187 |
+| Within groups (error) | 504.000 | 9 | 56.000 | |
+| Total | 1196.917 | 11 | | |
+
+In Table A-7 with $d.f.N. = 2$ and $d.f.D. = 9$, the test statistic 6.187 falls between the $F$ value 5.71 at $\alpha = 0.025$ and 8.02 at $\alpha = 0.01$. Hence $0.01 < \text{P-value} < 0.025$, and $H_0$ is rejected at $\alpha = 0.05$.
+
+```{r e12-1-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(summary(revenue_aov)[[1]][["Pr(>F)"]][1], 4)
+```
+:::
+
+---
+
+## Example 12-1
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure** — the data behind the test
+
+```{r e12-1-6, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
+ggplot(revenue, aes(x = store_format, y = daily_revenue, fill = store_format)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
-  labs(title = "Blood Pressure Reduction by Treatment",
-       x = "Treatment Group", y = "Reduction (mmHg)") +
+  labs(title = "Daily Revenue by Store Format",
+       x = "Store format", y = "Daily revenue (NTD thousand)") +
   theme_minimal() +
   theme(legend.position = "none")
 ```
 :::
+
+---
 
 ## Example 12-2 {#example-12-2}
 
 :::{.callout-warning}
-## Employees at Toll Road Interchanges
+## Transit Time by Carrier
 
-A state official wants to determine if there is a significant difference in the number of employees at interchanges across three Pennsylvania toll roads. At $\alpha = 0.05$, test the claim.
+A logistics team at a Taiwanese exporter wishes to see if there is a difference in the door-to-door transit time of shipments sent from Taoyuan to a Southeast Asian distribution hub by three carriers. Six recent shipments are randomly selected from each carrier and the transit time is recorded in hours. At $\alpha = 0.05$, can it be concluded that there is a significant difference in the mean transit times of the three carriers?
 
-| PA Turnpike | Greensburg Bypass | Beaver Valley |
-|------------|-------------------|---------------|
-| 7 | 10 | 1 |
-| 14 | 1 | 12 |
-| 32 | 1 | 1 |
-| 19 | 0 | 9 |
-| 10 | 11 | 1 |
-| 11 | 1 | 11 |
-| $\bar{X}_1=15.5$ | $\bar{X}_2=4.0$ | $\bar{X}_3=5.8$ |
-| $s_1^2=81.9$ | $s_2^2=25.6$ | $s_3^2=29.0$ |
+```
+Carrier A   Carrier B   Carrier C
+    53          46          62
+    50          45          56
+    48          42          54
+    45          38          50
+    42          36          47
+    38          33          43
+```
 
+*(hypothetical data)*
+
+Back to [Example 12-4](#example-12-4)
 :::
+
+---
 
 ## Example 12-2
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**Step 1.** State the hypotheses and identify the claim.
 
-**Step 1:** $H_0: \mu_1 = \mu_2 = \mu_3$; $H_1:$ At least one mean differs (claim)
+$$H_0: \mu_1 = \mu_2 = \mu_3$$
+$$H_1: \text{At least one mean is different from the others} \ \textit{(claim)}$$
 
-**Step 2:** $k=3$, $N=18$; $d.f.N.=2$, $d.f.D.=15$ → Critical value: **3.68**
+**Step 2.** Find the critical value. Since $k = 3$, $N = 18$ and $\alpha = 0.05$,
 
-**Step 3b:** $\bar{X}_{GM} = \dfrac{152}{18} \approx 8.444$
+$$d.f.N. = k - 1 = 2 \qquad d.f.D. = N - k = 18 - 3 = 15$$
 
-**Step 3c:** $s_B^2 = \dfrac{6(15.5-8.444)^2 + 6(4.0-8.444)^2 + 6(5.833-8.444)^2}{2} = \dfrac{458.11}{2} = 229.06$
-
-**Step 3d:** $s_W^2 = \dfrac{5(81.9) + 5(25.6) + 5(28.97)}{15} = \dfrac{682.33}{15} = 45.49$
-
-**Step 3e:** $F = \dfrac{229.06}{45.49} = 5.035$
-
-**Step 4:** $5.035 > 3.68$ → **Reject** $H_0$
-
-**Step 5:** Sufficient evidence that at least one interchange mean differs from the others.
-
-:::
-
-## Example 12-2
-
-:::{.callout-tip}
-## Solution
-
-**ANOVA summary table**
-
-| Source | SS | d.f. | MS | F |
-|--------|-----|------|-----|---|
-| Between | 458.11 | 2 | 229.06 | **5.035** |
-| Within (Error) | 682.33 | 15 | 45.49 | |
-| **Total** | **1140.44** | **17** | | |
-
-**P-value:** $0.01 < P < 0.025$ (from F-tables); calculator: $P = 0.021$
-
-Since $F = 5.035 > 3.68$, we **reject** $H_0$.
-:::
-
-## Example 12-2
-
-:::{.callout-tip}
-## Solution
-
-**R implementation**
+The critical value is **3.68**.
 
 ```{r e12-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-pa_turnpike  <- c(7, 14, 32, 19, 10, 11)
-greensburg   <- c(10, 1, 1, 0, 11, 1)
-beaver       <- c(1, 12, 1, 9, 1, 11)
-
-emp_data <- data.frame(
-  employees = c(pa_turnpike, greensburg, beaver),
-  road = rep(c("PA Turnpike","Greensburg","Beaver Valley"), each = 6)
-)
-
-result2 <- aov(employees ~ road, data = emp_data)
-summary(result2)
+qf(0.95, df1 = 2, df2 = 15)   # Table A-7 rounds this value to 3.68
 ```
 :::
 
+---
+
 ## Example 12-2
 
 :::{.callout-tip}
 ## Solution
 
-**Visualization**
+**Step 3a-b — the group statistics and the grand mean**
 
-```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(emp_data, aes(x = road, y = employees, fill = road)) +
+```{r e12-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+carrier_a <- c(53, 50, 48, 45, 42, 38)
+carrier_b <- c(46, 45, 42, 38, 36, 33)
+carrier_c <- c(62, 56, 54, 50, 47, 43)
+
+transit <- data.frame(
+  transit_hours = c(carrier_a, carrier_b, carrier_c),
+  carrier = factor(rep(c("Carrier A", "Carrier B", "Carrier C"), each = 6))
+)
+
+carrier_stats <- transit |>
+  group_by(carrier) |>
+  summarise(n = n(), mean = mean(transit_hours), variance = var(transit_hours))
+
+knitr::kable(carrier_stats, align = "c", digits = 2)
+
+transit_grand_mean <- mean(transit$transit_hours)
+transit_grand_mean
+```
+:::
+
+---
+
+## Example 12-2
+
+:::{.callout-tip}
+## Solution
+
+**Step 3c-e — the two variance estimates and $F$**
+
+$$s_B^2 = \frac{6(46-46)^2 + 6(40-46)^2 + 6(52-46)^2}{3-1} = \frac{432}{2} = 216$$
+
+$$s_W^2 = \frac{5(30) + 5(26.8) + 5(46)}{5+5+5} = \frac{514}{15} = 34.267$$
+
+$$F = \frac{216}{34.267} = 6.304$$
+
+**Steps 4-5.** Since $6.304 > 3.68$, **reject $H_0$**: there is enough evidence that at least one mean differs from the others.
+
+```{r e12-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+transit_between_var <- sum(carrier_stats$n *
+                             (carrier_stats$mean - transit_grand_mean)^2) / (3 - 1)
+transit_within_var  <- sum((carrier_stats$n - 1) * carrier_stats$variance) / (18 - 3)
+round(c(between = transit_between_var, within = transit_within_var,
+        F = transit_between_var / transit_within_var), 3)
+transit_aov <- aov(transit_hours ~ carrier, data = transit)
+anova(transit_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+```
+:::
+
+---
+
+## Example 12-2
+
+:::{.callout-tip}
+## Solution
+
+**Table 12-3 — Analysis of Variance Summary Table for Example 12-2**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Between groups | 432.000 | 2 | 216.000 | 6.304 |
+| Within groups (error) | 514.000 | 15 | 34.267 | |
+| Total | 946.000 | 17 | | |
+
+In Table A-7 the value 6.304 falls between 4.77 ($\alpha = 0.025$) and 6.36 ($\alpha = 0.01$), so $0.01 < \text{P-value} < 0.025$ and $H_0$ is rejected.
+
+```{r e12-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+summary(transit_aov)
+```
+:::
+
+---
+
+## Example 12-2
+
+:::{.callout-tip}
+## Solution
+
+**Draw figure** — the data behind the test
+
+```{r e12-2-5, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
+ggplot(transit, aes(x = carrier, y = transit_hours, fill = carrier)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.1, size = 2) +
-  labs(title = "Number of Employees at Toll Road Interchanges",
-       x = "Toll Road", y = "Number of Employees") +
+  labs(title = "Door-to-Door Transit Time by Carrier",
+       x = "Carrier", y = "Transit time (hours)") +
   theme_minimal() +
   theme(legend.position = "none")
 ```
 :::
 
-# Section 12-2: The Scheffé Test and the Tukey Test {background-color="#2c4a6e"}
+---
 
-## Post-Hoc Tests: Overview
+## After the $F$ Test
 
-:::{.callout-note}
-## Why Post-Hoc Tests?
-When the F test rejects $H_0$, we know **at least one mean differs**, but not **which pair(s)** differ.
+:::{.callout-warning}
+## Caution
 
-Post-hoc tests make all pairwise comparisons after ANOVA:
-
-| Test | Best Use |
-|------|---------|
-| **Scheffé** | Unequal sample sizes; most conservative |
-| **Tukey** | Equal sample sizes; more powerful for pairwise comparisons |
-
-**General rule:** Use Tukey when $n_i = n_j$; use Scheffé when sizes differ.
+When the null hypothesis is rejected in ANOVA, it only means that **at least one mean is different from the others**. To locate the difference or differences among the means, it is necessary to use other tests such as the Tukey, the Scheffé or the Bonferroni test.
 :::
+
+# Section 12-2: The Scheffé Test, Tukey Test, and Bonferroni Test {background-color="#2c4a6e"}
+
+## Locating the Difference
+
+When the null hypothesis is rejected using the $F$ test, the researcher may want to know **where** the difference among the means is. Several procedures have been developed to determine where the significant differences lie after the ANOVA has been performed. Among the most commonly used are the **Scheffé test**, the **Tukey test** and the **Bonferroni test**.
+
+To conduct the Scheffé test, the means are compared two at a time, using all possible combinations of means. For example, if there are three means, the comparisons are
+
+$$\bar{X}_1 \text{ versus } \bar{X}_2 \qquad \bar{X}_1 \text{ versus } \bar{X}_3 \qquad \bar{X}_2 \text{ versus } \bar{X}_3$$
+
+---
 
 ## The Scheffé Test
 
-:::{.callout-note}
-## Scheffé Test Formula
-$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2\left(\dfrac{1}{n_i} + \dfrac{1}{n_j}\right)}$$
+:::{.callout-important}
+## Formula for the Scheffé Test Statistic
 
-**Critical value for Scheffé:**
-$$F' = (k-1) \times C.V._{\text{ANOVA}}$$
+$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]}$$
 
-Reject $H_0$ for that pair if $F_S > F'$
+where $\bar{X}_i$ and $\bar{X}_j$ are the means of the samples being compared, $n_i$ and $n_j$ are the respective sample sizes, and $s_W^2$ is the within-group variance.
+
+To find the critical value $F'$ for the Scheffé test, multiply the critical value for the $F$ test by $k - 1$:
+
+$$F' = (k - 1)(C.V.)$$
+
+There is a significant difference between the two means being compared when $F_S > F'$.
 :::
+
+---
 
 ## Example 12-3 {#example-12-3}
 
 :::{.callout-warning}
-## Scheffé Test for Blood Pressure Data
+## Scheffé Test for the Store Revenue Data
 
-Using the Scheffé test, determine which pairs of means in Example 12-1 differ significantly at $\alpha = 0.05$.
+Use the Scheffé test to test each pair of means in [Example 12-1](#example-12-1) to see if a significant difference exists between each pair of means. Use $\alpha = 0.05$.
 
-Recall: $\bar{X}_1=11.8$, $\bar{X}_2=3.8$, $\bar{X}_3=7.6$, $s_W^2=8.73$, $n_i=5$ for all groups.
+Recall $\bar{X}_1 = 72$ $(n_1 = 4)$, $\bar{X}_2 = 65$ $(n_2 = 5)$, $\bar{X}_3 = 52$ $(n_3 = 3)$ and $s_W^2 = 56$.
 :::
+
+---
 
 ## Example 12-3
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+The $F$ critical value for Example 12-1 is 4.256, which Table A-7 rounds to 4.26. The critical value for the individual tests with $d.f.N. = 2$ and $d.f.D. = 9$ is
 
-**Critical value:** $F' = (k-1)(C.V.) = (3-1)(3.89) = 7.78$
+$$F' = (k-1)(C.V.) = (3-1)(4.256) = 8.513$$
 
-**a.** $\bar{X}_1$ vs $\bar{X}_2$:
-$$F_S = \frac{(11.8 - 3.8)^2}{8.73(1/5 + 1/5)} = \frac{64}{3.492} = 18.33 \quad \checkmark > 7.78$$
+**a.** For $\bar{X}_1$ versus $\bar{X}_2$: $F_S = \dfrac{(72 - 65)^2}{56 \left( \frac{1}{4} + \frac{1}{5} \right)} = 1.944$. Since $1.944 < 8.513$, $\mu_1$ is **not** significantly different from $\mu_2$.
 
-**b.** $\bar{X}_2$ vs $\bar{X}_3$:
-$$F_S = \frac{(3.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{14.44}{3.492} = 4.14 \quad \text{Not significant}$$
+**b.** For $\bar{X}_1$ versus $\bar{X}_3$: $F_S = \dfrac{(72 - 52)^2}{56 \left( \frac{1}{4} + \frac{1}{3} \right)} = 12.245$. Since $12.245 > 8.513$, $\mu_1$ **is** significantly different from $\mu_3$.
 
-**c.** $\bar{X}_1$ vs $\bar{X}_3$:
-$$F_S = \frac{(11.8 - 7.6)^2}{8.73(1/5 + 1/5)} = \frac{17.64}{3.492} = 5.05 \quad \text{Not significant}$$
+**c.** For $\bar{X}_2$ versus $\bar{X}_3$: $F_S = \dfrac{(65 - 52)^2}{56 \left( \frac{1}{5} + \frac{1}{3} \right)} = 5.658$. Since $5.658 < 8.513$, $\mu_2$ is **not** significantly different from $\mu_3$.
 
-**Conclusion:** Only **Medication vs. Exercise** ($\bar{X}_1$ vs $\bar{X}_2$) is significantly different.
-
+Hence only the mean revenue of the MRT kiosks differs significantly from the mean revenue of the suburban stores.
 :::
+
+---
 
 ## Example 12-3
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The same test in R**
 
 ```{r e12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Scheffé test using agricolae package (or manual calculation)
-# Manual Scheffe test
-scheffe_fs <- function(x1_bar, x2_bar, sw2, n1, n2) {
-  (x1_bar - x2_bar)^2 / (sw2 * (1/n1 + 1/n2))
+scheffe_f <- function(i, j) {
+  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
+  mean_gap^2 / (within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
 }
 
-sw2 <- 8.73
-cv_scheffe <- (3 - 1) * 3.89  # F' = 7.78
+scheffe_cv <- (3 - 1) * qf(0.95, df1 = 2, df2 = 9)
 
-cat("Critical value F' =", cv_scheffe, "\n\n")
+data.frame(
+  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
+  Fs = round(c(scheffe_f(1, 2), scheffe_f(1, 3), scheffe_f(2, 3)), 3)
+) |>
+  mutate(decision = if_else(Fs > scheffe_cv, "significant", "not significant")) |>
+  knitr::kable(align = "c")
 
-pairs <- list(
-  c("Medication vs Exercise", 11.8, 3.8),
-  c("Exercise vs Diet",       3.8,  7.6),
-  c("Medication vs Diet",     11.8, 7.6)
-)
-
-for (p in pairs) {
-  fs <- scheffe_fs(as.numeric(p[2]), as.numeric(p[3]), sw2, 5, 5)
-  sig <- ifelse(fs > cv_scheffe, "SIGNIFICANT", "not significant")
-  cat(p[1], ": Fs =", round(fs, 2), "->", sig, "\n")
-}
+round(scheffe_cv, 3)
 ```
 :::
 
+---
+
+## A Note on the Scheffé Test
+
+:::{.callout-warning}
+## Caution
+
+On occasion, when the $F$ test statistic is greater than the critical value, the Scheffé test may **not** show any significant differences in the pairs of means. This result occurs because the difference may actually lie in the average of two or more means when compared with the other mean. The Scheffé test can be used to make these types of comparisons, but the technique is beyond the scope of this book.
+:::
+
+---
+
 ## The Tukey Test
 
-:::{.callout-note}
-## Tukey Test Formula
-Used when **all sample sizes are equal**:
+The Tukey test can also be used after the analysis of variance has been completed to make pairwise comparisons between means **when the groups have the same sample size**. The symbol for the test statistic in the Tukey test is $q$.
+
+:::{.callout-important}
+## Formula for the Tukey Test
 
 $$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}$$
 
-Compare $|q|$ to the critical value from **Tukey's table** (Table N):
+where $\bar{X}_i$ and $\bar{X}_j$ are the means of the samples being compared, $n$ is the common sample size, and $s_W^2$ is the within-group variance.
 
-- Rows: $\nu$ = degrees of freedom for $s_W^2$ (= $N - k$)
-- Columns: $k$ = number of groups
+When the **absolute value** of $q$ is greater than the critical value for the Tukey test, there is a significant difference between the two means being compared.
 
-Reject $H_0$ for that pair if $|q| >$ critical value.
+The critical value is found in **Table A-9**, where $k$ is the number of means in the original problem (across the top row) and $v = N - k$ is the degrees of freedom for $s_W^2$ (in the left column).
 :::
+
+---
 
 ## Example 12-4 {#example-12-4}
 
 :::{.callout-warning}
-## Tukey Test for Blood Pressure Data
+## Tukey Test for the Carrier Transit Data
 
-Using the Tukey test, determine which pairs of means in Example 12-1 differ significantly at $\alpha = 0.05$.
+Using the Tukey test, test each pair of means in [Example 12-2](#example-12-2) to see whether a specific difference exists, at $\alpha = 0.05$.
 
-$\bar{X}_1=11.8$, $\bar{X}_2=3.8$, $\bar{X}_3=7.6$, $s_W^2=8.73$, $n=5$
+Recall $\bar{X}_1 = 46$ (Carrier A), $\bar{X}_2 = 40$ (Carrier B), $\bar{X}_3 = 52$ (Carrier C), $s_W^2 = 34.267$ and $n = 6$.
 :::
+
+---
 
 ## Example 12-4
 
 :::{.callout-tip}
 ## Solution
 
-**Mathematical solution**
+**a.** For $\bar{X}_1$ versus $\bar{X}_2$: $q = \dfrac{46 - 40}{\sqrt{34.267/6}} = 2.511$
 
-$\sqrt{s_W^2/n} = \sqrt{8.73/5} = \sqrt{1.746} = 1.321$
+**b.** For $\bar{X}_1$ versus $\bar{X}_3$: $q = \dfrac{46 - 52}{\sqrt{34.267/6}} = -2.511$
 
-**Critical value:** $k=3$, $d.f.=12$, $\alpha=0.05$ → $q_{crit} = 3.77$ (from Tukey table)
+**c.** For $\bar{X}_2$ versus $\bar{X}_3$: $q = \dfrac{40 - 52}{\sqrt{34.267/6}} = -5.021$
 
-**a.** $\bar{X}_1$ vs $\bar{X}_2$:
-$$q = \frac{11.8 - 3.8}{1.321} = \frac{8}{1.321} = 6.06 \quad \checkmark > 3.77$$
-
-**b.** $\bar{X}_1$ vs $\bar{X}_3$:
-$$q = \frac{11.8 - 7.6}{1.321} = \frac{4.2}{1.321} = 3.18 \quad \text{Not significant}$$
-
-**c.** $\bar{X}_2$ vs $\bar{X}_3$:
-$$q = \frac{|3.8 - 7.6|}{1.321} = \frac{3.8}{1.321} = 2.88 \quad \text{Not significant}$$
-
-**Conclusion:** Only **Medication vs. Exercise** is significantly different — agrees with Scheffé.
-
+Since $k = 3$, $d.f. = 18 - 3 = 15$ and $\alpha = 0.05$, the critical value from Table A-9 is **3.67**. The only $q$ value greater in absolute value than the critical value is the one for the difference between $\bar{X}_2$ and $\bar{X}_3$. The conclusion is that there is a significant difference in the mean transit times of Carrier B and Carrier C.
 :::
+
+---
 
 ## Example 12-4
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**The same test in R**
 
 ```{r e12-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# Tukey HSD test using R's built-in function
-medication <- c(10, 12, 9, 15, 13)
-exercise   <- c(6, 8, 3, 0, 2)
-diet       <- c(5, 9, 12, 8, 4)
+tukey_q <- function(i, j) {
+  (carrier_stats$mean[i] - carrier_stats$mean[j]) / sqrt(transit_within_var / 6)
+}
 
-bp_data <- data.frame(
-  reduction = c(medication, exercise, diet),
-  group = factor(rep(c("Medication","Exercise","Diet"), each = 5))
-)
+data.frame(
+  comparison = c("A vs B", "A vs C", "B vs C"),
+  q = round(c(tukey_q(1, 2), tukey_q(1, 3), tukey_q(2, 3)), 3)
+) |>
+  knitr::kable(align = "c")
 
-bp_aov <- aov(reduction ~ group, data = bp_data)
-TukeyHSD(bp_aov)
+round(qtukey(0.95, nmeans = 3, df = 15), 3)   # Table A-9 rounds this value to 3.67
 ```
 :::
+
+---
 
 ## Example 12-4
 
 :::{.callout-tip}
 ## Solution
 
-**Visualization**
+**Tukey's honest significant differences**
 
-```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.5}
-tukey_result <- TukeyHSD(bp_aov)
-plot(tukey_result, las = 1)
+```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+transit_tukey <- TukeyHSD(transit_aov)
+transit_tukey
+```
+
+Only the Carrier C–Carrier B pair has an adjusted P-value below $0.05$, which agrees with the hand calculation.
+:::
+
+---
+
+## Example 12-4
+
+:::{.callout-tip}
+## Solution
+
+**Output figure** — the family-wise confidence intervals
+
+```{r e12-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
+plot(transit_tukey, las = 1)
 ```
 :::
 
-## Scheffé vs. Tukey: Comparison
+---
 
-:::{.callout-note}
-## When to Use Each Test
+## The Bonferroni Test
 
-| Feature | Scheffé | Tukey |
-|---------|---------|-------|
-| Sample sizes | Unequal or equal | Must be equal |
-| Power | Lower (conservative) | Higher for pairwise |
-| Types of comparisons | Pairwise and combinations | Pairwise only |
-| Recommendation | Unequal $n_i$ | Equal $n_i$ |
-
-**Key insight:** When the F test rejects $H_0$, post-hoc tests may occasionally find no significant pairs — the difference may lie in a combination of means rather than any single pair.
-:::
-
-
-# Section 12-3: Two-Way Analysis of Variance {background-color="#2c4a6e"}
-
-## Introduction to Two-Way ANOVA
-
-:::{.callout-note}
-## Extension of One-Way ANOVA
-**One-way ANOVA:** One independent variable (factor)
-
-**Two-way ANOVA:** Two independent variables (factors)
-
-Benefits of two-way ANOVA:
-- Tests **two factors simultaneously** in a single experiment
-- Tests the **interaction effect** between the two factors
-- More efficient than two separate one-way ANOVAs
-:::
-
-## Two-Way ANOVA: Design Structure
-
-:::{.callout-note}
-## Factorial Design Terminology
-- **Factor A** has $a$ levels
-- **Factor B** has $b$ levels
-- **$n$** subjects per cell (must be equal)
-- **Total subjects** = $abn$
-
-A **$2 \times 2$ design** has 2 levels for each factor → 4 treatment groups.
-
-Example: Plant food type (A1, A2) $\times$ Soil type (I, II) → 4 groups
-:::
-
-## Two-Way ANOVA: Three Hypotheses
-
-:::{.callout-note}
-## Hypotheses
-**1. Interaction effect:**
-$$H_0: \text{No interaction between factors A and B}$$
-$$H_1: \text{There is an interaction between A and B}$$
-
-**2. Main effect of Factor A:**
-$$H_0: \text{No difference in means across levels of A}$$
-$$H_1: \text{At least one mean of A differs}$$
-
-**3. Main effect of Factor B:**
-$$H_0: \text{No difference in means across levels of B}$$
-$$H_1: \text{At least one mean of B differs}$$
-:::
-
-## Two-Way ANOVA: Assumptions
+The Bonferroni test uses $t$ tests, but the critical value and P-value are adjusted to overcome the problem of the increase in the significance level due to the increase in the number of tests that are being done.
 
 :::{.callout-important}
-## Assumptions
-1. Populations must be **normally or approximately normally distributed**
-2. All samples must be **independent**
-3. **Population variances** must be equal across groups
-4. **Group sizes must be equal** ($n$ per cell is the same for all cells)
+## Formula for the Bonferroni Test Statistic
+
+$$t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k$$
+
+where $\bar{X}_i$ and $\bar{X}_j$ are the means of the samples being compared, $n_i$ and $n_j$ are the respective sample sizes, $N$ is the total number of subjects and $k$ is the number of groups.
 :::
 
-## Two-Way ANOVA: Summary Table
+---
 
-:::{.callout-note}
-## General ANOVA Table
-| Source | SS | d.f. | MS | F |
-|--------|-----|------|-----|---|
-| Factor A | SSA | $a-1$ | MSA | $F_A = MSA/MSW$ |
-| Factor B | SSB | $b-1$ | MSB | $F_B = MSB/MSW$ |
-| Interaction $A \times B$ | SS($A \times B$) | $(a-1)(b-1)$ | MS($A \times B$) | $F_{A \times B} = MS(A \times B)/MSW$ |
-| Within (Error) | SSW | $ab(n-1)$ | MSW | |
-| Total | SST | $abn-1$ | | |
+## The Bonferroni Adjustment
+
+:::{.callout-important}
+## Adjusting the Significance Level and the P-Value
+
+The critical value is adjusted by **dividing $\alpha$ by the number of pairings** $_kC_2$ of two sample means. If there are 3 means, $_3C_2 = 3$ comparisons, so $\alpha$ is divided by 3; if there are 4 means, $_4C_2 = 6$ comparisons, so $\alpha$ is divided by 6.
+
+For the P-value, **multiply** the P-value for a single comparison of two means by the number of pairings $_kC_2$. A P-value can never exceed 1, so any adjusted value larger than 1 is reported as 1.
 :::
+
+---
 
 ## Example 12-5 {#example-12-5}
 
 :::{.callout-warning}
-## Gasoline Consumption
+## Bonferroni Test for the Store Revenue Data
 
-A researcher investigates whether **type of gasoline** (regular vs. high-octane) and **type of automobile** (two-wheel vs. four-wheel drive) affect fuel economy (mpg). Two cars are tested in each of the four combinations.
+Use the Bonferroni test and $\alpha = 0.05$ to compare each pair of means in [Example 12-1](#example-12-1).
 
-|  | Two-wheel-drive | Four-wheel-drive |
-|--|----------------|-----------------|
-| **Regular** | 26.7, 25.2 | 28.6, 29.3 |
-| **High-octane** | 32.3, 32.8 | 26.1, 24.2 |
-
-Test at $\alpha = 0.05$.
-
+Recall $\bar{X}_1 = 72$ $(n_1 = 4)$, $\bar{X}_2 = 65$ $(n_2 = 5)$, $\bar{X}_3 = 52$ $(n_3 = 3)$, $s_W^2 = 56$, $N = 12$ and $k = 3$, so $d.f. = 12 - 3 = 9$.
 :::
+
+---
 
 ## Example 12-5
 
 :::{.callout-tip}
 ## Solution
 
-**Setting up the test**
+**a.** $H_0: \mu_1 = \mu_2$. $\ t = \dfrac{72 - 65}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{5} \right)}} = \dfrac{7}{5.020} = 1.394$
 
-**Interaction ($A \times B$):**
-$H_0$: No interaction between gasoline type and automobile type
-$H_1$: There is an interaction effect
+The P-value for $t = 1.394$ with $d.f. = 9$ is $0.1966$. Adjusted: $0.1966 \times 3 = 0.5899$. **Do not reject** $H_0$.
 
-**Factor A (Gasoline):**
-$H_0$: No difference in means for gasoline types
-$H_1$: Means differ by gasoline type
+**b.** $H_0: \mu_1 = \mu_3$. $\ t = \dfrac{72 - 52}{\sqrt{56 \left( \frac{1}{4} + \frac{1}{3} \right)}} = \dfrac{20}{5.715} = 3.499$
 
-**Factor B (Automobile):**
-$H_0$: No difference in means for automobile types
-$H_1$: Means differ by automobile type
+The P-value is $0.0067$; adjusted $0.0067 \times 3 = 0.0202$. **Reject** $H_0$ since $0.0202 < 0.05$.
 
-**Step 2:** $a=2$, $b=2$, $n=2$; all F critical values use $d.f.N.=1$, $d.f.D.=ab(n-1)=4$ → $F_{crit} = 7.71$
+**c.** $H_0: \mu_2 = \mu_3$. $\ t = \dfrac{65 - 52}{\sqrt{56 \left( \frac{1}{5} + \frac{1}{3} \right)}} = \dfrac{13}{5.465} = 2.379$
+
+The P-value is $0.0413$; adjusted $0.0413 \times 3 = 0.1239$, which is not less than $\alpha = 0.05$. **Do not reject** $H_0$.
 :::
+
+---
 
 ## Example 12-5
 
 :::{.callout-tip}
 ## Solution
 
-| Source | SS | d.f. | MS | F |
-|--------|-----|------|-----|---|
-| Gasoline A | 3.920 | 1 | 3.920 | 4.752 |
-| Automobile B | 9.680 | 1 | 9.680 | **11.733** |
-| Interaction $A \times B$ | 54.080 | 1 | 54.080 | **65.552** |
-| Within (Error) | 3.300 | 4 | 0.825 | |
-| **Total** | **70.980** | **7** | | |
-
-Critical value for all tests: **7.71**
-:::
-
-## Example 12-5
-
-:::{.callout-tip}
-## Solution
-
-**Interpretation**
-
-**Gasoline A:** $F_A = 4.752 < 7.71$ → **Fail to reject** $H_0$
-
-**Automobile B:** $F_B = 11.733 > 7.71$ → **Reject** $H_0$
-
-**Interaction $A \times B$:** $F_{A \times B} = 65.552 > 7.71$ → **Reject** $H_0$
-
-**Important:** Since the interaction is **significant**, the main effect of automobile type should **not** be interpreted independently — it depends on which gasoline type is used.
-
-**Conclusion:** The combination of gasoline type and automobile type significantly affects fuel economy.
-
-:::
-
-## Example 12-5
-
-:::{.callout-tip}
-## Solution
-
-Cell means for visualization:
-
-|  | Two-wheel | Four-wheel |
-|--|-----------|-----------|
-| **Regular** | 25.95 | 28.95 |
-| **High-octane** | 32.55 | 25.15 |
+**The same test in R**
 
 ```{r e12-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-gas_data <- data.frame(
-  mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
-  gas  = rep(c("Regular","Regular","Regular","Regular",
-               "High-octane","High-octane","High-octane","High-octane")),
-  auto = rep(c("Two-wheel","Two-wheel","Four-wheel","Four-wheel"), 2)
-)
+bonferroni_t <- function(i, j) {
+  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
+  mean_gap / sqrt(within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
+}
 
-cell_means <- gas_data %>%
-  group_by(gas, auto) %>%
-  summarise(mean_mpg = mean(mpg), .groups = "drop")
+t_values <- c(bonferroni_t(1, 2), bonferroni_t(1, 3), bonferroni_t(2, 3))
+p_values <- 2 * pt(-abs(t_values), df = 9)
+
+data.frame(
+  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
+  t          = round(t_values, 3),
+  p_single   = round(p_values, 4),
+  p_adjusted = round(pmin(1, 3 * p_values), 4)
+) |>
+  knitr::kable(align = "c")
 ```
 :::
 
-## Example 12-5
-
-:::{.callout-tip}
-## Solution (cont.)
-
-```{r e12-5-1-fig, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
-ggplot(cell_means, aes(x = gas, y = mean_mpg, color = auto, group = auto)) +
-  geom_line(size = 1.2) +
-  geom_point(size = 3) +
-  labs(title = "Interaction Plot: Gasoline × Automobile Type",
-       x = "Gasoline Type", y = "Mean MPG", color = "Auto Type") +
-  theme_minimal()
-```
-:::
+---
 
 ## Example 12-5
 
 :::{.callout-tip}
 ## Solution
 
-**R implementation**
+**Using `pairwise.t.test`**
 
 ```{r e12-5-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-gas_data2 <- data.frame(
-  mpg  = c(26.7, 25.2, 28.6, 29.3, 32.3, 32.8, 26.1, 24.2),
-  gas  = factor(rep(c("Regular","High-octane"), each = 4)),
-  auto = factor(rep(c("Two-wheel","Two-wheel","Four-wheel","Four-wheel"), 2))
+pairwise.t.test(revenue$daily_revenue, revenue$store_format,
+                p.adjust.method = "bonferroni")
+```
+
+The adjusted P-values are 0.59, 0.02 and 0.12 — the same decisions as the hand calculation.
+
+Here P-values are used because the adjusted $\alpha$ would be $0.05 \div 3 = 0.017$, and a critical $t$ value for $\alpha = 0.017$ with 9 d.f. cannot be read from Table A-5.
+:::
+
+---
+
+## Which Test Should Be Used?
+
+:::{.callout-important}
+## Choosing Among the Three Tests
+
+- The **Scheffé test** is the most general. It can be used when the samples are of different sizes, and it can compare, for example, the average of $\bar{X}_1$ and $\bar{X}_2$ with $\bar{X}_3$.
+- The **Tukey test** is more powerful than the Scheffé test for making pairwise comparisons of means, but it requires equal sample sizes.
+- A **rule of thumb** for pairwise comparisons: use the **Tukey test when the samples are equal in size** and the **Scheffé test when the samples differ in size**. This rule is followed in this textbook.
+- The results of the three tests may differ because of the adjustments made to the critical values and when the test statistics are close to the critical values. There is no common agreement among statisticians as to which test to use; one should use the test that is used in the academic discipline of the research study.
+:::
+
+In Example 12-3 and Example 12-5, both the Scheffé test and the Bonferroni test found a difference between $\mu_1$ and $\mu_3$.
+
+# Section 12-3: Two-Way Analysis of Variance {background-color="#2c4a6e"}
+
+## Two-Way Analysis of Variance
+
+:::{.callout-note}
+## Two-Way ANOVA
+
+The **two-way ANOVA** is an extension of the one-way analysis of variance; it involves **two independent variables**. The independent variables are also called **factors**.
+:::
+
+In a study that involves a two-way analysis of variance, the researcher is able to test the effects of two independent variables (or factors) on one dependent variable. In addition, the **interaction effect** of the two variables can be tested.
+
+The two-way analysis of variance is quite complicated; only a brief introduction is given here.
+
+---
+
+## Treatment Groups
+
+Suppose a researcher wishes to test the effects of two types of plant food ($A_1$, $A_2$) and two types of soil (I, II) on plant growth. Other factors, such as water, temperature and sunlight, are held constant. Four groups of plants are set up (Figure 12-4).
+
+:::{.callout-note}
+## Figure 12-4 — Treatment Groups for the Plant Food–Soil Type Experiment
+
+| Plant food | Soil type I | Soil type II |
+|------------|-------------|--------------|
+| $A_1$ | Group 1: food $A_1$, soil I | Group 2: food $A_1$, soil II |
+| $A_2$ | Group 3: food $A_2$, soil I | Group 4: food $A_2$, soil II |
+
+The groups in a two-way ANOVA are called **treatment groups**. The plants are assigned to the groups at random. This design is called a $2 \times 2$ design, since each variable consists of two **levels**, that is, two different treatments.
+:::
+
+---
+
+## Other Two-Way Designs
+
+:::{.callout-note}
+## Figure 12-5 — Some Types of Two-Way ANOVA Designs
+
+| Design | Rows (variable A) | Columns (variable B) |
+|--------|-------------------|----------------------|
+| $3 \times 2$ | 3 levels | 2 levels |
+| $3 \times 3$ | 3 levels | 3 levels |
+| $4 \times 3$ | 4 levels | 3 levels |
+
+There are many different kinds of two-way ANOVA designs, depending on the number of levels of each variable.
+:::
+
+The two-way ANOVA lets the researcher test the effects of the plant food and the soil type in a **single experiment** rather than in separate experiments involving the plant food alone and the soil type alone.
+
+---
+
+## Main Effects and Interaction
+
+:::{.callout-note}
+## Main Effects
+
+The **effect of a factor** is the change in the response variable that results from changing the level or the type of that factor. These two effects of the independent variables are called the **main effects**.
+:::
+
+:::{.callout-note}
+## Interaction Effect
+
+The **interaction effect** represents the joint effect of the two factors over and above the effects of each factor considered separately — that is, the types of plant food affect the plant growth differently in different soil types.
+
+When the interaction effect is statistically significant, the researcher should **not** consider the effects of the individual factors without considering the interaction effect.
+:::
+
+---
+
+## The Three Sets of Hypotheses
+
+The two-way ANOVA design has several null hypotheses: one for each independent variable and one for the interaction. For the plant food–soil type problem:
+
+:::{.callout-note}
+## Hypotheses
+
+**1. Plant food (factor A).**
+
+$H_0$: There is no difference in means of heights of plants grown using different foods.
+
+$H_1$: There is a difference in means of heights of plants grown using different foods.
+
+**2. Soil type (factor B).**
+
+$H_0$: There is no difference in means of heights of plants grown in different soil types.
+
+$H_1$: There is a difference in means of heights of plants grown in different soil types.
+
+**3. Interaction.**
+
+$H_0$: There is no interaction effect between type of plant food used and type of soil used on plant growth.
+
+$H_1$: There is an interaction effect between food type and soil type on plant growth.
+:::
+
+---
+
+## Table 12-5: Two-Way ANOVA Summary Table
+
+As with the one-way ANOVA, a between-group variance estimate and a within-group variance estimate are calculated, and an $F$ test is performed for each independent variable and for the interaction.
+
+:::{.callout-important}
+## Table 12-5 — ANOVA Summary Table
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Row factor A | $SS_A$ | $a-1$ | $MS_A$ | $F_A$ |
+| Column factor B | $SS_B$ | $b-1$ | $MS_B$ | $F_B$ |
+| Interaction $A \times B$ | $SS_{A \times B}$ | $(a-1)(b-1)$ | $MS_{A \times B}$ | $F_{A \times B}$ |
+| Within (error) | $SS_W$ | $ab(n-1)$ | $MS_W$ | |
+| Total | $SS_{\text{Total}}$ | $N-1$ | | |
+
+where $a$ is the number of levels of factor A, $b$ is the number of levels of factor B, and $n$ is the number of subjects in each group.
+:::
+
+---
+
+## Formulas for the Two-Way ANOVA
+
+:::{.callout-important}
+## Mean Squares and $F$ Ratios
+
+$$MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W}, \quad d.f.N. = a-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W}, \quad d.f.N. = b-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W}, \quad d.f.N. = (a-1)(b-1), \ d.f.D. = ab(n-1)$$
+
+$$MS_W = \frac{SS_W}{ab(n-1)}$$
+:::
+
+---
+
+## Assumptions for the Two-Way ANOVA
+
+:::{.callout-important}
+## Assumptions
+
+1. The populations from which the samples were obtained must be normally or approximately normally distributed.
+2. The samples must be independent.
+3. The variances of the populations from which the samples were selected must be equal.
+4. **The groups must be equal in sample size.**
+:::
+
+The assumptions are the same as those for the one-way ANOVA **except for sample size** — the two-way ANOVA requires equal group sizes. The two-way analysis of variance follows the same five-step hypothesis-testing procedure.
+
+The computational procedure for the sums of squares is quite lengthy; it is omitted in Example 12-6 and only the two-way ANOVA summary table is shown.
+
+---
+
+## Example 12-6 {#example-12-6}
+
+:::{.callout-warning}
+## Picking Rate by Method and Shift
+
+An operations manager at a Taoyuan fulfilment centre wishes to see whether the picking method used and the shift worked have any effect on picking productivity. Two picking methods, handheld scanner and voice picking, will be used, and two shifts, day and night, will be used with each method. There will be two pickers in each group, for a total of eight pickers. The number of cartons picked per hour is recorded. Using a two-way analysis of variance, determine if there is an interactive effect, an effect due to the picking method, and an effect due to the shift. Use $\alpha = 0.05$.
+
+```
+Method        Day shift   Night shift
+Scanner          26.6         29.7
+                 25.4         28.3
+Voice            33.1         25.7
+                 31.9         24.3
+```
+
+*(hypothetical data)*
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**Table 12-6 — ANOVA Summary Table for Example 12-6**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Method (A) | 3.125 | | | |
+| Shift (B) | 10.125 | | | |
+| Interaction ($A \times B$) | 55.125 | | | |
+| Within (error) | 3.400 | | | |
+| Total | 71.775 | | | |
+
+**Step 1.** State the hypotheses.
+
+*Picking methods.* $H_0$: There is no difference between the means of the picking rates for the two methods. $H_1$: There is a difference.
+
+*Shifts worked.* $H_0$: There is no difference between the means of the picking rates for the day shift and the night shift. $H_1$: There is a difference.
+
+*Interaction.* $H_0$: There is no interaction effect between the picking method used and the shift worked on the picking rate. $H_1$: There is an interaction effect.
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**Step 2 — find the critical values for each $F$ test**
+
+Each factor has two levels, so $a = 2$, $b = 2$ and $n = 2$.
+
+$$\text{Factor A: } d.f.N. = a-1 = 1 \qquad \text{Factor B: } d.f.N. = b-1 = 1$$
+$$\text{Interaction: } d.f.N. = (a-1)(b-1) = 1 \qquad \text{Within (error): } d.f.D. = ab(n-1) = 2 \cdot 2(2-1) = 4$$
+
+With $\alpha = 0.05$, $d.f.N. = 1$ and $d.f.D. = 4$, all three critical values are **7.71**.
+
+```{r e12-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+round(qf(0.95, df1 = 1, df2 = 4), 2)   # Table A-7 gives 7.71
+```
+
+*Note.* If the factors have different numbers of levels, the critical values will not all be the same. For a factor A with 3 levels and a factor B with 4 levels and 2 subjects per group, $d.f.N. = 2$, $3$ and $6$ respectively and $d.f.D. = 3 \cdot 4(2-1) = 12$.
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**Step 3 — complete the summary table**
+
+$$MS_A = \frac{3.125}{2-1} = 3.125 \qquad MS_B = \frac{10.125}{2-1} = 10.125$$
+$$MS_{A \times B} = \frac{55.125}{(2-1)(2-1)} = 55.125 \qquad MS_W = \frac{3.400}{4} = 0.850$$
+
+$$F_A = \frac{3.125}{0.850} = 3.676 \qquad F_B = \frac{10.125}{0.850} = 11.912 \qquad F_{A \times B} = \frac{55.125}{0.850} = 64.853$$
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**Table 12-7 — ANOVA Summary Table for Example 12-6**
+
+| Source | Sum of squares | d.f. | Mean square | F |
+|--------|----------------|------|-------------|---|
+| Method (A) | 3.125 | 1 | 3.125 | 3.676 |
+| Shift (B) | 10.125 | 1 | 10.125 | 11.912 |
+| Interaction ($A \times B$) | 55.125 | 1 | 55.125 | 64.853 |
+| Within (error) | 3.400 | 4 | 0.850 | |
+| Total | 71.775 | 7 | | |
+
+**Step 4.** Make the decision. Since $F_B = 11.912$ and $F_{A \times B} = 64.853$ are greater than the critical value 7.71, the null hypotheses concerning the shift worked and the interaction effect should be rejected; $F_A = 3.676$ is smaller than 7.71, so the null hypothesis for the picking method is not rejected. Since the interaction effect is statistically significant, **no decision should be made about the shift effect without further investigation**.
+
+**Step 5.** Summarize the results. Since the null hypothesis for the interaction effect was rejected, it can be concluded that the combination of picking method and shift does affect the picking rate.
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**The same analysis in R**
+
+```{r e12-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+picking <- data.frame(
+  cartons_per_hour = c(26.6, 25.4, 29.7, 28.3, 33.1, 31.9, 25.7, 24.3),
+  method = factor(rep(c("Scanner", "Voice"), each = 4),
+                  levels = c("Scanner", "Voice")),
+  shift  = factor(rep(c("Day", "Day", "Night", "Night"), 2),
+                  levels = c("Day", "Night"))
 )
 
-result5 <- aov(mpg ~ gas * auto, data = gas_data2)
-summary(result5)
+picking_aov <- aov(cartons_per_hour ~ method * shift, data = picking)
+summary(picking_aov)
 ```
 :::
 
-## Interpreting Interaction Effects
+---
 
-:::{.callout-note}
-## Types of Interactions
-| Graph Pattern | Interaction Type | Interpretation |
-|--------------|-----------------|----------------|
-| Lines are **parallel** | No interaction | Interpret main effects independently |
-| Lines **cross each other** | **Disordinal** interaction | Do NOT interpret main effects independently |
-| Lines diverge but **do not cross** | Ordinal interaction | Main effects may still be interpreted |
+## Example 12-6
 
-**Rule:** When the interaction F test is significant:
-- Check the interaction plot
-- If lines cross → **disordinal** interaction → interpret only with interaction in mind
-- If lines don't cross → **ordinal** interaction → main effects can be interpreted
+:::{.callout-tip}
+## Solution
+
+**Prepare data** — the cell means
+
+Each cell mean is the average of the two pickers assigned to that treatment group.
+
+```{r e12-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+cell_means <- picking |>
+  group_by(method, shift) |>
+  summarise(mean_rate = mean(cartons_per_hour), .groups = "drop")
+
+knitr::kable(cell_means, align = "c", digits = 2)
+```
+:::
+
+---
+
+## Example 12-6
+
+:::{.callout-tip}
+## Solution
+
+**Output figure** — Figure 12-6, the graph of the means
+
+```{r e12-6-4, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3.2}
+ggplot(cell_means, aes(x = shift, y = mean_rate,
+                       color = method, group = method)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  labs(title = "Graph of the Means of the Variables in Example 12-6",
+       x = "Shift", y = "Mean cartons per hour", color = "Method") +
+  theme_minimal()
+```
+
+The lines **cross**, so the interaction is a **disordinal** interaction.
+:::
+
+---
+
+## Interpreting the Interaction
+
+To interpret the results of a two-way analysis of variance, researchers suggest drawing a graph, plotting the means of each group, analyzing the graph, and interpreting the results.
+
+:::{.callout-important}
+## Rules for Reading an Interaction Plot
+
+| Pattern of the lines | Interaction | How to interpret the main effects |
+|----------------------|-------------|-----------------------------------|
+| Lines **cross** each other and the interaction $F$ is significant | **Disordinal** interaction (Figure 12-6) | Do **not** interpret the main effects without considering the interaction effect |
+| Lines **do not cross** and are **not parallel**, interaction $F$ significant | **Ordinal** interaction (Figure 12-7) | The main effects **can** be interpreted independently of each other |
+| Lines are **parallel** or approximately parallel, interaction $F$ not significant | **No** interaction (Figure 12-8) | The main effects can be interpreted independently |
+:::
+
+If there is no significant interaction effect, the main effects can be interpreted independently; however, if there is a significant interaction effect, the main effects must be interpreted cautiously, if at all.
+
+---
+
+## Interaction Patterns in R
+
+**Prepare data** — the three patterns of Figures 12-6, 12-7 and 12-8
+
+```{r s12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+patterns <- data.frame(
+  pattern = rep(c("Disordinal (Fig. 12-6)",
+                  "Ordinal (Fig. 12-7)",
+                  "No interaction (Fig. 12-8)"), each = 4),
+  method  = rep(rep(c("Scanner", "Voice"), each = 2), 3),
+  shift   = rep(c("Day", "Night"), 6),
+  mean_rate = c(26.0, 29.0, 32.5, 25.0,
+                26.0, 29.0, 30.0, 31.5,
+                26.0, 29.0, 30.0, 33.0)
+) |>
+  mutate(pattern = factor(pattern, levels = unique(pattern)),
+         shift   = factor(shift, levels = c("Day", "Night")))
+```
+
+---
+
+## Interaction Patterns in R
+
+**Output figure**
+
+```{r s12-3-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.4}
+ggplot(patterns, aes(x = shift, y = mean_rate, color = method, group = method)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2.5) +
+  facet_wrap(~ pattern) +
+  labs(title = "Crossing, Ordinal and Parallel Patterns",
+       x = "Shift", y = "Mean cartons per hour", color = "Method") +
+  theme_minimal()
+```
+
+---
+
+## Beyond a $2 \times 2$ Design
+
+:::{.callout-warning}
+## Caution
+
+Example 12-6 was a $2 \times 2$ two-way analysis of variance, since each independent variable had two levels. For other designs, such as a $3 \times 2$ or a $4 \times 3$ ANOVA, interpretation of the results can be quite complicated. Procedures using tests such as the Tukey and Scheffé tests for analyzing the cell means exist and are similar to the tests shown for the one-way ANOVA, but they are **beyond the scope of this textbook**. Many other designs, such as three-factor designs and repeated-measure designs, are also beyond the scope of this book.
+:::
+
+## Important Terms
+
+:::{.callout-important}
+## Chapter 12 Vocabulary
+
+analysis of variance (ANOVA) · ANOVA summary table · between-group variance · Bonferroni test · disordinal interaction · factors · interaction effect · level · main effects · mean square · one-way ANOVA · ordinal interaction · Scheffé test · sum of squares between groups · sum of squares within groups · treatment groups · Tukey test · two-way ANOVA · within-group variance
+:::
+
+## Key Formulas
+
+:::{.callout-important}
+## Formulas for the ANOVA Test
+
+$$\bar{X}_{GM} = \frac{\sum X}{N} \qquad F = \frac{s_B^2}{s_W^2}$$
+
+$$s_B^2 = \frac{\sum n_i (\bar{X}_i - \bar{X}_{GM})^2}{k-1} \qquad s_W^2 = \frac{\sum (n_i - 1)s_i^2}{\sum (n_i - 1)}$$
+
+$$d.f.N. = k - 1 \qquad d.f.D. = N - k \qquad N = n_1 + n_2 + \cdots + n_k$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Formulas for the Scheffé, Tukey and Bonferroni Tests
+
+$$F_S = \frac{(\bar{X}_i - \bar{X}_j)^2}{s_W^2 \left[ (1/n_i) + (1/n_j) \right]} \qquad \text{and} \qquad F' = (k-1)(C.V.)$$
+
+$$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}, \qquad d.f.N. = k \ \text{ and } \ d.f.D. = \text{degrees of freedom for } s_W^2$$
+
+$$t = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 \left( \dfrac{1}{n_i} + \dfrac{1}{n_j} \right)}} \qquad \text{with } d.f. = N - k$$
+:::
+
+---
+
+## Key Formulas
+
+:::{.callout-important}
+## Formulas for the Two-Way ANOVA
+
+$$MS_A = \frac{SS_A}{a-1} \qquad F_A = \frac{MS_A}{MS_W} \qquad d.f.N. = a-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_B = \frac{SS_B}{b-1} \qquad F_B = \frac{MS_B}{MS_W} \qquad d.f.N. = b-1, \ d.f.D. = ab(n-1)$$
+
+$$MS_{A \times B} = \frac{SS_{A \times B}}{(a-1)(b-1)} \qquad F_{A \times B} = \frac{MS_{A \times B}}{MS_W} \qquad d.f.N. = (a-1)(b-1)$$
+
+$$MS_W = \frac{SS_W}{ab(n-1)}$$
 :::
 
 ## Key Takeaways
 
+1. The $F$ test can compare **three or more means**; the technique is called the **analysis of variance (ANOVA)**. Multiple $t$ tests are not used because they ignore the other means, inflate the type I error rate, and grow rapidly in number.
+2. ANOVA uses two estimates of the population variance: the **between-group variance** $s_B^2$ (the variance of the sample means) and the **within-group variance** $s_W^2$ (the overall variance of all the values). The test statistic is $F = s_B^2 / s_W^2$, with $d.f.N. = k-1$ and $d.f.D. = N-k$, and the test is always right-tailed.
+3. When there is no significant difference among the means, the two estimates are approximately equal and $F$ is close to 1; when a difference exists, $s_B^2$ is much larger and $F$ is significant.
 
-**Section 12-1 — One-Way ANOVA:**
-- F test compares 3+ means simultaneously
-- $F = s_B^2 / s_W^2$; reject $H_0$ if $F > F_{crit}$ (right-tailed)
-- Degrees of freedom: $d.f.N. = k-1$, $d.f.D. = N-k$
+## Key Takeaways
 
-**Section 12-2 — Post-Hoc Tests:**
-- Scheffé: flexible, works with unequal $n$; more conservative
-- Tukey: more powerful for pairwise comparisons with equal $n$
-
-**Section 12-3 — Two-Way ANOVA:**
-- Tests two factors and their interaction simultaneously
-- If interaction is significant, do not interpret main effects independently
-- Interaction plots reveal the nature of the relationship
+4. A significant $F$ says only that **at least one mean differs**; the **Scheffé**, **Tukey** and **Bonferroni** tests locate the difference. Use Tukey when the sample sizes are equal and Scheffé when they differ; the Scheffé critical value is $F' = (k-1)(C.V.)$ and the Bonferroni P-value is multiplied by $_kC_2$.
+5. The **two-way ANOVA** tests the effects of **two independent variables** and their **interaction** on one dependent variable, and requires equal group sizes.
+6. If the interaction is significant and the lines in the interaction plot **cross**, the interaction is **disordinal** and the main effects must not be interpreted on their own; if the lines do not cross, the interaction is **ordinal** and the main effects may be interpreted independently; **parallel** lines indicate no interaction.
 
 ## Acknowledgement
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
 -   **Proper attribution.** Any reproduction, distribution, or use of these materials must provide proper attribution to the original source.
-

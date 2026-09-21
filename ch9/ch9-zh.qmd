@@ -64,397 +64,724 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ## 本章概覽
 
-研究者通常需要**比較兩個群組**，而非將單一參數與固定值進行檢定。
+第9章把假設檢定從**單一參數**推廣到**兩個參數的比較**——兩個均值、兩個比例或兩個變異數——並沿用第8章的五步驟程序。
 
-本章涵蓋以下情境的假設檢定與信賴區間：
+| 節次 | 主題 |
+|---------|--------|
+| 9-1 | 比較兩個參數；獨立樣本與相依樣本；樣本均值差 $\bar{X}_1 - \bar{X}_2$ 的分布 |
+| 9-2 | $\sigma$ 已知時兩均值的 $z$ 檢定；檢定特定差異；$\mu_1 - \mu_2$ 的信賴區間 |
+| 9-3 | $\sigma$ 未知時獨立樣本的 $t$ 檢定；自由度取法；合併變異數；$t$ 信賴區間 |
 
-- **兩個均值**（$\sigma$ 已知時用 z 檢定；$\sigma$ 未知時用 t 檢定；相依樣本用配對 t 檢定）
-- **兩個比例**（z 檢定）
-- **兩個變異數**（F 檢定）
+## 本章概覽（續）
 
-# 第 9-1 節：使用 z 檢定來檢定兩均值之差 {background-color="#2c4a6e"}
+| 節次 | 主題 |
+|---------|--------|
+| 9-4 | 相依（配對）樣本；以 $\bar{D}$、$s_D$ 的 $t$ 檢定；程序表；$\mu_D$ 的信賴區間 |
+| 9-5 | 兩比例的 $z$ 檢定；加權估計 $\bar{p}$、$\bar{q}$；$p_1 - p_2$ 的信賴區間 |
+| 9-6 | $F$ 分布；兩變異數的 $F$ 檢定；分子與分母自由度；使用時的注意事項 |
 
-## 重要概念——兩個獨立樣本
+## 本章學習目標
 
-:::{.callout-note}
-當一組受試者與另一組受試者無任何關聯時，稱兩個樣本為**獨立樣本**。
+:::{.callout-important}
+## 讀完本章後，你應該能夠
 
-**z 檢定（兩均值）的要求條件：**
-
-- 兩個樣本均為隨機且獨立
-- 母體標準差 $\sigma_1$ 與 $\sigma_2$ **已知**
-- 若 n < 30，母體應近似常態分配
+1. 使用 $z$ 檢定來檢定兩個均值之差。
+2. 使用 $t$ 檢定來檢定兩個獨立樣本均值之差。
+3. 檢定兩個相依樣本均值之差。
+4. 檢定兩個比例之差。
+5. 檢定兩個變異數或標準差之差。
 :::
 
-## 公式：兩均值的 z 檢定
+# 第 9-1 節：兩個參數之差的檢定 {background-color="#2c4a6e"}
+
+## 比較兩個群體
+
+第8章是把單一的樣本均值、變異數或比例拿來和某個*特定*的母體數值比較。但研究者往往想比較的是**兩個群體**——實驗組與對照組、兩個品牌的巴士輪胎、兩種肥料、兩種止咳糖漿。
+
+假設有位研究者問：*在社區學院就讀護理系的學生，其平均年齡是否和在大學就讀護理系的學生不同？* 研究者關心的不是全體護理新生的平均年齡，而是**比較兩個群體的均值**。
+
+:::{.callout-important}
+## 陳述假設的兩種等價寫法
+
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2$$
+
+或等價地寫成
+
+$$H_0:\ \mu_1 - \mu_2 = 0 \qquad H_1:\ \mu_1 - \mu_2 \neq 0$$
+
+若兩個母體均值沒有差異，相減即為零；若有差異，相減就會得到非零的數。兩種寫法都正確，**本書在假設差異為零時採用第一種寫法**。
+:::
+
+---
+
+## 均值與比例的假設
+
+同樣的推理也適用於比例。若研究者認為每週工作超過 5 天的男性勞工百分比與女性勞工百分比不同，則假設為 $H_0:\ p_1 = p_2$ 與 $H_1:\ p_1 \neq p_2$（或 $H_0:\ p_1 - p_2 = 0$ 與 $H_1:\ p_1 - p_2 \neq 0$）。
+
+:::{.callout-important}
+## 雙尾、右尾與左尾的寫法
+
+| 檢定 | 均值 | 比例 |
+|------|-------|-------------|
+| 雙尾 | $H_0:\ \mu_1 = \mu_2$；$H_1:\ \mu_1 \neq \mu_2$ | $H_0:\ p_1 = p_2$；$H_1:\ p_1 \neq p_2$ |
+| 右尾 | $H_0:\ \mu_1 = \mu_2$；$H_1:\ \mu_1 > \mu_2$ | $H_0:\ p_1 = p_2$；$H_1:\ p_1 > p_2$ |
+| 左尾 | $H_0:\ \mu_1 = \mu_2$；$H_1:\ \mu_1 < \mu_2$ | $H_0:\ p_1 = p_2$；$H_1:\ p_1 < p_2$ |
+:::
+
+---
+
+## 獨立樣本與相依樣本
 
 :::{.callout-note}
+## 獨立樣本
+
+當第一個樣本所抽取的受試者完全不會影響第二個樣本受試者的抽取方式時，這兩個樣本就是**獨立樣本**。
+
+*例：* 將 50 人隨機分成兩組各 25 人以檢驗新藥，一組服藥、另一組服用安慰劑。
+:::
+
+:::{.callout-note}
+## 相依樣本
+
+當第一組受試者的選取會以某種方式影響另一組受試者的選取時，這兩個樣本就是**相依樣本**。
+
+*例：* 想知道一個人的右腳是否略大於左腳；一旦某人的右腳被選入樣本 1，同一個人的左腳就必須選入樣本 2。
+:::
+
+---
+
+## 均值差的分布
+
+檢定兩均值之差的理論基礎，是選取**成對的樣本**並比較每一對樣本的均值。母體均值不需要事先知道。
+
+從母體中取出所有可能的樣本對，計算每一對的均值並相減，再把這些差畫成圖。若兩個母體的均值相同，大多數的差會是零或接近零，只有少數因隨機因素而出現較大的差，有正有負。所得的曲線形狀像常態分布，且均值為零（圖 9-1）。
+
+:::{.callout-important}
+## 檢定統計量的通式
+
+$$\text{Test statistic} = \frac{(\text{observed value}) - (\text{expected value})}{\text{standard error}}$$
+
+本章所有的檢定——兩均值、兩比例，以及（形式稍異的）兩變異數——都是這個通式的特例。
+:::
+
+---
+
+## 以 R 呈現均值差的分布
+
+**繪圖** ——模擬圖 9-1：重複從均值*相同*的兩個母體各抽一個樣本，並畫出 $\bar{X}_1 - \bar{X}_2$。
+
+```{r s9-1-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+set.seed(2023)
+mean_differences <- replicate(5000,
+  mean(rnorm(30, 100, 15)) - mean(rnorm(30, 100, 15)))
+ggplot(data.frame(difference = mean_differences), aes(difference)) +
+  geom_histogram(bins = 40, fill = "steelblue", colour = "white") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(title = "樣本對的均值差",
+       x = "Xbar1 - Xbar2", y = "次數")
+```
+
+這些差集中在**零**附近：當 $\mu_1 = \mu_2$ 時，僅憑機遇不太可能出現離零很遠的差，這正是檢定能夠運作的原因。
+
+# 第 9-2 節：兩均值之差的檢定：使用 z 檢定 {background-color="#2c4a6e"}
+
+## z 檢定的假設條件
+
+:::{.callout-important}
+## 以 z 檢定判斷兩均值之差的假設條件
+
+1. 兩個樣本都是**隨機樣本**。
+2. 兩個樣本必須彼此**獨立**——各樣本受試者之間不能有任何關聯。
+3. **兩個母體的標準差必須已知**；若樣本數小於 30，母體必須呈常態或近似常態分布。
+:::
+
+本書會在習題中載明這些假設條件；在其他情境中，必須先確認條件成立才能進行檢定。
+
+---
+
+## 兩均值 z 檢定的公式
+
+:::{.callout-important}
+## 比較兩個獨立母體均值的 z 檢定
+
 $$z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
 
-在 $H_0: \mu_1 = \mu_2$ 的假設下，可簡化為：
+分母是**差的標準誤**，因為 $\bar{X}_1 - \bar{X}_2$ 的變異數是兩者變異數之*和*：
 
-$$z = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}}$$
+$$\sigma^2_{\bar{X}_1 - \bar{X}_2} = \sigma^2_{\bar{X}_1} + \sigma^2_{\bar{X}_2} = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}$$
+
+其中 $\bar{X}_1 - \bar{X}_2$ 是觀測值，$\mu_1 - \mu_2$ 是期望值；當 $H_0:\ \mu_1 = \mu_2$ 時期望值為**零**。
 :::
+
+---
+
+## 兩種檢定程序
+
+:::{.callout-important}
+## 傳統法
+
+| 步驟 | 作法 |
+|------|--------|
+| 1 | 陳述假設並指出宣稱。 |
+| 2 | 找出臨界值。 |
+| 3 | 計算檢定統計量。 |
+| 4 | 做出決策。 |
+| 5 | 總結結果。 |
+:::
+
+:::{.callout-important}
+## P 值法
+
+| 步驟 | 作法 |
+|------|--------|
+| 1 | 陳述假設並指出宣稱。 |
+| 2 | 計算檢定統計量。 |
+| 3 | 求出 P 值。 |
+| 4 | 做出決策。 |
+| 5 | 總結結果。 |
+:::
+
+臨界值與第 8-2 節所用的完全相同。
+
+---
 
 ## 範例 9-1 {#example-9-1}
 
 :::{.callout-warning}
-## 飯店房價
+## 不同通路的平均訂單金額
 
-某旅遊業者聲稱紐奧良的飯店房價平均高於鳳凰城。各城市抽取 50 家飯店的樣本，結果如下：
+台北某電商平台想比較透過行動 App 下單與透過網站下單的平均訂單金額。隨機抽取 40 筆 App 訂單與 40 筆網站訂單，平均訂單金額分別為 NT\$1685 與 NT\$1512。依多年交易紀錄，母體標準差取 App 訂單 NT\$320、網站訂單 NT\$285。在 $\alpha = 0.05$ 下，能否斷定兩個通路的平均訂單金額有顯著差異？（模擬資料）
 
-| 城市 | $\bar{X}$ | $\sigma$ | $n$ |
-|------|-----------|----------|-----|
-| 紐奧良 | \$88.42 | \$5.62 | 50 |
-| 鳳凰城 | \$80.61 | \$4.83 | 50 |
+```
+                   App      Website
+Sample mean       1685         1512
+sigma              320          285
+n                   40           40
+```
 
-在 $\alpha$ = 0.05 下檢定此主張。
+回到 [範例 9-3](#example-9-3)
 :::
+
+---
 
 ## 範例 9-1
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出宣稱。
 
-**步驟 1：** $H_0$：$\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$：$\mu_1$ > $\mu_2$（主張）——右尾檢定
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2 \ \textit{(claim)}$$
 
-**步驟 2：** CV = +1.645（$\alpha$ = 0.05，右尾檢定）
+**步驟 2.** 找出臨界值。$\alpha = 0.05$ 且為雙尾檢定，臨界值為 $-1.96$ 與 $+1.96$。
 
-**步驟 3：**
-$$z = \frac{88.42 - 80.61}{\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}}} = \frac{7.81}{\sqrt{0.6317 + 0.4674}} = \frac{7.81}{1.048} \approx 7.45$$
+**步驟 3.** 計算檢定統計量。
 
-**步驟 4：** 7.45 > 1.645 → **拒絕 $H_0$**
-
-**步驟 5：** 有足夠證據支持紐奧良飯店房價高於鳳凰城的主張。
+$$z = \frac{(1685 - 1512) - 0}{\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}}} = \frac{173}{67.75} = 2.55$$
 :::
+
+---
 
 ## 範例 9-1
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 執行步驟 3** ——臨界值、檢定統計量與 P 值。
 
 ```{r e9-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-z <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-cv <- qnorm(0.95)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("臨界值 =", round(cv, 3), "\n")
-cat("P 值 =", round(p_val, 6), "\n")
-cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+mean_app <- 1685; sigma_app <- 320; n_app <- 40
+mean_web <- 1512; sigma_web <- 285; n_web <- 40
+se_orders <- sqrt(sigma_app^2 / n_app + sigma_web^2 / n_web)
+z_statistic <- (mean_app - mean_web) / se_orders
+round(c(standard_error = se_orders, z = z_statistic), 2)
+round(qnorm(c(0.025, 0.975)), 2)
+round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
 ```
+
+**步驟 4.** 做出決策。因 $2.55 > 1.96$（等同於 $P = 0.0107 < \alpha = 0.05$），拒絕 $H_0$。
+
+**步驟 5.** 在 0.05 顯著水準下，有足夠證據認為 App 通路與網站通路的平均訂單金額確有差異。
 :::
+
+---
 
 ## 範例 9-2 {#example-9-2}
 
 :::{.callout-warning}
-## 大學運動項目選擇（P 值法）
+## 每張訂單的揀貨品項數
 
-某研究者假設男大學生在線上能選擇的運動項目多於女大學生。各抽取 50 所大學的樣本，結果如下：
+某物流公司推測，桃園配送中心每張訂單的平均揀貨品項數多於台中配送中心。下表為兩個中心各隨機抽取 50 張訂單的資料。在 $\alpha = 0.10$ 下，是否有足夠證據支持此宣稱？假設 $\sigma_1$ 與 $\sigma_2 = 4$。請用 P 值法。（模擬資料）
 
-- 男生：$\bar{X}_1 = 8.6$，$\sigma_1 = 3.3$，$n_1 = 50$
-- 女生：$\bar{X}_2 = 7.9$，$\sigma_2 = 3.3$，$n_2 = 50$
-
-在 $\alpha$ = 0.10 下，使用 P 值法檢定此主張。
-:::
-
-## 範例 9-2
-
-:::{.callout-tip}
-## 解題
-
-**數學解法**
-
-**步驟 1：** $H_0$：$\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$：$\mu_1$ > $\mu_2$（主張）——右尾檢定
-
-**步驟 2：** $\alpha$ = 0.10
-
-**步驟 3：**
-$$z = \frac{8.6 - 7.9}{\sqrt{\dfrac{3.3^2}{50} + \dfrac{3.3^2}{50}}} = \frac{0.7}{\sqrt{0.2178 + 0.2178}} = \frac{0.7}{0.6600} \approx 1.06$$
-
-**P 值** = P(z > 1.06) = 1 − 0.8554 = **0.1446**
-
-**步驟 4：** 0.1446 > 0.10 → **不拒絕 $H_0$**
-
-**步驟 5：** 沒有足夠證據支持男生能選擇更多線上運動項目的主張。
-:::
-
-## 範例 9-2
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 8.6; x2 <- 7.9
-s1 <- 3.3; s2 <- 3.3
-n1 <- 50;  n2 <- 50
-
-z <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
+```
+            Taoyuan                     Taichung
+14   6  16   7  18          13  10  16  10  10
+10  13  14   7  11           9  13   8   9  16
+18  10  15  16  11          11  17  12   8  14
+15   5   7  11  15           8  16   5   8   6
+ 6  15  16  13   9           8  13   7  16  14
+14  15  14   7  19          12  12  18  14  18
+16   6  10   6  17          16  15  12   7  11
+14  13  11  22  19          20   7   9  14   8
+ 8  13  11  15  13          11  11  16  15  15
+10  14  11  10  14          13  12  15   7   5
 ```
 :::
 
-## $\mu_1$ − $\mu_2$ 的信賴區間（$\sigma$ 已知）
+---
+
+## 範例 9-2
+
+:::{.callout-tip}
+## 解題
+
+**步驟 1.** 陳述假設並指出宣稱。
+
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 > \mu_2 \ \textit{(claim)}$$
+
+**步驟 2——計算檢定統計量。** 先求出各組資料的均值。
+
+```{r e9-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+taoyuan  <- c(14,  6, 16,  7, 18, 10, 13, 14,  7, 11,
+              18, 10, 15, 16, 11, 15,  5,  7, 11, 15,
+               6, 15, 16, 13,  9, 14, 15, 14,  7, 19,
+              16,  6, 10,  6, 17, 14, 13, 11, 22, 19,
+               8, 13, 11, 15, 13, 10, 14, 11, 10, 14)
+taichung <- c(13, 10, 16, 10, 10,  9, 13,  8,  9, 16,
+              11, 17, 12,  8, 14,  8, 16,  5,  8,  6,
+               8, 13,  7, 16, 14, 12, 12, 18, 14, 18,
+              16, 15, 12,  7, 11, 20,  7,  9, 14,  8,
+              11, 11, 16, 15, 15, 13, 12, 15,  7,  5)
+round(c(n_taoyuan = length(taoyuan), n_taichung = length(taichung),
+        mean_taoyuan = mean(taoyuan), mean_taichung = mean(taichung)), 1)
+```
+:::
+
+---
+
+## 範例 9-2
+
+:::{.callout-tip}
+## 解題
+
+**步驟 2（續）.** 以 $\bar{X}_1 = 12.4$、$\bar{X}_2 = 11.8$ 及 $\sigma_1 = \sigma_2 = 4$ 代入，
+
+$$z = \frac{(12.4 - 11.8) - 0}{\sqrt{\dfrac{4^2}{50} + \dfrac{4^2}{50}}} = 0.75$$
+
+```{r e9-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sigma_lines <- 4
+se_lines <- sqrt(sigma_lines^2 / length(taoyuan) +
+                 sigma_lines^2 / length(taichung))
+z_statistic <- (mean(taoyuan) - mean(taichung)) / se_lines
+round(c(z = z_statistic,
+        p_value = pnorm(z_statistic, lower.tail = FALSE)), 4)
+```
+
+**步驟 3.** 求 P 值。$z = 0.75$ 左側的面積為 0.7734，$1.0000 - 0.7734 = 0.2266$。
+
+**步驟 4.** P 值大於 $\alpha$（$0.2266 > 0.10$），故不拒絕 $H_0$。
+
+**步驟 5.** 在 0.10 顯著水準下，沒有足夠證據支持「桃園配送中心每張訂單的揀貨品項數多於台中配送中心」這項宣稱。
+:::
+
+---
+
+## 檢定特定的差異
+
+研究者有時要檢定的均值差**不是零**。例如研究者可能推測社區學院的護理系學生平均比大學的護理系學生年長 3.2 歲：
+
+$$H_0:\ \mu_1 - \mu_2 = 3.2 \qquad H_1:\ \mu_1 - \mu_2 > 3.2$$
 
 :::{.callout-note}
-$$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+## 假設的差異值
+
+$z$ 檢定的公式不變；分子中的 $\mu_1 - \mu_2$ 就是**假設的差異值**（期望值）。此例中代入的是 $\mu_1 - \mu_2 = 3.2$ 而非 0。
 :::
+
+---
+
+## $\mu_1 - \mu_2$ 的信賴區間（$\sigma_1$ 與 $\sigma_2$ 已知）
+
+:::{.callout-important}
+## 兩均值之差的 z 信賴區間
+
+$$(\bar{X}_1 - \bar{X}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+
+當假設的差異為零時：若信賴區間**包含零**，不拒絕 $H_0$；若**不包含零**，則拒絕 $H_0$。
+:::
+
+---
 
 ## 範例 9-3 {#example-9-3}
 
 :::{.callout-warning}
-## 飯店房價的 95% 信賴區間
+## 不同通路的平均訂單金額
 
-使用[範例 9-1](#example-9-1)的資料，求 $\mu_1$ − $\mu_2$ 的 95% 信賴區間。
+求 [範例 9-1](#example-9-1) 中兩均值之差的 95% 信賴區間。
 :::
+
+---
 
 ## 範例 9-3
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**代入公式**，取 $z_{\alpha/2} = 1.96$。
 
-取 $z_{\alpha/2} = 1.96$：
+$$(1685 - 1512) \pm 1.96\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}} = 173 \pm 132.80$$
 
-$$(88.42 - 80.61) \pm 1.96\sqrt{\dfrac{5.62^2}{50} + \dfrac{4.83^2}{50}} = 7.81 \pm 2.05$$
-
-$$5.76 < \mu_1 - \mu_2 < 9.86$$
-
-由於區間不包含 0，與範例 9-1 拒絕 $H_0$ 的決策一致。
+$$40.20 < \mu_1 - \mu_2 < 305.80$$
 
 ```{r e9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 88.42; x2 <- 80.61
-s1 <- 5.62;  s2 <- 4.83
-n1 <- 50;    n2 <- 50
-
-moe <- qnorm(0.975) * sqrt(s1^2/n1 + s2^2/n2)
-cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+margin_of_error <- qnorm(0.975) * se_orders
+difference <- mean_app - mean_web
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 2)
 ```
+
+由於信賴區間不包含零，決策是**拒絕 $H_0$**，與範例 9-1 的結論一致。
 :::
 
-# 第 9-2 節：使用 t 檢定來檢定兩獨立樣本均值之差 {background-color="#2c4a6e"}
+# 第 9-3 節：兩均值之差的檢定（獨立樣本） {background-color="#2c4a6e"}
 
-## 兩獨立樣本均值的 t 檢定（$\sigma$ 未知）
+## 當母體標準差未知時
+
+第 9-2 節在母體標準差已知時使用 $z$ 檢定。但許多情況下這個條件無法滿足。此時改用 **$t$ 檢定**：兩個樣本彼此獨立，且取自常態或近似常態分布的兩個母體。
 
 :::{.callout-note}
-以下情況使用 **t 檢定**：
+## 獨立樣本
 
-- 樣本為獨立且隨機
-- 母體標準差 $\sigma_1$ 與 $\sigma_2$ **未知**
-- 兩個母體均近似常態分配
+當兩個樣本彼此沒有關聯時，就是**獨立樣本**。本節同時假設**兩個變異數並不相等**。
+:::
+
+---
+
+## t 檢定的公式（獨立樣本）
+
+:::{.callout-important}
+## 兩獨立樣本均值之差的 t 檢定
+
+假設變異數**不相等**：
 
 $$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
 
-**自由度：** $\text{自由度} = \min(n_1-1,\; n_2-1)$ *（保守方法）*
+其中自由度取 **$n_1 - 1$ 與 $n_2 - 1$ 之中較小者**。
+
+分母是兩均值之差的標準誤；未知的 $\sigma_1$ 與 $\sigma_2$ 以 $s_1$ 與 $s_2$ 取代。
 :::
+
+---
+
+## t 檢定的假設條件
+
+:::{.callout-important}
+## $\sigma_1$ 與 $\sigma_2$ 未知時兩獨立樣本均值 t 檢定的假設條件
+
+1. 樣本為**隨機樣本**。
+2. 樣本資料彼此**獨立**。
+3. 當樣本數小於 30 時，母體必須呈**常態或近似常態分布**。
+:::
+
+檢定程序與第 9-2 節的五個步驟相同；公式改用 $s_1$ 與 $s_2$，臨界值取自 $t$ 分布。
+
+---
 
 ## 範例 9-4 {#example-9-4}
 
 :::{.callout-warning}
-## 農場面積
+## 不同店型的月營收
 
-某研究者想確定印第安納郡與格林郡的農場面積是否不同。隨機抽樣結果如下：
+某連鎖咖啡品牌想了解街邊店與商場櫃位的平均月營收是否有差異。兩種店型各隨機抽取 10 家門市。街邊店的平均月營收為 NT\$854 千元，商場櫃位為 NT\$814 千元，兩樣本的標準差分別為 NT\$52 千元與 NT\$61 千元。在 $\alpha = 0.05$ 下，能否斷定兩個樣本的均值有差異？假設變數呈常態分布。（模擬資料）
 
-| | 印第安納郡 | 格林郡 |
-|--|---------|--------|
-| $\bar{X}$ | 191 英畝 | 199 英畝 |
-| $s$ | 38 | 12 |
-| $n$ | 8 | 10 |
+```
+                    Street-level    Mall counter
+Sample mean                  854             814
+s                             52              61
+n                             10              10
+```
 
-在 $\alpha$ = 0.05 下，檢定兩者均值是否不同。
+回到 [範例 9-5](#example-9-5)
 :::
+
+---
 
 ## 範例 9-4
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出宣稱。
 
-**步驟 1：** $H_0$：$\mu_1$ = $\mu_2$ &nbsp;&nbsp; $H_1$：$\mu_1 \neq \mu_2$（主張）——雙尾檢定
+$$H_0:\ \mu_1 = \mu_2 \qquad H_1:\ \mu_1 \neq \mu_2 \ \textit{(claim)}$$
 
-**步驟 2：** 自由度 = min(8−1, 10−1) = 7；CV = $\pm$2.365
+**步驟 2.** 找出臨界值。雙尾檢定且 $\alpha = 0.05$。自由度取 $n_1 - 1$ 與 $n_2 - 1$ 中較小者；兩者皆為 $10 - 1 = 9$，故臨界值為 $+2.262$ 與 $-2.262$。
 
-**步驟 3：**
-$$t = \frac{191 - 199}{\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}}} = \frac{-8}{\sqrt{180.5 + 14.4}} = \frac{-8}{\sqrt{194.9}} \approx -0.573$$
+**步驟 3.** 求檢定統計量。
 
-**步驟 4：** |−0.573| < 2.365 → **不拒絕 $H_0$**
-
-**步驟 5：** 沒有足夠證據得出兩郡農場面積不同的結論。
+$$t = \frac{(854 - 814) - 0}{\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}}} = \frac{40}{25.348} = 1.578$$
 :::
+
+---
 
 ## 範例 9-4
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 執行步驟 3** ——自由度、臨界值、檢定統計量與 P 值。
 
 ```{r e9-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-t_stat <- (x1 - x2) / sqrt(s1^2/n1 + s2^2/n2)
-df     <- min(n1 - 1, n2 - 1)
-cv     <- qt(0.975, df)
-p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
-
-cat("t =", round(t_stat, 4), "\n")
-cat("自由度 =", df, "\n")
-cat("臨界值 =", round(cv, 3), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(abs(t_stat) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+mean_street <- 854; sd_street <- 52; n_street <- 10
+mean_mall   <- 814; sd_mall   <- 61; n_mall   <- 10
+degrees_freedom <- min(n_street - 1, n_mall - 1)
+se_revenue <- sqrt(sd_street^2 / n_street + sd_mall^2 / n_mall)
+t_statistic <- (mean_street - mean_mall) / se_revenue
+round(c(df = degrees_freedom, standard_error = se_revenue,
+        t = t_statistic), 3)
+round(qt(c(0.025, 0.975), degrees_freedom), 3)
+round(2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE), 4)
 ```
+
+**步驟 4.** 因 $1.578 < 2.262$，不拒絕 $H_0$。
+
+**步驟 5.** 沒有足夠證據支持兩個均值有差異的宣稱。
 :::
 
-## $\mu_1$ − $\mu_2$ 的信賴區間（$\sigma$ 未知）
+---
 
-:::{.callout-note}
+## $\mu_1 - \mu_2$ 的信賴區間（$\sigma_1$ 與 $\sigma_2$ 未知）
+
+:::{.callout-important}
+## 兩獨立樣本均值之差的信賴區間
+
+假設變異數**不相等**：
+
 $$(\bar{X}_1 - \bar{X}_2) - t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}} < \mu_1-\mu_2 < (\bar{X}_1 - \bar{X}_2) + t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
 
-其中 $\text{自由度} = \min(n_1-1,\; n_2-1)$
+其中 $\text{d.f.} =$ $n_1 - 1$ 與 $n_2 - 1$ 中較小者。
 :::
+
+---
 
 ## 範例 9-5 {#example-9-5}
 
 :::{.callout-warning}
-## 農場面積的 95% 信賴區間
+## 不同店型的月營收
 
-使用[範例 9-4](#example-9-4)的資料，建構 $\mu_1$ − $\mu_2$ 的 95% 信賴區間。
+求 [範例 9-4](#example-9-4) 資料的 95% 信賴區間。
 :::
+
+---
 
 ## 範例 9-5
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**代入公式**，以 $\text{d.f.} = 9$ 取 $t_{\alpha/2} = 2.262$。
 
-自由度 = min(8−1, 10−1) = 7，查表得 $t_{\alpha/2} = 2.365$：
+$$(854 - 814) \pm 2.262\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}} = 40 \pm 57.34$$
 
-$$(191 - 199) \pm 2.365\sqrt{\dfrac{38^2}{8} + \dfrac{12^2}{10}} = -8 \pm 33.02$$
-
-$$-41.02 < \mu_1 - \mu_2 < 25.02$$
-
-（若使用精確值 $t_{0.025,\,7} = 2.3646$，R 算得 $-41.01 < \mu_1 - \mu_2 < 25.01$。）
-
-由於區間包含 0，與範例 9-4 不拒絕 $H_0$ 的決策一致。
+$$-17.34 < \mu_1 - \mu_2 < 97.34$$
 
 ```{r e9-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 191; x2 <- 199
-s1 <- 38;  s2 <- 12
-n1 <- 8;   n2 <- 10
-
-df  <- min(n1 - 1, n2 - 1)
-moe <- qt(0.975, df) * sqrt(s1^2/n1 + s2^2/n2)
-cat("95% CI: (", round((x1 - x2) - moe, 2), ",", round((x1 - x2) + moe, 2), ")\n")
+margin_of_error <- qt(0.975, degrees_freedom) * se_revenue
+difference <- mean_street - mean_mall
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 2)
 ```
+
+由於區間包含 0，沒有足夠證據支持兩個均值有差異的宣稱。
 :::
 
-# 第 9-3 節：相依樣本兩均值之差的檢定 {background-color="#2c4a6e"}
+---
 
-## 相依（配對）樣本
+## 統計軟體所用的自由度
 
 :::{.callout-note}
-以下情況稱為**相依**（配對）樣本：
+## Welch 自由度
 
-- 相同受試者被測量兩次（前測／後測）
-- 受試者依某特性進行配對
+許多統計軟體以下式計算此 $t$ 檢定的自由度：
 
-**程序：** 對每對資料計算差值 $D = X_1 - X_2$，然後檢定：
+$$\text{d.f.} = \frac{\left(\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}\right)^2}{\dfrac{(s_1^2/n_1)^2}{n_1 - 1} + \dfrac{(s_2^2/n_2)^2}{n_2 - 1}}$$
 
-$$t = \frac{\bar{D} - \mu_D}{s_D / \sqrt{n}}, \quad \text{自由度} = n - 1$$
-
-其中 $\bar{D} = \dfrac{\sum D}{n}$ 且 $s_D = \sqrt{\dfrac{n\sum D^2 - (\sum D)^2}{n(n-1)}}$
+**本書不使用這個公式。** 本書一律取 $n_1 - 1$ 與 $n_2 - 1$ 中較小者，這是較保守的作法。
 :::
+
+---
+
+## 變異數的合併估計
+
+:::{.callout-important}
+## 假設變異數相等時的 t 檢定
+
+$$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}\sqrt{\dfrac{1}{n_1}+\dfrac{1}{n_2}}}\qquad \text{d.f.} = n_1 + n_2 - 2$$
+:::
+
+:::{.callout-note}
+## 變異數的合併估計
+
+**變異數的合併估計**是以兩個樣本變異數各自的自由度為權數，對兩個樣本變異數取加權平均。
+:::
+
+---
+
+## 如何在兩種 t 檢定之間取捨
+
+:::{.callout-warning}
+## 注意
+
+$t$ 檢定有兩種版本：一種用於母體變異數**不相等**，另一種用於變異數**相等**。要判斷兩個樣本變異數是否相等，研究者可以使用 $F$ 檢定（第 9-6 節）。
+
+然而**統計學家並非都同意**先做 $F$ 檢定再做 $t$ 檢定：在同一顯著水準下連做 $F$ 與 $t$ 檢定，會改變 $t$ 檢定的整體顯著水準。**因此本書全書都假設 $\sigma_1 \neq \sigma_2$。**
+:::
+
+---
+
+## 在 R 中執行兩樣本 t 檢定
+
+**比較課本的保守自由度與 `t.test()` 所用的 Welch 自由度**，以範例 9-4 的摘要統計量為起點。
+
+```{r s9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+welch_df <- function(sd1, n1, sd2, n2) {
+  (sd1^2 / n1 + sd2^2 / n2)^2 /
+    ((sd1^2 / n1)^2 / (n1 - 1) + (sd2^2 / n2)^2 / (n2 - 1))
+}
+df_welch <- welch_df(sd_street, n_street, sd_mall, n_mall)
+round(c(df_book = degrees_freedom, df_welch = df_welch), 3)
+round(c(p_book  = 2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE),
+        p_welch = 2 * pt(abs(t_statistic), df_welch, lower.tail = FALSE)), 4)
+```
+
+兩種作法的檢定統計量完全相同，只有自由度不同，因而 P 值略有差異。課本一律取 $\text{d.f.} = 9$，這是較保守的選擇。
+
+# 第 9-4 節：兩均值之差的檢定：相依樣本 {background-color="#2c4a6e"}
+
+## 相依樣本
+
+:::{.callout-note}
+## 相依樣本
+
+當受試者以某種方式**配對或配類**時，這兩個樣本就是**相依樣本**，有時也稱為**配對樣本**。
+:::
+
+例如：同一群受試者服藥前後的前測與後測；補習前後的 SAT 分數；減重輔導計畫的前後體重。學生也可以依相關變數（例如智商）**配對**，每一對各分派到一組。配對可以排除外生變數，因而有助於降低**型 II 誤差**。
+
+---
+
+## 關於配對的兩項提醒
+
+:::{.callout-warning}
+## 注意
+
+1. 依**單一**變數配對，並不能排除其他變數的影響。依智商配對並未控制受試者的數學能力或對電腦的熟悉程度。
+2. 同一群受試者用於前後測研究時，「知道自己正在參與研究」本身就可能影響結果——被選入特別計畫的人可能只是因為被選上而更有動機。
+:::
+
+---
+
+## 相依樣本的假設寫法
+
+:::{.callout-important}
+## 以 $\mu_D$ 陳述假設
+
+| 雙尾 | 左尾 | 右尾 |
+|------------|-------------|--------------|
+| $H_0:\ \mu_D = 0$ | $H_0:\ \mu_D = 0$ | $H_0:\ \mu_D = 0$ |
+| $H_1:\ \mu_D \neq 0$ | $H_1:\ \mu_D < 0$ | $H_1:\ \mu_D > 0$ |
+
+其中 $\mu_D$ 是配對差的期望均值，且 $D = X_1 - X_2$。
+:::
+
+---
+
+## 假設條件與公式
+
+:::{.callout-important}
+## 相依樣本兩均值 t 檢定的假設條件
+
+1. 樣本為**隨機**樣本。
+2. 樣本資料是**相依**的。
+3. 當樣本數小於 30 時，母體必須呈**常態或近似常態分布**。
+:::
+
+:::{.callout-important}
+## 相依樣本 t 檢定的公式
+
+$$t = \frac{\bar{D} - \mu_D}{s_D/\sqrt{n}} \qquad \text{d.f.} = n - 1$$
+
+$$\bar{D} = \frac{\sum D}{n} \qquad s_D = \sqrt{\frac{n\sum D^2 - \left(\sum D\right)^2}{n(n-1)}}$$
+:::
+
+---
+
+## 程序表
+
+:::{.callout-important}
+## 相依樣本均值之差的檢定
+
+| 步驟 | 作法 |
+|------|--------|
+| 1 | 陳述假設並指出宣稱。 |
+| 2 | 找出臨界值。 |
+| 3 | 計算檢定統計量（見下方 a–f）。 |
+| 4 | 做出決策。 |
+| 5 | 總結結果。 |
+
+**步驟 3 的細節。** (a) 製表，欄位為 $X_1$、$X_2$、A $= D = X_1 - X_2$、B $= D^2 = (X_1 - X_2)^2$。(b) 求各對的差並填入 A 欄。(c) 求差的均值 $\bar{D} = \sum D / n$。(d) 將差平方後填入 B 欄。(e) 求 $s_D$。(f) 求檢定統計量 $t = (\bar{D} - \mu_D)/(s_D/\sqrt{n})$，$\text{d.f.} = n - 1$。
+:::
+
+---
 
 ## 範例 9-6 {#example-9-6}
 
 :::{.callout-warning}
-## 銀行存款
+## 相隔三年的門市營收
 
-某銀行經理聲稱今日存款比 3 年前更多。以下為 9 家銀行的資料（單位：百萬元），其中 $D = (\text{3 年前}) - (\text{今日})$：
+隨機抽取某手搖飲連鎖品牌的九家門市，列出其三年前與今日的平均月營收（單位：NT\$ 百萬元）。在 $\alpha = 0.05$ 下，能否斷定這些門市今日的平均月營收高於三年前？假設變數呈常態分布。（模擬資料）
 
-| 銀行 | 3 年前 | 今日 | D |
-|------|-----------|-------|---|
-| 1 | 1.2 | 1.8 | −0.6 |
-| 2 | 5.6 | 5.7 | −0.1 |
-| 3 | 7.1 | 8.2 | −1.1 |
-| 4 | 2.3 | 2.1 | 0.2 |
-| 5 | 4.0 | 5.3 | −1.3 |
-| 6 | 2.4 | 3.1 | −0.7 |
-| 7 | 1.7 | 1.8 | −0.1 |
-| 8 | 0.4 | 1.9 | −1.5 |
-| 9 | 0.9 | 1.5 | −0.6 |
-
-在 $\alpha$ = 0.05 下，檢定此主張。
+```
+Outlet          1      2     3     4     5     6     7     8     9
+3 years ago   7.00   3.40  3.90  3.50  4.00  3.30  4.00  5.30  3.90
+Today         5.20   3.80  6.40  2.90  7.10  4.50  8.20  3.30  6.80
+```
 :::
 
-## 範例 9-6
-
-:::{.callout-tip}
-## 解題
-
-**數學解法**
-
-**步驟 1：** $H_0$：$\mu_D = 0$ &nbsp;&nbsp; $H_1$：$\mu_D < 0$（主張）——左尾檢定
-
-由於 $D = (\text{3 年前}) - (\text{今日})$，今日存款較多對應負的差值，即 $\mu_D < 0$。
-
-**步驟 2：** 自由度 = 8；CV = −1.860
-
-**步驟 3：** D 值：−0.6、−0.1、−1.1、0.2、−1.3、−0.7、−0.1、−1.5、−0.6
-
-$\sum D = -5.8$，故 $\bar{D} = \dfrac{-5.8}{9} \approx -0.644$
-
-$\sum D^2$ = 0.36+0.01+1.21+0.04+1.69+0.49+0.01+2.25+0.36 = 6.42
-
-$s_D = \sqrt{\dfrac{9(6.42) - (-5.8)^2}{9(8)}} = \sqrt{\dfrac{57.78 - 33.64}{72}} \approx 0.579$
-
-$t = \dfrac{-0.644 - 0}{0.579/\sqrt{9}} = \dfrac{-0.644}{0.193} \approx -3.34$
-:::
 ---
 
-**步驟 4：** −3.34 < −1.860 → **拒絕 $H_0$**
-
-**步驟 5：** 有足夠證據支持今日存款比 3 年前更多的主張。
-
 ## 範例 9-6
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**步驟 1.** 陳述假設並指出宣稱。若營收確實增加，三年前的營收必須顯著**低於**今日，因此差的均值必須小於零。
 
-**計算檢定值**
+$$H_0:\ \mu_D = 0 \qquad H_1:\ \mu_D < 0 \ \textit{(claim)}$$
+
+**步驟 2.** 找出臨界值。自由度為 $n - 1 = 9 - 1 = 8$；左尾檢定且 $\alpha = 0.05$，臨界值為 $-1.860$。
+
+**步驟 3.** 計算檢定統計量。由 $\sum D = -9.90$ 與 $\sum D^2 = 51.11$，
+
+$$\bar{D} = \frac{-9.90}{9} = -1.100 \qquad s_D = \sqrt{\frac{9(51.11) - (-9.90)^2}{9(8)}} = 2.242$$
+
+$$t = \frac{-1.100 - 0}{2.242/\sqrt{9}} = -1.472$$
+:::
+
+---
+
+## 範例 9-6
+
+:::{.callout-tip}
+## 解題 - 以 R 執行步驟 3
 
 ```{r e9-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(1.2, 5.6, 7.1, 2.3, 4.0, 2.4, 1.7, 0.4, 0.9)
-today  <- c(1.8, 5.7, 8.2, 2.1, 5.3, 3.1, 1.8, 1.9, 1.5)
-
-D    <- before - today   # D = 3 年前 - 今日；主張（今日較多）對應 mu_D < 0
-Dbar <- mean(D)
-sD   <- sd(D)
-n    <- length(D)
-t_stat <- Dbar / (sD / sqrt(n))
-df     <- n - 1
-cv     <- qt(0.05, df)
+three_years_ago <- c(7.00, 3.40, 3.90, 3.50, 4.00, 3.30, 4.00, 5.30, 3.90)
+today           <- c(5.20, 3.80, 6.40, 2.90, 7.10, 4.50, 8.20, 3.30, 6.80)
+revenue_change  <- three_years_ago - today
+knitr::kable(data.frame(X1 = three_years_ago, X2 = today, D = revenue_change,
+                        D2 = revenue_change^2), align = "c")
+round(c(sumD = sum(revenue_change), sumD2 = sum(revenue_change^2)), 4)
 ```
 :::
 
@@ -465,84 +792,77 @@ cv     <- qt(0.05, df)
 :::{.callout-tip}
 ## 解題
 
-**決策**
+**以 R 執行步驟 3 至 5** ——檢定統計量、臨界值、P 值與決策。
 
 ```{r e9-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("D-bar =", round(Dbar, 4), "\n")
-cat("sD =", round(sD, 4), "\n")
-cat("t =", round(t_stat, 4), "\n")
-cat("臨界值 =", round(cv, 3), "\n")
-cat("決策:", ifelse(t_stat < cv, "拒絕 H0", "不拒絕 H0"), "\n")
-cat("結論:", ifelse(t_stat < cv,
-    "有足夠證據支持今日存款比 3 年前更多的主張",
-    "沒有足夠證據支持今日存款較多的主張"), "\n")
+n_outlets <- length(revenue_change)
+t_statistic <- mean(revenue_change) / (sd(revenue_change) / sqrt(n_outlets))
+round(c(Dbar = mean(revenue_change), sD = sd(revenue_change),
+        t = t_statistic), 3)
+round(qt(0.05, n_outlets - 1), 3)
+round(pt(t_statistic, n_outlets - 1), 4)
 ```
+
+**步驟 4.** 檢定統計量 $-1.472$ 大於臨界值 $-1.860$（等同於 $P = 0.0896 > 0.05$），故不拒絕 $H_0$。
+
+**步驟 5.** 沒有足夠證據顯示這些門市近三年來的平均月營收有所增加。
 :::
+
+---
 
 ## 範例 9-7 {#example-9-7}
 
 :::{.callout-warning}
-## 膽固醇值
+## 製程修訂前後的不良率
 
-某研究者聲稱礦物質補充劑會影響膽固醇值。六位受試者在服用補充劑前後分別進行檢測：
+某品保工程師想了解修訂標準作業程序後，產線的批次不良率是否會改變。隨機選取六條產線先測量修訂前的不良率，接著以新程序運轉六週後再測一次。結果如下表（單位：每千件的不良數）。在 $\alpha = 0.10$ 下，能否斷定不良率已經改變？假設變數呈近似常態分布。（模擬資料）
 
-| 受試者 | 服用前 | 服用後 | D |
-|---------|--------|-------|---|
-| 1 | 210 | 190 | 20 |
-| 2 | 235 | 170 | 65 |
-| 3 | 208 | 210 | −2 |
-| 4 | 190 | 188 | 2 |
-| 5 | 172 | 173 | −1 |
-| 6 | 244 | 228 | 16 |
+```
+Line           1     2     3     4     5     6
+Before (X1)   34    28    41    37    25    30
+After  (X2)   28    26    42    29    24    31
+```
 
-在 $\alpha$ = 0.10 下，檢定膽固醇值是否改變的主張。
+回到 [範例 9-8](#example-9-8)
 :::
+
+---
 
 ## 範例 9-7
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出宣稱。若新程序有效，修訂前的不良率應與修訂後不同。
 
-**步驟 1：** $H_0$：$\mu$_D = 0 &nbsp;&nbsp; $H_1$：$\mu$_D $\neq 0$（主張）——雙尾檢定
+$$H_0:\ \mu_D = 0 \qquad H_1:\ \mu_D \neq 0 \ \textit{(claim)}$$
 
-**步驟 2：** 自由度 = 5；CV = $\pm$2.015
+**步驟 2.** 找出臨界值。自由度為 $6 - 1 = 5$；$\alpha = 0.10$ 時臨界值為 $\pm 2.015$。
 
-**步驟 3：** $\sum D$ = 100，$\bar{D} = 100/6 = 16.7$
+**步驟 3.** 計算檢定統計量。由 $\sum D = 15$ 與 $\sum D^2 = 107$，
 
-$\sum D^2$ = 400 + 4225 + 4 + 4 + 1 + 256 = 4890
+$$\bar{D} = \frac{15}{6} = 2.500 \qquad s_D = \sqrt{\frac{6(107) - 15^2}{6(5)}} = \sqrt{\frac{642 - 225}{30}} = 3.728$$
 
-$s_D = \sqrt{\frac{6(4890) - 100^2}{6(5)}} = \sqrt{\frac{29340 - 10000}{30}} = \sqrt{644.67} \approx 25.4$
-
-$t = \frac{16.7}{25.4/\sqrt{6}} = \frac{16.7}{10.37} \approx 1.610$
-
-**步驟 4：** |1.610| < 2.015 → **不拒絕 $H_0$**
-
-**步驟 5：** 沒有足夠證據支持補充劑影響膽固醇值的主張。
+$$t = \frac{2.500 - 0}{3.728/\sqrt{6}} = 1.643$$
 :::
+
+---
 
 ## 範例 9-7
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
-
-**計算檢定值**
+**以 R 執行步驟 3** ——建表並計算檢定統計量。
 
 ```{r e9-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(210, 235, 208, 190, 172, 244)
-after  <- c(190, 170, 210, 188, 173, 228)
-
-D      <- before - after
-Dbar   <- mean(D)
-sD     <- sd(D)
-n      <- length(D)
-t_stat <- Dbar / (sD / sqrt(n))
-df     <- n - 1
-cv     <- qt(0.95, df)
-p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
+before <- c(34, 28, 41, 37, 25, 30)
+after  <- c(28, 26, 42, 29, 24, 31)
+defect_change <- before - after
+knitr::kable(data.frame(X1 = before, X2 = after,
+                        D = defect_change, D2 = defect_change^2), align = "c")
+round(c(sumD = sum(defect_change), sumD2 = sum(defect_change^2),
+        Dbar = mean(defect_change), sD = sd(defect_change)), 3)
 ```
 :::
 
@@ -553,538 +873,736 @@ p_val  <- 2 * pt(abs(t_stat), df, lower.tail = FALSE)
 :::{.callout-tip}
 ## 解題
 
-**決策**
+**以 R 執行步驟 3 至 5** ——臨界值、檢定統計量、P 值與決策。
 
 ```{r e9-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cat("D-bar =", round(Dbar, 4), "\n")
-cat("sD =", round(sD, 4), "\n")
-cat("t =", round(t_stat, 4), "\n")
-cat("臨界值 =", round(cv, 3), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(abs(t_stat) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+n_lines <- length(defect_change)
+t_statistic <- mean(defect_change) / (sd(defect_change) / sqrt(n_lines))
+round(t_statistic, 3)
+round(qt(c(0.05, 0.95), n_lines - 1), 3)
+round(2 * pt(abs(t_statistic), n_lines - 1, lower.tail = FALSE), 4)
 ```
+
+**步驟 4.** 不拒絕 $H_0$：檢定統計量 1.643 落在非拒絕區。
+
+**步驟 5.** 沒有足夠證據支持修訂後的程序會改變產線的不良率。
 :::
 
-## $\mu$_D 的信賴區間（相依樣本）
+---
 
-:::{.callout-note}
-$$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\frac{s_D}{\sqrt{n}}$$
+## 假設一個特定的差異值
 
-其中 $\text{自由度} = n - 1$
+若假設的差異為某個特定值，公式不變，只是把 $\mu_D$ 換成該值。例如營養師宣稱採用某種飲食法的人一週平均減重 3 磅，則假設為
+
+$$H_0:\ \mu_D = 3 \qquad H_1:\ \mu_D \neq 3$$
+
+並在檢定統計量中以 3 代入 $\mu_D$。
+
+---
+
+## 差之均值的信賴區間
+
+:::{.callout-important}
+## $\mu_D$ 的信賴區間
+
+$$\bar{D} - t_{\alpha/2}\frac{s_D}{\sqrt{n}} < \mu_D < \bar{D} + t_{\alpha/2}\frac{s_D}{\sqrt{n}} \qquad \text{d.f.} = n - 1$$
 :::
+
+---
 
 ## 範例 9-8 {#example-9-8}
 
 :::{.callout-warning}
-## 膽固醇變化的 90% 信賴區間
+## 製程修訂前後的不良率
 
-使用例題 9-7 的資料，求 $\mu$_D 的 90% 信賴區間。
+求 [範例 9-7](#example-9-7) 資料的 90% 信賴區間。
 :::
+
+---
 
 ## 範例 9-8
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**代入公式**，以 $\text{d.f.} = 5$ 取 $t_{\alpha/2} = 2.015$。
 
-**解答：** 自由度 = 5；$t_{0.05, 5} = 2.015$
+$$2.500 \pm 2.015\cdot\frac{3.728}{\sqrt{6}} = 2.500 \pm 3.07$$
 
-$$16.7 \pm 2.015 \cdot \frac{25.4}{\sqrt{6}} = 16.7 \pm 2.015(10.37) = 16.7 \pm 20.9$$
+$$-0.57 < \mu_D < 5.57$$
 
-$$\boxed{-4.2 < \mu_D < 37.6}$$
-
-（R 以未捨入數值計算得 $-4.22$ 至 $37.55$。）
-
-由於區間包含 0，無法得出膽固醇值有顯著改變的結論。
-:::
-
-## 範例 9-8
 ```{r e9-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-before <- c(210, 235, 208, 190, 172, 244)
-after  <- c(190, 170, 210, 188, 173, 228)
-
-D    <- before - after
-Dbar <- mean(D)
-sD   <- sd(D)
-n    <- length(D)
-df   <- n - 1
-moe  <- qt(0.95, df) * sD / sqrt(n)
-
-cat("90% CI: (", round(Dbar - moe, 2), ",", round(Dbar + moe, 2), ")\n")
+margin_of_error <- qt(0.95, n_lines - 1) * sd(defect_change) / sqrt(n_lines)
+round(c(lower = mean(defect_change) - margin_of_error,
+        upper = mean(defect_change) + margin_of_error), 2)
 ```
 
-# 第 9-4 節：兩比例差異的檢定 {background-color="#2c4a6e"}
+由於區間包含 0，決策是不拒絕 $H_0:\ \mu_D = 0$；沒有足夠證據支持修訂後的程序會改變產線的不良率。
+:::
 
-## 兩比例的 z 檢定
+# 第 9-5 節：兩比例之差的檢定 {background-color="#2c4a6e"}
+
+## 樣本比例
+
+回顧第 7 章，$\hat{p}$（讀作 p hat）是用來估計母體比例 $p$ 的樣本比例。
 
 :::{.callout-note}
-比例的**合併估計量**：
-$$\bar{p} = \frac{X_1 + X_2}{n_1 + n_2}, \quad \bar{q} = 1 - \bar{p}$$
+## 樣本比例
 
-**檢定統計量：**
-$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
+$$\hat{p} = \frac{X}{n}$$
 
-**要求條件：** $n_1\hat{p}_1$、$n_1\hat{q}_1$、$n_2\hat{p}_2$、$n_2\hat{q}_2$ 均 $\geq 5$
+其中 $X$ 是具有所關注特徵的單位數，$n$ 是樣本數。
 :::
+
+當檢定兩個母體比例 $p_1$ 與 $p_2$ 之差、且未假設特定差異時：
+
+$$H_0:\ p_1 = p_2 \qquad H_1:\ p_1 \neq p_2$$
+
+或等價地寫成 $H_0:\ p_1 - p_2 = 0$ 與 $H_1:\ p_1 - p_2 \neq 0$。把對立假設改成 $<$ 或 $>$ 即得單尾檢定。
+
+---
+
+## 加權估計值 $\bar{p}$
+
+:::{.callout-important}
+## $p$ 的加權（合併）估計
+
+由於 $p_1$ 與 $p_2$ 未知，改以**加權估計值**計算：
+
+$$\bar{p} = \frac{n_1\hat{p}_1 + n_2\hat{p}_2}{n_1 + n_2} = \frac{X_1 + X_2}{n_1 + n_2} \qquad \bar{q} = 1 - \bar{p}$$
+
+這個估計值建立在 $p_1 = p_2$ 的假設之上；$\bar{p}$ 同時用到兩個樣本的資訊，因此比單獨使用 $\hat{p}_1$ 或 $\hat{p}_2$ 更好。
+
+以加權估計值表示的差之標準誤為
+
+$$\sigma_{\hat{p}_1 - \hat{p}_2} = \sqrt{\bar{p}\,\bar{q}\left(\frac{1}{n_1}+\frac{1}{n_2}\right)}$$
+:::
+
+---
+
+## 公式與假設條件
+
+:::{.callout-important}
+## 比較兩比例的 z 檢定統計量
+
+$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\,\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}}$$
+
+其中 $\ \bar{p} = \dfrac{X_1 + X_2}{n_1+n_2}$、$\ \bar{q} = 1 - \bar{p}$、$\ \hat{p}_1 = \dfrac{X_1}{n_1}$、$\ \hat{p}_2 = \dfrac{X_2}{n_2}$。
+:::
+
+:::{.callout-important}
+## 兩比例 z 檢定的假設條件
+
+1. 樣本必須是**隨機樣本**。
+2. 樣本資料彼此**獨立**。
+3. 兩個樣本都要滿足 $np \geq 5$ 與 $nq \geq 5$。
+:::
+
+---
 
 ## 範例 9-9 {#example-9-9}
 
 :::{.callout-warning}
-## 療養院的疫苗接種率
+## 兩種店型的行動支付比例
 
-某研究者想確定小型與大型療養院的流感疫苗接種率是否相同。在 $\alpha$ = 0.05 下，檢定此主張。
+某零售集團想比較顧客在量販店與便利商店使用行動支付結帳的頻率。隨機抽取 45 筆量販店交易，其中 18 筆使用行動支付；隨機抽取 35 筆便利商店交易，其中 25 筆使用行動支付。在 $\alpha = 0.05$ 下，檢定「兩種店型使用行動支付的比例**沒有差異**」這項宣稱。（模擬資料）
 
-| | 小型 | 大型 |
-|--|-------|-------|
-| 已接種居民數 | 12 | 17 |
-| 抽樣總人數 | 34 | 24 |
+```
+                          Hypermarket    Convenience
+Mobile-wallet payments             18             25
+Transactions sampled               45             35
+```
+
+回到 [範例 9-11](#example-9-11)
 :::
+
+---
 
 ## 範例 9-9
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出宣稱。
 
-**步驟 1：** $H_0$：$p_1$ = $p_2$（主張）&nbsp;&nbsp; $H_1$：$p_1 \neq p_2$——雙尾檢定
+$$H_0:\ p_1 = p_2 \ \textit{(claim)} \qquad H_1:\ p_1 \neq p_2$$
 
-**步驟 2：** CV = $\pm$1.96
+**步驟 2.** 找出臨界值。$\alpha = 0.05$，臨界值為 $+1.96$ 與 $-1.96$。
 
-**步驟 3：** $\hat{p}_1 = 12/34 = 0.353$；$\hat{p}_2 = 17/24 = 0.708$
+**步驟 3.** 計算檢定統計量。
 
-$\bar{p} = \frac{12+17}{34+24} = \frac{29}{58} = 0.5$；$\bar{q} = 0.5$
+$$\hat{p}_1 = \frac{18}{45} = 0.4000 \qquad \hat{p}_2 = \frac{25}{35} = 0.7143$$
 
-$$z = \frac{0.353 - 0.708}{\sqrt{0.5 \times 0.5\left(\frac{1}{34}+\frac{1}{24}\right)}} = \frac{-0.355}{\sqrt{0.25(0.0711)}} = \frac{-0.355}{0.1328} \approx -2.67$$
+$$\bar{p} = \frac{18+25}{45+35} = \frac{43}{80} = 0.5375 \qquad \bar{q} = 0.4625$$
 
-**步驟 4：** |−2.67| > 1.96 → **拒絕 $H_0$**
-
-**步驟 5：** 有足夠證據拒絕小型與大型療養院疫苗接種率相同的主張。
+$$z = \frac{(0.4000 - 0.7143) - 0}{\sqrt{(0.5375)(0.4625)\left(\dfrac{1}{45}+\dfrac{1}{35}\right)}} = \frac{-0.3143}{0.1124} = -2.80$$
 :::
+
+---
 
 ## 範例 9-9
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 執行步驟 3** ——樣本比例、加權估計值、檢定統計量與 P 值。
 
 ```{r e9-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; phat2 <- x2/n2
-pbar  <- (x1 + x2)/(n1 + n2)
-qbar  <- 1 - pbar
-
-z     <- (phat1 - phat2) / sqrt(pbar * qbar * (1/n1 + 1/n2))
-cv    <- qnorm(0.975)
-p_val <- 2 * pnorm(abs(z), lower.tail = FALSE)
-
-cat("p-hat1 =", round(phat1, 4), " p-hat2 =", round(phat2, 4), "\n")
-cat("p-bar =", round(pbar, 4), "\n")
-cat("z =", round(z, 4), "\n")
-cat("臨界值 = ±", round(cv, 3), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(abs(z) > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+wallet_hyper <- 18; n_hyper <- 45
+wallet_cvs   <- 25; n_cvs   <- 35
+phat_hyper <- wallet_hyper / n_hyper
+phat_cvs   <- wallet_cvs / n_cvs
+pbar <- (wallet_hyper + wallet_cvs) / (n_hyper + n_cvs)
+round(c(phat_hyper = phat_hyper, phat_cvs = phat_cvs,
+        pbar = pbar, qbar = 1 - pbar), 4)
+z_statistic <- (phat_hyper - phat_cvs) /
+  sqrt(pbar * (1 - pbar) * (1 / n_hyper + 1 / n_cvs))
+round(z_statistic, 2)
+round(qnorm(c(0.025, 0.975)), 2)
+round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
 ```
+
+**步驟 4.** 因 $-2.80 < -1.96$（等同於 $P = 0.0052 < \alpha = 0.05$），拒絕 $H_0$。
+
+**步驟 5.** 有足夠證據拒絕「兩種店型使用行動支付的比例沒有差異」這項宣稱。
 :::
+
+---
 
 ## 範例 9-10 {#example-9-10}
 
 :::{.callout-warning}
-## 開車時傳訊息
+## 以 App 預訂旅館
 
-調查發現今年有 29% 的駕駛人開車時會傳訊息，去年為 17%。每個樣本各含 1000 名駕駛人。在 $\alpha$ = 0.01 下，檢定此比例是否增加的主張。
-:::
+一項針對 250 位隨機抽取的來台商務旅客的調查發現，72% 是透過行動 App 預訂旅館；另一個隨機抽取的 150 位休閒旅客樣本中，則有 60% 透過行動 App 預訂旅館。在 $\alpha = 0.10$ 下，能否斷定透過 App 訂房的商務旅客比例高於休閒旅客比例？（模擬資料）
 
-## 範例 9-10
-
-:::{.callout-tip}
-## 解題
-
-**數學解法**
-
-**步驟 1：** $H_0$：$p_1$ = $p_2$ &nbsp;&nbsp; $H_1$：$p_1$ > $p_2$（主張）——右尾檢定
-
-**步驟 2：** CV = +2.33
-
-**步驟 3：** $\bar{p} = \frac{290+170}{1000+1000} = \frac{460}{2000} = 0.23$；$\bar{q} = 0.77$
-
-$$z = \frac{0.29 - 0.17}{\sqrt{0.23(0.77)\left(\frac{1}{1000}+\frac{1}{1000}\right)}} = \frac{0.12}{\sqrt{0.0003542}} = \frac{0.12}{0.01882} \approx 6.38$$
-
-**步驟 4：** 6.38 > 2.33 → **拒絕 $H_0$**
-
-**步驟 5：** 有足夠證據支持開車傳訊息的比例已增加的主張。
-:::
-
-## 範例 9-10
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 290; n1 <- 1000   # 今年
-x2 <- 170; n2 <- 1000   # 去年
-
-phat1 <- x1/n1; phat2 <- x2/n2
-pbar  <- (x1 + x2)/(n1 + n2)
-qbar  <- 1 - pbar
-
-z     <- (phat1 - phat2) / sqrt(pbar * qbar * (1/n1 + 1/n2))
-cv    <- qnorm(0.99)
-p_val <- pnorm(z, lower.tail = FALSE)
-
-cat("z =", round(z, 4), "\n")
-cat("臨界值 =", round(cv, 3), "\n")
-cat("P 值 =", round(p_val, 6), "\n")
-cat("決策:", ifelse(z > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+```
+                 Business      Leisure
+Percentage            72%          60%
+n                     250          150
 ```
 :::
 
-## $p_1$ − $p_2$ 的信賴區間
+---
 
-:::{.callout-note}
+## 範例 9-10
+
+:::{.callout-tip}
+## 解題
+
+**步驟 1.** 陳述假設並指出宣稱。
+
+$$H_0:\ p_1 = p_2 \qquad H_1:\ p_1 > p_2 \ \textit{(claim)}$$
+
+**步驟 2.** 找出臨界值。$\alpha = 0.10$ 的右尾檢定，臨界值為 1.28。
+
+**步驟 3.** 計算檢定統計量。題目給的是**百分比**，先還原次數：
+
+$$X_1 = \hat{p}_1 n_1 = 0.72(250) = 180 \qquad X_2 = \hat{p}_2 n_2 = 0.60(150) = 90$$
+
+$$\bar{p} = \frac{180+90}{250+150} = \frac{270}{400} = 0.675 \qquad \bar{q} = 0.325$$
+
+$$z = \frac{(0.72 - 0.60) - 0}{\sqrt{(0.675)(0.325)\left(\dfrac{1}{250}+\dfrac{1}{150}\right)}} = \frac{0.12}{0.0484} = 2.48$$
+:::
+
+---
+
+## 範例 9-10
+
+:::{.callout-tip}
+## 解題
+
+**以 R 執行步驟 3** ——次數、加權估計值、檢定統計量、臨界值與 P 值。
+
+```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+phat_business <- 0.72; n_business <- 250
+phat_leisure  <- 0.60; n_leisure  <- 150
+count_business <- phat_business * n_business
+count_leisure  <- phat_leisure * n_leisure
+pbar <- (count_business + count_leisure) / (n_business + n_leisure)
+round(c(X1 = count_business, X2 = count_leisure,
+        pbar = pbar, qbar = 1 - pbar), 3)
+z_statistic <- (phat_business - phat_leisure) /
+  sqrt(pbar * (1 - pbar) * (1 / n_business + 1 / n_leisure))
+round(z_statistic, 2)
+round(qnorm(0.90), 2)
+round(pnorm(z_statistic, lower.tail = FALSE), 4)
+```
+
+**步驟 4.** 因 $2.48 > 1.28$（等同於 $P = 0.0066 < 0.10$），拒絕 $H_0$。
+
+**步驟 5.** 有足夠證據顯示，透過 App 預訂旅館的商務旅客比例高於休閒旅客比例。
+:::
+
+---
+
+## $p_1 - p_2$ 的信賴區間
+
+:::{.callout-important}
+## 兩比例之差的信賴區間
+
 $$(\hat{p}_1-\hat{p}_2) - z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}} < p_1-p_2 < (\hat{p}_1-\hat{p}_2) + z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
 :::
+
+:::{.callout-warning}
+## 注意
+
+信賴區間使用的標準差建立在母體比例的**估計值**上，而假設檢定使用的標準差建立在**兩個母體比例相等**的假設上。因此兩種作法可能導出不同結論。檢定兩比例之差時，**請以 $z$ 檢定為準，而非信賴區間**。
+:::
+
+---
 
 ## 範例 9-11 {#example-9-11}
 
 :::{.callout-warning}
-## 疫苗接種率差異的 95% 信賴區間
+## 兩種店型的行動支付比例
 
-使用例題 9-9 的資料，求 $p_1$ − $p_2$ 的 95% 信賴區間。
+求 [範例 9-9](#example-9-9) 資料中兩比例之差的 95% 信賴區間。
 :::
+
+---
 
 ## 範例 9-11
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**代入公式**，取 $\hat{p}_1 = 0.4000$、$\hat{q}_1 = 0.6000$、$\hat{p}_2 = 0.7143$、$\hat{q}_2 = 0.2857$ 及 $z_{\alpha/2} = 1.96$。
 
-$\hat{p}_1 = 12/34 \approx 0.353$，$\hat{q}_1 = 0.647$；&nbsp; $\hat{p}_2 = 17/24 \approx 0.708$，$\hat{q}_2 = 0.292$
+$$(0.4000 - 0.7143) \pm 1.96\sqrt{\dfrac{(0.4000)(0.6000)}{45} + \dfrac{(0.7143)(0.2857)}{35}} = -0.3143 \pm 0.207$$
 
-$$(0.353 - 0.708) \pm 1.96\sqrt{\dfrac{0.353(0.647)}{34} + \dfrac{0.708(0.292)}{24}} \approx -0.355 \pm 0.243$$
-
-$$-0.598 < p_1 - p_2 < -0.113$$
-
-（上式數值經過四捨五入；R 保留完整精度。）由於區間不包含 0，與範例 9-9 拒絕 $H_0$ 的決策一致。
+$$-0.521 < p_1 - p_2 < -0.107$$
 
 ```{r e9-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-x1 <- 12; n1 <- 34
-x2 <- 17; n2 <- 24
-
-phat1 <- x1/n1; qhat1 <- 1 - phat1
-phat2 <- x2/n2; qhat2 <- 1 - phat2
-
-diff <- phat1 - phat2
-moe  <- qnorm(0.975) * sqrt(phat1*qhat1/n1 + phat2*qhat2/n2)
-cat("95% CI: (", round(diff - moe, 3), ",", round(diff + moe, 3), ")\n")
+margin_of_error <- qnorm(0.975) *
+  sqrt(phat_hyper * (1 - phat_hyper) / n_hyper +
+       phat_cvs * (1 - phat_cvs) / n_cvs)
+difference <- phat_hyper - phat_cvs
+round(c(lower = difference - margin_of_error,
+        upper = difference + margin_of_error), 3)
 ```
+
+區間完全落在零的左側，與範例 9-9 拒絕 $H_0$ 的決策一致。
 :::
 
-# 第 9-5 節：兩變異數差異的檢定 {background-color="#2c4a6e"}
+# 第 9-6 節：兩變異數之差的檢定 {background-color="#2c4a6e"}
 
-## F 分配的特性
+## F 分布
+
+統計學家也會比較兩個**變異數或標準差**——例如兩座城市月氣溫的變異。這類比較使用 **$F$ 檢定**，它不同於第 8 章的卡方檢定：後者比較的是*單一*樣本變異數與某個特定母體變異數。
 
 :::{.callout-note}
-**F 分配**用於比較來自兩個獨立常態分配母體的變異數。
+## F 分布
 
-**特性：**
-- F 值恆 $\geq 0$（變異數為非負值）
-- 分配呈正偏態
-- 均值 $\approx 1$
-- 由兩個自由度參數決定曲線形狀：分子自由度（d.f.N.）與分母自由度（d.f.D.）
+若從兩個變異數相等（$\sigma_1^2 = \sigma_2^2$）的常態母體中各取一個獨立樣本，並以 $s_1^2/s_2^2$ 比較兩個樣本變異數，則該比值的抽樣分布稱為 **$F$ 分布**。
 :::
-
-## F 檢定公式
-
-:::{.callout-note}
-$$F = \frac{s_1^2}{s_2^2}$$
-
-其中 $s_1^2$ 永遠是**較大的**變異數（放在分子）。
-
-- **d.f.N.** = $n_1 - 1$（較大變異數所來自的樣本）
-- **d.f.D.** = $n_2 - 1$
-
-**假設條件：**
-1. 兩個樣本均為隨機且獨立
-2. 兩個母體均為常態分配
-3. 雙尾檢定時，使用 $\alpha/2$ 臨界值表（僅右尾）
-:::
-
-## F 檢定的重要規則
 
 :::{.callout-important}
-1. 永遠將**較大的變異數**放在分子
-2. **雙尾**檢定時，$\alpha$ 除以 2，使用右尾臨界值
-3. 若給定的是標準差，需**平方**以求得變異數
-4. 若自由度不在表格中，使用下一個**較小**的自由度
+## F 分布的特性
+
+1. $F$ 值**不可能為負**，因為變異數恆為正或零。
+2. 分布呈**右偏**。
+3. $F$ 的**均值等於 1**。
+4. $F$ 分布是依分子變異數自由度與分母變異數自由度而定的**曲線族**。
 :::
+
+---
+
+## 以 R 繪出 F 曲線族
+
+**繪圖** ——圖 9-10：自由度不同的數條 $F$ 曲線。
+
+```{r s9-6-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
+f_value <- seq(0.01, 5, length.out = 400)
+f_curves <- bind_rows(
+  tibble(f_value, density = df(f_value,  3,  5), degrees = "3, 5"),
+  tibble(f_value, density = df(f_value, 10, 10), degrees = "10, 10"),
+  tibble(f_value, density = df(f_value, 20, 30), degrees = "20, 30")
+)
+ggplot(f_curves, aes(f_value, density, colour = degrees)) +
+  geom_line(linewidth = 0.9) +
+  labs(title = "F 曲線族", x = "F", y = "機率密度",
+       colour = "分子, 分母自由度")
+```
+
+每一條曲線都右偏，且都從 $F = 0$ 開始。
+
+---
+
+## F 檢定的公式
+
+:::{.callout-important}
+## 比較兩變異數的 F 檢定
+
+$$F = \frac{s_1^2}{s_2^2}$$
+
+其中**較大**的變異數一律放在分子，與下標無關。
+
+$F$ 檢定有兩個自由度：分子自由度 $\text{d.f.N.} = n_1 - 1$ 與分母自由度 $\text{d.f.D.} = n_2 - 1$，其中 $n_1$ 是**較大變異數所來自**的樣本數——未必是兩個樣本中較大的那一個。
+:::
+
+:::{.callout-important}
+## F 檢定的假設寫法
+
+| 右尾 | 左尾 | 雙尾 |
+|--------------|-------------|------------|
+| $H_0:\ \sigma_1^2 = \sigma_2^2$ | $H_0:\ \sigma_1^2 = \sigma_2^2$ | $H_0:\ \sigma_1^2 = \sigma_2^2$ |
+| $H_1:\ \sigma_1^2 > \sigma_2^2$ | $H_1:\ \sigma_1^2 < \sigma_2^2$ | $H_1:\ \sigma_1^2 \neq \sigma_2^2$ |
+:::
+
+---
+
+## F 檢定的注意事項與假設條件
+
+:::{.callout-important}
+## 使用 F 檢定的四項注意事項
+
+1. **較大的變異數**一律放在公式的分子，與下標無關。
+2. **雙尾檢定**時，$\alpha$ 必須除以 2，且臨界值放在 $F$ 曲線的右側。
+3. 若題目給的是**標準差**而非變異數，代入 $F$ 檢定公式前必須先**平方**。
+4. 當附表 A-7 查不到所需自由度時，應取**較小側最接近的值**。
+:::
+
+:::{.callout-important}
+## 檢定兩變異數之差的假設條件
+
+1. 樣本必須是**隨機樣本**。
+2. 樣本所來自的母體必須呈**常態分布**。
+3. 樣本之間必須彼此**獨立**。
+:::
+
+---
+
+## F 檢定的注意警示
+
+:::{.callout-warning}
+## 注意
+
+- 此程序**不穩健**：只要稍微偏離常態就會影響結果，因此分布偏離常態時不應使用本檢定。在不對稱分布中標準差不是良好的離散度量，因為它對離群值不具抗拒性。
+- 把較大變異數放在分子**並非絕對必要**。左尾檢定的臨界值可以把兩個自由度互換後，再取附表 A-7 所查值的倒數而得。
+- 請留意資料可能與假設方向相反。若 $H_1:\ \sigma_1^2 > \sigma_2^2$ 但 $s_1^2 < s_2^2$，就**不應**進行 $F$ 檢定，且不會拒絕 $H_0$。
+:::
+
+---
 
 ## 範例 9-12 {#example-9-12}
 
 :::{.callout-warning}
-## 求臨界值（右尾檢定）
+## 求右尾檢定的臨界值
 
-求右尾 F 檢定的臨界值，其中 $\alpha$ = 0.05，d.f.N. = 15，d.f.D. = 21。
+求右尾 $F$ 檢定的臨界值：$\alpha = 0.05$，分子自由度（簡寫 d.f.N.）為 12，分母自由度（d.f.D.）為 18。
 :::
+
+---
 
 ## 範例 9-12
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
-
-**解答：** 使用 $\alpha$ = 0.05 的表格。查 d.f.N. = 15（欄）與 d.f.D. = 21（列）。
-
-$$F_{CV} = 2.18$$
-:::
-
-## 範例 9-12
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
+此為 $\alpha = 0.05$ 的右尾檢定，使用附表 A-7 中 $\alpha = 0.05$ 的那一張表。d.f.N. 列在最上方、d.f.D. 列在最左欄，臨界值在兩者交會處。本例為 **2.34**。
 
 ```{r e9-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-# 右尾 F 檢定的臨界值
-alpha  <- 0.05
-dfN    <- 15
-dfD    <- 21
-
-cv <- qf(1 - alpha, dfN, dfD)
-cat("臨界值（右尾，alpha=0.05）:", round(cv, 4), "\n")
+alpha <- 0.05
+df_numerator <- 12; df_denominator <- 18
+round(qf(1 - alpha, df_numerator, df_denominator), 2)
 ```
 :::
+
+---
 
 ## 範例 9-13 {#example-9-13}
 
 :::{.callout-warning}
-## 求臨界值（雙尾檢定）
+## 求雙尾檢定的臨界值
 
-求雙尾 F 檢定的臨界值，其中 $\alpha$ = 0.05，分子變異數來自樣本數為 21 的樣本，分母變異數來自 n = 12 的樣本。
+求 $\alpha = 0.05$ 的雙尾 $F$ 檢定臨界值：分子變異數來自樣本數 16 的樣本，分母變異數來自樣本數 25 的樣本。
 :::
+
+---
 
 ## 範例 9-13
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
-
-**解答：** 雙尾 → 使用 $\alpha$/2 = 0.025 的表格。
-
-d.f.N. = 21 − 1 = 20，d.f.D. = 12 − 1 = 11
-
-$$F_{CV} = 3.23$$
-:::
-
-## 範例 9-13
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
+此為 $\alpha = 0.05$ 的雙尾檢定，必須使用 $0.05/2 = 0.025$ 的表。此處 $\text{d.f.N.} = 16 - 1 = 15$、$\text{d.f.D.} = 25 - 1 = 24$，臨界值為 **2.44**。
 
 ```{r e9-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 alpha <- 0.05
-n1    <- 21; n2 <- 12
-dfN   <- n1 - 1; dfD <- n2 - 1
-
-cv <- qf(1 - alpha/2, dfN, dfD)
-cat("臨界值（雙尾，alpha=0.05）:", round(cv, 4), "\n")
-cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
+n_numerator <- 16; n_denominator <- 25
+df_numerator <- n_numerator - 1; df_denominator <- n_denominator - 1
+c(dfN = df_numerator, dfD = df_denominator)
+round(qf(1 - alpha/2, df_numerator, df_denominator), 2)
 ```
+
+只使用**右**尾，因為把較大變異數放在分子後，$F$ 檢定統計量必定大於或等於 1。
 :::
+
+---
 
 ## 範例 9-14 {#example-9-14}
 
 :::{.callout-warning}
-## 吸菸者的心率
+## 兩座倉庫的揀貨時間
 
-某研究者想確定吸菸者與非吸菸者的心率（次/分鐘）變異數是否不同。在 $\alpha$ = 0.05 下，檢定此主張。
+某物流主管想知道桃園倉揀取一張訂單所需時間的變異數，是否與台中倉不同。主管在兩座倉庫各隨機抽取一組訂單並比較兩者的變異數。在 $\alpha = 0.05$ 下，是否有足夠證據支持「兩個變異數不相等」這項宣稱？假設變數呈常態分布。（模擬資料）
 
-| | 吸菸者 | 非吸菸者 |
-|--|---------|-----------|
-| $n$ | 26 | 18 |
-| $s^2$ | 36 | 10 |
-:::
-
-## 範例 9-14
-
-:::{.callout-tip}
-## 解題
-
-**數學解法**
-
-**步驟 1：** $H_0$：$\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$：$\sigma_1^2 \neq \sigma_2^2$（主張）——雙尾檢定
-
-**步驟 2：** 使用 $\alpha$/2 = 0.025 的表格。
-d.f.N. = 26 − 1 = 25；d.f.D. = 18 − 1 = 17 → CV = 2.56（使用 d.f.N. = 24）
-
-**步驟 3：**
-$$F = \frac{s_1^2}{s_2^2} = \frac{36}{10} = 3.6$$
-
-**步驟 4：** 3.6 > 2.56 → **拒絕 $H_0$**
-
-**步驟 5：** 有足夠證據支持吸菸者與非吸菸者心率變異數不同的主張。
-:::
-
-## 範例 9-14
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s1_sq <- 36; n1 <- 26
-s2_sq <- 10; n2 <- 18
-
-F_stat <- s1_sq / s2_sq
-dfN    <- n1 - 1; dfD <- n2 - 1
-cv     <- qf(0.975, dfN, dfD)
-p_val  <- 2 * pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("F =", round(F_stat, 4), "\n")
-cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
-cat("臨界值（雙尾）=", round(cv, 4), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(F_stat > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+```
+              Taoyuan    Taichung
+n                  25          19
+s^2              45.0        23.5
 ```
 :::
+
+---
+
+## 範例 9-14
+
+:::{.callout-tip}
+## 解題
+
+**步驟 1.** 陳述假設並指出宣稱。
+
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 \neq \sigma_2^2 \ \textit{(claim)}$$
+
+**步驟 2.** 找出臨界值。$\alpha = 0.05$ 的雙尾檢定，故使用附表 A-7 的 0.025 表。較大的變異數來自桃園倉的樣本，故 $\text{d.f.N.} = 25 - 1 = 24$、$\text{d.f.D.} = 19 - 1 = 18$，臨界值為 **2.50**。
+
+**步驟 3.** 計算檢定統計量。
+
+$$F = \frac{s_1^2}{s_2^2} = \frac{45.0}{23.5} = 1.91$$
+:::
+
+---
+
+## 範例 9-14
+
+:::{.callout-tip}
+## 解題
+
+**以 R 執行步驟 2 至 5** ——臨界值、檢定統計量、P 值與決策。
+
+```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+var_taoyuan  <- 45.0; n_taoyuan_picks  <- 25
+var_taichung <- 23.5; n_taichung_picks <- 19
+df_numerator <- n_taoyuan_picks - 1; df_denominator <- n_taichung_picks - 1
+f_statistic <- var_taoyuan / var_taichung
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(qf(0.975, df_numerator, df_denominator), 2)
+round(2 * pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+```
+
+**步驟 4.** 因 $1.91 < 2.50$，不拒絕 $H_0$。（P 值為 0.1612。）
+
+**步驟 5.** 沒有足夠證據支持兩個變異數不相等的宣稱。
+:::
+
+---
 
 ## 範例 9-15 {#example-9-15}
 
 :::{.callout-warning}
-## 就診等待時間
+## 兩家供應商的交期變異
 
-第一家醫院急診等待時間的標準差為 32 分鐘（n = 16）；第二家醫院為 28 分鐘（n = 18）。在 $\alpha$ = 0.01 下，檢定第一家醫院變異是否較大的主張。
-:::
+某進口部門主管隨機抽取供應商 A 的 12 批出貨，其交期的標準差為 0.84 天；再隨機抽取供應商 B 的 16 批出貨，其交期的標準差為 0.55 天。在 $\alpha = 0.01$ 下，能否斷定供應商 A 交期的變異數大於供應商 B 交期的變異數？（模擬資料）
 
-## 範例 9-15
-
-:::{.callout-tip}
-## 解題
-
-**數學解法**
-
-**步驟 1：** $H_0$：$\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$：$\sigma_1^2$ > $\sigma_2^2$（主張）——右尾檢定
-
-**步驟 2：** d.f.N. = 15，d.f.D. = 17 → CV = 3.31
-
-**步驟 3：**
-$$F = \frac{32^2}{28^2} = \frac{1024}{784} \approx 1.306$$
-
-**步驟 4：** 1.306 < 3.31 → **不拒絕 $H_0$**
-
-**步驟 5：** 沒有足夠證據支持第一家醫院等待時間變異較大的主張。
-:::
-
-## 範例 9-15
-
-:::{.callout-tip}
-## 解題
-
-**R 程式**
-
-```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-s1 <- 32; n1 <- 16
-s2 <- 28; n2 <- 18
-
-F_stat <- s1^2 / s2^2
-dfN    <- n1 - 1; dfD <- n2 - 1
-cv     <- qf(0.99, dfN, dfD)
-p_val  <- pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("F =", round(F_stat, 4), "\n")
-cat("臨界值 =", round(cv, 4), "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(F_stat > cv, "拒絕 H0", "不拒絕 H0"), "\n")
+```
+                 Supplier A    Supplier B
+n                        12            16
+s                      0.84          0.55
 ```
 :::
+
+---
+
+## 範例 9-15
+
+:::{.callout-tip}
+## 解題
+
+**步驟 1.** 陳述假設並指出宣稱。
+
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 > \sigma_2^2 \ \textit{(claim)}$$
+
+**步驟 2.** 找出臨界值。較大的變異數來自供應商 A 的樣本，故 $\text{d.f.N.} = 12 - 1 = 11$、$\text{d.f.D.} = 16 - 1 = 15$；由附表 A-7 在 $\alpha = 0.01$ 下，臨界值為 **3.73**。
+
+**步驟 3.** 計算檢定統計量。標準差必須先平方。
+
+$$F = \frac{s_1^2}{s_2^2} = \frac{0.84^2}{0.55^2} = 2.33$$
+:::
+
+---
+
+## 範例 9-15
+
+:::{.callout-tip}
+## 解題
+
+**以 R 執行步驟 2 至 5** ——臨界值、檢定統計量、P 值與決策。
+
+```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+sd_supplier_a <- 0.84; n_supplier_a <- 12
+sd_supplier_b <- 0.55; n_supplier_b <- 16
+df_numerator <- n_supplier_a - 1; df_denominator <- n_supplier_b - 1
+f_statistic <- sd_supplier_a^2 / sd_supplier_b^2
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(qf(0.99, df_numerator, df_denominator), 2)
+round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+```
+
+**步驟 4.** 因 $2.33 < 3.73$，不拒絕 $H_0$。
+
+**步驟 5.** 沒有足夠證據支持供應商 A 交期的變異數大於供應商 B 交期的變異數這項宣稱。
+:::
+
+---
+
+## F 檢定的 P 值
+
+若要從附表查出 $F$ 檢定統計量的 P 值，必須在給定的 d.f.N. 與 d.f.D. 下，逐一查閱附表 A-7 的五張 $\alpha$ 表。
+
+:::{.callout-important}
+## 由附表 A-7 讀出 P 值區間
+
+以 $F = 3.58$、$\text{d.f.N.} = 5$、$\text{d.f.D.} = 10$ 為例：
+
+| $\alpha$ | 0.10 | 0.05 | 0.025 | 0.01 | 0.005 |
+|----------|------|------|-------|------|-------|
+| $F$ | 2.52 | 3.33 | 4.24 | 5.64 | 6.87 |
+
+檢定統計量 3.58 落在 3.33 與 4.24 之間，故**右尾**檢定的 $0.025 < P\text{-value} < 0.05$。**雙尾**檢定時表中的 $\alpha$ 必須**加倍**，得 $0.05 < P\text{-value} < 0.10$。計算機給出 $P = 0.0408$。
+
+一如既往，P 值小於 $\alpha$ 就拒絕 $H_0$。
+:::
+
+在 R 中，`pf(F, dfN, dfD, lower.tail = FALSE)` 可直接得到精確的右尾 P 值。
+
+---
 
 ## 範例 9-16 {#example-9-16}
 
 :::{.callout-warning}
-## 機場旅客人數（P 值法）
+## 不同區域的月出貨量
 
-某執行長假設美國機場年旅客人數的變異大於外國機場。在 $\alpha$ = 0.10 下，使用 P 值法檢定此主張。
+某貨運承攬公司的營運總監推測，北部分公司月出貨量的變異數大於南部分公司的變異數。在 $\alpha = 0.10$ 下，是否有足夠證據支持此推測？下列資料為選定分公司的月出貨量（單位：千箱）。請用 **P 值法**。假設變數呈常態分布，且樣本為隨機且獨立。（模擬資料）
 
-**美國**（百萬人）：36.8、72.4、60.5、73.5、61.2、40.1
-**外國**（百萬人）：60.7、42.7、51.2、38.6
+```
+Northern branches        Southern branches
+  48.2      55.3            50.4     53.2
+  61.5      44.6            41.2     45.9
+  39.8      58.1
+```
 :::
+
+---
 
 ## 範例 9-16
 
 :::{.callout-tip}
 ## 解題
 
-**數學解法**
+**步驟 1.** 陳述假設並指出宣稱。
 
-**步驟 1：** $H_0$：$\sigma_1^2$ = $\sigma_2^2$ &nbsp;&nbsp; $H_1$：$\sigma_1^2$ > $\sigma_2^2$（主張）——右尾檢定
+$$H_0:\ \sigma_1^2 = \sigma_2^2 \qquad H_1:\ \sigma_1^2 > \sigma_2^2 \ \textit{(claim)}$$
 
-**步驟 2：** 計算變異數：
-$$s_1^2 = 246.38 \quad s_2^2 = 95.87$$
+**步驟 2.** 計算檢定統計量。先求兩組的變異數：$s_1^2 = 70.60$、$s_2^2 = 27.68$。
 
-**步驟 3：**
-$$F = \frac{246.38}{95.87} \approx 2.57$$
+$$F = \frac{s_1^2}{s_2^2} = \frac{70.60}{27.68} = 2.55$$
 
-d.f.N. = 5，d.f.D. = 3
+**步驟 3.** 以 $\text{d.f.N.} = 6 - 1 = 5$、$\text{d.f.D.} = 4 - 1 = 3$ 求 P 值。
 
-由 F 分配表，$\alpha$ = 0.10：F = 5.31。由於 2.57 < 5.31，**P 值 > 0.10**（實際 P $\approx 0.234$）
+| $\alpha$ | 0.10 | 0.05 | 0.025 | 0.01 | 0.005 |
+|----------|------|------|-------|------|-------|
+| $F$ | 5.31 | 9.01 | 14.88 | 28.24 | 45.39 |
 
-**步驟 4：** 不拒絕 $H_0$
-
-**步驟 5：** 沒有足夠證據支持美國機場旅客人數變異較大的主張。
+因 2.55 小於 5.31，P 值大於 0.10。
 :::
+
+---
 
 ## 範例 9-16
 
 :::{.callout-tip}
 ## 解題
 
-**R 程式**
+**以 R 執行步驟 2 至 5** ——變異數、檢定統計量與精確 P 值。
 
 ```{r e9-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-american <- c(36.8, 72.4, 60.5, 73.5, 61.2, 40.1)
-foreign  <- c(60.7, 42.7, 51.2, 38.6)
-
-s1_sq <- var(american)
-s2_sq <- var(foreign)
-F_stat <- s1_sq / s2_sq
-dfN    <- length(american) - 1
-dfD    <- length(foreign) - 1
-p_val  <- pf(F_stat, dfN, dfD, lower.tail = FALSE)
-
-cat("s1^2 =", round(s1_sq, 2), " s2^2 =", round(s2_sq, 2), "\n")
-cat("F =", round(F_stat, 4), "\n")
-cat("d.f.N. =", dfN, "，d.f.D. =", dfD, "\n")
-cat("P 值 =", round(p_val, 4), "\n")
-cat("決策:", ifelse(p_val < 0.10, "拒絕 H0", "不拒絕 H0"), "\n")
+northern <- c(48.2, 61.5, 39.8, 55.3, 44.6, 58.1)
+southern <- c(50.4, 41.2, 53.2, 45.9)
+df_numerator <- length(northern) - 1
+df_denominator <- length(southern) - 1
+f_statistic <- var(northern) / var(southern)
+round(c(var_northern = var(northern), var_southern = var(southern)), 2)
+round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
+round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 3)
 ```
+
+**步驟 4.** 因 P 值 $> 0.10$，不拒絕 $H_0$。（R 算出的精確值為 0.235。）
+
+**步驟 5.** 沒有足夠證據支持北部分公司月出貨量的變異數大於南部分公司的宣稱。
+:::
+
+## 重要名詞
+
+:::{.callout-important}
+## 第 9 章詞彙
+
+相依樣本（dependent samples）· $F$ 分布（$F$ distribution）· $F$ 檢定（$F$ test）· 獨立樣本（independent samples）· 變異數的合併估計（pooled estimate of the variance）
+:::
+
+## 重要公式
+
+:::{.callout-important}
+## 兩均值：z 檢定與 t 檢定
+
+$\sigma_1$ 與 $\sigma_2$ 已知時兩均值的 $z$ 檢定及其信賴區間：
+
+$$z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{\sigma_1^2}{n_1}+\dfrac{\sigma_2^2}{n_2}}} \qquad (\bar{X}_1 - \bar{X}_2) \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}$$
+
+兩獨立樣本、變異數不相等時的 $t$ 檢定，$\text{d.f.} = $ $n_1-1$ 與 $n_2-1$ 中較小者：
+
+$$t = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}} \qquad (\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2}\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
+:::
+
+---
+
+## 重要公式
+
+:::{.callout-important}
+## 相依樣本、比例與變異數
+
+相依樣本的 $t$ 檢定，$\text{d.f.} = n - 1$，及其信賴區間：
+
+$$t = \frac{\bar{D} - \mu_D}{s_D/\sqrt{n}} \quad \bar{D} = \frac{\sum D}{n} \quad s_D = \sqrt{\frac{n\sum D^2 - (\sum D)^2}{n(n-1)}} \quad \bar{D} \pm t_{\alpha/2}\frac{s_D}{\sqrt{n}}$$
+
+兩比例的 $z$ 檢定與 $p_1 - p_2$ 的信賴區間：
+
+$$z = \frac{(\hat{p}_1 - \hat{p}_2) - (p_1 - p_2)}{\sqrt{\bar{p}\,\bar{q}\left(\dfrac{1}{n_1}+\dfrac{1}{n_2}\right)}} \qquad (\hat{p}_1-\hat{p}_2) \pm z_{\alpha/2}\sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1}+\frac{\hat{p}_2\hat{q}_2}{n_2}}$$
+
+兩變異數的 $F$ 檢定，$\text{d.f.N.} = n_1 - 1$、$\text{d.f.D.} = n_2 - 1$，較大變異數放在分子：
+
+$$F = \frac{s_1^2}{s_2^2}$$
 :::
 
 ## 重點整理
 
-| 情境 | 檢定 | 統計量 |
-|-----------|------|-----------|
-| 兩均值，$\sigma$ 已知，獨立 | z 檢定 | $z = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}}$ |
-| 兩均值，$\sigma$ 未知，獨立 | t 檢定 | $t = \frac{\bar{X}_1-\bar{X}_2}{\sqrt{s_1^2/n_1+s_2^2/n_2}}$，自由度 = min($n_1$−1, $n_2$−1) |
-| 兩均值，相依樣本 | 配對 t 檢定 | $t = \frac{\bar{D}}{s_D/\sqrt{n}}$，自由度 = n−1 |
-| 兩比例 | z 檢定 | $z = \frac{\hat{p}_1-\hat{p}_2}{\sqrt{\bar{p}\bar{q}(1/n_1+1/n_2)}}$ |
-| 兩變異數 | F 檢定 | $F = s_1^2/s_2^2$（較大者為分子） |
+:::{.callout-important}
+- 比較兩個參數沿用第 8 章的五步驟程序；每個檢定統計量都是 $(\text{觀測值} - \text{期望值})/\text{標準誤}$ 的形式，$H_0$ 可寫成 $\mu_1 = \mu_2$ 或 $\mu_1 - \mu_2 = 0$
+- 當一個樣本的選取不影響另一個樣本時為**獨立樣本**；當受試者被配對或配類時為**相依（配對）樣本**
+- $\sigma_1$ 與 $\sigma_2$ **已知**時（若 $n < 30$ 還須母體常態）用**$z$ 檢定**比較兩均值，標準誤為 $\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}$
+- $\sigma_1$ 與 $\sigma_2$ **未知**時用**$t$ 檢定**比較兩獨立樣本均值；本書假設變異數不相等，並取 $\text{d.f.} = $ $n_1-1$ 與 $n_2-1$ 中**較小者**，這是保守的作法
+- **相依樣本**改為檢定差 $D = X_1 - X_2$，以 $t = \bar{D}/(s_D/\sqrt{n})$、$\text{d.f.} = n-1$；配對可降低型 II 誤差，但無法控制其他變數
+- **兩比例**要先合併為 $\bar{p} = (X_1+X_2)/(n_1+n_2)$、$\bar{q} = 1 - \bar{p}$；兩個樣本都必須滿足 $np \geq 5$ 與 $nq \geq 5$
+- **兩變異數**用 $F = s_1^2/s_2^2$，**較大變異數放在分子**，$\text{d.f.N.} = n_1-1$、$\text{d.f.D.} = n_2-1$，雙尾時 $\alpha$ 要**減半**；$F$ 檢定對偏離常態**不穩健**
+- 信賴區間**包含零**時與不拒絕 $H_0$ 的決策一致——唯獨兩比例例外，因為檢定與區間使用不同的標準誤，應以 $z$ 檢定為準
+:::
 
 ## Acknowledgement
 
--   **Copyright notice.** These teaching materials have been adapted from **Bluman, A. G. (2012). Elementary statistics: A step by step approach (8th ed.). McGraw-Hill**. All rights are reserved by the original authors and publishers.
+-   **Copyright notice.** These teaching materials follow the organization and terminology of **Bluman, A. G. (2023). Elementary statistics: A step by step approach (11th ed.). McGraw Hill**. All rights in the original work are reserved by its authors and publishers.
+
+-   **Original examples.** Every worked example, data set, and R script in these slides was written for this course. The data are hypothetical unless stated otherwise.
 
 -   **Non-commercial use only.** These materials are strictly intended for educational purposes and must not be used for commercial gain or profit.
 
