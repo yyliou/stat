@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -488,7 +488,7 @@ Yu-You Liou
 <p><strong>Step 3.</strong> Compute the test statistic — find the sum of the <span class="math inline">\dfrac{(O-E)^2}{E}</span> values.</p>
 <p><strong>Step 4.</strong> Make the decision.</p>
 <p><strong>Step 5.</strong> Summarize the results.</p>
-<p>In R the critical value is <code>qchisq(1 - alpha, df)</code> and the P-value is <code>pchisq(chi2, df, lower.tail = FALSE)</code>.</p>
+<p>In R the critical value is <code>qchisq(1 - alpha, df)</code> and the P-value is <code>1 - pchisq(chi_sq, df)</code>.</p>
 </div>
 </div>
 </div>
@@ -563,21 +563,21 @@ Yu-You Liou
 <div class="callout-content">
 <p><strong>Step 3 in R</strong> — the hand computation first, then the same test from <code>chisq.test()</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>payment_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Cash =</span> <span class="dv">40</span>, <span class="st">`</span><span class="at">Stored value</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">62</span>, <span class="st">`</span><span class="at">Mobile pay</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">42</span>, <span class="st">`</span><span class="at">Credit card</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">56</span>)</span>
-<span id="cb1-2"><a href=""></a>expected_equal <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">mean</span>(payment_counts), <span class="fu">length</span>(payment_counts))</span>
-<span id="cb1-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((payment_counts <span class="sc">-</span> expected_equal)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_equal)</span>
-<span id="cb1-4"><a href=""></a>chi_square</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">62</span>, <span class="dv">42</span>, <span class="dv">56</span>)</span>
+<span id="cb1-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>)</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.88</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">chisq.test</span>(payment_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">chisq.test</span>(observed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test for given probabilities
 
-data:  payment_counts
+data:  observed
 X-squared = 6.88, df = 3, p-value = 0.07582</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -609,29 +609,26 @@ X-squared = 6.88, df = 3, p-value = 0.07582</code></pre>
 </section>
 <section id="observed-and-expected-values-in-r" class="slide level2">
 <h2>Observed and Expected Values in R</h2>
-<p><strong>Draw figure</strong> — compare the observed and expected values for the payment data.</p>
+<p><strong>Prepare data</strong> — compare the observed and expected values for the payment data.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>payment_fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb7-2"><a href=""></a>  <span class="at">Method   =</span> <span class="fu">factor</span>(<span class="fu">names</span>(payment_counts), <span class="at">levels =</span> <span class="fu">names</span>(payment_counts)),</span>
-<span id="cb7-3"><a href=""></a>  <span class="at">Observed =</span> <span class="fu">as.numeric</span>(payment_counts),</span>
-<span id="cb7-4"><a href=""></a>  <span class="at">Expected =</span> expected_equal)</span>
-<span id="cb7-5"><a href=""></a>payment_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(payment_fit, <span class="sc">-</span>Method,</span>
-<span id="cb7-6"><a href=""></a>                             <span class="at">names_to =</span> <span class="st">"Source"</span>, <span class="at">values_to =</span> <span class="st">"Frequency"</span>)</span>
-<span id="cb7-7"><a href=""></a>payment_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(payment_long, <span class="fu">aes</span>(<span class="at">x =</span> Method, <span class="at">y =</span> Frequency, <span class="at">fill =</span> Source)) <span class="sc">+</span></span>
-<span id="cb7-8"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Observed and Expected Values for Payment Methods"</span>,</span>
-<span id="cb7-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"Payment method"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb7-11"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>payments <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href=""></a>  <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"Cash"</span>, <span class="st">"Stored value"</span>, <span class="st">"Mobile pay"</span>, <span class="st">"Credit card"</span>),</span>
+<span id="cb7-3"><a href=""></a>  observed</span>
+<span id="cb7-4"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="observed-and-expected-values-in-r-1" class="slide level2">
 <h2>Observed and Expected Values in R</h2>
 <p><strong>Output figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>payment_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">ggplot</span>(payments, <span class="fu">aes</span>(method, observed)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">50</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Observed and Expected Values for Payment Methods"</span>,</span>
+<span id="cb8-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"Payment method"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch11_files/figure-revealjs/s11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>When the observed and expected values are <strong>close together</strong>, the test statistic is small and <span class="math inline">H_0</span> is not rejected — “a good fit”. When they are <strong>far apart</strong>, the test statistic is large and <span class="math inline">H_0</span> is rejected — “not a good fit”.</p>
+<img data-src="ch11_files/figure-revealjs/s11-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>The bars are the observed frequencies and the horizontal line is the expected frequency, 50. When the observed and expected values are <strong>close together</strong>, the test statistic is small and <span class="math inline">H_0</span> is not rejected — “a good fit”. When they are <strong>far apart</strong>, the test statistic is large and <span class="math inline">H_0</span> is rejected — “not a good fit”.</p>
 </section>
 <section id="example-11-2" class="slide level2">
 <h2>Example 11-2</h2>
@@ -710,20 +707,19 @@ X-squared = 6.88, df = 3, p-value = 0.07582</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong> — with unequal expected frequencies the claimed proportions are passed to <code>chisq.test()</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>parcel_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">store_pickup =</span> <span class="dv">208</span>, <span class="at">home_delivery =</span> <span class="dv">99</span>, <span class="at">locker =</span> <span class="dv">61</span>, <span class="at">courier =</span> <span class="dv">32</span>)</span>
-<span id="cb9-2"><a href=""></a>claimed_share <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>)</span>
-<span id="cb9-3"><a href=""></a>gof_parcels <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(parcel_counts, <span class="at">p =</span> claimed_share)</span>
-<span id="cb9-4"><a href=""></a>gof_parcels<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">208</span>, <span class="dv">99</span>, <span class="dv">61</span>, <span class="dv">32</span>)</span>
+<span id="cb9-2"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(observed, <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>))</span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> store_pickup home_delivery        locker       courier 
-          180           120            60            40 </code></pre>
+<pre><code>[1] 180 120  60  40</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>gof_parcels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test for given probabilities
 
-data:  parcel_counts
+data:  observed
 X-squared = 9.6472, df = 3, p-value = 0.02182</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -826,20 +822,19 @@ X-squared = 9.6472, df = 3, p-value = 0.02182</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>order_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">apparel =</span> <span class="dv">92</span>, <span class="at">cosmetics =</span> <span class="dv">68</span>, <span class="at">household =</span> <span class="dv">40</span>)</span>
-<span id="cb15-2"><a href=""></a>claimed_mix <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>)</span>
-<span id="cb15-3"><a href=""></a>gof_orders <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(order_counts, <span class="at">p =</span> claimed_mix)</span>
-<span id="cb15-4"><a href=""></a>gof_orders<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">92</span>, <span class="dv">68</span>, <span class="dv">40</span>)</span>
+<span id="cb15-2"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(observed, <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.55</span>, <span class="fl">0.30</span>, <span class="fl">0.15</span>))</span>
+<span id="cb15-3"><a href=""></a></span>
+<span id="cb15-4"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  apparel cosmetics household 
-      110        60        30 </code></pre>
+<pre><code>[1] 110  60  30</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>gof_orders</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test for given probabilities
 
-data:  order_counts
+data:  observed
 X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -943,13 +938,17 @@ X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 <p><strong>Step 1.</strong> <span class="math inline">H_0</span>: The variable is normally distributed. <span class="math inline">H_1</span>: The variable is not normally distributed.</p>
 <p><strong>Step 2 — find the mean and standard deviation.</strong> Each observation is represented by its class midpoint <span class="math inline">X_m</span> (32, 47, 62, 77, 92, 107), so the grouped mean and standard deviation are just <code>mean()</code> and <code>sd()</code> of the repeated midpoints (<span class="math inline">s</span> approximates <span class="math inline">\sigma</span>).</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>clearance_freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">30</span>, <span class="dv">14</span>, <span class="dv">4</span>)</span>
-<span id="cb21-2"><a href=""></a>class_midpoint <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">47</span>, <span class="dv">62</span>, <span class="dv">77</span>, <span class="dv">92</span>, <span class="dv">107</span>)</span>
-<span id="cb21-3"><a href=""></a>clearance_times <span class="ot">&lt;-</span> <span class="fu">rep</span>(class_midpoint, clearance_freq)</span>
-<span id="cb21-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(clearance_times), <span class="at">sd =</span> <span class="fu">sd</span>(clearance_times)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>f  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">30</span>, <span class="dv">14</span>, <span class="dv">4</span>)</span>
+<span id="cb21-2"><a href=""></a>Xm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">47</span>, <span class="dv">62</span>, <span class="dv">77</span>, <span class="dv">92</span>, <span class="dv">107</span>)</span>
+<span id="cb21-3"><a href=""></a>times <span class="ot">&lt;-</span> <span class="fu">rep</span>(Xm, f)</span>
+<span id="cb21-4"><a href=""></a></span>
+<span id="cb21-5"><a href=""></a><span class="fu">mean</span>(times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> mean    sd 
-59.90 16.88 </code></pre>
+<pre><code>[1] 59.9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">sd</span>(times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16.88239</code></pre>
 </div>
 </div>
 <p>The mean is 59.9 minutes and the standard deviation is 16.88 minutes.</p>
@@ -970,17 +969,16 @@ X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 — find the areas and the expected frequencies.</strong> Each boundary is converted to a <span class="math inline">z</span> score and the corresponding normal area is multiplied by <span class="math inline">n = 200</span>; the first and last classes are left open. Table A-4 gives the same areas by hand.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>class_bounds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">24.5</span>, <span class="fl">39.5</span>, <span class="fl">54.5</span>, <span class="fl">69.5</span>, <span class="fl">84.5</span>, <span class="fl">99.5</span>, <span class="fl">114.5</span>)</span>
-<span id="cb23-2"><a href=""></a>upper_area <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(class_bounds, <span class="fu">mean</span>(clearance_times), <span class="fu">sd</span>(clearance_times))</span>
-<span id="cb23-3"><a href=""></a>class_area <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">c</span>(<span class="dv">0</span>, upper_area[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">1</span>))</span>
-<span id="cb23-4"><a href=""></a>expected_all <span class="ot">&lt;-</span> class_area <span class="sc">*</span> <span class="fu">length</span>(clearance_times)</span>
-<span id="cb23-5"><a href=""></a><span class="fu">round</span>(class_area, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>boundaries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="fl">39.5</span>, <span class="fl">54.5</span>, <span class="fl">69.5</span>, <span class="fl">84.5</span>, <span class="fl">99.5</span>, <span class="cn">Inf</span>)</span>
+<span id="cb25-2"><a href=""></a>area <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">pnorm</span>(boundaries, <span class="fu">mean</span>(times), <span class="fu">sd</span>(times)))</span>
+<span id="cb25-3"><a href=""></a></span>
+<span id="cb25-4"><a href=""></a>area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1135 0.2611 0.3407 0.2123 0.0630 0.0095</code></pre>
+<pre><code>[1] 0.113454457 0.261082799 0.340662468 0.212261366 0.063041677 0.009497234</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">round</span>(expected_all, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>area <span class="sc">*</span> <span class="dv">200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 22.7 52.2 68.1 42.5 12.6  1.9</code></pre>
+<pre><code>[1] 22.690891 52.216560 68.132494 42.452273 12.608335  1.899447</code></pre>
 </div>
 </div>
 </div>
@@ -1087,16 +1085,17 @@ X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 </tbody>
 </table>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>observed_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(clearance_freq[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(clearance_freq[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
-<span id="cb27-2"><a href=""></a>expected_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(expected_all[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">sum</span>(expected_all[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>]))</span>
-<span id="cb27-3"><a href=""></a>chi_square <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed_counts <span class="sc">-</span> expected_counts)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected_counts)</span>
-<span id="cb27-4"><a href=""></a><span class="fu">round</span>(chi_square, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">62</span>, <span class="dv">72</span>, <span class="dv">30</span>, <span class="dv">18</span>)</span>
+<span id="cb29-2"><a href=""></a>expected <span class="ot">&lt;-</span> <span class="fu">c</span>(area[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], area[<span class="dv">5</span>] <span class="sc">+</span> area[<span class="dv">6</span>]) <span class="sc">*</span> <span class="dv">200</span></span>
+<span id="cb29-3"><a href=""></a>chi_sq   <span class="ot">&lt;-</span> <span class="fu">sum</span>((observed <span class="sc">-</span> expected)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> expected)</span>
+<span id="cb29-4"><a href=""></a></span>
+<span id="cb29-5"><a href=""></a>chi_sq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.516</code></pre>
+<pre><code>[1] 7.515513</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pchisq</span>(chi_square, <span class="at">df =</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(chi_sq, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0233</code></pre>
+<pre><code>[1] 0.02333603</code></pre>
 </div>
 </div>
 <p>Summing the five <span class="math inline">\dfrac{(O-E)^2}{E}</span> terms gives <span class="math inline">\chi^2 = 7.516</span> with <span class="math inline">P = 0.0233</span>.</p>
@@ -1117,7 +1116,7 @@ X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 <div class="callout-content">
 <p><strong>Steps 4 and 5.</strong> The critical value with <span class="math inline">\text{d.f.} = 5 - 3 = 2</span> and <span class="math inline">\alpha = 0.05</span> is <strong>5.991</strong>, so the null hypothesis is <strong>rejected</strong>. Hence the clearance times can be considered <strong>not normally distributed</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.99</span>), <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.99</span>), <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.991465 9.210340</code></pre>
 </div>
@@ -1161,13 +1160,14 @@ X-squared = 7.3455, df = 2, p-value = 0.02541</code></pre>
 </tbody>
 </table>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>flavour_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">pearl_milk =</span> <span class="dv">34</span>, <span class="at">brown_sugar =</span> <span class="dv">26</span>, <span class="at">matcha =</span> <span class="dv">18</span>, <span class="at">taro =</span> <span class="dv">12</span>, <span class="at">fruit_tea =</span> <span class="dv">10</span>)</span>
-<span id="cb33-2"><a href=""></a><span class="fu">chisq.test</span>(flavour_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>observed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">26</span>, <span class="dv">18</span>, <span class="dv">12</span>, <span class="dv">10</span>)</span>
+<span id="cb35-2"><a href=""></a></span>
+<span id="cb35-3"><a href=""></a><span class="fu">chisq.test</span>(observed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test for given probabilities
 
-data:  flavour_counts
+data:  observed
 X-squared = 20, df = 4, p-value = 0.0004994</code></pre>
 </div>
 </div>
@@ -1412,24 +1412,23 @@ X-squared = 20, df = 4, p-value = 0.0004994</code></pre>
 </tbody>
 </table>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>booking_survey <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">104</span>,  <span class="dv">70</span>, <span class="dv">26</span>,</span>
-<span id="cb35-2"><a href=""></a>                            <span class="dv">56</span>, <span class="dv">110</span>, <span class="dv">34</span>),</span>
-<span id="cb35-3"><a href=""></a>                         <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb35-4"><a href=""></a>                         <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Sales"</span>, <span class="st">"Operations"</span>),</span>
-<span id="cb35-5"><a href=""></a>                                         <span class="fu">c</span>(<span class="st">"New"</span>, <span class="st">"Current"</span>, <span class="st">"None"</span>)))</span>
-<span id="cb35-6"><a href=""></a>booking_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(booking_survey)</span>
-<span id="cb35-7"><a href=""></a>booking_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>booking_survey <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">104</span>,  <span class="dv">70</span>, <span class="dv">26</span>,</span>
+<span id="cb37-2"><a href=""></a>                            <span class="dv">56</span>, <span class="dv">110</span>, <span class="dv">34</span>),</span>
+<span id="cb37-3"><a href=""></a>                         <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-4"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(booking_survey)</span>
+<span id="cb37-5"><a href=""></a></span>
+<span id="cb37-6"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           New Current None
-Sales       80      90   30
-Operations  80      90   30</code></pre>
+<pre><code>     [,1] [,2] [,3]
+[1,]   80   90   30
+[2,]   80   90   30</code></pre>
 </div>
 </div>
 </section>
 <section id="illustration-a-new-booking-system-3" class="slide level2">
 <h2>Illustration: A New Booking System</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>booking_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1437,7 +1436,7 @@ Operations  80      90   30</code></pre>
 data:  booking_survey
 X-squared = 24.356, df = 2, p-value = 5.143e-06</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.991465</code></pre>
 </div>
@@ -1611,21 +1610,20 @@ X-squared = 24.356, df = 2, p-value = 5.143e-06</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="dv">44</span>, <span class="dv">62</span>, <span class="dv">34</span>,</span>
-<span id="cb41-2"><a href=""></a>                        <span class="dv">50</span>, <span class="dv">38</span>, <span class="dv">42</span>,</span>
-<span id="cb41-3"><a href=""></a>                       <span class="dv">164</span>, <span class="dv">76</span>, <span class="dv">86</span>),</span>
-<span id="cb41-4"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb41-5"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Hypermarket"</span>, <span class="st">"Supermarket"</span>, <span class="st">"Convenience"</span>),</span>
-<span id="cb41-6"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Delay"</span>, <span class="st">"Damage"</span>, <span class="st">"Billing"</span>)))</span>
-<span id="cb41-7"><a href=""></a>complaint_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(complaints)</span>
-<span id="cb41-8"><a href=""></a><span class="fu">round</span>(complaint_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="dv">44</span>, <span class="dv">62</span>, <span class="dv">34</span>,</span>
+<span id="cb43-2"><a href=""></a>                        <span class="dv">50</span>, <span class="dv">38</span>, <span class="dv">42</span>,</span>
+<span id="cb43-3"><a href=""></a>                       <span class="dv">164</span>, <span class="dv">76</span>, <span class="dv">86</span>),</span>
+<span id="cb43-4"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-5"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(complaints)</span>
+<span id="cb43-6"><a href=""></a></span>
+<span id="cb43-7"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             Delay Damage Billing
-Hypermarket  60.60  41.34   38.05
-Supermarket  56.28  38.39   35.34
-Convenience 141.12  96.27   88.61</code></pre>
+<pre><code>          [,1]     [,2]     [,3]
+[1,]  60.60403 41.34228 38.05369
+[2,]  56.27517 38.38926 35.33557
+[3,] 141.12081 96.26846 88.61074</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>complaint_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1633,7 +1631,7 @@ Convenience 141.12  96.27   88.61</code></pre>
 data:  complaints
 X-squared = 25.317, df = 4, p-value = 4.343e-05</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.487729</code></pre>
 </div>
@@ -1777,19 +1775,18 @@ X-squared = 25.317, df = 4, p-value = 4.343e-05</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>bookings <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
-<span id="cb47-2"><a href=""></a>                      <span class="dv">8</span>, <span class="dv">11</span>, <span class="dv">15</span>),</span>
-<span id="cb47-3"><a href=""></a>                   <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb47-4"><a href=""></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Business"</span>, <span class="st">"Leisure"</span>),</span>
-<span id="cb47-5"><a href=""></a>                                   <span class="fu">c</span>(<span class="st">"Agency"</span>, <span class="st">"Website"</span>, <span class="st">"App"</span>)))</span>
-<span id="cb47-6"><a href=""></a>booking_channel_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(bookings)</span>
-<span id="cb47-7"><a href=""></a><span class="fu">round</span>(booking_channel_test<span class="sc">$</span>expected, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>bookings <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">12</span>,</span>
+<span id="cb49-2"><a href=""></a>                      <span class="dv">8</span>, <span class="dv">11</span>, <span class="dv">15</span>),</span>
+<span id="cb49-3"><a href=""></a>                   <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb49-4"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(bookings)</span>
+<span id="cb49-5"><a href=""></a></span>
+<span id="cb49-6"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Agency Website   App
-Business  10.56   13.19 14.25
-Leisure    9.44   11.81 12.75</code></pre>
+<pre><code>          [,1]     [,2]  [,3]
+[1,] 10.555556 13.19444 14.25
+[2,]  9.444444 11.80556 12.75</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>booking_channel_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1797,7 +1794,7 @@ Leisure    9.44   11.81 12.75</code></pre>
 data:  bookings
 X-squared = 1.275, df = 2, p-value = 0.5286</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4.60517</code></pre>
 </div>
@@ -2002,19 +1999,18 @@ X-squared = 1.275, df = 2, p-value = 0.5286</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>membership <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">34</span>, <span class="dv">40</span>, <span class="dv">52</span>,</span>
-<span id="cb53-2"><a href=""></a>                       <span class="dv">74</span>, <span class="dv">66</span>, <span class="dv">60</span>, <span class="dv">48</span>),</span>
-<span id="cb53-3"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb53-4"><a href=""></a>                     <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Premium"</span>, <span class="st">"Standard"</span>),</span>
-<span id="cb53-5"><a href=""></a>                                     <span class="fu">c</span>(<span class="st">"Taipei"</span>, <span class="st">"Taichung"</span>, <span class="st">"Tainan"</span>, <span class="st">"Kaohsiung"</span>)))</span>
-<span id="cb53-6"><a href=""></a>membership_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(membership)</span>
-<span id="cb53-7"><a href=""></a>membership_test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>membership <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">34</span>, <span class="dv">40</span>, <span class="dv">52</span>,</span>
+<span id="cb55-2"><a href=""></a>                       <span class="dv">74</span>, <span class="dv">66</span>, <span class="dv">60</span>, <span class="dv">48</span>),</span>
+<span id="cb55-3"><a href=""></a>                     <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb55-4"><a href=""></a>test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(membership)</span>
+<span id="cb55-5"><a href=""></a></span>
+<span id="cb55-6"><a href=""></a>test<span class="sc">$</span>expected</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Taipei Taichung Tainan Kaohsiung
-Premium      38       38     38        38
-Standard     62       62     62        62</code></pre>
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]   38   38   38   38
+[2,]   62   62   62   62</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>membership_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a>test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -2022,7 +2018,7 @@ Standard     62       62     62        62</code></pre>
 data:  membership
 X-squared = 15.28, df = 3, p-value = 0.001592</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7.814728</code></pre>
 </div>

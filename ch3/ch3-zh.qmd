@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -155,7 +154,7 @@ $$\mu = \frac{X_1 + X_2 + \cdots + X_N}{N} = \frac{\Sigma X}{N}$$
 coffee_revenue <- c(2.8, 3.5, 4.1, 2.6, 5.0, 3.9, 4.4, 3.2, 4.7)
 
 sum(coffee_revenue)
-round(mean(coffee_revenue), 2)
+mean(coffee_revenue)
 ```
 
 $$\bar{X} = \frac{\Sigma X}{n} = \frac{34.2}{9} = 3.8$$
@@ -246,15 +245,10 @@ $$\bar{X} = \frac{\Sigma f \cdot X_m}{n}$$
 **準備資料**
 
 ```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-lower <- c(9.5, 14.5, 19.5, 24.5, 29.5)
-upper <- lower + 5
+f  <- c(8, 7, 5, 3, 2)
+Xm <- c(12, 17, 22, 27, 32)
 
-stall_revenue <- tibble(Class = paste0(lower, "-", upper),
-                        f  = c(8, 7, 5, 3, 2),
-                        Xm = (lower + upper) / 2) |>
-  mutate(fXm = f * Xm)
-
-knitr::kable(stall_revenue, align = "c")
+f * Xm
 ```
 :::
 
@@ -268,9 +262,9 @@ knitr::kable(stall_revenue, align = "c")
 **求解**
 
 ```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sum(stall_revenue$f)
-sum(stall_revenue$fXm)
-sum(stall_revenue$fXm) / sum(stall_revenue$f)
+sum(f)
+sum(f * Xm)
+sum(f * Xm) / sum(f)
 ```
 
 $$\bar{X} = \frac{\Sigma f \cdot X_m}{n} = \frac{470}{25} = 18.8$$
@@ -456,9 +450,7 @@ pickers <- c(18, 18, 18, 18, 18,
              21, 23, 23, 23, 24,
              23, 25, 26, 25, 23)
 
-picker_counts <- table(pickers)
-picker_counts
-names(picker_counts)[picker_counts == max(picker_counts)]
+table(pickers)
 ```
 
 由於 18 與 23 各出現 5 次，眾數為 **18 與 23**。這組資料稱為**雙峰**。
@@ -523,9 +515,8 @@ max(table(hotel_rating))
 **求解**
 
 ```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-stall_revenue |> select(Class, f) |> knitr::kable(align = "c")
-
-stall_revenue$Class[which.max(stall_revenue$f)]
+f
+max(f)
 ```
 
 由於 9.5–14.5 這一組的次數 8 最大，它就是**眾數組**。有時會改用該組的組中點，此處為 12。
@@ -564,12 +555,9 @@ stall_revenue$Class[which.max(stall_revenue$f)]
 **求解**
 
 ```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-payment <- tibble(Method = c("Credit card", "Mobile payment", "Cash",
-                             "Store credit", "Bank transfer"),
-                  Number = c(214, 168, 95, 32, 11))
-
-knitr::kable(payment, align = "c")
-payment$Method[which.max(payment$Number)]
+data.frame(method = c("Credit card", "Mobile payment", "Cash",
+                      "Store credit", "Bank transfer"),
+           number = c(214, 168, 95, 32, 11))
 ```
 
 由於信用卡這一類的次數 214 最大，最典型的付款方式為**信用卡**。
@@ -612,7 +600,7 @@ salary <- c(180000, 72000, 48000, 35000, 35000)
 
 mean(salary)
 median(salary)
-names(which.max(table(salary)))
+table(salary)
 ```
 
 $$\mu = \frac{\Sigma X}{N} = \frac{370{,}000}{5} = 74{,}000$$
@@ -748,14 +736,10 @@ $$\bar{X} = \frac{w_1 X_1 + w_2 X_2 + \cdots + w_n X_n}{w_1 + w_2 + \cdots + w_n
 **求解**
 
 ```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-courses <- tibble(
-  Course  = c("International Trade Practice", "Business Statistics",
-              "Managerial Accounting", "Business English Presentation"),
-  Credits = c(4, 3, 3, 2),
-  Grade   = c(4, 3, 2, 3))
+credits      <- c(4, 3, 3, 2)
+grade_points <- c(4, 3, 2, 3)
 
-knitr::kable(courses, align = "c")
-round(sum(courses$Credits * courses$Grade) / sum(courses$Credits), 1)
+sum(credits * grade_points) / sum(credits)
 ```
 
 $$\bar{X} = \frac{\Sigma wX}{\Sigma w} = \frac{4 \cdot 4 + 3 \cdot 3 + 3 \cdot 2 + 2 \cdot 3}{4+3+3+2} = \frac{37}{12} \approx 3.1$$
@@ -843,20 +827,15 @@ $$\bar{X} = \frac{\Sigma wX}{\Sigma w} = \frac{4 \cdot 4 + 3 \cdot 3 + 3 \cdot 2
 
 ## 以 R 觀察分布形狀
 
-**繪製圖形**
+**準備資料**
 
 ```{r s3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2026)
-shapes <- tibble(
-  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2),
-            16 - rgamma(4000, 2, 0.5)),
-  shape = rep(c("(a) 右偏", "(b) 對稱",
-                "(c) 左偏"), each = 4000))
-
-p_shapes <- ggplot(shapes, aes(x = value)) +
-  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
-  facet_wrap(~ shape, scales = "free") +
-  labs(title = "圖 3-1：分布的類型", x = "", y = "次數")
+shapes <- data.frame(
+  shape = rep(c("(a) 右偏", "(b) 對稱", "(c) 左偏"),
+              each = 4000),
+  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2), 16 - rgamma(4000, 2, 0.5))
+)
 ```
 
 ---
@@ -866,7 +845,10 @@ p_shapes <- ggplot(shapes, aes(x = value)) +
 **輸出圖形**
 
 ```{r s3-1-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.5}
-p_shapes
+ggplot(shapes, aes(value)) +
+  geom_histogram(bins = 30, color = "white") +
+  facet_wrap(~ shape, scales = "free") +
+  labs(title = "圖 3-1：分布的類型", x = NULL, y = "次數")
 ```
 
 在偏斜的兩張圖中，平均數被拉向長尾，而中位數仍停留在資料密集之處。
@@ -914,8 +896,10 @@ A 供應商    B 供應商
 supplier_a <- c(9, 21, 3, 15, 6, 18)
 supplier_b <- c(14, 10, 13, 11, 14, 10)
 
-c(sum = sum(supplier_a), mean = mean(supplier_a))
-c(sum = sum(supplier_b), mean = mean(supplier_b))
+sum(supplier_a)
+mean(supplier_a)
+sum(supplier_b)
+mean(supplier_b)
 ```
 
 $$\mu_A = \frac{72}{6} = 12 \text{ 天} \qquad \mu_B = \frac{72}{6} = 12 \text{ 天}$$
@@ -933,13 +917,14 @@ $$\mu_A = \frac{72}{6} = 12 \text{ 天} \qquad \mu_B = \frac{72}{6} = 12 \text{ 
 **輸出圖形**
 
 ```{r e3-15-2, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3}
-tibble(Supplier = rep(c("(a) A 供應商", "(b) B 供應商"), each = 6),
-       Days = c(supplier_a, supplier_b)) |>
-  ggplot(aes(x = Days, y = Supplier)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_vline(xintercept = 12, linetype = "dashed", color = "red") +
+lead_times <- data.frame(supplier = rep(c("(a) A 供應商", "(b) B 供應商"), each = 6),
+                         days     = c(supplier_a, supplier_b))
+
+ggplot(lead_times, aes(days, supplier)) +
+  geom_point() +
+  geom_vline(xintercept = 12) +
   labs(title = "圖 3-2：以圖形檢視資料集",
-       x = "交期（天）", y = "")
+       x = "交期（天）", y = NULL)
 ```
 
 雖然兩者平均數相同，**分散程度**卻差很多：B 供應商的交期穩定得多。
@@ -975,8 +960,8 @@ $$R = \text{最大值} - \text{最小值}$$
 **求解**
 
 ```{r e3-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-diff(range(supplier_a))
-diff(range(supplier_b))
+max(supplier_a) - min(supplier_a)
+max(supplier_b) - min(supplier_b)
 ```
 
 A 供應商的 $R = 21 - 3 = 18$ 天；B 供應商的 $R = 14 - 10 = 4$ 天。
@@ -1010,7 +995,7 @@ A 供應商最大值與最小值相差 18 天，B 供應商只差 4 天，不到
 ```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 parcels <- c(37, 62, 19, 48, 55, 41)
 
-diff(range(parcels))
+max(parcels) - min(parcels)
 ```
 
 $$R = 62 - 19 = 43 \text{（萬件）}$$
@@ -1077,11 +1062,11 @@ $$\sigma = \sqrt{\sigma^2} = \sqrt{\frac{\Sigma(X - \mu)^2}{N}}$$
 **準備資料**
 
 ```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-deviations_a <- tibble(X = supplier_a, dev = X - mean(supplier_a), dev2 = dev^2)
+deviation_a <- supplier_a - mean(supplier_a)
 
-knitr::kable(deviations_a, col.names = c("Values X", "X - mu", "(X - mu)^2"),
-             align = "c")
-sum(deviations_a$dev2)
+deviation_a
+deviation_a^2
+sum(deviation_a^2)
 ```
 :::
 
@@ -1095,11 +1080,8 @@ sum(deviations_a$dev2)
 **求解**
 
 ```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-population_variance <- function(values) mean((values - mean(values))^2)
-
-variance_a <- population_variance(supplier_a)
-variance_a
-round(sqrt(variance_a), 1)
+sum(deviation_a^2) / 6
+sqrt(sum(deviation_a^2) / 6)
 ```
 
 $$\sigma^2 = \frac{252}{6} = 42 \qquad \sigma = \sqrt{42} \approx 6.5$$
@@ -1129,8 +1111,11 @@ $$\sigma^2 = \frac{252}{6} = 42 \qquad \sigma = \sqrt{42} \approx 6.5$$
 **求解**
 
 ```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-deviations_b <- tibble(X = supplier_b, dev = X - mean(supplier_b), dev2 = dev^2)
-knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "c")
+deviation_b <- supplier_b - mean(supplier_b)
+
+deviation_b
+deviation_b^2
+sum(deviation_b^2)
 ```
 :::
 
@@ -1144,9 +1129,8 @@ knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "
 **求解**
 
 ```{r e3-19-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-variance_b <- population_variance(supplier_b)
-variance_b
-round(sqrt(variance_b), 1)
+sum(deviation_b^2) / 6
+sqrt(sum(deviation_b^2) / 6)
 ```
 
 $$\sigma^2 = \frac{18}{6} = 3 \qquad \sigma \approx 1.7$$
@@ -1193,8 +1177,10 @@ $$s^2 = \frac{\Sigma(X - \bar{X})^2}{n - 1} \qquad s = \sqrt{s^2} = \sqrt{\frac{
 
 ```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 export_orders <- c(14, 50, 26, 38, 32)
-deviations <- tibble(X = export_orders, dev = X - mean(export_orders), dev2 = dev^2)
-knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align = "c")
+deviation <- export_orders - mean(export_orders)
+
+deviation
+deviation^2
 ```
 :::
 
@@ -1208,9 +1194,9 @@ knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align =
 **求解**
 
 ```{r e3-20-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sum(deviations$dev2)
+sum(deviation^2)
 var(export_orders)
-round(sd(export_orders), 1)
+sd(export_orders)
 ```
 
 $$s^2 = \frac{720}{5 - 1} = 180 \qquad s = \sqrt{180} \approx 13.4$$
@@ -1252,14 +1238,9 @@ $$s^2 = \frac{n(\Sigma X^2) - (\Sigma X)^2}{n(n-1)} \qquad s = \sqrt{\frac{n(\Si
 **求解**
 
 ```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_offices <- length(export_orders)
-
 sum(export_orders)
 sum(export_orders^2)
-
-shortcut_variance <- (n_offices * sum(export_orders^2) - sum(export_orders)^2) /
-  (n_offices * (n_offices - 1))
-shortcut_variance
+(5 * 5840 - 160^2) / (5 * 4)
 var(export_orders)
 ```
 
@@ -1311,14 +1292,11 @@ $n$ 務必使用**次數總和**，而不是組數。
 **準備資料**
 
 ```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-picking_times <- tibble(
-  Class = c("4.5-9.5", "9.5-14.5", "14.5-19.5", "19.5-24.5",
-            "24.5-29.5", "29.5-34.5", "34.5-39.5"),
-  f  = c(2, 3, 5, 4, 3, 2, 1),
-  Xm = c(7, 12, 17, 22, 27, 32, 37)) |>
-  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
+f  <- c(2, 3, 5, 4, 3, 2, 1)
+Xm <- c(7, 12, 17, 22, 27, 32, 37)
 
-knitr::kable(picking_times, align = "c")
+f * Xm
+f * Xm^2
 ```
 :::
 
@@ -1332,15 +1310,11 @@ knitr::kable(picking_times, align = "c")
 **求解**
 
 ```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_orders  <- sum(picking_times$f)
-sum_fxm   <- sum(picking_times$fXm)
-sum_fxm2  <- sum(picking_times$fXm2)
-
-c(n = n_orders, sum_fxm = sum_fxm, sum_fxm2 = sum_fxm2)
-
-grouped_variance <- (n_orders * sum_fxm2 - sum_fxm^2) / (n_orders * (n_orders - 1))
-round(grouped_variance, 1)
-round(sqrt(grouped_variance), 1)
+sum(f)
+sum(f * Xm)
+sum(f * Xm^2)
+(20 * 9515 - 405^2) / (20 * 19)
+sqrt((20 * 9515 - 405^2) / (20 * 19))
 ```
 
 $$s^2 = \frac{20(9515) - 405^2}{20(19)} = \frac{26{,}275}{380} \approx 69.1 \qquad s \approx 8.3$$
@@ -1397,18 +1371,14 @@ $$\text{CVar} = \frac{s}{\bar{X}} \cdot 100\% \quad \text{（樣本）} \qquad \
 **求解**
 
 ```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-regional_sales <- tibble(City      = c("Taipei", "Kaohsiung"),
-                         mean_sales = c(268, 194),
-                         sd_sales   = c(52.3, 41.7)) |>
-  mutate(CVar = round(sd_sales / mean_sales * 100, 1))
-
-knitr::kable(regional_sales, align = "c")
+52.3 / 268 * 100
+41.7 / 194 * 100
 ```
 
 $$\text{台北：} \text{CVar} = \frac{52.3}{268} \cdot 100\% = 19.5\% \qquad
 \text{高雄：} \text{CVar} = \frac{41.7}{194} \cdot 100\% = 21.5\%$$
 
-高雄門市的變異只比台北門市**略大一些**。（表中營收單位皆為新台幣萬元。）
+高雄門市的變異只比台北門市**略大一些**。（營收數字的單位皆為新台幣萬元。）
 :::
 
 ## 範例 3-24 {#example-3-24}
@@ -1431,12 +1401,8 @@ $$\text{台北：} \text{CVar} = \frac{52.3}{268} \cdot 100\% = 19.5\% \qquad
 **求解**
 
 ```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-hotel_measures <- tibble(Variable = c("Occupancy rate", "Daily room rate"),
-                         mean_value = c(72.5, 4850),
-                         variance   = c(27.04, 336400)) |>
-  mutate(CVar = round(sqrt(variance) / mean_value * 100, 1))
-
-knitr::kable(hotel_measures, align = "c")
+sqrt(27.04) / 72.5 * 100
+sqrt(336400) / 4850 * 100
 ```
 
 $$\text{住房率：} \text{CVar} = \frac{\sqrt{27.04}}{72.5} \cdot 100\% = 7.2\% \qquad
@@ -1471,9 +1437,10 @@ $$s \approx \frac{\text{全距}}{4}$$
 containers_per_hour <- c(16, 13, 22, 10, 18, 14, 19, 16)
 
 mean(containers_per_hour)
-round(sd(containers_per_hour), 1)
-diff(range(containers_per_hour)) / 4
-round(mean(containers_per_hour) + c(-2, 2) * sd(containers_per_hour), 1)
+sd(containers_per_hour)
+(max(containers_per_hour) - min(containers_per_hour)) / 4
+mean(containers_per_hour) - 2 * sd(containers_per_hour)
+mean(containers_per_hour) + 2 * sd(containers_per_hour)
 ```
 
 實際標準差為 3.7，全距為 $22 - 10 = 12$，因此全距經驗法則給出 $s \approx 3$。平均數為 16，估計的最小值與最大值為 8.5 與 23.5——與實際的 10 與 22 相去不遠。
@@ -1511,12 +1478,9 @@ round(mean(containers_per_hour) + c(-2, 2) * sd(containers_per_hour), 1)
 **求解**
 
 ```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_rent <- 12000
-sd_rent   <- 1500
-k <- 2
-
-(1 - 1 / k^2) * 100
-mean_rent + c(-k, k) * sd_rent
+(1 - 1 / 2^2) * 100
+12000 - 2 * 1500
+12000 + 2 * 1500
 ```
 
 $$12{,}000 + 2(1{,}500) = 15{,}000 \qquad 12{,}000 - 2(1{,}500) = 9{,}000$$
@@ -1574,28 +1538,13 @@ k
 
 ## 以 R 示範經驗法則
 
-**繪製圖形**
+**準備資料**
 
 假設某超商連鎖店各門市的月營收呈鐘形分布，平均數為新台幣 180 萬元，標準差為 20 萬元（下圖單位為萬元）。
 
 ```{r s3-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_revenue <- 180
-sd_revenue   <- 20
-
-p_empirical <- tibble(
-  x = seq(mean_revenue - 4 * sd_revenue, mean_revenue + 4 * sd_revenue,
-          length.out = 500),
-  y = dnorm(x, mean_revenue, sd_revenue)) |>
-  ggplot(aes(x, y)) +
-  geom_line(color = "#2c4a6e") +
-  geom_vline(xintercept = mean_revenue + c(-1, 1) * sd_revenue,
-             color = "blue", linetype = 2) +
-  geom_vline(xintercept = mean_revenue + c(-2, 2) * sd_revenue,
-             color = "red", linetype = 2) +
-  geom_vline(xintercept = mean_revenue + c(-3, 3) * sd_revenue,
-             color = "darkgreen", linetype = 2) +
-  labs(title = "圖 3-4：經驗法則",
-       x = "月營收（萬元）", y = "機率密度")
+x <- seq(100, 260, by = 1)
+curve <- data.frame(x, density = dnorm(x, 180, 20))
 ```
 
 ---
@@ -1605,7 +1554,11 @@ p_empirical <- tibble(
 **輸出圖形**
 
 ```{r s3-2-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3.5}
-p_empirical
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_vline(xintercept = c(120, 140, 160, 200, 220, 240)) +
+  labs(title = "圖 3-4：經驗法則",
+       x = "月營收（萬元）", y = "機率密度")
 ```
 
 約有 68% 的門市月營收落在 160 到 200 萬元之間，約 95% 落在 140 到 220 萬元之間，約 99.7% 落在 120 到 240 萬元之間。
@@ -1636,8 +1589,10 @@ p_empirical
 hourly_wage <- c(200, 185, 215, 185, 215)
 raised_wage <- hourly_wage + 20
 
-c(mean = mean(hourly_wage), sd = sd(hourly_wage))
-c(mean = mean(raised_wage), sd = sd(raised_wage))
+mean(hourly_wage)
+sd(hourly_wage)
+mean(raised_wage)
+sd(raised_wage)
 ```
 
 平均數從 200 元上升到 220 元——正好等於調升的金額——而標準差仍維持在 **15**。
@@ -1650,8 +1605,10 @@ c(mean = mean(raised_wage), sd = sd(raised_wage))
 weekly_hours   <- c(18, 14, 22, 14, 22)
 weekly_minutes <- weekly_hours * 60
 
-c(mean = mean(weekly_hours),   sd = sd(weekly_hours))
-c(mean = mean(weekly_minutes), sd = sd(weekly_minutes))
+mean(weekly_hours)
+sd(weekly_hours)
+mean(weekly_minutes)
+sd(weekly_minutes)
 ```
 
 平均數乘以 60，從 18 小時變成 1080 分鐘；標準差同樣乘以 60，從 4 變成 **240**。
@@ -1700,13 +1657,8 @@ $z$ 分數代表某個資料值高於或低於平均數幾個標準差。若 $z 
 **求解**
 
 ```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-call_times <- tibble(Site      = c("Taipei", "Taichung"),
-                     time      = c(6.3, 6.8),
-                     mean_time = c(4.8, 5.4),
-                     sd_time   = c(0.6, 0.8)) |>
-  mutate(z = (time - mean_time) / sd_time)
-
-knitr::kable(call_times, align = "c")
+(6.3 - 4.8) / 0.6
+(6.8 - 5.4) / 0.8
 ```
 
 $$\text{台北：} z = \frac{6.3 - 4.8}{0.6} = 2.50 \qquad
@@ -1735,13 +1687,8 @@ $$\text{台北：} z = \frac{6.3 - 4.8}{0.6} = 2.50 \qquad
 **求解**
 
 ```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-branch_revenue <- tibble(Branch       = c("24-hour", "Campus"),
-                         revenue      = c(45000, 33000),
-                         mean_revenue = c(52000, 38000),
-                         sd_revenue   = c(5000, 4000)) |>
-  mutate(z = (revenue - mean_revenue) / sd_revenue)
-
-knitr::kable(branch_revenue, align = "c")
+(45000 - 52000) / 5000
+(33000 - 38000) / 4000
 ```
 
 $$\text{24 小時門市：} z = \frac{45{,}000 - 52{,}000}{5{,}000} = -1.40 \qquad
@@ -1844,14 +1791,10 @@ $$\text{24 小時門市：} z = \frac{45{,}000 - 52{,}000}{5{,}000} = -1.40 \qqu
 $$\text{累積百分比} = \frac{\text{累積次數}}{n} \cdot 100$$
 
 ```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_values <- tibble(
-  Class = c("199.5-399.5", "399.5-599.5", "599.5-799.5",
-            "799.5-999.5", "999.5-1199.5", "1199.5-1399.5"),
-  upper = c(399.5, 599.5, 799.5, 999.5, 1199.5, 1399.5),
-  f     = c(18, 52, 68, 38, 16, 8)) |>
-  mutate(cum_f = cumsum(f), cum_pct = cum_f / sum(f) * 100)
+f <- c(18, 52, 68, 38, 16, 8)
 
-knitr::kable(order_values, align = "c")
+cumsum(f)
+cumsum(f) / 200 * 100
 ```
 :::
 
@@ -1865,10 +1808,12 @@ knitr::kable(order_values, align = "c")
 **輸出圖形**
 
 ```{r e3-29-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
-bind_rows(tibble(upper = 199.5, cum_pct = 0), order_values) |>
-  ggplot(aes(upper, cum_pct)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_point(size = 2, color = "#2c4a6e") +
+percentile_points <- data.frame(boundary    = seq(199.5, 1399.5, by = 200),
+                                cum_percent = cumsum(c(0, f)) / 200 * 100)
+
+ggplot(percentile_points, aes(boundary, cum_percent)) +
+  geom_line() +
+  geom_point() +
   labs(title = "圖 3-6：範例 3-29 的百分位圖",
        x = "組界（新台幣元）", y = "累積百分比")
 ```
@@ -1913,12 +1858,10 @@ $$\text{百分位數} = \frac{(\text{小於 } X \text{ 的數值個數}) + 0.5}{
 
 ```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 returns <- c(14, 23, 9, 31, 18, 27, 12, 21, 35, 25)
-sort(returns)
 
-percentile_rank <- function(value, values) {
-  (sum(values < value) + 0.5) / length(values) * 100
-}
-percentile_rank(18, returns)
+sort(returns)
+sum(returns < 18)
+(sum(returns < 18) + 0.5) / 10 * 100
 ```
 
 由於小於 18 的資料值有 3 個，
@@ -1947,7 +1890,7 @@ $$\text{百分位數} = \frac{3 + 0.5}{10} \cdot 100 = \text{第 35 百分位數
 
 ```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sum(returns < 31)
-percentile_rank(31, returns)
+(sum(returns < 31) + 0.5) / 10 * 100
 ```
 
 小於 31 的資料值有 8 個，因此
@@ -1986,12 +1929,9 @@ $$\text{百分位數} = \frac{8 + 0.5}{10} \cdot 100 = \text{第 85 百分位數
 **求解**
 
 ```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ordered_returns <- sort(returns)
-ordered_returns
-
-position <- length(returns) * 65 / 100
-position
-ordered_returns[ceiling(position)]
+sort(returns)
+10 * 65 / 100
+sort(returns)[7]
 ```
 
 $$c = \frac{10 \cdot 65}{100} = 6.5$$
@@ -2017,9 +1957,8 @@ $$c = \frac{10 \cdot 65}{100} = 6.5$$
 **求解**
 
 ```{r e3-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-position <- length(returns) * 30 / 100
-position
-mean(ordered_returns[c(position, position + 1)])
+10 * 30 / 100
+(sort(returns)[3] + sort(returns)[4]) / 2
 ```
 
 $$c = \frac{10 \cdot 30}{100} = 3$$
@@ -2072,35 +2011,16 @@ $$c = \frac{10 \cdot 30}{100} = 3$$
 :::{.callout-tip}
 ## 解題
 
-**準備資料**
-
-上述程序是以中位數把排序後的資料切開，因此寫一個簡短的輔助函式逐步照做。
-
-```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-quartiles_by_halves <- function(values) {
-  ordered <- sort(values)
-  half    <- floor(length(ordered) / 2)
-  c(Q1 = median(head(ordered, half)),
-    Q2 = median(ordered),
-    Q3 = median(tail(ordered, half)))
-}
-```
-:::
-
----
-
-## 範例 3-34
-
-:::{.callout-tip}
-## 解題
-
 **求解**
 
 ```{r e3-34-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 deliveries <- c(22, 27, 19, 25, 31, 24, 27, 22, 26)
-sort(deliveries)
+sorted <- sort(deliveries)
 
-quartiles_by_halves(deliveries)
+sorted
+median(sorted)
+median(sorted[1:4])
+median(sorted[6:9])
 quantile(deliveries, c(0.25, 0.50, 0.75))
 ```
 
@@ -2214,13 +2134,14 @@ $$\text{IQR} = Q_3 - Q_1 = 27 - 22 = 5$$
 
 ```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tickets <- c(8, 4, 18, 12, 57, 8, 14, 18)
+Q1 <- quantile(tickets, 0.25)
+Q3 <- quantile(tickets, 0.75)
 
-quantile(tickets, c(0.25, 0.75))
+Q1
+Q3
 IQR(tickets)
-
-fences <- quantile(tickets, c(0.25, 0.75)) + c(-1.5, 1.5) * IQR(tickets)
-fences
-tickets[tickets < fences[1] | tickets > fences[2]]
+Q1 - 1.5 * IQR(tickets)
+Q3 + 1.5 * IQR(tickets)
 ```
 
 此處 $Q_1 = 8$、$Q_3 = 18$、$\text{IQR} = 10$，$1.5(10) = 15$，因此界線為 $-7$ 與 $33$。資料值 **57** 大於 33，可視為離群值。
@@ -2295,11 +2216,9 @@ EDA 由 **John Tukey** 發展，並發表於他的著作 *Exploratory Data Analy
 
 ```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 daily_revenue <- c(14, 9, 26, 6, 16, 12, 8, 20, 16, 9)
-sort(daily_revenue)
 
-c(Min = min(daily_revenue),
-  quantile(daily_revenue, c(0.25, 0.50, 0.75)),
-  Max = max(daily_revenue))
+sort(daily_revenue)
+quantile(daily_revenue)
 ```
 
 五數綜合為最小值 6、$Q_1 = 9$、中位數 13、$Q_3 = 16$、最大值 26。
@@ -2315,10 +2234,10 @@ c(Min = min(daily_revenue),
 **輸出圖形**
 
 ```{r e3-37-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=2.6}
-ggplot(tibble(x = daily_revenue), aes(x = x, y = "")) +
-  geom_boxplot(fill = "#8db4d6", color = "#2c4a6e", width = 0.4) +
+ggplot(data.frame(daily_revenue), aes(daily_revenue)) +
+  geom_boxplot() +
   labs(title = "圖 3-7：範例 3-37 的盒鬚圖",
-       x = "日營收（新台幣千元）", y = "")
+       x = "日營收（新台幣千元）")
 ```
 
 右鬚明顯長於左鬚，因此分布為**右偏**，最高值為 26 千元，最低值為 6 千元。
@@ -2385,13 +2304,13 @@ A 港的 $Q_1 = 20$、$MD = 23$、$Q_3 = 26$；B 港的 $Q_1 = 24$、$MD = 40$�
 **輸出圖形**
 
 ```{r e3-38-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
-tibble(Hours = c(port_a, port_b),
-       Port  = rep(c("A 港", "B 港"), each = 8)) |>
-  ggplot(aes(x = Hours, y = Port, fill = Port)) +
-  geom_boxplot(width = 0.4, show.legend = FALSE) +
-  scale_fill_manual(values = c("#2c4a6e", "#8db4d6")) +
+clearance <- data.frame(port  = rep(c("A 港", "B 港"), each = 8),
+                        hours = c(port_a, port_b))
+
+ggplot(clearance, aes(hours, port)) +
+  geom_boxplot() +
   labs(title = "圖 3-8：範例 3-38 的盒鬚圖",
-       x = "通關時間（小時）", y = "")
+       x = "通關時間（小時）", y = NULL)
 ```
 
 B 港通關時間的**中位數**高出許多，其**四分位距**與**全距**也都比 A 港大得多。

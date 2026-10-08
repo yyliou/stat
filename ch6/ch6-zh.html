@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
@@ -299,28 +299,44 @@
 <p><strong>圖 6-1</strong> 成年女性身高分佈的直方圖與常態模型</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
-<span id="cb1-2"><a href=""></a>heights <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100000</span>, <span class="at">mean =</span> <span class="dv">163</span>, <span class="at">sd =</span> <span class="fl">6.5</span>)</span>
-<span id="cb1-3"><a href=""></a>height_hist <span class="ot">&lt;-</span> <span class="cf">function</span>(n_obs, bin_width, title)</span>
-<span id="cb1-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">height =</span> heights[<span class="dv">1</span><span class="sc">:</span>n_obs]), <span class="fu">aes</span>(height)) <span class="sc">+</span></span>
-<span id="cb1-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> bin_width, <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>,</span>
-<span id="cb1-6"><a href=""></a>                 <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb1-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href=""></a>heights <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20000</span>, <span class="at">mean =</span> <span class="dv">163</span>, <span class="at">sd =</span> <span class="fl">6.5</span>)</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">height =</span> heights[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>]), <span class="fu">aes</span>(height)) <span class="sc">+</span></span>
+<span id="cb1-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb1-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) n = 100"</span>, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
 </div>
-</section>
+<img data-src="ch6-zh_files/figure-revealjs/s6-1-1a-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="緒論-2" class="slide level2">
 <h2>緒論</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>normal_panel <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">height =</span> <span class="fu">c</span>(<span class="dv">140</span>, <span class="dv">186</span>)), <span class="fu">aes</span>(height)) <span class="sc">+</span></span>
-<span id="cb2-2"><a href=""></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">163</span>, <span class="at">sd =</span> <span class="fl">6.5</span>),</span>
-<span id="cb2-3"><a href=""></a>                <span class="at">colour =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb2-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(d) 常態分佈"</span>, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb2-5"><a href=""></a><span class="fu">grid.arrange</span>(<span class="fu">height_hist</span>(<span class="dv">100</span>, <span class="dv">5</span>, <span class="st">"(a) n = 100"</span>),</span>
-<span id="cb2-6"><a href=""></a>             <span class="fu">height_hist</span>(<span class="dv">1000</span>, <span class="dv">3</span>, <span class="st">"(b) n 增大"</span>),</span>
-<span id="cb2-7"><a href=""></a>             <span class="fu">height_hist</span>(<span class="dv">20000</span>, <span class="dv">1</span>, <span class="st">"(c) n 再增大"</span>),</span>
-<span id="cb2-8"><a href=""></a>             normal_panel, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">height =</span> heights[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>]), <span class="fu">aes</span>(height)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) n 增大"</span>, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch6-zh_files/figure-revealjs/s6-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"></section>
+<img data-src="ch6-zh_files/figure-revealjs/s6-1-1b-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="緒論-3" class="slide level2">
+<h2>緒論</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">height =</span> heights), <span class="fu">aes</span>(height)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(c) n 再增大"</span>, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch6-zh_files/figure-revealjs/s6-1-1c-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
+<section id="緒論-4" class="slide level2">
+<h2>緒論</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">140</span>, <span class="dv">186</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb4-2"><a href=""></a>curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">density =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">163</span>, <span class="at">sd =</span> <span class="fl">6.5</span>))</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(d) 常態分佈"</span>, <span class="at">x =</span> <span class="st">"身高（公分）"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch6-zh_files/figure-revealjs/s6-1-1d-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
 <section id="常態分佈" class="slide level2">
 <h2>常態分佈</h2>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -344,24 +360,19 @@
 <h2>常態分佈曲線的形狀</h2>
 <p>常態分佈曲線的形狀與位置由兩個參數決定：<strong>平均數</strong>與<strong>標準差</strong>（圖 6-3）。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>normal_curve_df <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, sigma, label) {</span>
-<span id="cb3-2"><a href=""></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
-<span id="cb3-3"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">density =</span> <span class="fu">dnorm</span>(x, mu, sigma), <span class="at">label =</span> label)</span>
-<span id="cb3-4"><a href=""></a>}</span>
-<span id="cb3-5"><a href=""></a>same_mean <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">normal_curve_df</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="st">"mu = 0, sigma = 1"</span>),</span>
-<span id="cb3-6"><a href=""></a>                   <span class="fu">normal_curve_df</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="st">"mu = 0, sigma = 2"</span>))</span>
-<span id="cb3-7"><a href=""></a>same_sd <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">normal_curve_df</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="st">"mu = 0, sigma = 2"</span>),</span>
-<span id="cb3-8"><a href=""></a>                 <span class="fu">normal_curve_df</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="st">"mu = 2, sigma = 2"</span>))</span>
-<span id="cb3-9"><a href=""></a>shape_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(curves, title)</span>
-<span id="cb3-10"><a href=""></a>  <span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(x, density, <span class="at">colour =</span> label)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb3-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">colour =</span> <span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb3-12"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb3-13"><a href=""></a><span class="fu">grid.arrange</span>(<span class="fu">shape_panel</span>(same_mean, <span class="st">"(a) 平均數相同、標準差不同"</span>),</span>
-<span id="cb3-14"><a href=""></a>             <span class="fu">shape_panel</span>(same_sd, <span class="st">"(b) 平均數不同、標準差相同"</span>),</span>
-<span id="cb3-15"><a href=""></a>             <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb5-2"><a href=""></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">mu0_sd1 =</span> <span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">mu0_sd2 =</span> <span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">2</span>),</span>
+<span id="cb5-3"><a href=""></a>                     <span class="at">mu2_sd2 =</span> <span class="fu">dnorm</span>(x, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mu0_sd1)) <span class="sc">+</span></span>
+<span id="cb5-7"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mu0_sd2), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mu2_sd2), <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"圖 6-3：常態分佈曲線的形狀"</span>, <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch6-zh_files/figure-revealjs/s6-1-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+<img data-src="ch6-zh_files/figure-revealjs/s6-1-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>實線為 <span class="math inline">\mu = 0</span>、<span class="math inline">\sigma = 1</span>，虛線為 <span class="math inline">\mu = 0</span>、<span class="math inline">\sigma = 2</span>，點線為 <span class="math inline">\mu = 2</span>、<span class="math inline">\sigma = 2</span>。實線與虛線的平均數相同；虛線與點線的標準差相同。</p>
+</section>
 <section id="常態分佈的性質" class="slide level2">
 <h2>常態分佈的性質</h2>
 <div class="callout callout-important callout-titled callout-style-default">
@@ -391,21 +402,14 @@
 <h2>常態分佈曲線下的面積</h2>
 <p><strong>圖 6-4</strong>——上述第 8 點的面積即為 3-2 節的<strong>經驗法則</strong>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>z_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">800</span>)</span>
-<span id="cb4-2"><a href=""></a>normal_curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">z =</span> z_grid, <span class="at">density =</span> <span class="fu">dnorm</span>(z_grid))</span>
-<span id="cb4-3"><a href=""></a>shade <span class="ot">&lt;-</span> <span class="cf">function</span>(lower, upper, fill)</span>
-<span id="cb4-4"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(normal_curve, z <span class="sc">&gt;=</span> lower, z <span class="sc">&lt;=</span> upper),</span>
-<span id="cb4-5"><a href=""></a>            <span class="at">fill =</span> fill, <span class="at">alpha =</span> <span class="fl">0.6</span>)</span>
-<span id="cb4-6"><a href=""></a><span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb4-7"><a href=""></a>  <span class="fu">shade</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="st">"#2c4a6e"</span>) <span class="sc">+</span> <span class="fu">shade</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">"#5b8bbd"</span>) <span class="sc">+</span> <span class="fu">shade</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="st">"#5b8bbd"</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href=""></a>  <span class="fu">shade</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="st">"#a9c6e0"</span>) <span class="sc">+</span> <span class="fu">shade</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="st">"#a9c6e0"</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-10"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="at">y =</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">"34.13%"</span>) <span class="sc">+</span></span>
-<span id="cb4-11"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>), <span class="at">y =</span> <span class="fl">0.05</span>, <span class="at">label =</span> <span class="st">"13.59%"</span>) <span class="sc">+</span></span>
-<span id="cb4-12"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>), <span class="at">y =</span> <span class="fl">0.02</span>, <span class="at">label =</span> <span class="st">"2.15%"</span>) <span class="sc">+</span></span>
-<span id="cb4-13"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb4-14"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"1、2、3 個標準差內約各佔 68%、95%、99.7%"</span>,</span>
-<span id="cb4-15"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb6-2"><a href=""></a>curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">density =</span> <span class="fu">dnorm</span>(x))</span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"1、2、3 個標準差內約各佔 68%、95%、99.7%"</span>,</span>
+<span id="cb6-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-1-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -434,19 +438,18 @@
 <h2>對稱分佈與偏斜分佈</h2>
 <p><strong>圖 6-5</strong> 常態分佈與偏斜分佈</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>skewed_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(shape, title, <span class="at">mirror =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb5-2"><a href=""></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="dv">12</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
-<span id="cb5-3"><a href=""></a>  density <span class="ot">&lt;-</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> shape, <span class="at">rate =</span> <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href=""></a>  <span class="cf">if</span> (mirror) x <span class="ot">&lt;-</span> <span class="fu">max</span>(x) <span class="sc">-</span> x</span>
-<span id="cb5-5"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(x, density), <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href=""></a>    <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a href=""></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb5-8"><a href=""></a>}</span>
-<span id="cb5-9"><a href=""></a>symmetric_panel <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb5-10"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) 常態"</span>, <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb5-12"><a href=""></a><span class="fu">grid.arrange</span>(symmetric_panel, <span class="fu">skewed_panel</span>(<span class="dv">3</span>, <span class="st">"(b) 負偏"</span>, <span class="cn">TRUE</span>),</span>
-<span id="cb5-13"><a href=""></a>             <span class="fu">skewed_panel</span>(<span class="dv">3</span>, <span class="st">"(c) 正偏"</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb7-2"><a href=""></a>shapes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-3"><a href=""></a>  <span class="at">shape   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"(a) 常態"</span>, <span class="st">"(b) 負偏"</span>, <span class="st">"(c) 正偏"</span>),</span>
+<span id="cb7-4"><a href=""></a>                <span class="at">each =</span> <span class="fu">length</span>(x)),</span>
+<span id="cb7-5"><a href=""></a>  <span class="at">x       =</span> <span class="fu">c</span>(x, x, x),</span>
+<span id="cb7-6"><a href=""></a>  <span class="at">density =</span> <span class="fu">c</span>(<span class="fu">dnorm</span>(x, <span class="dv">5</span>, <span class="fl">1.5</span>), <span class="fu">dgamma</span>(<span class="dv">10</span> <span class="sc">-</span> x, <span class="at">shape =</span> <span class="dv">3</span>), <span class="fu">dgamma</span>(x, <span class="at">shape =</span> <span class="dv">3</span>))</span>
+<span id="cb7-7"><a href=""></a>)</span>
+<span id="cb7-8"><a href=""></a></span>
+<span id="cb7-9"><a href=""></a><span class="fu">ggplot</span>(shapes, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-11"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> shape) <span class="sc">+</span></span>
+<span id="cb7-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-1-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%"></section>
@@ -494,13 +497,10 @@
 <h2>標準常態分佈</h2>
 <p><strong>圖 6-6</strong> 標準常態分佈</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#2c4a6e"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">colour =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="sc">-</span><span class="dv">3</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"標準常態分佈（平均數 0、標準差 1）"</span>,</span>
-<span id="cb6-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"標準常態分佈（平均數 0、標準差 1）"</span>,</span>
+<span id="cb8-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-1-6-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
@@ -542,7 +542,7 @@
 <div class="callout-content">
 <ul>
 <li><code>pnorm(z)</code>——<span class="math inline">z</span> <strong>左側</strong>的面積</li>
-<li><code>1 - pnorm(z)</code> 或 <code>pnorm(z, lower.tail = FALSE)</code>——<span class="math inline">z</span> <strong>右側</strong>的面積</li>
+<li><code>1 - pnorm(z)</code>——<span class="math inline">z</span> <strong>右側</strong>的面積</li>
 <li><code>pnorm(z2) - pnorm(z1)</code>——<span class="math inline">z_1</span> 與 <span class="math inline">z_2</span> <strong>之間</strong>的面積</li>
 <li><code>qnorm(p)</code>——左尾面積為 <span class="math inline">p</span> 的 <span class="math inline">z</span> 值（<code>pnorm</code> 的反函數）</li>
 </ul>
@@ -550,9 +550,9 @@
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">1.58</span>), <span class="dv">4</span>)   <span class="co"># 表 A-4 中 z = 1.58 的值</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.58</span>)   <span class="co"># 表 A-4 中 z = 1.58 的值</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9429</code></pre>
+<pre><code>[1] 0.9429466</code></pre>
 </div>
 </div>
 </section>
@@ -586,9 +586,9 @@
 <p><strong>步驟 1</strong> 畫圖並將所求面積著色（圖 6-8）。</p>
 <p><strong>步驟 2</strong> 此為程序表的第一種情形，可直接使用表上的面積。<span class="math inline">z = 1.72</span> 左側的面積為 <span class="math inline">0.9573</span>，亦即 <span class="math inline">95.73\%</span> 的面積位於 <span class="math inline">z = 1.72</span> 的左側。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">1.72</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.72</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9573</code></pre>
+<pre><code>[1] 0.9572838</code></pre>
 </div>
 </div>
 </div>
@@ -608,13 +608,10 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(normal_curve, z <span class="sc">&lt;=</span> <span class="fl">1.72</span>),</span>
-<span id="cb11-3"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb11-5"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">1.72</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb11-6"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">"0.9573"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb11-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = 1.72 左側的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb13-3"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&lt;=</span> <span class="fl">1.72</span>)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = 1.72 左側的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -657,13 +654,13 @@
 <p><strong>步驟 1</strong> 畫圖並將所求面積著色（圖 6-9）。</p>
 <p><strong>步驟 2</strong> 此為第二種情形。<span class="math inline">z = -0.83</span> 對應的面積為 <span class="math inline">0.2033</span>，以 <span class="math inline">1.0000</span> 減去它：<span class="math inline">1.0000 - 0.2033 = 0.7967</span>。亦即 <span class="math inline">79.67\%</span> 的面積位於 <span class="math inline">z = -0.83</span> 的右側。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">0.83</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">0.83</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2033</code></pre>
+<pre><code>[1] 0.2032694</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">0.83</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">0.83</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7967</code></pre>
+<pre><code>[1] 0.7967306</code></pre>
 </div>
 </div>
 </div>
@@ -683,13 +680,10 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(normal_curve, z <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">0.83</span>),</span>
-<span id="cb16-3"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb16-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb16-5"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">0.83</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb16-6"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">"0.7967"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb16-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = -0.83 右側的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">0.83</span>)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = -0.83 右側的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -732,9 +726,9 @@
 <p><strong>步驟 1</strong> 畫圖（圖 6-10）。所求面積位於兩個 <span class="math inline">z</span> 值之間。</p>
 <p><strong>步驟 2</strong> 此為第三種情形：查出兩個面積後，以較大者減去較小者。<em>（不要相減 <span class="math inline">z</span> 值。）</em> <span class="math inline">z = 1.21</span> 的面積為 <span class="math inline">0.8869</span>，<span class="math inline">z = -1.54</span> 的面積為 <span class="math inline">0.0618</span>，故兩者之間的面積為 <span class="math inline">0.8869 - 0.0618 = 0.8251</span>，即 <span class="math inline">82.51\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">1.21</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">1.54</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.21</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">1.54</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8251</code></pre>
+<pre><code>[1] 0.8250804</code></pre>
 </div>
 </div>
 </div>
@@ -754,14 +748,10 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(normal_curve, z <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">1.54</span>, z <span class="sc">&lt;=</span> <span class="fl">1.21</span>),</span>
-<span id="cb19-3"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb19-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.54</span>, <span class="fl">1.21</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb19-6"><a href=""></a>             <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb19-7"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">"0.8251"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = -1.54 與 z = 1.21 之間的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb21-3"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&gt;=</span> <span class="sc">-</span><span class="fl">1.54</span>, x <span class="sc">&lt;=</span> <span class="fl">1.21</span>)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"z = -1.54 與 z = 1.21 之間的面積"</span>, <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -824,17 +814,17 @@
 <p><strong>(b)</strong> 求 <span class="math inline">z = 1.35</span> 左側的面積，為 <span class="math inline">0.9115</span>，故機率為 <span class="math inline">0.9115</span>，即 <span class="math inline">91.15\%</span>。</p>
 <p><strong>(c)</strong> 求 <span class="math inline">z = 2.27</span> 右側的面積。<span class="math inline">z = 2.27</span> 的面積為 <span class="math inline">0.9884</span>，故 <span class="math inline">1.0000 - 0.9884 = 0.0116</span>，即 <span class="math inline">1.16\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">2.14</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">2.14</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4838</code></pre>
+<pre><code>[1] 0.4838226</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">1.35</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">1.35</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9115</code></pre>
+<pre><code>[1] 0.911492</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">2.27</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">2.27</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0116</code></pre>
+<pre><code>[1] 0.01160379</code></pre>
 </div>
 </div>
 </div>
@@ -870,9 +860,9 @@
 <div class="callout-content">
 <p>畫圖（圖 6-14）。由於表 A-4 為累積機率，將所給面積 <span class="math inline">0.3078</span> 加上 <span class="math inline">0.5000</span> 得累積面積 <span class="math inline">0.8078</span>。在表 A-4 中查得 <span class="math inline">0.8078</span>，其列值為 <span class="math inline">0.8</span>、行值為 <span class="math inline">0.07</span>，故 <span class="math inline">z = 0.87</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fl">0.5000</span> <span class="sc">+</span> <span class="fl">0.3078</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.5000</span> <span class="sc">+</span> <span class="fl">0.3078</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.87</code></pre>
+<pre><code>[1] 0.8698178</code></pre>
 </div>
 </div>
 <p>若表中找不到恰好相等的面積，就取最接近者：例如累積面積 <span class="math inline">0.8080</span> 最接近的表值為 <span class="math inline">0.8078</span>，同樣得到 <span class="math inline">z = 0.87</span>。</p>
@@ -937,11 +927,9 @@
 <p><strong>步驟 2</strong> <span class="math inline">z = \dfrac{X - \mu}{\sigma} = \dfrac{32 - 27}{4} = \dfrac{5}{4} = 1.25</span></p>
 <p><strong>步驟 3</strong> <span class="math inline">z = 1.25</span> 左側的面積為 <span class="math inline">0.8944</span>。因此有 <span class="math inline">89.44\%</span> 的訂單在 <span class="math inline">32</span> 分鐘內送達。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>delivery_mean <span class="ot">&lt;-</span> <span class="dv">27</span></span>
-<span id="cb28-2"><a href=""></a>delivery_sd <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb28-3"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="dv">32</span>, <span class="at">mean =</span> delivery_mean, <span class="at">sd =</span> delivery_sd), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">32</span>, <span class="at">mean =</span> <span class="dv">27</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8944</code></pre>
+<pre><code>[1] 0.8943502</code></pre>
 </div>
 </div>
 </div>
@@ -961,41 +949,17 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>normal_density_df <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, sigma) {</span>
-<span id="cb30-2"><a href=""></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(mu <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> sigma, mu <span class="sc">+</span> <span class="dv">4</span> <span class="sc">*</span> sigma, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
-<span id="cb30-3"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">density =</span> <span class="fu">dnorm</span>(x, mu, sigma))</span>
-<span id="cb30-4"><a href=""></a>}</span>
-<span id="cb30-5"><a href=""></a>delivery_curve <span class="ot">&lt;-</span> <span class="fu">normal_density_df</span>(delivery_mean, delivery_sd)</span>
-<span id="cb30-6"><a href=""></a>delivery_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(delivery_curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
-<span id="cb30-7"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(delivery_curve, x <span class="sc">&lt;=</span> <span class="dv">32</span>),</span>
-<span id="cb30-8"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb30-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb30-10"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">32</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb30-11"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">24</span>, <span class="at">y =</span> <span class="fl">0.03</span>, <span class="at">label =</span> <span class="st">"0.8944"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb30-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"配送時間：P(X &lt; 32)"</span>, <span class="at">x =</span> <span class="st">"分鐘"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="範例-6-6-2" class="slide level2">
-<h2>範例 6-6</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>輸出圖形</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>delivery_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">11</span>, <span class="dv">43</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb32-2"><a href=""></a>curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">density =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">27</span>, <span class="at">sd =</span> <span class="dv">4</span>))</span>
+<span id="cb32-3"><a href=""></a></span>
+<span id="cb32-4"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb32-6"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&lt;=</span> <span class="dv">32</span>)) <span class="sc">+</span></span>
+<span id="cb32-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"配送時間：P(X &lt; 32)"</span>, <span class="at">x =</span> <span class="st">"分鐘"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch6-zh_files/figure-revealjs/e6-6-3-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+<p><img data-src="ch6-zh_files/figure-revealjs/e6-6-2-1.png" class="quarto-figure quarto-figure-center" style="width:65.0%"></p>
 </figure>
 </div>
 </div>
@@ -1036,11 +1000,9 @@
 <p><strong>步驟 2</strong> <span class="math inline">z_1 = \dfrac{1050 - 1200}{150} = -1.0</span>，<span class="math inline">z_2 = \dfrac{1425 - 1200}{150} = 1.5</span></p>
 <p><strong>步驟 3</strong> <span class="math inline">z_2</span> 左側的面積為 <span class="math inline">0.9332</span>，<span class="math inline">z_1</span> 左側的面積為 <span class="math inline">0.1587</span>，故兩者之間的面積為 <span class="math inline">0.9332 - 0.1587 = 0.7745</span>，即機率 <span class="math inline">77.45\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a>order_mean <span class="ot">&lt;-</span> <span class="dv">1200</span></span>
-<span id="cb32-2"><a href=""></a>order_sd <span class="ot">&lt;-</span> <span class="dv">150</span></span>
-<span id="cb32-3"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="dv">1425</span>, order_mean, order_sd) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">1050</span>, order_mean, order_sd), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">1425</span>, <span class="at">mean =</span> <span class="dv">1200</span>, <span class="at">sd =</span> <span class="dv">150</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">1050</span>, <span class="at">mean =</span> <span class="dv">1200</span>, <span class="at">sd =</span> <span class="dv">150</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7745</code></pre>
+<pre><code>[1] 0.7745375</code></pre>
 </div>
 </div>
 </div>
@@ -1062,9 +1024,9 @@
 <p><strong>步驟 2</strong> <span class="math inline">z = \dfrac{1380 - 1200}{150} = \dfrac{180}{150} = 1.2</span></p>
 <p><strong>步驟 3</strong> <span class="math inline">z = 1.2</span> 左側的面積為 <span class="math inline">0.8849</span>，故右側面積為 <span class="math inline">1.0000 - 0.8849 = 0.1151</span>。訂單金額超過 <span class="math inline">1{,}380</span> 元的機率為 <span class="math inline">0.1151</span>，即 <span class="math inline">11.51\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="dv">1380</span>, order_mean, order_sd, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">1380</span>, <span class="at">mean =</span> <span class="dv">1200</span>, <span class="at">sd =</span> <span class="dv">150</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1151</code></pre>
+<pre><code>[1] 0.1150697</code></pre>
 </div>
 </div>
 </div>
@@ -1082,19 +1044,22 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>繪製圖形</strong></p>
+<p><strong>繪製圖形 (a)</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>order_curve <span class="ot">&lt;-</span> <span class="fu">normal_density_df</span>(order_mean, order_sd)</span>
-<span id="cb36-2"><a href=""></a>between_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(order_curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
-<span id="cb36-3"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(order_curve, x <span class="sc">&gt;=</span> <span class="dv">1050</span>, x <span class="sc">&lt;=</span> <span class="dv">1425</span>),</span>
-<span id="cb36-4"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb36-5"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb36-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(1050 &lt; X &lt; 1425) = 0.7745"</span>, <span class="at">x =</span> <span class="st">"元"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb36-7"><a href=""></a>upper_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(order_curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
-<span id="cb36-8"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(order_curve, x <span class="sc">&gt;=</span> <span class="dv">1380</span>),</span>
-<span id="cb36-9"><a href=""></a>            <span class="at">fill =</span> <span class="st">"#c0392b"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb36-10"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb36-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 1380) = 0.1151"</span>, <span class="at">x =</span> <span class="st">"元"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">600</span>, <span class="dv">1800</span>, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb37-2"><a href=""></a>curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">density =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">1200</span>, <span class="at">sd =</span> <span class="dv">150</span>))</span>
+<span id="cb37-3"><a href=""></a></span>
+<span id="cb37-4"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb37-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb37-6"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&gt;=</span> <span class="dv">1050</span>, x <span class="sc">&lt;=</span> <span class="dv">1425</span>)) <span class="sc">+</span></span>
+<span id="cb37-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(a) P(1050 &lt; X &lt; 1425) = 0.7745"</span>, <span class="at">x =</span> <span class="st">"元"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch6-zh_files/figure-revealjs/e6-7-3-1.png" class="quarto-figure quarto-figure-center" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1111,13 +1076,16 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>輸出圖形</strong></p>
+<p><strong>繪製圖形 (b)</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">grid.arrange</span>(between_plot, upper_plot, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb38-3"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&gt;=</span> <span class="dv">1380</span>)) <span class="sc">+</span></span>
+<span id="cb38-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"(b) P(X &gt; 1380) = 0.1151"</span>, <span class="at">x =</span> <span class="st">"元"</span>, <span class="at">y =</span> <span class="st">"密度"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch6-zh_files/figure-revealjs/e6-7-4-1.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+<p><img data-src="ch6-zh_files/figure-revealjs/e6-7-4-1.png" class="quarto-figure quarto-figure-center" style="width:65.0%"></p>
 </figure>
 </div>
 </div>
@@ -1158,16 +1126,15 @@
 <p><strong>步驟 3</strong> <span class="math inline">z = -0.75</span> 對應的面積為 <span class="math inline">0.2266</span>。</p>
 <p>筆數為 <span class="math inline">60 \times 0.2266 = 13.6</span>，四捨五入得 <span class="math inline">14</span>。隨機選取的 <span class="math inline">60</span> 筆訂單中，約有 <strong>14</strong> 筆的揀貨包裝時間少於 <span class="math inline">5.8</span> 分鐘。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a>picking_mean <span class="ot">&lt;-</span> <span class="fl">6.4</span></span>
-<span id="cb38-2"><a href=""></a>picking_sd <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
-<span id="cb38-3"><a href=""></a>fast_share <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="fl">5.8</span>, <span class="at">mean =</span> picking_mean, <span class="at">sd =</span> picking_sd)</span>
-<span id="cb38-4"><a href=""></a><span class="fu">round</span>(fast_share, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>area <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="fl">5.8</span>, <span class="at">mean =</span> <span class="fl">6.4</span>, <span class="at">sd =</span> <span class="fl">0.8</span>)</span>
+<span id="cb39-2"><a href=""></a></span>
+<span id="cb39-3"><a href=""></a>area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2266</code></pre>
+<pre><code>[1] 0.2266274</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">round</span>(<span class="dv">60</span> <span class="sc">*</span> fast_share, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="dv">60</span> <span class="sc">*</span> area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 13.6</code></pre>
+<pre><code>[1] 13.59764</code></pre>
 </div>
 </div>
 <p><em>注意：</em> 遇到百分比的題目，務必先將百分比化為小數再相乘，並視需要四捨五入至整數。</p>
@@ -1239,16 +1206,15 @@
 <p><strong>步驟 3</strong> <span class="math inline">X = z \cdot \sigma + \mu = 1.2816(60) + 480 = 556.89</span>。</p>
 <p>由於訂單數不可能有小數，門檻應取 <strong>557</strong>：完成 <span class="math inline">557</span> 筆以上的外送員即可獲得獎金。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>orders_mean <span class="ot">&lt;-</span> <span class="dv">480</span></span>
-<span id="cb42-2"><a href=""></a>orders_sd <span class="ot">&lt;-</span> <span class="dv">60</span></span>
-<span id="cb42-3"><a href=""></a>cutoff_z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.90</span>)</span>
-<span id="cb42-4"><a href=""></a><span class="fu">round</span>(cutoff_z, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.90</span>)</span>
+<span id="cb43-2"><a href=""></a></span>
+<span id="cb43-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.2816</code></pre>
+<pre><code>[1] 1.281552</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="fu">round</span>(cutoff_z <span class="sc">*</span> orders_sd <span class="sc">+</span> orders_mean, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>z <span class="sc">*</span> <span class="dv">60</span> <span class="sc">+</span> <span class="dv">480</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 556.89</code></pre>
+<pre><code>[1] 556.8931</code></pre>
 </div>
 </div>
 </div>
@@ -1289,15 +1255,15 @@
 <p><strong>步驟 3</strong> <span class="math inline">X = z\sigma + \mu = (-0.8416)(5) + 48 = 43.79</span></p>
 <p>運量最低的 <span class="math inline">20\%</span> 平日，進站人次少於 <span class="math inline">43.79</span> 千人次。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>passenger_mean <span class="ot">&lt;-</span> <span class="dv">48</span></span>
-<span id="cb46-2"><a href=""></a>passenger_sd <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb46-3"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fl">0.20</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.20</span>)</span>
+<span id="cb47-2"><a href=""></a></span>
+<span id="cb47-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.8416</code></pre>
+<pre><code>[1] -0.8416212</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fl">0.20</span>) <span class="sc">*</span> passenger_sd <span class="sc">+</span> passenger_mean, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>z <span class="sc">*</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">48</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 43.79</code></pre>
+<pre><code>[1] 43.79189</code></pre>
 </div>
 </div>
 </div>
@@ -1320,10 +1286,13 @@
 <p><strong>步驟 3</strong> <span class="math inline">X_1 = (-0.8416)(5) + 48 = 43.79</span>，<span class="math inline">X_2 = (0.8416)(5) + 48 = 52.21</span>。</p>
 <p>運量居中 <span class="math inline">60\%</span> 的平日，進站人次介於 <span class="math inline">43.79</span> 與 <span class="math inline">52.21</span> 千人次之間。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>middle_bounds <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.80</span>)) <span class="sc">*</span> passenger_sd <span class="sc">+</span> passenger_mean</span>
-<span id="cb50-2"><a href=""></a><span class="fu">round</span>(middle_bounds, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.20</span>) <span class="sc">*</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">48</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 43.79 52.21</code></pre>
+<pre><code>[1] 43.79189</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.80</span>) <span class="sc">*</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">48</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 52.20811</code></pre>
 </div>
 </div>
 </div>
@@ -1382,49 +1351,15 @@
 <div class="callout-content">
 <p><strong>步驟 1</strong> 建立次數分配表並繪製直方圖（圖 6-30）。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>lead_days <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">35</span>, <span class="dv">38</span>, <span class="dv">42</span>, <span class="dv">45</span>, <span class="dv">47</span>,</span>
-<span id="cb53-2"><a href=""></a>               <span class="dv">49</span>, <span class="dv">52</span>, <span class="dv">56</span>, <span class="dv">59</span>, <span class="dv">63</span>, <span class="dv">68</span>, <span class="dv">74</span>, <span class="dv">81</span>, <span class="dv">93</span>)</span>
-<span id="cb53-3"><a href=""></a>lead_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">9.5</span>, <span class="fl">99.5</span>, <span class="at">by =</span> <span class="dv">15</span>)</span>
-<span id="cb53-4"><a href=""></a>lead_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"10-24"</span>, <span class="st">"25-39"</span>, <span class="st">"40-54"</span>, <span class="st">"55-69"</span>, <span class="st">"70-84"</span>, <span class="st">"85-99"</span>)</span>
-<span id="cb53-5"><a href=""></a>lead_freq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb53-6"><a href=""></a>  <span class="at">Class =</span> lead_labels,</span>
-<span id="cb53-7"><a href=""></a>  <span class="at">Frequency =</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(<span class="fu">cut</span>(lead_days, lead_breaks, <span class="at">labels =</span> lead_labels))))</span>
-<span id="cb53-8"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(lead_freq, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Class</th>
-<th style="text-align: center;">Frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">10-24</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">25-39</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">40-54</td>
-<td style="text-align: center;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">55-69</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">70-84</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">85-99</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>lead_days <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">35</span>, <span class="dv">38</span>, <span class="dv">42</span>, <span class="dv">45</span>, <span class="dv">47</span>,</span>
+<span id="cb56-2"><a href=""></a>               <span class="dv">49</span>, <span class="dv">52</span>, <span class="dv">56</span>, <span class="dv">59</span>, <span class="dv">63</span>, <span class="dv">68</span>, <span class="dv">74</span>, <span class="dv">81</span>, <span class="dv">93</span>)</span>
+<span id="cb56-3"><a href=""></a>lead_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">9.5</span>, <span class="fl">99.5</span>, <span class="at">by =</span> <span class="dv">15</span>)</span>
+<span id="cb56-4"><a href=""></a></span>
+<span id="cb56-5"><a href=""></a><span class="fu">table</span>(<span class="fu">cut</span>(lead_days, lead_breaks))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ (9.5,24.5] (24.5,39.5] (39.5,54.5] (54.5,69.5] (69.5,84.5] (84.5,99.5] 
+          2           4           5           4           2           1 </code></pre>
 </div>
 </div>
 </div>
@@ -1444,10 +1379,9 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(lead_days), <span class="fu">aes</span>(lead_days)) <span class="sc">+</span></span>
-<span id="cb54-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> lead_breaks, <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb54-3"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> lead_breaks) <span class="sc">+</span></span>
-<span id="cb54-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-11 的直方圖"</span>, <span class="at">x =</span> <span class="st">"天數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(lead_days), <span class="fu">aes</span>(lead_days)) <span class="sc">+</span></span>
+<span id="cb58-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> lead_breaks, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb58-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-11 的直方圖"</span>, <span class="at">x =</span> <span class="st">"天數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1472,7 +1406,26 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 2</strong> 檢查偏斜程度：<span class="math inline">\bar{X} = 49.67</span>、中位數 <span class="math inline">= 48</span>、<span class="math inline">s = 21.17</span>，故 <span class="math display">PC = \frac{3(49.67 - 48)}{21.17} = 0.236</span> <span class="math inline">PC</span> 既不大於 <span class="math inline">+1</span> 也不小於 <span class="math inline">-1</span>，故此分佈<strong>未顯著偏斜</strong>。</p>
+<p><strong>步驟 2</strong> 檢查偏斜程度：<span class="math inline">\bar{X} = 49.67</span>、中位數 <span class="math inline">= 48</span>、<span class="math inline">s = 21.17</span>，故 <span class="math display">PC = \frac{3(49.67 - 48)}{21.17} = 0.236</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a><span class="fu">mean</span>(lead_days)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 49.66667</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">median</span>(lead_days)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 48</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="fu">sd</span>(lead_days)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21.16601</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="dv">3</span> <span class="sc">*</span> (<span class="fu">mean</span>(lead_days) <span class="sc">-</span> <span class="fu">median</span>(lead_days)) <span class="sc">/</span> <span class="fu">sd</span>(lead_days)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2362278</code></pre>
+</div>
+</div>
+<p><span class="math inline">PC</span> 既不大於 <span class="math inline">+1</span> 也不小於 <span class="math inline">-1</span>，故此分佈<strong>未顯著偏斜</strong>。</p>
 </div>
 </div>
 </div>
@@ -1490,25 +1443,22 @@
 <div class="callout-content">
 <p><strong>步驟 3</strong> 檢查離群值：<span class="math inline">Q_1 = 35.75</span>、<span class="math inline">Q_3 = 62</span>，故 <span class="math inline">IQR = 26.25</span>。離群值須低於 <span class="math inline">35.75 - 1.5(26.25) = -3.62</span> 或高於 <span class="math inline">62 + 1.5(26.25) = 101.38</span>，故<strong>沒有離群值</strong>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(lead_days), <span class="at">median =</span> <span class="fu">median</span>(lead_days), <span class="at">s =</span> <span class="fu">sd</span>(lead_days)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">quantile</span>(lead_days, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  mean median      s 
- 49.67  48.00  21.17 </code></pre>
+<pre><code>  25%   75% 
+35.75 62.00 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">round</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="fu">mean</span>(lead_days) <span class="sc">-</span> <span class="fu">median</span>(lead_days)) <span class="sc">/</span> <span class="fu">sd</span>(lead_days), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">IQR</span>(lead_days)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.236</code></pre>
+<pre><code>[1] 26.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>lead_quartiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(lead_days, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))</span>
-<span id="cb59-2"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(lead_quartiles, <span class="at">IQR =</span> <span class="fu">IQR</span>(lead_days)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fl">35.75</span> <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fl">26.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  25%   75%   IQR 
-35.75 62.00 26.25 </code></pre>
+<pre><code>[1] -3.625</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">round</span>(lead_quartiles <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>) <span class="sc">*</span> <span class="fu">IQR</span>(lead_days), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="dv">62</span> <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="fl">26.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   25%    75% 
- -3.62 101.38 </code></pre>
+<pre><code>[1] 101.375</code></pre>
 </div>
 </div>
 <p>鐘形、未顯著偏斜、無離群值：此分佈<strong>近似常態分佈</strong>。</p>
@@ -1548,51 +1498,19 @@
 <div class="callout-content">
 <p><strong>步驟 1</strong> 建立次數分配表並繪製直方圖（圖 6-31）。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>customers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">142</span>,  <span class="dv">95</span>, <span class="dv">131</span>, <span class="dv">152</span>, <span class="dv">108</span>, <span class="dv">145</span>,</span>
-<span id="cb64-2"><a href=""></a>               <span class="dv">149</span>,  <span class="dv">25</span>, <span class="dv">139</span>, <span class="dv">118</span>, <span class="dv">151</span>, <span class="dv">135</span>,</span>
-<span id="cb64-3"><a href=""></a>               <span class="dv">125</span>,  <span class="dv">60</span>, <span class="dv">147</span>,  <span class="dv">78</span>,  <span class="dv">42</span>)</span>
-<span id="cb64-4"><a href=""></a>customer_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">24.5</span>, <span class="fl">174.5</span>, <span class="at">by =</span> <span class="dv">25</span>)</span>
-<span id="cb64-5"><a href=""></a>customer_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"25-49"</span>, <span class="st">"50-74"</span>, <span class="st">"75-99"</span>, <span class="st">"100-124"</span>, <span class="st">"125-149"</span>, <span class="st">"150-174"</span>)</span>
-<span id="cb64-6"><a href=""></a>customer_freq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb64-7"><a href=""></a>  <span class="at">Class =</span> customer_labels,</span>
-<span id="cb64-8"><a href=""></a>  <span class="at">Frequency =</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(<span class="fu">cut</span>(customers, customer_breaks,</span>
-<span id="cb64-9"><a href=""></a>                                   <span class="at">labels =</span> customer_labels))))</span>
-<span id="cb64-10"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(customer_freq, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Class</th>
-<th style="text-align: center;">Frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">25-49</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">50-74</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">75-99</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">100-124</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">125-149</td>
-<td style="text-align: center;">8</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">150-174</td>
-<td style="text-align: center;">2</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>customers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">142</span>,  <span class="dv">95</span>, <span class="dv">131</span>, <span class="dv">152</span>, <span class="dv">108</span>, <span class="dv">145</span>,</span>
+<span id="cb76-2"><a href=""></a>               <span class="dv">149</span>,  <span class="dv">25</span>, <span class="dv">139</span>, <span class="dv">118</span>, <span class="dv">151</span>, <span class="dv">135</span>,</span>
+<span id="cb76-3"><a href=""></a>               <span class="dv">125</span>,  <span class="dv">60</span>, <span class="dv">147</span>,  <span class="dv">78</span>,  <span class="dv">42</span>)</span>
+<span id="cb76-4"><a href=""></a>customer_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">24.5</span>, <span class="fl">174.5</span>, <span class="at">by =</span> <span class="dv">25</span>)</span>
+<span id="cb76-5"><a href=""></a></span>
+<span id="cb76-6"><a href=""></a><span class="co"># dig.lab = 4 讓 124.5 這類組界完整顯示</span></span>
+<span id="cb76-7"><a href=""></a><span class="fu">table</span>(<span class="fu">cut</span>(customers, customer_breaks, <span class="at">dig.lab =</span> <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  (24.5,49.5]   (49.5,74.5]   (74.5,99.5]  (99.5,124.5] (124.5,149.5] 
+            2             1             2             2             8 
+(149.5,174.5] 
+            2 </code></pre>
 </div>
 </div>
 </div>
@@ -1612,10 +1530,9 @@
 <div class="callout-content">
 <p><strong>繪製圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(customers), <span class="fu">aes</span>(customers)) <span class="sc">+</span></span>
-<span id="cb65-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> customer_breaks, <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb65-3"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> customer_breaks) <span class="sc">+</span></span>
-<span id="cb65-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-12 的直方圖"</span>, <span class="at">x =</span> <span class="st">"來客數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(customers), <span class="fu">aes</span>(customers)) <span class="sc">+</span></span>
+<span id="cb78-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> customer_breaks, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb78-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-12 的直方圖"</span>, <span class="at">x =</span> <span class="st">"來客數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1640,7 +1557,26 @@
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 2</strong> 檢查偏斜程度：<span class="math inline">\bar{X} = 114.24</span>、中位數 <span class="math inline">= 131</span>、<span class="math inline">s = 40.37</span>，故 <span class="math display">PC = \frac{3(114.24 - 131)}{40.37} = -1.25</span> 由於 <span class="math inline">PC</span> 小於 <span class="math inline">-1</span>，此分佈<strong>顯著左偏</strong>。</p>
+<p><strong>步驟 2</strong> 檢查偏斜程度：<span class="math inline">\bar{X} = 114.24</span>、中位數 <span class="math inline">= 131</span>、<span class="math inline">s = 40.37</span>，故 <span class="math display">PC = \frac{3(114.24 - 131)}{40.37} = -1.25</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="fu">mean</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 114.2353</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="fu">median</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 131</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">sd</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40.37098</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="dv">3</span> <span class="sc">*</span> (<span class="fu">mean</span>(customers) <span class="sc">-</span> <span class="fu">median</span>(customers)) <span class="sc">/</span> <span class="fu">sd</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.245799</code></pre>
+</div>
+</div>
+<p>由於 <span class="math inline">PC</span> 小於 <span class="math inline">-1</span>，此分佈<strong>顯著左偏</strong>。</p>
 </div>
 </div>
 </div>
@@ -1658,25 +1594,22 @@
 <div class="callout-content">
 <p><strong>步驟 3</strong> 檢查離群值：<span class="math inline">Q_1 = 95</span>、<span class="math inline">Q_3 = 145</span>、<span class="math inline">IQR = 50</span>。低於 <span class="math inline">95 - 1.5(50) = 20</span> 或高於 <span class="math inline">145 + 1.5(50) = 220</span> 者為離群值，故<strong>沒有離群值</strong>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(customers), <span class="at">median =</span> <span class="fu">median</span>(customers), <span class="at">s =</span> <span class="fu">sd</span>(customers)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  mean median      s 
-114.24 131.00  40.37 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="fu">round</span>(<span class="dv">3</span> <span class="sc">*</span> (<span class="fu">mean</span>(customers) <span class="sc">-</span> <span class="fu">median</span>(customers)) <span class="sc">/</span> <span class="fu">sd</span>(customers), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.25</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>customer_quartiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(customers, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))</span>
-<span id="cb70-2"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(customer_quartiles, <span class="at">IQR =</span> <span class="fu">IQR</span>(customers)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>25% 75% IQR 
- 95 145  50 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="fu">round</span>(customer_quartiles <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>) <span class="sc">*</span> <span class="fu">IQR</span>(customers), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a><span class="fu">quantile</span>(customers, <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>25% 75% 
- 20 220 </code></pre>
+ 95 145 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a><span class="fu">IQR</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a><span class="dv">95</span> <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a><span class="dv">145</span> <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> <span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 220</code></pre>
 </div>
 </div>
 <p>總結而言，此分佈<strong>顯著左偏</strong>。</p>
@@ -1688,15 +1621,25 @@
 <h2>以 R 繪製常態分位圖</h2>
 <p>另一種檢查常態性的方法是繪製<strong>常態分位圖</strong>。<strong>分位數</strong>（有時稱為<strong>分割數</strong>）是把資料集分成大致相等群組的數值。常態分位圖將資料值對應到各分位數的 <span class="math inline">z</span> 值上作圖。<strong>若各點未大致落在一條直線上，即可否定常態性。</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>quantile_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(values, title)</span>
-<span id="cb74-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(values), <span class="fu">aes</span>(<span class="at">sample =</span> values)) <span class="sc">+</span></span>
-<span id="cb74-3"><a href=""></a>  <span class="fu">stat_qq</span>(<span class="at">colour =</span> <span class="st">"#2c4a6e"</span>) <span class="sc">+</span> <span class="fu">stat_qq_line</span>(<span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb74-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"理論分位數 (z)"</span>, <span class="at">y =</span> <span class="st">"樣本分位數"</span>)</span>
-<span id="cb74-5"><a href=""></a><span class="fu">grid.arrange</span>(<span class="fu">quantile_plot</span>(lead_days, <span class="st">"範例 6-11：供應商備料天數"</span>),</span>
-<span id="cb74-6"><a href=""></a>             <span class="fu">quantile_plot</span>(customers, <span class="st">"範例 6-12：夜市攤位來客數"</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(lead_days), <span class="fu">aes</span>(<span class="at">sample =</span> lead_days)) <span class="sc">+</span></span>
+<span id="cb95-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb95-3"><a href=""></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb95-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-11：供應商備料天數"</span>,</span>
+<span id="cb95-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"理論分位數 (z)"</span>, <span class="at">y =</span> <span class="st">"樣本分位數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch6-zh_files/figure-revealjs/s6-2-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><p>其他方法還包括常態機率座標紙、卡方適合度檢定（第11章）、Kolmogorov-Smirnov 檢定與 Lilliefors 檢定。</p>
+<img data-src="ch6-zh_files/figure-revealjs/s6-2-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"></section>
+<section id="以-r-繪製常態分位圖-1" class="slide level2">
+<h2>以 R 繪製常態分位圖</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(customers), <span class="fu">aes</span>(<span class="at">sample =</span> customers)) <span class="sc">+</span></span>
+<span id="cb96-2"><a href=""></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb96-3"><a href=""></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb96-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"範例 6-12：夜市攤位來客數"</span>,</span>
+<span id="cb96-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"理論分位數 (z)"</span>, <span class="at">y =</span> <span class="st">"樣本分位數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="ch6-zh_files/figure-revealjs/s6-2-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><p>其他方法還包括常態機率座標紙、卡方適合度檢定（第11章）、Kolmogorov-Smirnov 檢定與 Lilliefors 檢定。</p>
 </section></section>
 <section>
 <section id="第-6-3-節中央極限定理" class="title-slide slide level1 center" data-background-color="#2c4a6e">
@@ -1758,13 +1701,16 @@
 <h2>十分小考的示範</h2>
 <p>某講師對一班四位學生進行滿分 <span class="math inline">10</span> 分的小考，成績為 <span class="math inline">3</span>、<span class="math inline">5</span>、<span class="math inline">7</span>、<span class="math inline">9</span>。將這四位學生視為母體。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a>quiz_scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
-<span id="cb75-2"><a href=""></a>population_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(quiz_scores)</span>
-<span id="cb75-3"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((quiz_scores <span class="sc">-</span> population_mean)<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb75-4"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> population_mean, <span class="at">sd =</span> population_sd), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href=""></a>quiz_scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
+<span id="cb97-2"><a href=""></a></span>
+<span id="cb97-3"><a href=""></a><span class="fu">mean</span>(quiz_scores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> mean    sd 
-6.000 2.236 </code></pre>
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((quiz_scores <span class="sc">-</span> <span class="dv">6</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="dv">4</span>)</span>
+<span id="cb99-2"><a href=""></a>sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.236068</code></pre>
 </div>
 </div>
 <p>原分佈的圖形為<strong>均勻分佈</strong>（圖 6-32）：每個分數各出現一次。</p>
@@ -1773,73 +1719,38 @@
 <h2>十分小考的示範</h2>
 <p><strong>取出放回</strong>抽取所有大小為 <span class="math inline">2</span> 的樣本，並計算各樣本的平均數：</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a>sample_pairs <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">first =</span> quiz_scores, <span class="at">second =</span> quiz_scores)</span>
-<span id="cb77-2"><a href=""></a>sample_pairs<span class="sc">$</span>sample_mean <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(sample_pairs[<span class="fu">c</span>(<span class="st">"first"</span>, <span class="st">"second"</span>)])</span>
-<span id="cb77-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(<span class="fu">table</span>(<span class="at">Mean =</span> sample_pairs<span class="sc">$</span>sample_mean)), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Mean</th>
-<th style="text-align: center;">Freq</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">9</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a>samples <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">first =</span> quiz_scores, <span class="at">second =</span> quiz_scores)</span>
+<span id="cb101-2"><a href=""></a>sample_means <span class="ot">&lt;-</span> (samples<span class="sc">$</span>first <span class="sc">+</span> samples<span class="sc">$</span>second) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb101-3"><a href=""></a></span>
+<span id="cb101-4"><a href=""></a><span class="fu">table</span>(sample_means)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sample_means
+3 4 5 6 7 8 9 
+1 2 3 4 3 2 1 </code></pre>
 </div>
 </div>
 </section>
 <section id="十分小考的示範-2" class="slide level2">
 <h2>十分小考的示範</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="fu">ggplot</span>(sample_pairs, <span class="fu">aes</span>(sample_mean)) <span class="sc">+</span></span>
-<span id="cb78-2"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb78-3"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">9</span>) <span class="sc">+</span></span>
-<span id="cb78-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"圖 6-33：樣本平均數的分佈"</span>,</span>
-<span id="cb78-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"樣本平均數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(sample_means), <span class="fu">aes</span>(sample_means)) <span class="sc">+</span></span>
+<span id="cb103-2"><a href=""></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb103-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"圖 6-33：樣本平均數的分佈"</span>,</span>
+<span id="cb103-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"樣本平均數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-3-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:60.0%"><div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="fu">mean</span>(sample_pairs<span class="sc">$</span>sample_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href=""></a><span class="fu">mean</span>(sample_means)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">mean</span>((sample_pairs<span class="sc">$</span>sample_mean <span class="sc">-</span> population_mean)<span class="sc">^</span><span class="dv">2</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href=""></a><span class="fu">sqrt</span>(<span class="fu">sum</span>((sample_means <span class="sc">-</span> <span class="dv">6</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.581</code></pre>
+<pre><code>[1] 1.581139</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">round</span>(population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href=""></a>sigma <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.581</code></pre>
+<pre><code>[1] 1.581139</code></pre>
 </div>
 </div>
 <p>樣本平均數的直方圖近似常態，樣本平均數的平均數等於母體平均數，樣本平均數的標準差則等於 <span class="math inline">\sigma/\sqrt{n}</span>。</p>
@@ -1927,17 +1838,20 @@
 <section id="以-r-展示中央極限定理" class="slide level2">
 <h2>以 R 展示中央極限定理</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb85-2"><a href=""></a>skewed_means <span class="ot">&lt;-</span> <span class="cf">function</span>(n)                <span class="co"># rate = 0.5 的母體高度偏斜</span></span>
-<span id="cb85-3"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">sample_mean =</span> <span class="fu">colMeans</span>(<span class="fu">matrix</span>(<span class="fu">rexp</span>(n <span class="sc">*</span> <span class="dv">2000</span>, <span class="at">rate =</span> <span class="fl">0.5</span>), <span class="at">nrow =</span> n)),</span>
-<span id="cb85-4"><a href=""></a>             <span class="at">size =</span> <span class="fu">paste</span>(<span class="st">"n ="</span>, n))</span>
-<span id="cb85-5"><a href=""></a>simulation <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">skewed_means</span>(<span class="dv">2</span>), <span class="fu">skewed_means</span>(<span class="dv">10</span>), <span class="fu">skewed_means</span>(<span class="dv">30</span>))</span>
-<span id="cb85-6"><a href=""></a><span class="fu">ggplot</span>(simulation, <span class="fu">aes</span>(sample_mean)) <span class="sc">+</span></span>
-<span id="cb85-7"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb85-8"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="fu">factor</span>(size, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"n = 2"</span>, <span class="st">"n = 10"</span>, <span class="st">"n = 30"</span>)),</span>
-<span id="cb85-9"><a href=""></a>             <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb85-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"樣本數愈大，樣本平均數愈趨近常態"</span>,</span>
-<span id="cb85-11"><a href=""></a>       <span class="at">x =</span> <span class="st">"樣本平均數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb110-2"><a href=""></a><span class="co"># rate = 0.5 的母體高度偏斜</span></span>
+<span id="cb110-3"><a href=""></a>simulation <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb110-4"><a href=""></a>  <span class="at">size        =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"(a) n = 2"</span>, <span class="st">"(b) n = 10"</span>, <span class="st">"(c) n = 30"</span>), <span class="at">each =</span> <span class="dv">2000</span>),</span>
+<span id="cb110-5"><a href=""></a>  <span class="at">sample_mean =</span> <span class="fu">c</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">rexp</span>(<span class="dv">2</span>, <span class="at">rate =</span> <span class="fl">0.5</span>))),</span>
+<span id="cb110-6"><a href=""></a>                  <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">rexp</span>(<span class="dv">10</span>, <span class="at">rate =</span> <span class="fl">0.5</span>))),</span>
+<span id="cb110-7"><a href=""></a>                  <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">rexp</span>(<span class="dv">30</span>, <span class="at">rate =</span> <span class="fl">0.5</span>))))</span>
+<span id="cb110-8"><a href=""></a>)</span>
+<span id="cb110-9"><a href=""></a></span>
+<span id="cb110-10"><a href=""></a><span class="fu">ggplot</span>(simulation, <span class="fu">aes</span>(sample_mean)) <span class="sc">+</span></span>
+<span id="cb110-11"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb110-12"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> size, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb110-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"樣本數愈大，樣本平均數愈趨近常態"</span>,</span>
+<span id="cb110-14"><a href=""></a>       <span class="at">x =</span> <span class="st">"樣本平均數"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-3-5-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"></section>
@@ -1974,16 +1888,15 @@
 <p><strong>步驟 2</strong> <span class="math inline">z = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}} = \dfrac{5.0 - 4.5}{0.25} = 2.00</span></p>
 <p><strong>步驟 3</strong> <span class="math inline">2.00</span> 右側的面積為 <span class="math inline">1.0000 - 0.9772 = 0.0228</span>，即 <span class="math inline">2.28\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a>call_mean <span class="ot">&lt;-</span> <span class="fl">4.5</span></span>
-<span id="cb86-2"><a href=""></a>call_sd <span class="ot">&lt;-</span> <span class="fl">1.25</span></span>
-<span id="cb86-3"><a href=""></a>call_se <span class="ot">&lt;-</span> call_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">25</span>)</span>
-<span id="cb86-4"><a href=""></a>call_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a>se <span class="ot">&lt;-</span> <span class="fl">1.25</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">25</span>)</span>
+<span id="cb111-2"><a href=""></a></span>
+<span id="cb111-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">5.0</span>, call_mean, call_se, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.0</span>, <span class="at">mean =</span> <span class="fl">4.5</span>, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0228</code></pre>
+<pre><code>[1] 0.02275013</code></pre>
 </div>
 </div>
 <p>這 <span class="math inline">25</span> 通來電平均通話時間超過 <span class="math inline">5.0</span> 分鐘的機率為 <strong>2.28%</strong>。</p>
@@ -2022,15 +1935,15 @@
 <p><strong>步驟 2</strong> 標準誤為 <span class="math inline">18/\sqrt{36} = 3</span>，故 <span class="math inline">z_1 = \dfrac{114 - 120}{3} = -2</span>，<span class="math inline">z_2 = \dfrac{123 - 120}{3} = 1</span>。</p>
 <p><strong>步驟 3</strong> <span class="math inline">z = -2</span> 的面積為 <span class="math inline">0.0228</span>，<span class="math inline">z = 1</span> 的面積為 <span class="math inline">0.8413</span>，故兩者之間的面積為 <span class="math inline">0.8413 - 0.0228 = 0.8186</span>，即 <span class="math inline">81.86\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a>parcel_mean <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb90-2"><a href=""></a>parcel_se <span class="ot">&lt;-</span> <span class="dv">18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb90-3"><a href=""></a>parcel_se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a>se <span class="ot">&lt;-</span> <span class="dv">18</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb115-2"><a href=""></a></span>
+<span id="cb115-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="dv">123</span>, parcel_mean, parcel_se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">114</span>, parcel_mean, parcel_se), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a><span class="fu">pnorm</span>(<span class="dv">123</span>, <span class="at">mean =</span> <span class="dv">120</span>, <span class="at">sd =</span> se) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">114</span>, <span class="at">mean =</span> <span class="dv">120</span>, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8186</code></pre>
+<pre><code>[1] 0.8185946</code></pre>
 </div>
 </div>
 </div>
@@ -2071,11 +1984,9 @@
 <p><strong>步驟 3</strong> <span class="math inline">z = 0.20</span> 左側的面積為 <span class="math inline">0.5793</span>。</p>
 <p>隨機選取一批通關時間少於 <span class="math inline">3.3</span> 天的貨物，其機率為 <span class="math inline">0.5793</span>，即 <span class="math inline">57.93\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a>clearance_mean <span class="ot">&lt;-</span> <span class="fl">3.2</span></span>
-<span id="cb94-2"><a href=""></a>clearance_sd <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb94-3"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">3.3</span>, clearance_mean, clearance_sd), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">3.3</span>, <span class="at">mean =</span> <span class="fl">3.2</span>, <span class="at">sd =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5793</code></pre>
+<pre><code>[1] 0.5792597</code></pre>
 </div>
 </div>
 </div>
@@ -2097,14 +2008,15 @@
 <p><strong>步驟 2</strong> <span class="math inline">z = \dfrac{3.3 - 3.2}{0.5/\sqrt{36}} = 1.20</span></p>
 <p><strong>步驟 3</strong> <span class="math inline">z = 1.20</span> 對應的面積為 <span class="math inline">0.8849</span>，即 <span class="math inline">88.49\%</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a>clearance_se <span class="ot">&lt;-</span> clearance_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb96-2"><a href=""></a><span class="fu">round</span>(clearance_se, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a>se <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb121-2"><a href=""></a></span>
+<span id="cb121-3"><a href=""></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0833</code></pre>
+<pre><code>[1] 0.08333333</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">3.3</span>, clearance_mean, clearance_se), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">3.3</span>, <span class="at">mean =</span> <span class="fl">3.2</span>, <span class="at">sd =</span> se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8849</code></pre>
+<pre><code>[1] 0.8849303</code></pre>
 </div>
 </div>
 <ol type="a">
@@ -2224,15 +2136,18 @@
 <section id="np-geq-5-與-nq-geq-5-的條件續" class="slide level2">
 <h2><span class="math inline">np \geq 5</span> 與 <span class="math inline">nq \geq 5</span> 的條件（續）</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a>binomial_shapes <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb100-2"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">probability =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="fl">0.3</span>),</span>
-<span id="cb100-3"><a href=""></a>             <span class="at">label =</span> <span class="st">"n = 10, p = 0.3 (np = 3)"</span>),</span>
-<span id="cb100-4"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">probability =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="fl">0.5</span>),</span>
-<span id="cb100-5"><a href=""></a>             <span class="at">label =</span> <span class="st">"n = 10, p = 0.5 (np = 5, nq = 5)"</span>))</span>
-<span id="cb100-6"><a href=""></a><span class="fu">ggplot</span>(binomial_shapes, <span class="fu">aes</span>(x, probability)) <span class="sc">+</span></span>
-<span id="cb100-7"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span> label) <span class="sc">+</span></span>
-<span id="cb100-8"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"圖 6-39：二項分佈與常態分佈的比較"</span>,</span>
-<span id="cb100-9"><a href=""></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href=""></a>binomial_shapes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb125-2"><a href=""></a>  <span class="at">label       =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"n = 10, p = 0.3 (np = 3)"</span>, <span class="st">"n = 10, p = 0.5 (np = 5, nq = 5)"</span>),</span>
+<span id="cb125-3"><a href=""></a>                    <span class="at">each =</span> <span class="dv">11</span>),</span>
+<span id="cb125-4"><a href=""></a>  <span class="at">x           =</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb125-5"><a href=""></a>  <span class="at">probability =</span> <span class="fu">c</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="fl">0.3</span>), <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="fl">0.5</span>))</span>
+<span id="cb125-6"><a href=""></a>)</span>
+<span id="cb125-7"><a href=""></a></span>
+<span id="cb125-8"><a href=""></a><span class="fu">ggplot</span>(binomial_shapes, <span class="fu">aes</span>(x, probability)) <span class="sc">+</span></span>
+<span id="cb125-9"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb125-10"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> label) <span class="sc">+</span></span>
+<span id="cb125-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"圖 6-39：二項分佈與常態分佈的比較"</span>,</span>
+<span id="cb125-12"><a href=""></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch6-zh_files/figure-revealjs/s6-4-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"></section>
@@ -2371,22 +2286,26 @@
 <div class="callout-content">
 <p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a>n_buyers <span class="ot">&lt;-</span> <span class="dv">150</span></span>
-<span id="cb101-2"><a href=""></a>p_pickup <span class="ot">&lt;-</span> <span class="fl">0.30</span></span>
-<span id="cb101-3"><a href=""></a>mu <span class="ot">&lt;-</span> n_buyers <span class="sc">*</span> p_pickup</span>
-<span id="cb101-4"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_buyers <span class="sc">*</span> p_pickup <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_pickup))</span>
-<span id="cb101-5"><a href=""></a><span class="fu">c</span>(<span class="at">np =</span> mu, <span class="at">nq =</span> n_buyers <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_pickup), <span class="at">sigma =</span> <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href=""></a><span class="dv">150</span> <span class="sc">*</span> <span class="fl">0.30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    np     nq  sigma 
- 45.00 105.00   5.61 </code></pre>
+<pre><code>[1] 45</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">52.5</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">51.5</span>, mu, sigma), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href=""></a><span class="dv">150</span> <span class="sc">*</span> <span class="fl">0.70</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0327</code></pre>
+<pre><code>[1] 105</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">52</span>, n_buyers, p_pickup), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">150</span> <span class="sc">*</span> <span class="fl">0.30</span> <span class="sc">*</span> <span class="fl">0.70</span>)</span>
+<span id="cb130-2"><a href=""></a>sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.032</code></pre>
+<pre><code>[1] 5.612486</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">52.5</span>, <span class="at">mean =</span> <span class="dv">45</span>, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">51.5</span>, <span class="at">mean =</span> <span class="dv">45</span>, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03268047</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">52</span>, <span class="dv">150</span>, <span class="fl">0.30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03204717</code></pre>
 </div>
 </div>
 <p>常態近似的結果為 <strong>0.0327</strong>，精確的二項機率則為 <span class="math inline">0.032</span>。</p>
@@ -2444,22 +2363,26 @@
 <div class="callout-content">
 <p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href=""></a>n_orders <span class="ot">&lt;-</span> <span class="dv">240</span></span>
-<span id="cb107-2"><a href=""></a>p_return <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
-<span id="cb107-3"><a href=""></a>mu <span class="ot">&lt;-</span> n_orders <span class="sc">*</span> p_return</span>
-<span id="cb107-4"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_orders <span class="sc">*</span> p_return <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_return))</span>
-<span id="cb107-5"><a href=""></a><span class="fu">c</span>(<span class="at">np =</span> mu, <span class="at">nq =</span> n_orders <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_return), <span class="at">sigma =</span> <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a><span class="dv">240</span> <span class="sc">*</span> <span class="fl">0.15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    np     nq  sigma 
- 36.00 204.00   5.53 </code></pre>
+<pre><code>[1] 36</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">23.5</span>, mu, sigma, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a><span class="dv">240</span> <span class="sc">*</span> <span class="fl">0.85</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9881</code></pre>
+<pre><code>[1] 204</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pbinom</span>(<span class="dv">23</span>, n_orders, p_return, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">240</span> <span class="sc">*</span> <span class="fl">0.15</span> <span class="sc">*</span> <span class="fl">0.85</span>)</span>
+<span id="cb140-2"><a href=""></a>sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.991</code></pre>
+<pre><code>[1] 5.531727</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">23.5</span>, <span class="at">mean =</span> <span class="dv">36</span>, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9880798</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">23</span>, <span class="dv">240</span>, <span class="fl">0.15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9909863</code></pre>
 </div>
 </div>
 <p>隨機選取 <span class="math inline">240</span> 筆訂單中有 <span class="math inline">24</span> 筆以上被退貨的機率為 <strong>98.81%</strong>；精確的二項機率為 <span class="math inline">0.991</span>。</p>
@@ -2517,22 +2440,26 @@
 <div class="callout-content">
 <p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a>n_shoppers <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb113-2"><a href=""></a>p_wallet <span class="ot">&lt;-</span> <span class="fl">0.45</span></span>
-<span id="cb113-3"><a href=""></a>mu <span class="ot">&lt;-</span> n_shoppers <span class="sc">*</span> p_wallet</span>
-<span id="cb113-4"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_shoppers <span class="sc">*</span> p_wallet <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_wallet))</span>
-<span id="cb113-5"><a href=""></a><span class="fu">c</span>(<span class="at">np =</span> mu, <span class="at">nq =</span> n_shoppers <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_wallet), <span class="at">sigma =</span> <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href=""></a><span class="dv">120</span> <span class="sc">*</span> <span class="fl">0.45</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   np    nq sigma 
-54.00 66.00  5.45 </code></pre>
+<pre><code>[1] 54</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">48.5</span>, mu, sigma), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href=""></a><span class="dv">120</span> <span class="sc">*</span> <span class="fl">0.55</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1564</code></pre>
+<pre><code>[1] 66</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pbinom</span>(<span class="dv">48</span>, n_shoppers, p_wallet), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">120</span> <span class="sc">*</span> <span class="fl">0.45</span> <span class="sc">*</span> <span class="fl">0.55</span>)</span>
+<span id="cb150-2"><a href=""></a>sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1564</code></pre>
+<pre><code>[1] 5.449771</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">48.5</span>, <span class="at">mean =</span> <span class="dv">54</span>, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1564353</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">48</span>, <span class="dv">120</span>, <span class="fl">0.45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1564182</code></pre>
 </div>
 </div>
 </div>
@@ -2588,22 +2515,26 @@
 <div class="callout-content">
 <p><strong>以 R 計算</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a>n_trials <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb119-2"><a href=""></a>p_success <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb119-3"><a href=""></a>mu <span class="ot">&lt;-</span> n_trials <span class="sc">*</span> p_success</span>
-<span id="cb119-4"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n_trials <span class="sc">*</span> p_success <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_success))</span>
-<span id="cb119-5"><a href=""></a><span class="fu">c</span>(<span class="at">np =</span> mu, <span class="at">nq =</span> n_trials <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_success), <span class="at">sigma =</span> <span class="fu">round</span>(sigma, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href=""></a><span class="dv">12</span> <span class="sc">*</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   np    nq sigma 
- 6.00  6.00  1.73 </code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">8</span>, n_trials, p_success), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href=""></a><span class="dv">12</span> <span class="sc">*</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1208</code></pre>
+<pre><code>[1] 6</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(<span class="fl">8.5</span>, mu, sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">7.5</span>, mu, sigma), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href=""></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">12</span> <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span>)</span>
+<span id="cb160-2"><a href=""></a>sigma</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1188</code></pre>
+<pre><code>[1] 1.732051</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">8</span>, <span class="dv">12</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1208496</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href=""></a><span class="fu">pnorm</span>(<span class="fl">8.5</span>, <span class="at">mean =</span> <span class="dv">6</span>, <span class="at">sd =</span> sigma) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">7.5</span>, <span class="at">mean =</span> <span class="dv">6</span>, <span class="at">sd =</span> sigma)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1187808</code></pre>
 </div>
 </div>
 </div>

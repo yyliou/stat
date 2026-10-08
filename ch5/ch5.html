@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -417,51 +417,17 @@ Yu-You Liou
 <p><strong>Prepare data</strong></p>
 <p>The sample space is <span class="math inline">1, 2, 3, 4, 5, 6, 7, 8</span> and each outcome has probability <span class="math inline">\frac{1}{8} = 0.125</span>, so the distribution is as shown.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>die8_dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">8</span>), <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-2"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(die8_dist, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">0.125</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">P =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X     P
+1 1 0.125
+2 2 0.125
+3 3 0.125
+4 4 0.125
+5 5 0.125
+6 6 0.125
+7 7 0.125
+8 8 0.125</code></pre>
 </div>
 </div>
 </div>
@@ -501,41 +467,15 @@ Probability  P(X)    1/16   4/16   6/16   4/16   1/16</code></pre>
 <p><strong>Prepare data</strong></p>
 <p>The values that <span class="math inline">X</span> assumes are located on the <span class="math inline">x</span> axis, and the values for <span class="math inline">P(X)</span> are located on the <span class="math inline">y</span> axis. The 16 equally likely outcomes give <span class="math inline">1, 4, 6, 4, 1</span> ways of obtaining <span class="math inline">0, 1, 2, 3, 4</span> heads.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>coin_heads <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb3-2"><a href=""></a>coin_prob  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">16</span></span>
-<span id="cb3-3"><a href=""></a>coin_dist  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> coin_heads, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> coin_prob, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(coin_dist, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0.0625</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.2500</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.3750</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.2500</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.0625</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>coin_dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">P =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">16</span>)</span>
+<span id="cb4-2"><a href=""></a>coin_dist</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X      P
+1 0 0.0625
+2 1 0.2500
+3 2 0.3750
+4 3 0.2500
+5 4 0.0625</code></pre>
 </div>
 </div>
 </div>
@@ -555,10 +495,9 @@ Probability  P(X)    1/16   4/16   6/16   4/16   1/16</code></pre>
 <div class="callout-content">
 <p><strong>Draw figure</strong> (Figure 5-1: Probability Distribution for Example 5-2)</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">ggplot</span>(coin_dist, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(X), <span class="at">y =</span> <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of heads"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">ggplot</span>(coin_dist, <span class="fu">aes</span>(X, P)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of heads"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -603,44 +542,14 @@ Frequency         10    20    15     5</code></pre>
 <div class="callout-content">
 <p><strong>Step 1 and Step 2</strong> — make the frequency distribution and divide each frequency by 50.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>courier_late <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb6-2"><a href=""></a>courier_freq <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">5</span>)</span>
-<span id="cb6-3"><a href=""></a>courier_prob <span class="ot">&lt;-</span> courier_freq <span class="sc">/</span> <span class="fu">sum</span>(courier_freq)</span>
-<span id="cb6-4"><a href=""></a>courier_dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> courier_late, <span class="at">Frequency =</span> courier_freq,</span>
-<span id="cb6-5"><a href=""></a>                           <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> courier_prob, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-6"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(courier_dist, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">Frequency</th>
-<th style="text-align: center;">P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">10</td>
-<td style="text-align: center;">0.2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">20</td>
-<td style="text-align: center;">0.4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">15</td>
-<td style="text-align: center;">0.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">0.1</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>courier_dist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">P =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">5</span>) <span class="sc">/</span> <span class="dv">50</span>)</span>
+<span id="cb8-2"><a href=""></a>courier_dist</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X   P
+1 1 0.2
+2 2 0.4
+3 3 0.3
+4 4 0.1</code></pre>
 </div>
 </div>
 </div>
@@ -660,10 +569,9 @@ Frequency         10    20    15     5</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 — draw the graph</strong> (Figure 5-2: Probability Distribution for Example 5-3)</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(courier_dist, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(X), <span class="at">y =</span> <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"darkorange"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb7-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Late deliveries"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">ggplot</span>(courier_dist, <span class="fu">aes</span>(X, P)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Late deliveries"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -736,18 +644,24 @@ d.  X     10    20    30    40
 <div class="callout-content">
 <p><strong>Check both requirements for each distribution</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>check_distribution <span class="ot">&lt;-</span> <span class="cf">function</span>(probs) {</span>
-<span id="cb9-2"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">sum_PX          =</span> <span class="fu">sum</span>(probs),</span>
-<span id="cb9-3"><a href=""></a>             <span class="at">all_between_0_1 =</span> <span class="fu">all</span>(probs <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> probs <span class="sc">&lt;=</span> <span class="dv">1</span>),</span>
-<span id="cb9-4"><a href=""></a>             <span class="at">is_distribution =</span> <span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">sum</span>(probs), <span class="dv">1</span>)) <span class="sc">&amp;&amp;</span></span>
-<span id="cb9-5"><a href=""></a>                               <span class="fu">all</span>(probs <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> probs <span class="sc">&lt;=</span> <span class="dv">1</span>))</span>
-<span id="cb9-6"><a href=""></a>}</span>
-<span id="cb9-7"><a href=""></a><span class="fu">rbind</span>(<span class="at">a =</span> <span class="fu">check_distribution</span>(<span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>)),</span>
-<span id="cb9-8"><a href=""></a>      <span class="at">b =</span> <span class="fu">check_distribution</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>prob_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.4</span>)</span>
+<span id="cb12-2"><a href=""></a>prob_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">8</span>)</span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a><span class="fu">sum</span>(prob_a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  sum_PX all_between_0_1 is_distribution
-a    1.2            TRUE           FALSE
-b    1.0            TRUE            TRUE</code></pre>
+<pre><code>[1] 1.2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">all</span>(prob_a <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> prob_a <span class="sc">&lt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">sum</span>(prob_b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">all</span>(prob_b <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> prob_b <span class="sc">&lt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 </div>
@@ -767,12 +681,24 @@ b    1.0            TRUE            TRUE</code></pre>
 <div class="callout-content">
 <p><strong>Check the remaining two distributions</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">rbind</span>(<span class="at">c =</span> <span class="fu">check_distribution</span>(<span class="fu">rep</span>(<span class="fl">0.2</span>, <span class="dv">5</span>)),</span>
-<span id="cb11-2"><a href=""></a>      <span class="at">d =</span> <span class="fu">check_distribution</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">0.1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>prob_c <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fl">0.2</span>, <span class="dv">5</span>)</span>
+<span id="cb20-2"><a href=""></a>prob_d <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="sc">-</span><span class="fl">0.3</span>, <span class="fl">0.1</span>)</span>
+<span id="cb20-3"><a href=""></a></span>
+<span id="cb20-4"><a href=""></a><span class="fu">sum</span>(prob_c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  sum_PX all_between_0_1 is_distribution
-c      1            TRUE            TRUE
-d      1           FALSE           FALSE</code></pre>
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">all</span>(prob_c <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> prob_c <span class="sc">&lt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">sum</span>(prob_d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">all</span>(prob_d <span class="sc">&gt;=</span> <span class="dv">0</span> <span class="sc">&amp;</span> prob_d <span class="sc">&lt;=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 <ul>
@@ -856,45 +782,14 @@ d      1           FALSE           FALSE</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">\mu = \Sigma X \cdot P(X) = 1 \cdot \tfrac{1}{4} + 2 \cdot \tfrac{1}{4} + 3 \cdot \tfrac{1}{4} + 4 \cdot \tfrac{1}{4} = \frac{10}{4} = 2.5</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>die4_face <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb13-2"><a href=""></a>die4_prob <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
-<span id="cb13-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> die4_face, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> die4_prob,</span>
-<span id="cb13-4"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> die4_face <span class="sc">*</span> die4_prob, <span class="at">check.names =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb13-5"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">0.25</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">0.50</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">0.75</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">1.00</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb28-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb28-3"><a href=""></a></span>
+<span id="cb28-4"><a href=""></a>X <span class="sc">*</span> P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.25 0.50 0.75 1.00</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">sum</span>(die4_face <span class="sc">*</span> die4_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.5</code></pre>
 </div>
@@ -937,45 +832,18 @@ BWW   WWW</code></pre>
 <div class="callout-content">
 <p><strong>Prepare data</strong> — there are 8 equally likely outcomes, so the probability distribution of the number of working scanners <span class="math inline">X</span> is</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>scanner_working <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span></span>
-<span id="cb17-2"><a href=""></a>scanner_prob    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">8</span></span>
-<span id="cb17-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> scanner_working, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> scanner_prob,</span>
-<span id="cb17-4"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> scanner_working <span class="sc">*</span> scanner_prob,</span>
-<span id="cb17-5"><a href=""></a>                        <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0.125</td>
-<td style="text-align: center;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.375</td>
-<td style="text-align: center;">0.375</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.375</td>
-<td style="text-align: center;">0.750</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.125</td>
-<td style="text-align: center;">0.375</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb33-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">8</span></span>
+<span id="cb33-3"><a href=""></a></span>
+<span id="cb33-4"><a href=""></a>P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.125 0.375 0.375 0.125</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">sum</span>(scanner_working <span class="sc">*</span> scanner_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>X <span class="sc">*</span> P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.000 0.375 0.750 0.375</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.5</code></pre>
 </div>
@@ -1015,48 +883,14 @@ BWW   WWW</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">\mu = \Sigma X \cdot P(X) = 0 \cdot \tfrac{1}{16} + 1 \cdot \tfrac{4}{16} + 2 \cdot \tfrac{6}{16} + 3 \cdot \tfrac{4}{16} + 4 \cdot \tfrac{1}{16} = \frac{32}{16} = 2</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> coin_heads, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> coin_prob,</span>
-<span id="cb20-2"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> coin_heads <span class="sc">*</span> coin_prob, <span class="at">check.names =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb20-3"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0.0625</td>
-<td style="text-align: center;">0.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.2500</td>
-<td style="text-align: center;">0.25</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.3750</td>
-<td style="text-align: center;">0.75</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.2500</td>
-<td style="text-align: center;">0.75</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.0625</td>
-<td style="text-align: center;">0.25</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb39-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">16</span></span>
+<span id="cb39-3"><a href=""></a></span>
+<span id="cb39-4"><a href=""></a>X <span class="sc">*</span> P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00 0.25 0.75 0.75 0.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">sum</span>(coin_heads <span class="sc">*</span> coin_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
@@ -1098,43 +932,14 @@ Probability P(X) 0.20   0.40   0.30   0.10</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">\mu = \Sigma X \cdot P(X) = 1(0.20) + 2(0.40) + 3(0.30) + 4(0.10) = 2.3</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> courier_late, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> courier_prob,</span>
-<span id="cb24-2"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> courier_late <span class="sc">*</span> courier_prob,</span>
-<span id="cb24-3"><a href=""></a>                        <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.2</td>
-<td style="text-align: center;">0.2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.4</td>
-<td style="text-align: center;">0.8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.3</td>
-<td style="text-align: center;">0.9</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.1</td>
-<td style="text-align: center;">0.4</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb44-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.40</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>)</span>
+<span id="cb44-3"><a href=""></a></span>
+<span id="cb44-4"><a href=""></a>X <span class="sc">*</span> P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2 0.8 0.9 0.4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">sum</span>(courier_late <span class="sc">*</span> courier_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.3</code></pre>
 </div>
@@ -1194,15 +999,17 @@ Probability P(X) 0.20   0.40   0.30   0.10</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">\sigma^2 = \left(1^2 \cdot \tfrac{1}{4} + 2^2 \cdot \tfrac{1}{4} + 3^2 \cdot \tfrac{1}{4} + 4^2 \cdot \tfrac{1}{4}\right) - (2.5)^2 = 7.5 - 6.25 = 1.25</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a>die4_mean     <span class="ot">&lt;-</span> <span class="fu">sum</span>(die4_face <span class="sc">*</span> die4_prob)</span>
-<span id="cb27-2"><a href=""></a>die4_variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(die4_face<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> die4_prob) <span class="sc">-</span> die4_mean<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb27-3"><a href=""></a>die4_variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb48-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb48-3"><a href=""></a>variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> P) <span class="sc">-</span> <span class="fl">2.5</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb48-4"><a href=""></a></span>
+<span id="cb48-5"><a href=""></a>variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sqrt</span>(die4_variance), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">sqrt</span>(variance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.118</code></pre>
+<pre><code>[1] 1.118034</code></pre>
 </div>
 </div>
 <p>Hence, the standard deviation for rolling a four-sided die is about 1.118.</p>
@@ -1241,50 +1048,22 @@ Probability P(X) 0.20   0.40   0.30   0.10</code></pre>
 <p><span class="math display">\mu = 2 \cdot \tfrac{3}{8} + 4 \cdot \tfrac{2}{8} + 6 \cdot \tfrac{3}{8} = 4 \qquad
 \sigma^2 = 19 - 16 = 3</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>token_value <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
-<span id="cb31-2"><a href=""></a>token_prob  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>) <span class="sc">/</span> <span class="dv">8</span></span>
-<span id="cb31-3"><a href=""></a>token_mean  <span class="ot">&lt;-</span> <span class="fu">sum</span>(token_value <span class="sc">*</span> token_prob)</span>
-<span id="cb31-4"><a href=""></a>token_variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(token_value<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> token_prob) <span class="sc">-</span> token_mean<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb31-5"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> token_value, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> token_prob,</span>
-<span id="cb31-6"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> token_value <span class="sc">*</span> token_prob,</span>
-<span id="cb31-7"><a href=""></a>                        <span class="st">`</span><span class="at">X^2*P(X)</span><span class="st">`</span> <span class="ot">=</span> token_value<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> token_prob,</span>
-<span id="cb31-8"><a href=""></a>                        <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-<th style="text-align: center;">X^2*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.375</td>
-<td style="text-align: center;">0.75</td>
-<td style="text-align: center;">1.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.250</td>
-<td style="text-align: center;">1.00</td>
-<td style="text-align: center;">4.0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">0.375</td>
-<td style="text-align: center;">2.25</td>
-<td style="text-align: center;">13.5</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">c</span>(<span class="at">mean =</span> token_mean, <span class="at">variance =</span> token_variance, <span class="at">sd =</span> <span class="fu">round</span>(<span class="fu">sqrt</span>(token_variance), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
+<span id="cb52-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>) <span class="sc">/</span> <span class="dv">8</span></span>
+<span id="cb52-3"><a href=""></a>mu       <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> P)</span>
+<span id="cb52-4"><a href=""></a>variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> P) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb52-5"><a href=""></a></span>
+<span id="cb52-6"><a href=""></a>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    mean variance       sd 
-   4.000    3.000    1.732 </code></pre>
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">sqrt</span>(variance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.732051</code></pre>
 </div>
 </div>
 </div>
@@ -1320,48 +1099,12 @@ Probability P(X) 0.20   0.40   0.30   0.10</code></pre>
 <div class="callout-content">
 <p><strong>Prepare data</strong> — divide each frequency by 40 to get <span class="math inline">P(X)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>escalated_calls <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb34-2"><a href=""></a>agent_freq      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span>
-<span id="cb34-3"><a href=""></a>escalated_prob  <span class="ot">&lt;-</span> agent_freq <span class="sc">/</span> <span class="fu">sum</span>(agent_freq)</span>
-<span id="cb34-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> escalated_calls, <span class="at">Frequency =</span> agent_freq,</span>
-<span id="cb34-5"><a href=""></a>                        <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> escalated_prob, <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">Frequency</th>
-<th style="text-align: center;">P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">12</td>
-<td style="text-align: center;">0.30</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">14</td>
-<td style="text-align: center;">0.35</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">0.20</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.10</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.05</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb58-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="dv">40</span></span>
+<span id="cb58-3"><a href=""></a></span>
+<span id="cb58-4"><a href=""></a>P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.30 0.35 0.20 0.10 0.05</code></pre>
 </div>
 </div>
 </div>
@@ -1381,19 +1124,20 @@ Probability P(X) 0.20   0.40   0.30   0.10</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>escalated_mean     <span class="ot">&lt;-</span> <span class="fu">sum</span>(escalated_calls <span class="sc">*</span> escalated_prob)</span>
-<span id="cb35-2"><a href=""></a>escalated_variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(escalated_calls<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> escalated_prob) <span class="sc">-</span> escalated_mean<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb35-3"><a href=""></a>escalated_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>mu       <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> P)</span>
+<span id="cb60-2"><a href=""></a>variance <span class="ot">&lt;-</span> <span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> P) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb60-3"><a href=""></a></span>
+<span id="cb60-4"><a href=""></a>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>escalated_variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>variance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2875</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sqrt</span>(escalated_variance), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">sqrt</span>(variance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.135</code></pre>
+<pre><code>[1] 1.134681</code></pre>
 </div>
 </div>
 <p>The mean is 1.25, the variance is 1.2875, and the standard deviation is about 1.135 escalated calls.</p>
@@ -1453,13 +1197,14 @@ Probability P(X)   1/500        499/500</code></pre>
 <p><strong>Solve</strong> — for a win the net gain is NT$11,900, since the NT$100 ticket price is not returned; for a loss the gain is <span class="math inline">-</span>NT$100.</p>
 <p><span class="math display">E(X) = 11900 \cdot \tfrac{1}{500} + (-100) \cdot \tfrac{499}{500} = -76</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>raffle_gain <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">11900</span>, <span class="sc">-</span><span class="dv">100</span>)</span>
-<span id="cb42-2"><a href=""></a>raffle_prob <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">499</span>) <span class="sc">/</span> <span class="dv">500</span></span>
-<span id="cb42-3"><a href=""></a><span class="fu">sum</span>(raffle_gain <span class="sc">*</span> raffle_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">11900</span>, <span class="sc">-</span><span class="dv">100</span>)</span>
+<span id="cb67-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">499</span>) <span class="sc">/</span> <span class="dv">500</span></span>
+<span id="cb67-3"><a href=""></a></span>
+<span id="cb67-4"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -76</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="dv">12000</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">500</span>) <span class="sc">-</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="dv">12000</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">500</span>) <span class="sc">-</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -76</code></pre>
 </div>
@@ -1499,50 +1244,14 @@ Probability P(X)   1/500        499/500</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">\mu = 50 \cdot \tfrac{10}{20} + 100 \cdot \tfrac{5}{20} + 200 \cdot \tfrac{3}{20} + 500 \cdot \tfrac{1}{20} + 1000 \cdot \tfrac{1}{20} = 155</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>coupon_value <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>)</span>
-<span id="cb46-2"><a href=""></a>coupon_prob  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">20</span></span>
-<span id="cb46-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> coupon_value, <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> coupon_prob,</span>
-<span id="cb46-4"><a href=""></a>                        <span class="st">`</span><span class="at">X*P(X)</span><span class="st">`</span> <span class="ot">=</span> coupon_value <span class="sc">*</span> coupon_prob,</span>
-<span id="cb46-5"><a href=""></a>                        <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-<th style="text-align: center;">X*P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">50</td>
-<td style="text-align: center;">0.50</td>
-<td style="text-align: center;">25</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">100</td>
-<td style="text-align: center;">0.25</td>
-<td style="text-align: center;">25</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">200</td>
-<td style="text-align: center;">0.15</td>
-<td style="text-align: center;">30</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">500</td>
-<td style="text-align: center;">0.05</td>
-<td style="text-align: center;">25</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1000</td>
-<td style="text-align: center;">0.05</td>
-<td style="text-align: center;">50</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>)</span>
+<span id="cb71-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">20</span></span>
+<span id="cb71-3"><a href=""></a></span>
+<span id="cb71-4"><a href=""></a>X <span class="sc">*</span> P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25 25 30 25 50</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">sum</span>(coupon_value <span class="sc">*</span> coupon_prob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="fu">sum</span>(X <span class="sc">*</span> P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 155</code></pre>
 </div>
@@ -1582,15 +1291,13 @@ Probability P(X)   1/500        499/500</code></pre>
 <p><strong>Solve</strong></p>
 <p><span class="math display">E(A) = 20000(0.99) - 400000(0.01) = 15800 \qquad E(B) = 32000(0.96) - 400000(0.04) = 14720</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>principal        <span class="ot">&lt;-</span> <span class="dv">400000</span></span>
-<span id="cb49-2"><a href=""></a>bond_a_return    <span class="ot">&lt;-</span> principal <span class="sc">*</span> <span class="fl">0.05</span></span>
-<span id="cb49-3"><a href=""></a>bond_b_return    <span class="ot">&lt;-</span> principal <span class="sc">*</span> <span class="fl">0.08</span></span>
-<span id="cb49-4"><a href=""></a>bond_a_expected  <span class="ot">&lt;-</span> bond_a_return <span class="sc">*</span> <span class="fl">0.99</span> <span class="sc">-</span> principal <span class="sc">*</span> <span class="fl">0.01</span></span>
-<span id="cb49-5"><a href=""></a>bond_b_expected  <span class="ot">&lt;-</span> bond_b_return <span class="sc">*</span> <span class="fl">0.96</span> <span class="sc">-</span> principal <span class="sc">*</span> <span class="fl">0.04</span></span>
-<span id="cb49-6"><a href=""></a><span class="fu">c</span>(<span class="at">bond_A =</span> bond_a_expected, <span class="at">bond_B =</span> bond_b_expected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="dv">20000</span> <span class="sc">*</span> <span class="fl">0.99</span> <span class="sc">-</span> <span class="dv">400000</span> <span class="sc">*</span> <span class="fl">0.01</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>bond_A bond_B 
- 15800  14720 </code></pre>
+<pre><code>[1] 15800</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="dv">32000</span> <span class="sc">*</span> <span class="fl">0.96</span> <span class="sc">-</span> <span class="dv">400000</span> <span class="sc">*</span> <span class="fl">0.04</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14720</code></pre>
 </div>
 </div>
 <p>Bond A is the better investment, since its expected gain of NT$15,800 exceeds the NT$14,720 expected from Bond B.</p>
@@ -1808,7 +1515,7 @@ THHT  THTH  TTHH  HTTT  THTT  TTHT  TTTH  TTTT</code></pre>
 <p><strong>Solve using the sample space</strong></p>
 <p>There are four ways to get three heads out of sixteen equally likely outcomes, so the answer is <span class="math inline">\frac{4}{16}</span>, or 0.25.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="dv">4</span> <span class="sc">/</span> <span class="dv">16</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="dv">4</span> <span class="sc">/</span> <span class="dv">16</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.25</code></pre>
 </div>
@@ -1832,13 +1539,11 @@ THHT  THTH  TTHH  HTTT  THTT  TTHT  TTTH  TTTT</code></pre>
 <p><span class="math display">P(3\text{ heads}) = {}_{4}C_{3} \left(\tfrac{1}{2}\right)^3 \left(\tfrac{1}{2}\right)^1
 = \frac{4!}{(4-3)!\,3!} \left(\tfrac{1}{2}\right)^3 \left(\tfrac{1}{2}\right)^1 = 0.25</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>n_tosses <span class="ot">&lt;-</span> <span class="dv">4</span>; x_heads <span class="ot">&lt;-</span> <span class="dv">3</span>; p_head <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q_tail <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_head</span>
-<span id="cb55-2"><a href=""></a><span class="fu">factorial</span>(n_tosses) <span class="sc">/</span> (<span class="fu">factorial</span>(n_tosses <span class="sc">-</span> x_heads) <span class="sc">*</span> <span class="fu">factorial</span>(x_heads)) <span class="sc">*</span></span>
-<span id="cb55-3"><a href=""></a>  p_head<span class="sc">^</span>x_heads <span class="sc">*</span> q_tail<span class="sc">^</span>(n_tosses <span class="sc">-</span> x_heads)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">4</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">4</span> <span class="sc">-</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">3</span>)) <span class="sc">*</span> <span class="fl">0.5</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.5</span><span class="sc">^</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href=""></a><span class="fu">choose</span>(n_tosses, x_heads) <span class="sc">*</span> p_head<span class="sc">^</span>x_heads <span class="sc">*</span> q_tail<span class="sc">^</span>(n_tosses <span class="sc">-</span> x_heads)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fl">0.5</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.5</span><span class="sc">^</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.25</code></pre>
 </div>
@@ -1893,15 +1598,13 @@ THHT  THTH  TTHH  HTTT  THTT  TTHT  TTTH  TTTT</code></pre>
 <p><strong>Solve with the factorial form</strong> — here <span class="math inline">n = 12</span>, <span class="math inline">X = 3</span>, <span class="math inline">p = \frac{3}{10}</span>, <span class="math inline">q = \frac{7}{10}</span>.</p>
 <p><span class="math display">P(3) = \frac{12!}{(12-3)!\,3!}\left(\tfrac{3}{10}\right)^3\left(\tfrac{7}{10}\right)^9 = 220(0.027)(0.040353607) \approx 0.2397</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href=""></a>n_orders <span class="ot">&lt;-</span> <span class="dv">12</span>; x_wallet <span class="ot">&lt;-</span> <span class="dv">3</span>; p_wallet <span class="ot">&lt;-</span> <span class="fl">0.3</span>; q_other <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> p_wallet</span>
-<span id="cb59-2"><a href=""></a><span class="fu">factorial</span>(n_orders) <span class="sc">/</span> (<span class="fu">factorial</span>(n_orders <span class="sc">-</span> x_wallet) <span class="sc">*</span> <span class="fu">factorial</span>(x_wallet))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">12</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">12</span> <span class="sc">-</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 220</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a><span class="fu">round</span>(<span class="fu">factorial</span>(n_orders) <span class="sc">/</span> (<span class="fu">factorial</span>(n_orders <span class="sc">-</span> x_wallet) <span class="sc">*</span> <span class="fu">factorial</span>(x_wallet)) <span class="sc">*</span></span>
-<span id="cb61-2"><a href=""></a>        p_wallet<span class="sc">^</span>x_wallet <span class="sc">*</span> q_other<span class="sc">^</span>(n_orders <span class="sc">-</span> x_wallet), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a><span class="dv">220</span> <span class="sc">*</span> <span class="fl">0.3</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.7</span><span class="sc">^</span><span class="dv">9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2397</code></pre>
+<pre><code>[1] 0.2397004</code></pre>
 </div>
 </div>
 </div>
@@ -1922,18 +1625,17 @@ THHT  THTH  TTHH  HTTT  THTT  TTHT  TTTH  TTTT</code></pre>
 <p><strong>Alternate solution — using the combination formula</strong></p>
 <p><span class="math display">P(3) = {}_{12}C_{3}\left(\tfrac{3}{10}\right)^3\left(\tfrac{7}{10}\right)^9 \approx 0.2397</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="fu">choose</span>(n_orders, x_wallet)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">12</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 220</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">round</span>(<span class="fu">choose</span>(n_orders, x_wallet) <span class="sc">*</span> p_wallet<span class="sc">^</span>x_wallet <span class="sc">*</span></span>
-<span id="cb65-2"><a href=""></a>        q_other<span class="sc">^</span>(n_orders <span class="sc">-</span> x_wallet), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">12</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fl">0.3</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.7</span><span class="sc">^</span><span class="dv">9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2397</code></pre>
+<pre><code>[1] 0.2397004</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(x_wallet, n_orders, p_wallet), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">12</span>, <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2397</code></pre>
+<pre><code>[1] 0.2397004</code></pre>
 </div>
 </div>
 <p>There is about a 0.2397 probability that exactly 3 of 12 randomly selected orders were paid with a mobile wallet.</p>
@@ -1973,18 +1675,16 @@ THHT  THTH  TTHH  HTTT  THTT  TTHT  TTTH  TTTT</code></pre>
 P(5) = \frac{6!}{(6-5)!\,5!}(0.4)^5(0.6)^1 \approx 0.037</span></p>
 <p><span class="math display">P(6) = \frac{6!}{(6-6)!\,6!}(0.4)^6(0.6)^0 \approx 0.004</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a>n_exporters <span class="ot">&lt;-</span> <span class="dv">6</span>; p_forwarder <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
-<span id="cb69-2"><a href=""></a>binomial_factorial_form <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb69-3"><a href=""></a>  <span class="fu">factorial</span>(n_exporters) <span class="sc">/</span> (<span class="fu">factorial</span>(n_exporters <span class="sc">-</span> x) <span class="sc">*</span> <span class="fu">factorial</span>(x)) <span class="sc">*</span></span>
-<span id="cb69-4"><a href=""></a>    p_forwarder<span class="sc">^</span>x <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_forwarder)<span class="sc">^</span>(n_exporters <span class="sc">-</span> x)</span>
-<span id="cb69-5"><a href=""></a>}</span>
-<span id="cb69-6"><a href=""></a><span class="fu">round</span>(<span class="fu">binomial_factorial_form</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href=""></a>X <span class="ot">&lt;-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb97-2"><a href=""></a>P <span class="ot">&lt;-</span> <span class="fu">factorial</span>(<span class="dv">6</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">6</span> <span class="sc">-</span> X) <span class="sc">*</span> <span class="fu">factorial</span>(X)) <span class="sc">*</span> <span class="fl">0.4</span><span class="sc">^</span>X <span class="sc">*</span> <span class="fl">0.6</span><span class="sc">^</span>(<span class="dv">6</span> <span class="sc">-</span> X)</span>
+<span id="cb97-3"><a href=""></a></span>
+<span id="cb97-4"><a href=""></a>P</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.138 0.037 0.004</code></pre>
+<pre><code>[1] 0.138240 0.036864 0.004096</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sum</span>(<span class="fu">binomial_factorial_form</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href=""></a><span class="fu">sum</span>(P)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.179</code></pre>
+<pre><code>[1] 0.1792</code></pre>
 </div>
 </div>
 </div>
@@ -2005,19 +1705,13 @@ P(5) = \frac{6!}{(6-5)!\,5!}(0.4)^5(0.6)^1 \approx 0.037</span></p>
 <p><strong>Alternate solution — using the combination formula</strong></p>
 <p><span class="math display">P(4) = {}_{6}C_{4}(0.4)^4(0.6)^2 \qquad P(5) = {}_{6}C_{5}(0.4)^5(0.6)^1 \qquad P(6) = {}_{6}C_{6}(0.4)^6(0.6)^0</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a>combination_form <span class="ot">&lt;-</span> <span class="fu">choose</span>(n_exporters, <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">*</span> p_forwarder<span class="sc">^</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">*</span></span>
-<span id="cb73-2"><a href=""></a>  (<span class="dv">1</span> <span class="sc">-</span> p_forwarder)<span class="sc">^</span>(n_exporters <span class="sc">-</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
-<span id="cb73-3"><a href=""></a><span class="fu">round</span>(combination_form, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">6</span>, X) <span class="sc">*</span> <span class="fl">0.4</span><span class="sc">^</span>X <span class="sc">*</span> <span class="fl">0.6</span><span class="sc">^</span>(<span class="dv">6</span> <span class="sc">-</span> X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.138 0.037 0.004</code></pre>
+<pre><code>[1] 0.138240 0.036864 0.004096</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sum</span>(combination_form), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a><span class="fu">sum</span>(<span class="fu">dbinom</span>(X, <span class="dv">6</span>, <span class="fl">0.4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.179</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>, n_exporters, p_forwarder)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.179</code></pre>
+<pre><code>[1] 0.1792</code></pre>
 </div>
 </div>
 <p><span class="math inline">P(\text{at least four exporters use a freight forwarder}) = 0.138 + 0.037 + 0.004 = 0.179</span></p>
@@ -2058,44 +1752,13 @@ P(5) = \frac{6!}{(6-5)!\,5!}(0.4)^5(0.6)^1 \approx 0.037</span></p>
 <div class="callout-content">
 <p><strong>Look up the value</strong> — since <span class="math inline">n = 4</span>, <span class="math inline">X = 3</span>, and <span class="math inline">p = 0.5</span>, the value 0.25 is found in Table A-2 (Figure 5-3).</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="fu">dbinom</span>(x_heads, n_tosses, p_head)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.25</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span>n_tosses,</span>
-<span id="cb81-2"><a href=""></a>                        <span class="st">`</span><span class="at">P(X)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n_tosses, n_tosses, p_head),</span>
-<span id="cb81-3"><a href=""></a>                        <span class="at">check.names =</span> <span class="cn">FALSE</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X</th>
-<th style="text-align: center;">P(X)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0.0625</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0.2500</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">0.3750</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">0.2500</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.0625</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0625 0.2500 0.3750 0.2500 0.0625</code></pre>
 </div>
 </div>
 </div>
@@ -2134,18 +1797,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong> — <span class="math inline">n = 15</span>, <span class="math inline">p = 0.10</span>. “At most 3” means 0, 1, 2 or 3; “at least 3” is best found as <span class="math inline">1 - P(X \leq 2)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a>n_handsets <span class="ot">&lt;-</span> <span class="dv">15</span>; p_mainboard <span class="ot">&lt;-</span> <span class="fl">0.10</span></span>
-<span id="cb83-2"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">4</span>, n_handsets, p_mainboard), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">4</span>, <span class="dv">15</span>, <span class="fl">0.10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.043</code></pre>
+<pre><code>[1] 0.04283515</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pbinom</span>(<span class="dv">3</span>, n_handsets, p_mainboard), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href=""></a><span class="fu">pbinom</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="fl">0.10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.944</code></pre>
+<pre><code>[1] 0.9444444</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">2</span>, n_handsets, p_mainboard), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">2</span>, <span class="dv">15</span>, <span class="fl">0.10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.184</code></pre>
+<pre><code>[1] 0.1840611</code></pre>
 </div>
 </div>
 <p><span class="math inline">P(X = 4) = 0.043</span>, <span class="math inline">P(X \leq 3) = 0.944</span>, and <span class="math inline">P(X \geq 3) = 0.184</span>.</p>
@@ -2182,14 +1844,13 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong> — <span class="math inline">n = 25</span>, <span class="math inline">p = 0.80</span>, and <span class="math inline">X = 18, 19, 20, 21, 22</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a>n_bookings <span class="ot">&lt;-</span> <span class="dv">25</span>; p_honoured <span class="ot">&lt;-</span> <span class="fl">0.80</span></span>
-<span id="cb89-2"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">22</span>, n_bookings, p_honoured), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">22</span>, <span class="dv">25</span>, <span class="fl">0.80</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.111 0.163 0.196 0.187 0.136</code></pre>
+<pre><code>[1] 0.1108419 0.1633459 0.1960151 0.1866811 0.1357680</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a><span class="fu">round</span>(<span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">22</span>, n_bookings, p_honoured)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href=""></a><span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">22</span>, <span class="dv">25</span>, <span class="fl">0.80</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.793</code></pre>
+<pre><code>[1] 0.792652</code></pre>
 </div>
 </div>
 <p><span class="math inline">P(18 \leq X \leq 22) = 0.111 + 0.163 + 0.196 + 0.187 + 0.136 = 0.793</span></p>
@@ -2201,33 +1862,21 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <h2>Binomial Distributions in R</h2>
 <p>Changing <span class="math inline">n</span> and <span class="math inline">p</span> changes the centre and the shape of a binomial distribution. <strong>Prepare data</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a>binomial_curve <span class="ot">&lt;-</span> <span class="cf">function</span>(n, p) {</span>
-<span id="cb93-2"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span>n, <span class="at">PX =</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span>n, n, p),</span>
-<span id="cb93-3"><a href=""></a>             <span class="at">setting =</span> <span class="fu">paste0</span>(<span class="st">"n = "</span>, n, <span class="st">", p = "</span>, p))</span>
-<span id="cb93-4"><a href=""></a>}</span>
-<span id="cb93-5"><a href=""></a>binomial_curves <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">binomial_curve</span>(<span class="dv">10</span>, <span class="fl">0.3</span>),</span>
-<span id="cb93-6"><a href=""></a>                             <span class="fu">binomial_curve</span>(<span class="dv">10</span>, <span class="fl">0.5</span>),</span>
-<span id="cb93-7"><a href=""></a>                             <span class="fu">binomial_curve</span>(<span class="dv">20</span>, <span class="fl">0.3</span>))</span>
-<span id="cb93-8"><a href=""></a><span class="fu">head</span>(binomial_curves, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  X         PX         setting
-1 0 0.02824752 n = 10, p = 0.3
-2 1 0.12106082 n = 10, p = 0.3
-3 2 0.23347444 n = 10, p = 0.3
-4 3 0.26682793 n = 10, p = 0.3</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href=""></a>binomials <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb120-2"><a href=""></a>  <span class="at">X =</span> <span class="fu">rep</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">3</span>),</span>
+<span id="cb120-3"><a href=""></a>  <span class="at">P =</span> <span class="fu">c</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">10</span>, <span class="fl">0.3</span>), <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">10</span>, <span class="fl">0.5</span>), <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">20</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb120-4"><a href=""></a>  <span class="at">setting =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"n = 10, p = 0.3"</span>, <span class="st">"n = 10, p = 0.5"</span>, <span class="st">"n = 20, p = 0.3"</span>), <span class="at">each =</span> <span class="dv">21</span>)</span>
+<span id="cb120-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="binomial-distributions-in-r-1" class="slide level2">
 <h2>Binomial Distributions in R</h2>
 <p><strong>Output figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a><span class="fu">ggplot</span>(binomial_curves, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> PX, <span class="at">fill =</span> setting)) <span class="sc">+</span></span>
-<span id="cb95-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb95-3"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> setting, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
-<span id="cb95-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"P(X)"</span>) <span class="sc">+</span></span>
-<span id="cb95-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb95-6"><a href=""></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a><span class="fu">ggplot</span>(binomials, <span class="fu">aes</span>(X, P)) <span class="sc">+</span></span>
+<span id="cb121-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb121-3"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> setting) <span class="sc">+</span></span>
+<span id="cb121-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"P(X)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch5_files/figure-revealjs/s5-3-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:75.0%"></section>
@@ -2278,13 +1927,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — with <span class="math inline">n = 16</span>, <span class="math inline">p = \frac{1}{2}</span>, and <span class="math inline">q = \frac{1}{2}</span>:</p>
 <p><span class="math display">\mu = n \cdot p = 16 \cdot \tfrac{1}{2} = 8 \qquad \sigma^2 = n \cdot p \cdot q = 16 \cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = 4 \qquad \sigma = \sqrt{4} = 2</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a>n_coin_tosses <span class="ot">&lt;-</span> <span class="dv">16</span>; p_head_16 <span class="ot">&lt;-</span> <span class="fl">0.5</span>; q_tail_16 <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb96-2"><a href=""></a><span class="fu">c</span>(<span class="at">mean     =</span> n_coin_tosses <span class="sc">*</span> p_head_16,</span>
-<span id="cb96-3"><a href=""></a>  <span class="at">variance =</span> n_coin_tosses <span class="sc">*</span> p_head_16 <span class="sc">*</span> q_tail_16,</span>
-<span id="cb96-4"><a href=""></a>  <span class="at">sd       =</span> <span class="fu">sqrt</span>(n_coin_tosses <span class="sc">*</span> p_head_16 <span class="sc">*</span> q_tail_16))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href=""></a><span class="dv">16</span> <span class="sc">*</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    mean variance       sd 
-       8        4        2 </code></pre>
+<pre><code>[1] 8</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href=""></a><span class="dv">16</span> <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href=""></a><span class="fu">sqrt</span>(<span class="dv">16</span> <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
 </div>
 </div>
 </div>
@@ -2304,13 +1957,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <div class="callout-content">
 <p><strong>Check with the Section 5-2 formulas</strong> — apply <span class="math inline">\mu = \Sigma X \cdot P(X)</span> and <span class="math inline">\sigma^2 = \Sigma[X^2 \cdot P(X)] - \mu^2</span> to the full binomial distribution.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a>head_count <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>n_coin_tosses</span>
-<span id="cb98-2"><a href=""></a>head_prob  <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(head_count, n_coin_tosses, p_head_16)</span>
-<span id="cb98-3"><a href=""></a>head_mean  <span class="ot">&lt;-</span> <span class="fu">sum</span>(head_count <span class="sc">*</span> head_prob)</span>
-<span id="cb98-4"><a href=""></a><span class="fu">c</span>(<span class="at">mean =</span> head_mean, <span class="at">variance =</span> <span class="fu">sum</span>(head_count<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> head_prob) <span class="sc">-</span> head_mean<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href=""></a>X  <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">16</span></span>
+<span id="cb128-2"><a href=""></a>P  <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(X, <span class="dv">16</span>, <span class="fl">0.5</span>)</span>
+<span id="cb128-3"><a href=""></a>mu <span class="ot">&lt;-</span> <span class="fu">sum</span>(X <span class="sc">*</span> P)</span>
+<span id="cb128-4"><a href=""></a></span>
+<span id="cb128-5"><a href=""></a>mu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    mean variance 
-       8        4 </code></pre>
+<pre><code>[1] 8</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href=""></a><span class="fu">sum</span>(X<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> P) <span class="sc">-</span> mu<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
 </div>
 </div>
 <p>The simplified binomial formulas give the same results.</p>
@@ -2348,13 +2005,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — this is a binomial experiment with <span class="math inline">n = 500</span>, <span class="math inline">p = \frac{1}{10}</span>, and <span class="math inline">q = \frac{9}{10}</span>.</p>
 <p><span class="math display">\mu = 500 \cdot \tfrac{1}{10} = 50 \qquad \sigma^2 = 500 \cdot \tfrac{1}{10} \cdot \tfrac{9}{10} = 45 \qquad \sigma = \sqrt{45} \approx 6.708</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a>n_rolls <span class="ot">&lt;-</span> <span class="dv">500</span>; p_seven <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>; q_not_seven <span class="ot">&lt;-</span> <span class="dv">9</span><span class="sc">/</span><span class="dv">10</span></span>
-<span id="cb100-2"><a href=""></a><span class="fu">c</span>(<span class="at">mean     =</span> n_rolls <span class="sc">*</span> p_seven,</span>
-<span id="cb100-3"><a href=""></a>  <span class="at">variance =</span> n_rolls <span class="sc">*</span> p_seven <span class="sc">*</span> q_not_seven,</span>
-<span id="cb100-4"><a href=""></a>  <span class="at">sd       =</span> <span class="fu">round</span>(<span class="fu">sqrt</span>(n_rolls <span class="sc">*</span> p_seven <span class="sc">*</span> q_not_seven), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href=""></a><span class="dv">500</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    mean variance       sd 
-  50.000   45.000    6.708 </code></pre>
+<pre><code>[1] 50</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href=""></a><span class="dv">500</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">10</span> <span class="sc">*</span> <span class="dv">9</span><span class="sc">/</span><span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 45</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a><span class="fu">sqrt</span>(<span class="dv">500</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">10</span> <span class="sc">*</span> <span class="dv">9</span><span class="sc">/</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.708204</code></pre>
 </div>
 </div>
 </div>
@@ -2391,13 +2052,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — this is a binomial situation, since a shopper either has or has not ordered from a cross-border site.</p>
 <p><span class="math display">\mu = (1200)(0.75) = 900 \qquad \sigma^2 = (1200)(0.75)(0.25) = 225 \qquad \sigma = \sqrt{225} = 15</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href=""></a>n_shoppers <span class="ot">&lt;-</span> <span class="dv">1200</span>; p_cross_border <span class="ot">&lt;-</span> <span class="fl">0.75</span>; q_domestic <span class="ot">&lt;-</span> <span class="fl">0.25</span></span>
-<span id="cb102-2"><a href=""></a><span class="fu">c</span>(<span class="at">mean     =</span> n_shoppers <span class="sc">*</span> p_cross_border,</span>
-<span id="cb102-3"><a href=""></a>  <span class="at">variance =</span> n_shoppers <span class="sc">*</span> p_cross_border <span class="sc">*</span> q_domestic,</span>
-<span id="cb102-4"><a href=""></a>  <span class="at">sd       =</span> <span class="fu">sqrt</span>(n_shoppers <span class="sc">*</span> p_cross_border <span class="sc">*</span> q_domestic))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a><span class="dv">1200</span> <span class="sc">*</span> <span class="fl">0.75</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    mean variance       sd 
-     900      225       15 </code></pre>
+<pre><code>[1] 900</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a><span class="dv">1200</span> <span class="sc">*</span> <span class="fl">0.75</span> <span class="sc">*</span> <span class="fl">0.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 225</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href=""></a><span class="fu">sqrt</span>(<span class="dv">1200</span> <span class="sc">*</span> <span class="fl">0.75</span> <span class="sc">*</span> <span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
 </div>
 </div>
 </div>
@@ -2515,20 +2180,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — <span class="math inline">n = 10</span>; <span class="math inline">X_1 = 4</span>, <span class="math inline">X_2 = 3</span>, <span class="math inline">X_3 = 2</span>, <span class="math inline">X_4 = 1</span>; <span class="math inline">p_1 = 0.45</span>, <span class="math inline">p_2 = 0.30</span>, <span class="math inline">p_3 = 0.20</span>, <span class="math inline">p_4 = 0.05</span>.</p>
 <p><span class="math display">P(X) = \frac{10!}{4!\,3!\,2!\,1!}(0.45)^4(0.30)^3(0.20)^2(0.05)^1 \approx 0.0279</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href=""></a>order_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb104-2"><a href=""></a>order_probs  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.20</span>, <span class="fl">0.05</span>)</span>
-<span id="cb104-3"><a href=""></a>multinomial_coefficient <span class="ot">&lt;-</span> <span class="fu">factorial</span>(<span class="fu">sum</span>(order_counts)) <span class="sc">/</span> <span class="fu">prod</span>(<span class="fu">factorial</span>(order_counts))</span>
-<span id="cb104-4"><a href=""></a>multinomial_coefficient</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">10</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">4</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">3</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12600</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href=""></a><span class="fu">round</span>(multinomial_coefficient <span class="sc">*</span> <span class="fu">prod</span>(order_probs<span class="sc">^</span>order_counts), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href=""></a><span class="dv">12600</span> <span class="sc">*</span> <span class="fl">0.45</span><span class="sc">^</span><span class="dv">4</span> <span class="sc">*</span> <span class="fl">0.30</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.20</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fl">0.05</span><span class="sc">^</span><span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0279</code></pre>
+<pre><code>[1] 0.02790065</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dmultinom</span>(order_counts, <span class="at">prob =</span> order_probs), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.20</span>, <span class="fl">0.05</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0279</code></pre>
+<pre><code>[1] 0.02790065</code></pre>
 </div>
 </div>
 <p>There is about a 0.0279 probability that the ten customers split in exactly this way.</p>
@@ -2566,13 +2228,11 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — <span class="math inline">n = 9</span>; <span class="math inline">X_1 = 2</span>, <span class="math inline">X_2 = 4</span>, <span class="math inline">X_3 = 2</span>, <span class="math inline">X_4 = 1</span>; <span class="math inline">p_1 = 0.20</span>, <span class="math inline">p_2 = 0.50</span>, <span class="math inline">p_3 = 0.20</span>, <span class="math inline">p_4 = 0.10</span>.</p>
 <p><span class="math display">P(X) = \frac{9!}{2!\,4!\,2!\,1!}(0.20)^2(0.50)^4(0.20)^2(0.10)^1 = 0.0378</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href=""></a>drink_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb110-2"><a href=""></a>drink_probs  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.50</span>, <span class="fl">0.20</span>, <span class="fl">0.10</span>)</span>
-<span id="cb110-3"><a href=""></a><span class="fu">factorial</span>(<span class="fu">sum</span>(drink_counts)) <span class="sc">/</span> <span class="fu">prod</span>(<span class="fu">factorial</span>(drink_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">9</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">4</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3780</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dmultinom</span>(drink_counts, <span class="at">prob =</span> drink_probs), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.50</span>, <span class="fl">0.20</span>, <span class="fl">0.10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.0378</code></pre>
 </div>
@@ -2612,13 +2272,11 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — <span class="math inline">n = 6</span>; <span class="math inline">X_1 = 3</span>, <span class="math inline">X_2 = 2</span>, <span class="math inline">X_3 = 1</span>; <span class="math inline">p_1 = \frac{5}{10}</span>, <span class="math inline">p_2 = \frac{3}{10}</span>, <span class="math inline">p_3 = \frac{2}{10}</span>.</p>
 <p><span class="math display">P(X) = \frac{6!}{3!\,2!\,1!}\left(\tfrac{5}{10}\right)^3\left(\tfrac{3}{10}\right)^2\left(\tfrac{2}{10}\right)^1 = 60(0.00225) = 0.135</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href=""></a>marble_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb114-2"><a href=""></a>marble_probs  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="dv">10</span></span>
-<span id="cb114-3"><a href=""></a><span class="fu">factorial</span>(<span class="fu">sum</span>(marble_counts)) <span class="sc">/</span> <span class="fu">prod</span>(<span class="fu">factorial</span>(marble_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">6</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">3</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 60</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dmultinom</span>(marble_counts, <span class="at">prob =</span> marble_probs), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href=""></a><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.135</code></pre>
 </div>
@@ -2699,18 +2357,17 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — first find the mean number of flaws per metre, <span class="math inline">\lambda = \frac{120}{400} = 0.3</span>; then substitute <span class="math inline">X = 2</span>.</p>
 <p><span class="math display">P(X;\, \lambda) = \frac{(2.7183)^{-0.3}(0.3)^2}{2!} \approx 0.0333</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href=""></a>flaws_per_metre <span class="ot">&lt;-</span> <span class="dv">120</span> <span class="sc">/</span> <span class="dv">400</span></span>
-<span id="cb118-2"><a href=""></a>flaws_per_metre</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href=""></a><span class="dv">120</span> <span class="sc">/</span> <span class="dv">400</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href=""></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span>flaws_per_metre) <span class="sc">*</span> flaws_per_metre<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">2</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href=""></a><span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.3</span>) <span class="sc">*</span> <span class="fl">0.3</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0333</code></pre>
+<pre><code>[1] 0.03333682</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dpois</span>(<span class="dv">2</span>, flaws_per_metre), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href=""></a><span class="fu">dpois</span>(<span class="dv">2</span>, <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0333</code></pre>
+<pre><code>[1] 0.03333682</code></pre>
 </div>
 </div>
 <p>About 3.3% of the metres along the roll contain exactly 2 flaws.</p>
@@ -2748,22 +2405,21 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <div class="callout-content">
 <p><strong>Solve</strong> — with <span class="math inline">\lambda = 2</span>, “at most 3” means 0, 1, 2 or 3 requests; the other two parts are easier to obtain from the complement.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href=""></a>requests_per_hour <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb125-2"><a href=""></a><span class="fu">round</span>(<span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, requests_per_hour), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href=""></a><span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1353 0.2707 0.2707 0.1804 0.0902</code></pre>
+<pre><code>[1] 0.13533528 0.27067057 0.27067057 0.18044704 0.09022352</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href=""></a><span class="fu">round</span>(<span class="fu">ppois</span>(<span class="dv">3</span>, requests_per_hour), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href=""></a><span class="fu">ppois</span>(<span class="dv">3</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8571</code></pre>
+<pre><code>[1] 0.8571235</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">1</span>, requests_per_hour), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.594</code></pre>
+<pre><code>[1] 0.5939942</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">4</span>, requests_per_hour), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">4</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0527</code></pre>
+<pre><code>[1] 0.05265302</code></pre>
 </div>
 </div>
 <p><span class="math inline">P(X \leq 3) = 0.8571</span>, <span class="math inline">P(X \geq 3) = 0.5940</span> and <span class="math inline">P(X \geq 5) = 0.0527</span>; the part <strong>a</strong> event is most likely to occur, and the part <strong>c</strong> event is least likely to occur.</p>
@@ -2817,15 +2473,13 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — since <span class="math inline">\lambda = n \cdot p = (300)(0.015) = 4.5</span>,</p>
 <p><span class="math display">P(X;\, \lambda) = \frac{(2.7183)^{-4.5}(4.5)^6}{6!} \approx 0.1281</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href=""></a>n_containers <span class="ot">&lt;-</span> <span class="dv">300</span>; p_inspected <span class="ot">&lt;-</span> <span class="fl">0.015</span></span>
-<span id="cb133-2"><a href=""></a>expected_inspections <span class="ot">&lt;-</span> n_containers <span class="sc">*</span> p_inspected</span>
-<span id="cb133-3"><a href=""></a><span class="fu">round</span>(<span class="fu">dpois</span>(<span class="dv">6</span>, expected_inspections), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href=""></a><span class="fu">dpois</span>(<span class="dv">6</span>, <span class="dv">300</span> <span class="sc">*</span> <span class="fl">0.015</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1281</code></pre>
+<pre><code>[1] 0.1281201</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dbinom</span>(<span class="dv">6</span>, n_containers, p_inspected), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href=""></a><span class="fu">dbinom</span>(<span class="dv">6</span>, <span class="dv">300</span>, <span class="fl">0.015</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1289</code></pre>
+<pre><code>[1] 0.1289275</code></pre>
 </div>
 </div>
 <p>The exact binomial value <span class="math inline">{}_{300}C_{6}(0.015)^6(0.985)^{294} \approx 0.1289</span>; the small difference reflects that the Poisson distribution is an approximation.</p>
@@ -2902,15 +2556,14 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — <span class="math inline">a = 7</span> applicants who studied abroad, <span class="math inline">b = 5</span> who did not, <span class="math inline">n = 4</span>, <span class="math inline">X = 4</span>, and <span class="math inline">n - X = 0</span>.</p>
 <p><span class="math display">P(X) = \frac{{}_{7}C_{4} \cdot {}_{5}C_{0}}{{}_{12}C_{4}} = \frac{35}{495} = \frac{7}{99} \approx 0.071</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href=""></a>abroad <span class="ot">&lt;-</span> <span class="dv">7</span>; not_abroad <span class="ot">&lt;-</span> <span class="dv">5</span>; n_selected <span class="ot">&lt;-</span> <span class="dv">4</span>; x_abroad <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb137-2"><a href=""></a><span class="fu">c</span>(<span class="fu">choose</span>(abroad, x_abroad), <span class="fu">choose</span>(not_abroad, n_selected <span class="sc">-</span> x_abroad),</span>
-<span id="cb137-3"><a href=""></a>  <span class="fu">choose</span>(abroad <span class="sc">+</span> not_abroad, n_selected))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">4</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">12</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  35   1 495</code></pre>
+<pre><code>[1] 0.07070707</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dhyper</span>(x_abroad, abroad, not_abroad, n_selected), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href=""></a><span class="co"># dhyper(X, a, b, n)</span></span>
+<span id="cb179-2"><a href=""></a><span class="fu">dhyper</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.071</code></pre>
+<pre><code>[1] 0.07070707</code></pre>
 </div>
 </div>
 </div>
@@ -2947,16 +2600,13 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — <span class="math inline">a = 4</span>, <span class="math inline">b = 8</span>, <span class="math inline">n = 5</span>, and <span class="math inline">X = 2</span>.</p>
 <p><span class="math display">P(X) = \frac{{}_{4}C_{2} \cdot {}_{8}C_{3}}{{}_{12}C_{5}} = \frac{6 \cdot 56}{792} \approx 0.424</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href=""></a>uncalibrated <span class="ot">&lt;-</span> <span class="dv">4</span>; calibrated <span class="ot">&lt;-</span> <span class="dv">8</span>; n_tested <span class="ot">&lt;-</span> <span class="dv">5</span>; x_uncalibrated <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb141-2"><a href=""></a><span class="fu">round</span>(<span class="fu">choose</span>(uncalibrated, x_uncalibrated) <span class="sc">*</span></span>
-<span id="cb141-3"><a href=""></a>        <span class="fu">choose</span>(calibrated, n_tested <span class="sc">-</span> x_uncalibrated) <span class="sc">/</span></span>
-<span id="cb141-4"><a href=""></a>        <span class="fu">choose</span>(uncalibrated <span class="sc">+</span> calibrated, n_tested), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">2</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">8</span>, <span class="dv">3</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">12</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.424</code></pre>
+<pre><code>[1] 0.4242424</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dhyper</span>(x_uncalibrated, uncalibrated, calibrated, n_tested), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href=""></a><span class="fu">dhyper</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.424</code></pre>
+<pre><code>[1] 0.4242424</code></pre>
 </div>
 </div>
 </div>
@@ -2993,15 +2643,13 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — find the probability that none of the 4 tested is defective and subtract it from 1. Here <span class="math inline">a = 5</span>, <span class="math inline">b = 15</span>, <span class="math inline">n = 4</span>, and <span class="math inline">X = 0</span>.</p>
 <p><span class="math display">P(0) = \frac{{}_{5}C_{0} \cdot {}_{15}C_{4}}{{}_{20}C_{4}} = \frac{1365}{4845} \approx 0.282</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href=""></a>defective <span class="ot">&lt;-</span> <span class="dv">5</span>; good <span class="ot">&lt;-</span> <span class="dv">15</span>; n_checked <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb145-2"><a href=""></a>prob_none_defective <span class="ot">&lt;-</span> <span class="fu">dhyper</span>(<span class="dv">0</span>, defective, good, n_checked)</span>
-<span id="cb145-3"><a href=""></a><span class="fu">round</span>(prob_none_defective, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href=""></a><span class="fu">dhyper</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.282</code></pre>
+<pre><code>[1] 0.2817337</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> prob_none_defective, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">dhyper</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">15</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.718</code></pre>
+<pre><code>[1] 0.7182663</code></pre>
 </div>
 </div>
 <p>There is a 0.718, or 71.8%, probability that the batch will be rejected when 5 of the 20 power banks are defective.</p>
@@ -3080,14 +2728,14 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><span class="math display">P(\text{not }1,\ \text{not }1,\ 1) = \tfrac{5}{6} \cdot \tfrac{5}{6} \cdot \tfrac{1}{6} = \frac{25}{216} \approx 0.116</span></p>
 <p><span class="math display">P(n) = p(1-p)^{n-1} = \tfrac{1}{6}\left(1 - \tfrac{1}{6}\right)^{3-1} = \tfrac{1}{6}\left(\tfrac{5}{6}\right)^2 = \frac{25}{216}</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href=""></a>p_one <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>; roll_number <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb149-2"><a href=""></a><span class="fu">round</span>(p_one <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_one)<span class="sc">^</span>(roll_number <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href=""></a><span class="dv">1</span><span class="sc">/</span><span class="dv">6</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)<span class="sc">^</span>(<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.116</code></pre>
+<pre><code>[1] 0.1157407</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dgeom</span>(roll_number <span class="sc">-</span> <span class="dv">1</span>, p_one), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href=""></a><span class="co"># dgeom() uses the number of failures before the first success</span></span>
+<span id="cb191-2"><a href=""></a><span class="fu">dgeom</span>(<span class="dv">3</span> <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.116</code></pre>
+<pre><code>[1] 0.1157407</code></pre>
 </div>
 </div>
 </div>
@@ -3124,14 +2772,13 @@ c. At least 3 of the handsets in the sample need a new mainboard.</code></pre>
 <p><strong>Solve</strong> — let <span class="math inline">p = 0.35</span> and <span class="math inline">n = 5</span>.</p>
 <p><span class="math display">P(5) = (0.35)(1 - 0.35)^{5-1} = (0.35)(0.65)^4 \approx 0.0625</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href=""></a>p_online_agency <span class="ot">&lt;-</span> <span class="fl">0.35</span>; traveller_number <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb153-2"><a href=""></a><span class="fu">round</span>(p_online_agency <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_online_agency)<span class="sc">^</span>(traveller_number <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href=""></a><span class="fl">0.35</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.35</span>)<span class="sc">^</span>(<span class="dv">5</span> <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0625</code></pre>
+<pre><code>[1] 0.06247719</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href=""></a><span class="fu">round</span>(<span class="fu">dgeom</span>(traveller_number <span class="sc">-</span> <span class="dv">1</span>, p_online_agency), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href=""></a><span class="fu">dgeom</span>(<span class="dv">5</span> <span class="sc">-</span> <span class="dv">1</span>, <span class="fl">0.35</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0625</code></pre>
+<pre><code>[1] 0.06247719</code></pre>
 </div>
 </div>
 <p>There is a 0.0625 probability that the fifth traveller contacted is the first one who booked through an online travel agency.</p>

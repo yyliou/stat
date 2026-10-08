@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
@@ -562,21 +562,20 @@
 <h2>排序的 R 實作</h2>
 <p><strong>準備資料</strong>——<code>rank()</code> 由小到大排序，並且預設把同分者指定為這些名次的<strong>平均數</strong>，正好就是上述規則。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>rating <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">8</span>, <span class="at">B =</span> <span class="dv">6</span>, <span class="at">C =</span> <span class="dv">10</span>, <span class="at">D =</span> <span class="dv">6</span>, <span class="at">E =</span> <span class="dv">3</span>)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">rank</span>(rating)                       <span class="co"># ties.method = "average" is the default</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>rating <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">3</span>)</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a><span class="fu">rank</span>(rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  A   B   C   D   E 
-4.0 2.5 5.0 2.5 1.0 </code></pre>
+<pre><code>[1] 4.0 2.5 5.0 2.5 1.0</code></pre>
 </div>
 </div>
 <p>兩位得 6 分的演講者原本會占據第 2 與第 3 名，所以各得名次 2.5。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">sort</span>(rating)                       <span class="co"># the data array, lowest to highest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">sort</span>(rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> E  B  D  A  C 
- 3  6  6  8 10 </code></pre>
+<pre><code>[1]  3  6  6  8 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">rank</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>))            <span class="co"># the same ranking, values only</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">rank</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.0 2.5 2.5 4.0 5.0</code></pre>
 </div>
@@ -713,17 +712,14 @@
 <span id="cb9-2"><a href=""></a>                  <span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">53</span>, <span class="dv">60</span>, <span class="dv">37</span>,</span>
 <span id="cb9-3"><a href=""></a>                  <span class="dv">27</span>, <span class="dv">46</span>, <span class="dv">54</span>, <span class="dv">49</span>, <span class="dv">51</span>,</span>
 <span id="cb9-4"><a href=""></a>                  <span class="dv">45</span>, <span class="dv">58</span>, <span class="dv">46</span>, <span class="dv">45</span>, <span class="dv">47</span>)</span>
-<span id="cb9-5"><a href=""></a>signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(daily_orders <span class="sc">-</span> <span class="dv">45</span>)</span>
-<span id="cb9-6"><a href=""></a>sign_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">plus =</span> <span class="fu">sum</span>(signs <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">minus =</span> <span class="fu">sum</span>(signs <span class="sc">&lt;</span> <span class="dv">0</span>))</span>
-<span id="cb9-7"><a href=""></a>sign_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-5"><a href=""></a></span>
+<span id="cb9-6"><a href=""></a><span class="fu">sum</span>(daily_orders <span class="sc">&gt;</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> plus minus 
-   15     3 </code></pre>
+<pre><code>[1] 15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(sign_counts), <span class="at">test_statistic =</span> <span class="fu">min</span>(sign_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">sum</span>(daily_orders <span class="sc">&lt;</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             n test_statistic 
-            18              3 </code></pre>
+<pre><code>[1] 3</code></pre>
 </div>
 </div>
 </div>
@@ -745,7 +741,8 @@
 <p><strong>步驟 5.</strong> 總結結果。有足夠證據拒絕「每日完成飲料訂單數的中位數為 45」這項主張。</p>
 <p><strong>P 值.</strong> 表 A-10 的臨界值來自 <span class="math inline">p = 0.5</span> 的二項分配，因此精確的 P 值就是一個二項機率。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">binom.test</span>(<span class="fu">min</span>(sign_counts), <span class="fu">sum</span>(sign_counts), <span class="at">p =</span> <span class="fl">0.5</span>)<span class="sc">$</span>p.value</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># 雙尾檢定：P(X &lt;= 3) 的兩倍</span></span>
+<span id="cb13-2"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pbinom</span>(<span class="dv">3</span>, <span class="dv">18</span>, <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.007537842</code></pre>
 </div>
@@ -805,17 +802,13 @@
 <div class="callout-content">
 <p><strong>步驟 3 的 R 實作</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>n_days    <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb15-2"><a href=""></a>n_below   <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb15-3"><a href=""></a>x_smaller <span class="ot">&lt;-</span> <span class="fu">min</span>(n_below, n_days <span class="sc">-</span> n_below)</span>
-<span id="cb15-4"><a href=""></a>z_statistic <span class="ot">&lt;-</span> ((x_smaller <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> n_days) <span class="sc">/</span> (<span class="fu">sqrt</span>(n_days) <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb15-5"><a href=""></a><span class="fu">round</span>(z_statistic, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>((<span class="dv">15</span> <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="dv">40</span>) <span class="sc">/</span> (<span class="fu">sqrt</span>(<span class="dv">40</span>) <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.42</code></pre>
+<pre><code>[1] -1.423025</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.96  1.96</code></pre>
+<pre><code>[1] -1.959964  1.959964</code></pre>
 </div>
 </div>
 <p><strong>步驟 4.</strong> 做成決策。檢定統計量 <span class="math inline">-1.42</span> 大於 <span class="math inline">-1.96</span>，所以<strong>不拒絕</strong>虛無假設。</p>
@@ -1021,17 +1014,14 @@
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>errors_before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>)</span>
 <span id="cb19-2"><a href=""></a>errors_after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
-<span id="cb19-3"><a href=""></a>signs <span class="ot">&lt;-</span> <span class="fu">sign</span>(errors_before <span class="sc">-</span> errors_after)</span>
-<span id="cb19-4"><a href=""></a>sign_counts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">plus =</span> <span class="fu">sum</span>(signs <span class="sc">&gt;</span> <span class="dv">0</span>), <span class="at">minus =</span> <span class="fu">sum</span>(signs <span class="sc">&lt;</span> <span class="dv">0</span>))</span>
-<span id="cb19-5"><a href=""></a>sign_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a><span class="fu">sum</span>(errors_before <span class="sc">&gt;</span> errors_after)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> plus minus 
-    7     2 </code></pre>
+<pre><code>[1] 7</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(sign_counts), <span class="at">test_statistic =</span> <span class="fu">min</span>(sign_counts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">sum</span>(errors_before <span class="sc">&lt;</span> errors_after)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             n test_statistic 
-             9              2 </code></pre>
+<pre><code>[1] 2</code></pre>
 </div>
 </div>
 <p><strong>步驟 4.</strong> 做成決策。把檢定統計量 2 與臨界值 1 比較。此處 <span class="math inline">2 &gt; 1</span>，所以<strong>不拒絕</strong> <span class="math inline">H_0</span>。</p>
@@ -1315,19 +1305,21 @@
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>kaohsiung <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">58</span>, <span class="dv">60</span>, <span class="dv">63</span>, <span class="dv">72</span>, <span class="dv">74</span>, <span class="dv">76</span>, <span class="dv">78</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">96</span>, <span class="dv">125</span>)</span>
 <span id="cb24-2"><a href=""></a>taoyuan   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">69</span>, <span class="dv">79</span>, <span class="dv">84</span>, <span class="dv">88</span>, <span class="dv">93</span>, <span class="dv">99</span>, <span class="dv">106</span>, <span class="dv">112</span>, <span class="dv">120</span>, <span class="dv">131</span>, <span class="dv">140</span>, <span class="dv">152</span>)</span>
-<span id="cb24-3"><a href=""></a>centre <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Kaohsiung"</span>, <span class="st">"Taoyuan"</span>), <span class="fu">c</span>(<span class="fu">length</span>(kaohsiung), <span class="fu">length</span>(taoyuan)))</span>
-<span id="cb24-4"><a href=""></a>ranks  <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="fu">c</span>(kaohsiung, taoyuan))</span>
-<span id="cb24-5"><a href=""></a>n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(kaohsiung)</span>
-<span id="cb24-6"><a href=""></a>n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(taoyuan)</span>
-<span id="cb24-7"><a href=""></a>rank_sum       <span class="ot">&lt;-</span> <span class="fu">sum</span>(ranks[centre <span class="sc">==</span> <span class="st">"Kaohsiung"</span>])</span>
-<span id="cb24-8"><a href=""></a>mu_rank_sum    <span class="ot">&lt;-</span> n1 <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb24-9"><a href=""></a>sigma_rank_sum <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n1 <span class="sc">*</span> n2 <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">12</span>)</span>
-<span id="cb24-10"><a href=""></a>z_statistic    <span class="ot">&lt;-</span> (rank_sum <span class="sc">-</span> mu_rank_sum) <span class="sc">/</span> sigma_rank_sum</span>
-<span id="cb24-11"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">R =</span> rank_sum, <span class="at">mu_R =</span> mu_rank_sum,</span>
-<span id="cb24-12"><a href=""></a>        <span class="at">sigma_R =</span> sigma_rank_sum, <span class="at">z =</span> z_statistic), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-3"><a href=""></a>ranks <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="fu">c</span>(kaohsiung, taoyuan))</span>
+<span id="cb24-4"><a href=""></a></span>
+<span id="cb24-5"><a href=""></a>ranks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      R    mu_R sigma_R       z 
- 91.500 132.000  16.248  -2.493 </code></pre>
+<pre><code> [1]  1.0  2.0  3.0  5.0  6.0  7.0  8.0 11.5 13.0 15.0 20.0  4.0  9.0 10.0 11.5
+[16] 14.0 16.0 17.0 18.0 19.0 21.0 22.0 23.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">sum</span>(ranks[<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 91.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="fl">91.5</span> <span class="sc">-</span> <span class="dv">11</span> <span class="sc">*</span> (<span class="dv">11</span> <span class="sc">+</span> <span class="dv">12</span> <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">11</span> <span class="sc">*</span> <span class="dv">12</span> <span class="sc">*</span> (<span class="dv">11</span> <span class="sc">+</span> <span class="dv">12</span> <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">12</span>)</span>
+<span id="cb28-2"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.492603</code></pre>
 </div>
 </div>
 </div>
@@ -1349,9 +1341,9 @@
 <p><strong>步驟 5.</strong> 總結結果。有足夠證據支持「兩座物流中心的揀貨時間有差異」這項主張。</p>
 <p><strong>P 值.</strong> 本檢定為雙尾，所以 P 值是 <span class="math inline">z = -2.493</span> 左側面積的兩倍。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z_statistic), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0127</code></pre>
+<pre><code>[1] 0.01268107</code></pre>
 </div>
 </div>
 <p>因為 <span class="math inline">P = 0.0127 &lt; 0.05</span>，拒絕 <span class="math inline">H_0</span>，與傳統方法的決策一致。</p>
@@ -1363,7 +1355,7 @@
 <h2>等級和檢定的 R 實作</h2>
 <p>R 的 <code>wilcox.test()</code> 報告的是 Mann-Whitney <span class="math inline">U</span> 統計量而非等級和 <span class="math inline">R</span>。兩個統計量帶有相同的訊息：<span class="math inline">U = R - \dfrac{n_1(n_1+1)}{2} = 91.5 - 66 = 25.5</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">wilcox.test</span>(kaohsiung, taoyuan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">wilcox.test</span>(kaohsiung, taoyuan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon rank sum test with continuity correction
@@ -1658,21 +1650,22 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p><span class="math display">\text{正等級和} = (+3.5) + (+5) + (+6) + (+3.5) + (+7) = +25</span></p>
 <p><span class="math display">\text{負等級和} = (-1.5) + (-1.5) = -3 \qquad \Rightarrow \qquad w_s = \lvert -3 \rvert = 3</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>complaints_before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">14</span>)</span>
-<span id="cb30-2"><a href=""></a>complaints_after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>,  <span class="dv">8</span>,  <span class="dv">6</span>)</span>
-<span id="cb30-3"><a href=""></a>differences  <span class="ot">&lt;-</span> complaints_before <span class="sc">-</span> complaints_after</span>
-<span id="cb30-4"><a href=""></a>signed_ranks <span class="ot">&lt;-</span> <span class="fu">sign</span>(differences) <span class="sc">*</span> <span class="fu">rank</span>(<span class="fu">abs</span>(differences))</span>
-<span id="cb30-5"><a href=""></a>rank_sums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">positive =</span> <span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&gt;</span> <span class="dv">0</span>]),</span>
-<span id="cb30-6"><a href=""></a>               <span class="at">negative =</span> <span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&lt;</span> <span class="dv">0</span>]))</span>
-<span id="cb30-7"><a href=""></a>rank_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a>complaints_before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">14</span>)</span>
+<span id="cb34-2"><a href=""></a>complaints_after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>,  <span class="dv">8</span>,  <span class="dv">6</span>)</span>
+<span id="cb34-3"><a href=""></a>differences  <span class="ot">&lt;-</span> complaints_before <span class="sc">-</span> complaints_after</span>
+<span id="cb34-4"><a href=""></a>signed_ranks <span class="ot">&lt;-</span> <span class="fu">sign</span>(differences) <span class="sc">*</span> <span class="fu">rank</span>(<span class="fu">abs</span>(differences))</span>
+<span id="cb34-5"><a href=""></a></span>
+<span id="cb34-6"><a href=""></a>signed_ranks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>positive negative 
-      25       -3 </code></pre>
+<pre><code>[1]  3.5 -1.5 -1.5  5.0  6.0  3.5  7.0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(differences), <span class="at">w_s =</span> <span class="fu">min</span>(<span class="fu">abs</span>(rank_sums)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&gt;</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  n w_s 
-  7   3 </code></pre>
+<pre><code>[1] 25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">sum</span>(signed_ranks[signed_ranks <span class="sc">&lt;</span> <span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3</code></pre>
 </div>
 </div>
 </div>
@@ -1693,7 +1686,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p><strong>步驟 4.</strong> 做成決策。若檢定統計量小於或等於臨界值就拒絕 <span class="math inline">H_0</span>。此處 <span class="math inline">3 &gt; 2</span>，所以<strong>不拒絕</strong>虛無假設。</p>
 <p><strong>步驟 5.</strong> 總結結果。在 <span class="math inline">\alpha = 0.05</span> 下沒有足夠證據支持「新增選單前後的升級客訴件數有差異」這項主張。因此新增語音自助選單大概沒有改變升級客訴的件數。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">wilcox.test</span>(complaints_before, complaints_after, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="fu">wilcox.test</span>(complaints_before, complaints_after, <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">exact =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Wilcoxon signed rank test with continuity correction
@@ -1943,16 +1936,12 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <div class="callout-content">
 <p><strong>步驟 3 的 R 實作</strong>——<code>kruskal.test()</code> 會把合併後的資料排等級並直接回傳 <span class="math inline">H</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>transit_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.9</span>, <span class="fl">42.8</span>, <span class="fl">44.1</span>, <span class="fl">46.5</span>, <span class="fl">49.3</span>,</span>
-<span id="cb37-2"><a href=""></a>                   <span class="fl">28.6</span>, <span class="fl">31.2</span>, <span class="fl">34.0</span>, <span class="fl">37.6</span>, <span class="fl">41.2</span>,</span>
-<span id="cb37-3"><a href=""></a>                   <span class="fl">25.4</span>, <span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">32.5</span>, <span class="fl">35.3</span>)</span>
-<span id="cb37-4"><a href=""></a>carrier <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
-<span id="cb37-5"><a href=""></a><span class="fu">tapply</span>(<span class="fu">rank</span>(transit_hours), carrier, sum)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> A  B  C 
-64 35 21 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">kruskal.test</span>(transit_hours <span class="sc">~</span> carrier)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>transit_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">38.9</span>, <span class="fl">42.8</span>, <span class="fl">44.1</span>, <span class="fl">46.5</span>, <span class="fl">49.3</span>,</span>
+<span id="cb43-2"><a href=""></a>                   <span class="fl">28.6</span>, <span class="fl">31.2</span>, <span class="fl">34.0</span>, <span class="fl">37.6</span>, <span class="fl">41.2</span>,</span>
+<span id="cb43-3"><a href=""></a>                   <span class="fl">25.4</span>, <span class="fl">27.1</span>, <span class="fl">29.8</span>, <span class="fl">32.5</span>, <span class="fl">35.3</span>)</span>
+<span id="cb43-4"><a href=""></a>carrier <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>), <span class="at">each =</span> <span class="dv">5</span>)</span>
+<span id="cb43-5"><a href=""></a></span>
+<span id="cb43-6"><a href=""></a><span class="fu">kruskal.test</span>(transit_hours <span class="sc">~</span> carrier)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kruskal-Wallis rank sum test
@@ -1977,19 +1966,23 @@ Kruskal-Wallis chi-squared = 9.62, df = 2, p-value = 0.008148</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong><span class="math inline">H</span> 公式的手算版本.</strong> 程序表上的公式可以寫成一個簡短的函式，再與內建檢定互相驗證。</p>
+<p><strong><span class="math inline">H</span> 公式的手算版本.</strong> 程序表上的公式可以直接代入各組等級和計算，再與內建檢定互相驗證。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>kruskal_h <span class="ot">&lt;-</span> <span class="cf">function</span>(values, groups) {</span>
-<span id="cb41-2"><a href=""></a>  rank_sums   <span class="ot">&lt;-</span> <span class="fu">tapply</span>(<span class="fu">rank</span>(values), groups, sum)</span>
-<span id="cb41-3"><a href=""></a>  group_sizes <span class="ot">&lt;-</span> <span class="fu">tapply</span>(values, groups, length)</span>
-<span id="cb41-4"><a href=""></a>  n_total     <span class="ot">&lt;-</span> <span class="fu">length</span>(values)</span>
-<span id="cb41-5"><a href=""></a>  <span class="dv">12</span> <span class="sc">/</span> (n_total <span class="sc">*</span> (n_total <span class="sc">+</span> <span class="dv">1</span>)) <span class="sc">*</span> <span class="fu">sum</span>(rank_sums<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> group_sizes) <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> (n_total <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb41-6"><a href=""></a>}</span>
-<span id="cb41-7"><a href=""></a><span class="fu">kruskal_h</span>(transit_hours, carrier)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>ranks <span class="ot">&lt;-</span> <span class="fu">rank</span>(transit_hours)</span>
+<span id="cb45-2"><a href=""></a></span>
+<span id="cb45-3"><a href=""></a><span class="fu">sum</span>(ranks[carrier <span class="sc">==</span> <span class="st">"A"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9.62</code></pre>
+<pre><code>[1] 64</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">unname</span>(<span class="fu">kruskal.test</span>(transit_hours <span class="sc">~</span> carrier)<span class="sc">$</span>statistic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">sum</span>(ranks[carrier <span class="sc">==</span> <span class="st">"B"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">sum</span>(ranks[carrier <span class="sc">==</span> <span class="st">"C"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="dv">12</span> <span class="sc">/</span> (<span class="dv">15</span> <span class="sc">*</span> (<span class="dv">15</span> <span class="sc">+</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="dv">64</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">35</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">21</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">5</span>) <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> (<span class="dv">15</span> <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9.62</code></pre>
 </div>
@@ -2237,21 +2230,21 @@ Kruskal-Wallis chi-squared = 9.62, df = 2, p-value = 0.008148</code></pre>
 <p><span class="math display">\sum d^2 = 16 + 9 + 16 + 25 + 16 + 0 + 1 + 25 = 108</span></p>
 <p><span class="math display">r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)} = 1 - \frac{6(108)}{8(8^2 - 1)} = 1 - \frac{648}{504} = -0.286</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>suppliers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb46-2"><a href=""></a>  <span class="at">supplier     =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],</span>
-<span id="cb46-3"><a href=""></a>  <span class="at">order_volume =</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">31</span>, <span class="dv">18</span>, <span class="dv">37</span>, <span class="dv">76</span>, <span class="dv">68</span>),</span>
-<span id="cb46-4"><a href=""></a>  <span class="at">audit_score  =</span> <span class="fu">c</span>(<span class="dv">81</span>, <span class="dv">72</span>, <span class="dv">61</span>, <span class="dv">93</span>, <span class="dv">78</span>, <span class="dv">75</span>, <span class="dv">88</span>, <span class="dv">68</span>))</span>
-<span id="cb46-5"><a href=""></a>rank_diff <span class="ot">&lt;-</span> <span class="fu">rank</span>(suppliers<span class="sc">$</span>order_volume) <span class="sc">-</span> <span class="fu">rank</span>(suppliers<span class="sc">$</span>audit_score)</span>
-<span id="cb46-6"><a href=""></a>n_pairs   <span class="ot">&lt;-</span> <span class="fu">nrow</span>(suppliers)</span>
-<span id="cb46-7"><a href=""></a>r_s <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> <span class="fu">sum</span>(rank_diff<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n_pairs <span class="sc">*</span> (n_pairs<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb46-8"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_d2 =</span> <span class="fu">sum</span>(rank_diff<span class="sc">^</span><span class="dv">2</span>), <span class="at">r_s =</span> r_s), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>order_volume <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">31</span>, <span class="dv">18</span>, <span class="dv">37</span>, <span class="dv">76</span>, <span class="dv">68</span>)</span>
+<span id="cb54-2"><a href=""></a>audit_score  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">81</span>, <span class="dv">72</span>, <span class="dv">61</span>, <span class="dv">93</span>, <span class="dv">78</span>, <span class="dv">75</span>, <span class="dv">88</span>, <span class="dv">68</span>)</span>
+<span id="cb54-3"><a href=""></a>d <span class="ot">&lt;-</span> <span class="fu">rank</span>(order_volume) <span class="sc">-</span> <span class="fu">rank</span>(audit_score)</span>
+<span id="cb54-4"><a href=""></a></span>
+<span id="cb54-5"><a href=""></a><span class="fu">sum</span>(d<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> sum_d2     r_s 
-108.000  -0.286 </code></pre>
+<pre><code>[1] 108</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">round</span>(<span class="fu">cor</span>(suppliers<span class="sc">$</span>order_volume, suppliers<span class="sc">$</span>audit_score, <span class="at">method =</span> <span class="st">"spearman"</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="dv">6</span> <span class="sc">*</span> <span class="dv">108</span> <span class="sc">/</span> (<span class="dv">8</span> <span class="sc">*</span> (<span class="dv">8</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.286</code></pre>
+<pre><code>[1] -0.2857143</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">cor</span>(order_volume, audit_score, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.2857143</code></pre>
 </div>
 </div>
 </div>
@@ -2277,22 +2270,32 @@ Kruskal-Wallis chi-squared = 9.62, df = 2, p-value = 0.008148</code></pre>
 </section>
 <section id="spearman-等級相關的-r-實作" class="slide level2">
 <h2>Spearman 等級相關的 R 實作</h2>
-<p><strong>繪製圖形</strong>——把兩組<strong>等級</strong>互相對照作圖，就能看出為什麼 <span class="math inline">r_s</span> 接近 0：這些點並沒有一致往上或往下的趨勢。這裡直接沿用範例 13-7 建立的資料框。</p>
+<p><strong>準備資料</strong>——把兩組<strong>等級</strong>互相對照作圖，就能看出為什麼 <span class="math inline">r_s</span> 接近 0：這些點並沒有一致往上或往下的趨勢。這裡直接沿用範例 13-7 輸入的資料。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>p_rank <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(suppliers, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">rank</span>(order_volume), <span class="at">y =</span> <span class="fu">rank</span>(audit_score))) <span class="sc">+</span></span>
-<span id="cb50-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb50-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> supplier), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb50-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb50-5"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb50-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"八家供應商下單量與稽核分數的等級"</span>,</span>
-<span id="cb50-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"年下單量的等級"</span>, <span class="at">y =</span> <span class="st">"品質稽核分數的等級"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>supplier_ranks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">volume_rank =</span> <span class="fu">rank</span>(order_volume),</span>
+<span id="cb60-2"><a href=""></a>                             <span class="at">score_rank  =</span> <span class="fu">rank</span>(audit_score))</span>
+<span id="cb60-3"><a href=""></a>supplier_ranks</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  volume_rank score_rank
+1           2          6
+2           6          3
+3           5          1
+4           3          8
+5           1          5
+6           4          4
+7           8          7
+8           7          2</code></pre>
+</div>
 </div>
 </section>
 <section id="spearman-等級相關的-r-實作-1" class="slide level2">
 <h2>Spearman 等級相關的 R 實作</h2>
 <p><strong>輸出圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>p_rank</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">ggplot</span>(supplier_ranks, <span class="fu">aes</span>(volume_rank, score_rank)) <span class="sc">+</span></span>
+<span id="cb62-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb62-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"八家供應商下單量與稽核分數的等級"</span>,</span>
+<span id="cb62-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"年下單量的等級"</span>, <span class="at">y =</span> <span class="st">"品質稽核分數的等級"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch13-zh_files/figure-revealjs/s13-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"></section>
@@ -2355,49 +2358,23 @@ c.   C C P P C P P P C C P    (C = 現金，P = 刷卡)</code></pre>
 <p><strong>a.</strong> 共有<strong>四</strong>個連串：<code>DDD | XX | DD | X</code>。其中有五個 D 與三個 X，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 3</span>。</p>
 <p><strong>b.</strong> 共有<strong>五</strong>個連串：<code>LL | E | L | EEEE | LL</code>。其中有五個 E 與五個 L，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 5</span>。</p>
 <p><strong>c.</strong> 共有<strong>六</strong>個連串：<code>CC | PP | C | PPP | CC | P</code>。其中有五個 C 與六個 P，所以 <span class="math inline">n_1 = 5</span>、<span class="math inline">n_2 = 6</span>。</p>
+<p>在 R 中，<code>rle()</code> 會列出每個連串的長度，再用 <code>length()</code> 數出共有幾個連串。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>count_runs <span class="ot">&lt;-</span> <span class="cf">function</span>(sequence) {</span>
-<span id="cb54-2"><a href=""></a>  <span class="fu">sum</span>(sequence[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">!=</span> sequence[<span class="sc">-</span><span class="fu">length</span>(sequence)]) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb54-3"><a href=""></a>}</span>
-<span id="cb54-4"><a href=""></a>run_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(text) {</span>
-<span id="cb54-5"><a href=""></a>  letters_used <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(text, <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb54-6"><a href=""></a>  counts <span class="ot">&lt;-</span> <span class="fu">table</span>(letters_used)</span>
-<span id="cb54-7"><a href=""></a>  <span class="fu">c</span>(<span class="at">runs =</span> <span class="fu">count_runs</span>(letters_used), <span class="at">n1 =</span> counts[[<span class="dv">1</span>]], <span class="at">n2 =</span> counts[[<span class="dv">2</span>]])</span>
-<span id="cb54-8"><a href=""></a>}</span>
-<span id="cb54-9"><a href=""></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"DDDXXDDX"</span>, <span class="st">"LLELEEEELL"</span>, <span class="st">"CCPPCPPPCCP"</span>), run_summary) <span class="sc">|&gt;</span></span>
-<span id="cb54-10"><a href=""></a>  <span class="fu">t</span>() <span class="sc">|&gt;</span></span>
-<span id="cb54-11"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: center;">runs</th>
-<th style="text-align: center;">n1</th>
-<th style="text-align: center;">n2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">DDDXXDDX</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">LLELEEEELL</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CCPPCPPPCCP</td>
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">6</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>orders   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"X"</span>,<span class="st">"X"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"X"</span>)</span>
+<span id="cb65-2"><a href=""></a>shifts   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"L"</span>,<span class="st">"L"</span>,<span class="st">"E"</span>,<span class="st">"L"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,<span class="st">"L"</span>,<span class="st">"L"</span>)</span>
+<span id="cb65-3"><a href=""></a>payments <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"C"</span>,<span class="st">"C"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>,<span class="st">"C"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>,<span class="st">"P"</span>,<span class="st">"C"</span>,<span class="st">"C"</span>,<span class="st">"P"</span>)</span>
+<span id="cb65-4"><a href=""></a></span>
+<span id="cb65-5"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(orders)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(shifts)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(payments)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
 </div>
 </div>
 </div>
@@ -2557,15 +2534,20 @@ c.   C C P P C P P P C C P    (C = 現金，P = 刷卡)</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 3 的 R 實作</strong>——<code>count_runs()</code> 已在 <a href="#/example-13-8">Example 13-8</a> 定義。</p>
+<p><strong>步驟 3 的 R 實作</strong>——與 <a href="#/example-13-8">Example 13-8</a> 一樣，用 <code>rle()</code> 數出連串的個數。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>order_types <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="st">"DDDEEDDDDEDEEEDDDDEEDDDEE"</span>, <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb56-2"><a href=""></a><span class="fu">c</span>(<span class="at">n1_export =</span> <span class="fu">sum</span>(order_types <span class="sc">==</span> <span class="st">"E"</span>),</span>
-<span id="cb56-3"><a href=""></a>  <span class="at">n2_domestic =</span> <span class="fu">sum</span>(order_types <span class="sc">==</span> <span class="st">"D"</span>),</span>
-<span id="cb56-4"><a href=""></a>  <span class="at">G =</span> <span class="fu">count_runs</span>(order_types))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a>order_types <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,</span>
+<span id="cb72-2"><a href=""></a>                 <span class="st">"E"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"E"</span>)</span>
+<span id="cb72-3"><a href=""></a></span>
+<span id="cb72-4"><a href=""></a><span class="fu">table</span>(order_types)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  n1_export n2_domestic           G 
-         10          15          10 </code></pre>
+<pre><code>order_types
+ D  E 
+15 10 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(order_types)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
 </div>
 </div>
 <p><strong>步驟 4.</strong> 做成決策。連串個數為 10，既不小於等於 7，也不大於等於 18，所以<strong>不拒絕</strong>虛無假設。</p>
@@ -2659,23 +2641,27 @@ c.   C C P P C P P P C C P    (C = 現金，P = 刷卡)</code></pre>
 </table>
 <p>連串個數為 <span class="math inline">G = 9</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a>cartons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">74</span>, <span class="dv">45</span>, <span class="dv">52</span>, <span class="dv">57</span>, <span class="dv">86</span>, <span class="dv">54</span>, <span class="dv">62</span>, <span class="dv">62</span>, <span class="dv">78</span>,</span>
-<span id="cb61-2"><a href=""></a>             <span class="dv">41</span>, <span class="dv">84</span>, <span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">66</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>)</span>
-<span id="cb61-3"><a href=""></a>median_cartons <span class="ot">&lt;-</span> <span class="fu">median</span>(cartons)</span>
-<span id="cb61-4"><a href=""></a>above_below <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cartons <span class="sc">&gt;</span> median_cartons, <span class="st">"A"</span>, <span class="st">"B"</span>)[cartons <span class="sc">!=</span> median_cartons]</span>
-<span id="cb61-5"><a href=""></a>median_cartons</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a>cartons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">74</span>, <span class="dv">45</span>, <span class="dv">52</span>, <span class="dv">57</span>, <span class="dv">86</span>, <span class="dv">54</span>, <span class="dv">62</span>, <span class="dv">62</span>, <span class="dv">78</span>,</span>
+<span id="cb79-2"><a href=""></a>             <span class="dv">41</span>, <span class="dv">84</span>, <span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">66</span>, <span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>)</span>
+<span id="cb79-3"><a href=""></a></span>
+<span id="cb79-4"><a href=""></a><span class="fu">median</span>(cartons)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 62</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a><span class="fu">paste</span>(above_below, <span class="at">collapse =</span> <span class="st">" "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a>above_below <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cartons[cartons <span class="sc">!=</span> <span class="dv">62</span>] <span class="sc">&gt;</span> <span class="dv">62</span>, <span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb81-2"><a href=""></a>above_below</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "B A B B B A B A B A A A A A A B B B"</code></pre>
+<pre><code> [1] "B" "A" "B" "B" "B" "A" "B" "A" "B" "A" "A" "A" "A" "A" "A" "B" "B" "B"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">c</span>(<span class="at">n1 =</span> <span class="fu">sum</span>(above_below <span class="sc">==</span> <span class="st">"A"</span>), <span class="at">n2 =</span> <span class="fu">sum</span>(above_below <span class="sc">==</span> <span class="st">"B"</span>),</span>
-<span id="cb65-2"><a href=""></a>  <span class="at">G =</span> <span class="fu">count_runs</span>(above_below))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">table</span>(above_below)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>n1 n2  G 
- 9  9  9 </code></pre>
+<pre><code>above_below
+A B 
+9 9 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(above_below)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
 </div>
 </div>
 </div>
@@ -2751,21 +2737,36 @@ N N A A N A N N N N A N A A A A A N N N N</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟 3 的 R 實作</strong>——沿用同一個 <code>count_runs()</code> 輔助函式，且相除之前不做任何四捨五入。</p>
+<p><strong>步驟 3 的 R 實作</strong>——同樣用 <code>rle()</code> 數出連串的個數，且相除之前不做任何四捨五入。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>destinations <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(<span class="fu">paste0</span>(<span class="st">"AAAANNNNNAAAAANAAANANAAA"</span>,</span>
-<span id="cb68-2"><a href=""></a>                                <span class="st">"NNAANANNNNANAAAAANNNN"</span>), <span class="st">""</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb68-3"><a href=""></a>n1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(destinations <span class="sc">==</span> <span class="st">"N"</span>)</span>
-<span id="cb68-4"><a href=""></a>n2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(destinations <span class="sc">==</span> <span class="st">"A"</span>)</span>
-<span id="cb68-5"><a href=""></a>runs <span class="ot">&lt;-</span> <span class="fu">count_runs</span>(destinations)</span>
-<span id="cb68-6"><a href=""></a>mu_runs    <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">/</span> (n1 <span class="sc">+</span> n2) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb68-7"><a href=""></a>sigma_runs <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">*</span> n1 <span class="sc">*</span> n2 <span class="sc">-</span> n1 <span class="sc">-</span> n2) <span class="sc">/</span></span>
-<span id="cb68-8"><a href=""></a>                   ((n1 <span class="sc">+</span> n2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb68-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n1 =</span> n1, <span class="at">n2 =</span> n2, <span class="at">G =</span> runs, <span class="at">mu_G =</span> mu_runs, <span class="at">sigma_G =</span> sigma_runs,</span>
-<span id="cb68-10"><a href=""></a>        <span class="at">z =</span> (runs <span class="sc">-</span> mu_runs) <span class="sc">/</span> sigma_runs), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a>destinations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,</span>
+<span id="cb88-2"><a href=""></a>                  <span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,</span>
+<span id="cb88-3"><a href=""></a>                  <span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"A"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>,<span class="st">"N"</span>)</span>
+<span id="cb88-4"><a href=""></a>mu_G    <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">20</span> <span class="sc">*</span> <span class="dv">25</span> <span class="sc">/</span> (<span class="dv">20</span> <span class="sc">+</span> <span class="dv">25</span>) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb88-5"><a href=""></a>sigma_G <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="dv">20</span> <span class="sc">*</span> <span class="dv">25</span> <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="dv">20</span> <span class="sc">*</span> <span class="dv">25</span> <span class="sc">-</span> <span class="dv">20</span> <span class="sc">-</span> <span class="dv">25</span>) <span class="sc">/</span></span>
+<span id="cb88-6"><a href=""></a>                ((<span class="dv">20</span> <span class="sc">+</span> <span class="dv">25</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">20</span> <span class="sc">+</span> <span class="dv">25</span> <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb88-7"><a href=""></a></span>
+<span id="cb88-8"><a href=""></a><span class="fu">table</span>(destinations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     n1      n2       G    mu_G sigma_G       z 
- 20.000  25.000  18.000  23.222   3.274  -1.595 </code></pre>
+<pre><code>destinations
+ A  N 
+25 20 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a><span class="fu">length</span>(<span class="fu">rle</span>(destinations)<span class="sc">$</span>lengths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a>mu_G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23.22222</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a>sigma_G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.273881</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a>(<span class="dv">18</span> <span class="sc">-</span> mu_G) <span class="sc">/</span> sigma_G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.595117</code></pre>
 </div>
 </div>
 </div>

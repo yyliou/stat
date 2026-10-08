@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -172,11 +171,11 @@ $$\text{Test statistic} = \frac{(\text{observed value}) - (\text{expected value}
 
 ```{r s9-1-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
 set.seed(2023)
-mean_differences <- replicate(5000,
-  mean(rnorm(30, 100, 15)) - mean(rnorm(30, 100, 15)))
-ggplot(data.frame(difference = mean_differences), aes(difference)) +
-  geom_histogram(bins = 40, fill = "steelblue", colour = "white") +
-  geom_vline(xintercept = 0, linetype = "dashed") +
+differences <- replicate(5000, mean(rnorm(30, 100, 15)) - mean(rnorm(30, 100, 15)))
+
+ggplot(data.frame(differences), aes(differences)) +
+  geom_histogram(bins = 40, color = "white") +
+  geom_vline(xintercept = 0) +
   labs(title = "樣本對的均值差",
        x = "Xbar1 - Xbar2", y = "次數")
 ```
@@ -290,13 +289,11 @@ $$z = \frac{(1685 - 1512) - 0}{\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}}} = \
 **以 R 執行步驟 3** ——臨界值、檢定統計量與 P 值。
 
 ```{r e9-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_app <- 1685; sigma_app <- 320; n_app <- 40
-mean_web <- 1512; sigma_web <- 285; n_web <- 40
-se_orders <- sqrt(sigma_app^2 / n_app + sigma_web^2 / n_web)
-z_statistic <- (mean_app - mean_web) / se_orders
-round(c(standard_error = se_orders, z = z_statistic), 2)
-round(qnorm(c(0.025, 0.975)), 2)
-round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
+z <- (1685 - 1512) / sqrt(320^2 / 40 + 285^2 / 40)
+
+z
+qnorm(c(0.025, 0.975))
+2 * (1 - pnorm(abs(z)))
 ```
 
 **步驟 4.** 做出決策。因 $2.55 > 1.96$（等同於 $P = 0.0107 < \alpha = 0.05$），拒絕 $H_0$。
@@ -352,8 +349,9 @@ taichung <- c(13, 10, 16, 10, 10,  9, 13,  8,  9, 16,
                8, 13,  7, 16, 14, 12, 12, 18, 14, 18,
               16, 15, 12,  7, 11, 20,  7,  9, 14,  8,
               11, 11, 16, 15, 15, 13, 12, 15,  7,  5)
-round(c(n_taoyuan = length(taoyuan), n_taichung = length(taichung),
-        mean_taoyuan = mean(taoyuan), mean_taichung = mean(taichung)), 1)
+
+mean(taoyuan)
+mean(taichung)
 ```
 :::
 
@@ -369,12 +367,10 @@ round(c(n_taoyuan = length(taoyuan), n_taichung = length(taichung),
 $$z = \frac{(12.4 - 11.8) - 0}{\sqrt{\dfrac{4^2}{50} + \dfrac{4^2}{50}}} = 0.75$$
 
 ```{r e9-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sigma_lines <- 4
-se_lines <- sqrt(sigma_lines^2 / length(taoyuan) +
-                 sigma_lines^2 / length(taichung))
-z_statistic <- (mean(taoyuan) - mean(taichung)) / se_lines
-round(c(z = z_statistic,
-        p_value = pnorm(z_statistic, lower.tail = FALSE)), 4)
+z <- (12.4 - 11.8) / sqrt(4^2 / 50 + 4^2 / 50)
+
+z
+1 - pnorm(z)
 ```
 
 **步驟 3.** 求 P 值。$z = 0.75$ 左側的面積為 0.7734，$1.0000 - 0.7734 = 0.2266$。
@@ -434,10 +430,11 @@ $$(1685 - 1512) \pm 1.96\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}} = 173 \pm 1
 $$40.20 < \mu_1 - \mu_2 < 305.80$$
 
 ```{r e9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-margin_of_error <- qnorm(0.975) * se_orders
-difference <- mean_app - mean_web
-round(c(lower = difference - margin_of_error,
-        upper = difference + margin_of_error), 2)
+margin <- qnorm(0.975) * sqrt(320^2 / 40 + 285^2 / 40)
+
+margin
+(1685 - 1512) - margin
+(1685 - 1512) + margin
 ```
 
 由於信賴區間不包含零，決策是**拒絕 $H_0$**，與範例 9-1 的結論一致。
@@ -529,18 +526,14 @@ $$t = \frac{(854 - 814) - 0}{\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}}} = \frac
 :::{.callout-tip}
 ## 解題
 
-**以 R 執行步驟 3** ——自由度、臨界值、檢定統計量與 P 值。
+**以 R 執行步驟 3** ——臨界值、檢定統計量與 P 值。
 
 ```{r e9-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_street <- 854; sd_street <- 52; n_street <- 10
-mean_mall   <- 814; sd_mall   <- 61; n_mall   <- 10
-degrees_freedom <- min(n_street - 1, n_mall - 1)
-se_revenue <- sqrt(sd_street^2 / n_street + sd_mall^2 / n_mall)
-t_statistic <- (mean_street - mean_mall) / se_revenue
-round(c(df = degrees_freedom, standard_error = se_revenue,
-        t = t_statistic), 3)
-round(qt(c(0.025, 0.975), degrees_freedom), 3)
-round(2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE), 4)
+t_stat <- (854 - 814) / sqrt(52^2 / 10 + 61^2 / 10)
+
+t_stat
+qt(c(0.025, 0.975), 9)
+2 * (1 - pt(abs(t_stat), 9))
 ```
 
 **步驟 4.** 因 $1.578 < 2.262$，不拒絕 $H_0$。
@@ -586,10 +579,11 @@ $$(854 - 814) \pm 2.262\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}} = 40 \pm 57.34
 $$-17.34 < \mu_1 - \mu_2 < 97.34$$
 
 ```{r e9-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-margin_of_error <- qt(0.975, degrees_freedom) * se_revenue
-difference <- mean_street - mean_mall
-round(c(lower = difference - margin_of_error,
-        upper = difference + margin_of_error), 2)
+margin <- qt(0.975, 9) * sqrt(52^2 / 10 + 61^2 / 10)
+
+margin
+(854 - 814) - margin
+(854 - 814) + margin
 ```
 
 由於區間包含 0，沒有足夠證據支持兩個均值有差異的宣稱。
@@ -644,14 +638,12 @@ $t$ 檢定有兩種版本：一種用於母體變異數**不相等**，另一種
 **比較課本的保守自由度與 `t.test()` 所用的 Welch 自由度**，以範例 9-4 的摘要統計量為起點。
 
 ```{r s9-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-welch_df <- function(sd1, n1, sd2, n2) {
-  (sd1^2 / n1 + sd2^2 / n2)^2 /
-    ((sd1^2 / n1)^2 / (n1 - 1) + (sd2^2 / n2)^2 / (n2 - 1))
-}
-df_welch <- welch_df(sd_street, n_street, sd_mall, n_mall)
-round(c(df_book = degrees_freedom, df_welch = df_welch), 3)
-round(c(p_book  = 2 * pt(abs(t_statistic), degrees_freedom, lower.tail = FALSE),
-        p_welch = 2 * pt(abs(t_statistic), df_welch, lower.tail = FALSE)), 4)
+welch_df <- (52^2 / 10 + 61^2 / 10)^2 /
+  ((52^2 / 10)^2 / 9 + (61^2 / 10)^2 / 9)
+
+welch_df
+2 * (1 - pt(abs(t_stat), 9))
+2 * (1 - pt(abs(t_stat), welch_df))
 ```
 
 兩種作法的檢定統計量完全相同，只有自由度不同，因而 P 值略有差異。課本一律取 $\text{d.f.} = 9$，這是較保守的選擇。
@@ -778,10 +770,12 @@ $$t = \frac{-1.100 - 0}{2.242/\sqrt{9}} = -1.472$$
 ```{r e9-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 three_years_ago <- c(7.00, 3.40, 3.90, 3.50, 4.00, 3.30, 4.00, 5.30, 3.90)
 today           <- c(5.20, 3.80, 6.40, 2.90, 7.10, 4.50, 8.20, 3.30, 6.80)
-revenue_change  <- three_years_ago - today
-knitr::kable(data.frame(X1 = three_years_ago, X2 = today, D = revenue_change,
-                        D2 = revenue_change^2), align = "c")
-round(c(sumD = sum(revenue_change), sumD2 = sum(revenue_change^2)), 4)
+D <- three_years_ago - today
+
+D
+D^2
+sum(D)
+sum(D^2)
 ```
 :::
 
@@ -795,12 +789,13 @@ round(c(sumD = sum(revenue_change), sumD2 = sum(revenue_change^2)), 4)
 **以 R 執行步驟 3 至 5** ——檢定統計量、臨界值、P 值與決策。
 
 ```{r e9-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_outlets <- length(revenue_change)
-t_statistic <- mean(revenue_change) / (sd(revenue_change) / sqrt(n_outlets))
-round(c(Dbar = mean(revenue_change), sD = sd(revenue_change),
-        t = t_statistic), 3)
-round(qt(0.05, n_outlets - 1), 3)
-round(pt(t_statistic, n_outlets - 1), 4)
+t_stat <- mean(D) / (sd(D) / sqrt(9))
+
+mean(D)
+sd(D)
+t_stat
+qt(0.05, 8)
+pt(t_stat, 8)
 ```
 
 **步驟 4.** 檢定統計量 $-1.472$ 大於臨界值 $-1.860$（等同於 $P = 0.0896 > 0.05$），故不拒絕 $H_0$。
@@ -853,16 +848,19 @@ $$t = \frac{2.500 - 0}{3.728/\sqrt{6}} = 1.643$$
 :::{.callout-tip}
 ## 解題
 
-**以 R 執行步驟 3** ——建表並計算檢定統計量。
+**以 R 執行步驟 3** ——求出 $D$ 與 $D^2$ 並計算檢定統計量。
 
 ```{r e9-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 before <- c(34, 28, 41, 37, 25, 30)
 after  <- c(28, 26, 42, 29, 24, 31)
-defect_change <- before - after
-knitr::kable(data.frame(X1 = before, X2 = after,
-                        D = defect_change, D2 = defect_change^2), align = "c")
-round(c(sumD = sum(defect_change), sumD2 = sum(defect_change^2),
-        Dbar = mean(defect_change), sD = sd(defect_change)), 3)
+D      <- before - after
+
+D
+D^2
+sum(D)
+sum(D^2)
+mean(D)
+sd(D)
 ```
 :::
 
@@ -876,11 +874,11 @@ round(c(sumD = sum(defect_change), sumD2 = sum(defect_change^2),
 **以 R 執行步驟 3 至 5** ——臨界值、檢定統計量、P 值與決策。
 
 ```{r e9-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_lines <- length(defect_change)
-t_statistic <- mean(defect_change) / (sd(defect_change) / sqrt(n_lines))
-round(t_statistic, 3)
-round(qt(c(0.05, 0.95), n_lines - 1), 3)
-round(2 * pt(abs(t_statistic), n_lines - 1, lower.tail = FALSE), 4)
+t_stat <- mean(D) / (sd(D) / sqrt(6))
+
+t_stat
+qt(c(0.05, 0.95), 5)
+2 * (1 - pt(abs(t_stat), 5))
 ```
 
 **步驟 4.** 不拒絕 $H_0$：檢定統計量 1.643 落在非拒絕區。
@@ -932,9 +930,11 @@ $$2.500 \pm 2.015\cdot\frac{3.728}{\sqrt{6}} = 2.500 \pm 3.07$$
 $$-0.57 < \mu_D < 5.57$$
 
 ```{r e9-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-margin_of_error <- qt(0.95, n_lines - 1) * sd(defect_change) / sqrt(n_lines)
-round(c(lower = mean(defect_change) - margin_of_error,
-        upper = mean(defect_change) + margin_of_error), 2)
+margin <- qt(0.95, 5) * sd(D) / sqrt(6)
+
+margin
+mean(D) - margin
+mean(D) + margin
 ```
 
 由於區間包含 0，決策是不拒絕 $H_0:\ \mu_D = 0$；沒有足夠證據支持修訂後的程序會改變產線的不良率。
@@ -1045,21 +1045,35 @@ $$z = \frac{(0.4000 - 0.7143) - 0}{\sqrt{(0.5375)(0.4625)\left(\dfrac{1}{45}+\df
 :::{.callout-tip}
 ## 解題
 
-**以 R 執行步驟 3** ——樣本比例、加權估計值、檢定統計量與 P 值。
+**以 R 執行步驟 3** ——樣本比例與加權估計值。
 
 ```{r e9-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-wallet_hyper <- 18; n_hyper <- 45
-wallet_cvs   <- 25; n_cvs   <- 35
-phat_hyper <- wallet_hyper / n_hyper
-phat_cvs   <- wallet_cvs / n_cvs
-pbar <- (wallet_hyper + wallet_cvs) / (n_hyper + n_cvs)
-round(c(phat_hyper = phat_hyper, phat_cvs = phat_cvs,
-        pbar = pbar, qbar = 1 - pbar), 4)
-z_statistic <- (phat_hyper - phat_cvs) /
-  sqrt(pbar * (1 - pbar) * (1 / n_hyper + 1 / n_cvs))
-round(z_statistic, 2)
-round(qnorm(c(0.025, 0.975)), 2)
-round(2 * pnorm(abs(z_statistic), lower.tail = FALSE), 4)
+p_hat1 <- 18 / 45
+p_hat2 <- 25 / 35
+p_bar  <- (18 + 25) / (45 + 35)
+
+p_hat1
+p_hat2
+p_bar
+1 - p_bar
+```
+:::
+
+---
+
+## 範例 9-9
+
+:::{.callout-tip}
+## 解題
+
+**以 R 執行步驟 3（續）** ——檢定統計量、臨界值與 P 值。
+
+```{r e9-9-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+z <- (p_hat1 - p_hat2) / sqrt(p_bar * (1 - p_bar) * (1 / 45 + 1 / 35))
+
+z
+qnorm(c(0.025, 0.975))
+2 * (1 - pnorm(abs(z)))
 ```
 
 **步驟 4.** 因 $-2.80 < -1.96$（等同於 $P = 0.0052 < \alpha = 0.05$），拒絕 $H_0$。
@@ -1112,21 +1126,35 @@ $$z = \frac{(0.72 - 0.60) - 0}{\sqrt{(0.675)(0.325)\left(\dfrac{1}{250}+\dfrac{1
 :::{.callout-tip}
 ## 解題
 
-**以 R 執行步驟 3** ——次數、加權估計值、檢定統計量、臨界值與 P 值。
+**以 R 執行步驟 3** ——次數與加權估計值。
 
 ```{r e9-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-phat_business <- 0.72; n_business <- 250
-phat_leisure  <- 0.60; n_leisure  <- 150
-count_business <- phat_business * n_business
-count_leisure  <- phat_leisure * n_leisure
-pbar <- (count_business + count_leisure) / (n_business + n_leisure)
-round(c(X1 = count_business, X2 = count_leisure,
-        pbar = pbar, qbar = 1 - pbar), 3)
-z_statistic <- (phat_business - phat_leisure) /
-  sqrt(pbar * (1 - pbar) * (1 / n_business + 1 / n_leisure))
-round(z_statistic, 2)
-round(qnorm(0.90), 2)
-round(pnorm(z_statistic, lower.tail = FALSE), 4)
+X1    <- 0.72 * 250
+X2    <- 0.60 * 150
+p_bar <- (X1 + X2) / (250 + 150)
+
+X1
+X2
+p_bar
+1 - p_bar
+```
+:::
+
+---
+
+## 範例 9-10
+
+:::{.callout-tip}
+## 解題
+
+**以 R 執行步驟 3（續）** ——檢定統計量、臨界值與 P 值。
+
+```{r e9-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+z <- (0.72 - 0.60) / sqrt(p_bar * (1 - p_bar) * (1 / 250 + 1 / 150))
+
+z
+qnorm(0.90)
+1 - pnorm(z)
 ```
 
 **步驟 4.** 因 $2.48 > 1.28$（等同於 $P = 0.0066 < 0.10$），拒絕 $H_0$。
@@ -1174,12 +1202,11 @@ $$(0.4000 - 0.7143) \pm 1.96\sqrt{\dfrac{(0.4000)(0.6000)}{45} + \dfrac{(0.7143)
 $$-0.521 < p_1 - p_2 < -0.107$$
 
 ```{r e9-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-margin_of_error <- qnorm(0.975) *
-  sqrt(phat_hyper * (1 - phat_hyper) / n_hyper +
-       phat_cvs * (1 - phat_cvs) / n_cvs)
-difference <- phat_hyper - phat_cvs
-round(c(lower = difference - margin_of_error,
-        upper = difference + margin_of_error), 3)
+margin <- qnorm(0.975) * sqrt(p_hat1 * (1 - p_hat1) / 45 + p_hat2 * (1 - p_hat2) / 35)
+
+margin
+(p_hat1 - p_hat2) - margin
+(p_hat1 - p_hat2) + margin
 ```
 
 區間完全落在零的左側，與範例 9-9 拒絕 $H_0$ 的決策一致。
@@ -1212,18 +1239,19 @@ round(c(lower = difference - margin_of_error,
 
 **繪圖** ——圖 9-10：自由度不同的數條 $F$ 曲線。
 
-```{r s9-6-1, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-f_value <- seq(0.01, 5, length.out = 400)
-f_curves <- bind_rows(
-  tibble(f_value, density = df(f_value,  3,  5), degrees = "3, 5"),
-  tibble(f_value, density = df(f_value, 10, 10), degrees = "10, 10"),
-  tibble(f_value, density = df(f_value, 20, 30), degrees = "20, 30")
-)
-ggplot(f_curves, aes(f_value, density, colour = degrees)) +
-  geom_line(linewidth = 0.9) +
-  labs(title = "F 曲線族", x = "F", y = "機率密度",
-       colour = "分子, 分母自由度")
+```{r s9-6-1, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3.5}
+x <- seq(0, 5, by = 0.01)
+curves <- data.frame(x, f3_5 = df(x, 3, 5), f10_10 = df(x, 10, 10),
+                     f20_30 = df(x, 20, 30))
+
+ggplot(curves, aes(x)) +
+  geom_line(aes(y = f3_5)) +
+  geom_line(aes(y = f10_10), linetype = "dashed") +
+  geom_line(aes(y = f20_30), linetype = "dotted") +
+  labs(title = "F 曲線族", x = "F", y = "機率密度")
 ```
+
+實線為 $\text{d.f.N.} = 3$、$\text{d.f.D.} = 5$，虛線為 $\text{d.f.N.} = 10$、$\text{d.f.D.} = 10$，點線為 $\text{d.f.N.} = 20$、$\text{d.f.D.} = 30$。
 
 每一條曲線都右偏，且都從 $F = 0$ 開始。
 
@@ -1303,9 +1331,7 @@ $F$ 檢定有兩個自由度：分子自由度 $\text{d.f.N.} = n_1 - 1$ 與分�
 此為 $\alpha = 0.05$ 的右尾檢定，使用附表 A-7 中 $\alpha = 0.05$ 的那一張表。d.f.N. 列在最上方、d.f.D. 列在最左欄，臨界值在兩者交會處。本例為 **2.34**。
 
 ```{r e9-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-alpha <- 0.05
-df_numerator <- 12; df_denominator <- 18
-round(qf(1 - alpha, df_numerator, df_denominator), 2)
+qf(0.95, 12, 18)
 ```
 :::
 
@@ -1329,11 +1355,7 @@ round(qf(1 - alpha, df_numerator, df_denominator), 2)
 此為 $\alpha = 0.05$ 的雙尾檢定，必須使用 $0.05/2 = 0.025$ 的表。此處 $\text{d.f.N.} = 16 - 1 = 15$、$\text{d.f.D.} = 25 - 1 = 24$，臨界值為 **2.44**。
 
 ```{r e9-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-alpha <- 0.05
-n_numerator <- 16; n_denominator <- 25
-df_numerator <- n_numerator - 1; df_denominator <- n_denominator - 1
-c(dfN = df_numerator, dfD = df_denominator)
-round(qf(1 - alpha/2, df_numerator, df_denominator), 2)
+qf(0.975, 15, 24)
 ```
 
 只使用**右**尾，因為把較大變異數放在分子後，$F$ 檢定統計量必定大於或等於 1。
@@ -1383,13 +1405,11 @@ $$F = \frac{s_1^2}{s_2^2} = \frac{45.0}{23.5} = 1.91$$
 **以 R 執行步驟 2 至 5** ——臨界值、檢定統計量、P 值與決策。
 
 ```{r e9-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-var_taoyuan  <- 45.0; n_taoyuan_picks  <- 25
-var_taichung <- 23.5; n_taichung_picks <- 19
-df_numerator <- n_taoyuan_picks - 1; df_denominator <- n_taichung_picks - 1
-f_statistic <- var_taoyuan / var_taichung
-round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
-round(qf(0.975, df_numerator, df_denominator), 2)
-round(2 * pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+f_stat <- 45.0 / 23.5
+
+f_stat
+qf(0.975, 24, 18)
+2 * (1 - pf(f_stat, 24, 18))
 ```
 
 **步驟 4.** 因 $1.91 < 2.50$，不拒絕 $H_0$。（P 值為 0.1612。）
@@ -1441,13 +1461,11 @@ $$F = \frac{s_1^2}{s_2^2} = \frac{0.84^2}{0.55^2} = 2.33$$
 **以 R 執行步驟 2 至 5** ——臨界值、檢定統計量、P 值與決策。
 
 ```{r e9-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sd_supplier_a <- 0.84; n_supplier_a <- 12
-sd_supplier_b <- 0.55; n_supplier_b <- 16
-df_numerator <- n_supplier_a - 1; df_denominator <- n_supplier_b - 1
-f_statistic <- sd_supplier_a^2 / sd_supplier_b^2
-round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
-round(qf(0.99, df_numerator, df_denominator), 2)
-round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
+f_stat <- 0.84^2 / 0.55^2
+
+f_stat
+qf(0.99, 11, 15)
+1 - pf(f_stat, 11, 15)
 ```
 
 **步驟 4.** 因 $2.33 < 3.73$，不拒絕 $H_0$。
@@ -1475,7 +1493,7 @@ round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 4)
 一如既往，P 值小於 $\alpha$ 就拒絕 $H_0$。
 :::
 
-在 R 中，`pf(F, dfN, dfD, lower.tail = FALSE)` 可直接得到精確的右尾 P 值。
+在 R 中，`1 - pf(f_stat, dfN, dfD)` 可直接得到精確的右尾 P 值。
 
 ---
 
@@ -1530,12 +1548,12 @@ $$F = \frac{s_1^2}{s_2^2} = \frac{70.60}{27.68} = 2.55$$
 ```{r e9-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 northern <- c(48.2, 61.5, 39.8, 55.3, 44.6, 58.1)
 southern <- c(50.4, 41.2, 53.2, 45.9)
-df_numerator <- length(northern) - 1
-df_denominator <- length(southern) - 1
-f_statistic <- var(northern) / var(southern)
-round(c(var_northern = var(northern), var_southern = var(southern)), 2)
-round(c(dfN = df_numerator, dfD = df_denominator, F = f_statistic), 2)
-round(pf(f_statistic, df_numerator, df_denominator, lower.tail = FALSE), 3)
+f_stat   <- var(northern) / var(southern)
+
+var(northern)
+var(southern)
+f_stat
+1 - pf(f_stat, 5, 3)
 ```
 
 **步驟 4.** 因 P 值 $> 0.10$，不拒絕 $H_0$。（R 算出的精確值為 0.235。）

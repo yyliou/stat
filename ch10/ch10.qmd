@@ -42,7 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
+theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -177,32 +177,16 @@ Back to [Example 10-4](#example-10-4)
 :::{.callout-tip}
 ## Solution
 
-**Step 1 — draw and label the axes; Step 2 — plot each point**
+**Step 1 — draw and label the axes; Step 2 — plot each point (Figure 10-2)**
 
-```{r e10-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e10-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
 ad_spend <- c(20, 30, 40, 50, 60, 70)
 orders   <- c(200, 180, 235, 265, 270, 350)
 
-scatter_ads <- ggplot(data.frame(ad_spend, orders),
-                      aes(x = ad_spend, y = orders)) +
-  geom_point(size = 3, color = "steelblue") +
+ggplot(data.frame(ad_spend, orders), aes(ad_spend, orders)) +
+  geom_point() +
   labs(title = "Advertising Spend and Orders",
-       x = "Ad spend (thousand NT dollars)", y = "Orders") +
-  theme_minimal()
-```
-:::
-
----
-
-## Example 10-1
-
-:::{.callout-tip}
-## Solution
-
-**Output figure (Figure 10-2)**
-
-```{r e10-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-scatter_ads
+       x = "Ad spend (thousand NT dollars)", y = "Orders")
 ```
 
 **Step 3** It looks like there is a **positive relationship** between advertising spend and the number of orders.
@@ -235,32 +219,16 @@ Back to [Example 10-5](#example-10-5)
 :::{.callout-tip}
 ## Solution
 
-**Step 1 — draw and label the axes; Step 2 — plot each point**
+**Step 1 — draw and label the axes; Step 2 — plot each point (Figure 10-3)**
 
-```{r e10-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e10-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
 days_late <- c(1, 2, 3, 4, 5, 6, 7)
 rating    <- c(94, 84, 86, 80, 78, 68, 70)
 
-scatter_rating <- ggplot(data.frame(days_late, rating),
-                         aes(x = days_late, y = rating)) +
-  geom_point(size = 3, color = "tomato") +
+ggplot(data.frame(days_late, rating), aes(days_late, rating)) +
+  geom_point() +
   labs(title = "Days Late and Customer Rating",
-       x = "Days late", y = "Customer rating") +
-  theme_minimal()
-```
-:::
-
----
-
-## Example 10-2
-
-:::{.callout-tip}
-## Solution
-
-**Output figure (Figure 10-3)**
-
-```{r e10-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-scatter_rating
+       x = "Days late", y = "Customer rating")
 ```
 
 **Step 3** It looks as if a **negative linear relationship** exists between the number of days a shipment is late and the rating the customer gives.
@@ -293,32 +261,17 @@ Back to [Example 10-6](#example-10-6)
 :::{.callout-tip}
 ## Solution
 
-**Step 1 — draw and label the axes; Step 2 — plot each point**
+**Step 1 — draw and label the axes; Step 2 — plot each point (Figure 10-4)**
 
-```{r e10-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r e10-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
 years_operating <- c(2, 4, 6, 8, 10, 12, 14)
 growth_rate     <- c(9, 12, 7, 8, 10, 9, 11)
 
-scatter_growth <- ggplot(data.frame(years_operating, growth_rate),
-                         aes(x = years_operating, y = growth_rate)) +
-  geom_point(size = 3, color = "purple") +
+ggplot(data.frame(years_operating, growth_rate),
+       aes(years_operating, growth_rate)) +
+  geom_point() +
   labs(title = "Years in Operation and Order Growth",
-       x = "Years in operation", y = "Order growth (%)") +
-  theme_minimal()
-```
-:::
-
----
-
-## Example 10-3
-
-:::{.callout-tip}
-## Solution
-
-**Output figure (Figure 10-4)**
-
-```{r e10-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-scatter_growth
+       x = "Years in operation", y = "Order growth (%)")
 ```
 
 **Step 3** There is **no strong positive or negative linear relationship** between the number of years a company has been in operation and its order growth.
@@ -468,7 +421,8 @@ The value of $r$ suggests a **strong positive linear relationship** between adve
 **Compute in R**
 
 ```{r e10-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(cor(ad_spend, orders), 3)
+(6 * 72750 - 270 * 1500) / sqrt((6 * 13900 - 270^2) * (6 * 393250 - 1500^2))
+cor(ad_spend, orders)
 ```
 :::
 
@@ -517,7 +471,7 @@ Back to [Example 10-10](#example-10-10)
 $$r = \frac{7(2128) - (28)(560)}{\sqrt{[7(140) - 28^2][7(45{,}296) - 560^2]}} = \frac{-784}{824.93} = -0.950$$
 
 ```{r e10-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(cor(days_late, rating), 3)
+cor(days_late, rating)
 ```
 
 The value of $r$ suggests a **strong negative linear relationship**: the later a shipment arrives, the lower the rating the customer gives.
@@ -568,7 +522,7 @@ Back to [Example 10-8](#example-10-8)
 $$r = \frac{7(534) - (56)(66)}{\sqrt{[7(560) - 56^2][7(640) - 66^2]}} = \frac{42}{311.79} = 0.135$$
 
 ```{r e10-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(cor(years_operating, growth_rate), 3)
+cor(years_operating, growth_rate)
 ```
 
 The value of $r$ indicates a **very weak positive linear relationship** between the years a company has been in operation and its order growth.
@@ -677,12 +631,8 @@ $$t = r \sqrt{\frac{n-2}{1-r^2}} = 0.929\sqrt{\frac{6-2}{1-(0.929)^2}} = 5.02$$
 **Compute in R**
 
 ```{r e10-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-correlation_test <- cor.test(ad_spend, orders)
-
-round(c(t = unname(correlation_test$statistic),
-        p_value = correlation_test$p.value), 4)
-
-round(qt(c(0.025, 0.975), df = length(ad_spend) - 2), 3)
+cor.test(ad_spend, orders)
+qt(0.975, df = 4)
 ```
 
 `cor.test()` gives $t = 5.02$ with a P-value of $0.0074$, and the two-tailed critical values from Table A-5 are $\pm 2.776$.
@@ -754,12 +704,7 @@ Hence, there is **not enough evidence** to say that there is a significant relat
 **Compute in R**
 
 ```{r e10-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-df_error   <- length(years_operating) - 2
-t_critical <- qt(0.975, df = df_error)
-
-round(sqrt(t_critical^2 / (t_critical^2 + df_error)), 3)
-
-round(cor.test(years_operating, growth_rate)$p.value, 4)
+cor.test(years_operating, growth_rate)
 ```
 :::
 
@@ -915,16 +860,10 @@ $$y' = 115 + 3x$$
 **Compute in R.** The two formulas above are worth writing out once; everywhere else `lm()` does the work.
 
 ```{r e10-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-regression_coefficients <- function(x, y) {
-  denominator <- length(x) * sum(x^2) - sum(x)^2
-  c(a = (sum(y) * sum(x^2) - sum(x) * sum(x * y)) / denominator,
-    b = (length(x) * sum(x * y) - sum(x) * sum(y)) / denominator)
-}
+(1500 * 13900 - 270 * 72750) / (6 * 13900 - 270^2)
+(6 * 72750 - 270 * 1500) / (6 * 13900 - 270^2)
 
-regression_coefficients(ad_spend, orders)
-
-model_ads <- lm(orders ~ ad_spend)
-coef(model_ads)
+coef(lm(orders ~ ad_spend))
 ```
 :::
 
@@ -938,8 +877,11 @@ coef(model_ads)
 **Output figure (Figure 10-14)**
 
 ```{r e10-9-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.9}
-scatter_ads +
-  geom_smooth(method = "lm", se = FALSE, color = "red")
+ggplot(data.frame(ad_spend, orders), aes(ad_spend, orders)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Advertising Spend and Orders",
+       x = "Ad spend (thousand NT dollars)", y = "Orders")
 ```
 :::
 
@@ -986,9 +928,11 @@ $$y' = 96 - 4x$$
 model_rating <- lm(rating ~ days_late)
 coef(model_rating)
 
-scatter_rating +
-  geom_smooth(method = "lm", se = FALSE, color = "darkred") +
-  labs(title = "Regression Line for Days Late and Customer Rating")
+ggplot(data.frame(days_late, rating), aes(days_late, rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Regression Line for Days Late and Customer Rating",
+       x = "Days late", y = "Customer rating")
 ```
 :::
 
@@ -1129,11 +1073,9 @@ staff_on_duty <- 1:5
 units_sold    <- c(14, 16, 16, 24, 30)
 model_stall   <- lm(units_sold ~ staff_on_duty)
 
-mean_sold <- mean(units_sold)
-
-round(c(total = sum((units_sold - mean_sold)^2),
-        explained = sum((fitted(model_stall) - mean_sold)^2),
-        unexplained = sum(resid(model_stall)^2)), 3)
+sum((units_sold - mean(units_sold))^2)
+sum((fitted(model_stall) - mean(units_sold))^2)
+sum(resid(model_stall)^2)
 ```
 
 Total variation $= 184$, explained variation $= 160$, unexplained variation $= 24$, and $184 = 160 + 24$.
@@ -1161,11 +1103,10 @@ y - y'       2      0     -4      0      2
 
 ```{r s10-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=2.6}
 ggplot(data.frame(staff_on_duty, residual = resid(model_stall)),
-       aes(x = staff_on_duty, y = residual)) +
-  geom_point(size = 3) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  labs(title = "Residual Plot", x = "Staff on duty", y = "Residual") +
-  theme_minimal()
+       aes(staff_on_duty, residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  labs(title = "Residual Plot", x = "Staff on duty", y = "Residual")
 ```
 
 ---
@@ -1218,11 +1159,11 @@ As $r$ approaches $0$, $r^2$ decreases more rapidly: if $r = 0.6$, then $r^2 = 0
 ## Coefficient of Determination in R
 
 ```{r s10-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-r_squared_rating <- summary(model_rating)$r.squared
+r <- cor(days_late, rating)
 
-round(c(r = cor(days_late, rating),
-        r_squared = r_squared_rating,
-        nondetermination = 1 - r_squared_rating), 3)
+r
+r^2
+1 - r^2
 ```
 
 In [Example 10-5](#example-10-5), $r = -0.950$, so $r^2 = 0.903$: about $90.3\%$ of the variation in the customer ratings can be explained by the linear relationship with the number of days late, and about $9.7\%$ cannot.
@@ -1321,10 +1262,8 @@ floor_area      <- c(8, 10, 12, 14, 16, 18)
 monthly_revenue <- c(70, 75, 80, 90, 105, 120)
 model_store     <- lm(monthly_revenue ~ floor_area)
 
-residuals_store <- resid(model_store)
-
-round(c(sse = sum(residuals_store^2),
-        s_est = sqrt(sum(residuals_store^2) / df.residual(model_store))), 3)
+sum(resid(model_store)^2)
+sqrt(100 / (6 - 2))
 ```
 
 The standard deviation of the observed values about the predicted values is **5**.
@@ -1392,15 +1331,7 @@ Back to [Example 10-14](#example-10-14)
 $$s_{est} = \sqrt{\frac{50{,}450 - (25)(540) - (5)(7370)}{6-2}} = \sqrt{\frac{100}{4}} = 5$$
 
 ```{r e10-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-intercept <- coef(model_store)[["(Intercept)"]]
-slope     <- coef(model_store)[["floor_area"]]
-
-alternative_s_est <- sqrt((sum(monthly_revenue^2) -
-                           intercept * sum(monthly_revenue) -
-                           slope * sum(floor_area * monthly_revenue)) /
-                          df.residual(model_store))
-
-round(alternative_s_est, 3)
+sqrt((50450 - 25 * 540 - 5 * 7370) / (6 - 2))
 ```
 
 The alternative formula is algebraically the same expression, so it returns exactly the value found in [Example 10-12](#example-10-12), $s_{est} = 5$.
@@ -1462,16 +1393,12 @@ $$\mathbf{69.91 < y < 100.09}$$
 **Compute in R**
 
 ```{r e10-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_stores   <- length(floor_area)
-t_critical <- qt(0.975, df = df.residual(model_store))
+margin <- qt(0.975, df = 4) * 5 *
+  sqrt(1 + 1 / 6 + 6 * (12 - 13)^2 / (6 * 1084 - 78^2))
 
-spread <- sqrt(1 + 1 / n_stores + n_stores * (12 - mean(floor_area))^2 /
-                 (n_stores * sum(floor_area^2) - sum(floor_area)^2))
-
-margin_of_error <- t_critical * sigma(model_store) * spread
-
-round(c(t = t_critical, factor = spread, margin = margin_of_error), 3)
-round(c(lower = 85 - margin_of_error, upper = 85 + margin_of_error), 2)
+margin
+85 - margin
+85 + margin
 ```
 :::
 
@@ -1485,8 +1412,8 @@ round(c(lower = 85 - margin_of_error, upper = 85 + margin_of_error), 2)
 **Check with `predict()`**
 
 ```{r e10-14-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(predict(model_store, data.frame(floor_area = 12),
-              interval = "prediction", level = 0.95), 2)
+predict(model_store, data.frame(floor_area = 12),
+        interval = "prediction", level = 0.95)
 ```
 
 `predict()` returns the same interval, $69.91 < y < 100.09$. You can be **95% confident** that a branch with 12 ping of floor space has an average monthly revenue between $69.91$ and $100.09$ (in units of ten thousand NT dollars). The range is wide because $n = 6$ is small.
@@ -1541,9 +1468,8 @@ weight        <- c(25, 15, 21, 33, 31)
 shipping_cost <- c(5400, 4950, 4750, 8200, 6900)
 
 model_shipping <- lm(shipping_cost ~ distance + weight)
-round(coef(model_shipping), 3)
-
-round(predict(model_shipping, data.frame(distance = 10, weight = 28)))
+coef(model_shipping)
+predict(model_shipping, data.frame(distance = 10, weight = 28))
 ```
 
 The predicted shipping cost is **6877** NT dollars.
@@ -1622,19 +1548,10 @@ Back to [Example 10-16](#example-10-16) and [Example 10-17](#example-10-17)
 $$R = \sqrt{\frac{(0.744)^2 + (0.890)^2 - 2(0.744)(0.890)(0.381)}{1 - 0.381^2}} = \sqrt{\frac{0.841070}{0.854839}} = \sqrt{0.983893} = 0.992$$
 
 ```{r e10-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-r_cost_distance   <- cor(shipping_cost, distance)
-r_cost_weight     <- cor(shipping_cost, weight)
-r_distance_weight <- cor(distance, weight)
-
-round(c(r_yx1 = r_cost_distance, r_yx2 = r_cost_weight,
-        r_x1x2 = r_distance_weight), 3)
-
-multiple_r <- sqrt((r_cost_distance^2 + r_cost_weight^2 -
-                    2 * r_cost_distance * r_cost_weight * r_distance_weight) /
-                   (1 - r_distance_weight^2))
-
-round(c(formula = multiple_r,
-        from_model = sqrt(summary(model_shipping)$r.squared)), 3)
+cor(shipping_cost, distance)
+cor(shipping_cost, weight)
+cor(distance, weight)
+sqrt((0.744^2 + 0.890^2 - 2 * 0.744 * 0.890 * 0.381) / (1 - 0.381^2))
 ```
 
 The correlation between the distance and weight of a parcel and its shipping cost is **0.992**: a strong relationship, since $R$ is close to $1.00$. It is higher than either individual coefficient, $0.744$ and $0.890$.
@@ -1706,17 +1623,11 @@ Hence, the decision is to **reject the null hypothesis** and conclude that there
 **Compute in R**
 
 ```{r e10-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_shipments <- length(shipping_cost)
-k_variables <- 2
+r_squared <- summary(model_shipping)$r.squared
 
-r_squared_shipping <- summary(model_shipping)$r.squared
-f_statistic <- (r_squared_shipping / k_variables) /
-  ((1 - r_squared_shipping) / (n_shipments - k_variables - 1))
-
-round(r_squared_shipping, 4)
-round(f_statistic, 2)
-round(qf(0.95, df1 = n_shipments - k_variables,
-         df2 = n_shipments - k_variables - 1), 2)
+r_squared
+(r_squared / 2) / ((1 - r_squared) / (5 - 2 - 1))
+qf(0.95, df1 = 3, df2 = 2)
 ```
 
 $F = 58.6 > 19.16$, so reject $H_0$.
@@ -1760,11 +1671,8 @@ Calculate the adjusted $R^2$ for the data in [Example 10-15](#example-10-15). Th
 $$R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{n-k-1} = 1 - \frac{(1 - 0.9832)(5-1)}{5-2-1} = 1 - 0.0336 = 0.966$$
 
 ```{r e10-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-adjusted_r_squared <- 1 - (1 - r_squared_shipping) * (n_shipments - 1) /
-  (n_shipments - k_variables - 1)
-
-round(c(formula = adjusted_r_squared,
-        from_model = summary(model_shipping)$adj.r.squared), 3)
+1 - (1 - 0.9832) * (5 - 1) / (5 - 2 - 1)
+summary(model_shipping)$adj.r.squared
 ```
 
 When the number of data groups and the number of independent variables are accounted for, the adjusted multiple coefficient of determination is **0.966**.

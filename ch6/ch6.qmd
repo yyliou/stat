@@ -42,8 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
-library(gridExtra)
+theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -87,30 +86,46 @@ No variable fits a normal distribution perfectly, because a normal distribution 
 
 **Figure 6-1** Histograms and normal model for the distribution of heights of adult women
 
-```{r s6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r s6-1-1a, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(6)
-heights <- rnorm(100000, mean = 163, sd = 6.5)
-height_hist <- function(n_obs, bin_width, title)
-  ggplot(data.frame(height = heights[1:n_obs]), aes(height)) +
-  geom_histogram(binwidth = bin_width, fill = "#2c4a6e",
-                 colour = "white", alpha = 0.8) +
-  labs(title = title, x = "Height (cm)", y = "") + theme_minimal()
+heights <- rnorm(20000, mean = 163, sd = 6.5)
+
+ggplot(data.frame(height = heights[1:100]), aes(height)) +
+  geom_histogram(binwidth = 5, color = "white") +
+  labs(title = "(a) n = 100", x = "Height (cm)", y = "Frequency")
 ```
 
 ---
 
 ## Introduction
 
-```{r s6-1-2, echo=T, warning=FALSE, out.width="85%", fig.align='center'}
-normal_panel <- ggplot(data.frame(height = c(140, 186)), aes(height)) +
-  stat_function(fun = dnorm, args = list(mean = 163, sd = 6.5),
-                colour = "#2c4a6e", linewidth = 1.2) +
-  labs(title = "(d) Normal distribution", x = "Height (cm)", y = "") +
-  theme_minimal()
-grid.arrange(height_hist(100, 5, "(a) n = 100"),
-             height_hist(1000, 3, "(b) larger n"),
-             height_hist(20000, 1, "(c) larger n still"),
-             normal_panel, ncol = 2)
+```{r s6-1-1b, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(data.frame(height = heights[1:1000]), aes(height)) +
+  geom_histogram(binwidth = 3, color = "white") +
+  labs(title = "(b) larger n", x = "Height (cm)", y = "Frequency")
+```
+
+---
+
+## Introduction
+
+```{r s6-1-1c, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(data.frame(height = heights), aes(height)) +
+  geom_histogram(binwidth = 1, color = "white") +
+  labs(title = "(c) larger n still", x = "Height (cm)", y = "Frequency")
+```
+
+---
+
+## Introduction
+
+```{r s6-1-1d, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+x <- seq(140, 186, by = 0.1)
+curve <- data.frame(x, density = dnorm(x, mean = 163, sd = 6.5))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  labs(title = "(d) Normal distribution", x = "Height (cm)", y = "Density")
 ```
 
 ## Normal Distributions
@@ -133,24 +148,19 @@ where $e \approx 2.718$, $\pi \approx 3.14$, $\mu$ is the population mean and $\
 
 The shape and position of a normal distribution curve depend on two parameters: the **mean** and the **standard deviation** (Figure 6-3).
 
-```{r s6-1-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-normal_curve_df <- function(mu, sigma, label) {
-  x <- seq(-8, 10, length.out = 400)
-  data.frame(x = x, density = dnorm(x, mu, sigma), label = label)
-}
-same_mean <- rbind(normal_curve_df(0, 1, "mu = 0, sigma = 1"),
-                   normal_curve_df(0, 2, "mu = 0, sigma = 2"))
-same_sd <- rbind(normal_curve_df(0, 2, "mu = 0, sigma = 2"),
-                 normal_curve_df(2, 2, "mu = 2, sigma = 2"))
-shape_panel <- function(curves, title)
-  ggplot(curves, aes(x, density, colour = label)) + geom_line(linewidth = 1) +
-  labs(title = title, x = "x", y = "", colour = "") +
-  theme_minimal() + theme(legend.position = "bottom")
-grid.arrange(
-  shape_panel(same_mean, "(a) Same means, different standard deviations"),
-  shape_panel(same_sd, "(b) Different means, same standard deviations"),
-  ncol = 2)
+```{r s6-1-3, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=2.4}
+x <- seq(-8, 10, by = 0.01)
+curves <- data.frame(x, mu0_sd1 = dnorm(x, 0, 1), mu0_sd2 = dnorm(x, 0, 2),
+                     mu2_sd2 = dnorm(x, 2, 2))
+
+ggplot(curves, aes(x)) +
+  geom_line(aes(y = mu0_sd1)) +
+  geom_line(aes(y = mu0_sd2), linetype = "dashed") +
+  geom_line(aes(y = mu2_sd2), linetype = "dotted") +
+  labs(title = "Figure 6-3: shapes of normal distributions", x = "x", y = "Density")
 ```
+
+The solid line has $\mu = 0$, $\sigma = 1$, the dashed line $\mu = 0$, $\sigma = 2$, and the dotted line $\mu = 2$, $\sigma = 2$. Solid and dashed have the same mean; dashed and dotted have the same standard deviation.
 
 ## Properties of a Normal Distribution
 
@@ -173,22 +183,15 @@ grid.arrange(
 
 **Figure 6-4** — the areas in item 8 follow the **empirical rule** of Section 3-2.
 
-```{r s6-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_grid <- seq(-4, 4, length.out = 800)
-normal_curve <- data.frame(z = z_grid, density = dnorm(z_grid))
-shade <- function(lower, upper, fill)
-  geom_area(data = filter(normal_curve, z >= lower, z <= upper),
-            fill = fill, alpha = 0.6)
-ggplot(normal_curve, aes(z, density)) +
-  shade(-1, 1, "#2c4a6e") + shade(1, 2, "#5b8bbd") + shade(-2, -1, "#5b8bbd") +
-  shade(2, 3, "#a9c6e0") + shade(-3, -2, "#a9c6e0") +
-  geom_line(linewidth = 1) +
-  annotate("text", x = c(-0.5, 0.5), y = 0.15, label = "34.13%") +
-  annotate("text", x = c(-1.5, 1.5), y = 0.05, label = "13.59%") +
-  annotate("text", x = c(-2.5, 2.5), y = 0.02, label = "2.15%") +
-  scale_x_continuous(breaks = -3:3) +
+```{r s6-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3}
+x <- seq(-4, 4, by = 0.01)
+curve <- data.frame(x, density = dnorm(x))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_vline(xintercept = -3:3) +
   labs(title = "About 68%, 95% and 99.7% within 1, 2 and 3 sigma",
-       x = "z", y = "") + theme_minimal()
+       x = "z", y = "Density")
 ```
 
 ## Symmetric and Skewed Distributions
@@ -209,20 +212,19 @@ The "tail" of the curve indicates the direction of the skewness (right is positi
 
 **Figure 6-5** Normal and skewed distributions
 
-```{r s6-1-5, echo=T, warning=FALSE, out.width="90%", fig.align='center'}
-skewed_panel <- function(shape, title, mirror = FALSE) {
-  x <- seq(0.001, 12, length.out = 400)
-  density <- dgamma(x, shape = shape, rate = 1)
-  if (mirror) x <- max(x) - x
-  ggplot(data.frame(x, density), aes(x, density)) +
-    geom_line(colour = "#2c4a6e", linewidth = 1) +
-    labs(title = title, x = "x", y = "") + theme_minimal()
-}
-symmetric_panel <- ggplot(normal_curve, aes(z, density)) +
-  geom_line(colour = "#2c4a6e", linewidth = 1) +
-  labs(title = "(a) Normal", x = "x", y = "") + theme_minimal()
-grid.arrange(symmetric_panel, skewed_panel(3, "(b) Negatively skewed", TRUE),
-             skewed_panel(3, "(c) Positively skewed"), ncol = 3)
+```{r s6-1-5, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3}
+x <- seq(0, 10, by = 0.1)
+shapes <- data.frame(
+  shape   = rep(c("(a) Normal", "(b) Negatively skewed", "(c) Positively skewed"),
+                each = length(x)),
+  x       = c(x, x, x),
+  density = c(dnorm(x, 5, 1.5), dgamma(10 - x, shape = 3), dgamma(x, shape = 3))
+)
+
+ggplot(shapes, aes(x, density)) +
+  geom_line() +
+  facet_wrap(~ shape) +
+  labs(y = "Density")
 ```
 
 ## The Standard Normal Distribution
@@ -260,13 +262,10 @@ $$z = \frac{\text{value} - \text{mean}}{\text{standard deviation}} \qquad\text{o
 **Figure 6-6** Standard normal distribution
 
 ```{r s6-1-6, echo=T, warning=FALSE, out.width="75%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(fill = "#2c4a6e", alpha = 0.15) +
-  geom_line(colour = "#2c4a6e", linewidth = 1.2) +
-  geom_vline(xintercept = -3:3, linetype = "dotted", colour = "grey40") +
-  scale_x_continuous(breaks = -3:3) +
+ggplot(curve, aes(x, density)) +
+  geom_line() +
   labs(title = "Standard normal distribution (mean 0, standard deviation 1)",
-       x = "z", y = "Density") + theme_minimal()
+       x = "z", y = "Density")
 ```
 
 ## Finding Areas Under the Standard Normal Distribution Curve
@@ -295,13 +294,13 @@ This course uses R instead of Table A-4. The three cases of the Procedure Table 
 ## Key R Functions
 
 - `pnorm(z)` — area to the **left** of $z$
-- `1 - pnorm(z)` or `pnorm(z, lower.tail = FALSE)` — area to the **right** of $z$
+- `1 - pnorm(z)` — area to the **right** of $z$
 - `pnorm(z2) - pnorm(z1)` — area **between** $z_1$ and $z_2$
 - `qnorm(p)` — the $z$ value whose left-tail area is $p$ (the inverse of `pnorm`)
 :::
 
 ```{r s6-1-7, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.58), 4)   # the Table A-4 entry for z = 1.58
+pnorm(1.58)   # the Table A-4 entry for z = 1.58
 ```
 
 ## Example 6-1 {#example-6-1}
@@ -324,7 +323,7 @@ Find the area under the standard normal distribution curve to the left of $z = 1
 **Step 2** This is the first case in the Procedure Table, so use the area directly. The area to the left of $z = 1.72$ is $0.9573$. Hence, $95.73\%$ of the area is to the left of $z = 1.72$.
 
 ```{r e6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.72), 4)
+pnorm(1.72)
 ```
 :::
 
@@ -338,14 +337,10 @@ round(pnorm(1.72), 4)
 **Draw figure**
 
 ```{r e6-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z <= 1.72),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = 1.72, linetype = "dashed", colour = "red") +
-  annotate("text", x = 0, y = 0.15, label = "0.9573", size = 5) +
-  labs(title = "Area to the left of z = 1.72", x = "z", y = "") +
-  theme_minimal()
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x <= 1.72)) +
+  labs(title = "Area to the left of z = 1.72", x = "z", y = "Density")
 ```
 :::
 
@@ -369,8 +364,8 @@ Find the area under the standard normal distribution curve to the right of $z = 
 **Step 2** This is the second case. The area for $z = -0.83$ is $0.2033$. Subtract it from $1.0000$: $1.0000 - 0.2033 = 0.7967$. Hence, $79.67\%$ of the area lies to the right of $z = -0.83$.
 
 ```{r e6-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(-0.83), 4)
-round(pnorm(-0.83, lower.tail = FALSE), 4)
+pnorm(-0.83)
+1 - pnorm(-0.83)
 ```
 :::
 
@@ -384,14 +379,10 @@ round(pnorm(-0.83, lower.tail = FALSE), 4)
 **Draw figure**
 
 ```{r e6-2-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z >= -0.83),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = -0.83, linetype = "dashed", colour = "red") +
-  annotate("text", x = 1, y = 0.15, label = "0.7967", size = 5) +
-  labs(title = "Area to the right of z = -0.83", x = "z", y = "") +
-  theme_minimal()
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= -0.83)) +
+  labs(title = "Area to the right of z = -0.83", x = "z", y = "Density")
 ```
 :::
 
@@ -415,7 +406,7 @@ Find the area under the standard normal distribution curve between $z = 1.21$ an
 **Step 2** This is the third case: look up both areas and subtract the smaller from the larger. *(Do not subtract the $z$ values.)* The area for $z = 1.21$ is $0.8869$ and the area for $z = -1.54$ is $0.0618$, so the area between them is $0.8869 - 0.0618 = 0.8251$, or $82.51\%$.
 
 ```{r e6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.21) - pnorm(-1.54), 4)
+pnorm(1.21) - pnorm(-1.54)
 ```
 :::
 
@@ -429,15 +420,10 @@ round(pnorm(1.21) - pnorm(-1.54), 4)
 **Draw figure**
 
 ```{r e6-3-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z >= -1.54, z <= 1.21),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = c(-1.54, 1.21), linetype = "dashed",
-             colour = "red") +
-  annotate("text", x = 0, y = 0.15, label = "0.8251", size = 5) +
-  labs(title = "Area between z = -1.54 and z = 1.21", x = "z", y = "") +
-  theme_minimal()
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= -1.54, x <= 1.21)) +
+  labs(title = "Area between z = -1.54 and z = 1.21", x = "z", y = "Density")
 ```
 :::
 
@@ -477,9 +463,9 @@ Find the probability for each. (Assume this is a standard normal distribution.)
 **(c)** Find the area to the right of $z = 2.27$. The area for $z = 2.27$ is $0.9884$, so $1.0000 - 0.9884 = 0.0116$, or $1.16\%$.
 
 ```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(2.14) - pnorm(0), 4)
-round(pnorm(1.35), 4)
-round(pnorm(2.27, lower.tail = FALSE), 4)
+pnorm(2.14) - pnorm(0)
+pnorm(1.35)
+1 - pnorm(2.27)
 ```
 :::
 
@@ -501,7 +487,7 @@ Find the $z$ value such that the area under the standard normal distribution cur
 Draw the figure (Figure 6-14). Since Table A-4 is cumulative, add $0.5000$ to the given area of $0.3078$ to get the cumulative area $0.8078$. Looking up $0.8078$ in Table A-4 gives a row value of $0.8$ and a column value of $0.07$, so $z = 0.87$.
 
 ```{r e6-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qnorm(0.5000 + 0.3078), 2)
+qnorm(0.5000 + 0.3078)
 ```
 
 If the exact area cannot be found in the table, use the closest value: for a cumulative area of $0.8080$ the closest table area is $0.8078$, which again gives $z = 0.87$.
@@ -549,9 +535,7 @@ On a food-delivery platform operating in Taipei, the time from placing an order 
 **Step 3** The area to the left of $z = 1.25$ is $0.8944$. Therefore $89.44\%$ of deliveries arrive in less than $32$ minutes.
 
 ```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-delivery_mean <- 27
-delivery_sd <- 4
-round(pnorm(32, mean = delivery_mean, sd = delivery_sd), 4)
+pnorm(32, mean = 27, sd = 4)
 ```
 :::
 
@@ -564,34 +548,14 @@ round(pnorm(32, mean = delivery_mean, sd = delivery_sd), 4)
 
 **Draw figure**
 
-```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-normal_density_df <- function(mu, sigma) {
-  x <- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 400)
-  data.frame(x = x, density = dnorm(x, mu, sigma))
-}
-delivery_curve <- normal_density_df(delivery_mean, delivery_sd)
-delivery_plot <- ggplot(delivery_curve, aes(x, density)) +
-  geom_area(data = filter(delivery_curve, x <= 32),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = 32, linetype = "dashed", colour = "red") +
-  annotate("text", x = 24, y = 0.03, label = "0.8944", size = 5) +
-  labs(title = "Delivery time: P(X < 32)", x = "Minutes", y = "") +
-  theme_minimal()
-```
-:::
+```{r e6-6-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+x <- seq(11, 43, by = 0.1)
+curve <- data.frame(x, density = dnorm(x, mean = 27, sd = 4))
 
----
-
-## Example 6-6
-
-:::{.callout-tip}
-## Solution
-
-**Output figure**
-
-```{r e6-6-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-delivery_plot
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x <= 32)) +
+  labs(title = "Delivery time: P(X < 32)", x = "Minutes", y = "Density")
 ```
 :::
 
@@ -619,9 +583,7 @@ Completed orders on a Taiwanese e-commerce platform have an average value of $1{
 **Step 3** The area to the left of $z_2$ is $0.9332$ and the area to the left of $z_1$ is $0.1587$, so the area between them is $0.9332 - 0.1587 = 0.7745$. The probability is $77.45\%$.
 
 ```{r e6-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_mean <- 1200
-order_sd <- 150
-round(pnorm(1425, order_mean, order_sd) - pnorm(1050, order_mean, order_sd), 4)
+pnorm(1425, mean = 1200, sd = 150) - pnorm(1050, mean = 1200, sd = 150)
 ```
 :::
 
@@ -639,7 +601,7 @@ round(pnorm(1425, order_mean, order_sd) - pnorm(1050, order_mean, order_sd), 4)
 **Step 3** The area to the left of $z = 1.2$ is $0.8849$, so the area to the right is $1.0000 - 0.8849 = 0.1151$. The probability that an order is worth more than $1{,}380$ NT dollars is $0.1151$, or $11.51\%$.
 
 ```{r e6-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1380, order_mean, order_sd, lower.tail = FALSE), 4)
+1 - pnorm(1380, mean = 1200, sd = 150)
 ```
 :::
 
@@ -650,22 +612,16 @@ round(pnorm(1380, order_mean, order_sd, lower.tail = FALSE), 4)
 :::{.callout-tip}
 ## Solution
 
-**Draw figure**
+**Draw figure (a)**
 
-```{r e6-7-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_curve <- normal_density_df(order_mean, order_sd)
-between_plot <- ggplot(order_curve, aes(x, density)) +
-  geom_area(data = filter(order_curve, x >= 1050, x <= 1425),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  labs(title = "(a) P(1050 < X < 1425) = 0.7745", x = "NT dollars", y = "") +
-  theme_minimal()
-upper_plot <- ggplot(order_curve, aes(x, density)) +
-  geom_area(data = filter(order_curve, x >= 1380),
-            fill = "#c0392b", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  labs(title = "(b) P(X > 1380) = 0.1151", x = "NT dollars", y = "") +
-  theme_minimal()
+```{r e6-7-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+x <- seq(600, 1800, by = 1)
+curve <- data.frame(x, density = dnorm(x, mean = 1200, sd = 150))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= 1050, x <= 1425)) +
+  labs(title = "(a) P(1050 < X < 1425) = 0.7745", x = "NT dollars", y = "Density")
 ```
 :::
 
@@ -676,10 +632,13 @@ upper_plot <- ggplot(order_curve, aes(x, density)) +
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Draw figure (b)**
 
-```{r e6-7-4, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-grid.arrange(between_plot, upper_plot, ncol = 2)
+```{r e6-7-4, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= 1380)) +
+  labs(title = "(b) P(X > 1380) = 0.1151", x = "NT dollars", y = "Density")
 ```
 :::
 
@@ -707,11 +666,10 @@ At a logistics centre in Taoyuan, the time needed to pick and pack one order ave
 To find the number of orders, multiply $60 \times 0.2266 = 13.6$ and round to $14$. Approximately **14** of the $60$ randomly selected orders are picked and packed in less than $5.8$ minutes.
 
 ```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-picking_mean <- 6.4
-picking_sd <- 0.8
-fast_share <- pnorm(5.8, mean = picking_mean, sd = picking_sd)
-round(fast_share, 4)
-round(60 * fast_share, 2)
+area <- pnorm(5.8, mean = 6.4, sd = 0.8)
+
+area
+60 * area
 ```
 
 *Note:* for problems using percentages, write the percentage as a decimal before multiplying, and round the answer to the nearest whole number.
@@ -761,11 +719,10 @@ A delivery platform pays a quarterly bonus to the riders in the **top $10\%$** b
 Because a rider cannot complete a fraction of an order, **557** completed orders should be used as the cutoff: anybody completing $557$ or more qualifies for the bonus.
 
 ```{r e6-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-orders_mean <- 480
-orders_sd <- 60
-cutoff_z <- qnorm(0.90)
-round(cutoff_z, 4)
-round(cutoff_z * orders_sd + orders_mean, 2)
+z <- qnorm(0.90)
+
+z
+z * 60 + 480
 ```
 :::
 
@@ -797,10 +754,10 @@ A transport planner wishes to study the middle $60\%$ of weekdays at a Taipei MR
 The quietest $20\%$ of weekdays have fewer than $43.79$ thousand passengers.
 
 ```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-passenger_mean <- 48
-passenger_sd <- 5
-round(qnorm(0.20), 4)
-round(qnorm(0.20) * passenger_sd + passenger_mean, 2)
+z <- qnorm(0.20)
+
+z
+z * 5 + 48
 ```
 :::
 
@@ -820,8 +777,8 @@ round(qnorm(0.20) * passenger_sd + passenger_mean, 2)
 The middle $60\%$ of weekdays have between $43.79$ and $52.21$ thousand passengers.
 
 ```{r e6-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-middle_bounds <- qnorm(c(0.20, 0.80)) * passenger_sd + passenger_mean
-round(middle_bounds, 2)
+qnorm(0.20) * 5 + 48
+qnorm(0.80) * 5 + 48
 ```
 :::
 
@@ -865,11 +822,8 @@ A trading company recorded the number of days of finished-goods inventory held b
 lead_days <- c(12, 21, 26, 33, 35, 38, 42, 45, 47,
                49, 52, 56, 59, 63, 68, 74, 81, 93)
 lead_breaks <- seq(9.5, 99.5, by = 15)
-lead_labels <- c("10-24", "25-39", "40-54", "55-69", "70-84", "85-99")
-lead_freq <- data.frame(
-  Class = lead_labels,
-  Frequency = as.integer(table(cut(lead_days, lead_breaks, labels = lead_labels))))
-knitr::kable(lead_freq, align = "c")
+
+table(cut(lead_days, lead_breaks))
 ```
 :::
 
@@ -884,10 +838,8 @@ knitr::kable(lead_freq, align = "c")
 
 ```{r e6-11-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(lead_days), aes(lead_days)) +
-  geom_histogram(breaks = lead_breaks, fill = "#2c4a6e", colour = "white") +
-  scale_x_continuous(breaks = lead_breaks) +
-  labs(title = "Histogram for Example 6-11", x = "Days", y = "Frequency") +
-  theme_minimal()
+  geom_histogram(breaks = lead_breaks, color = "white") +
+  labs(title = "Histogram for Example 6-11", x = "Days", y = "Frequency")
 ```
 
 The histogram is approximately bell-shaped, so the distribution appears approximately normal.
@@ -902,6 +854,14 @@ The histogram is approximately bell-shaped, so the distribution appears approxim
 
 **Step 2** Check for skewness: $\bar{X} = 49.67$, median $= 48$, $s = 21.17$, so
 $$PC = \frac{3(49.67 - 48)}{21.17} = 0.236$$
+
+```{r e6-11-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(lead_days)
+median(lead_days)
+sd(lead_days)
+3 * (mean(lead_days) - median(lead_days)) / sd(lead_days)
+```
+
 $PC$ is not greater than $+1$ nor less than $-1$, so the distribution is **not significantly skewed**.
 :::
 
@@ -914,12 +874,11 @@ $PC$ is not greater than $+1$ nor less than $-1$, so the distribution is **not s
 
 **Step 3** Check for outliers: $Q_1 = 35.75$ and $Q_3 = 62$, so $IQR = 26.25$. An outlier would be below $35.75 - 1.5(26.25) = -3.62$ or above $62 + 1.5(26.25) = 101.38$. There are **no outliers**.
 
-```{r e6-11-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(mean = mean(lead_days), median = median(lead_days), s = sd(lead_days)), 2)
-round(3 * (mean(lead_days) - median(lead_days)) / sd(lead_days), 3)
-lead_quartiles <- quantile(lead_days, c(0.25, 0.75))
-round(c(lead_quartiles, IQR = IQR(lead_days)), 2)
-round(lead_quartiles + c(-1.5, 1.5) * IQR(lead_days), 2)
+```{r e6-11-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(lead_days, c(0.25, 0.75))
+IQR(lead_days)
+35.75 - 1.5 * 26.25
+62 + 1.5 * 26.25
 ```
 
 Bell-shaped, not significantly skewed, no outliers: the distribution is **approximately normally distributed**.
@@ -953,12 +912,9 @@ customers <- c(142,  95, 131, 152, 108, 145,
                149,  25, 139, 118, 151, 135,
                125,  60, 147,  78,  42)
 customer_breaks <- seq(24.5, 174.5, by = 25)
-customer_labels <- c("25-49", "50-74", "75-99", "100-124", "125-149", "150-174")
-customer_freq <- data.frame(
-  Class = customer_labels,
-  Frequency = as.integer(table(cut(customers, customer_breaks,
-                                   labels = customer_labels))))
-knitr::kable(customer_freq, align = "c")
+
+# dig.lab = 4 prints boundaries such as 124.5 in full
+table(cut(customers, customer_breaks, dig.lab = 4))
 ```
 :::
 
@@ -973,10 +929,8 @@ knitr::kable(customer_freq, align = "c")
 
 ```{r e6-12-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(customers), aes(customers)) +
-  geom_histogram(breaks = customer_breaks, fill = "#2c4a6e", colour = "white") +
-  scale_x_continuous(breaks = customer_breaks) +
-  labs(title = "Histogram for Example 6-12", x = "Customers", y = "Frequency") +
-  theme_minimal()
+  geom_histogram(breaks = customer_breaks, color = "white") +
+  labs(title = "Histogram for Example 6-12", x = "Customers", y = "Frequency")
 ```
 
 The histogram shows that the frequency distribution is **negatively skewed**.
@@ -991,6 +945,14 @@ The histogram shows that the frequency distribution is **negatively skewed**.
 
 **Step 2** Check for skewness: $\bar{X} = 114.24$, median $= 131$, $s = 40.37$, so
 $$PC = \frac{3(114.24 - 131)}{40.37} = -1.25$$
+
+```{r e6-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(customers)
+median(customers)
+sd(customers)
+3 * (mean(customers) - median(customers)) / sd(customers)
+```
+
 Since $PC$ is less than $-1$, the distribution is **significantly skewed to the left**.
 :::
 
@@ -1003,12 +965,11 @@ Since $PC$ is less than $-1$, the distribution is **significantly skewed to the 
 
 **Step 3** Check for outliers: $Q_1 = 95$, $Q_3 = 145$, $IQR = 50$. Any value below $95 - 1.5(50) = 20$ or above $145 + 1.5(50) = 220$ is an outlier. There are **no outliers**.
 
-```{r e6-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(mean = mean(customers), median = median(customers), s = sd(customers)), 2)
-round(3 * (mean(customers) - median(customers)) / sd(customers), 2)
-customer_quartiles <- quantile(customers, c(0.25, 0.75))
-round(c(customer_quartiles, IQR = IQR(customers)), 2)
-round(customer_quartiles + c(-1.5, 1.5) * IQR(customers), 2)
+```{r e6-12-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(customers, c(0.25, 0.75))
+IQR(customers)
+95 - 1.5 * 50
+145 + 1.5 * 50
 ```
 
 In summary, the distribution is **significantly negatively skewed**.
@@ -1018,14 +979,24 @@ In summary, the distribution is **significantly negatively skewed**.
 
 Another method used to check normality is to draw a **normal quantile plot**. **Quantiles** (sometimes called **fractiles**) are values that separate the data set into approximately equal groups. A normal quantile plot graphs the data values against the $z$ values of the corresponding quantiles. **If the points do not lie in an approximately straight line, normality can be rejected.**
 
-```{r s6-2-1, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-quantile_plot <- function(values, title)
-  ggplot(data.frame(values), aes(sample = values)) +
-  stat_qq(colour = "#2c4a6e") + stat_qq_line(colour = "red") +
-  labs(title = title, x = "Theoretical quantiles (z)",
-       y = "Sample quantiles") + theme_minimal()
-grid.arrange(quantile_plot(lead_days, "Example 6-11: supplier lead times"),
-             quantile_plot(customers, "Example 6-12: customers served"), ncol = 2)
+```{r s6-2-1, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+ggplot(data.frame(lead_days), aes(sample = lead_days)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "Example 6-11: supplier lead times",
+       x = "Theoretical quantiles (z)", y = "Sample quantiles")
+```
+
+---
+
+## Normal Quantile Plots in R
+
+```{r s6-2-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+ggplot(data.frame(customers), aes(sample = customers)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "Example 6-12: customers served",
+       x = "Theoretical quantiles (z)", y = "Sample quantiles")
 ```
 
 Other methods include normal probability graph paper, the chi-square goodness-of-fit test (Chapter 11), the Kolmogorov-Smirnov test and the Lilliefors test.
@@ -1069,9 +1040,10 @@ A lecturer gave a $10$-point quiz to a small class of four students; the results
 
 ```{r s6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 quiz_scores <- c(3, 5, 7, 9)
-population_mean <- mean(quiz_scores)
-population_sd <- sqrt(mean((quiz_scores - population_mean)^2))
-round(c(mean = population_mean, sd = population_sd), 3)
+
+mean(quiz_scores)
+sigma <- sqrt(sum((quiz_scores - 6)^2) / 4)
+sigma
 ```
 
 The graph of the original distribution is a **uniform distribution** (Figure 6-32): each score occurs once.
@@ -1083,27 +1055,27 @@ The graph of the original distribution is a **uniform distribution** (Figure 6-3
 All samples of size $2$ taken **with replacement**, and the mean of each sample:
 
 ```{r s6-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_pairs <- expand.grid(first = quiz_scores, second = quiz_scores)
-sample_pairs$sample_mean <- rowMeans(sample_pairs[c("first", "second")])
-knitr::kable(as.data.frame(table(Mean = sample_pairs$sample_mean)), align = "c")
+samples <- expand.grid(first = quiz_scores, second = quiz_scores)
+sample_means <- (samples$first + samples$second) / 2
+
+table(sample_means)
 ```
 
 ---
 
 ## A 10-Point Quiz Illustration
 
-```{r s6-3-3, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-ggplot(sample_pairs, aes(sample_mean)) +
-  geom_bar(fill = "#2c4a6e", width = 0.6) +
-  scale_x_continuous(breaks = 3:9) +
+```{r s6-3-3, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=2.5}
+ggplot(data.frame(sample_means), aes(sample_means)) +
+  geom_bar() +
   labs(title = "Figure 6-33: distribution of sample means",
-       x = "Sample mean", y = "Frequency") + theme_minimal()
+       x = "Sample mean", y = "Frequency")
 ```
 
 ```{r s6-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean(sample_pairs$sample_mean)
-round(sqrt(mean((sample_pairs$sample_mean - population_mean)^2)), 3)
-round(population_sd / sqrt(2), 3)
+mean(sample_means)
+sqrt(sum((sample_means - 6)^2) / 16)
+sigma / sqrt(2)
 ```
 
 The histogram of the sample means appears approximately normal, the mean of the sample means equals the population mean, and the standard deviation of the sample means equals $\sigma/\sqrt{n}$.
@@ -1157,18 +1129,21 @@ The denominator must be adjusted because means are used instead of individual da
 
 ## The Central Limit Theorem in R
 
-```{r s6-3-5, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
+```{r s6-3-5, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
 set.seed(42)
-skewed_means <- function(n)                # rate = 0.5 gives a skewed population
-  data.frame(sample_mean = colMeans(matrix(rexp(n * 2000, rate = 0.5), nrow = n)),
-             size = paste("n =", n))
-simulation <- bind_rows(skewed_means(2), skewed_means(10), skewed_means(30))
+# rate = 0.5 gives a skewed population
+simulation <- data.frame(
+  size        = rep(c("(a) n = 2", "(b) n = 10", "(c) n = 30"), each = 2000),
+  sample_mean = c(replicate(2000, mean(rexp(2, rate = 0.5))),
+                  replicate(2000, mean(rexp(10, rate = 0.5))),
+                  replicate(2000, mean(rexp(30, rate = 0.5))))
+)
+
 ggplot(simulation, aes(sample_mean)) +
-  geom_histogram(bins = 40, fill = "#2c4a6e", colour = "white") +
-  facet_wrap(~ factor(size, levels = c("n = 2", "n = 10", "n = 30")),
-             scales = "free") +
+  geom_histogram(bins = 40, color = "white") +
+  facet_wrap(~ size, scales = "free") +
   labs(title = "Sample means approach normality as n increases",
-       x = "Sample mean", y = "Frequency") + theme_minimal()
+       x = "Sample mean", y = "Frequency")
 ```
 
 ## Example 6-13 {#example-6-13}
@@ -1197,11 +1172,10 @@ $$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \frac{1.25}{\sqrt{25}} = 0.25$$
 **Step 3** The area to the right of $2.00$ is $1.0000 - 0.9772 = 0.0228$, or $2.28\%$.
 
 ```{r e6-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-call_mean <- 4.5
-call_sd <- 1.25
-call_se <- call_sd / sqrt(25)
-call_se
-round(pnorm(5.0, call_mean, call_se, lower.tail = FALSE), 4)
+se <- 1.25 / sqrt(25)
+
+se
+1 - pnorm(5.0, mean = 4.5, sd = se)
 ```
 
 The probability that the $25$ calls last more than $5.0$ minutes on average is **2.28%**.
@@ -1229,10 +1203,10 @@ A courier company's vans deliver an average of $120$ parcels per day. Assume the
 **Step 3** The area for $z = -2$ is $0.0228$ and the area for $z = 1$ is $0.8413$, so the area between them is $0.8413 - 0.0228 = 0.8186$, or $81.86\%$.
 
 ```{r e6-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-parcel_mean <- 120
-parcel_se <- 18 / sqrt(36)
-parcel_se
-round(pnorm(123, parcel_mean, parcel_se) - pnorm(114, parcel_mean, parcel_se), 4)
+se <- 18 / sqrt(36)
+
+se
+pnorm(123, mean = 120, sd = se) - pnorm(114, mean = 120, sd = se)
 ```
 :::
 
@@ -1264,9 +1238,7 @@ Since the question concerns an **individual** shipment, use $z = \dfrac{X - \mu}
 The probability of selecting a shipment that clears customs in fewer than $3.3$ days is $0.5793$, or $57.93\%$.
 
 ```{r e6-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-clearance_mean <- 3.2
-clearance_sd <- 0.5
-round(pnorm(3.3, clearance_mean, clearance_sd), 4)
+pnorm(3.3, mean = 3.2, sd = 0.5)
 ```
 :::
 
@@ -1284,9 +1256,10 @@ Since the question concerns the **mean of a sample** of size $36$, use the centr
 **Step 3** The area corresponding to $z = 1.20$ is $0.8849$, or $88.49\%$.
 
 ```{r e6-15-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-clearance_se <- clearance_sd / sqrt(36)
-round(clearance_se, 4)
-round(pnorm(3.3, clearance_mean, clearance_se), 4)
+se <- 0.5 / sqrt(36)
+
+se
+pnorm(3.3, mean = 3.2, sd = se)
 ```
 
 The gap of about $30.6$ percentage points between (a) and (b) arises because the distribution of sample means is **much less variable** than the distribution of individual data values: as the sample size increases, the standard deviation of the means decreases.
@@ -1360,16 +1333,19 @@ For example, if $p = 0.3$ and $n = 10$, then $np = 3$, so a normal distribution 
 
 ## The Conditions $np \geq 5$ and $nq \geq 5$ (cont.)
 
-```{r s6-4-1, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
-binomial_shapes <- rbind(
-  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.3),
-             label = "n = 10, p = 0.3 (np = 3)"),
-  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.5),
-             label = "n = 10, p = 0.5 (np = 5, nq = 5)"))
+```{r s6-4-1, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
+binomial_shapes <- data.frame(
+  label       = rep(c("n = 10, p = 0.3 (np = 3)", "n = 10, p = 0.5 (np = 5, nq = 5)"),
+                    each = 11),
+  x           = c(0:10, 0:10),
+  probability = c(dbinom(0:10, 10, 0.3), dbinom(0:10, 10, 0.5))
+)
+
 ggplot(binomial_shapes, aes(x, probability)) +
-  geom_col(fill = "#2c4a6e", width = 0.7) + facet_wrap(~ label) +
+  geom_col() +
+  facet_wrap(~ label) +
   labs(title = "Figure 6-39: binomial distribution and a normal distribution",
-       x = "X", y = "P(X)") + theme_minimal()
+       x = "X", y = "P(X)")
 ```
 
 ## Correction for Continuity
@@ -1460,13 +1436,12 @@ Here $p = 0.30$, $q = 0.70$ and $n = 150$.
 **Compute in R**
 
 ```{r e6-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_buyers <- 150
-p_pickup <- 0.30
-mu <- n_buyers * p_pickup
-sigma <- sqrt(n_buyers * p_pickup * (1 - p_pickup))
-c(np = mu, nq = n_buyers * (1 - p_pickup), sigma = round(sigma, 2))
-round(pnorm(52.5, mu, sigma) - pnorm(51.5, mu, sigma), 4)
-round(dbinom(52, n_buyers, p_pickup), 4)
+150 * 0.30
+150 * 0.70
+sigma <- sqrt(150 * 0.30 * 0.70)
+sigma
+pnorm(52.5, mean = 45, sd = sigma) - pnorm(51.5, mean = 45, sd = sigma)
+dbinom(52, 150, 0.30)
 ```
 
 The normal approximation gives **0.0327**, and the exact binomial probability is $0.032$.
@@ -1510,13 +1485,12 @@ Fifteen percent of the orders placed on an online marketplace are returned. If a
 **Compute in R**
 
 ```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_orders <- 240
-p_return <- 0.15
-mu <- n_orders * p_return
-sigma <- sqrt(n_orders * p_return * (1 - p_return))
-c(np = mu, nq = n_orders * (1 - p_return), sigma = round(sigma, 2))
-round(pnorm(23.5, mu, sigma, lower.tail = FALSE), 4)
-round(pbinom(23, n_orders, p_return, lower.tail = FALSE), 4)
+240 * 0.15
+240 * 0.85
+sigma <- sqrt(240 * 0.15 * 0.85)
+sigma
+1 - pnorm(23.5, mean = 36, sd = sigma)
+1 - pbinom(23, 240, 0.15)
 ```
 
 In a random sample of $240$ orders the probability of $24$ or more being returned is **98.81%**; the exact binomial probability is $0.991$.
@@ -1560,13 +1534,12 @@ The probability that at most $48$ of the $120$ shoppers pay with a mobile wallet
 **Compute in R**
 
 ```{r e6-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_shoppers <- 120
-p_wallet <- 0.45
-mu <- n_shoppers * p_wallet
-sigma <- sqrt(n_shoppers * p_wallet * (1 - p_wallet))
-c(np = mu, nq = n_shoppers * (1 - p_wallet), sigma = round(sigma, 2))
-round(pnorm(48.5, mu, sigma), 4)
-round(pbinom(48, n_shoppers, p_wallet), 4)
+120 * 0.45
+120 * 0.55
+sigma <- sqrt(120 * 0.45 * 0.55)
+sigma
+pnorm(48.5, mean = 54, sd = sigma)
+pbinom(48, 120, 0.45)
 ```
 :::
 
@@ -1606,13 +1579,12 @@ The area between these boundaries is $0.1188$ — very close to the exact binomi
 **Compute in R**
 
 ```{r e6-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_trials <- 12
-p_success <- 0.5
-mu <- n_trials * p_success
-sigma <- sqrt(n_trials * p_success * (1 - p_success))
-c(np = mu, nq = n_trials * (1 - p_success), sigma = round(sigma, 2))
-round(dbinom(8, n_trials, p_success), 4)
-round(pnorm(8.5, mu, sigma) - pnorm(7.5, mu, sigma), 4)
+12 * 0.5
+12 * 0.5
+sigma <- sqrt(12 * 0.5 * 0.5)
+sigma
+dbinom(8, 12, 0.5)
+pnorm(8.5, mean = 6, sd = sigma) - pnorm(7.5, mean = 6, sd = sigma)
 ```
 :::
 

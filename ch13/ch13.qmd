@@ -42,7 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
+theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -203,15 +203,16 @@ Data are often already ranked. P-values apply only to normal or chi-square tests
 **Prepare data** — `rank()` ranks from lowest to highest and, by default, assigns the **average** of the ranks to tied values, which is exactly the rule above.
 
 ```{r s13-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rating <- c(A = 8, B = 6, C = 10, D = 6, E = 3)
-rank(rating)                       # ties.method = "average" is the default
+rating <- c(8, 6, 10, 6, 3)
+
+rank(rating)
 ```
 
 The two speakers rated 6 would have occupied ranks 2 and 3, so each receives rank 2.5.
 
 ```{r s13-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sort(rating)                       # the data array, lowest to highest
-rank(c(3, 6, 6, 8, 10))            # the same ranking, values only
+sort(rating)
+rank(c(3, 6, 6, 8, 10))
 ```
 
 # Section 13-2: The Sign Test {background-color="#2c4a6e"}
@@ -323,10 +324,9 @@ daily_orders <- c(52, 48, 51, 50, 70,
                   47, 39, 53, 60, 37,
                   27, 46, 54, 49, 51,
                   45, 58, 46, 45, 47)
-signs <- sign(daily_orders - 45)
-sign_counts <- c(plus = sum(signs > 0), minus = sum(signs < 0))
-sign_counts
-c(n = sum(sign_counts), test_statistic = min(sign_counts))
+
+sum(daily_orders > 45)
+sum(daily_orders < 45)
 ```
 :::
 
@@ -344,7 +344,8 @@ c(n = sum(sign_counts), test_statistic = min(sign_counts))
 **P-value.** The critical values in Table A-10 come from the binomial distribution with $p = 0.5$, so the exact P-value is a binomial probability.
 
 ```{r e13-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-binom.test(min(sign_counts), sum(sign_counts), p = 0.5)$p.value
+# two-tailed test: twice P(X <= 3)
+2 * pbinom(3, 18, 0.5)
 ```
 
 $P = 0.0075 < 0.05$, which agrees with the traditional decision to reject $H_0$.
@@ -390,12 +391,8 @@ $$z = \frac{(X + 0.5) - 0.5n}{\sqrt{n}/2} = \frac{(15 + 0.5) - 0.5(40)}{\sqrt{40
 **Step 3 in R**
 
 ```{r e13-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_days    <- 40
-n_below   <- 15
-x_smaller <- min(n_below, n_days - n_below)
-z_statistic <- ((x_smaller + 0.5) - 0.5 * n_days) / (sqrt(n_days) / 2)
-round(z_statistic, 2)
-round(qnorm(c(0.025, 0.975)), 2)
+((15 + 0.5) - 0.5 * 40) / (sqrt(40) / 2)
+qnorm(c(0.025, 0.975))
 ```
 
 **Step 4.** Make the decision. Since the test statistic $-1.42$ is greater than $-1.96$, the decision is to **not reject** the null hypothesis.
@@ -497,10 +494,9 @@ From **Table A-10**, with $n = 9$ (the total number of positive and negative sig
 ```{r e13-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 errors_before <- c(6, 2, 7, 5, 4, 6, 3, 8, 4, 2)
 errors_after  <- c(4, 3, 5, 1, 2, 3, 1, 5, 4, 5)
-signs <- sign(errors_before - errors_after)
-sign_counts <- c(plus = sum(signs > 0), minus = sum(signs < 0))
-sign_counts
-c(n = sum(sign_counts), test_statistic = min(sign_counts))
+
+sum(errors_before > errors_after)
+sum(errors_before < errors_after)
 ```
 
 **Step 4.** Make the decision. Compare the test statistic 2 with the critical value 1. Here $2 > 1$, so the decision is to **not reject** $H_0$.
@@ -658,16 +654,12 @@ $$z = \frac{R - \mu_R}{\sigma_R} = \frac{91.5 - 132}{16.248} = -2.493$$
 ```{r e13-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 kaohsiung <- c(58, 60, 63, 72, 74, 76, 78, 88, 92, 96, 125)
 taoyuan   <- c(69, 79, 84, 88, 93, 99, 106, 112, 120, 131, 140, 152)
-centre <- rep(c("Kaohsiung", "Taoyuan"), c(length(kaohsiung), length(taoyuan)))
-ranks  <- rank(c(kaohsiung, taoyuan))
-n1 <- length(kaohsiung)
-n2 <- length(taoyuan)
-rank_sum       <- sum(ranks[centre == "Kaohsiung"])
-mu_rank_sum    <- n1 * (n1 + n2 + 1) / 2
-sigma_rank_sum <- sqrt(n1 * n2 * (n1 + n2 + 1) / 12)
-z_statistic    <- (rank_sum - mu_rank_sum) / sigma_rank_sum
-round(c(R = rank_sum, mu_R = mu_rank_sum,
-        sigma_R = sigma_rank_sum, z = z_statistic), 3)
+ranks <- rank(c(kaohsiung, taoyuan))
+
+ranks
+sum(ranks[1:11])
+z <- (91.5 - 11 * (11 + 12 + 1) / 2) / sqrt(11 * 12 * (11 + 12 + 1) / 12)
+z
 ```
 :::
 
@@ -685,7 +677,7 @@ round(c(R = rank_sum, mu_R = mu_rank_sum,
 **P-value.** The test is two-tailed, so the P-value is twice the area to the left of $z = -2.493$.
 
 ```{r e13-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(2 * pnorm(z_statistic), 4)
+2 * pnorm(z)
 ```
 
 Since $P = 0.0127 < 0.05$, $H_0$ is rejected, which agrees with the traditional decision.
@@ -837,10 +829,10 @@ complaints_before <- c(9, 4, 5, 8, 7, 10, 14)
 complaints_after  <- c(7, 5, 6, 5, 3,  8,  6)
 differences  <- complaints_before - complaints_after
 signed_ranks <- sign(differences) * rank(abs(differences))
-rank_sums <- c(positive = sum(signed_ranks[signed_ranks > 0]),
-               negative = sum(signed_ranks[signed_ranks < 0]))
-rank_sums
-c(n = length(differences), w_s = min(abs(rank_sums)))
+
+signed_ranks
+sum(signed_ranks[signed_ranks > 0])
+sum(signed_ranks[signed_ranks < 0])
 ```
 :::
 
@@ -1007,8 +999,8 @@ $$H = \frac{12}{15(15+1)}\left(\frac{64^2}{5} + \frac{35^2}{5} + \frac{21^2}{5}\
 transit_hours <- c(38.9, 42.8, 44.1, 46.5, 49.3,
                    28.6, 31.2, 34.0, 37.6, 41.2,
                    25.4, 27.1, 29.8, 32.5, 35.3)
-carrier <- factor(rep(c("A", "B", "C"), each = 5))
-tapply(rank(transit_hours), carrier, sum)
+carrier <- rep(c("A", "B", "C"), each = 5)
+
 kruskal.test(transit_hours ~ carrier)
 ```
 
@@ -1022,17 +1014,15 @@ The critical value is `qchisq(0.95, df = 2)` $= 5.991$ and the P-value is $0.008
 :::{.callout-tip}
 ## Solution
 
-**The $H$ formula by hand.** The formula on the procedure slide can be written as one short function and checked against the built-in test.
+**The $H$ formula by hand.** The formula on the procedure slide can be computed directly from the rank sums and checked against the built-in test.
 
 ```{r e13-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-kruskal_h <- function(values, groups) {
-  rank_sums   <- tapply(rank(values), groups, sum)
-  group_sizes <- tapply(values, groups, length)
-  n_total     <- length(values)
-  12 / (n_total * (n_total + 1)) * sum(rank_sums^2 / group_sizes) - 3 * (n_total + 1)
-}
-kruskal_h(transit_hours, carrier)
-unname(kruskal.test(transit_hours ~ carrier)$statistic)
+ranks <- rank(transit_hours)
+
+sum(ranks[carrier == "A"])
+sum(ranks[carrier == "B"])
+sum(ranks[carrier == "C"])
+12 / (15 * (15 + 1)) * (64^2 / 5 + 35^2 / 5 + 21^2 / 5) - 3 * (15 + 1)
 ```
 
 There are no tied transit times, so the hand formula and `kruskal.test()` agree exactly.
@@ -1160,15 +1150,13 @@ $$\sum d^2 = 16 + 9 + 16 + 25 + 16 + 0 + 1 + 25 = 108$$
 $$r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)} = 1 - \frac{6(108)}{8(8^2 - 1)} = 1 - \frac{648}{504} = -0.286$$
 
 ```{r e13-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-suppliers <- data.frame(
-  supplier     = LETTERS[1:8],
-  order_volume = c(24, 52, 45, 31, 18, 37, 76, 68),
-  audit_score  = c(81, 72, 61, 93, 78, 75, 88, 68))
-rank_diff <- rank(suppliers$order_volume) - rank(suppliers$audit_score)
-n_pairs   <- nrow(suppliers)
-r_s <- 1 - 6 * sum(rank_diff^2) / (n_pairs * (n_pairs^2 - 1))
-round(c(sum_d2 = sum(rank_diff^2), r_s = r_s), 3)
-round(cor(suppliers$order_volume, suppliers$audit_score, method = "spearman"), 3)
+order_volume <- c(24, 52, 45, 31, 18, 37, 76, 68)
+audit_score  <- c(81, 72, 61, 93, 78, 75, 88, 68)
+d <- rank(order_volume) - rank(audit_score)
+
+sum(d^2)
+1 - 6 * 108 / (8 * (8^2 - 1))
+cor(order_volume, audit_score, method = "spearman")
 ```
 :::
 
@@ -1188,17 +1176,12 @@ round(cor(suppliers$order_volume, suppliers$audit_score, method = "spearman"), 3
 
 ## Spearman Rank Correlation in R
 
-**Draw figure** — plotting the **ranks** against each other shows why $r_s$ is close to zero: the points show no consistent upward or downward pattern. The data frame built in Example 13-7 is reused here.
+**Prepare data** — plotting the **ranks** against each other shows why $r_s$ is close to zero: the points show no consistent upward or downward pattern. The data entered in Example 13-7 are reused here.
 
 ```{r s13-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_rank <- ggplot(suppliers, aes(x = rank(order_volume), y = rank(audit_score))) +
-  geom_point(size = 3, colour = "steelblue") +
-  geom_text(aes(label = supplier), vjust = -1, size = 3) +
-  scale_x_continuous(breaks = 1:8) +
-  scale_y_continuous(breaks = 1:8) +
-  labs(title = "Ranks of Order Volume and Audit Score for Eight Suppliers",
-       x = "Rank of annual order volume", y = "Rank of quality-audit score") +
-  theme_minimal()
+supplier_ranks <- data.frame(volume_rank = rank(order_volume),
+                             score_rank  = rank(audit_score))
+supplier_ranks
 ```
 
 ---
@@ -1208,7 +1191,10 @@ p_rank <- ggplot(suppliers, aes(x = rank(order_volume), y = rank(audit_score))) 
 **Output figure**
 
 ```{r s13-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.6}
-p_rank
+ggplot(supplier_ranks, aes(volume_rank, score_rank)) +
+  geom_point() +
+  labs(title = "Ranks of Order Volume and Audit Score for Eight Suppliers",
+       x = "Rank of annual order volume", y = "Rank of quality-audit score")
 ```
 
 ---
@@ -1268,18 +1254,16 @@ Back to [Example 13-9](#example-13-9)
 
 **c.** There are **six** runs: `CC | PP | C | PPP | CC | P`. There are five C's and six P's, so $n_1 = 5$ and $n_2 = 6$.
 
+In R, `rle()` lists the length of every run, and `length()` counts them.
+
 ```{r e13-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-count_runs <- function(sequence) {
-  sum(sequence[-1] != sequence[-length(sequence)]) + 1
-}
-run_summary <- function(text) {
-  letters_used <- strsplit(text, "")[[1]]
-  counts <- table(letters_used)
-  c(runs = count_runs(letters_used), n1 = counts[[1]], n2 = counts[[2]])
-}
-sapply(c("DDDXXDDX", "LLELEEEELL", "CCPPCPPPCCP"), run_summary) |>
-  t() |>
-  knitr::kable(align = "c")
+orders   <- c("D","D","D","X","X","D","D","X")
+shifts   <- c("L","L","E","L","E","E","E","E","L","L")
+payments <- c("C","C","P","P","C","P","P","P","C","C","P")
+
+length(rle(orders)$lengths)
+length(rle(shifts)$lengths)
+length(rle(payments)$lengths)
 ```
 :::
 
@@ -1381,13 +1365,14 @@ There are **10 runs**.
 :::{.callout-tip}
 ## Solution
 
-**Step 3 in R** — `count_runs()` was defined in [Example 13-8](#example-13-8).
+**Step 3 in R** — count the runs with `rle()` as in [Example 13-8](#example-13-8).
 
 ```{r e13-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_types <- strsplit("DDDEEDDDDEDEEEDDDDEEDDDEE", "")[[1]]
-c(n1_export = sum(order_types == "E"),
-  n2_domestic = sum(order_types == "D"),
-  G = count_runs(order_types))
+order_types <- c("D","D","D","E","E","D","D","D","D","E","D","E","E",
+                 "E","D","D","D","D","E","E","D","D","D","E","E")
+
+table(order_types)
+length(rle(order_types)$lengths)
 ```
 
 **Step 4.** Make the decision. Since the number of runs is 10, and 10 is neither less than or equal to 7 nor greater than or equal to 18, **do not reject** the null hypothesis.
@@ -1456,12 +1441,12 @@ The number of runs is $G = 9$.
 ```{r e13-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cartons <- c(48, 74, 45, 52, 57, 86, 54, 62, 62, 78,
              41, 84, 76, 68, 66, 88, 92, 45, 50, 55)
-median_cartons <- median(cartons)
-above_below <- ifelse(cartons > median_cartons, "A", "B")[cartons != median_cartons]
-median_cartons
-paste(above_below, collapse = " ")
-c(n1 = sum(above_below == "A"), n2 = sum(above_below == "B"),
-  G = count_runs(above_below))
+
+median(cartons)
+above_below <- ifelse(cartons[cartons != 62] > 62, "A", "B")
+above_below
+table(above_below)
+length(rle(above_below)$lengths)
 ```
 :::
 
@@ -1523,19 +1508,21 @@ $$z = \frac{G - \mu_G}{\sigma_G} = \frac{18 - 23.222}{3.274} = -1.595$$
 :::{.callout-tip}
 ## Solution
 
-**Step 3 in R** — the same `count_runs()` helper is reused, and no value is rounded before the division.
+**Step 3 in R** — `rle()` counts the runs again, and no value is rounded before the division.
 
 ```{r e13-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-destinations <- strsplit(paste0("AAAANNNNNAAAAANAAANANAAA",
-                                "NNAANANNNNANAAAAANNNN"), "")[[1]]
-n1 <- sum(destinations == "N")
-n2 <- sum(destinations == "A")
-runs <- count_runs(destinations)
-mu_runs    <- 2 * n1 * n2 / (n1 + n2) + 1
-sigma_runs <- sqrt(2 * n1 * n2 * (2 * n1 * n2 - n1 - n2) /
-                   ((n1 + n2)^2 * (n1 + n2 - 1)))
-round(c(n1 = n1, n2 = n2, G = runs, mu_G = mu_runs, sigma_G = sigma_runs,
-        z = (runs - mu_runs) / sigma_runs), 3)
+destinations <- c("A","A","A","A","N","N","N","N","N","A","A","A","A","A","N",
+                  "A","A","A","N","A","N","A","A","A","N","N","A","A","N","A",
+                  "N","N","N","N","A","N","A","A","A","A","A","N","N","N","N")
+mu_G    <- 2 * 20 * 25 / (20 + 25) + 1
+sigma_G <- sqrt(2 * 20 * 25 * (2 * 20 * 25 - 20 - 25) /
+                ((20 + 25)^2 * (20 + 25 - 1)))
+
+table(destinations)
+length(rle(destinations)$lengths)
+mu_G
+sigma_G
+(18 - mu_G) / sigma_G
 ```
 :::
 

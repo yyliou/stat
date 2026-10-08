@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -220,15 +219,16 @@ $$\frac{2 + 3}{2} = \frac{5}{2} = 2.5$$
 **準備資料**——`rank()` 由小到大排序，並且預設把同分者指定為這些名次的**平均數**，正好就是上述規則。
 
 ```{r s13-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rating <- c(A = 8, B = 6, C = 10, D = 6, E = 3)
-rank(rating)                       # ties.method = "average" is the default
+rating <- c(8, 6, 10, 6, 3)
+
+rank(rating)
 ```
 
 兩位得 6 分的演講者原本會占據第 2 與第 3 名，所以各得名次 2.5。
 
 ```{r s13-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sort(rating)                       # the data array, lowest to highest
-rank(c(3, 6, 6, 8, 10))            # the same ranking, values only
+sort(rating)
+rank(c(3, 6, 6, 8, 10))
 ```
 
 # 第13-2節：符號檢定 {background-color="#2c4a6e"}
@@ -340,10 +340,9 @@ daily_orders <- c(52, 48, 51, 50, 70,
                   47, 39, 53, 60, 37,
                   27, 46, 54, 49, 51,
                   45, 58, 46, 45, 47)
-signs <- sign(daily_orders - 45)
-sign_counts <- c(plus = sum(signs > 0), minus = sum(signs < 0))
-sign_counts
-c(n = sum(sign_counts), test_statistic = min(sign_counts))
+
+sum(daily_orders > 45)
+sum(daily_orders < 45)
 ```
 :::
 
@@ -361,7 +360,8 @@ c(n = sum(sign_counts), test_statistic = min(sign_counts))
 **P 值.** 表 A-10 的臨界值來自 $p = 0.5$ 的二項分配，因此精確的 P 值就是一個二項機率。
 
 ```{r e13-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-binom.test(min(sign_counts), sum(sign_counts), p = 0.5)$p.value
+# 雙尾檢定：P(X <= 3) 的兩倍
+2 * pbinom(3, 18, 0.5)
 ```
 
 $P = 0.0075 < 0.05$，與傳統方法拒絕 $H_0$ 的決策一致。
@@ -407,12 +407,8 @@ $$z = \frac{(X + 0.5) - 0.5n}{\sqrt{n}/2} = \frac{(15 + 0.5) - 0.5(40)}{\sqrt{40
 **步驟 3 的 R 實作**
 
 ```{r e13-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_days    <- 40
-n_below   <- 15
-x_smaller <- min(n_below, n_days - n_below)
-z_statistic <- ((x_smaller + 0.5) - 0.5 * n_days) / (sqrt(n_days) / 2)
-round(z_statistic, 2)
-round(qnorm(c(0.025, 0.975)), 2)
+((15 + 0.5) - 0.5 * 40) / (sqrt(40) / 2)
+qnorm(c(0.025, 0.975))
 ```
 
 **步驟 4.** 做成決策。檢定統計量 $-1.42$ 大於 $-1.96$，所以**不拒絕**虛無假設。
@@ -514,10 +510,9 @@ $H_1$：揀錯件數會減少 *（主張）*。
 ```{r e13-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 errors_before <- c(6, 2, 7, 5, 4, 6, 3, 8, 4, 2)
 errors_after  <- c(4, 3, 5, 1, 2, 3, 1, 5, 4, 5)
-signs <- sign(errors_before - errors_after)
-sign_counts <- c(plus = sum(signs > 0), minus = sum(signs < 0))
-sign_counts
-c(n = sum(sign_counts), test_statistic = min(sign_counts))
+
+sum(errors_before > errors_after)
+sum(errors_before < errors_after)
 ```
 
 **步驟 4.** 做成決策。把檢定統計量 2 與臨界值 1 比較。此處 $2 > 1$，所以**不拒絕** $H_0$。
@@ -675,16 +670,12 @@ $$z = \frac{R - \mu_R}{\sigma_R} = \frac{91.5 - 132}{16.248} = -2.493$$
 ```{r e13-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 kaohsiung <- c(58, 60, 63, 72, 74, 76, 78, 88, 92, 96, 125)
 taoyuan   <- c(69, 79, 84, 88, 93, 99, 106, 112, 120, 131, 140, 152)
-centre <- rep(c("Kaohsiung", "Taoyuan"), c(length(kaohsiung), length(taoyuan)))
-ranks  <- rank(c(kaohsiung, taoyuan))
-n1 <- length(kaohsiung)
-n2 <- length(taoyuan)
-rank_sum       <- sum(ranks[centre == "Kaohsiung"])
-mu_rank_sum    <- n1 * (n1 + n2 + 1) / 2
-sigma_rank_sum <- sqrt(n1 * n2 * (n1 + n2 + 1) / 12)
-z_statistic    <- (rank_sum - mu_rank_sum) / sigma_rank_sum
-round(c(R = rank_sum, mu_R = mu_rank_sum,
-        sigma_R = sigma_rank_sum, z = z_statistic), 3)
+ranks <- rank(c(kaohsiung, taoyuan))
+
+ranks
+sum(ranks[1:11])
+z <- (91.5 - 11 * (11 + 12 + 1) / 2) / sqrt(11 * 12 * (11 + 12 + 1) / 12)
+z
 ```
 :::
 
@@ -702,7 +693,7 @@ round(c(R = rank_sum, mu_R = mu_rank_sum,
 **P 值.** 本檢定為雙尾，所以 P 值是 $z = -2.493$ 左側面積的兩倍。
 
 ```{r e13-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(2 * pnorm(z_statistic), 4)
+2 * pnorm(z)
 ```
 
 因為 $P = 0.0127 < 0.05$，拒絕 $H_0$，與傳統方法的決策一致。
@@ -854,10 +845,10 @@ complaints_before <- c(9, 4, 5, 8, 7, 10, 14)
 complaints_after  <- c(7, 5, 6, 5, 3,  8,  6)
 differences  <- complaints_before - complaints_after
 signed_ranks <- sign(differences) * rank(abs(differences))
-rank_sums <- c(positive = sum(signed_ranks[signed_ranks > 0]),
-               negative = sum(signed_ranks[signed_ranks < 0]))
-rank_sums
-c(n = length(differences), w_s = min(abs(rank_sums)))
+
+signed_ranks
+sum(signed_ranks[signed_ranks > 0])
+sum(signed_ranks[signed_ranks < 0])
 ```
 :::
 
@@ -1024,8 +1015,8 @@ $$H = \frac{12}{15(15+1)}\left(\frac{64^2}{5} + \frac{35^2}{5} + \frac{21^2}{5}\
 transit_hours <- c(38.9, 42.8, 44.1, 46.5, 49.3,
                    28.6, 31.2, 34.0, 37.6, 41.2,
                    25.4, 27.1, 29.8, 32.5, 35.3)
-carrier <- factor(rep(c("A", "B", "C"), each = 5))
-tapply(rank(transit_hours), carrier, sum)
+carrier <- rep(c("A", "B", "C"), each = 5)
+
 kruskal.test(transit_hours ~ carrier)
 ```
 
@@ -1039,17 +1030,15 @@ kruskal.test(transit_hours ~ carrier)
 :::{.callout-tip}
 ## 解題
 
-**$H$ 公式的手算版本.** 程序表上的公式可以寫成一個簡短的函式，再與內建檢定互相驗證。
+**$H$ 公式的手算版本.** 程序表上的公式可以直接代入各組等級和計算，再與內建檢定互相驗證。
 
 ```{r e13-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-kruskal_h <- function(values, groups) {
-  rank_sums   <- tapply(rank(values), groups, sum)
-  group_sizes <- tapply(values, groups, length)
-  n_total     <- length(values)
-  12 / (n_total * (n_total + 1)) * sum(rank_sums^2 / group_sizes) - 3 * (n_total + 1)
-}
-kruskal_h(transit_hours, carrier)
-unname(kruskal.test(transit_hours ~ carrier)$statistic)
+ranks <- rank(transit_hours)
+
+sum(ranks[carrier == "A"])
+sum(ranks[carrier == "B"])
+sum(ranks[carrier == "C"])
+12 / (15 * (15 + 1)) * (64^2 / 5 + 35^2 / 5 + 21^2 / 5) - 3 * (15 + 1)
 ```
 
 本例的運送時數沒有同分，所以手算公式與 `kruskal.test()` 的結果完全相同。
@@ -1177,15 +1166,13 @@ $$\sum d^2 = 16 + 9 + 16 + 25 + 16 + 0 + 1 + 25 = 108$$
 $$r_s = 1 - \frac{6 \sum d^2}{n(n^2 - 1)} = 1 - \frac{6(108)}{8(8^2 - 1)} = 1 - \frac{648}{504} = -0.286$$
 
 ```{r e13-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-suppliers <- data.frame(
-  supplier     = LETTERS[1:8],
-  order_volume = c(24, 52, 45, 31, 18, 37, 76, 68),
-  audit_score  = c(81, 72, 61, 93, 78, 75, 88, 68))
-rank_diff <- rank(suppliers$order_volume) - rank(suppliers$audit_score)
-n_pairs   <- nrow(suppliers)
-r_s <- 1 - 6 * sum(rank_diff^2) / (n_pairs * (n_pairs^2 - 1))
-round(c(sum_d2 = sum(rank_diff^2), r_s = r_s), 3)
-round(cor(suppliers$order_volume, suppliers$audit_score, method = "spearman"), 3)
+order_volume <- c(24, 52, 45, 31, 18, 37, 76, 68)
+audit_score  <- c(81, 72, 61, 93, 78, 75, 88, 68)
+d <- rank(order_volume) - rank(audit_score)
+
+sum(d^2)
+1 - 6 * 108 / (8 * (8^2 - 1))
+cor(order_volume, audit_score, method = "spearman")
 ```
 :::
 
@@ -1205,16 +1192,12 @@ round(cor(suppliers$order_volume, suppliers$audit_score, method = "spearman"), 3
 
 ## Spearman 等級相關的 R 實作
 
-**繪製圖形**——把兩組**等級**互相對照作圖，就能看出為什麼 $r_s$ 接近 0：這些點並沒有一致往上或往下的趨勢。這裡直接沿用範例 13-7 建立的資料框。
+**準備資料**——把兩組**等級**互相對照作圖，就能看出為什麼 $r_s$ 接近 0：這些點並沒有一致往上或往下的趨勢。這裡直接沿用範例 13-7 輸入的資料。
 
 ```{r s13-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_rank <- ggplot(suppliers, aes(x = rank(order_volume), y = rank(audit_score))) +
-  geom_point(size = 3, colour = "steelblue") +
-  geom_text(aes(label = supplier), vjust = -1, size = 3) +
-  scale_x_continuous(breaks = 1:8) +
-  scale_y_continuous(breaks = 1:8) +
-  labs(title = "八家供應商下單量與稽核分數的等級",
-       x = "年下單量的等級", y = "品質稽核分數的等級")
+supplier_ranks <- data.frame(volume_rank = rank(order_volume),
+                             score_rank  = rank(audit_score))
+supplier_ranks
 ```
 
 ---
@@ -1224,7 +1207,10 @@ p_rank <- ggplot(suppliers, aes(x = rank(order_volume), y = rank(audit_score))) 
 **輸出圖形**
 
 ```{r s13-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.6}
-p_rank
+ggplot(supplier_ranks, aes(volume_rank, score_rank)) +
+  geom_point() +
+  labs(title = "八家供應商下單量與稽核分數的等級",
+       x = "年下單量的等級", y = "品質稽核分數的等級")
 ```
 
 ---
@@ -1284,18 +1270,16 @@ c.   C C P P C P P P C C P    (C = 現金，P = 刷卡)
 
 **c.** 共有**六**個連串：`CC | PP | C | PPP | CC | P`。其中有五個 C 與六個 P，所以 $n_1 = 5$、$n_2 = 6$。
 
+在 R 中，`rle()` 會列出每個連串的長度，再用 `length()` 數出共有幾個連串。
+
 ```{r e13-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-count_runs <- function(sequence) {
-  sum(sequence[-1] != sequence[-length(sequence)]) + 1
-}
-run_summary <- function(text) {
-  letters_used <- strsplit(text, "")[[1]]
-  counts <- table(letters_used)
-  c(runs = count_runs(letters_used), n1 = counts[[1]], n2 = counts[[2]])
-}
-sapply(c("DDDXXDDX", "LLELEEEELL", "CCPPCPPPCCP"), run_summary) |>
-  t() |>
-  knitr::kable(align = "c")
+orders   <- c("D","D","D","X","X","D","D","X")
+shifts   <- c("L","L","E","L","E","E","E","E","L","L")
+payments <- c("C","C","P","P","C","P","P","P","C","C","P")
+
+length(rle(orders)$lengths)
+length(rle(shifts)$lengths)
+length(rle(payments)$lengths)
 ```
 :::
 
@@ -1397,13 +1381,14 @@ $H_1$：訂單並非依類型隨機出現。
 :::{.callout-tip}
 ## 解題
 
-**步驟 3 的 R 實作**——`count_runs()` 已在 [Example 13-8](#example-13-8) 定義。
+**步驟 3 的 R 實作**——與 [Example 13-8](#example-13-8) 一樣，用 `rle()` 數出連串的個數。
 
 ```{r e13-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_types <- strsplit("DDDEEDDDDEDEEEDDDDEEDDDEE", "")[[1]]
-c(n1_export = sum(order_types == "E"),
-  n2_domestic = sum(order_types == "D"),
-  G = count_runs(order_types))
+order_types <- c("D","D","D","E","E","D","D","D","D","E","D","E","E",
+                 "E","D","D","D","D","E","E","D","D","D","E","E")
+
+table(order_types)
+length(rle(order_types)$lengths)
 ```
 
 **步驟 4.** 做成決策。連串個數為 10，既不小於等於 7，也不大於等於 18，所以**不拒絕**虛無假設。
@@ -1472,12 +1457,12 @@ B A B B B A B  A B A A A A A A  B B B
 ```{r e13-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cartons <- c(48, 74, 45, 52, 57, 86, 54, 62, 62, 78,
              41, 84, 76, 68, 66, 88, 92, 45, 50, 55)
-median_cartons <- median(cartons)
-above_below <- ifelse(cartons > median_cartons, "A", "B")[cartons != median_cartons]
-median_cartons
-paste(above_below, collapse = " ")
-c(n1 = sum(above_below == "A"), n2 = sum(above_below == "B"),
-  G = count_runs(above_below))
+
+median(cartons)
+above_below <- ifelse(cartons[cartons != 62] > 62, "A", "B")
+above_below
+table(above_below)
+length(rle(above_below)$lengths)
 ```
 :::
 
@@ -1539,19 +1524,21 @@ $$z = \frac{G - \mu_G}{\sigma_G} = \frac{18 - 23.222}{3.274} = -1.595$$
 :::{.callout-tip}
 ## 解題
 
-**步驟 3 的 R 實作**——沿用同一個 `count_runs()` 輔助函式，且相除之前不做任何四捨五入。
+**步驟 3 的 R 實作**——同樣用 `rle()` 數出連串的個數，且相除之前不做任何四捨五入。
 
 ```{r e13-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-destinations <- strsplit(paste0("AAAANNNNNAAAAANAAANANAAA",
-                                "NNAANANNNNANAAAAANNNN"), "")[[1]]
-n1 <- sum(destinations == "N")
-n2 <- sum(destinations == "A")
-runs <- count_runs(destinations)
-mu_runs    <- 2 * n1 * n2 / (n1 + n2) + 1
-sigma_runs <- sqrt(2 * n1 * n2 * (2 * n1 * n2 - n1 - n2) /
-                   ((n1 + n2)^2 * (n1 + n2 - 1)))
-round(c(n1 = n1, n2 = n2, G = runs, mu_G = mu_runs, sigma_G = sigma_runs,
-        z = (runs - mu_runs) / sigma_runs), 3)
+destinations <- c("A","A","A","A","N","N","N","N","N","A","A","A","A","A","N",
+                  "A","A","A","N","A","N","A","A","A","N","N","A","A","N","A",
+                  "N","N","N","N","A","N","A","A","A","A","A","N","N","N","N")
+mu_G    <- 2 * 20 * 25 / (20 + 25) + 1
+sigma_G <- sqrt(2 * 20 * 25 * (2 * 20 * 25 - 20 - 25) /
+                ((20 + 25)^2 * (20 + 25 - 1)))
+
+table(destinations)
+length(rle(destinations)$lengths)
+mu_G
+sigma_G
+(18 - mu_G) / sigma_G
 ```
 :::
 

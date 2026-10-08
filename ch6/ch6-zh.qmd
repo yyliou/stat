@@ -44,8 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
-library(gridExtra)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -103,29 +101,46 @@ knitr::opts_chunk$set(fig.align = "center")
 
 **圖 6-1** 成年女性身高分佈的直方圖與常態模型
 
-```{r s6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+```{r s6-1-1a, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(6)
-heights <- rnorm(100000, mean = 163, sd = 6.5)
-height_hist <- function(n_obs, bin_width, title)
-  ggplot(data.frame(height = heights[1:n_obs]), aes(height)) +
-  geom_histogram(binwidth = bin_width, fill = "#2c4a6e",
-                 colour = "white", alpha = 0.8) +
-  labs(title = title, x = "身高（公分）", y = "")
+heights <- rnorm(20000, mean = 163, sd = 6.5)
+
+ggplot(data.frame(height = heights[1:100]), aes(height)) +
+  geom_histogram(binwidth = 5, color = "white") +
+  labs(title = "(a) n = 100", x = "身高（公分）", y = "次數")
 ```
 
 ---
 
 ## 緒論
 
-```{r s6-1-2, echo=T, warning=FALSE, out.width="85%", fig.align='center'}
-normal_panel <- ggplot(data.frame(height = c(140, 186)), aes(height)) +
-  stat_function(fun = dnorm, args = list(mean = 163, sd = 6.5),
-                colour = "#2c4a6e", linewidth = 1.2) +
-  labs(title = "(d) 常態分佈", x = "身高（公分）", y = "")
-grid.arrange(height_hist(100, 5, "(a) n = 100"),
-             height_hist(1000, 3, "(b) n 增大"),
-             height_hist(20000, 1, "(c) n 再增大"),
-             normal_panel, ncol = 2)
+```{r s6-1-1b, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(data.frame(height = heights[1:1000]), aes(height)) +
+  geom_histogram(binwidth = 3, color = "white") +
+  labs(title = "(b) n 增大", x = "身高（公分）", y = "次數")
+```
+
+---
+
+## 緒論
+
+```{r s6-1-1c, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+ggplot(data.frame(height = heights), aes(height)) +
+  geom_histogram(binwidth = 1, color = "white") +
+  labs(title = "(c) n 再增大", x = "身高（公分）", y = "次數")
+```
+
+---
+
+## 緒論
+
+```{r s6-1-1d, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+x <- seq(140, 186, by = 0.1)
+curve <- data.frame(x, density = dnorm(x, mean = 163, sd = 6.5))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  labs(title = "(d) 常態分佈", x = "身高（公分）", y = "密度")
 ```
 
 ## 常態分佈
@@ -148,23 +163,19 @@ $$y = \frac{e^{-(X-\mu)^2/(2\sigma^2)}}{\sigma\sqrt{2\pi}}$$
 
 常態分佈曲線的形狀與位置由兩個參數決定：**平均數**與**標準差**（圖 6-3）。
 
-```{r s6-1-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-normal_curve_df <- function(mu, sigma, label) {
-  x <- seq(-8, 10, length.out = 400)
-  data.frame(x = x, density = dnorm(x, mu, sigma), label = label)
-}
-same_mean <- rbind(normal_curve_df(0, 1, "mu = 0, sigma = 1"),
-                   normal_curve_df(0, 2, "mu = 0, sigma = 2"))
-same_sd <- rbind(normal_curve_df(0, 2, "mu = 0, sigma = 2"),
-                 normal_curve_df(2, 2, "mu = 2, sigma = 2"))
-shape_panel <- function(curves, title)
-  ggplot(curves, aes(x, density, colour = label)) + geom_line(linewidth = 1) +
-  labs(title = title, x = "x", y = "", colour = "") +
-  theme(legend.position = "bottom")
-grid.arrange(shape_panel(same_mean, "(a) 平均數相同、標準差不同"),
-             shape_panel(same_sd, "(b) 平均數不同、標準差相同"),
-             ncol = 2)
+```{r s6-1-3, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=2.4}
+x <- seq(-8, 10, by = 0.01)
+curves <- data.frame(x, mu0_sd1 = dnorm(x, 0, 1), mu0_sd2 = dnorm(x, 0, 2),
+                     mu2_sd2 = dnorm(x, 2, 2))
+
+ggplot(curves, aes(x)) +
+  geom_line(aes(y = mu0_sd1)) +
+  geom_line(aes(y = mu0_sd2), linetype = "dashed") +
+  geom_line(aes(y = mu2_sd2), linetype = "dotted") +
+  labs(title = "圖 6-3：常態分佈曲線的形狀", x = "x", y = "密度")
 ```
+
+實線為 $\mu = 0$、$\sigma = 1$，虛線為 $\mu = 0$、$\sigma = 2$，點線為 $\mu = 2$、$\sigma = 2$。實線與虛線的平均數相同；虛線與點線的標準差相同。
 
 ## 常態分佈的性質
 
@@ -187,22 +198,15 @@ grid.arrange(shape_panel(same_mean, "(a) 平均數相同、標準差不同"),
 
 **圖 6-4**——上述第 8 點的面積即為 3-2 節的**經驗法則**。
 
-```{r s6-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-z_grid <- seq(-4, 4, length.out = 800)
-normal_curve <- data.frame(z = z_grid, density = dnorm(z_grid))
-shade <- function(lower, upper, fill)
-  geom_area(data = filter(normal_curve, z >= lower, z <= upper),
-            fill = fill, alpha = 0.6)
-ggplot(normal_curve, aes(z, density)) +
-  shade(-1, 1, "#2c4a6e") + shade(1, 2, "#5b8bbd") + shade(-2, -1, "#5b8bbd") +
-  shade(2, 3, "#a9c6e0") + shade(-3, -2, "#a9c6e0") +
-  geom_line(linewidth = 1) +
-  annotate("text", x = c(-0.5, 0.5), y = 0.15, label = "34.13%") +
-  annotate("text", x = c(-1.5, 1.5), y = 0.05, label = "13.59%") +
-  annotate("text", x = c(-2.5, 2.5), y = 0.02, label = "2.15%") +
-  scale_x_continuous(breaks = -3:3) +
+```{r s6-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3}
+x <- seq(-4, 4, by = 0.01)
+curve <- data.frame(x, density = dnorm(x))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_vline(xintercept = -3:3) +
   labs(title = "1、2、3 個標準差內約各佔 68%、95%、99.7%",
-       x = "z", y = "")
+       x = "z", y = "密度")
 ```
 
 ## 對稱分佈與偏斜分佈
@@ -223,20 +227,19 @@ ggplot(normal_curve, aes(z, density)) +
 
 **圖 6-5** 常態分佈與偏斜分佈
 
-```{r s6-1-5, echo=T, warning=FALSE, out.width="90%", fig.align='center'}
-skewed_panel <- function(shape, title, mirror = FALSE) {
-  x <- seq(0.001, 12, length.out = 400)
-  density <- dgamma(x, shape = shape, rate = 1)
-  if (mirror) x <- max(x) - x
-  ggplot(data.frame(x, density), aes(x, density)) +
-    geom_line(colour = "#2c4a6e", linewidth = 1) +
-    labs(title = title, x = "x", y = "")
-}
-symmetric_panel <- ggplot(normal_curve, aes(z, density)) +
-  geom_line(colour = "#2c4a6e", linewidth = 1) +
-  labs(title = "(a) 常態", x = "x", y = "")
-grid.arrange(symmetric_panel, skewed_panel(3, "(b) 負偏", TRUE),
-             skewed_panel(3, "(c) 正偏"), ncol = 3)
+```{r s6-1-5, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3}
+x <- seq(0, 10, by = 0.1)
+shapes <- data.frame(
+  shape   = rep(c("(a) 常態", "(b) 負偏", "(c) 正偏"),
+                each = length(x)),
+  x       = c(x, x, x),
+  density = c(dnorm(x, 5, 1.5), dgamma(10 - x, shape = 3), dgamma(x, shape = 3))
+)
+
+ggplot(shapes, aes(x, density)) +
+  geom_line() +
+  facet_wrap(~ shape) +
+  labs(y = "密度")
 ```
 
 ## 標準常態分佈
@@ -274,11 +277,8 @@ $$z = \frac{\text{數值} - \text{平均數}}{\text{標準差}} \qquad\text{或}
 **圖 6-6** 標準常態分佈
 
 ```{r s6-1-6, echo=T, warning=FALSE, out.width="75%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(fill = "#2c4a6e", alpha = 0.15) +
-  geom_line(colour = "#2c4a6e", linewidth = 1.2) +
-  geom_vline(xintercept = -3:3, linetype = "dotted", colour = "grey40") +
-  scale_x_continuous(breaks = -3:3) +
+ggplot(curve, aes(x, density)) +
+  geom_line() +
   labs(title = "標準常態分佈（平均數 0、標準差 1）",
        x = "z", y = "密度")
 ```
@@ -309,13 +309,13 @@ ggplot(normal_curve, aes(z, density)) +
 ## 重要的 R 函數
 
 - `pnorm(z)`——$z$ **左側**的面積
-- `1 - pnorm(z)` 或 `pnorm(z, lower.tail = FALSE)`——$z$ **右側**的面積
+- `1 - pnorm(z)`——$z$ **右側**的面積
 - `pnorm(z2) - pnorm(z1)`——$z_1$ 與 $z_2$ **之間**的面積
 - `qnorm(p)`——左尾面積為 $p$ 的 $z$ 值（`pnorm` 的反函數）
 :::
 
 ```{r s6-1-7, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.58), 4)   # 表 A-4 中 z = 1.58 的值
+pnorm(1.58)   # 表 A-4 中 z = 1.58 的值
 ```
 
 ## 範例 6-1 {#example-6-1}
@@ -338,7 +338,7 @@ round(pnorm(1.58), 4)   # 表 A-4 中 z = 1.58 的值
 **步驟 2** 此為程序表的第一種情形，可直接使用表上的面積。$z = 1.72$ 左側的面積為 $0.9573$，亦即 $95.73\%$ 的面積位於 $z = 1.72$ 的左側。
 
 ```{r e6-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.72), 4)
+pnorm(1.72)
 ```
 :::
 
@@ -352,13 +352,10 @@ round(pnorm(1.72), 4)
 **繪製圖形**
 
 ```{r e6-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z <= 1.72),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = 1.72, linetype = "dashed", colour = "red") +
-  annotate("text", x = 0, y = 0.15, label = "0.9573", size = 5) +
-  labs(title = "z = 1.72 左側的面積", x = "z", y = "")
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x <= 1.72)) +
+  labs(title = "z = 1.72 左側的面積", x = "z", y = "密度")
 ```
 :::
 
@@ -382,8 +379,8 @@ ggplot(normal_curve, aes(z, density)) +
 **步驟 2** 此為第二種情形。$z = -0.83$ 對應的面積為 $0.2033$，以 $1.0000$ 減去它：$1.0000 - 0.2033 = 0.7967$。亦即 $79.67\%$ 的面積位於 $z = -0.83$ 的右側。
 
 ```{r e6-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(-0.83), 4)
-round(pnorm(-0.83, lower.tail = FALSE), 4)
+pnorm(-0.83)
+1 - pnorm(-0.83)
 ```
 :::
 
@@ -397,13 +394,10 @@ round(pnorm(-0.83, lower.tail = FALSE), 4)
 **繪製圖形**
 
 ```{r e6-2-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z >= -0.83),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = -0.83, linetype = "dashed", colour = "red") +
-  annotate("text", x = 1, y = 0.15, label = "0.7967", size = 5) +
-  labs(title = "z = -0.83 右側的面積", x = "z", y = "")
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= -0.83)) +
+  labs(title = "z = -0.83 右側的面積", x = "z", y = "密度")
 ```
 :::
 
@@ -427,7 +421,7 @@ ggplot(normal_curve, aes(z, density)) +
 **步驟 2** 此為第三種情形：查出兩個面積後，以較大者減去較小者。*（不要相減 $z$ 值。）* $z = 1.21$ 的面積為 $0.8869$，$z = -1.54$ 的面積為 $0.0618$，故兩者之間的面積為 $0.8869 - 0.0618 = 0.8251$，即 $82.51\%$。
 
 ```{r e6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1.21) - pnorm(-1.54), 4)
+pnorm(1.21) - pnorm(-1.54)
 ```
 :::
 
@@ -441,14 +435,10 @@ round(pnorm(1.21) - pnorm(-1.54), 4)
 **繪製圖形**
 
 ```{r e6-3-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z >= -1.54, z <= 1.21),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = c(-1.54, 1.21), linetype = "dashed",
-             colour = "red") +
-  annotate("text", x = 0, y = 0.15, label = "0.8251", size = 5) +
-  labs(title = "z = -1.54 與 z = 1.21 之間的面積", x = "z", y = "")
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= -1.54, x <= 1.21)) +
+  labs(title = "z = -1.54 與 z = 1.21 之間的面積", x = "z", y = "密度")
 ```
 :::
 
@@ -488,9 +478,9 @@ ggplot(normal_curve, aes(z, density)) +
 **(c)** 求 $z = 2.27$ 右側的面積。$z = 2.27$ 的面積為 $0.9884$，故 $1.0000 - 0.9884 = 0.0116$，即 $1.16\%$。
 
 ```{r e6-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(2.14) - pnorm(0), 4)
-round(pnorm(1.35), 4)
-round(pnorm(2.27, lower.tail = FALSE), 4)
+pnorm(2.14) - pnorm(0)
+pnorm(1.35)
+1 - pnorm(2.27)
 ```
 :::
 
@@ -512,7 +502,7 @@ round(pnorm(2.27, lower.tail = FALSE), 4)
 畫圖（圖 6-14）。由於表 A-4 為累積機率，將所給面積 $0.3078$ 加上 $0.5000$ 得累積面積 $0.8078$。在表 A-4 中查得 $0.8078$，其列值為 $0.8$、行值為 $0.07$，故 $z = 0.87$。
 
 ```{r e6-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qnorm(0.5000 + 0.3078), 2)
+qnorm(0.5000 + 0.3078)
 ```
 
 若表中找不到恰好相等的面積，就取最接近者：例如累積面積 $0.8080$ 最接近的表值為 $0.8078$，同樣得到 $z = 0.87$。
@@ -560,9 +550,7 @@ $$z = \frac{\text{數值} - \text{平均數}}{\text{標準差}} \qquad\text{或}
 **步驟 3** $z = 1.25$ 左側的面積為 $0.8944$。因此有 $89.44\%$ 的訂單在 $32$ 分鐘內送達。
 
 ```{r e6-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-delivery_mean <- 27
-delivery_sd <- 4
-round(pnorm(32, mean = delivery_mean, sd = delivery_sd), 4)
+pnorm(32, mean = 27, sd = 4)
 ```
 :::
 
@@ -575,33 +563,14 @@ round(pnorm(32, mean = delivery_mean, sd = delivery_sd), 4)
 
 **繪製圖形**
 
-```{r e6-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-normal_density_df <- function(mu, sigma) {
-  x <- seq(mu - 4 * sigma, mu + 4 * sigma, length.out = 400)
-  data.frame(x = x, density = dnorm(x, mu, sigma))
-}
-delivery_curve <- normal_density_df(delivery_mean, delivery_sd)
-delivery_plot <- ggplot(delivery_curve, aes(x, density)) +
-  geom_area(data = filter(delivery_curve, x <= 32),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  geom_vline(xintercept = 32, linetype = "dashed", colour = "red") +
-  annotate("text", x = 24, y = 0.03, label = "0.8944", size = 5) +
-  labs(title = "配送時間：P(X < 32)", x = "分鐘", y = "")
-```
-:::
+```{r e6-6-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+x <- seq(11, 43, by = 0.1)
+curve <- data.frame(x, density = dnorm(x, mean = 27, sd = 4))
 
----
-
-## 範例 6-6
-
-:::{.callout-tip}
-## 解題
-
-**輸出圖形**
-
-```{r e6-6-3, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-delivery_plot
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x <= 32)) +
+  labs(title = "配送時間：P(X < 32)", x = "分鐘", y = "密度")
 ```
 :::
 
@@ -629,9 +598,7 @@ delivery_plot
 **步驟 3** $z_2$ 左側的面積為 $0.9332$，$z_1$ 左側的面積為 $0.1587$，故兩者之間的面積為 $0.9332 - 0.1587 = 0.7745$，即機率 $77.45\%$。
 
 ```{r e6-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_mean <- 1200
-order_sd <- 150
-round(pnorm(1425, order_mean, order_sd) - pnorm(1050, order_mean, order_sd), 4)
+pnorm(1425, mean = 1200, sd = 150) - pnorm(1050, mean = 1200, sd = 150)
 ```
 :::
 
@@ -649,7 +616,7 @@ round(pnorm(1425, order_mean, order_sd) - pnorm(1050, order_mean, order_sd), 4)
 **步驟 3** $z = 1.2$ 左側的面積為 $0.8849$，故右側面積為 $1.0000 - 0.8849 = 0.1151$。訂單金額超過 $1{,}380$ 元的機率為 $0.1151$，即 $11.51\%$。
 
 ```{r e6-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pnorm(1380, order_mean, order_sd, lower.tail = FALSE), 4)
+1 - pnorm(1380, mean = 1200, sd = 150)
 ```
 :::
 
@@ -660,20 +627,16 @@ round(pnorm(1380, order_mean, order_sd, lower.tail = FALSE), 4)
 :::{.callout-tip}
 ## 解題
 
-**繪製圖形**
+**繪製圖形 (a)**
 
-```{r e6-7-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_curve <- normal_density_df(order_mean, order_sd)
-between_plot <- ggplot(order_curve, aes(x, density)) +
-  geom_area(data = filter(order_curve, x >= 1050, x <= 1425),
-            fill = "#2c4a6e", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  labs(title = "(a) P(1050 < X < 1425) = 0.7745", x = "元", y = "")
-upper_plot <- ggplot(order_curve, aes(x, density)) +
-  geom_area(data = filter(order_curve, x >= 1380),
-            fill = "#c0392b", alpha = 0.4) +
-  geom_line(linewidth = 1) +
-  labs(title = "(b) P(X > 1380) = 0.1151", x = "元", y = "")
+```{r e6-7-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+x <- seq(600, 1800, by = 1)
+curve <- data.frame(x, density = dnorm(x, mean = 1200, sd = 150))
+
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= 1050, x <= 1425)) +
+  labs(title = "(a) P(1050 < X < 1425) = 0.7745", x = "元", y = "密度")
 ```
 :::
 
@@ -684,10 +647,13 @@ upper_plot <- ggplot(order_curve, aes(x, density)) +
 :::{.callout-tip}
 ## 解題
 
-**輸出圖形**
+**繪製圖形 (b)**
 
-```{r e6-7-4, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
-grid.arrange(between_plot, upper_plot, ncol = 2)
+```{r e6-7-4, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=4}
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_area(data = filter(curve, x >= 1380)) +
+  labs(title = "(b) P(X > 1380) = 0.1151", x = "元", y = "密度")
 ```
 :::
 
@@ -715,11 +681,10 @@ grid.arrange(between_plot, upper_plot, ncol = 2)
 筆數為 $60 \times 0.2266 = 13.6$，四捨五入得 $14$。隨機選取的 $60$ 筆訂單中，約有 **14** 筆的揀貨包裝時間少於 $5.8$ 分鐘。
 
 ```{r e6-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-picking_mean <- 6.4
-picking_sd <- 0.8
-fast_share <- pnorm(5.8, mean = picking_mean, sd = picking_sd)
-round(fast_share, 4)
-round(60 * fast_share, 2)
+area <- pnorm(5.8, mean = 6.4, sd = 0.8)
+
+area
+60 * area
 ```
 
 *注意：* 遇到百分比的題目，務必先將百分比化為小數再相乘，並視需要四捨五入至整數。
@@ -769,11 +734,10 @@ $$X = z \cdot \sigma + \mu$$
 由於訂單數不可能有小數，門檻應取 **557**：完成 $557$ 筆以上的外送員即可獲得獎金。
 
 ```{r e6-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-orders_mean <- 480
-orders_sd <- 60
-cutoff_z <- qnorm(0.90)
-round(cutoff_z, 4)
-round(cutoff_z * orders_sd + orders_mean, 2)
+z <- qnorm(0.90)
+
+z
+z * 60 + 480
 ```
 :::
 
@@ -805,10 +769,10 @@ round(cutoff_z * orders_sd + orders_mean, 2)
 運量最低的 $20\%$ 平日，進站人次少於 $43.79$ 千人次。
 
 ```{r e6-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-passenger_mean <- 48
-passenger_sd <- 5
-round(qnorm(0.20), 4)
-round(qnorm(0.20) * passenger_sd + passenger_mean, 2)
+z <- qnorm(0.20)
+
+z
+z * 5 + 48
 ```
 :::
 
@@ -828,8 +792,8 @@ round(qnorm(0.20) * passenger_sd + passenger_mean, 2)
 運量居中 $60\%$ 的平日，進站人次介於 $43.79$ 與 $52.21$ 千人次之間。
 
 ```{r e6-10-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-middle_bounds <- qnorm(c(0.20, 0.80)) * passenger_sd + passenger_mean
-round(middle_bounds, 2)
+qnorm(0.20) * 5 + 48
+qnorm(0.80) * 5 + 48
 ```
 :::
 
@@ -873,11 +837,8 @@ $$PC = \frac{3(\bar{X} - \text{中位數})}{s}$$
 lead_days <- c(12, 21, 26, 33, 35, 38, 42, 45, 47,
                49, 52, 56, 59, 63, 68, 74, 81, 93)
 lead_breaks <- seq(9.5, 99.5, by = 15)
-lead_labels <- c("10-24", "25-39", "40-54", "55-69", "70-84", "85-99")
-lead_freq <- data.frame(
-  Class = lead_labels,
-  Frequency = as.integer(table(cut(lead_days, lead_breaks, labels = lead_labels))))
-knitr::kable(lead_freq, align = "c")
+
+table(cut(lead_days, lead_breaks))
 ```
 :::
 
@@ -892,8 +853,7 @@ knitr::kable(lead_freq, align = "c")
 
 ```{r e6-11-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(lead_days), aes(lead_days)) +
-  geom_histogram(breaks = lead_breaks, fill = "#2c4a6e", colour = "white") +
-  scale_x_continuous(breaks = lead_breaks) +
+  geom_histogram(breaks = lead_breaks, color = "white") +
   labs(title = "範例 6-11 的直方圖", x = "天數", y = "次數")
 ```
 
@@ -909,6 +869,14 @@ ggplot(data.frame(lead_days), aes(lead_days)) +
 
 **步驟 2** 檢查偏斜程度：$\bar{X} = 49.67$、中位數 $= 48$、$s = 21.17$，故
 $$PC = \frac{3(49.67 - 48)}{21.17} = 0.236$$
+
+```{r e6-11-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(lead_days)
+median(lead_days)
+sd(lead_days)
+3 * (mean(lead_days) - median(lead_days)) / sd(lead_days)
+```
+
 $PC$ 既不大於 $+1$ 也不小於 $-1$，故此分佈**未顯著偏斜**。
 :::
 
@@ -921,12 +889,11 @@ $PC$ 既不大於 $+1$ 也不小於 $-1$，故此分佈**未顯著偏斜**。
 
 **步驟 3** 檢查離群值：$Q_1 = 35.75$、$Q_3 = 62$，故 $IQR = 26.25$。離群值須低於 $35.75 - 1.5(26.25) = -3.62$ 或高於 $62 + 1.5(26.25) = 101.38$，故**沒有離群值**。
 
-```{r e6-11-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(mean = mean(lead_days), median = median(lead_days), s = sd(lead_days)), 2)
-round(3 * (mean(lead_days) - median(lead_days)) / sd(lead_days), 3)
-lead_quartiles <- quantile(lead_days, c(0.25, 0.75))
-round(c(lead_quartiles, IQR = IQR(lead_days)), 2)
-round(lead_quartiles + c(-1.5, 1.5) * IQR(lead_days), 2)
+```{r e6-11-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(lead_days, c(0.25, 0.75))
+IQR(lead_days)
+35.75 - 1.5 * 26.25
+62 + 1.5 * 26.25
 ```
 
 鐘形、未顯著偏斜、無離群值：此分佈**近似常態分佈**。
@@ -960,12 +927,9 @@ customers <- c(142,  95, 131, 152, 108, 145,
                149,  25, 139, 118, 151, 135,
                125,  60, 147,  78,  42)
 customer_breaks <- seq(24.5, 174.5, by = 25)
-customer_labels <- c("25-49", "50-74", "75-99", "100-124", "125-149", "150-174")
-customer_freq <- data.frame(
-  Class = customer_labels,
-  Frequency = as.integer(table(cut(customers, customer_breaks,
-                                   labels = customer_labels))))
-knitr::kable(customer_freq, align = "c")
+
+# dig.lab = 4 讓 124.5 這類組界完整顯示
+table(cut(customers, customer_breaks, dig.lab = 4))
 ```
 :::
 
@@ -980,8 +944,7 @@ knitr::kable(customer_freq, align = "c")
 
 ```{r e6-12-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(customers), aes(customers)) +
-  geom_histogram(breaks = customer_breaks, fill = "#2c4a6e", colour = "white") +
-  scale_x_continuous(breaks = customer_breaks) +
+  geom_histogram(breaks = customer_breaks, color = "white") +
   labs(title = "範例 6-12 的直方圖", x = "來客數", y = "次數")
 ```
 
@@ -997,6 +960,14 @@ ggplot(data.frame(customers), aes(customers)) +
 
 **步驟 2** 檢查偏斜程度：$\bar{X} = 114.24$、中位數 $= 131$、$s = 40.37$，故
 $$PC = \frac{3(114.24 - 131)}{40.37} = -1.25$$
+
+```{r e6-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+mean(customers)
+median(customers)
+sd(customers)
+3 * (mean(customers) - median(customers)) / sd(customers)
+```
+
 由於 $PC$ 小於 $-1$，此分佈**顯著左偏**。
 :::
 
@@ -1009,12 +980,11 @@ $$PC = \frac{3(114.24 - 131)}{40.37} = -1.25$$
 
 **步驟 3** 檢查離群值：$Q_1 = 95$、$Q_3 = 145$、$IQR = 50$。低於 $95 - 1.5(50) = 20$ 或高於 $145 + 1.5(50) = 220$ 者為離群值，故**沒有離群值**。
 
-```{r e6-12-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(mean = mean(customers), median = median(customers), s = sd(customers)), 2)
-round(3 * (mean(customers) - median(customers)) / sd(customers), 2)
-customer_quartiles <- quantile(customers, c(0.25, 0.75))
-round(c(customer_quartiles, IQR = IQR(customers)), 2)
-round(customer_quartiles + c(-1.5, 1.5) * IQR(customers), 2)
+```{r e6-12-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+quantile(customers, c(0.25, 0.75))
+IQR(customers)
+95 - 1.5 * 50
+145 + 1.5 * 50
 ```
 
 總結而言，此分佈**顯著左偏**。
@@ -1024,13 +994,24 @@ round(customer_quartiles + c(-1.5, 1.5) * IQR(customers), 2)
 
 另一種檢查常態性的方法是繪製**常態分位圖**。**分位數**（有時稱為**分割數**）是把資料集分成大致相等群組的數值。常態分位圖將資料值對應到各分位數的 $z$ 值上作圖。**若各點未大致落在一條直線上，即可否定常態性。**
 
-```{r s6-2-1, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-quantile_plot <- function(values, title)
-  ggplot(data.frame(values), aes(sample = values)) +
-  stat_qq(colour = "#2c4a6e") + stat_qq_line(colour = "red") +
-  labs(title = title, x = "理論分位數 (z)", y = "樣本分位數")
-grid.arrange(quantile_plot(lead_days, "範例 6-11：供應商備料天數"),
-             quantile_plot(customers, "範例 6-12：夜市攤位來客數"), ncol = 2)
+```{r s6-2-1, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+ggplot(data.frame(lead_days), aes(sample = lead_days)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "範例 6-11：供應商備料天數",
+       x = "理論分位數 (z)", y = "樣本分位數")
+```
+
+---
+
+## 以 R 繪製常態分位圖
+
+```{r s6-2-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
+ggplot(data.frame(customers), aes(sample = customers)) +
+  stat_qq() +
+  stat_qq_line() +
+  labs(title = "範例 6-12：夜市攤位來客數",
+       x = "理論分位數 (z)", y = "樣本分位數")
 ```
 
 其他方法還包括常態機率座標紙、卡方適合度檢定（第11章）、Kolmogorov-Smirnov 檢定與 Lilliefors 檢定。
@@ -1074,9 +1055,10 @@ grid.arrange(quantile_plot(lead_days, "範例 6-11：供應商備料天數"),
 
 ```{r s6-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 quiz_scores <- c(3, 5, 7, 9)
-population_mean <- mean(quiz_scores)
-population_sd <- sqrt(mean((quiz_scores - population_mean)^2))
-round(c(mean = population_mean, sd = population_sd), 3)
+
+mean(quiz_scores)
+sigma <- sqrt(sum((quiz_scores - 6)^2) / 4)
+sigma
 ```
 
 原分佈的圖形為**均勻分佈**（圖 6-32）：每個分數各出現一次。
@@ -1088,27 +1070,27 @@ round(c(mean = population_mean, sd = population_sd), 3)
 **取出放回**抽取所有大小為 $2$ 的樣本，並計算各樣本的平均數：
 
 ```{r s6-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_pairs <- expand.grid(first = quiz_scores, second = quiz_scores)
-sample_pairs$sample_mean <- rowMeans(sample_pairs[c("first", "second")])
-knitr::kable(as.data.frame(table(Mean = sample_pairs$sample_mean)), align = "c")
+samples <- expand.grid(first = quiz_scores, second = quiz_scores)
+sample_means <- (samples$first + samples$second) / 2
+
+table(sample_means)
 ```
 
 ---
 
 ## 十分小考的示範
 
-```{r s6-3-3, echo=T, warning=FALSE, out.width="60%", fig.align='center'}
-ggplot(sample_pairs, aes(sample_mean)) +
-  geom_bar(fill = "#2c4a6e", width = 0.6) +
-  scale_x_continuous(breaks = 3:9) +
+```{r s6-3-3, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=2.5}
+ggplot(data.frame(sample_means), aes(sample_means)) +
+  geom_bar() +
   labs(title = "圖 6-33：樣本平均數的分佈",
        x = "樣本平均數", y = "次數")
 ```
 
 ```{r s6-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean(sample_pairs$sample_mean)
-round(sqrt(mean((sample_pairs$sample_mean - population_mean)^2)), 3)
-round(population_sd / sqrt(2), 3)
+mean(sample_means)
+sqrt(sum((sample_means - 6)^2) / 16)
+sigma / sqrt(2)
 ```
 
 樣本平均數的直方圖近似常態，樣本平均數的平均數等於母體平均數，樣本平均數的標準差則等於 $\sigma/\sqrt{n}$。
@@ -1162,16 +1144,19 @@ $$z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 
 ## 以 R 展示中央極限定理
 
-```{r s6-3-5, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
+```{r s6-3-5, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
 set.seed(42)
-skewed_means <- function(n)                # rate = 0.5 的母體高度偏斜
-  data.frame(sample_mean = colMeans(matrix(rexp(n * 2000, rate = 0.5), nrow = n)),
-             size = paste("n =", n))
-simulation <- bind_rows(skewed_means(2), skewed_means(10), skewed_means(30))
+# rate = 0.5 的母體高度偏斜
+simulation <- data.frame(
+  size        = rep(c("(a) n = 2", "(b) n = 10", "(c) n = 30"), each = 2000),
+  sample_mean = c(replicate(2000, mean(rexp(2, rate = 0.5))),
+                  replicate(2000, mean(rexp(10, rate = 0.5))),
+                  replicate(2000, mean(rexp(30, rate = 0.5))))
+)
+
 ggplot(simulation, aes(sample_mean)) +
-  geom_histogram(bins = 40, fill = "#2c4a6e", colour = "white") +
-  facet_wrap(~ factor(size, levels = c("n = 2", "n = 10", "n = 30")),
-             scales = "free") +
+  geom_histogram(bins = 40, color = "white") +
+  facet_wrap(~ size, scales = "free") +
   labs(title = "樣本數愈大，樣本平均數愈趨近常態",
        x = "樣本平均數", y = "次數")
 ```
@@ -1202,11 +1187,10 @@ $$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \frac{1.25}{\sqrt{25}} = 0.25$$
 **步驟 3** $2.00$ 右側的面積為 $1.0000 - 0.9772 = 0.0228$，即 $2.28\%$。
 
 ```{r e6-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-call_mean <- 4.5
-call_sd <- 1.25
-call_se <- call_sd / sqrt(25)
-call_se
-round(pnorm(5.0, call_mean, call_se, lower.tail = FALSE), 4)
+se <- 1.25 / sqrt(25)
+
+se
+1 - pnorm(5.0, mean = 4.5, sd = se)
 ```
 
 這 $25$ 通來電平均通話時間超過 $5.0$ 分鐘的機率為 **2.28%**。
@@ -1234,10 +1218,10 @@ round(pnorm(5.0, call_mean, call_se, lower.tail = FALSE), 4)
 **步驟 3** $z = -2$ 的面積為 $0.0228$，$z = 1$ 的面積為 $0.8413$，故兩者之間的面積為 $0.8413 - 0.0228 = 0.8186$，即 $81.86\%$。
 
 ```{r e6-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-parcel_mean <- 120
-parcel_se <- 18 / sqrt(36)
-parcel_se
-round(pnorm(123, parcel_mean, parcel_se) - pnorm(114, parcel_mean, parcel_se), 4)
+se <- 18 / sqrt(36)
+
+se
+pnorm(123, mean = 120, sd = se) - pnorm(114, mean = 120, sd = se)
 ```
 :::
 
@@ -1269,9 +1253,7 @@ round(pnorm(123, parcel_mean, parcel_se) - pnorm(114, parcel_mean, parcel_se), 4
 隨機選取一批通關時間少於 $3.3$ 天的貨物，其機率為 $0.5793$，即 $57.93\%$。
 
 ```{r e6-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-clearance_mean <- 3.2
-clearance_sd <- 0.5
-round(pnorm(3.3, clearance_mean, clearance_sd), 4)
+pnorm(3.3, mean = 3.2, sd = 0.5)
 ```
 :::
 
@@ -1289,9 +1271,10 @@ round(pnorm(3.3, clearance_mean, clearance_sd), 4)
 **步驟 3** $z = 1.20$ 對應的面積為 $0.8849$，即 $88.49\%$。
 
 ```{r e6-15-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-clearance_se <- clearance_sd / sqrt(36)
-round(clearance_se, 4)
-round(pnorm(3.3, clearance_mean, clearance_se), 4)
+se <- 0.5 / sqrt(36)
+
+se
+pnorm(3.3, mean = 3.2, sd = se)
 ```
 
 (a) 與 (b) 相差約 $30.6$ 個百分點，原因在於樣本平均數的分佈**比個別資料值的分佈離散得多**：樣本數愈大，平均數的標準差就愈小。
@@ -1365,14 +1348,17 @@ $$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \cdot \sqrt{\frac{N-n}{N-1}} \qquad
 
 ## $np \geq 5$ 與 $nq \geq 5$ 的條件（續）
 
-```{r s6-4-1, echo=T, warning=FALSE, out.width="65%", fig.align='center'}
-binomial_shapes <- rbind(
-  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.3),
-             label = "n = 10, p = 0.3 (np = 3)"),
-  data.frame(x = 0:10, probability = dbinom(0:10, 10, 0.5),
-             label = "n = 10, p = 0.5 (np = 5, nq = 5)"))
+```{r s6-4-1, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
+binomial_shapes <- data.frame(
+  label       = rep(c("n = 10, p = 0.3 (np = 3)", "n = 10, p = 0.5 (np = 5, nq = 5)"),
+                    each = 11),
+  x           = c(0:10, 0:10),
+  probability = c(dbinom(0:10, 10, 0.3), dbinom(0:10, 10, 0.5))
+)
+
 ggplot(binomial_shapes, aes(x, probability)) +
-  geom_col(fill = "#2c4a6e", width = 0.7) + facet_wrap(~ label) +
+  geom_col() +
+  facet_wrap(~ label) +
   labs(title = "圖 6-39：二項分佈與常態分佈的比較",
        x = "X", y = "P(X)")
 ```
@@ -1466,13 +1452,12 @@ ggplot(binomial_shapes, aes(x, probability)) +
 **以 R 計算**
 
 ```{r e6-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_buyers <- 150
-p_pickup <- 0.30
-mu <- n_buyers * p_pickup
-sigma <- sqrt(n_buyers * p_pickup * (1 - p_pickup))
-c(np = mu, nq = n_buyers * (1 - p_pickup), sigma = round(sigma, 2))
-round(pnorm(52.5, mu, sigma) - pnorm(51.5, mu, sigma), 4)
-round(dbinom(52, n_buyers, p_pickup), 4)
+150 * 0.30
+150 * 0.70
+sigma <- sqrt(150 * 0.30 * 0.70)
+sigma
+pnorm(52.5, mean = 45, sd = sigma) - pnorm(51.5, mean = 45, sd = sigma)
+dbinom(52, 150, 0.30)
 ```
 
 常態近似的結果為 **0.0327**，精確的二項機率則為 $0.032$。
@@ -1516,13 +1501,12 @@ round(dbinom(52, n_buyers, p_pickup), 4)
 **以 R 計算**
 
 ```{r e6-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_orders <- 240
-p_return <- 0.15
-mu <- n_orders * p_return
-sigma <- sqrt(n_orders * p_return * (1 - p_return))
-c(np = mu, nq = n_orders * (1 - p_return), sigma = round(sigma, 2))
-round(pnorm(23.5, mu, sigma, lower.tail = FALSE), 4)
-round(pbinom(23, n_orders, p_return, lower.tail = FALSE), 4)
+240 * 0.15
+240 * 0.85
+sigma <- sqrt(240 * 0.15 * 0.85)
+sigma
+1 - pnorm(23.5, mean = 36, sd = sigma)
+1 - pbinom(23, 240, 0.15)
 ```
 
 隨機選取 $240$ 筆訂單中有 $24$ 筆以上被退貨的機率為 **98.81%**；精確的二項機率為 $0.991$。
@@ -1566,13 +1550,12 @@ $120$ 位顧客中至多 $48$ 位使用行動支付的機率為 **15.64%**。
 **以 R 計算**
 
 ```{r e6-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_shoppers <- 120
-p_wallet <- 0.45
-mu <- n_shoppers * p_wallet
-sigma <- sqrt(n_shoppers * p_wallet * (1 - p_wallet))
-c(np = mu, nq = n_shoppers * (1 - p_wallet), sigma = round(sigma, 2))
-round(pnorm(48.5, mu, sigma), 4)
-round(pbinom(48, n_shoppers, p_wallet), 4)
+120 * 0.45
+120 * 0.55
+sigma <- sqrt(120 * 0.45 * 0.55)
+sigma
+pnorm(48.5, mean = 54, sd = sigma)
+pbinom(48, 120, 0.45)
 ```
 :::
 
@@ -1612,13 +1595,12 @@ $$z_1 = \frac{7.5 - 6}{1.73} \approx 0.87 \qquad z_2 = \frac{8.5 - 6}{1.73} \app
 **以 R 計算**
 
 ```{r e6-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_trials <- 12
-p_success <- 0.5
-mu <- n_trials * p_success
-sigma <- sqrt(n_trials * p_success * (1 - p_success))
-c(np = mu, nq = n_trials * (1 - p_success), sigma = round(sigma, 2))
-round(dbinom(8, n_trials, p_success), 4)
-round(pnorm(8.5, mu, sigma) - pnorm(7.5, mu, sigma), 4)
+12 * 0.5
+12 * 0.5
+sigma <- sqrt(12 * 0.5 * 0.5)
+sigma
+dbinom(8, 12, 0.5)
+pnorm(8.5, mean = 6, sd = sigma) - pnorm(7.5, mean = 6, sd = sigma)
 ```
 :::
 

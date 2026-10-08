@@ -42,7 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(gridExtra)
+theme_set(theme_minimal())
 ```
 
 ## Overview
@@ -170,14 +170,8 @@ payments <- c("C","E","M","C","D","E","G","C","E","M",
               "E","C","M","D","C","E","M","C","D","E",
               "M","C","G","D","E","C","M","C","C","D")
 
-payment_freq <- data.frame(payments) |>
-  count(payments) |>
-  mutate(payments = factor(payments, levels = c("C","E","M","D","G"))) |>
-  arrange(payments) |>
-  rename(Class = payments, Frequency = n) |>
-  mutate(Percent = round(Frequency / sum(Frequency) * 100, 1))
-
-knitr::kable(payment_freq, align = "c")
+table(payments)
+table(payments) / 40 * 100
 ```
 :::
 
@@ -193,12 +187,10 @@ knitr::kable(payment_freq, align = "c")
 For the sample, **most customers paid in cash** (13 people, 32.5%) and the **smallest number used a gift voucher** (3 people, 7.5%). The stored-value card was used by 9 (22.5%), mobile payment by 8 (20%), and a credit card by 7 (17.5%). It is a good idea to add the Percent column to check that it sums to 100% — although it will not always do so because of rounding.
 
 ```{r e2-1-2, echo=T, warning=FALSE, out.width="48%", fig.align='center', fig.height=4}
-ggplot(payment_freq, aes(x = Class, y = Frequency, fill = Class)) +
-  geom_col(show.legend = FALSE) +
-  geom_text(aes(label = Frequency), vjust = -0.3) +
+ggplot(data.frame(payments), aes(payments)) +
+  geom_bar() +
   labs(title = "Payment Methods of 40 Customers",
-       x = "Payment method", y = "Frequency") +
-  theme_minimal()
+       x = "Payment method", y = "Frequency")
 ```
 :::
 
@@ -351,13 +343,9 @@ delivery_times <- c(31,27,35,29,22,40,30,26,33,28,
                     18,34,41,32,27,52,30,36,25,39,
                     23,37,21,33,42,32,47,40,35,37)
 
-highest     <- max(delivery_times)
-lowest      <- min(delivery_times)
-data_range  <- highest - lowest
-class_width <- ceiling(data_range / 7)
-
-c(Highest = highest, Lowest = lowest,
-  Range = data_range, Width = class_width)
+max(delivery_times)
+min(delivery_times)
+(max(delivery_times) - min(delivery_times)) / 7
 ```
 :::
 
@@ -371,36 +359,9 @@ c(Highest = highest, Lowest = lowest,
 **Steps 2 and 3 — Tally the data and find the frequencies**
 
 ```{r e2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-class_breaks <- seq(17.5, 52.5, by = class_width)
-class_limits <- c("18-22","23-27","28-32","33-37",
-                  "38-42","43-47","48-52")
-
-delivery_freq <- data.frame(delivery_times) |>
-  mutate(Class = cut(delivery_times, breaks = class_breaks,
-                     labels = class_limits)) |>
-  count(Class, .drop = FALSE) |>
-  rename(Frequency = n) |>
-  mutate(
-    Boundaries = paste0(head(class_breaks, -1), "-", tail(class_breaks, -1)),
-    Midpoint   = head(class_breaks, -1) + class_width / 2,
-    Cumulative = cumsum(Frequency)
-  )
-```
-:::
-
----
-
-## Example 2-2
-
-:::{.callout-tip}
-## Solution
-
-**Output table**
-
-```{r e2-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(delivery_freq[, c("Class","Boundaries","Midpoint","Frequency")],
-             col.names = c("Class limits","Class boundaries","Midpoint","Frequency"),
-             align = "c")
+class_breaks  <- seq(17.5, 52.5, by = 5)
+delivery_freq <- table(cut(delivery_times, class_breaks))
+delivery_freq
 ```
 :::
 
@@ -438,13 +399,7 @@ The values are found by adding the frequencies of the classes less than or equal
 **Cumulative frequency distribution**
 
 ```{r e2-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cumulative_table <- data.frame(
-  Class      = paste("Less than", class_breaks),
-  Cumulative = c(0, delivery_freq$Cumulative)
-)
-
-knitr::kable(cumulative_table, col.names = c("", "Cumulative frequency"),
-             align = "c")
+cumsum(delivery_freq)
 ```
 
 Of the 50 delivery times, **28 are less than or equal to 32 minutes** and **46 are less than or equal to 42 minutes**.
@@ -496,28 +451,8 @@ basket_items <- c(4, 9, 3, 5, 6, 4,
                   6, 4, 2, 5, 7, 4,
                   3, 6, 5, 4, 8, 7)
 
-basket_freq <- data.frame(basket_items) |>
-  count(basket_items) |>
-  rename(Class = basket_items, Frequency = n) |>
-  mutate(Boundaries = paste0(Class - 0.5, "-", Class + 0.5),
-         Cumulative = cumsum(Frequency))
-```
-:::
-
----
-
-## Example 2-3
-
-:::{.callout-tip}
-## Solution
-
-**Step 4 — Display the distribution**
-
-```{r e2-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(basket_freq[, c("Class","Boundaries","Frequency","Cumulative")],
-             col.names = c("Class limits","Class boundaries",
-                           "Frequency","Cumulative frequency"),
-             align = "c")
+table(basket_items)
+cumsum(table(basket_items))
 ```
 :::
 
@@ -530,7 +465,7 @@ knitr::kable(basket_freq[, c("Class","Boundaries","Frequency","Cumulative")],
 
 **Interpretation**
 
-In this case, **seven baskets held 4 items and this was the largest frequency**. Reading the cumulative column: 14 baskets held fewer than 4.5 items, 27 held fewer than 7.5 items, and all 30 held fewer than 9.5 items.
+In this case, **seven baskets held 4 items and this was the largest frequency**. Reading the cumulative frequencies: 14 baskets held fewer than 4.5 items, 27 held fewer than 7.5 items, and all 30 held fewer than 9.5 items.
 
 Note that several different but correct frequency distributions can be constructed for the same data by using a different class width, a different number of classes, or a different starting point. Whatever method is used, classes should be **mutually exclusive, continuous, exhaustive, and of equal width**.
 :::
@@ -615,12 +550,10 @@ Back to [Example 2-5](#example-2-5) · [Example 2-6](#example-2-6)
 Put the frequency on the $y$ axis and the class boundaries on the $x$ axis, then draw a vertical bar of that height for each class.
 
 ```{r e2-4-1, echo=T, warning=FALSE, out.width="44%", fig.align='center', fig.height=4}
-ggplot(data.frame(delivery_times), aes(x = delivery_times)) +
-  geom_histogram(breaks = class_breaks, fill = "#4a90d9", color = "white") +
-  scale_x_continuous(breaks = class_breaks) +
+ggplot(data.frame(delivery_times), aes(delivery_times)) +
+  geom_histogram(breaks = class_breaks, color = "white") +
   labs(title = "Delivery Times for 50 Food Orders",
-       x = "Delivery time (minutes)", y = "Frequency") +
-  theme_minimal()
+       x = "Delivery time (minutes)", y = "Frequency")
 ```
 
 The largest class (16) is **27.5–32.5**, then 12 for 32.5–37.5. The graph has **one peak**, with the data clustering around it.
@@ -656,14 +589,9 @@ Using the frequency distribution given in [Example 2-4](#example-2-4), construct
 Midpoints are found by adding the upper and lower boundaries and dividing by 2: $\frac{17.5 + 22.5}{2} = 20$, $\frac{22.5 + 27.5}{2} = 25$, and so on.
 
 ```{r e2-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-polygon_points <- data.frame(
-  x = c(15, delivery_freq$Midpoint, 55),
-  y = c(0,  delivery_freq$Frequency, 0)
-)
-
-knitr::kable(delivery_freq[, c("Boundaries","Midpoint","Frequency")],
-             col.names = c("Class boundaries","Midpoints","Frequency"),
-             align = "c")
+polygon_points <- data.frame(midpoint  = seq(15, 55, by = 5),
+                             frequency = c(0, 3, 9, 16, 12, 6, 3, 1, 0))
+polygon_points
 ```
 :::
 
@@ -679,13 +607,11 @@ knitr::kable(delivery_freq[, c("Boundaries","Midpoint","Frequency")],
 Connect adjacent points with line segments, then draw a line back to the $x$ axis at the beginning and end of the graph, at the same distance that the previous and next midpoints would be located.
 
 ```{r e2-5-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=4}
-ggplot(polygon_points, aes(x, y)) +
-  geom_line(color = "#d9534f", linewidth = 1.2) +
-  geom_point(color = "#d9534f", size = 2.5) +
-  scale_x_continuous(breaks = polygon_points$x) +
+ggplot(polygon_points, aes(midpoint, frequency)) +
+  geom_line() +
+  geom_point() +
   labs(title = "Delivery Times for 50 Food Orders",
-       x = "Delivery time (minutes)", y = "Frequency") +
-  theme_minimal()
+       x = "Delivery time (minutes)", y = "Frequency")
 ```
 :::
 
@@ -717,11 +643,8 @@ Construct an **ogive** for the frequency distribution described in [Example 2-4]
 **Step 1 — Find the cumulative frequency for each class**
 
 ```{r e2-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ogive_points <- data.frame(
-  x = class_breaks,
-  y = c(0, delivery_freq$Cumulative)
-)
-
+ogive_points <- data.frame(boundary   = class_breaks,
+                           cumulative = cumsum(c(0, 3, 9, 16, 12, 6, 3, 1)))
 ogive_points
 ```
 
@@ -738,17 +661,11 @@ Plot the cumulative frequency at each **upper class boundary**, then extend the 
 **Output figure**
 
 ```{r e2-6-2, echo=T, warning=FALSE, out.width="40%", fig.align='center', fig.height=4}
-ggplot(ogive_points, aes(x, y)) +
-  geom_line(color = "#5cb85c", linewidth = 1.2) +
-  geom_point(color = "#5cb85c", size = 2.5) +
-  geom_segment(x = 32.5, xend = 32.5, y = 0, yend = 28,
-               linetype = "dashed", color = "grey40") +
-  geom_segment(x = 17.5, xend = 32.5, y = 28, yend = 28,
-               linetype = "dashed", color = "grey40") +
-  scale_x_continuous(breaks = class_breaks) +
+ggplot(ogive_points, aes(boundary, cumulative)) +
+  geom_line() +
+  geom_point() +
   labs(title = "Delivery Times for 50 Food Orders",
-       x = "Delivery time (minutes)", y = "Cumulative frequency") +
-  theme_minimal()
+       x = "Delivery time (minutes)", y = "Cumulative frequency")
 ```
 
 Go up from 32.5 on the $x$ axis to the graph, then across to the $y$ axis: **28**.
@@ -795,19 +712,10 @@ The following frequency distribution shows the floor area, in square metres, of 
 For the class 24.5–31.5 the relative frequency is $\frac{6}{50} = 0.12$; for 31.5–38.5 it is $\frac{13}{50} = 0.26$; and so on. The cumulative relative frequencies are $0.12$, $0.38$, $0.76$, $0.92$, $1.00$.
 
 ```{r e2-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-retail_units <- data.frame(
-  lower = c(24.5, 31.5, 38.5, 45.5, 52.5),
-  upper = c(31.5, 38.5, 45.5, 52.5, 59.5),
-  freq  = c(6, 13, 19, 8, 4)
-) |>
-  mutate(mid    = (lower + upper) / 2,
-         rel_f  = freq / sum(freq),
-         cum_rf = cumsum(rel_f))
+frequency <- c(6, 13, 19, 8, 4)
 
-knitr::kable(retail_units[, c("lower","upper","mid","rel_f","cum_rf")],
-             col.names = c("Lower boundary","Upper boundary","Midpoint",
-                           "Relative frequency","Cumulative relative frequency"),
-             align = "c")
+frequency / 50
+cumsum(frequency / 50)
 ```
 :::
 
@@ -818,33 +726,18 @@ knitr::kable(retail_units[, c("lower","upper","mid","rel_f","cum_rf")],
 :::{.callout-tip}
 ## Solution
 
-**Draw figure**
+**Relative frequency histogram**
 
 For the histogram and ogive use the **class boundaries** along the $x$ axis; for the frequency polygon use the **midpoints**. For the scale on the $y$ axis, use proportions.
 
-```{r e2-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rel_hist <- ggplot(retail_units, aes(x = mid, y = rel_f)) +
-  geom_col(width = 7, fill = "#5bc0de", color = "white") +
-  scale_x_continuous(breaks = c(retail_units$lower, 59.5)) +
+```{r e2-7-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_histogram <- data.frame(midpoint = c(28, 35, 42, 49, 56),
+                            rel_freq = frequency / 50)
+
+ggplot(rel_histogram, aes(midpoint, rel_freq)) +
+  geom_col(width = 7, color = "white") +
   labs(title = "Relative Frequency Histogram",
-       x = "Floor area (square metres)", y = "Relative frequency") +
-  theme_minimal(base_size = 9)
-
-rel_polygon <- ggplot(data.frame(x = c(21, retail_units$mid, 63),
-                                 y = c(0, retail_units$rel_f, 0)), aes(x, y)) +
-  geom_line(color = "#d9534f", linewidth = 1) +
-  geom_point(color = "#d9534f", size = 2) +
-  labs(title = "Relative Frequency Polygon",
-       x = "Floor area (square metres)", y = "Relative frequency") +
-  theme_minimal(base_size = 9)
-
-rel_ogive <- ggplot(data.frame(x = c(24.5, retail_units$upper),
-                               y = c(0, retail_units$cum_rf)), aes(x, y)) +
-  geom_line(color = "#5cb85c", linewidth = 1) +
-  geom_point(color = "#5cb85c", size = 2) +
-  labs(title = "Relative Ogive",
-       x = "Floor area (square metres)", y = "Cumulative relative frequency") +
-  theme_minimal(base_size = 9)
+       x = "Floor area (square metres)", y = "Relative frequency")
 ```
 :::
 
@@ -855,10 +748,38 @@ rel_ogive <- ggplot(data.frame(x = c(24.5, retail_units$upper),
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Relative frequency polygon**
 
-```{r e2-7-3, echo=T, warning=FALSE, out.width="95%", fig.align='center', fig.height=3.2}
-gridExtra::grid.arrange(rel_hist, rel_polygon, rel_ogive, ncol = 3)
+```{r e2-7-3, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_polygon <- data.frame(midpoint = c(21, 28, 35, 42, 49, 56, 63),
+                          rel_freq = c(0, frequency, 0) / 50)
+
+ggplot(rel_polygon, aes(midpoint, rel_freq)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Relative Frequency Polygon",
+       x = "Floor area (square metres)", y = "Relative frequency")
+```
+:::
+
+---
+
+## Example 2-7
+
+:::{.callout-tip}
+## Solution
+
+**Relative ogive**
+
+```{r e2-7-4, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_ogive <- data.frame(boundary = c(24.5, 31.5, 38.5, 45.5, 52.5, 59.5),
+                        cum_rel  = cumsum(c(0, frequency)) / 50)
+
+ggplot(rel_ogive, aes(boundary, cum_rel)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Relative Ogive",
+       x = "Floor area (square metres)", y = "Cumulative relative frequency")
 ```
 
 The three graphs have exactly the same shapes as the corresponding frequency graphs; only the $y$ axis has changed from counts to proportions.
@@ -902,31 +823,14 @@ Distributions are most often **not perfectly shaped**, so it is not necessary to
 
 ```{r s2-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(42)
-
-make_hist <- function(data, title, fill_col) {
-  ggplot(data.frame(x = data), aes(x)) +
-    geom_histogram(bins = 20, fill = fill_col, color = "white", linewidth = 0.3) +
-    labs(title = title, x = NULL, y = NULL) +
-    theme_minimal(base_size = 9) +
-    theme(axis.text = element_blank())
-}
-```
-
----
-
-## Distribution Shapes in R
-
-**Draw figure**
-
-```{r s2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_bell  <- make_hist(rnorm(500, 50, 10),     "Bell-shaped",     "#4a90d9")
-p_uni   <- make_hist(runif(500, 20, 80),     "Uniform",         "#f0ad4e")
-p_j     <- make_hist(100 - rexp(500, 0.05),  "J-shaped",        "#34495e")
-p_rj    <- make_hist(rexp(500, 0.05),        "Reverse J-shaped","#e67e22")
-p_right <- make_hist(rgamma(500, 2, 0.1),    "Right-skewed",    "#d9534f")
-p_left  <- make_hist(80 - rgamma(500, 2, 0.1), "Left-skewed",   "#5cb85c")
-p_bimod <- make_hist(c(rnorm(250,30,5), rnorm(250,70,5)), "Bimodal",  "#9b59b6")
-p_u     <- make_hist(c(rbeta(500, 0.4, 0.4) * 100),       "U-shaped", "#1abc9c")
+shapes <- data.frame(
+  shape = rep(c("Bell-shaped", "Uniform", "J-shaped", "Reverse J-shaped",
+                "Right-skewed", "Left-skewed", "Bimodal", "U-shaped"),
+              each = 500),
+  value = c(rnorm(500, 50, 10), runif(500, 20, 80), 100 - rexp(500, 0.05),
+            rexp(500, 0.05), rgamma(500, 2, 0.1), 80 - rgamma(500, 2, 0.1),
+            rnorm(250, 30, 5), rnorm(250, 70, 5), rbeta(500, 0.4, 0.4) * 100)
+)
 ```
 
 ---
@@ -935,10 +839,12 @@ p_u     <- make_hist(c(rbeta(500, 0.4, 0.4) * 100),       "U-shaped", "#1abc9c")
 
 **Output figure**
 
-```{r s2-2-3, echo=T, warning=FALSE, out.width="88%", fig.align='center', fig.height=4}
-gridExtra::grid.arrange(p_bell, p_uni, p_j, p_rj,
-                        p_right, p_left, p_bimod, p_u, ncol = 4)
+```{r s2-2-2, echo=T, warning=FALSE, out.width="88%", fig.align='center', fig.height=4}
+ggplot(shapes, aes(value)) +
+  geom_histogram(bins = 20, color = "white") +
+  facet_wrap(~ shape, scales = "free", ncol = 4)
 ```
+
 
 # Section 2-3: Other Types of Graphs {background-color="#2c4a6e"}
 
@@ -994,10 +900,7 @@ monthly_spending <- data.frame(
   category = c("Meals off campus", "Commuting",
                "Mobile data plan", "Study materials"),
   amount   = c(3200, 1500, 750, 480)
-) |>
-  mutate(category = factor(category,
-                           levels = c("Study materials", "Mobile data plan",
-                                      "Commuting", "Meals off campus")))
+)
 ```
 :::
 
@@ -1011,14 +914,10 @@ monthly_spending <- data.frame(
 **Draw figure — horizontal bar graph**
 
 ```{r e2-8-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(monthly_spending, aes(x = amount, y = category, fill = category)) +
-  geom_col(show.legend = FALSE, width = 0.6) +
-  geom_text(aes(label = amount), hjust = -0.2, size = 3.5) +
-  scale_x_continuous(limits = c(0, 3800)) +
-  scale_fill_brewer(palette = "Blues") +
+ggplot(monthly_spending, aes(amount, category)) +
+  geom_col() +
   labs(title = "Average Monthly Student Spending",
-       x = "Average amount (NT dollars)", y = NULL) +
-  theme_minimal()
+       x = "Average amount (NT dollars)", y = NULL)
 ```
 :::
 
@@ -1032,13 +931,10 @@ ggplot(monthly_spending, aes(x = amount, y = category, fill = category)) +
 **Output figure — vertical bar graph**
 
 ```{r e2-8-3, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(monthly_spending, aes(x = category, y = amount, fill = category)) +
-  geom_col(show.legend = FALSE, width = 0.6) +
-  geom_text(aes(label = amount), vjust = -0.4, size = 3.5) +
-  scale_fill_brewer(palette = "Blues") +
+ggplot(monthly_spending, aes(category, amount)) +
+  geom_col() +
   labs(title = "Average Amount Spent",
-       x = NULL, y = "Average amount (NT dollars)") +
-  theme_minimal()
+       x = NULL, y = "Average amount (NT dollars)")
 ```
 
 The graphs show that these students spend the most on **meals off campus**.
@@ -1063,20 +959,16 @@ Average number of customers visiting one store per day, by store format. *(hypot
 **Draw figure**
 
 ```{r s2-3-1, echo=T, warning=FALSE, out.width="48%", fig.align='center', fig.height=3.6}
-store_formats <- c("Convenience", "Supermarket", "Hypermarket")
-
 store_visits <- data.frame(
-  # a factor keeps the formats in size order instead of alphabetical order
-  format   = factor(rep(store_formats, each = 2), levels = store_formats),
+  format   = rep(c("Convenience", "Supermarket", "Hypermarket"), each = 2),
   day_type = rep(c("Weekday", "Weekend"), times = 3),
   visits   = c(820, 960, 540, 910, 310, 720)
 )
 
-ggplot(store_visits, aes(x = format, y = visits, fill = day_type)) +
-  geom_col(position = "dodge", width = 0.7) +
+ggplot(store_visits, aes(format, visits, fill = day_type)) +
+  geom_col(position = "dodge") +
   labs(title = "Average Daily Visitors by Store Format",
-       x = "Store format", y = "Visitors per day", fill = NULL) +
-  theme_minimal()
+       x = "Store format", y = "Visitors per day")
 ```
 
 The graph shows that **every format is busier at the weekend**, and that the weekend increase is **largest for the hypermarket**, whose visitor count more than doubles, and smallest for the convenience store.
@@ -1118,14 +1010,12 @@ An online retailer asked shoppers who left items in a shopping cart why they did
 
 ```{r e2-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cart_reasons <- data.frame(
-  reason  = c("Shipping cost","Slow delivery","Checkout steps",
-              "Payment options","Out of stock"),
+  reason  = c("Shipping cost", "Slow delivery", "Checkout steps",
+              "Payment options", "Out of stock"),
   percent = c(41, 26, 33, 18, 29)
-) |>
-  arrange(desc(percent)) |>
-  mutate(reason = factor(reason, levels = reason))
+)
 
-cart_reasons
+arrange(cart_reasons, desc(percent))
 ```
 :::
 
@@ -1139,14 +1029,10 @@ cart_reasons
 **Steps 2 and 3 — Draw and label the axes, then draw vertical bars for the percents**
 
 ```{r e2-9-2, echo=T, warning=FALSE, out.width="50%", fig.align='center', fig.height=3.6}
-ggplot(cart_reasons, aes(x = reason, y = percent, fill = reason)) +
-  geom_col(show.legend = FALSE, width = 0.7) +
-  geom_text(aes(label = paste0(percent, "%")), vjust = -0.4, size = 3.5) +
-  scale_y_continuous(limits = c(0, 50)) +
-  scale_fill_brewer(palette = "Reds", direction = -1) +
+ggplot(cart_reasons, aes(reorder(reason, -percent), percent)) +
+  geom_col() +
   labs(title = "Why Shoppers Abandon a Cart",
-       x = NULL, y = "Percent of shoppers") +
-  theme_minimal()
+       x = NULL, y = "Percent of shoppers")
 ```
 
 **Shipping cost is named by 41% of the shoppers**, while the payment options are named by only **18%** — so the retailer should look at shipping cost first.
@@ -1202,7 +1088,7 @@ Label the $x$ axis for months and the $y$ axis for thousands of visitors, then p
 
 ```{r e2-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 hotel_visitors <- data.frame(
-  month    = factor(month.abb, levels = month.abb),
+  month    = 1:12,
   visitors = c(9.8, 9.1, 7.4, 6.2, 5.5, 4.8,
                5.1, 5.4, 6.0, 7.2, 8.6, 10.4)
 )
@@ -1221,13 +1107,12 @@ hotel_visitors <- data.frame(
 Draw line segments connecting adjacent points; do **not** draw a smooth curve through the points.
 
 ```{r e2-10-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(hotel_visitors, aes(x = month, y = visitors, group = 1)) +
-  geom_line(color = "#d9534f", linewidth = 1.2) +
-  geom_point(color = "#d9534f", size = 2.5) +
-  scale_y_continuous(limits = c(0, 12)) +
+ggplot(hotel_visitors, aes(month, visitors)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:12) +
   labs(title = "Hot Spring Hotel Visitors",
-       x = "Month", y = "Visitors (thousands)") +
-  theme_minimal()
+       x = "Month", y = "Visitors (thousands)")
 ```
 
 Visitors were **highest in December, January, and February** and **lowest in June**, so the hotel's business clearly follows the cold season.
@@ -1282,16 +1167,10 @@ This frequency distribution shows the number of **cups**, in thousands, of each 
 **Steps 1 and 2 — Convert each frequency to degrees and to a percentage**
 
 ```{r e2-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-hot_drinks <- data.frame(
-  drink = c("Latte","Americano","Milk tea","Black tea","Hot cocoa"),
-  cups  = c(12.7, 9.4, 6.1, 4.8, 3.0)
-) |>
-  mutate(drink   = factor(drink, levels = drink),
-         Degrees = round(cups / sum(cups) * 360),
-         Percent = round(cups / sum(cups) * 100, 1))
+cups <- c(12.7, 9.4, 6.1, 4.8, 3.0)
 
-knitr::kable(hot_drinks, col.names = c("Drink","Cups","Degrees","Percent"),
-             align = "c")
+cups / 36 * 360
+cups / 36 * 100
 ```
 
 The degrees are $127^\circ$, $94^\circ$, $61^\circ$, $48^\circ$, and $30^\circ$; the percentages are 35.3%, 26.1%, 16.9%, 13.3%, and 8.3%.
@@ -1304,17 +1183,11 @@ The degrees are $127^\circ$, $94^\circ$, $61^\circ$, $48^\circ$, and $30^\circ$;
 :::{.callout-tip}
 ## Solution
 
-**Step 3 — Draw the graph and label each section with the name and percentage**
+**Step 3 — Draw the graph and label each section**
 
-```{r e2-11-2, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.8}
-ggplot(hot_drinks, aes(x = "", y = cups, fill = drink)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y", direction = -1) +
-  geom_text(aes(label = paste0(Percent, "%")),
-            position = position_stack(vjust = 0.5), size = 3.2) +
-  scale_fill_brewer(palette = "Set2") +
-  labs(title = "Hot Drinks Sold in One Week", fill = NULL) +
-  theme_void()
+```{r e2-11-2, echo=T, warning=FALSE, out.width="42%", fig.align='center', fig.height=3.8, fig.width=6}
+pie(cups, labels = c("Latte", "Americano", "Milk tea", "Black tea", "Hot cocoa"),
+    main = "Hot Drinks Sold in One Week")
 ```
 :::
 
@@ -1343,16 +1216,10 @@ Construct and analyze a **pie graph** for the number of packages a distribution 
 **Steps 1 and 2 — Find the number of degrees and the percentages for each shift**
 
 ```{r e2-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-shift_volume <- data.frame(
-  shift    = c("Morning","Afternoon","Night"),
-  packages = c(3060, 3240, 2700)
-) |>
-  mutate(shift   = factor(shift, levels = shift),
-         Degrees = round(packages / sum(packages) * 360),
-         Percent = round(packages / sum(packages) * 100))
+packages <- c(3060, 3240, 2700)
 
-knitr::kable(shift_volume, col.names = c("Shift","Frequency","Degrees","Percent"),
-             align = "c")
+packages / 9000 * 360
+packages / 9000 * 100
 ```
 
 Morning: $\frac{3060}{9000}\cdot 360^\circ \approx 122^\circ$ and 34%; Afternoon: $130^\circ$ and 36%; Night: $108^\circ$ and 30%.
@@ -1365,17 +1232,11 @@ Morning: $\frac{3060}{9000}\cdot 360^\circ \approx 122^\circ$ and 34%; Afternoon
 :::{.callout-tip}
 ## Solution
 
-**Step 3 — Graph each section and write its name and percentage**
+**Step 3 — Graph each section and write its name**
 
-```{r e2-12-2, echo=T, warning=FALSE, out.width="44%", fig.align='center', fig.height=3.8}
-ggplot(shift_volume, aes(x = "", y = packages, fill = shift)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y", direction = -1) +
-  geom_text(aes(label = paste0(shift, "\n", Percent, "%")),
-            position = position_stack(vjust = 0.5), size = 3.2) +
-  scale_fill_manual(values = c("#4a90d9","#d9534f","#5cb85c")) +
-  labs(title = "Packages Sorted by Shift", fill = NULL) +
-  theme_void()
+```{r e2-12-2, echo=T, warning=FALSE, out.width="42%", fig.align='center', fig.height=3.8, fig.width=6}
+pie(packages, labels = c("Morning", "Afternoon", "Night"),
+    main = "Packages Sorted by Shift")
 ```
 
 The numbers of packages sorted on the three shifts are **about equal**, although slightly more were handled on the **afternoon** shift.
@@ -1441,13 +1302,8 @@ table(complaints)
 Draw a horizontal scale, then plot each value above it, stacking repeated values on top of one another.
 
 ```{r e2-13-2, echo=T, warning=FALSE, out.width="66%", fig.align='center', fig.height=3}
-ggplot(data.frame(complaints), aes(x = complaints)) +
-  geom_dotplot(binwidth = 1, method = "histodot", dotsize = 0.55,
-               fill = "#2c4a6e", color = "white") +
-  scale_x_continuous(breaks = 0:12) +
-  scale_y_continuous(NULL, breaks = NULL) +
-  labs(title = "Complaints by Product Line", x = "Number of complaints") +
-  theme_minimal()
+stripchart(complaints, method = "stack", pch = 19, at = 0,
+           main = "Complaints by Product Line", xlab = "Number of complaints")
 ```
 
 Most product lines drew **between zero and three complaints**, with **12 product lines drawing exactly one complaint** — the largest frequency.
@@ -1493,35 +1349,12 @@ evening_customers <- c(33,22,41,13,54,
                        45,32,17,38,24,
                        51,33,47,36,42)
 
-leaves_by_stem <- function(values, lower_limits, width, decreasing = FALSE) {
-  vapply(lower_limits, function(lo) {
-    in_row <- values[values >= lo & values < lo + width]
-    paste(sort(in_row %% 10, decreasing = decreasing), collapse = " ")
-  }, character(1))
-}
-
-stem_rows <- seq(0, 50, by = 10)
-data.frame(Stem   = stem_rows %/% 10,
-           Leaves = leaves_by_stem(evening_customers, stem_rows, width = 10)) |>
-  knitr::kable(align = "c")
-```
-:::
-
----
-
-## Example 2-14
-
-:::{.callout-tip}
-## Solution
-
-If there are no data values in a class, write the stem number and **leave the leaf row blank** — do not put a zero in the leaf row.
-
-**Step 4 — Check against the built-in `stem()`**
-
-```{r e2-14-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 stem(evening_customers, scale = 2)
 ```
+
+`scale = 2` gives each stem its own row. If there are no data values in a class, write the stem number and **leave the leaf row blank** — do not put a zero in the leaf row.
 :::
+
 
 ---
 
@@ -1532,7 +1365,7 @@ stem(evening_customers, scale = 2)
 
 **Interpretation**
 
-The plot shows that the distribution **peaks in the center** and that there are **no gaps** in the data. For **7 of the 20 evenings** the number of customers served was **between 31 and 38**. The plot also shows that the stall served from a minimum of **8** customers to a maximum of **58** customers in any one evening. The built-in `stem()` output gives the same stems and leaves, which is a quick way to check a hand-built plot.
+The plot shows that the distribution **peaks in the center** and that there are **no gaps** in the data. For **7 of the 20 evenings** the number of customers served was **between 31 and 38**. The plot also shows that the stall served from a minimum of **8** customers to a maximum of **58** customers in any one evening.
 
 When you analyze a stem and leaf plot, look for **peaks and gaps**, see whether the distribution is **symmetric or skewed**, and check the **variability** by looking at the spread.
 :::
@@ -1573,10 +1406,7 @@ pallets <- c(57,63,50,66,55,
              53,62,57,78,55,
              59,73,66,63,69)
 
-class_rows <- seq(50, 75, by = 5)
-data.frame(Stem   = class_rows %/% 10,
-           Leaves = leaves_by_stem(pallets, class_rows, width = 5)) |>
-  knitr::kable(align = "c")
+stem(pallets)
 ```
 
 The distribution has no gaps; the largest class, 55–59, contains 8 of the 30 days.
@@ -1616,20 +1446,16 @@ The monthly revenue, in hundreds of thousands of NT dollars, of two randomly sel
 :::{.callout-tip}
 ## Solution
 
-**Steps 1 and 2 — Arrange both data sets in order and plot with shared stems**
+**Steps 1 and 2 — Arrange each data set in order with `stem()`**
 
 ```{r e2-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-taipei    <- c(64,57,52,45,60, 55,38,68,50,62, 63,44,58,70,41,
-               69,53,61,66,56, 73,58,49,45,64)
-taichung  <- c(45,53,44,36,47, 61,55,40,35,32, 54,34,51,43,36,
-               48,41,39,50,72, 58,42,66,45,55)
+taipei   <- c(64,57,52,45,60, 55,38,68,50,62, 63,44,58,70,41,
+              69,53,61,66,56, 73,58,49,45,64)
+taichung <- c(45,53,44,36,47, 61,55,40,35,32, 54,34,51,43,36,
+              48,41,39,50,72, 58,42,66,45,55)
 
-stem_rows <- seq(30, 70, by = 10)
-data.frame(
-  Taipei   = leaves_by_stem(taipei, stem_rows, width = 10, decreasing = TRUE),
-  Stem     = stem_rows %/% 10,
-  Taichung = leaves_by_stem(taichung, stem_rows, width = 10)
-) |> knitr::kable(align = "c")
+stem(taipei)
+stem(taichung)
 ```
 :::
 
@@ -1640,7 +1466,15 @@ data.frame(
 :::{.callout-tip}
 ## Solution
 
-**Step 3 — Compare the distributions**
+**Step 3 — Put the two plots back to back and compare**
+
+| Taipei | Stem | Taichung |
+|---:|:---:|:---|
+| 8 | 3 | 2 4 5 6 6 9 |
+| 9 5 5 4 1 | 4 | 0 1 2 3 4 5 5 7 8 |
+| 8 8 7 6 5 3 2 0 | 5 | 0 1 3 4 5 5 8 |
+| 9 8 6 4 4 3 2 1 0 | 6 | 1 6 |
+| 3 0 | 7 | 2 |
 
 - **Taipei's coffee shops generally take in more** than those in Taichung.
 - The distribution for the shops in **Taipei peaks at 60 to 69**, while the shops in **Taichung peak at 40 to 49**.
@@ -1673,12 +1507,11 @@ vehicles_on_road <- data.frame(
 **Draw figure — the truncated scale (95% to 100%)**
 
 ```{r s2-3-3, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.4}
-ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(vehicles_on_road, aes(maker, percent)) +
+  geom_col() +
   coord_cartesian(ylim = c(95, 100)) +
   labs(title = "Vehicles on the Road (scale 95 to 100)",
-       x = NULL, y = "Percent of cars on road") +
-  theme_minimal()
+       x = NULL, y = "Percent of cars on road")
 ```
 
 ---
@@ -1688,12 +1521,11 @@ ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
 **Output figure — the full scale (0% to 100%)**
 
 ```{r s2-3-4, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.4}
-ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(vehicles_on_road, aes(maker, percent)) +
+  geom_col() +
   coord_cartesian(ylim = c(0, 100)) +
   labs(title = "Vehicles on the Road (scale 0 to 100)",
-       x = NULL, y = "Percent of cars on road") +
-  theme_minimal()
+       x = NULL, y = "Percent of cars on road")
 ```
 
 Both graphs plot **exactly the same numbers**. It is not wrong to truncate an axis — many times it is necessary — but the reader should be aware of it and interpret the graph accordingly.

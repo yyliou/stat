@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -212,7 +211,7 @@ knitr::opts_chunk$set(fig.align = "center")
 
 ```{r s14-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2023)
-matrix(sample(0:9, size = 50, replace = TRUE), nrow = 5, byrow = TRUE)
+sample(0:9, size = 50, replace = TRUE)
 
 sample(1:50, size = 10)
 ```
@@ -309,8 +308,7 @@ branches <- c(
   "Songshan","Taishan","Tamsui","Taoyuan","Tucheng","Wanhua","Wanli","Wenshan","Wugu","Wulai",
   "Xindian","Xinyi","Xinzhuang","Xizhi","Yangmei","Yingge","Yonghe","Zhonghe","Zhongli","Zhongshan")
 
-numbers_from_table <- c(43, 29, 17, 9, 4, 48, 44, 19, 7, 27)
-branches[numbers_from_table]
+branches[c(43, 29, 17, 9, 4, 48, 44, 19, 7, 27)]
 ```
 :::
 
@@ -325,9 +323,10 @@ branches[numbers_from_table]
 
 ```{r e14-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1114)
-audit_numbers <- sort(sample(seq_along(branches), size = 10))
-knitr::kable(data.frame(Number = sprintf("%02d", audit_numbers),
-                        Branch = branches[audit_numbers]), align = "c")
+audit_numbers <- sort(sample(1:50, size = 10))
+
+audit_numbers
+branches[audit_numbers]
 ```
 
 `sample()` 為不放回抽樣；**兩組答案都正確**。
@@ -410,10 +409,9 @@ $$2,\ 7,\ 12,\ 17,\ 22,\ 27,\ 32,\ 37,\ 42,\ 47$$
 
 ```{r e14-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2024)
-sampling_interval <- length(branches) / 10
-random_start      <- sample(sampling_interval, size = 1)
+random_start   <- sample(1:5, size = 1)
+audit_schedule <- seq(random_start, 50, by = 5)
 
-audit_schedule <- seq(random_start, length(branches), by = sampling_interval)
 audit_schedule
 branches[audit_schedule]
 ```
@@ -563,12 +561,9 @@ table(members$industry, members$size)
 
 ```{r e14-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1403)
-stratified_sample <- members |>
-  group_by(industry, size) |>
-  slice_sample(n = 2) |>
-  arrange(industry, size)
+strata <- group_by(members, industry, size)
 
-knitr::kable(stratified_sample, align = "c")
+slice_sample(strata, n = 2)
 ```
 
 四層各貢獻兩家公司，因此兩種產業與兩種規模都被代表到。
@@ -824,15 +819,14 @@ knitr::kable(stratified_sample, align = "c")
 ## 以 R 模擬硬幣、骰子與轉盤
 
 ```{r s14-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-coin_digits <- c(8, 6, 3, 1)
-ifelse(coin_digits %% 2 == 1, "H", "T")
+ifelse(c(8, 6, 3, 1) %in% c(1, 3, 5, 7, 9), "H", "T")
 
 set.seed(143)
 sample(1:6, size = 10, replace = TRUE)
 sample(1:4, size = 10, replace = TRUE)
 ```
 
-前兩行把硬幣的對應規則套用在上表的數字 8631 上。後兩行則根本不需要對應規則：直接從 `1:6` 與 `1:4` 抽樣，就已經排除了骰子與四格轉盤擲不出來的數字。
+第一行把硬幣的對應規則套用在上表的數字 8631 上。後兩行則根本不需要對應規則：直接從 `1:6` 與 `1:4` 抽樣，就已經排除了骰子與四格轉盤擲不出來的數字。
 
 ---
 
@@ -1019,20 +1013,12 @@ mean(containers_opened)
 :::{.callout-tip}
 ## 解題
 
-**繪製圖形**——把 20 次改成 1000 次
+**準備資料**——把 20 次改成 1000 次
 
 ```{r e14-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(23)
 many_inspections <- rgeom(1000, prob = 1/6) + 1
 mean(many_inspections)
-
-p146 <- ggplot(data.frame(opened = many_inspections), aes(x = opened)) +
-  geom_histogram(binwidth = 1, fill = "steelblue", color = "white") +
-  geom_vline(xintercept = 6, color = "darkgreen",
-             linetype = "dashed", linewidth = 1) +
-  labs(title = "首次發現文件錯誤前開啟的貨櫃數（1000 次試驗）",
-       subtitle = "綠線：理論平均值 6",
-       x = "開啟的貨櫃數", y = "次數")
 ```
 
 做 1000 次試驗時平均值為 6.059，比 20 次試驗的 5.7 更接近理論值 6。
@@ -1045,10 +1031,14 @@ p146 <- ggplot(data.frame(opened = many_inspections), aes(x = opened)) +
 :::{.callout-tip}
 ## 解題
 
-**輸出圖形**
+**輸出圖形**——垂直線標出理論平均值 6
 
 ```{r e14-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
-p146
+ggplot(data.frame(many_inspections), aes(many_inspections)) +
+  geom_histogram(binwidth = 1, color = "white") +
+  geom_vline(xintercept = 6) +
+  labs(title = "首次發現文件錯誤前開啟的貨櫃數（1000 次試驗）",
+       x = "開啟的貨櫃數", y = "次數")
 ```
 :::
 
@@ -1128,9 +1118,8 @@ $$\bar{X} = \frac{\Sigma X}{n} = \frac{2 + 2 + \cdots + 3}{25} = \frac{67}{25} =
 
 ```{r e14-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1407)
-pallet_with_order <- 2
+pallets_checked <- replicate(25, which(sample(4) == 2))
 
-pallets_checked <- replicate(25, which(sample(4) == pallet_with_order))
 pallets_checked
 sum(pallets_checked)
 mean(pallets_checked)
@@ -1207,15 +1196,15 @@ $$E(X) = (0.5)(50) + (0.3)(100) + (0.2)(300) = 115$$
 ```{r e14-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(108)
 card_digits <- sample(0:9, size = 25, replace = TRUE)
+card_value  <- ifelse(card_digits %in% 1:5, 50,
+                      ifelse(card_digits %in% 6:8, 100, 300))
 
-value_of_digit <- c(300, 50, 50, 50, 50, 50, 100, 100, 100, 300)
-card_value <- value_of_digit[card_digits + 1]
 card_value
 sum(card_value)
 mean(card_value)
 ```
 
-`value_of_digit` 依序存放數字 0 到 9 的對應面額，一次查表就取代了一連串 `ifelse()` 判斷。
+`ifelse()` 套用步驟 3 的對應規則：數字 1 到 5 為 NT\$50，6 到 8 為 NT\$100，9 與 0 為 NT\$300。
 :::
 
 ---
@@ -1225,19 +1214,13 @@ mean(card_value)
 :::{.callout-tip}
 ## 解題
 
-**繪製圖形**——把 25 張改成 1000 張
+**準備資料**——把 25 張改成 1000 張
 
 ```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1418)
-card_values  <- c(50, 100, 300)
-card_chances <- c(0.5, 0.3, 0.2)
-many_cards   <- sample(card_values, size = 1000, replace = TRUE, prob = card_chances)
+many_cards <- sample(c(50, 100, 300), size = 1000, replace = TRUE,
+                     prob = c(0.5, 0.3, 0.2))
 mean(many_cards)
-
-p148 <- ggplot(data.frame(value = factor(many_cards, levels = card_values)), aes(x = value)) +
-  geom_bar(fill = "steelblue") +
-  labs(title = "刮刮卡面額（1000 張）",
-       x = "刮刮卡面額（新台幣元）", y = "次數")
 ```
 
 刮開 1000 張卡的平均值為 113.85，接近理論值 NT\$115。
@@ -1253,7 +1236,10 @@ p148 <- ggplot(data.frame(value = factor(many_cards, levels = card_values)), aes
 **輸出圖形**
 
 ```{r e14-8-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
-p148
+ggplot(data.frame(many_cards), aes(factor(many_cards))) +
+  geom_bar() +
+  labs(title = "刮刮卡面額（1000 張）",
+       x = "刮刮卡面額（新台幣元）", y = "次數")
 ```
 :::
 
@@ -1284,8 +1270,7 @@ set.seed(2023)
 prize_door <- sample(1:3, size = 10000, replace = TRUE)
 first_pick <- sample(1:3, size = 10000, replace = TRUE)
 
-switch_wins <- first_pick != prize_door
-mean(switch_wins)
+mean(first_pick != prize_door)
 ```
 
 換門會贏，剛好就是第一次選錯的情形，因此主持人打開哪一扇門根本不必模擬。模擬得到的獲勝率為 0.6672，理論值為 $\dfrac{2}{3} \approx 0.667$。
@@ -1348,7 +1333,8 @@ structured_orders <- data.frame(
   amount   = c(245, 138, 1020),
   store    = c("Taipei", "Kaohsiung", "Taipei")
 )
-knitr::kable(structured_orders, align = "c")
+structured_orders
+
 unstructured_reviews <- c("the delivery was late but the staff were kind",
                           "great coffee, terrible parking")
 nchar(unstructured_reviews)
@@ -1369,11 +1355,10 @@ monthly_records <- data.frame(
   millions = c(12, 48, 3, 95)
 )
 
-ggplot(monthly_records, aes(x = reorder(source, millions), y = millions, fill = kind)) +
+ggplot(monthly_records, aes(millions, source, fill = kind)) +
   geom_col() +
-  coord_flip() +
   labs(title = "某零售連鎖每月收集的資料筆數",
-       x = "", y = "筆數（百萬）", fill = "")
+       x = "筆數（百萬）", y = NULL)
 ```
 
 ---

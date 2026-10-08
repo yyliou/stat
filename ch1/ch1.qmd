@@ -42,6 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+theme_set(theme_minimal())
 ```
 
 ## Overview
@@ -186,12 +187,11 @@ A university has 10,000 students. We want the average weekly study hours of **al
 
 ```{r s1-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2026)
-
 population_hours <- rnorm(10000, mean = 15, sd = 4)
 sample_hours     <- sample(population_hours, 50)
 
-c(`Population mean (parameter)` = mean(population_hours),
-  `Sample mean (statistic)`     = mean(sample_hours))
+mean(population_hours)  # parameter
+mean(sample_hours)      # statistic
 ```
 
 ---
@@ -203,12 +203,11 @@ c(`Population mean (parameter)` = mean(population_hours),
 The sample mean is close to, but not exactly equal to, the population mean. Using the statistic to draw a conclusion about the parameter is the essence of **inferential statistics**; the gap between them is **sampling error** (Section 1-3).
 
 ```{r s1-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center', fig.height=4.5}
-ggplot(data.frame(hours = sample_hours), aes(x = hours)) +
-  geom_histogram(bins = 10, fill = "steelblue", color = "white") +
-  geom_vline(xintercept = mean(population_hours), linetype = "dashed", color = "red") +
-  labs(title = "Sample of 50 Students (red line = population mean)",
-       x = "Weekly Study Hours", y = "Frequency") +
-  theme_minimal()
+ggplot(data.frame(sample_hours), aes(sample_hours)) +
+  geom_histogram(bins = 10, color = "white") +
+  geom_vline(xintercept = mean(population_hours)) +
+  labs(title = "Sample of 50 Students (vertical line = population mean)",
+       x = "Weekly Study Hours", y = "Frequency")
 ```
 
 # Section 1-2: Variables and Types of Data {background-color="#2c4a6e"}
@@ -337,12 +336,8 @@ c. 3.75 kilometres
 recorded_values   <- c(18.6, 245, 3.75)
 measurement_units <- c(0.1, 1, 0.01)
 
-data.frame(
-  Recorded = recorded_values,
-  Unit     = measurement_units,
-  Lower    = recorded_values - measurement_units / 2,
-  Upper    = recorded_values + measurement_units / 2
-) |> knitr::kable(align = "c")
+recorded_values - measurement_units / 2
+recorded_values + measurement_units / 2
 ```
 
 a. 18.55–18.65 minutes  b. 244.5–245.5 grams  c. 3.745–3.755 kilometres
@@ -478,10 +473,11 @@ The four basic sampling methods are **random, systematic, stratified**, and **cl
 
 ```{r s1-3-1, echo=T}
 set.seed(1)
-roster <- tibble(
+roster <- data.frame(
   id      = 1:500,
   college = rep(c("Business", "Design", "Culture", "Management", "Media"),
-                each = 100))
+                each = 100)
+)
 ```
 
 ## Random Sampling
@@ -507,12 +503,10 @@ A **systematic sample** numbers the population 1 to $N$, selects the first subje
 :::
 
 ```{r s1-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-population_size <- 500
-sample_size     <- 10
-interval        <- population_size / sample_size
+k     <- 500 / 10
+start <- sample(1:k, 1)
 
-random_start <- sample(seq_len(interval), 1)
-seq(random_start, population_size, by = interval)
+seq(start, 500, by = k)
 ```
 
 Caution: if the population list has a **periodic pattern** matching $k$, the sample can be badly biased.
@@ -526,10 +520,8 @@ A **stratified sample** divides the population into **strata** — subgroups who
 :::
 
 ```{r s1-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-roster |>
-  group_by(college) |>
-  slice_sample(n = 2) |>
-  arrange(college)
+strata <- group_by(roster, college)
+slice_sample(strata, n = 2)
 ```
 
 ## Cluster Sampling
@@ -812,32 +804,15 @@ f. Answers will vary.
 
 ## Random Assignment in R
 
-**Prepare data**
-
 Randomly assigning 20 subjects to a treatment group and a control group:
 
 ```{r s1-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(42)
+treatment_group <- sample(1:20, 10)
+control_group   <- setdiff(1:20, treatment_group)
 
-subject_id      <- 1:20
-treatment_group <- sample(subject_id, 10)
-control_group   <- setdiff(subject_id, treatment_group)
-
-assignment <- data.frame(
-  Group    = c("Treatment", "Control"),
-  Subjects = c(paste(sort(treatment_group), collapse = ", "),
-               paste(sort(control_group),   collapse = ", "))
-)
-```
-
----
-
-## Random Assignment in R
-
-**Output figure**
-
-```{r s1-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-assignment |> knitr::kable(align = "l")
+sort(treatment_group)
+control_group
 ```
 
 Randomization balances both the variables we can see **and the ones we cannot**, which is what makes a completely randomized design capable of supporting causal conclusions.
@@ -899,12 +874,11 @@ market_share
 **Draw figure — the misleading version**
 
 ```{r s1-4-4, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(market_share, aes(Brand, Share, fill = Brand)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(market_share, aes(Brand, Share)) +
+  geom_col() +
   coord_cartesian(ylim = c(44, 48)) +
   labs(title = "Truncated Axis: B Looks Dominant",
-       y = "Market Share (%)") +
-  theme_minimal()
+       y = "Market Share (%)")
 ```
 
 ---
@@ -914,12 +888,11 @@ ggplot(market_share, aes(Brand, Share, fill = Brand)) +
 **Draw figure — the honest version**
 
 ```{r s1-4-5, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(market_share, aes(Brand, Share, fill = Brand)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(market_share, aes(Brand, Share)) +
+  geom_col() +
   coord_cartesian(ylim = c(0, 50)) +
   labs(title = "Full Axis: The Difference Is Modest",
-       y = "Market Share (%)") +
-  theme_minimal()
+       y = "Market Share (%)")
 ```
 
 ---
@@ -969,9 +942,8 @@ summary(exam_scores)
 
 ```{r s1-5-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(exam_scores), aes(exam_scores)) +
-  geom_histogram(bins = 15, fill = "steelblue", color = "white") +
-  labs(title = "Simulated Exam Scores", x = "Score", y = "Frequency") +
-  theme_minimal()
+  geom_histogram(bins = 15, color = "white") +
+  labs(title = "Simulated Exam Scores", x = "Score", y = "Frequency")
 ```
 
 ## Summary

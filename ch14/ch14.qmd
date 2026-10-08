@@ -42,7 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
+theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -196,7 +196,7 @@ The theory behind random numbers is that each digit, 0 through 9, has an equal p
 
 ```{r s14-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2023)
-matrix(sample(0:9, size = 50, replace = TRUE), nrow = 5, byrow = TRUE)
+sample(0:9, size = 50, replace = TRUE)
 
 sample(1:50, size = 10)
 ```
@@ -293,8 +293,7 @@ branches <- c(
   "Songshan","Taishan","Tamsui","Taoyuan","Tucheng","Wanhua","Wanli","Wenshan","Wugu","Wulai",
   "Xindian","Xinyi","Xinzhuang","Xizhi","Yangmei","Yingge","Yonghe","Zhonghe","Zhongli","Zhongshan")
 
-numbers_from_table <- c(43, 29, 17, 9, 4, 48, 44, 19, 7, 27)
-branches[numbers_from_table]
+branches[c(43, 29, 17, 9, 4, 48, 44, 19, 7, 27)]
 ```
 :::
 
@@ -309,9 +308,10 @@ branches[numbers_from_table]
 
 ```{r e14-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1114)
-audit_numbers <- sort(sample(seq_along(branches), size = 10))
-knitr::kable(data.frame(Number = sprintf("%02d", audit_numbers),
-                        Branch = branches[audit_numbers]), align = "c")
+audit_numbers <- sort(sample(1:50, size = 10))
+
+audit_numbers
+branches[audit_numbers]
 ```
 
 `sample()` draws without replacement; **both samples are correct**.
@@ -394,10 +394,9 @@ The branches selected are:
 
 ```{r e14-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2024)
-sampling_interval <- length(branches) / 10
-random_start      <- sample(sampling_interval, size = 1)
+random_start   <- sample(1:5, size = 1)
+audit_schedule <- seq(random_start, 50, by = 5)
 
-audit_schedule <- seq(random_start, length(branches), by = sampling_interval)
 audit_schedule
 branches[audit_schedule]
 ```
@@ -547,12 +546,9 @@ table(members$industry, members$size)
 
 ```{r e14-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1403)
-stratified_sample <- members |>
-  group_by(industry, size) |>
-  slice_sample(n = 2) |>
-  arrange(industry, size)
+strata <- group_by(members, industry, size)
 
-knitr::kable(stratified_sample, align = "c")
+slice_sample(strata, n = 2)
 ```
 
 Each of the four strata contributes exactly two companies, so both industries and both size classes are represented.
@@ -808,15 +804,14 @@ The random number 8631 represents four tosses of a single coin with the results 
 ## Coins, Dice and Spinners in R
 
 ```{r s14-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-coin_digits <- c(8, 6, 3, 1)
-ifelse(coin_digits %% 2 == 1, "H", "T")
+ifelse(c(8, 6, 3, 1) %in% c(1, 3, 5, 7, 9), "H", "T")
 
 set.seed(143)
 sample(1:6, size = 10, replace = TRUE)
 sample(1:4, size = 10, replace = TRUE)
 ```
 
-The first two lines apply the coin correspondence to the digits 8631 of the table above. The last two lines skip the correspondence altogether: drawing from `1:6` and from `1:4` already discards the digits a die or a four-number spinner cannot produce.
+The first line applies the coin correspondence to the digits 8631 of the table above. The last two lines skip the correspondence altogether: drawing from `1:6` and from `1:4` already discards the digits a die or a four-number spinner cannot produce.
 
 ---
 
@@ -1003,21 +998,12 @@ mean(containers_opened)
 :::{.callout-tip}
 ## Solution
 
-**Draw figure** — 1000 trials instead of 20
+**Prepare data** — 1000 trials instead of 20
 
 ```{r e14-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(23)
 many_inspections <- rgeom(1000, prob = 1/6) + 1
 mean(many_inspections)
-
-p146 <- ggplot(data.frame(opened = many_inspections), aes(x = opened)) +
-  geom_histogram(binwidth = 1, fill = "steelblue", color = "white") +
-  geom_vline(xintercept = 6, color = "darkgreen",
-             linetype = "dashed", linewidth = 1) +
-  labs(title = "Containers Opened Before the First Error (1000 trials)",
-       subtitle = "Green line: the theoretical average of 6",
-       x = "Number of containers opened", y = "Frequency") +
-  theme_minimal()
 ```
 
 With 1000 trials the average is 6.059, much closer to the theoretical 6 than the 5.7 of 20 trials.
@@ -1030,10 +1016,14 @@ With 1000 trials the average is 6.059, much closer to the theoretical 6 than the
 :::{.callout-tip}
 ## Solution
 
-**Output figure**
+**Output figure** — the vertical line marks the theoretical average of 6
 
 ```{r e14-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
-p146
+ggplot(data.frame(many_inspections), aes(many_inspections)) +
+  geom_histogram(binwidth = 1, color = "white") +
+  geom_vline(xintercept = 6) +
+  labs(title = "Containers Opened Before the First Error (1000 trials)",
+       x = "Number of containers opened", y = "Frequency")
 ```
 :::
 
@@ -1113,9 +1103,8 @@ The **theoretical average is 2.5**, since the order is equally likely to be foun
 
 ```{r e14-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1407)
-pallet_with_order <- 2
+pallets_checked <- replicate(25, which(sample(4) == 2))
 
-pallets_checked <- replicate(25, which(sample(4) == pallet_with_order))
 pallets_checked
 sum(pallets_checked)
 mean(pallets_checked)
@@ -1192,15 +1181,15 @@ $$E(X) = (0.5)(50) + (0.3)(100) + (0.2)(300) = 115$$
 ```{r e14-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(108)
 card_digits <- sample(0:9, size = 25, replace = TRUE)
+card_value  <- ifelse(card_digits %in% 1:5, 50,
+                      ifelse(card_digits %in% 6:8, 100, 300))
 
-value_of_digit <- c(300, 50, 50, 50, 50, 50, 100, 100, 100, 300)
-card_value <- value_of_digit[card_digits + 1]
 card_value
 sum(card_value)
 mean(card_value)
 ```
 
-`value_of_digit` holds the correspondence for the digits 0 to 9 in order, so a single lookup replaces a chain of `ifelse()` tests.
+`ifelse()` applies the correspondence of Step 3: digits 1 to 5 give NT\$50, 6 to 8 give NT\$100, and 9 and 0 give NT\$300.
 :::
 
 ---
@@ -1210,20 +1199,13 @@ mean(card_value)
 :::{.callout-tip}
 ## Solution
 
-**Draw figure** — 1000 cards instead of 25
+**Prepare data** — 1000 cards instead of 25
 
 ```{r e14-8-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(1418)
-card_values  <- c(50, 100, 300)
-card_chances <- c(0.5, 0.3, 0.2)
-many_cards   <- sample(card_values, size = 1000, replace = TRUE, prob = card_chances)
+many_cards <- sample(c(50, 100, 300), size = 1000, replace = TRUE,
+                     prob = c(0.5, 0.3, 0.2))
 mean(many_cards)
-
-p148 <- ggplot(data.frame(value = factor(many_cards, levels = card_values)), aes(x = value)) +
-  geom_bar(fill = "steelblue") +
-  labs(title = "Scratch-Card Value (1000 cards)",
-       x = "Value of the card (NT$)", y = "Frequency") +
-  theme_minimal()
 ```
 
 Over 1000 cards the average is 113.85, close to the theoretical NT\$115.
@@ -1239,7 +1221,10 @@ Over 1000 cards the average is 113.85, close to the theoretical NT\$115.
 **Output figure**
 
 ```{r e14-8-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.0}
-p148
+ggplot(data.frame(many_cards), aes(factor(many_cards))) +
+  geom_bar() +
+  labs(title = "Scratch-Card Value (1000 cards)",
+       x = "Value of the card (NT$)", y = "Frequency")
 ```
 :::
 
@@ -1270,8 +1255,7 @@ set.seed(2023)
 prize_door <- sample(1:3, size = 10000, replace = TRUE)
 first_pick <- sample(1:3, size = 10000, replace = TRUE)
 
-switch_wins <- first_pick != prize_door
-mean(switch_wins)
+mean(first_pick != prize_door)
 ```
 
 Switching wins exactly when the first pick was wrong, so the door the host opens never has to be simulated. The simulated win rate is 0.6672, against the theoretical $\dfrac{2}{3} \approx 0.667$.
@@ -1334,7 +1318,8 @@ structured_orders <- data.frame(
   amount   = c(245, 138, 1020),
   store    = c("Taipei", "Kaohsiung", "Taipei")
 )
-knitr::kable(structured_orders, align = "c")
+structured_orders
+
 unstructured_reviews <- c("the delivery was late but the staff were kind",
                           "great coffee, terrible parking")
 nchar(unstructured_reviews)
@@ -1355,12 +1340,10 @@ monthly_records <- data.frame(
   millions = c(12, 48, 3, 95)
 )
 
-ggplot(monthly_records, aes(x = reorder(source, millions), y = millions, fill = kind)) +
+ggplot(monthly_records, aes(millions, source, fill = kind)) +
   geom_col() +
-  coord_flip() +
   labs(title = "Monthly Records Collected by One Retail Chain",
-       x = "", y = "Records (millions)", fill = "") +
-  theme_minimal()
+       x = "Records (millions)", y = NULL)
 ```
 
 ---

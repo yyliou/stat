@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -205,12 +204,11 @@ d. 在全島發布颱風警報當天，某物流中心出貨的 1200 件包裹�
 
 ```{r s1-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2026)
-
 population_hours <- rnorm(10000, mean = 15, sd = 4)
 sample_hours     <- sample(population_hours, 50)
 
-c(`母體平均數（參數）` = mean(population_hours),
-  `樣本平均數（統計量）` = mean(sample_hours))
+mean(population_hours)  # 參數
+mean(sample_hours)      # 統計量
 ```
 
 ---
@@ -222,10 +220,10 @@ c(`母體平均數（參數）` = mean(population_hours),
 樣本平均數接近但不完全等於母體平均數。利用統計量對參數下結論，正是**推論統計**的核心；兩者之間的差距就是**抽樣誤差**（第1-3節）。
 
 ```{r s1-1-2, echo=T, warning=FALSE, out.width="55%", fig.align='center', fig.height=4.5}
-ggplot(data.frame(hours = sample_hours), aes(x = hours)) +
-  geom_histogram(bins = 10, fill = "steelblue", color = "white") +
-  geom_vline(xintercept = mean(population_hours), linetype = "dashed", color = "red") +
-  labs(title = "50名學生的樣本（紅線＝母體平均數）",
+ggplot(data.frame(sample_hours), aes(sample_hours)) +
+  geom_histogram(bins = 10, color = "white") +
+  geom_vline(xintercept = mean(population_hours)) +
+  labs(title = "50名學生的樣本（垂直線＝母體平均數）",
        x = "每週讀書時數", y = "次數")
 ```
 
@@ -355,12 +353,8 @@ c. 3.75 公里
 recorded_values   <- c(18.6, 245, 3.75)
 measurement_units <- c(0.1, 1, 0.01)
 
-data.frame(
-  Recorded = recorded_values,
-  Unit     = measurement_units,
-  Lower    = recorded_values - measurement_units / 2,
-  Upper    = recorded_values + measurement_units / 2
-) |> knitr::kable(align = "c")
+recorded_values - measurement_units / 2
+recorded_values + measurement_units / 2
 ```
 
 a. 18.55–18.65 分鐘　b. 244.5–245.5 公克　c. 3.745–3.755 公里
@@ -496,10 +490,11 @@ str(body_weight)
 
 ```{r s1-3-1, echo=T}
 set.seed(1)
-roster <- tibble(
+roster <- data.frame(
   id      = 1:500,
   college = rep(c("Business", "Design", "Culture", "Management", "Media"),
-                each = 100))
+                each = 100)
+)
 ```
 
 ## 隨機抽樣
@@ -525,12 +520,10 @@ sample(roster$id, 10)
 :::
 
 ```{r s1-3-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-population_size <- 500
-sample_size     <- 10
-interval        <- population_size / sample_size
+k     <- 500 / 10
+start <- sample(1:k, 1)
 
-random_start <- sample(seq_len(interval), 1)
-seq(random_start, population_size, by = interval)
+seq(start, 500, by = k)
 ```
 
 注意：若母體名冊本身有與 $k$ 吻合的**週期性規律**，樣本會產生嚴重偏誤。
@@ -544,10 +537,8 @@ seq(random_start, population_size, by = interval)
 :::
 
 ```{r s1-3-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-roster |>
-  group_by(college) |>
-  slice_sample(n = 2) |>
-  arrange(college)
+strata <- group_by(roster, college)
+slice_sample(strata, n = 2)
 ```
 
 ## 群集抽樣
@@ -830,32 +821,15 @@ f. 答案因人而異。
 
 ## 以 R 進行隨機分派
 
-**準備資料**
-
 把 20 名受試者隨機分派到實驗組與對照組：
 
 ```{r s1-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(42)
+treatment_group <- sample(1:20, 10)
+control_group   <- setdiff(1:20, treatment_group)
 
-subject_id      <- 1:20
-treatment_group <- sample(subject_id, 10)
-control_group   <- setdiff(subject_id, treatment_group)
-
-assignment <- data.frame(
-  Group    = c("Treatment", "Control"),
-  Subjects = c(paste(sort(treatment_group), collapse = ", "),
-               paste(sort(control_group),   collapse = ", "))
-)
-```
-
----
-
-## 以 R 進行隨機分派
-
-**輸出結果**
-
-```{r s1-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-assignment |> knitr::kable(align = "l")
+sort(treatment_group)
+control_group
 ```
 
 隨機化同時平衡了我們看得見的變數**與看不見的變數**，這正是完全隨機設計能支持因果結論的原因。
@@ -917,8 +891,8 @@ market_share
 **繪製圖形——誤導版**
 
 ```{r s1-4-4, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(market_share, aes(Brand, Share, fill = Brand)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(market_share, aes(Brand, Share)) +
+  geom_col() +
   coord_cartesian(ylim = c(44, 48)) +
   labs(title = "截斷縱軸：B看起來遙遙領先",
        y = "市佔率（%）")
@@ -931,8 +905,8 @@ ggplot(market_share, aes(Brand, Share, fill = Brand)) +
 **繪製圖形——誠實版**
 
 ```{r s1-4-5, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
-ggplot(market_share, aes(Brand, Share, fill = Brand)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(market_share, aes(Brand, Share)) +
+  geom_col() +
   coord_cartesian(ylim = c(0, 50)) +
   labs(title = "完整縱軸：差距其實不大",
        y = "市佔率（%）")
@@ -985,7 +959,7 @@ summary(exam_scores)
 
 ```{r s1-5-2, echo=T, warning=FALSE, out.width="55%", fig.align='center'}
 ggplot(data.frame(exam_scores), aes(exam_scores)) +
-  geom_histogram(bins = 15, fill = "steelblue", color = "white") +
+  geom_histogram(bins = 15, color = "white") +
   labs(title = "模擬的考試分數", x = "分數", y = "次數")
 ```
 

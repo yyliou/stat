@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -328,7 +327,7 @@ $$d.f.N. = k - 1 = 3 - 1 = 2 \qquad d.f.D. = N - k = 12 - 3 = 9$$
 在 $\alpha = 0.05$ 下，附表 A-7 的臨界值為 **4.26**。
 
 ```{r e12-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-qf(0.95, df1 = 2, df2 = 9)   # Table A-7 rounds this value to 4.26
+qf(0.95, df1 = 2, df2 = 9)   # 附表 A-7 取為 4.26
 ```
 :::
 
@@ -346,20 +345,13 @@ mrt_kiosks <- c(81, 75, 68, 64)
 campus     <- c(76, 68, 64, 60, 57)
 suburban   <- c(60, 51, 45)
 
-revenue <- data.frame(
-  daily_revenue = c(mrt_kiosks, campus, suburban),
-  store_format  = factor(rep(c("MRT", "Campus", "Suburban"), c(4, 5, 3)),
-                         levels = c("MRT", "Campus", "Suburban"))
-)
-
-format_stats <- revenue |>
-  group_by(store_format) |>
-  summarise(n = n(), mean = mean(daily_revenue), variance = var(daily_revenue))
-
-knitr::kable(format_stats, align = "c", digits = 3)
-
-grand_mean <- mean(revenue$daily_revenue)
-grand_mean
+mean(mrt_kiosks)
+mean(campus)
+mean(suburban)
+var(mrt_kiosks)
+var(campus)
+var(suburban)
+mean(c(mrt_kiosks, campus, suburban))
 ```
 :::
 
@@ -379,12 +371,14 @@ $$s_W^2 = \frac{(4-1)(56.667) + (5-1)(55) + (3-1)(57)}{(4-1)+(5-1)+(3-1)} = \fra
 $$F = \frac{s_B^2}{s_W^2} = \frac{346.458}{56} = 6.187$$
 
 ```{r e12-1-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-between_var <- sum(format_stats$n * (format_stats$mean - grand_mean)^2) / (3 - 1)
-within_var  <- sum((format_stats$n - 1) * format_stats$variance) / (12 - 3)
-round(c(between = between_var, within = within_var, F = between_var / within_var), 3)
+between_var <- (4 * (72 - 64.08333)^2 + 5 * (65 - 64.08333)^2 +
+                3 * (52 - 64.08333)^2) / (3 - 1)
+within_var  <- ((4 - 1) * 56.66667 + (5 - 1) * 55 + (3 - 1) * 57) /
+               ((4 - 1) + (5 - 1) + (3 - 1))
 
-revenue_aov <- aov(daily_revenue ~ store_format, data = revenue)
-anova(revenue_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+between_var
+within_var
+between_var / within_var
 ```
 :::
 
@@ -402,7 +396,12 @@ anova(revenue_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
 **步驟 5.** 有足夠證據可以下結論：至少有一個平均數與其他平均數不同。
 
 ```{r e12-1-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-summary(revenue_aov)
+revenue <- data.frame(
+  daily_revenue = c(mrt_kiosks, campus, suburban),
+  store_format  = rep(c("MRT", "Campus", "Suburban"), times = c(4, 5, 3))
+)
+
+summary(aov(daily_revenue ~ store_format, data = revenue))
 ```
 :::
 
@@ -424,7 +423,7 @@ summary(revenue_aov)
 在附表 A-7 中，當 $d.f.N. = 2$、$d.f.D. = 9$ 時，檢定統計量 6.187 落在 $\alpha = 0.025$ 的 5.71 與 $\alpha = 0.01$ 的 8.02 之間，因此 $0.01 < \text{P-value} < 0.025$，在 $\alpha = 0.05$ 下拒絕 $H_0$。
 
 ```{r e12-1-5, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(summary(revenue_aov)[[1]][["Pr(>F)"]][1], 4)
+1 - pf(6.187, df1 = 2, df2 = 9)
 ```
 :::
 
@@ -438,12 +437,11 @@ round(summary(revenue_aov)[[1]][["Pr(>F)"]][1], 4)
 **繪圖** — 檢定背後的資料
 
 ```{r e12-1-6, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(revenue, aes(x = store_format, y = daily_revenue, fill = store_format)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.1, size = 2) +
+ggplot(revenue, aes(store_format, daily_revenue)) +
+  geom_boxplot() +
+  geom_point() +
   labs(title = "各店型的單日營收",
-       x = "店型", y = "單日營收（新台幣千元）") +
-  theme(legend.position = "none")
+       x = "店型", y = "單日營收（新台幣千元）")
 ```
 :::
 
@@ -490,7 +488,7 @@ $$d.f.N. = k - 1 = 2 \qquad d.f.D. = N - k = 18 - 3 = 15$$
 臨界值為 **3.68**。
 
 ```{r e12-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-qf(0.95, df1 = 2, df2 = 15)   # Table A-7 rounds this value to 3.68
+qf(0.95, df1 = 2, df2 = 15)   # 附表 A-7 取為 3.68
 ```
 :::
 
@@ -508,19 +506,13 @@ carrier_a <- c(53, 50, 48, 45, 42, 38)
 carrier_b <- c(46, 45, 42, 38, 36, 33)
 carrier_c <- c(62, 56, 54, 50, 47, 43)
 
-transit <- data.frame(
-  transit_hours = c(carrier_a, carrier_b, carrier_c),
-  carrier = factor(rep(c("Carrier A", "Carrier B", "Carrier C"), each = 6))
-)
-
-carrier_stats <- transit |>
-  group_by(carrier) |>
-  summarise(n = n(), mean = mean(transit_hours), variance = var(transit_hours))
-
-knitr::kable(carrier_stats, align = "c", digits = 2)
-
-transit_grand_mean <- mean(transit$transit_hours)
-transit_grand_mean
+mean(carrier_a)
+mean(carrier_b)
+mean(carrier_c)
+var(carrier_a)
+var(carrier_b)
+var(carrier_c)
+mean(c(carrier_a, carrier_b, carrier_c))
 ```
 :::
 
@@ -542,13 +534,12 @@ $$F = \frac{216}{34.267} = 6.304$$
 **步驟 4-5.** 由於 $6.304 > 3.68$，**拒絕 $H_0$**：有足夠證據支持「至少有一個平均數與其他平均數不同」。
 
 ```{r e12-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-transit_between_var <- sum(carrier_stats$n *
-                             (carrier_stats$mean - transit_grand_mean)^2) / (3 - 1)
-transit_within_var  <- sum((carrier_stats$n - 1) * carrier_stats$variance) / (18 - 3)
-round(c(between = transit_between_var, within = transit_within_var,
-        F = transit_between_var / transit_within_var), 3)
-transit_aov <- aov(transit_hours ~ carrier, data = transit)
-anova(transit_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
+between_var <- (6 * (46 - 46)^2 + 6 * (40 - 46)^2 + 6 * (52 - 46)^2) / (3 - 1)
+within_var  <- (5 * 30 + 5 * 26.8 + 5 * 46) / (5 + 5 + 5)
+
+between_var
+within_var
+between_var / within_var
 ```
 :::
 
@@ -570,6 +561,12 @@ anova(transit_aov)[["Mean Sq"]]   # aov reproduces the same two estimates
 在附表 A-7 中，6.304 落在 $\alpha = 0.025$ 的 4.77 與 $\alpha = 0.01$ 的 6.36 之間，因此 $0.01 < \text{P-value} < 0.025$，拒絕 $H_0$。
 
 ```{r e12-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
+transit <- data.frame(
+  transit_hours = c(carrier_a, carrier_b, carrier_c),
+  carrier       = rep(c("A", "B", "C"), each = 6)
+)
+transit_aov <- aov(transit_hours ~ carrier, data = transit)
+
 summary(transit_aov)
 ```
 :::
@@ -584,12 +581,11 @@ summary(transit_aov)
 **繪圖** — 檢定背後的資料
 
 ```{r e12-2-5, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
-ggplot(transit, aes(x = carrier, y = transit_hours, fill = carrier)) +
-  geom_boxplot(alpha = 0.7) +
-  geom_jitter(width = 0.1, size = 2) +
+ggplot(transit, aes(carrier, transit_hours)) +
+  geom_boxplot() +
+  geom_point() +
   labs(title = "各承運商的門到門運送時間",
-       x = "承運商", y = "運送時間（小時）") +
-  theme(legend.position = "none")
+       x = "承運商", y = "運送時間（小時）")
 ```
 :::
 
@@ -673,21 +669,10 @@ $$F' = (k-1)(C.V.) = (3-1)(4.256) = 8.513$$
 **以 R 進行相同的檢定**
 
 ```{r e12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-scheffe_f <- function(i, j) {
-  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
-  mean_gap^2 / (within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
-}
-
-scheffe_cv <- (3 - 1) * qf(0.95, df1 = 2, df2 = 9)
-
-data.frame(
-  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
-  Fs = round(c(scheffe_f(1, 2), scheffe_f(1, 3), scheffe_f(2, 3)), 3)
-) |>
-  mutate(decision = if_else(Fs > scheffe_cv, "significant", "not significant")) |>
-  knitr::kable(align = "c")
-
-round(scheffe_cv, 3)
+(72 - 65)^2 / (56 * (1 / 4 + 1 / 5))
+(72 - 52)^2 / (56 * (1 / 4 + 1 / 3))
+(65 - 52)^2 / (56 * (1 / 5 + 1 / 3))
+(3 - 1) * qf(0.95, df1 = 2, df2 = 9)
 ```
 :::
 
@@ -757,17 +742,10 @@ $$q = \frac{\bar{X}_i - \bar{X}_j}{\sqrt{s_W^2 / n}}$$
 **以 R 進行相同的檢定**
 
 ```{r e12-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-tukey_q <- function(i, j) {
-  (carrier_stats$mean[i] - carrier_stats$mean[j]) / sqrt(transit_within_var / 6)
-}
-
-data.frame(
-  comparison = c("A vs B", "A vs C", "B vs C"),
-  q = round(c(tukey_q(1, 2), tukey_q(1, 3), tukey_q(2, 3)), 3)
-) |>
-  knitr::kable(align = "c")
-
-round(qtukey(0.95, nmeans = 3, df = 15), 3)   # Table A-9 rounds this value to 3.67
+(46 - 40) / sqrt(34.267 / 6)
+(46 - 52) / sqrt(34.267 / 6)
+(40 - 52) / sqrt(34.267 / 6)
+qtukey(0.95, nmeans = 3, df = 15)   # 附表 A-9 取為 3.67
 ```
 :::
 
@@ -781,8 +759,7 @@ round(qtukey(0.95, nmeans = 3, df = 15), 3)   # Table A-9 rounds this value to 3
 **Tukey 的誠實顯著差異（HSD）**
 
 ```{r e12-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-transit_tukey <- TukeyHSD(transit_aov)
-transit_tukey
+TukeyHSD(transit_aov)
 ```
 
 只有承運商 C 與承運商 B 這一對的調整後 P 值小於 $0.05$，與手算結果一致。
@@ -798,7 +775,7 @@ transit_tukey
 **輸出圖形** — 整體信賴區間
 
 ```{r e12-4-3, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4.0}
-plot(transit_tukey, las = 1)
+plot(TukeyHSD(transit_aov))
 ```
 :::
 
@@ -870,21 +847,14 @@ P 值為 $0.0413$，調整後為 $0.0413 \times 3 = 0.1239$，並未小於 $\alp
 **以 R 進行相同的檢定**
 
 ```{r e12-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-bonferroni_t <- function(i, j) {
-  mean_gap <- format_stats$mean[i] - format_stats$mean[j]
-  mean_gap / sqrt(within_var * (1 / format_stats$n[i] + 1 / format_stats$n[j]))
-}
+t_stat  <- c((72 - 65) / sqrt(56 * (1 / 4 + 1 / 5)),
+             (72 - 52) / sqrt(56 * (1 / 4 + 1 / 3)),
+             (65 - 52) / sqrt(56 * (1 / 5 + 1 / 3)))
+p_value <- 2 * (1 - pt(t_stat, 9))
 
-t_values <- c(bonferroni_t(1, 2), bonferroni_t(1, 3), bonferroni_t(2, 3))
-p_values <- 2 * pt(-abs(t_values), df = 9)
-
-data.frame(
-  comparison = c("MRT vs Campus", "MRT vs Suburban", "Campus vs Suburban"),
-  t          = round(t_values, 3),
-  p_single   = round(p_values, 4),
-  p_adjusted = round(pmin(1, 3 * p_values), 4)
-) |>
-  knitr::kable(align = "c")
+t_stat
+p_value
+3 * p_value
 ```
 :::
 
@@ -1134,7 +1104,7 @@ $$\text{Interaction: } d.f.N. = (a-1)(b-1) = 1 \qquad \text{Within (error): } d.
 在 $\alpha = 0.05$、$d.f.N. = 1$、$d.f.D. = 4$ 下，三個臨界值皆為 **7.71**。
 
 ```{r e12-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qf(0.95, df1 = 1, df2 = 4), 2)   # Table A-7 gives 7.71
+qf(0.95, df1 = 1, df2 = 4)   # 附表 A-7 取為 7.71
 ```
 
 *註.* 若兩個因子的水準數不同，三個臨界值就不會相同。例如因子 A 有 3 個水準、因子 B 有 4 個水準、每組 2 個受試者時，$d.f.N.$ 分別為 $2$、$3$、$6$，而 $d.f.D. = 3 \cdot 4(2-1) = 12$。
@@ -1189,14 +1159,11 @@ $$F_A = \frac{3.125}{0.850} = 3.676 \qquad F_B = \frac{10.125}{0.850} = 11.912 \
 ```{r e12-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 picking <- data.frame(
   cartons_per_hour = c(26.6, 25.4, 29.7, 28.3, 33.1, 31.9, 25.7, 24.3),
-  method = factor(rep(c("Scanner", "Voice"), each = 4),
-                  levels = c("Scanner", "Voice")),
-  shift  = factor(rep(c("Day", "Day", "Night", "Night"), 2),
-                  levels = c("Day", "Night"))
+  method = rep(c("Scanner", "Voice"), each = 4),
+  shift  = rep(c("Day", "Day", "Night", "Night"), times = 2)
 )
 
-picking_aov <- aov(cartons_per_hour ~ method * shift, data = picking)
-summary(picking_aov)
+summary(aov(cartons_per_hour ~ method * shift, data = picking))
 ```
 :::
 
@@ -1212,11 +1179,9 @@ summary(picking_aov)
 每個組平均數都是該處理組中兩名揀貨員的平均值。
 
 ```{r e12-6-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cell_means <- picking |>
-  group_by(method, shift) |>
-  summarise(mean_rate = mean(cartons_per_hour), .groups = "drop")
-
-knitr::kable(cell_means, align = "c", digits = 2)
+cell_means <- aggregate(cartons_per_hour ~ method + shift,
+                        data = picking, FUN = mean)
+cell_means
 ```
 :::
 
@@ -1230,12 +1195,12 @@ knitr::kable(cell_means, align = "c", digits = 2)
 **輸出圖形** — 圖 12-6，各平均數的折線圖
 
 ```{r e12-6-4, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3.2}
-ggplot(cell_means, aes(x = shift, y = mean_rate,
+ggplot(cell_means, aes(shift, cartons_per_hour,
                        color = method, group = method)) +
-  geom_line(linewidth = 1.2) +
-  geom_point(size = 3) +
+  geom_line() +
+  geom_point() +
   labs(title = "範例 12-6 各變數平均數的折線圖",
-       x = "班別", y = "平均每小時揀貨箱數", color = "揀貨方式")
+       x = "班別", y = "平均每小時揀貨箱數")
 ```
 
 兩條線**交叉**，因此這是**非順序型**交互作用。
@@ -1267,17 +1232,14 @@ ggplot(cell_means, aes(x = shift, y = mean_rate,
 
 ```{r s12-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 patterns <- data.frame(
-  pattern = rep(c("Disordinal (Fig. 12-6)",
-                  "Ordinal (Fig. 12-7)",
-                  "No interaction (Fig. 12-8)"), each = 4),
-  method  = rep(rep(c("Scanner", "Voice"), each = 2), 3),
-  shift   = rep(c("Day", "Night"), 6),
+  pattern   = rep(c("Fig. 12-6: Disordinal", "Fig. 12-7: Ordinal",
+                    "Fig. 12-8: No interaction"), each = 4),
+  method    = rep(c("Scanner", "Scanner", "Voice", "Voice"), times = 3),
+  shift     = rep(c("Day", "Night"), times = 6),
   mean_rate = c(26.0, 29.0, 32.5, 25.0,
                 26.0, 29.0, 30.0, 31.5,
                 26.0, 29.0, 30.0, 33.0)
-) |>
-  mutate(pattern = factor(pattern, levels = unique(pattern)),
-         shift   = factor(shift, levels = c("Day", "Night")))
+)
 ```
 
 ---
@@ -1287,12 +1249,12 @@ patterns <- data.frame(
 **輸出圖形**
 
 ```{r s12-3-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.4}
-ggplot(patterns, aes(x = shift, y = mean_rate, color = method, group = method)) +
-  geom_line(linewidth = 1.1) +
-  geom_point(size = 2.5) +
+ggplot(patterns, aes(shift, mean_rate, color = method, group = method)) +
+  geom_line() +
+  geom_point() +
   facet_wrap(~ pattern) +
   labs(title = "交叉、順序與平行三種樣態",
-       x = "班別", y = "平均每小時揀貨箱數", color = "揀貨方式")
+       x = "班別", y = "平均每小時揀貨箱數")
 ```
 
 ---

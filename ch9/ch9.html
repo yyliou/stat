@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -438,14 +438,13 @@ Yu-You Liou
 <p><strong>Draw figure</strong> — a simulation of Figure 9-1: repeatedly draw two samples from populations with the <em>same</em> mean and plot <span class="math inline">\bar{X}_1 - \bar{X}_2</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
-<span id="cb1-2"><a href=""></a>mean_differences <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>,</span>
-<span id="cb1-3"><a href=""></a>  <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">15</span>)) <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">15</span>)))</span>
-<span id="cb1-4"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">difference =</span> mean_differences), <span class="fu">aes</span>(difference)) <span class="sc">+</span></span>
-<span id="cb1-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb1-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-2"><a href=""></a>differences <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">15</span>)) <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">15</span>)))</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(differences), <span class="fu">aes</span>(differences)) <span class="sc">+</span></span>
+<span id="cb1-5"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">40</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb1-6"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb1-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Differences of Means of Pairs of Samples"</span>,</span>
-<span id="cb1-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"Xbar1 - Xbar2"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb1-9"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"Xbar1 - Xbar2"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch9_files/figure-revealjs/s9-1-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>The differences centre on <strong>zero</strong>: when <span class="math inline">\mu_1 = \mu_2</span>, a difference far from zero is unlikely by chance alone, and that is what makes the test work.</p>
@@ -637,22 +636,19 @@ n                   40           40</code></pre>
 <div class="callout-content">
 <p><strong>Step 3 in R</strong> — critical values, test statistic, and P-value.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>mean_app <span class="ot">&lt;-</span> <span class="dv">1685</span>; sigma_app <span class="ot">&lt;-</span> <span class="dv">320</span>; n_app <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb3-2"><a href=""></a>mean_web <span class="ot">&lt;-</span> <span class="dv">1512</span>; sigma_web <span class="ot">&lt;-</span> <span class="dv">285</span>; n_web <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb3-3"><a href=""></a>se_orders <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma_app<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_app <span class="sc">+</span> sigma_web<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_web)</span>
-<span id="cb3-4"><a href=""></a>z_statistic <span class="ot">&lt;-</span> (mean_app <span class="sc">-</span> mean_web) <span class="sc">/</span> se_orders</span>
-<span id="cb3-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">standard_error =</span> se_orders, <span class="at">z =</span> z_statistic), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">1685</span> <span class="sc">-</span> <span class="dv">1512</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">320</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">40</span> <span class="sc">+</span> <span class="dv">285</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">40</span>)</span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>standard_error              z 
-         67.75           2.55 </code></pre>
+<pre><code>[1] 2.553349</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.96  1.96</code></pre>
+<pre><code>[1] -1.959964  1.959964</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_statistic), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0107</code></pre>
+<pre><code>[1] 0.01066925</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Make the decision. Reject <span class="math inline">H_0</span>, since <span class="math inline">2.55 &gt; 1.96</span> (equivalently <span class="math inline">P = 0.0107 &lt; \alpha = 0.05</span>).</p>
@@ -713,11 +709,14 @@ n                   40           40</code></pre>
 <span id="cb10-8"><a href=""></a>               <span class="dv">8</span>, <span class="dv">13</span>,  <span class="dv">7</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">12</span>, <span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">14</span>, <span class="dv">18</span>,</span>
 <span id="cb10-9"><a href=""></a>              <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">12</span>,  <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">20</span>,  <span class="dv">7</span>,  <span class="dv">9</span>, <span class="dv">14</span>,  <span class="dv">8</span>,</span>
 <span id="cb10-10"><a href=""></a>              <span class="dv">11</span>, <span class="dv">11</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">12</span>, <span class="dv">15</span>,  <span class="dv">7</span>,  <span class="dv">5</span>)</span>
-<span id="cb10-11"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n_taoyuan =</span> <span class="fu">length</span>(taoyuan), <span class="at">n_taichung =</span> <span class="fu">length</span>(taichung),</span>
-<span id="cb10-12"><a href=""></a>        <span class="at">mean_taoyuan =</span> <span class="fu">mean</span>(taoyuan), <span class="at">mean_taichung =</span> <span class="fu">mean</span>(taichung)), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-11"><a href=""></a></span>
+<span id="cb10-12"><a href=""></a><span class="fu">mean</span>(taoyuan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    n_taoyuan    n_taichung  mean_taoyuan mean_taichung 
-         50.0          50.0          12.4          11.8 </code></pre>
+<pre><code>[1] 12.4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">mean</span>(taichung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11.8</code></pre>
 </div>
 </div>
 </div>
@@ -738,15 +737,15 @@ n                   40           40</code></pre>
 <p><strong>Step 2 (continued).</strong> With <span class="math inline">\bar{X}_1 = 12.4</span>, <span class="math inline">\bar{X}_2 = 11.8</span> and <span class="math inline">\sigma_1 = \sigma_2 = 4</span>,</p>
 <p><span class="math display">z = \frac{(12.4 - 11.8) - 0}{\sqrt{\dfrac{4^2}{50} + \dfrac{4^2}{50}}} = 0.75</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>sigma_lines <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb12-2"><a href=""></a>se_lines <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sigma_lines<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">length</span>(taoyuan) <span class="sc">+</span></span>
-<span id="cb12-3"><a href=""></a>                 sigma_lines<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">length</span>(taichung))</span>
-<span id="cb12-4"><a href=""></a>z_statistic <span class="ot">&lt;-</span> (<span class="fu">mean</span>(taoyuan) <span class="sc">-</span> <span class="fu">mean</span>(taichung)) <span class="sc">/</span> se_lines</span>
-<span id="cb12-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">z =</span> z_statistic,</span>
-<span id="cb12-6"><a href=""></a>        <span class="at">p_value =</span> <span class="fu">pnorm</span>(z_statistic, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="fl">12.4</span> <span class="sc">-</span> <span class="fl">11.8</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">4</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">50</span> <span class="sc">+</span> <span class="dv">4</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">50</span>)</span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      z p_value 
- 0.7500  0.2266 </code></pre>
+<pre><code>[1] 0.75</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2266274</code></pre>
 </div>
 </div>
 <p><strong>Step 3.</strong> Find the P-value. For <span class="math inline">z = 0.75</span> the area to the left is 0.7734, and <span class="math inline">1.0000 - 0.7734 = 0.2266</span>.</p>
@@ -822,13 +821,19 @@ n                   40           40</code></pre>
 <p><span class="math display">(1685 - 1512) \pm 1.96\sqrt{\dfrac{320^2}{40} + \dfrac{285^2}{40}} = 173 \pm 132.80</span></p>
 <p><span class="math display">40.20 &lt; \mu_1 - \mu_2 &lt; 305.80</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se_orders</span>
-<span id="cb14-2"><a href=""></a>difference <span class="ot">&lt;-</span> mean_app <span class="sc">-</span> mean_web</span>
-<span id="cb14-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> difference <span class="sc">-</span> margin_of_error,</span>
-<span id="cb14-4"><a href=""></a>        <span class="at">upper =</span> difference <span class="sc">+</span> margin_of_error), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">320</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">40</span> <span class="sc">+</span> <span class="dv">285</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">40</span>)</span>
+<span id="cb18-2"><a href=""></a></span>
+<span id="cb18-3"><a href=""></a>margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lower upper 
- 40.2 305.8 </code></pre>
+<pre><code>[1] 132.7957</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>(<span class="dv">1685</span> <span class="sc">-</span> <span class="dv">1512</span>) <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40.2043</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>(<span class="dv">1685</span> <span class="sc">-</span> <span class="dv">1512</span>) <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 305.7957</code></pre>
 </div>
 </div>
 <p>Since the confidence interval does not contain zero, the decision is to <strong>reject <span class="math inline">H_0</span></strong>, which agrees with Example 9-1.</p>
@@ -950,26 +955,21 @@ n                             10              10</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3 in R</strong> — degrees of freedom, critical values, test statistic, and P-value.</p>
+<p><strong>Step 3 in R</strong> — critical values, test statistic, and P-value.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>mean_street <span class="ot">&lt;-</span> <span class="dv">854</span>; sd_street <span class="ot">&lt;-</span> <span class="dv">52</span>; n_street <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb17-2"><a href=""></a>mean_mall   <span class="ot">&lt;-</span> <span class="dv">814</span>; sd_mall   <span class="ot">&lt;-</span> <span class="dv">61</span>; n_mall   <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb17-3"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> <span class="fu">min</span>(n_street <span class="sc">-</span> <span class="dv">1</span>, n_mall <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb17-4"><a href=""></a>se_revenue <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sd_street<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_street <span class="sc">+</span> sd_mall<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n_mall)</span>
-<span id="cb17-5"><a href=""></a>t_statistic <span class="ot">&lt;-</span> (mean_street <span class="sc">-</span> mean_mall) <span class="sc">/</span> se_revenue</span>
-<span id="cb17-6"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">df =</span> degrees_freedom, <span class="at">standard_error =</span> se_revenue,</span>
-<span id="cb17-7"><a href=""></a>        <span class="at">t =</span> t_statistic), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>t_stat <span class="ot">&lt;-</span> (<span class="dv">854</span> <span class="sc">-</span> <span class="dv">814</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">52</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">61</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span>)</span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a>t_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            df standard_error              t 
-         9.000         25.348          1.578 </code></pre>
+<pre><code>[1] 1.57806</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), degrees_freedom), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.262  2.262</code></pre>
+<pre><code>[1] -2.262157  2.262157</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_statistic), degrees_freedom, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), <span class="dv">9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.149</code></pre>
+<pre><code>[1] 0.1490077</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>, since <span class="math inline">1.578 &lt; 2.262</span>.</p>
@@ -1027,13 +1027,19 @@ n                             10              10</code></pre>
 <p><span class="math display">(854 - 814) \pm 2.262\sqrt{\dfrac{52^2}{10} + \dfrac{61^2}{10}} = 40 \pm 57.34</span></p>
 <p><span class="math display">-17.34 &lt; \mu_1 - \mu_2 &lt; 97.34</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, degrees_freedom) <span class="sc">*</span> se_revenue</span>
-<span id="cb23-2"><a href=""></a>difference <span class="ot">&lt;-</span> mean_street <span class="sc">-</span> mean_mall</span>
-<span id="cb23-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> difference <span class="sc">-</span> margin_of_error,</span>
-<span id="cb23-4"><a href=""></a>        <span class="at">upper =</span> difference <span class="sc">+</span> margin_of_error), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">9</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">52</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">61</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span>)</span>
+<span id="cb31-2"><a href=""></a></span>
+<span id="cb31-3"><a href=""></a>margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> lower  upper 
--17.34  97.34 </code></pre>
+<pre><code>[1] 57.34022</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>(<span class="dv">854</span> <span class="sc">-</span> <span class="dv">814</span>) <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -17.34022</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>(<span class="dv">854</span> <span class="sc">-</span> <span class="dv">814</span>) <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 97.34022</code></pre>
 </div>
 </div>
 <p>Since 0 is contained in the interval, there is not enough evidence to support the claim that the means are different.</p>
@@ -1109,21 +1115,20 @@ n                             10              10</code></pre>
 <h2>The Two-Sample t Test in R</h2>
 <p><strong>Compare the textbook’s conservative d.f. with the Welch d.f.</strong> used by <code>t.test()</code>, starting from the Example 9-4 summaries.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>welch_df <span class="ot">&lt;-</span> <span class="cf">function</span>(sd1, n1, sd2, n2) {</span>
-<span id="cb25-2"><a href=""></a>  (sd1<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n1 <span class="sc">+</span> sd2<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span></span>
-<span id="cb25-3"><a href=""></a>    ((sd1<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n1)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (n1 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> (sd2<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (n2 <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb25-4"><a href=""></a>}</span>
-<span id="cb25-5"><a href=""></a>df_welch <span class="ot">&lt;-</span> <span class="fu">welch_df</span>(sd_street, n_street, sd_mall, n_mall)</span>
-<span id="cb25-6"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">df_book =</span> degrees_freedom, <span class="at">df_welch =</span> df_welch), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>welch_df <span class="ot">&lt;-</span> (<span class="dv">52</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">61</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span></span>
+<span id="cb37-2"><a href=""></a>  ((<span class="dv">52</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">9</span> <span class="sc">+</span> (<span class="dv">61</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">10</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="dv">9</span>)</span>
+<span id="cb37-3"><a href=""></a></span>
+<span id="cb37-4"><a href=""></a>welch_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> df_book df_welch 
-    9.00    17.56 </code></pre>
+<pre><code>[1] 17.56003</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_book  =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_statistic), degrees_freedom, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb27-2"><a href=""></a>        <span class="at">p_welch =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_statistic), df_welch, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), <span class="dv">9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> p_book p_welch 
- 0.1490  0.1324 </code></pre>
+<pre><code>[1] 0.1490077</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), welch_df))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1323959</code></pre>
 </div>
 </div>
 <p>The test statistic is the same either way; only the degrees of freedom, and therefore the P-value, differ. The textbook always uses <span class="math inline">\text{d.f.} = 9</span>, the more conservative choice.</p>
@@ -1338,83 +1343,25 @@ Today         5.20   3.80  6.40  2.90  7.10  4.50  8.20  3.30  6.80</code></pre>
 </div>
 <div class="callout-content">
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>three_years_ago <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">7.00</span>, <span class="fl">3.40</span>, <span class="fl">3.90</span>, <span class="fl">3.50</span>, <span class="fl">4.00</span>, <span class="fl">3.30</span>, <span class="fl">4.00</span>, <span class="fl">5.30</span>, <span class="fl">3.90</span>)</span>
-<span id="cb30-2"><a href=""></a>today           <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">5.20</span>, <span class="fl">3.80</span>, <span class="fl">6.40</span>, <span class="fl">2.90</span>, <span class="fl">7.10</span>, <span class="fl">4.50</span>, <span class="fl">8.20</span>, <span class="fl">3.30</span>, <span class="fl">6.80</span>)</span>
-<span id="cb30-3"><a href=""></a>revenue_change  <span class="ot">&lt;-</span> three_years_ago <span class="sc">-</span> today</span>
-<span id="cb30-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X1 =</span> three_years_ago, <span class="at">X2 =</span> today, <span class="at">D =</span> revenue_change,</span>
-<span id="cb30-5"><a href=""></a>                        <span class="at">D2 =</span> revenue_change<span class="sc">^</span><span class="dv">2</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X1</th>
-<th style="text-align: center;">X2</th>
-<th style="text-align: center;">D</th>
-<th style="text-align: center;">D2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">7.0</td>
-<td style="text-align: center;">5.2</td>
-<td style="text-align: center;">1.8</td>
-<td style="text-align: center;">3.24</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3.4</td>
-<td style="text-align: center;">3.8</td>
-<td style="text-align: center;">-0.4</td>
-<td style="text-align: center;">0.16</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3.9</td>
-<td style="text-align: center;">6.4</td>
-<td style="text-align: center;">-2.5</td>
-<td style="text-align: center;">6.25</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3.5</td>
-<td style="text-align: center;">2.9</td>
-<td style="text-align: center;">0.6</td>
-<td style="text-align: center;">0.36</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4.0</td>
-<td style="text-align: center;">7.1</td>
-<td style="text-align: center;">-3.1</td>
-<td style="text-align: center;">9.61</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3.3</td>
-<td style="text-align: center;">4.5</td>
-<td style="text-align: center;">-1.2</td>
-<td style="text-align: center;">1.44</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4.0</td>
-<td style="text-align: center;">8.2</td>
-<td style="text-align: center;">-4.2</td>
-<td style="text-align: center;">17.64</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5.3</td>
-<td style="text-align: center;">3.3</td>
-<td style="text-align: center;">2.0</td>
-<td style="text-align: center;">4.00</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3.9</td>
-<td style="text-align: center;">6.8</td>
-<td style="text-align: center;">-2.9</td>
-<td style="text-align: center;">8.41</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sumD =</span> <span class="fu">sum</span>(revenue_change), <span class="at">sumD2 =</span> <span class="fu">sum</span>(revenue_change<span class="sc">^</span><span class="dv">2</span>)), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>three_years_ago <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">7.00</span>, <span class="fl">3.40</span>, <span class="fl">3.90</span>, <span class="fl">3.50</span>, <span class="fl">4.00</span>, <span class="fl">3.30</span>, <span class="fl">4.00</span>, <span class="fl">5.30</span>, <span class="fl">3.90</span>)</span>
+<span id="cb44-2"><a href=""></a>today           <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">5.20</span>, <span class="fl">3.80</span>, <span class="fl">6.40</span>, <span class="fl">2.90</span>, <span class="fl">7.10</span>, <span class="fl">4.50</span>, <span class="fl">8.20</span>, <span class="fl">3.30</span>, <span class="fl">6.80</span>)</span>
+<span id="cb44-3"><a href=""></a>D <span class="ot">&lt;-</span> three_years_ago <span class="sc">-</span> today</span>
+<span id="cb44-4"><a href=""></a></span>
+<span id="cb44-5"><a href=""></a>D</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> sumD sumD2 
--9.90 51.11 </code></pre>
+<pre><code>[1]  1.8 -0.4 -2.5  0.6 -3.1 -1.2 -4.2  2.0 -2.9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>D<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3.24  0.16  6.25  0.36  9.61  1.44 17.64  4.00  8.41</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">sum</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -9.9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a><span class="fu">sum</span>(D<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51.11</code></pre>
 </div>
 </div>
 </div>
@@ -1434,21 +1381,27 @@ Today         5.20   3.80  6.40  2.90  7.10  4.50  8.20  3.30  6.80</code></pre>
 <div class="callout-content">
 <p><strong>Steps 3-5 in R</strong> — test statistic, critical value, P-value, and decision.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>n_outlets <span class="ot">&lt;-</span> <span class="fu">length</span>(revenue_change)</span>
-<span id="cb33-2"><a href=""></a>t_statistic <span class="ot">&lt;-</span> <span class="fu">mean</span>(revenue_change) <span class="sc">/</span> (<span class="fu">sd</span>(revenue_change) <span class="sc">/</span> <span class="fu">sqrt</span>(n_outlets))</span>
-<span id="cb33-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">Dbar =</span> <span class="fu">mean</span>(revenue_change), <span class="at">sD =</span> <span class="fu">sd</span>(revenue_change),</span>
-<span id="cb33-4"><a href=""></a>        <span class="at">t =</span> t_statistic), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>t_stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(D) <span class="sc">/</span> (<span class="fu">sd</span>(D) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">9</span>))</span>
+<span id="cb52-2"><a href=""></a></span>
+<span id="cb52-3"><a href=""></a><span class="fu">mean</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Dbar     sD      t 
--1.100  2.242 -1.472 </code></pre>
+<pre><code>[1] -1.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fl">0.05</span>, n_outlets <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">sd</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.86</code></pre>
+<pre><code>[1] 2.242209</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pt</span>(t_statistic, n_outlets <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>t_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0896</code></pre>
+<pre><code>[1] -1.471763</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.05</span>, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.859548</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="fu">pt</span>(t_stat, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08964843</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>, since the test statistic <span class="math inline">-1.472</span> is greater than the critical value <span class="math inline">-1.860</span> (equivalently <span class="math inline">P = 0.0896 &gt; 0.05</span>).</p>
@@ -1509,68 +1462,35 @@ After  (X2)   28    26    42    29    24    31</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3 in R</strong> — build the table and compute the test statistic.</p>
+<p><strong>Step 3 in R</strong> — find <span class="math inline">D</span> and <span class="math inline">D^2</span> and compute the test statistic.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">41</span>, <span class="dv">37</span>, <span class="dv">25</span>, <span class="dv">30</span>)</span>
-<span id="cb40-2"><a href=""></a>after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">26</span>, <span class="dv">42</span>, <span class="dv">29</span>, <span class="dv">24</span>, <span class="dv">31</span>)</span>
-<span id="cb40-3"><a href=""></a>defect_change <span class="ot">&lt;-</span> before <span class="sc">-</span> after</span>
-<span id="cb40-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">X1 =</span> before, <span class="at">X2 =</span> after,</span>
-<span id="cb40-5"><a href=""></a>                        <span class="at">D =</span> defect_change, <span class="at">D2 =</span> defect_change<span class="sc">^</span><span class="dv">2</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">X1</th>
-<th style="text-align: center;">X2</th>
-<th style="text-align: center;">D</th>
-<th style="text-align: center;">D2</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">34</td>
-<td style="text-align: center;">28</td>
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">36</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">28</td>
-<td style="text-align: center;">26</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">41</td>
-<td style="text-align: center;">42</td>
-<td style="text-align: center;">-1</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">37</td>
-<td style="text-align: center;">29</td>
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">64</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">25</td>
-<td style="text-align: center;">24</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">30</td>
-<td style="text-align: center;">31</td>
-<td style="text-align: center;">-1</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sumD =</span> <span class="fu">sum</span>(defect_change), <span class="at">sumD2 =</span> <span class="fu">sum</span>(defect_change<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb41-2"><a href=""></a>        <span class="at">Dbar =</span> <span class="fu">mean</span>(defect_change), <span class="at">sD =</span> <span class="fu">sd</span>(defect_change)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a>before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">41</span>, <span class="dv">37</span>, <span class="dv">25</span>, <span class="dv">30</span>)</span>
+<span id="cb63-2"><a href=""></a>after  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">26</span>, <span class="dv">42</span>, <span class="dv">29</span>, <span class="dv">24</span>, <span class="dv">31</span>)</span>
+<span id="cb63-3"><a href=""></a>D      <span class="ot">&lt;-</span> before <span class="sc">-</span> after</span>
+<span id="cb63-4"><a href=""></a></span>
+<span id="cb63-5"><a href=""></a>D</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   sumD   sumD2    Dbar      sD 
- 15.000 107.000   2.500   3.728 </code></pre>
+<pre><code>[1]  6  2 -1  8  1 -1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>D<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 36  4  1 64  1  1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">sum</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a><span class="fu">sum</span>(D<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 107</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fu">mean</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="fu">sd</span>(D)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.72827</code></pre>
 </div>
 </div>
 </div>
@@ -1590,19 +1510,19 @@ After  (X2)   28    26    42    29    24    31</code></pre>
 <div class="callout-content">
 <p><strong>Steps 3-5 in R</strong> — critical values, test statistic, P-value, and decision.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>n_lines <span class="ot">&lt;-</span> <span class="fu">length</span>(defect_change)</span>
-<span id="cb43-2"><a href=""></a>t_statistic <span class="ot">&lt;-</span> <span class="fu">mean</span>(defect_change) <span class="sc">/</span> (<span class="fu">sd</span>(defect_change) <span class="sc">/</span> <span class="fu">sqrt</span>(n_lines))</span>
-<span id="cb43-3"><a href=""></a><span class="fu">round</span>(t_statistic, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a>t_stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(D) <span class="sc">/</span> (<span class="fu">sd</span>(D) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">6</span>))</span>
+<span id="cb75-2"><a href=""></a></span>
+<span id="cb75-3"><a href=""></a>t_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.643</code></pre>
+<pre><code>[1] 1.642511</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>), n_lines <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>), <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.015  2.015</code></pre>
+<pre><code>[1] -2.015048  2.015048</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_statistic), n_lines <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(t_stat), <span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1614</code></pre>
+<pre><code>[1] 0.1614064</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>: the test statistic 1.643 lies in the noncritical region.</p>
@@ -1664,12 +1584,19 @@ After  (X2)   28    26    42    29    24    31</code></pre>
 <p><span class="math display">2.500 \pm 2.015\cdot\frac{3.728}{\sqrt{6}} = 2.500 \pm 3.07</span></p>
 <p><span class="math display">-0.57 &lt; \mu_D &lt; 5.57</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.95</span>, n_lines <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">sd</span>(defect_change) <span class="sc">/</span> <span class="fu">sqrt</span>(n_lines)</span>
-<span id="cb49-2"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> <span class="fu">mean</span>(defect_change) <span class="sc">-</span> margin_of_error,</span>
-<span id="cb49-3"><a href=""></a>        <span class="at">upper =</span> <span class="fu">mean</span>(defect_change) <span class="sc">+</span> margin_of_error), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="dv">5</span>) <span class="sc">*</span> <span class="fu">sd</span>(D) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">6</span>)</span>
+<span id="cb81-2"><a href=""></a></span>
+<span id="cb81-3"><a href=""></a>margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lower upper 
--0.57  5.57 </code></pre>
+<pre><code>[1] 3.067025</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">mean</span>(D) <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.5670245</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href=""></a><span class="fu">mean</span>(D) <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.567025</code></pre>
 </div>
 </div>
 <p>Since 0 is contained in the interval, the decision is to not reject <span class="math inline">H_0:\ \mu_D = 0</span>; there is not enough evidence to support the claim that the revised procedure changes the defect rate.</p>
@@ -1810,32 +1737,59 @@ Transactions sampled               45             35</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3 in R</strong> — proportions, weighted estimate, test statistic, and P-value.</p>
+<p><strong>Step 3 in R</strong> — proportions and weighted estimate.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>wallet_hyper <span class="ot">&lt;-</span> <span class="dv">18</span>; n_hyper <span class="ot">&lt;-</span> <span class="dv">45</span></span>
-<span id="cb52-2"><a href=""></a>wallet_cvs   <span class="ot">&lt;-</span> <span class="dv">25</span>; n_cvs   <span class="ot">&lt;-</span> <span class="dv">35</span></span>
-<span id="cb52-3"><a href=""></a>phat_hyper <span class="ot">&lt;-</span> wallet_hyper <span class="sc">/</span> n_hyper</span>
-<span id="cb52-4"><a href=""></a>phat_cvs   <span class="ot">&lt;-</span> wallet_cvs <span class="sc">/</span> n_cvs</span>
-<span id="cb52-5"><a href=""></a>pbar <span class="ot">&lt;-</span> (wallet_hyper <span class="sc">+</span> wallet_cvs) <span class="sc">/</span> (n_hyper <span class="sc">+</span> n_cvs)</span>
-<span id="cb52-6"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">phat_hyper =</span> phat_hyper, <span class="at">phat_cvs =</span> phat_cvs,</span>
-<span id="cb52-7"><a href=""></a>        <span class="at">pbar =</span> pbar, <span class="at">qbar =</span> <span class="dv">1</span> <span class="sc">-</span> pbar), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a>p_hat1 <span class="ot">&lt;-</span> <span class="dv">18</span> <span class="sc">/</span> <span class="dv">45</span></span>
+<span id="cb88-2"><a href=""></a>p_hat2 <span class="ot">&lt;-</span> <span class="dv">25</span> <span class="sc">/</span> <span class="dv">35</span></span>
+<span id="cb88-3"><a href=""></a>p_bar  <span class="ot">&lt;-</span> (<span class="dv">18</span> <span class="sc">+</span> <span class="dv">25</span>) <span class="sc">/</span> (<span class="dv">45</span> <span class="sc">+</span> <span class="dv">35</span>)</span>
+<span id="cb88-4"><a href=""></a></span>
+<span id="cb88-5"><a href=""></a>p_hat1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>phat_hyper   phat_cvs       pbar       qbar 
-    0.4000     0.7143     0.5375     0.4625 </code></pre>
+<pre><code>[1] 0.4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>z_statistic <span class="ot">&lt;-</span> (phat_hyper <span class="sc">-</span> phat_cvs) <span class="sc">/</span></span>
-<span id="cb54-2"><a href=""></a>  <span class="fu">sqrt</span>(pbar <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> pbar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> n_hyper <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> n_cvs))</span>
-<span id="cb54-3"><a href=""></a><span class="fu">round</span>(z_statistic, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a>p_hat2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.8</code></pre>
+<pre><code>[1] 0.7142857</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a>p_bar</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.96  1.96</code></pre>
+<pre><code>[1] 0.5375</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_statistic), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> p_bar</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0052</code></pre>
+<pre><code>[1] 0.4625</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-9-9-3" class="slide level2">
+<h2>Example 9-9</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3 in R (continued)</strong> — test statistic, critical values, and P-value.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a>z <span class="ot">&lt;-</span> (p_hat1 <span class="sc">-</span> p_hat2) <span class="sc">/</span> <span class="fu">sqrt</span>(p_bar <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_bar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">45</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">35</span>))</span>
+<span id="cb96-2"><a href=""></a></span>
+<span id="cb96-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.796886</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.959964  1.959964</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.005159768</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Reject <span class="math inline">H_0</span>, since <span class="math inline">-2.80 &lt; -1.96</span> (equivalently <span class="math inline">P = 0.0052 &lt; \alpha = 0.05</span>).</p>
@@ -1896,32 +1850,59 @@ n                     250          150</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Step 3 in R</strong> — counts, weighted estimate, test statistic, critical value, P-value.</p>
+<p><strong>Step 3 in R</strong> — counts and weighted estimate.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href=""></a>phat_business <span class="ot">&lt;-</span> <span class="fl">0.72</span>; n_business <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="cb61-2"><a href=""></a>phat_leisure  <span class="ot">&lt;-</span> <span class="fl">0.60</span>; n_leisure  <span class="ot">&lt;-</span> <span class="dv">150</span></span>
-<span id="cb61-3"><a href=""></a>count_business <span class="ot">&lt;-</span> phat_business <span class="sc">*</span> n_business</span>
-<span id="cb61-4"><a href=""></a>count_leisure  <span class="ot">&lt;-</span> phat_leisure <span class="sc">*</span> n_leisure</span>
-<span id="cb61-5"><a href=""></a>pbar <span class="ot">&lt;-</span> (count_business <span class="sc">+</span> count_leisure) <span class="sc">/</span> (n_business <span class="sc">+</span> n_leisure)</span>
-<span id="cb61-6"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">X1 =</span> count_business, <span class="at">X2 =</span> count_leisure,</span>
-<span id="cb61-7"><a href=""></a>        <span class="at">pbar =</span> pbar, <span class="at">qbar =</span> <span class="dv">1</span> <span class="sc">-</span> pbar), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a>X1    <span class="ot">&lt;-</span> <span class="fl">0.72</span> <span class="sc">*</span> <span class="dv">250</span></span>
+<span id="cb103-2"><a href=""></a>X2    <span class="ot">&lt;-</span> <span class="fl">0.60</span> <span class="sc">*</span> <span class="dv">150</span></span>
+<span id="cb103-3"><a href=""></a>p_bar <span class="ot">&lt;-</span> (X1 <span class="sc">+</span> X2) <span class="sc">/</span> (<span class="dv">250</span> <span class="sc">+</span> <span class="dv">150</span>)</span>
+<span id="cb103-4"><a href=""></a></span>
+<span id="cb103-5"><a href=""></a>X1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     X1      X2    pbar    qbar 
-180.000  90.000   0.675   0.325 </code></pre>
+<pre><code>[1] 180</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href=""></a>z_statistic <span class="ot">&lt;-</span> (phat_business <span class="sc">-</span> phat_leisure) <span class="sc">/</span></span>
-<span id="cb63-2"><a href=""></a>  <span class="fu">sqrt</span>(pbar <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> pbar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> n_business <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> n_leisure))</span>
-<span id="cb63-3"><a href=""></a><span class="fu">round</span>(z_statistic, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a>X2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.48</code></pre>
+<pre><code>[1] 90</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fl">0.90</span>), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href=""></a>p_bar</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.28</code></pre>
+<pre><code>[1] 0.675</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pnorm</span>(z_statistic, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> p_bar</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0066</code></pre>
+<pre><code>[1] 0.325</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-9-10-3" class="slide level2">
+<h2>Example 9-10</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solution</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Step 3 in R (continued)</strong> — test statistic, critical value, P-value.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="fl">0.72</span> <span class="sc">-</span> <span class="fl">0.60</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(p_bar <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_bar) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">250</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">150</span>))</span>
+<span id="cb111-2"><a href=""></a></span>
+<span id="cb111-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.480695</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.281552</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.006556332</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Reject <span class="math inline">H_0</span>, since <span class="math inline">2.48 &gt; 1.28</span> (equivalently <span class="math inline">P = 0.0066 &lt; 0.10</span>).</p>
@@ -1990,15 +1971,19 @@ n                     250          150</code></pre>
 <p><span class="math display">(0.4000 - 0.7143) \pm 1.96\sqrt{\dfrac{(0.4000)(0.6000)}{45} + \dfrac{(0.7143)(0.2857)}{35}} = -0.3143 \pm 0.207</span></p>
 <p><span class="math display">-0.521 &lt; p_1 - p_2 &lt; -0.107</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span></span>
-<span id="cb69-2"><a href=""></a>  <span class="fu">sqrt</span>(phat_hyper <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phat_hyper) <span class="sc">/</span> n_hyper <span class="sc">+</span></span>
-<span id="cb69-3"><a href=""></a>       phat_cvs <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> phat_cvs) <span class="sc">/</span> n_cvs)</span>
-<span id="cb69-4"><a href=""></a>difference <span class="ot">&lt;-</span> phat_hyper <span class="sc">-</span> phat_cvs</span>
-<span id="cb69-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> difference <span class="sc">-</span> margin_of_error,</span>
-<span id="cb69-6"><a href=""></a>        <span class="at">upper =</span> difference <span class="sc">+</span> margin_of_error), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat1 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat1) <span class="sc">/</span> <span class="dv">45</span> <span class="sc">+</span> p_hat2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat2) <span class="sc">/</span> <span class="dv">35</span>)</span>
+<span id="cb117-2"><a href=""></a></span>
+<span id="cb117-3"><a href=""></a>margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> lower  upper 
--0.521 -0.107 </code></pre>
+<pre><code>[1] 0.2070917</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a>(p_hat1 <span class="sc">-</span> p_hat2) <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.5213774</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a>(p_hat1 <span class="sc">-</span> p_hat2) <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.1071941</code></pre>
 </div>
 </div>
 <p>The interval lies entirely below zero, which agrees with the decision to reject <span class="math inline">H_0</span> in Example 9-9.</p>
@@ -2050,20 +2035,19 @@ n                     250          150</code></pre>
 <h2>The F Family of Curves in R</h2>
 <p><strong>Draw figure</strong> — Figure 9-10: several <span class="math inline">F</span> curves with different degrees of freedom.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>f_value <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">5</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
-<span id="cb71-2"><a href=""></a>f_curves <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb71-3"><a href=""></a>  <span class="fu">tibble</span>(f_value, <span class="at">density =</span> <span class="fu">df</span>(f_value,  <span class="dv">3</span>,  <span class="dv">5</span>), <span class="at">degrees =</span> <span class="st">"3, 5"</span>),</span>
-<span id="cb71-4"><a href=""></a>  <span class="fu">tibble</span>(f_value, <span class="at">density =</span> <span class="fu">df</span>(f_value, <span class="dv">10</span>, <span class="dv">10</span>), <span class="at">degrees =</span> <span class="st">"10, 10"</span>),</span>
-<span id="cb71-5"><a href=""></a>  <span class="fu">tibble</span>(f_value, <span class="at">density =</span> <span class="fu">df</span>(f_value, <span class="dv">20</span>, <span class="dv">30</span>), <span class="at">degrees =</span> <span class="st">"20, 30"</span>)</span>
-<span id="cb71-6"><a href=""></a>)</span>
-<span id="cb71-7"><a href=""></a><span class="fu">ggplot</span>(f_curves, <span class="fu">aes</span>(f_value, density, <span class="at">colour =</span> degrees)) <span class="sc">+</span></span>
-<span id="cb71-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
-<span id="cb71-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The F Family of Curves"</span>, <span class="at">x =</span> <span class="st">"F"</span>, <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb71-10"><a href=""></a>       <span class="at">colour =</span> <span class="st">"d.f.N., d.f.D."</span>) <span class="sc">+</span></span>
-<span id="cb71-11"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb123-2"><a href=""></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">f3_5 =</span> <span class="fu">df</span>(x, <span class="dv">3</span>, <span class="dv">5</span>), <span class="at">f10_10 =</span> <span class="fu">df</span>(x, <span class="dv">10</span>, <span class="dv">10</span>),</span>
+<span id="cb123-3"><a href=""></a>                     <span class="at">f20_30 =</span> <span class="fu">df</span>(x, <span class="dv">20</span>, <span class="dv">30</span>))</span>
+<span id="cb123-4"><a href=""></a></span>
+<span id="cb123-5"><a href=""></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb123-6"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> f3_5)) <span class="sc">+</span></span>
+<span id="cb123-7"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> f10_10), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb123-8"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> f20_30), <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb123-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The F Family of Curves"</span>, <span class="at">x =</span> <span class="st">"F"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch9_files/figure-revealjs/s9-6-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>Every curve is positively skewed and begins at <span class="math inline">F = 0</span>.</p>
+<img data-src="ch9_files/figure-revealjs/s9-6-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"><p>The solid line has <span class="math inline">\text{d.f.N.} = 3</span> and <span class="math inline">\text{d.f.D.} = 5</span>, the dashed line <span class="math inline">\text{d.f.N.} = 10</span> and <span class="math inline">\text{d.f.D.} = 10</span>, and the dotted line <span class="math inline">\text{d.f.N.} = 20</span> and <span class="math inline">\text{d.f.D.} = 30</span>.</p>
+<p>Every curve is positively skewed and begins at <span class="math inline">F = 0</span>.</p>
 </section>
 <section id="formula-for-the-f-test" class="slide level2">
 <h2>Formula for the F Test</h2>
@@ -2208,11 +2192,9 @@ n                     250          150</code></pre>
 <div class="callout-content">
 <p>Since this test is right-tailed with <span class="math inline">\alpha = 0.05</span>, use the <span class="math inline">\alpha = 0.05</span> table of Table A-7. The d.f.N. is listed across the top and the d.f.D. in the left column; the critical value is found where row and column intersect. In this case it is <strong>2.34</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb72-2"><a href=""></a>df_numerator <span class="ot">&lt;-</span> <span class="dv">12</span>; df_denominator <span class="ot">&lt;-</span> <span class="dv">18</span></span>
-<span id="cb72-3"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="dv">1</span> <span class="sc">-</span> alpha, df_numerator, df_denominator), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="dv">12</span>, <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.34</code></pre>
+<pre><code>[1] 2.342067</code></pre>
 </div>
 </div>
 </div>
@@ -2248,17 +2230,9 @@ n                     250          150</code></pre>
 <div class="callout-content">
 <p>Since this is a two-tailed test with <span class="math inline">\alpha = 0.05</span>, the <span class="math inline">0.05/2 = 0.025</span> table must be used. Here <span class="math inline">\text{d.f.N.} = 16 - 1 = 15</span> and <span class="math inline">\text{d.f.D.} = 25 - 1 = 24</span>; the critical value is <strong>2.44</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb74-2"><a href=""></a>n_numerator <span class="ot">&lt;-</span> <span class="dv">16</span>; n_denominator <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb74-3"><a href=""></a>df_numerator <span class="ot">&lt;-</span> n_numerator <span class="sc">-</span> <span class="dv">1</span>; df_denominator <span class="ot">&lt;-</span> n_denominator <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb74-4"><a href=""></a><span class="fu">c</span>(<span class="at">dfN =</span> df_numerator, <span class="at">dfD =</span> df_denominator)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">15</span>, <span class="dv">24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>dfN dfD 
- 15  24 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="dv">1</span> <span class="sc">-</span> alpha<span class="sc">/</span><span class="dv">2</span>, df_numerator, df_denominator), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.44</code></pre>
+<pre><code>[1] 2.437429</code></pre>
 </div>
 </div>
 <p>Only the <strong>right</strong> tail is used, because the <span class="math inline">F</span> test statistic is always greater than or equal to 1 when the larger variance is placed in the numerator.</p>
@@ -2318,22 +2292,19 @@ s^2              45.0        23.5</code></pre>
 <div class="callout-content">
 <p><strong>Steps 2-5 in R</strong> — critical value, test statistic, P-value, and decision.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a>var_taoyuan  <span class="ot">&lt;-</span> <span class="fl">45.0</span>; n_taoyuan_picks  <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb79-2"><a href=""></a>var_taichung <span class="ot">&lt;-</span> <span class="fl">23.5</span>; n_taichung_picks <span class="ot">&lt;-</span> <span class="dv">19</span></span>
-<span id="cb79-3"><a href=""></a>df_numerator <span class="ot">&lt;-</span> n_taoyuan_picks <span class="sc">-</span> <span class="dv">1</span>; df_denominator <span class="ot">&lt;-</span> n_taichung_picks <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb79-4"><a href=""></a>f_statistic <span class="ot">&lt;-</span> var_taoyuan <span class="sc">/</span> var_taichung</span>
-<span id="cb79-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">dfN =</span> df_numerator, <span class="at">dfD =</span> df_denominator, <span class="at">F =</span> f_statistic), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href=""></a>f_stat <span class="ot">&lt;-</span> <span class="fl">45.0</span> <span class="sc">/</span> <span class="fl">23.5</span></span>
+<span id="cb129-2"><a href=""></a></span>
+<span id="cb129-3"><a href=""></a>f_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  dfN   dfD     F 
-24.00 18.00  1.91 </code></pre>
+<pre><code>[1] 1.914894</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="fl">0.975</span>, df_numerator, df_denominator), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">24</span>, <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.5</code></pre>
+<pre><code>[1] 2.502697</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pf</span>(f_statistic, df_numerator, df_denominator, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_stat, <span class="dv">24</span>, <span class="dv">18</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.1612</code></pre>
+<pre><code>[1] 0.1611869</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>, since <span class="math inline">1.91 &lt; 2.50</span>. (The P-value is 0.1612.)</p>
@@ -2394,22 +2365,19 @@ s                      0.84          0.55</code></pre>
 <div class="callout-content">
 <p><strong>Steps 2-5 in R</strong> — critical value, test statistic, P-value, and decision.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a>sd_supplier_a <span class="ot">&lt;-</span> <span class="fl">0.84</span>; n_supplier_a <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb86-2"><a href=""></a>sd_supplier_b <span class="ot">&lt;-</span> <span class="fl">0.55</span>; n_supplier_b <span class="ot">&lt;-</span> <span class="dv">16</span></span>
-<span id="cb86-3"><a href=""></a>df_numerator <span class="ot">&lt;-</span> n_supplier_a <span class="sc">-</span> <span class="dv">1</span>; df_denominator <span class="ot">&lt;-</span> n_supplier_b <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb86-4"><a href=""></a>f_statistic <span class="ot">&lt;-</span> sd_supplier_a<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> sd_supplier_b<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb86-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">dfN =</span> df_numerator, <span class="at">dfD =</span> df_denominator, <span class="at">F =</span> f_statistic), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a>f_stat <span class="ot">&lt;-</span> <span class="fl">0.84</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fl">0.55</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb136-2"><a href=""></a></span>
+<span id="cb136-3"><a href=""></a>f_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  dfN   dfD     F 
-11.00 15.00  2.33 </code></pre>
+<pre><code>[1] 2.332562</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qf</span>(<span class="fl">0.99</span>, df_numerator, df_denominator), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a><span class="fu">qf</span>(<span class="fl">0.99</span>, <span class="dv">11</span>, <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3.73</code></pre>
+<pre><code>[1] 3.729902</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pf</span>(f_statistic, df_numerator, df_denominator, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_stat, <span class="dv">11</span>, <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0643</code></pre>
+<pre><code>[1] 0.06434658</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>, since <span class="math inline">2.33 &lt; 3.73</span>.</p>
@@ -2458,7 +2426,7 @@ s                      0.84          0.55</code></pre>
 </div>
 </div>
 </div>
-<p>With R, <code>pf(F, dfN, dfD, lower.tail = FALSE)</code> gives the exact right-tailed P-value directly.</p>
+<p>With R, <code>1 - pf(f_stat, dfN, dfD)</code> gives the exact right-tailed P-value directly.</p>
 </section>
 <section id="example-9-16" class="slide level2">
 <h2>Example 9-16</h2>
@@ -2536,24 +2504,25 @@ s                      0.84          0.55</code></pre>
 <div class="callout-content">
 <p><strong>Steps 2-5 in R</strong> — variances, test statistic, and exact P-value.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a>northern <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">48.2</span>, <span class="fl">61.5</span>, <span class="fl">39.8</span>, <span class="fl">55.3</span>, <span class="fl">44.6</span>, <span class="fl">58.1</span>)</span>
-<span id="cb93-2"><a href=""></a>southern <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">50.4</span>, <span class="fl">41.2</span>, <span class="fl">53.2</span>, <span class="fl">45.9</span>)</span>
-<span id="cb93-3"><a href=""></a>df_numerator <span class="ot">&lt;-</span> <span class="fu">length</span>(northern) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb93-4"><a href=""></a>df_denominator <span class="ot">&lt;-</span> <span class="fu">length</span>(southern) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb93-5"><a href=""></a>f_statistic <span class="ot">&lt;-</span> <span class="fu">var</span>(northern) <span class="sc">/</span> <span class="fu">var</span>(southern)</span>
-<span id="cb93-6"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">var_northern =</span> <span class="fu">var</span>(northern), <span class="at">var_southern =</span> <span class="fu">var</span>(southern)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href=""></a>northern <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">48.2</span>, <span class="fl">61.5</span>, <span class="fl">39.8</span>, <span class="fl">55.3</span>, <span class="fl">44.6</span>, <span class="fl">58.1</span>)</span>
+<span id="cb143-2"><a href=""></a>southern <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">50.4</span>, <span class="fl">41.2</span>, <span class="fl">53.2</span>, <span class="fl">45.9</span>)</span>
+<span id="cb143-3"><a href=""></a>f_stat   <span class="ot">&lt;-</span> <span class="fu">var</span>(northern) <span class="sc">/</span> <span class="fu">var</span>(southern)</span>
+<span id="cb143-4"><a href=""></a></span>
+<span id="cb143-5"><a href=""></a><span class="fu">var</span>(northern)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>var_northern var_southern 
-       70.60        27.68 </code></pre>
+<pre><code>[1] 70.603</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">dfN =</span> df_numerator, <span class="at">dfD =</span> df_denominator, <span class="at">F =</span> f_statistic), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href=""></a><span class="fu">var</span>(southern)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> dfN  dfD    F 
-5.00 3.00 2.55 </code></pre>
+<pre><code>[1] 27.67583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pf</span>(f_statistic, df_numerator, df_denominator, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href=""></a>f_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.235</code></pre>
+<pre><code>[1] 2.55107</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_stat, <span class="dv">5</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2354518</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Do not reject <span class="math inline">H_0</span>, since P-value <span class="math inline">&gt; 0.10</span>. (The exact value from R is 0.235.)</p>

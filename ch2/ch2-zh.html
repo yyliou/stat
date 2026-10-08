@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="劉昱佑">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>統計學</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="本章概覽" class="slide level2">
 <h2>本章概覽</h2>
@@ -466,51 +466,17 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <span id="cb3-3"><a href=""></a>              <span class="st">"E"</span>,<span class="st">"C"</span>,<span class="st">"M"</span>,<span class="st">"D"</span>,<span class="st">"C"</span>,<span class="st">"E"</span>,<span class="st">"M"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,</span>
 <span id="cb3-4"><a href=""></a>              <span class="st">"M"</span>,<span class="st">"C"</span>,<span class="st">"G"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"C"</span>,<span class="st">"M"</span>,<span class="st">"C"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>)</span>
 <span id="cb3-5"><a href=""></a></span>
-<span id="cb3-6"><a href=""></a>payment_freq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(payments) <span class="sc">|&gt;</span></span>
-<span id="cb3-7"><a href=""></a>  <span class="fu">count</span>(payments) <span class="sc">|&gt;</span></span>
-<span id="cb3-8"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">payments =</span> <span class="fu">factor</span>(payments, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"C"</span>,<span class="st">"E"</span>,<span class="st">"M"</span>,<span class="st">"D"</span>,<span class="st">"G"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb3-9"><a href=""></a>  <span class="fu">arrange</span>(payments) <span class="sc">|&gt;</span></span>
-<span id="cb3-10"><a href=""></a>  <span class="fu">rename</span>(<span class="at">Class =</span> payments, <span class="at">Frequency =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb3-11"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Percent =</span> <span class="fu">round</span>(Frequency <span class="sc">/</span> <span class="fu">sum</span>(Frequency) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb3-12"><a href=""></a></span>
-<span id="cb3-13"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(payment_freq, <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Class</th>
-<th style="text-align: center;">Frequency</th>
-<th style="text-align: center;">Percent</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">C</td>
-<td style="text-align: center;">13</td>
-<td style="text-align: center;">32.5</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">E</td>
-<td style="text-align: center;">9</td>
-<td style="text-align: center;">22.5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">M</td>
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">20.0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">D</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">17.5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">G</td>
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">7.5</td>
-</tr>
-</tbody>
-</table>
+<span id="cb3-6"><a href=""></a><span class="fu">table</span>(payments)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>payments
+ C  D  E  G  M 
+13  7  9  3  8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">table</span>(payments) <span class="sc">/</span> <span class="dv">40</span> <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>payments
+   C    D    E    G    M 
+32.5 17.5 22.5  7.5 20.0 </code></pre>
 </div>
 </div>
 </div>
@@ -531,11 +497,10 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解讀</strong></p>
 <p>在這個樣本中，<strong>付現金的人最多</strong>（13人，32.5%），<strong>使用禮券的人最少</strong>（3人，7.5%）。儲值卡9人（22.5%）、行動支付8人（20%）、信用卡7人（17.5%）。加上百分比欄位有助於檢查總和是否為100%——不過因為四捨五入，總和不一定剛好等於100%。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">ggplot</span>(payment_freq, <span class="fu">aes</span>(<span class="at">x =</span> Class, <span class="at">y =</span> Frequency, <span class="at">fill =</span> Class)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Frequency), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"40位顧客的付款方式"</span>,</span>
-<span id="cb4-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"付款方式"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(payments), <span class="fu">aes</span>(payments)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href=""></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb7-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"40位顧客的付款方式"</span>,</span>
+<span id="cb7-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"付款方式"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -825,22 +790,23 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>步驟1——決定組別</strong></p>
 <p><span class="math inline">H = 52</span>、<span class="math inline">L = 18</span>，所以 <span class="math inline">R = 52 - 18 = 34</span>。分成7組時組距為 <span class="math inline">\frac{34}{7} \approx 4.9</span>，<strong>無條件進位</strong>為5。從18起算，下組限依序為18、23、28……；<span class="math inline">23 - 1 = 22</span> 得到第一組的上組限，因此各組為18–22、23–27……。組界則為17.5–22.5、22.5–27.5，依此類推。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>delivery_times <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">27</span>,<span class="dv">35</span>,<span class="dv">29</span>,<span class="dv">22</span>,<span class="dv">40</span>,<span class="dv">30</span>,<span class="dv">26</span>,<span class="dv">33</span>,<span class="dv">28</span>,</span>
-<span id="cb6-2"><a href=""></a>                    <span class="dv">25</span>,<span class="dv">32</span>,<span class="dv">37</span>,<span class="dv">30</span>,<span class="dv">43</span>,<span class="dv">29</span>,<span class="dv">36</span>,<span class="dv">31</span>,<span class="dv">27</span>,<span class="dv">34</span>,</span>
-<span id="cb6-3"><a href=""></a>                    <span class="dv">38</span>,<span class="dv">30</span>,<span class="dv">28</span>,<span class="dv">45</span>,<span class="dv">32</span>,<span class="dv">26</span>,<span class="dv">35</span>,<span class="dv">24</span>,<span class="dv">31</span>,<span class="dv">29</span>,</span>
-<span id="cb6-4"><a href=""></a>                    <span class="dv">18</span>,<span class="dv">34</span>,<span class="dv">41</span>,<span class="dv">32</span>,<span class="dv">27</span>,<span class="dv">52</span>,<span class="dv">30</span>,<span class="dv">36</span>,<span class="dv">25</span>,<span class="dv">39</span>,</span>
-<span id="cb6-5"><a href=""></a>                    <span class="dv">23</span>,<span class="dv">37</span>,<span class="dv">21</span>,<span class="dv">33</span>,<span class="dv">42</span>,<span class="dv">32</span>,<span class="dv">47</span>,<span class="dv">40</span>,<span class="dv">35</span>,<span class="dv">37</span>)</span>
-<span id="cb6-6"><a href=""></a></span>
-<span id="cb6-7"><a href=""></a>highest     <span class="ot">&lt;-</span> <span class="fu">max</span>(delivery_times)</span>
-<span id="cb6-8"><a href=""></a>lowest      <span class="ot">&lt;-</span> <span class="fu">min</span>(delivery_times)</span>
-<span id="cb6-9"><a href=""></a>data_range  <span class="ot">&lt;-</span> highest <span class="sc">-</span> lowest</span>
-<span id="cb6-10"><a href=""></a>class_width <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(data_range <span class="sc">/</span> <span class="dv">7</span>)</span>
-<span id="cb6-11"><a href=""></a></span>
-<span id="cb6-12"><a href=""></a><span class="fu">c</span>(<span class="at">Highest =</span> highest, <span class="at">Lowest =</span> lowest,</span>
-<span id="cb6-13"><a href=""></a>  <span class="at">Range =</span> data_range, <span class="at">Width =</span> class_width)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>delivery_times <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">27</span>,<span class="dv">35</span>,<span class="dv">29</span>,<span class="dv">22</span>,<span class="dv">40</span>,<span class="dv">30</span>,<span class="dv">26</span>,<span class="dv">33</span>,<span class="dv">28</span>,</span>
+<span id="cb9-2"><a href=""></a>                    <span class="dv">25</span>,<span class="dv">32</span>,<span class="dv">37</span>,<span class="dv">30</span>,<span class="dv">43</span>,<span class="dv">29</span>,<span class="dv">36</span>,<span class="dv">31</span>,<span class="dv">27</span>,<span class="dv">34</span>,</span>
+<span id="cb9-3"><a href=""></a>                    <span class="dv">38</span>,<span class="dv">30</span>,<span class="dv">28</span>,<span class="dv">45</span>,<span class="dv">32</span>,<span class="dv">26</span>,<span class="dv">35</span>,<span class="dv">24</span>,<span class="dv">31</span>,<span class="dv">29</span>,</span>
+<span id="cb9-4"><a href=""></a>                    <span class="dv">18</span>,<span class="dv">34</span>,<span class="dv">41</span>,<span class="dv">32</span>,<span class="dv">27</span>,<span class="dv">52</span>,<span class="dv">30</span>,<span class="dv">36</span>,<span class="dv">25</span>,<span class="dv">39</span>,</span>
+<span id="cb9-5"><a href=""></a>                    <span class="dv">23</span>,<span class="dv">37</span>,<span class="dv">21</span>,<span class="dv">33</span>,<span class="dv">42</span>,<span class="dv">32</span>,<span class="dv">47</span>,<span class="dv">40</span>,<span class="dv">35</span>,<span class="dv">37</span>)</span>
+<span id="cb9-6"><a href=""></a></span>
+<span id="cb9-7"><a href=""></a><span class="fu">max</span>(delivery_times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Highest  Lowest   Range   Width 
-     52      18      34       5 </code></pre>
+<pre><code>[1] 52</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">min</span>(delivery_times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>(<span class="fu">max</span>(delivery_times) <span class="sc">-</span> <span class="fu">min</span>(delivery_times)) <span class="sc">/</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.857143</code></pre>
 </div>
 </div>
 </div>
@@ -860,103 +826,22 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟2與3——劃記資料並求出次數</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>class_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">17.5</span>, <span class="fl">52.5</span>, <span class="at">by =</span> class_width)</span>
-<span id="cb8-2"><a href=""></a>class_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"18-22"</span>,<span class="st">"23-27"</span>,<span class="st">"28-32"</span>,<span class="st">"33-37"</span>,</span>
-<span id="cb8-3"><a href=""></a>                  <span class="st">"38-42"</span>,<span class="st">"43-47"</span>,<span class="st">"48-52"</span>)</span>
-<span id="cb8-4"><a href=""></a></span>
-<span id="cb8-5"><a href=""></a>delivery_freq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(delivery_times) <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Class =</span> <span class="fu">cut</span>(delivery_times, <span class="at">breaks =</span> class_breaks,</span>
-<span id="cb8-7"><a href=""></a>                     <span class="at">labels =</span> class_limits)) <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href=""></a>  <span class="fu">count</span>(Class, <span class="at">.drop =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href=""></a>  <span class="fu">rename</span>(<span class="at">Frequency =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-11"><a href=""></a>    <span class="at">Boundaries =</span> <span class="fu">paste0</span>(<span class="fu">head</span>(class_breaks, <span class="sc">-</span><span class="dv">1</span>), <span class="st">"-"</span>, <span class="fu">tail</span>(class_breaks, <span class="sc">-</span><span class="dv">1</span>)),</span>
-<span id="cb8-12"><a href=""></a>    <span class="at">Midpoint   =</span> <span class="fu">head</span>(class_breaks, <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span> class_width <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb8-13"><a href=""></a>    <span class="at">Cumulative =</span> <span class="fu">cumsum</span>(Frequency)</span>
-<span id="cb8-14"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>class_breaks  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">17.5</span>, <span class="fl">52.5</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="cb15-2"><a href=""></a>delivery_freq <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">cut</span>(delivery_times, class_breaks))</span>
+<span id="cb15-3"><a href=""></a>delivery_freq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+(17.5,22.5] (22.5,27.5] (27.5,32.5] (32.5,37.5] (37.5,42.5] (42.5,47.5] 
+          3           9          16          12           6           3 
+(47.5,52.5] 
+          1 </code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 </section>
 <section id="例題-2-2-2" class="slide level2">
-<h2>例題 2-2</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>輸出表格</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(delivery_freq[, <span class="fu">c</span>(<span class="st">"Class"</span>,<span class="st">"Boundaries"</span>,<span class="st">"Midpoint"</span>,<span class="st">"Frequency"</span>)],</span>
-<span id="cb9-2"><a href=""></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"組限"</span>,<span class="st">"組界"</span>,<span class="st">"組中點"</span>,<span class="st">"次數"</span>),</span>
-<span id="cb9-3"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">組限</th>
-<th style="text-align: center;">組界</th>
-<th style="text-align: center;">組中點</th>
-<th style="text-align: center;">次數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">18-22</td>
-<td style="text-align: center;">17.5-22.5</td>
-<td style="text-align: center;">20</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">23-27</td>
-<td style="text-align: center;">22.5-27.5</td>
-<td style="text-align: center;">25</td>
-<td style="text-align: center;">9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">28-32</td>
-<td style="text-align: center;">27.5-32.5</td>
-<td style="text-align: center;">30</td>
-<td style="text-align: center;">16</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">33-37</td>
-<td style="text-align: center;">32.5-37.5</td>
-<td style="text-align: center;">35</td>
-<td style="text-align: center;">12</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">38-42</td>
-<td style="text-align: center;">37.5-42.5</td>
-<td style="text-align: center;">40</td>
-<td style="text-align: center;">6</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">43-47</td>
-<td style="text-align: center;">42.5-47.5</td>
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">48-52</td>
-<td style="text-align: center;">47.5-52.5</td>
-<td style="text-align: center;">50</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="例題-2-2-3" class="slide level2">
 <h2>例題 2-2</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -991,7 +876,7 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 </div>
 <p>做法是把小於或等於該組上組界的各組次數相加。以例題2-2來說，第一組的累積次數是 <span class="math inline">0 + 3 = 3</span>；第二組是 <span class="math inline">0 + 3 + 9 = 12</span>；第三組是 <span class="math inline">0 + 3 + 9 + 16 = 28</span>。更快的做法是把本組次數加上前一組的累積次數：<span class="math inline">12 + 16 = 28</span>。</p>
 </section>
-<section id="例題-2-2-4" class="slide level2">
+<section id="例題-2-2-3" class="slide level2">
 <h2>例題 2-2</h2>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -1004,55 +889,12 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>累積次數分配</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>cumulative_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb10-2"><a href=""></a>  <span class="at">Class      =</span> <span class="fu">paste</span>(<span class="st">"Less than"</span>, class_breaks),</span>
-<span id="cb10-3"><a href=""></a>  <span class="at">Cumulative =</span> <span class="fu">c</span>(<span class="dv">0</span>, delivery_freq<span class="sc">$</span>Cumulative)</span>
-<span id="cb10-4"><a href=""></a>)</span>
-<span id="cb10-5"><a href=""></a></span>
-<span id="cb10-6"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(cumulative_table, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"累積次數"</span>), <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;"></th>
-<th style="text-align: center;">累積次數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Less than 17.5</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Less than 22.5</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Less than 27.5</td>
-<td style="text-align: center;">12</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Less than 32.5</td>
-<td style="text-align: center;">28</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Less than 37.5</td>
-<td style="text-align: center;">40</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Less than 42.5</td>
-<td style="text-align: center;">46</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Less than 47.5</td>
-<td style="text-align: center;">49</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Less than 52.5</td>
-<td style="text-align: center;">50</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">cumsum</span>(delivery_freq)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(17.5,22.5] (22.5,27.5] (27.5,32.5] (32.5,37.5] (37.5,42.5] (42.5,47.5] 
+          3          12          28          40          46          49 
+(47.5,52.5] 
+         50 </code></pre>
 </div>
 </div>
 <p>在50筆送達時間中，<strong>28筆小於或等於32分鐘</strong>，<strong>46筆小於或等於42分鐘</strong>。</p>
@@ -1113,17 +955,23 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>步驟1到3——決定組別、劃記並求出次數</strong></p>
 <p>由於全距很小（<span class="math inline">9 - 2 = 7</span>），可以用單一資料值作為組別：2、3、4、5、6、7、8、9。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>basket_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>,</span>
-<span id="cb12-2"><a href=""></a>                  <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>,</span>
-<span id="cb12-3"><a href=""></a>                  <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">3</span>,</span>
-<span id="cb12-4"><a href=""></a>                  <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">4</span>,</span>
-<span id="cb12-5"><a href=""></a>                  <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>)</span>
-<span id="cb12-6"><a href=""></a></span>
-<span id="cb12-7"><a href=""></a>basket_freq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(basket_items) <span class="sc">|&gt;</span></span>
-<span id="cb12-8"><a href=""></a>  <span class="fu">count</span>(basket_items) <span class="sc">|&gt;</span></span>
-<span id="cb12-9"><a href=""></a>  <span class="fu">rename</span>(<span class="at">Class =</span> basket_items, <span class="at">Frequency =</span> n) <span class="sc">|&gt;</span></span>
-<span id="cb12-10"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Boundaries =</span> <span class="fu">paste0</span>(Class <span class="sc">-</span> <span class="fl">0.5</span>, <span class="st">"-"</span>, Class <span class="sc">+</span> <span class="fl">0.5</span>),</span>
-<span id="cb12-11"><a href=""></a>         <span class="at">Cumulative =</span> <span class="fu">cumsum</span>(Frequency))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>basket_items <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>,</span>
+<span id="cb20-2"><a href=""></a>                  <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">6</span>,</span>
+<span id="cb20-3"><a href=""></a>                  <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">3</span>,</span>
+<span id="cb20-4"><a href=""></a>                  <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">4</span>,</span>
+<span id="cb20-5"><a href=""></a>                  <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>)</span>
+<span id="cb20-6"><a href=""></a></span>
+<span id="cb20-7"><a href=""></a><span class="fu">table</span>(basket_items)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>basket_items
+2 3 4 5 6 7 8 9 
+2 5 7 6 4 3 2 1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">cumsum</span>(<span class="fu">table</span>(basket_items))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 2  3  4  5  6  7  8  9 
+ 2  7 14 20 24 27 29 30 </code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1140,91 +988,8 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟4——列出次數分配表</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(basket_freq[, <span class="fu">c</span>(<span class="st">"Class"</span>,<span class="st">"Boundaries"</span>,<span class="st">"Frequency"</span>,<span class="st">"Cumulative"</span>)],</span>
-<span id="cb13-2"><a href=""></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"組限"</span>,<span class="st">"組界"</span>,<span class="st">"次數"</span>,<span class="st">"累積次數"</span>),</span>
-<span id="cb13-3"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">組限</th>
-<th style="text-align: center;">組界</th>
-<th style="text-align: center;">次數</th>
-<th style="text-align: center;">累積次數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">1.5-2.5</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">2.5-3.5</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">3.5-4.5</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">14</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">4.5-5.5</td>
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">5.5-6.5</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">24</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">6.5-7.5</td>
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">27</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">7.5-8.5</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">29</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">9</td>
-<td style="text-align: center;">8.5-9.5</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">30</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="例題-2-3-2" class="slide level2">
-<h2>例題 2-3</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
 <p><strong>解讀</strong></p>
-<p>在這筆資料中，<strong>有7個購物籃裝了4件商品，是次數最多的一組</strong>。從累積次數欄可以讀出：14個購物籃的件數少於4.5件，27個少於7.5件，全部30個都少於9.5件。</p>
+<p>在這筆資料中，<strong>有7個購物籃裝了4件商品，是次數最多的一組</strong>。從累積次數可以讀出：14個購物籃的件數少於4.5件，27個少於7.5件，全部30個都少於9.5件。</p>
 <p>要注意，同一筆資料可以用不同的組距、不同的組數或不同的起點，建立出好幾個都正確的次數分配。不論使用哪一種方法，各組都必須<strong>互斥、連續、周延且組距相等</strong>。</p>
 </div>
 </div>
@@ -1372,11 +1137,10 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>繪圖</strong></p>
 <p><span class="math inline">y</span> 軸代表次數，<span class="math inline">x</span> 軸標示組界；以次數作為高度，為每一組畫出垂直長條。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(delivery_times), <span class="fu">aes</span>(<span class="at">x =</span> delivery_times)) <span class="sc">+</span></span>
-<span id="cb14-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> class_breaks, <span class="at">fill =</span> <span class="st">"#4a90d9"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb14-3"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> class_breaks) <span class="sc">+</span></span>
-<span id="cb14-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
-<span id="cb14-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(delivery_times), <span class="fu">aes</span>(delivery_times)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks =</span> class_breaks, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
+<span id="cb24-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1437,61 +1201,20 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>步驟1——求各組的組中點</strong></p>
 <p>組中點由上、下組界相加再除以2求得：<span class="math inline">\frac{17.5 + 22.5}{2} = 20</span>、<span class="math inline">\frac{22.5 + 27.5}{2} = 25</span>，依此類推。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>polygon_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb15-2"><a href=""></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">15</span>, delivery_freq<span class="sc">$</span>Midpoint, <span class="dv">55</span>),</span>
-<span id="cb15-3"><a href=""></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>,  delivery_freq<span class="sc">$</span>Frequency, <span class="dv">0</span>)</span>
-<span id="cb15-4"><a href=""></a>)</span>
-<span id="cb15-5"><a href=""></a></span>
-<span id="cb15-6"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(delivery_freq[, <span class="fu">c</span>(<span class="st">"Boundaries"</span>,<span class="st">"Midpoint"</span>,<span class="st">"Frequency"</span>)],</span>
-<span id="cb15-7"><a href=""></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"組界"</span>,<span class="st">"組中點"</span>,<span class="st">"次數"</span>),</span>
-<span id="cb15-8"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">組界</th>
-<th style="text-align: center;">組中點</th>
-<th style="text-align: center;">次數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">17.5-22.5</td>
-<td style="text-align: center;">20</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">22.5-27.5</td>
-<td style="text-align: center;">25</td>
-<td style="text-align: center;">9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">27.5-32.5</td>
-<td style="text-align: center;">30</td>
-<td style="text-align: center;">16</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">32.5-37.5</td>
-<td style="text-align: center;">35</td>
-<td style="text-align: center;">12</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">37.5-42.5</td>
-<td style="text-align: center;">40</td>
-<td style="text-align: center;">6</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">42.5-47.5</td>
-<td style="text-align: center;">45</td>
-<td style="text-align: center;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">47.5-52.5</td>
-<td style="text-align: center;">50</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>polygon_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">midpoint  =</span> <span class="fu">seq</span>(<span class="dv">15</span>, <span class="dv">55</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb25-2"><a href=""></a>                             <span class="at">frequency =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">16</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb25-3"><a href=""></a>polygon_points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  midpoint frequency
+1       15         0
+2       20         3
+3       25         9
+4       30        16
+5       35        12
+6       40         6
+7       45         3
+8       50         1
+9       55         0</code></pre>
 </div>
 </div>
 </div>
@@ -1512,12 +1235,11 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>輸出圖形</strong></p>
 <p>把相鄰的點連成線段，再從圖形的頭尾各拉一條線回到 <span class="math inline">x</span> 軸，距離等於前一個與後一個組中點應在的位置。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">ggplot</span>(polygon_points, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb16-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb16-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> polygon_points<span class="sc">$</span>x) <span class="sc">+</span></span>
-<span id="cb16-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
-<span id="cb16-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">ggplot</span>(polygon_points, <span class="fu">aes</span>(midpoint, frequency)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb27-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
+<span id="cb27-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1576,22 +1298,19 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟1——求各組的累積次數</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>ogive_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb17-2"><a href=""></a>  <span class="at">x =</span> class_breaks,</span>
-<span id="cb17-3"><a href=""></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, delivery_freq<span class="sc">$</span>Cumulative)</span>
-<span id="cb17-4"><a href=""></a>)</span>
-<span id="cb17-5"><a href=""></a></span>
-<span id="cb17-6"><a href=""></a>ogive_points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>ogive_points <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">boundary   =</span> class_breaks,</span>
+<span id="cb28-2"><a href=""></a>                           <span class="at">cumulative =</span> <span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">16</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">1</span>)))</span>
+<span id="cb28-3"><a href=""></a>ogive_points</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     x  y
-1 17.5  0
-2 22.5  3
-3 27.5 12
-4 32.5 28
-5 37.5 40
-6 42.5 46
-7 47.5 49
-8 52.5 50</code></pre>
+<pre><code>  boundary cumulative
+1     17.5          0
+2     22.5          3
+3     27.5         12
+4     32.5         28
+5     37.5         40
+6     42.5         46
+7     47.5         49
+8     52.5         50</code></pre>
 </div>
 </div>
 <p>在每一組的<strong>上組界</strong>畫出累積次數，再把圖形延伸回第一組的下組界17.5，落在 <span class="math inline">x</span> 軸上。</p>
@@ -1612,16 +1331,11 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>輸出圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">ggplot</span>(ogive_points, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#5cb85c"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#5cb85c"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb19-4"><a href=""></a>  <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="fl">32.5</span>, <span class="at">xend =</span> <span class="fl">32.5</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">yend =</span> <span class="dv">28</span>,</span>
-<span id="cb19-5"><a href=""></a>               <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
-<span id="cb19-6"><a href=""></a>  <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="fl">17.5</span>, <span class="at">xend =</span> <span class="fl">32.5</span>, <span class="at">y =</span> <span class="dv">28</span>, <span class="at">yend =</span> <span class="dv">28</span>,</span>
-<span id="cb19-7"><a href=""></a>               <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
-<span id="cb19-8"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> class_breaks) <span class="sc">+</span></span>
-<span id="cb19-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
-<span id="cb19-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"累積次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">ggplot</span>(ogive_points, <span class="fu">aes</span>(boundary, cumulative)) <span class="sc">+</span></span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb30-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"50筆訂單的送達時間"</span>,</span>
+<span id="cb30-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"送達時間（分鐘）"</span>, <span class="at">y =</span> <span class="st">"累積次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1717,68 +1431,15 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>步驟1與2——求相對次數與累積相對次數</strong></p>
 <p>24.5–31.5這一組的相對次數是 <span class="math inline">\frac{6}{50} = 0.12</span>；31.5–38.5是 <span class="math inline">\frac{13}{50} = 0.26</span>，依此類推。累積相對次數依序為 <span class="math inline">0.12</span>、<span class="math inline">0.38</span>、<span class="math inline">0.76</span>、<span class="math inline">0.92</span>、<span class="math inline">1.00</span>。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>retail_units <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb20-2"><a href=""></a>  <span class="at">lower =</span> <span class="fu">c</span>(<span class="fl">24.5</span>, <span class="fl">31.5</span>, <span class="fl">38.5</span>, <span class="fl">45.5</span>, <span class="fl">52.5</span>),</span>
-<span id="cb20-3"><a href=""></a>  <span class="at">upper =</span> <span class="fu">c</span>(<span class="fl">31.5</span>, <span class="fl">38.5</span>, <span class="fl">45.5</span>, <span class="fl">52.5</span>, <span class="fl">59.5</span>),</span>
-<span id="cb20-4"><a href=""></a>  <span class="at">freq  =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">13</span>, <span class="dv">19</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb20-5"><a href=""></a>) <span class="sc">|&gt;</span></span>
-<span id="cb20-6"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">mid    =</span> (lower <span class="sc">+</span> upper) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb20-7"><a href=""></a>         <span class="at">rel_f  =</span> freq <span class="sc">/</span> <span class="fu">sum</span>(freq),</span>
-<span id="cb20-8"><a href=""></a>         <span class="at">cum_rf =</span> <span class="fu">cumsum</span>(rel_f))</span>
-<span id="cb20-9"><a href=""></a></span>
-<span id="cb20-10"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(retail_units[, <span class="fu">c</span>(<span class="st">"lower"</span>,<span class="st">"upper"</span>,<span class="st">"mid"</span>,<span class="st">"rel_f"</span>,<span class="st">"cum_rf"</span>)],</span>
-<span id="cb20-11"><a href=""></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"下組界"</span>,<span class="st">"上組界"</span>,<span class="st">"組中點"</span>,</span>
-<span id="cb20-12"><a href=""></a>                           <span class="st">"相對次數"</span>,<span class="st">"累積相對次數"</span>),</span>
-<span id="cb20-13"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">下組界</th>
-<th style="text-align: center;">上組界</th>
-<th style="text-align: center;">組中點</th>
-<th style="text-align: center;">相對次數</th>
-<th style="text-align: center;">累積相對次數</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">24.5</td>
-<td style="text-align: center;">31.5</td>
-<td style="text-align: center;">28</td>
-<td style="text-align: center;">0.12</td>
-<td style="text-align: center;">0.12</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">31.5</td>
-<td style="text-align: center;">38.5</td>
-<td style="text-align: center;">35</td>
-<td style="text-align: center;">0.26</td>
-<td style="text-align: center;">0.38</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">38.5</td>
-<td style="text-align: center;">45.5</td>
-<td style="text-align: center;">42</td>
-<td style="text-align: center;">0.38</td>
-<td style="text-align: center;">0.76</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">45.5</td>
-<td style="text-align: center;">52.5</td>
-<td style="text-align: center;">49</td>
-<td style="text-align: center;">0.16</td>
-<td style="text-align: center;">0.92</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">52.5</td>
-<td style="text-align: center;">59.5</td>
-<td style="text-align: center;">56</td>
-<td style="text-align: center;">0.08</td>
-<td style="text-align: center;">1.00</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>frequency <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">13</span>, <span class="dv">19</span>, <span class="dv">8</span>, <span class="dv">4</span>)</span>
+<span id="cb31-2"><a href=""></a></span>
+<span id="cb31-3"><a href=""></a>frequency <span class="sc">/</span> <span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.12 0.26 0.38 0.16 0.08</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">cumsum</span>(frequency <span class="sc">/</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.12 0.38 0.76 0.92 1.00</code></pre>
 </div>
 </div>
 </div>
@@ -1796,28 +1457,23 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>繪圖</strong></p>
+<p><strong>相對次數直方圖</strong></p>
 <p>直方圖與肩形圖的 <span class="math inline">x</span> 軸使用<strong>組界</strong>，次數多邊形的 <span class="math inline">x</span> 軸使用<strong>組中點</strong>；<span class="math inline">y</span> 軸的尺度一律使用比例。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>rel_hist <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(retail_units, <span class="fu">aes</span>(<span class="at">x =</span> mid, <span class="at">y =</span> rel_f)) <span class="sc">+</span></span>
-<span id="cb21-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">7</span>, <span class="at">fill =</span> <span class="st">"#5bc0de"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb21-3"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(retail_units<span class="sc">$</span>lower, <span class="fl">59.5</span>)) <span class="sc">+</span></span>
-<span id="cb21-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對次數直方圖"</span>,</span>
-<span id="cb21-5"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"相對次數"</span>)</span>
-<span id="cb21-6"><a href=""></a></span>
-<span id="cb21-7"><a href=""></a>rel_polygon <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">21</span>, retail_units<span class="sc">$</span>mid, <span class="dv">63</span>),</span>
-<span id="cb21-8"><a href=""></a>                                 <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, retail_units<span class="sc">$</span>rel_f, <span class="dv">0</span>)), <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb21-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-10"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb21-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對次數多邊形"</span>,</span>
-<span id="cb21-12"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"相對次數"</span>)</span>
-<span id="cb21-13"><a href=""></a></span>
-<span id="cb21-14"><a href=""></a>rel_ogive <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">24.5</span>, retail_units<span class="sc">$</span>upper),</span>
-<span id="cb21-15"><a href=""></a>                               <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, retail_units<span class="sc">$</span>cum_rf)), <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb21-16"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#5cb85c"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-17"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#5cb85c"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb21-18"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對累積次數肩形圖"</span>,</span>
-<span id="cb21-19"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"累積相對次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>rel_histogram <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">midpoint =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">42</span>, <span class="dv">49</span>, <span class="dv">56</span>),</span>
+<span id="cb35-2"><a href=""></a>                            <span class="at">rel_freq =</span> frequency <span class="sc">/</span> <span class="dv">50</span>)</span>
+<span id="cb35-3"><a href=""></a></span>
+<span id="cb35-4"><a href=""></a><span class="fu">ggplot</span>(rel_histogram, <span class="fu">aes</span>(midpoint, rel_freq)) <span class="sc">+</span></span>
+<span id="cb35-5"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">7</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb35-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對次數直方圖"</span>,</span>
+<span id="cb35-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"相對次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch2-zh_files/figure-revealjs/e2-7-2-1.png" class="quarto-figure quarto-figure-center" style="width:52.0%"></p>
+</figure>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1834,13 +1490,53 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>輸出圖形</strong></p>
+<p><strong>相對次數多邊形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(rel_hist, rel_polygon, rel_ogive, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>rel_polygon <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">midpoint =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">28</span>, <span class="dv">35</span>, <span class="dv">42</span>, <span class="dv">49</span>, <span class="dv">56</span>, <span class="dv">63</span>),</span>
+<span id="cb36-2"><a href=""></a>                          <span class="at">rel_freq =</span> <span class="fu">c</span>(<span class="dv">0</span>, frequency, <span class="dv">0</span>) <span class="sc">/</span> <span class="dv">50</span>)</span>
+<span id="cb36-3"><a href=""></a></span>
+<span id="cb36-4"><a href=""></a><span class="fu">ggplot</span>(rel_polygon, <span class="fu">aes</span>(midpoint, rel_freq)) <span class="sc">+</span></span>
+<span id="cb36-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb36-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對次數多邊形"</span>,</span>
+<span id="cb36-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"相對次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch2-zh_files/figure-revealjs/e2-7-3-1.png" class="quarto-figure quarto-figure-center" style="width:95.0%"></p>
+<p><img data-src="ch2-zh_files/figure-revealjs/e2-7-3-1.png" class="quarto-figure quarto-figure-center" style="width:52.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="例題-2-7-3" class="slide level2">
+<h2>例題 2-7</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>解題</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>相對累積次數肩形圖</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>rel_ogive <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">boundary =</span> <span class="fu">c</span>(<span class="fl">24.5</span>, <span class="fl">31.5</span>, <span class="fl">38.5</span>, <span class="fl">45.5</span>, <span class="fl">52.5</span>, <span class="fl">59.5</span>),</span>
+<span id="cb37-2"><a href=""></a>                        <span class="at">cum_rel  =</span> <span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="dv">0</span>, frequency)) <span class="sc">/</span> <span class="dv">50</span>)</span>
+<span id="cb37-3"><a href=""></a></span>
+<span id="cb37-4"><a href=""></a><span class="fu">ggplot</span>(rel_ogive, <span class="fu">aes</span>(boundary, cum_rel)) <span class="sc">+</span></span>
+<span id="cb37-5"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb37-6"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb37-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"相對累積次數肩形圖"</span>,</span>
+<span id="cb37-8"><a href=""></a>       <span class="at">x =</span> <span class="st">"樓地板面積（平方公尺）"</span>, <span class="at">y =</span> <span class="st">"累積相對次數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ch2-zh_files/figure-revealjs/e2-7-4-1.png" class="quarto-figure quarto-figure-center" style="width:52.0%"></p>
 </figure>
 </div>
 </div>
@@ -1924,39 +1620,27 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <h2>用 R 看分配的形狀</h2>
 <p><strong>準備資料</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>make_hist <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title, fill_col) {</span>
-<span id="cb23-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> data), <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
-<span id="cb23-5"><a href=""></a>    <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">fill =</span> fill_col, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href=""></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb23-7"><a href=""></a>    <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb23-8"><a href=""></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb38-2"><a href=""></a>shapes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb38-3"><a href=""></a>  <span class="at">shape =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"鐘形"</span>, <span class="st">"均勻形"</span>, <span class="st">"J形"</span>, <span class="st">"反J形"</span>,</span>
+<span id="cb38-4"><a href=""></a>                <span class="st">"右偏"</span>, <span class="st">"左偏"</span>, <span class="st">"雙峰形"</span>, <span class="st">"U形"</span>),</span>
+<span id="cb38-5"><a href=""></a>              <span class="at">each =</span> <span class="dv">500</span>),</span>
+<span id="cb38-6"><a href=""></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="dv">50</span>, <span class="dv">10</span>), <span class="fu">runif</span>(<span class="dv">500</span>, <span class="dv">20</span>, <span class="dv">80</span>), <span class="dv">100</span> <span class="sc">-</span> <span class="fu">rexp</span>(<span class="dv">500</span>, <span class="fl">0.05</span>),</span>
+<span id="cb38-7"><a href=""></a>            <span class="fu">rexp</span>(<span class="dv">500</span>, <span class="fl">0.05</span>), <span class="fu">rgamma</span>(<span class="dv">500</span>, <span class="dv">2</span>, <span class="fl">0.1</span>), <span class="dv">80</span> <span class="sc">-</span> <span class="fu">rgamma</span>(<span class="dv">500</span>, <span class="dv">2</span>, <span class="fl">0.1</span>),</span>
+<span id="cb38-8"><a href=""></a>            <span class="fu">rnorm</span>(<span class="dv">250</span>, <span class="dv">30</span>, <span class="dv">5</span>), <span class="fu">rnorm</span>(<span class="dv">250</span>, <span class="dv">70</span>, <span class="dv">5</span>), <span class="fu">rbeta</span>(<span class="dv">500</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb38-9"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="用-r-看分配的形狀-1" class="slide level2">
 <h2>用 R 看分配的形狀</h2>
-<p><strong>繪圖</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>p_bell  <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="dv">50</span>, <span class="dv">10</span>),     <span class="st">"鐘形"</span>,     <span class="st">"#4a90d9"</span>)</span>
-<span id="cb24-2"><a href=""></a>p_uni   <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">runif</span>(<span class="dv">500</span>, <span class="dv">20</span>, <span class="dv">80</span>),     <span class="st">"均勻形"</span>,   <span class="st">"#f0ad4e"</span>)</span>
-<span id="cb24-3"><a href=""></a>p_j     <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="dv">100</span> <span class="sc">-</span> <span class="fu">rexp</span>(<span class="dv">500</span>, <span class="fl">0.05</span>),  <span class="st">"J形"</span>,      <span class="st">"#34495e"</span>)</span>
-<span id="cb24-4"><a href=""></a>p_rj    <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">rexp</span>(<span class="dv">500</span>, <span class="fl">0.05</span>),        <span class="st">"反J形"</span>,    <span class="st">"#e67e22"</span>)</span>
-<span id="cb24-5"><a href=""></a>p_right <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">rgamma</span>(<span class="dv">500</span>, <span class="dv">2</span>, <span class="fl">0.1</span>),    <span class="st">"右偏"</span>,     <span class="st">"#d9534f"</span>)</span>
-<span id="cb24-6"><a href=""></a>p_left  <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="dv">80</span> <span class="sc">-</span> <span class="fu">rgamma</span>(<span class="dv">500</span>, <span class="dv">2</span>, <span class="fl">0.1</span>), <span class="st">"左偏"</span>,   <span class="st">"#5cb85c"</span>)</span>
-<span id="cb24-7"><a href=""></a>p_bimod <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">250</span>,<span class="dv">30</span>,<span class="dv">5</span>), <span class="fu">rnorm</span>(<span class="dv">250</span>,<span class="dv">70</span>,<span class="dv">5</span>)), <span class="st">"雙峰形"</span>, <span class="st">"#9b59b6"</span>)</span>
-<span id="cb24-8"><a href=""></a>p_u     <span class="ot">&lt;-</span> <span class="fu">make_hist</span>(<span class="fu">c</span>(<span class="fu">rbeta</span>(<span class="dv">500</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>) <span class="sc">*</span> <span class="dv">100</span>),       <span class="st">"U形"</span>,    <span class="st">"#1abc9c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="用-r-看分配的形狀-2" class="slide level2">
-<h2>用 R 看分配的形狀</h2>
 <p><strong>輸出圖形</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p_bell, p_uni, p_j, p_rj,</span>
-<span id="cb25-2"><a href=""></a>                        p_right, p_left, p_bimod, p_u, <span class="at">ncol =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">ggplot</span>(shapes, <span class="fu">aes</span>(value)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href=""></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb39-3"><a href=""></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> shape, <span class="at">scales =</span> <span class="st">"free"</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="ch2-zh_files/figure-revealjs/s2-2-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"></section></section>
+<img data-src="ch2-zh_files/figure-revealjs/s2-2-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:88.0%"></section></section>
 <section>
 <section id="第2-3節其他類型的圖形" class="title-slide slide level1 center" data-background-color="#2c4a6e">
 <h1>第2-3節：其他類型的圖形</h1>
@@ -2047,14 +1731,11 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>準備資料</strong></p>
 <p>畫出並標示 <span class="math inline">x</span> 軸與 <span class="math inline">y</span> 軸。水平長條圖把次數尺度放在 <span class="math inline">x</span> 軸；垂直長條圖則放在 <span class="math inline">y</span> 軸。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>monthly_spending <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb26-2"><a href=""></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Meals off campus"</span>, <span class="st">"Commuting"</span>,</span>
-<span id="cb26-3"><a href=""></a>               <span class="st">"Mobile data plan"</span>, <span class="st">"Study materials"</span>),</span>
-<span id="cb26-4"><a href=""></a>  <span class="at">amount   =</span> <span class="fu">c</span>(<span class="dv">3200</span>, <span class="dv">1500</span>, <span class="dv">750</span>, <span class="dv">480</span>)</span>
-<span id="cb26-5"><a href=""></a>) <span class="sc">|&gt;</span></span>
-<span id="cb26-6"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">category =</span> <span class="fu">factor</span>(category,</span>
-<span id="cb26-7"><a href=""></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Study materials"</span>, <span class="st">"Mobile data plan"</span>,</span>
-<span id="cb26-8"><a href=""></a>                                      <span class="st">"Commuting"</span>, <span class="st">"Meals off campus"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>monthly_spending <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb40-2"><a href=""></a>  <span class="at">category =</span> <span class="fu">c</span>(<span class="st">"Meals off campus"</span>, <span class="st">"Commuting"</span>,</span>
+<span id="cb40-3"><a href=""></a>               <span class="st">"Mobile data plan"</span>, <span class="st">"Study materials"</span>),</span>
+<span id="cb40-4"><a href=""></a>  <span class="at">amount   =</span> <span class="fu">c</span>(<span class="dv">3200</span>, <span class="dv">1500</span>, <span class="dv">750</span>, <span class="dv">480</span>)</span>
+<span id="cb40-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -2073,13 +1754,10 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>繪圖——水平長條圖</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">ggplot</span>(monthly_spending, <span class="fu">aes</span>(<span class="at">x =</span> amount, <span class="at">y =</span> category, <span class="at">fill =</span> category)) <span class="sc">+</span></span>
-<span id="cb27-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb27-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> amount), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb27-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3800</span>)) <span class="sc">+</span></span>
-<span id="cb27-5"><a href=""></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Blues"</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"學生的每月平均花費"</span>,</span>
-<span id="cb27-7"><a href=""></a>       <span class="at">x =</span> <span class="st">"平均金額（新臺幣）"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">ggplot</span>(monthly_spending, <span class="fu">aes</span>(amount, category)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb41-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"學生的每月平均花費"</span>,</span>
+<span id="cb41-4"><a href=""></a>       <span class="at">x =</span> <span class="st">"平均金額（新臺幣）"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2105,12 +1783,10 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>輸出圖形——垂直長條圖</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">ggplot</span>(monthly_spending, <span class="fu">aes</span>(<span class="at">x =</span> category, <span class="at">y =</span> amount, <span class="at">fill =</span> category)) <span class="sc">+</span></span>
-<span id="cb28-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb28-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> amount), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb28-4"><a href=""></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Blues"</span>) <span class="sc">+</span></span>
-<span id="cb28-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"平均花費金額"</span>,</span>
-<span id="cb28-6"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"平均金額（新臺幣）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">ggplot</span>(monthly_spending, <span class="fu">aes</span>(category, amount)) <span class="sc">+</span></span>
+<span id="cb42-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb42-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"平均花費金額"</span>,</span>
+<span id="cb42-4"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"平均金額（新臺幣）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2159,19 +1835,16 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <h2>用 R 畫複合長條圖</h2>
 <p><strong>繪圖</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>store_formats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Convenience"</span>, <span class="st">"Supermarket"</span>, <span class="st">"Hypermarket"</span>)</span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a>store_visits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb29-4"><a href=""></a>  <span class="co"># a factor keeps the formats in size order instead of alphabetical order</span></span>
-<span id="cb29-5"><a href=""></a>  <span class="at">format   =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(store_formats, <span class="at">each =</span> <span class="dv">2</span>), <span class="at">levels =</span> store_formats),</span>
-<span id="cb29-6"><a href=""></a>  <span class="at">day_type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Weekday"</span>, <span class="st">"Weekend"</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
-<span id="cb29-7"><a href=""></a>  <span class="at">visits   =</span> <span class="fu">c</span>(<span class="dv">820</span>, <span class="dv">960</span>, <span class="dv">540</span>, <span class="dv">910</span>, <span class="dv">310</span>, <span class="dv">720</span>)</span>
-<span id="cb29-8"><a href=""></a>)</span>
-<span id="cb29-9"><a href=""></a></span>
-<span id="cb29-10"><a href=""></a><span class="fu">ggplot</span>(store_visits, <span class="fu">aes</span>(<span class="at">x =</span> format, <span class="at">y =</span> visits, <span class="at">fill =</span> day_type)) <span class="sc">+</span></span>
-<span id="cb29-11"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb29-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各店型的平均每日來客數"</span>,</span>
-<span id="cb29-13"><a href=""></a>       <span class="at">x =</span> <span class="st">"店型"</span>, <span class="at">y =</span> <span class="st">"每日來客數"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>store_visits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb43-2"><a href=""></a>  <span class="at">format   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Convenience"</span>, <span class="st">"Supermarket"</span>, <span class="st">"Hypermarket"</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb43-3"><a href=""></a>  <span class="at">day_type =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Weekday"</span>, <span class="st">"Weekend"</span>), <span class="at">times =</span> <span class="dv">3</span>),</span>
+<span id="cb43-4"><a href=""></a>  <span class="at">visits   =</span> <span class="fu">c</span>(<span class="dv">820</span>, <span class="dv">960</span>, <span class="dv">540</span>, <span class="dv">910</span>, <span class="dv">310</span>, <span class="dv">720</span>)</span>
+<span id="cb43-5"><a href=""></a>)</span>
+<span id="cb43-6"><a href=""></a></span>
+<span id="cb43-7"><a href=""></a><span class="fu">ggplot</span>(store_visits, <span class="fu">aes</span>(format, visits, <span class="at">fill =</span> day_type)) <span class="sc">+</span></span>
+<span id="cb43-8"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb43-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各店型的平均每日來客數"</span>,</span>
+<span id="cb43-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"店型"</span>, <span class="at">y =</span> <span class="st">"每日來客數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch2-zh_files/figure-revealjs/s2-3-1-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:48.0%"><p>此圖顯示<strong>每一種店型的週末來客數都高於平日</strong>，而且週末的增幅以<strong>量販店最大</strong>（來客數增加一倍以上），超商最小。</p>
@@ -2252,15 +1925,13 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟1——將資料由大到小排列</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>cart_reasons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb30-2"><a href=""></a>  <span class="at">reason  =</span> <span class="fu">c</span>(<span class="st">"Shipping cost"</span>,<span class="st">"Slow delivery"</span>,<span class="st">"Checkout steps"</span>,</span>
-<span id="cb30-3"><a href=""></a>              <span class="st">"Payment options"</span>,<span class="st">"Out of stock"</span>),</span>
-<span id="cb30-4"><a href=""></a>  <span class="at">percent =</span> <span class="fu">c</span>(<span class="dv">41</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">18</span>, <span class="dv">29</span>)</span>
-<span id="cb30-5"><a href=""></a>) <span class="sc">|&gt;</span></span>
-<span id="cb30-6"><a href=""></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(percent)) <span class="sc">|&gt;</span></span>
-<span id="cb30-7"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">reason =</span> <span class="fu">factor</span>(reason, <span class="at">levels =</span> reason))</span>
-<span id="cb30-8"><a href=""></a></span>
-<span id="cb30-9"><a href=""></a>cart_reasons</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>cart_reasons <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-2"><a href=""></a>  <span class="at">reason  =</span> <span class="fu">c</span>(<span class="st">"Shipping cost"</span>, <span class="st">"Slow delivery"</span>, <span class="st">"Checkout steps"</span>,</span>
+<span id="cb44-3"><a href=""></a>              <span class="st">"Payment options"</span>, <span class="st">"Out of stock"</span>),</span>
+<span id="cb44-4"><a href=""></a>  <span class="at">percent =</span> <span class="fu">c</span>(<span class="dv">41</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">18</span>, <span class="dv">29</span>)</span>
+<span id="cb44-5"><a href=""></a>)</span>
+<span id="cb44-6"><a href=""></a></span>
+<span id="cb44-7"><a href=""></a><span class="fu">arrange</span>(cart_reasons, <span class="fu">desc</span>(percent))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           reason percent
 1   Shipping cost      41
@@ -2287,13 +1958,10 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟2與3——畫出並標示座標軸，再以垂直長條表示百分比</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">ggplot</span>(cart_reasons, <span class="fu">aes</span>(<span class="at">x =</span> reason, <span class="at">y =</span> percent, <span class="at">fill =</span> reason)) <span class="sc">+</span></span>
-<span id="cb32-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb32-3"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(percent, <span class="st">"%"</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb32-4"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
-<span id="cb32-5"><a href=""></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Reds"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb32-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"顧客放棄購物車的原因"</span>,</span>
-<span id="cb32-7"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"提及的顧客百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a><span class="fu">ggplot</span>(cart_reasons, <span class="fu">aes</span>(<span class="fu">reorder</span>(reason, <span class="sc">-</span>percent), percent)) <span class="sc">+</span></span>
+<span id="cb46-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb46-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"顧客放棄購物車的原因"</span>,</span>
+<span id="cb46-4"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"提及的顧客百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2403,11 +2071,11 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>準備資料</strong></p>
 <p><span class="math inline">x</span> 軸標示月份，<span class="math inline">y</span> 軸標示千人，再把各點畫上去。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>hotel_visitors <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb33-2"><a href=""></a>  <span class="at">month    =</span> <span class="fu">factor</span>(month.abb, <span class="at">levels =</span> month.abb),</span>
-<span id="cb33-3"><a href=""></a>  <span class="at">visitors =</span> <span class="fu">c</span>(<span class="fl">9.8</span>, <span class="fl">9.1</span>, <span class="fl">7.4</span>, <span class="fl">6.2</span>, <span class="fl">5.5</span>, <span class="fl">4.8</span>,</span>
-<span id="cb33-4"><a href=""></a>               <span class="fl">5.1</span>, <span class="fl">5.4</span>, <span class="fl">6.0</span>, <span class="fl">7.2</span>, <span class="fl">8.6</span>, <span class="fl">10.4</span>)</span>
-<span id="cb33-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>hotel_visitors <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb47-2"><a href=""></a>  <span class="at">month    =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb47-3"><a href=""></a>  <span class="at">visitors =</span> <span class="fu">c</span>(<span class="fl">9.8</span>, <span class="fl">9.1</span>, <span class="fl">7.4</span>, <span class="fl">6.2</span>, <span class="fl">5.5</span>, <span class="fl">4.8</span>,</span>
+<span id="cb47-4"><a href=""></a>               <span class="fl">5.1</span>, <span class="fl">5.4</span>, <span class="fl">6.0</span>, <span class="fl">7.2</span>, <span class="fl">8.6</span>, <span class="fl">10.4</span>)</span>
+<span id="cb47-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -2427,12 +2095,12 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>輸出圖形</strong></p>
 <p>用線段連接相鄰的點；<strong>不要</strong>畫成平滑曲線。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">ggplot</span>(hotel_visitors, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> visitors, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb34-2"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb34-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#d9534f"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb34-4"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
-<span id="cb34-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"溫泉旅館的住客人數"</span>,</span>
-<span id="cb34-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"月份"</span>, <span class="at">y =</span> <span class="st">"住客人數（千人）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a><span class="fu">ggplot</span>(hotel_visitors, <span class="fu">aes</span>(month, visitors)) <span class="sc">+</span></span>
+<span id="cb48-2"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb48-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb48-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb48-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"溫泉旅館的住客人數"</span>,</span>
+<span id="cb48-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"月份"</span>, <span class="at">y =</span> <span class="st">"住客人數（千人）"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2544,59 +2212,15 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟1與2——把各組次數換算成角度與百分比</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>hot_drinks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb35-2"><a href=""></a>  <span class="at">drink =</span> <span class="fu">c</span>(<span class="st">"Latte"</span>,<span class="st">"Americano"</span>,<span class="st">"Milk tea"</span>,<span class="st">"Black tea"</span>,<span class="st">"Hot cocoa"</span>),</span>
-<span id="cb35-3"><a href=""></a>  <span class="at">cups  =</span> <span class="fu">c</span>(<span class="fl">12.7</span>, <span class="fl">9.4</span>, <span class="fl">6.1</span>, <span class="fl">4.8</span>, <span class="fl">3.0</span>)</span>
-<span id="cb35-4"><a href=""></a>) <span class="sc">|&gt;</span></span>
-<span id="cb35-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">drink   =</span> <span class="fu">factor</span>(drink, <span class="at">levels =</span> drink),</span>
-<span id="cb35-6"><a href=""></a>         <span class="at">Degrees =</span> <span class="fu">round</span>(cups <span class="sc">/</span> <span class="fu">sum</span>(cups) <span class="sc">*</span> <span class="dv">360</span>),</span>
-<span id="cb35-7"><a href=""></a>         <span class="at">Percent =</span> <span class="fu">round</span>(cups <span class="sc">/</span> <span class="fu">sum</span>(cups) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span>
-<span id="cb35-8"><a href=""></a></span>
-<span id="cb35-9"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(hot_drinks, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"熱飲"</span>,<span class="st">"杯數（千杯）"</span>,<span class="st">"角度"</span>,<span class="st">"百分比"</span>),</span>
-<span id="cb35-10"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">熱飲</th>
-<th style="text-align: center;">杯數（千杯）</th>
-<th style="text-align: center;">角度</th>
-<th style="text-align: center;">百分比</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Latte</td>
-<td style="text-align: center;">12.7</td>
-<td style="text-align: center;">127</td>
-<td style="text-align: center;">35.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Americano</td>
-<td style="text-align: center;">9.4</td>
-<td style="text-align: center;">94</td>
-<td style="text-align: center;">26.1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Milk tea</td>
-<td style="text-align: center;">6.1</td>
-<td style="text-align: center;">61</td>
-<td style="text-align: center;">16.9</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Black tea</td>
-<td style="text-align: center;">4.8</td>
-<td style="text-align: center;">48</td>
-<td style="text-align: center;">13.3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Hot cocoa</td>
-<td style="text-align: center;">3.0</td>
-<td style="text-align: center;">30</td>
-<td style="text-align: center;">8.3</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a>cups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">12.7</span>, <span class="fl">9.4</span>, <span class="fl">6.1</span>, <span class="fl">4.8</span>, <span class="fl">3.0</span>)</span>
+<span id="cb49-2"><a href=""></a></span>
+<span id="cb49-3"><a href=""></a>cups <span class="sc">/</span> <span class="dv">36</span> <span class="sc">*</span> <span class="dv">360</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 127  94  61  48  30</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>cups <span class="sc">/</span> <span class="dv">36</span> <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35.277778 26.111111 16.944444 13.333333  8.333333</code></pre>
 </div>
 </div>
 <p>角度分別是 <span class="math inline">127^\circ</span>、<span class="math inline">94^\circ</span>、<span class="math inline">61^\circ</span>、<span class="math inline">48^\circ</span>、<span class="math inline">30^\circ</span>；百分比分別是35.3%、26.1%、16.9%、13.3%、8.3%。</p>
@@ -2615,20 +2239,14 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟3——畫出圖形，並在每個扇形標上名稱與百分比</strong></p>
+<p><strong>步驟3——畫出圖形，並標上每個扇形的名稱</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="fu">ggplot</span>(hot_drinks, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> cups, <span class="at">fill =</span> drink)) <span class="sc">+</span></span>
-<span id="cb36-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb36-3"><a href=""></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">"y"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb36-4"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(Percent, <span class="st">"%"</span>)),</span>
-<span id="cb36-5"><a href=""></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
-<span id="cb36-6"><a href=""></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
-<span id="cb36-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"一週熱飲販售量"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb36-8"><a href=""></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">pie</span>(cups, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"拿鐵"</span>, <span class="st">"美式咖啡"</span>, <span class="st">"奶茶"</span>, <span class="st">"紅茶"</span>, <span class="st">"熱可可"</span>),</span>
+<span id="cb53-2"><a href=""></a>    <span class="at">main =</span> <span class="st">"一週熱飲販售量"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch2-zh_files/figure-revealjs/e2-11-2-1.png" class="quarto-figure quarto-figure-center" style="width:46.0%"></p>
+<p><img data-src="ch2-zh_files/figure-revealjs/e2-11-2-1.png" class="quarto-figure quarto-figure-center" style="width:42.0%"></p>
 </figure>
 </div>
 </div>
@@ -2692,47 +2310,15 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟1與2——求各班別的角度與百分比</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>shift_volume <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb37-2"><a href=""></a>  <span class="at">shift    =</span> <span class="fu">c</span>(<span class="st">"Morning"</span>,<span class="st">"Afternoon"</span>,<span class="st">"Night"</span>),</span>
-<span id="cb37-3"><a href=""></a>  <span class="at">packages =</span> <span class="fu">c</span>(<span class="dv">3060</span>, <span class="dv">3240</span>, <span class="dv">2700</span>)</span>
-<span id="cb37-4"><a href=""></a>) <span class="sc">|&gt;</span></span>
-<span id="cb37-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">shift   =</span> <span class="fu">factor</span>(shift, <span class="at">levels =</span> shift),</span>
-<span id="cb37-6"><a href=""></a>         <span class="at">Degrees =</span> <span class="fu">round</span>(packages <span class="sc">/</span> <span class="fu">sum</span>(packages) <span class="sc">*</span> <span class="dv">360</span>),</span>
-<span id="cb37-7"><a href=""></a>         <span class="at">Percent =</span> <span class="fu">round</span>(packages <span class="sc">/</span> <span class="fu">sum</span>(packages) <span class="sc">*</span> <span class="dv">100</span>))</span>
-<span id="cb37-8"><a href=""></a></span>
-<span id="cb37-9"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(shift_volume, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"班別"</span>,<span class="st">"次數"</span>,<span class="st">"角度"</span>,<span class="st">"百分比"</span>),</span>
-<span id="cb37-10"><a href=""></a>             <span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">班別</th>
-<th style="text-align: center;">次數</th>
-<th style="text-align: center;">角度</th>
-<th style="text-align: center;">百分比</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Morning</td>
-<td style="text-align: center;">3060</td>
-<td style="text-align: center;">122</td>
-<td style="text-align: center;">34</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Afternoon</td>
-<td style="text-align: center;">3240</td>
-<td style="text-align: center;">130</td>
-<td style="text-align: center;">36</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Night</td>
-<td style="text-align: center;">2700</td>
-<td style="text-align: center;">108</td>
-<td style="text-align: center;">30</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3060</span>, <span class="dv">3240</span>, <span class="dv">2700</span>)</span>
+<span id="cb54-2"><a href=""></a></span>
+<span id="cb54-3"><a href=""></a>packages <span class="sc">/</span> <span class="dv">9000</span> <span class="sc">*</span> <span class="dv">360</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 122.4 129.6 108.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a>packages <span class="sc">/</span> <span class="dv">9000</span> <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34 36 30</code></pre>
 </div>
 </div>
 <p>早班：<span class="math inline">\frac{3060}{9000}\cdot 360^\circ \approx 122^\circ</span>、34%；中班：<span class="math inline">130^\circ</span>、36%；夜班：<span class="math inline">108^\circ</span>、30%。</p>
@@ -2751,20 +2337,14 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟3——畫出各扇形並標上名稱與百分比</strong></p>
+<p><strong>步驟3——畫出各扇形並標上名稱</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="fu">ggplot</span>(shift_volume, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> packages, <span class="at">fill =</span> shift)) <span class="sc">+</span></span>
-<span id="cb38-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb38-3"><a href=""></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">"y"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb38-4"><a href=""></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(shift, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, Percent, <span class="st">"%"</span>)),</span>
-<span id="cb38-5"><a href=""></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>), <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
-<span id="cb38-6"><a href=""></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#4a90d9"</span>,<span class="st">"#d9534f"</span>,<span class="st">"#5cb85c"</span>)) <span class="sc">+</span></span>
-<span id="cb38-7"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各班別分揀的包裹數"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb38-8"><a href=""></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">pie</span>(packages, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"早班"</span>, <span class="st">"中班"</span>, <span class="st">"夜班"</span>),</span>
+<span id="cb58-2"><a href=""></a>    <span class="at">main =</span> <span class="st">"各班別分揀的包裹數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch2-zh_files/figure-revealjs/e2-12-2-1.png" class="quarto-figure quarto-figure-center" style="width:44.0%"></p>
+<p><img data-src="ch2-zh_files/figure-revealjs/e2-12-2-1.png" class="quarto-figure quarto-figure-center" style="width:42.0%"></p>
 </figure>
 </div>
 </div>
@@ -2826,13 +2406,13 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>準備資料</strong></p>
 <p>最小值為0、最大值為12，因此水平軸需要0到12的刻度。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,</span>
-<span id="cb40-2"><a href=""></a>                <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,</span>
-<span id="cb40-3"><a href=""></a>                <span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
-<span id="cb40-4"><a href=""></a>                <span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>, <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,</span>
-<span id="cb40-5"><a href=""></a>                <span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
-<span id="cb40-6"><a href=""></a></span>
-<span id="cb40-7"><a href=""></a><span class="fu">table</span>(complaints)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>complaints <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,</span>
+<span id="cb60-2"><a href=""></a>                <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,</span>
+<span id="cb60-3"><a href=""></a>                <span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">2</span>, <span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb60-4"><a href=""></a>                <span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>, <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,</span>
+<span id="cb60-5"><a href=""></a>                <span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>, <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb60-6"><a href=""></a></span>
+<span id="cb60-7"><a href=""></a><span class="fu">table</span>(complaints)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>complaints
  0  1  2  3  4  5  6  7  9 12 
@@ -2857,12 +2437,8 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>輸出圖形</strong></p>
 <p>畫一條水平線並標上刻度，再把每一筆資料畫在線的上方；若某數值出現多次，就把後續的點疊在前一個點上面。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(complaints), <span class="fu">aes</span>(<span class="at">x =</span> complaints)) <span class="sc">+</span></span>
-<span id="cb42-2"><a href=""></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">method =</span> <span class="st">"histodot"</span>, <span class="at">dotsize =</span> <span class="fl">0.55</span>,</span>
-<span id="cb42-3"><a href=""></a>               <span class="at">fill =</span> <span class="st">"#2c4a6e"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb42-4"><a href=""></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb42-5"><a href=""></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb42-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"各產品線的客訴件數"</span>, <span class="at">x =</span> <span class="st">"客訴件數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">stripchart</span>(complaints, <span class="at">method =</span> <span class="st">"stack"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">at =</span> <span class="dv">0</span>,</span>
+<span id="cb62-2"><a href=""></a>           <span class="at">main =</span> <span class="st">"各產品線的客訴件數"</span>, <span class="at">xlab =</span> <span class="st">"客訴件數"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -2926,59 +2502,25 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <div class="callout-content">
 <p><strong>步驟1到3——將資料排序、依首位數字分組，再繪圖</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>evening_customers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">33</span>,<span class="dv">22</span>,<span class="dv">41</span>,<span class="dv">13</span>,<span class="dv">54</span>,</span>
-<span id="cb44-2"><a href=""></a>                        <span class="dv">8</span>,<span class="dv">35</span>,<span class="dv">31</span>,<span class="dv">58</span>,<span class="dv">26</span>,</span>
-<span id="cb44-3"><a href=""></a>                       <span class="dv">45</span>,<span class="dv">32</span>,<span class="dv">17</span>,<span class="dv">38</span>,<span class="dv">24</span>,</span>
-<span id="cb44-4"><a href=""></a>                       <span class="dv">51</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">36</span>,<span class="dv">42</span>)</span>
-<span id="cb44-5"><a href=""></a></span>
-<span id="cb44-6"><a href=""></a>leaves_by_stem <span class="ot">&lt;-</span> <span class="cf">function</span>(values, lower_limits, width, <span class="at">decreasing =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb44-7"><a href=""></a>  <span class="fu">vapply</span>(lower_limits, <span class="cf">function</span>(lo) {</span>
-<span id="cb44-8"><a href=""></a>    in_row <span class="ot">&lt;-</span> values[values <span class="sc">&gt;=</span> lo <span class="sc">&amp;</span> values <span class="sc">&lt;</span> lo <span class="sc">+</span> width]</span>
-<span id="cb44-9"><a href=""></a>    <span class="fu">paste</span>(<span class="fu">sort</span>(in_row <span class="sc">%%</span> <span class="dv">10</span>, <span class="at">decreasing =</span> decreasing), <span class="at">collapse =</span> <span class="st">" "</span>)</span>
-<span id="cb44-10"><a href=""></a>  }, <span class="fu">character</span>(<span class="dv">1</span>))</span>
-<span id="cb44-11"><a href=""></a>}</span>
-<span id="cb44-12"><a href=""></a></span>
-<span id="cb44-13"><a href=""></a>stem_rows <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb44-14"><a href=""></a><span class="fu">data.frame</span>(<span class="at">Stem   =</span> stem_rows <span class="sc">%/%</span> <span class="dv">10</span>,</span>
-<span id="cb44-15"><a href=""></a>           <span class="at">Leaves =</span> <span class="fu">leaves_by_stem</span>(evening_customers, stem_rows, <span class="at">width =</span> <span class="dv">10</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb44-16"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Stem</th>
-<th style="text-align: center;">Leaves</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">8</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">3 7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">2 4 6</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">1 2 3 3 5 6 8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">1 2 5 7</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">1 4 8</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>evening_customers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">33</span>,<span class="dv">22</span>,<span class="dv">41</span>,<span class="dv">13</span>,<span class="dv">54</span>,</span>
+<span id="cb64-2"><a href=""></a>                        <span class="dv">8</span>,<span class="dv">35</span>,<span class="dv">31</span>,<span class="dv">58</span>,<span class="dv">26</span>,</span>
+<span id="cb64-3"><a href=""></a>                       <span class="dv">45</span>,<span class="dv">32</span>,<span class="dv">17</span>,<span class="dv">38</span>,<span class="dv">24</span>,</span>
+<span id="cb64-4"><a href=""></a>                       <span class="dv">51</span>,<span class="dv">33</span>,<span class="dv">47</span>,<span class="dv">36</span>,<span class="dv">42</span>)</span>
+<span id="cb64-5"><a href=""></a></span>
+<span id="cb64-6"><a href=""></a><span class="fu">stem</span>(evening_customers, <span class="at">scale =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+  0 | 8
+  1 | 37
+  2 | 246
+  3 | 1233568
+  4 | 1257
+  5 | 148</code></pre>
 </div>
 </div>
+<p><code>scale = 2</code> 讓每個莖各佔一列。若某一組沒有資料，仍要寫出莖的數字，並讓葉的那一列<strong>留白</strong>——不要填0。</p>
 </div>
 </div>
 </div>
@@ -2994,39 +2536,8 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p>若某一組沒有資料，仍要寫出莖的數字，並讓葉的那一列<strong>留白</strong>——不要填0。</p>
-<p><strong>步驟4——用內建函式 <code>stem()</code> 驗證</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">stem</span>(evening_customers, <span class="at">scale =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  The decimal point is 1 digit(s) to the right of the |
-
-  0 | 8
-  1 | 37
-  2 | 246
-  3 | 1233568
-  4 | 1257
-  5 | 148</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="例題-2-14-2" class="slide level2">
-<h2>例題 2-14</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>解題</strong></p>
-</div>
-<div class="callout-content">
 <p><strong>解讀</strong></p>
-<p>此圖顯示分配<strong>在中間出現峰值</strong>，而且資料中<strong>沒有間隙</strong>。20個晚上中有<strong>7個晚上</strong>的來客數落在 <strong>31 到 38</strong> 之間。圖中也顯示該攤位單晚最少 <strong>8</strong> 位、最多 <strong>58</strong> 位來客。內建函式 <code>stem()</code> 印出的結果，莖與葉完全相同，可以用來快速驗證手工做出來的莖葉圖。</p>
+<p>此圖顯示分配<strong>在中間出現峰值</strong>，而且資料中<strong>沒有間隙</strong>。20個晚上中有<strong>7個晚上</strong>的來客數落在 <strong>31 到 38</strong> 之間。圖中也顯示該攤位單晚最少 <strong>8</strong> 位、最多 <strong>58</strong> 位來客。</p>
 <p>分析莖葉圖時，要找出<strong>峰值與間隙</strong>，判斷分配是<strong>對稱還是偏斜</strong>，並由資料的分散範圍檢視其<strong>變異程度</strong>。</p>
 </div>
 </div>
@@ -3068,52 +2579,24 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>步驟1到3——將資料排序、依組別分開，再繪圖</strong></p>
 <p>因為每組寬度為5，所以每個莖要<strong>重複兩次</strong>：一次放葉0–4，一次放葉5–9。</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>pallets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">57</span>,<span class="dv">63</span>,<span class="dv">50</span>,<span class="dv">66</span>,<span class="dv">55</span>,</span>
-<span id="cb48-2"><a href=""></a>             <span class="dv">69</span>,<span class="dv">52</span>,<span class="dv">58</span>,<span class="dv">61</span>,<span class="dv">76</span>,</span>
-<span id="cb48-3"><a href=""></a>             <span class="dv">54</span>,<span class="dv">67</span>,<span class="dv">59</span>,<span class="dv">65</span>,<span class="dv">60</span>,</span>
-<span id="cb48-4"><a href=""></a>             <span class="dv">71</span>,<span class="dv">56</span>,<span class="dv">64</span>,<span class="dv">51</span>,<span class="dv">68</span>,</span>
-<span id="cb48-5"><a href=""></a>             <span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">57</span>,<span class="dv">78</span>,<span class="dv">55</span>,</span>
-<span id="cb48-6"><a href=""></a>             <span class="dv">59</span>,<span class="dv">73</span>,<span class="dv">66</span>,<span class="dv">63</span>,<span class="dv">69</span>)</span>
-<span id="cb48-7"><a href=""></a></span>
-<span id="cb48-8"><a href=""></a>class_rows <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">50</span>, <span class="dv">75</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
-<span id="cb48-9"><a href=""></a><span class="fu">data.frame</span>(<span class="at">Stem   =</span> class_rows <span class="sc">%/%</span> <span class="dv">10</span>,</span>
-<span id="cb48-10"><a href=""></a>           <span class="at">Leaves =</span> <span class="fu">leaves_by_stem</span>(pallets, class_rows, <span class="at">width =</span> <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb48-11"><a href=""></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Stem</th>
-<th style="text-align: center;">Leaves</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">0 1 2 3 4</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">5 5 6 7 7 8 9 9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">0 1 2 3 3 4</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">5 6 6 7 8 9 9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">1 3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">6 8</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a>pallets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">57</span>,<span class="dv">63</span>,<span class="dv">50</span>,<span class="dv">66</span>,<span class="dv">55</span>,</span>
+<span id="cb67-2"><a href=""></a>             <span class="dv">69</span>,<span class="dv">52</span>,<span class="dv">58</span>,<span class="dv">61</span>,<span class="dv">76</span>,</span>
+<span id="cb67-3"><a href=""></a>             <span class="dv">54</span>,<span class="dv">67</span>,<span class="dv">59</span>,<span class="dv">65</span>,<span class="dv">60</span>,</span>
+<span id="cb67-4"><a href=""></a>             <span class="dv">71</span>,<span class="dv">56</span>,<span class="dv">64</span>,<span class="dv">51</span>,<span class="dv">68</span>,</span>
+<span id="cb67-5"><a href=""></a>             <span class="dv">53</span>,<span class="dv">62</span>,<span class="dv">57</span>,<span class="dv">78</span>,<span class="dv">55</span>,</span>
+<span id="cb67-6"><a href=""></a>             <span class="dv">59</span>,<span class="dv">73</span>,<span class="dv">66</span>,<span class="dv">63</span>,<span class="dv">69</span>)</span>
+<span id="cb67-7"><a href=""></a></span>
+<span id="cb67-8"><a href=""></a><span class="fu">stem</span>(pallets)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+  5 | 01234
+  5 | 55677899
+  6 | 012334
+  6 | 5667899
+  7 | 13
+  7 | 68</code></pre>
 </div>
 </div>
 <p>此分配沒有間隙；最大的一組55–59在30天中佔了8天。</p>
@@ -3171,56 +2654,34 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟1與2——將兩筆資料各自排序，並以共用的莖繪圖</strong></p>
+<p><strong>步驟1與2——用 <code>stem()</code> 將兩筆資料各自排序</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>taipei    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">64</span>,<span class="dv">57</span>,<span class="dv">52</span>,<span class="dv">45</span>,<span class="dv">60</span>, <span class="dv">55</span>,<span class="dv">38</span>,<span class="dv">68</span>,<span class="dv">50</span>,<span class="dv">62</span>, <span class="dv">63</span>,<span class="dv">44</span>,<span class="dv">58</span>,<span class="dv">70</span>,<span class="dv">41</span>,</span>
-<span id="cb50-2"><a href=""></a>               <span class="dv">69</span>,<span class="dv">53</span>,<span class="dv">61</span>,<span class="dv">66</span>,<span class="dv">56</span>, <span class="dv">73</span>,<span class="dv">58</span>,<span class="dv">49</span>,<span class="dv">45</span>,<span class="dv">64</span>)</span>
-<span id="cb50-3"><a href=""></a>taichung  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>,<span class="dv">53</span>,<span class="dv">44</span>,<span class="dv">36</span>,<span class="dv">47</span>, <span class="dv">61</span>,<span class="dv">55</span>,<span class="dv">40</span>,<span class="dv">35</span>,<span class="dv">32</span>, <span class="dv">54</span>,<span class="dv">34</span>,<span class="dv">51</span>,<span class="dv">43</span>,<span class="dv">36</span>,</span>
-<span id="cb50-4"><a href=""></a>               <span class="dv">48</span>,<span class="dv">41</span>,<span class="dv">39</span>,<span class="dv">50</span>,<span class="dv">72</span>, <span class="dv">58</span>,<span class="dv">42</span>,<span class="dv">66</span>,<span class="dv">45</span>,<span class="dv">55</span>)</span>
-<span id="cb50-5"><a href=""></a></span>
-<span id="cb50-6"><a href=""></a>stem_rows <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">30</span>, <span class="dv">70</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb50-7"><a href=""></a><span class="fu">data.frame</span>(</span>
-<span id="cb50-8"><a href=""></a>  <span class="at">Taipei   =</span> <span class="fu">leaves_by_stem</span>(taipei, stem_rows, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb50-9"><a href=""></a>  <span class="at">Stem     =</span> stem_rows <span class="sc">%/%</span> <span class="dv">10</span>,</span>
-<span id="cb50-10"><a href=""></a>  <span class="at">Taichung =</span> <span class="fu">leaves_by_stem</span>(taichung, stem_rows, <span class="at">width =</span> <span class="dv">10</span>)</span>
-<span id="cb50-11"><a href=""></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">align =</span> <span class="st">"c"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: center;">Taipei</th>
-<th style="text-align: center;">Stem</th>
-<th style="text-align: center;">Taichung</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">8</td>
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">2 4 5 6 6 9</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">9 5 5 4 1</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0 1 2 3 4 5 5 7 8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">8 8 7 6 5 3 2 0</td>
-<td style="text-align: center;">5</td>
-<td style="text-align: center;">0 1 3 4 5 5 8</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">9 8 6 4 4 3 2 1 0</td>
-<td style="text-align: center;">6</td>
-<td style="text-align: center;">1 6</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3 0</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">2</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>taipei   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">64</span>,<span class="dv">57</span>,<span class="dv">52</span>,<span class="dv">45</span>,<span class="dv">60</span>, <span class="dv">55</span>,<span class="dv">38</span>,<span class="dv">68</span>,<span class="dv">50</span>,<span class="dv">62</span>, <span class="dv">63</span>,<span class="dv">44</span>,<span class="dv">58</span>,<span class="dv">70</span>,<span class="dv">41</span>,</span>
+<span id="cb70-2"><a href=""></a>              <span class="dv">69</span>,<span class="dv">53</span>,<span class="dv">61</span>,<span class="dv">66</span>,<span class="dv">56</span>, <span class="dv">73</span>,<span class="dv">58</span>,<span class="dv">49</span>,<span class="dv">45</span>,<span class="dv">64</span>)</span>
+<span id="cb70-3"><a href=""></a>taichung <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>,<span class="dv">53</span>,<span class="dv">44</span>,<span class="dv">36</span>,<span class="dv">47</span>, <span class="dv">61</span>,<span class="dv">55</span>,<span class="dv">40</span>,<span class="dv">35</span>,<span class="dv">32</span>, <span class="dv">54</span>,<span class="dv">34</span>,<span class="dv">51</span>,<span class="dv">43</span>,<span class="dv">36</span>,</span>
+<span id="cb70-4"><a href=""></a>              <span class="dv">48</span>,<span class="dv">41</span>,<span class="dv">39</span>,<span class="dv">50</span>,<span class="dv">72</span>, <span class="dv">58</span>,<span class="dv">42</span>,<span class="dv">66</span>,<span class="dv">45</span>,<span class="dv">55</span>)</span>
+<span id="cb70-5"><a href=""></a></span>
+<span id="cb70-6"><a href=""></a><span class="fu">stem</span>(taipei)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+  3 | 8
+  4 | 14559
+  5 | 02356788
+  6 | 012344689
+  7 | 03</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="fu">stem</span>(taichung)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+  3 | 245669
+  4 | 012345578
+  5 | 0134558
+  6 | 16
+  7 | 2</code></pre>
 </div>
 </div>
 </div>
@@ -3238,7 +2699,43 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <p><strong>解題</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>步驟3——比較兩個分配</strong></p>
+<p><strong>步驟3——把兩張圖背對背排好並比較</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;">台北</th>
+<th style="text-align: center;">莖</th>
+<th style="text-align: left;">台中</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">2 4 5 6 6 9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9 5 5 4 1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">0 1 2 3 4 5 5 7 8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8 8 7 6 5 3 2 0</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">0 1 3 4 5 5 8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9 8 6 4 4 3 2 1 0</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">1 6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3 0</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><strong>台北咖啡店的營收整體高於</strong>台中的咖啡店。</li>
 <li>台北的分配<strong>在60到69出現峰值</strong>，而台中則<strong>在40到49出現峰值</strong>。</li>
@@ -3257,21 +2754,21 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <h2>用 R 看誤導性圖形</h2>
 <p><strong>準備資料</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>vehicles_on_road <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb51-2"><a href=""></a>  <span class="at">maker   =</span> <span class="fu">c</span>(<span class="st">"本廠牌"</span>, <span class="st">"競爭者一"</span>, <span class="st">"競爭者二"</span>),</span>
-<span id="cb51-3"><a href=""></a>  <span class="at">percent =</span> <span class="fu">c</span>(<span class="dv">98</span>, <span class="dv">97</span>, <span class="fl">96.5</span>)</span>
-<span id="cb51-4"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>vehicles_on_road <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb74-2"><a href=""></a>  <span class="at">maker   =</span> <span class="fu">c</span>(<span class="st">"本廠牌"</span>, <span class="st">"競爭者一"</span>, <span class="st">"競爭者二"</span>),</span>
+<span id="cb74-3"><a href=""></a>  <span class="at">percent =</span> <span class="fu">c</span>(<span class="dv">98</span>, <span class="dv">97</span>, <span class="fl">96.5</span>)</span>
+<span id="cb74-4"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="用-r-看誤導性圖形-1" class="slide level2">
 <h2>用 R 看誤導性圖形</h2>
 <p><strong>繪圖——截斷的尺度（95% 到 100%）</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a><span class="fu">ggplot</span>(vehicles_on_road, <span class="fu">aes</span>(maker, percent, <span class="at">fill =</span> maker)) <span class="sc">+</span></span>
-<span id="cb52-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb52-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
-<span id="cb52-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"仍在路上行駛的車輛（尺度95至100）"</span>,</span>
-<span id="cb52-5"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"仍在行駛的百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">ggplot</span>(vehicles_on_road, <span class="fu">aes</span>(maker, percent)) <span class="sc">+</span></span>
+<span id="cb75-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb75-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb75-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"仍在路上行駛的車輛（尺度95至100）"</span>,</span>
+<span id="cb75-5"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"仍在行駛的百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch2-zh_files/figure-revealjs/s2-3-3-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:46.0%"></section>
@@ -3279,11 +2776,11 @@ M  C  G  D  E  C  M  C  C  D</code></pre>
 <h2>用 R 看誤導性圖形</h2>
 <p><strong>輸出圖形——完整的尺度（0% 到 100%）</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">ggplot</span>(vehicles_on_road, <span class="fu">aes</span>(maker, percent, <span class="at">fill =</span> maker)) <span class="sc">+</span></span>
-<span id="cb53-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb53-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
-<span id="cb53-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"仍在路上行駛的車輛（尺度0至100）"</span>,</span>
-<span id="cb53-5"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"仍在行駛的百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a><span class="fu">ggplot</span>(vehicles_on_road, <span class="fu">aes</span>(maker, percent)) <span class="sc">+</span></span>
+<span id="cb76-2"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb76-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb76-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"仍在路上行駛的車輛（尺度0至100）"</span>,</span>
+<span id="cb76-5"><a href=""></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"仍在行駛的百分比"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch2-zh_files/figure-revealjs/s2-3-4-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:46.0%"><p>兩張圖畫的是<strong>完全相同的數字</strong>。截斷座標軸本身並沒有錯——很多時候甚至是必要的——但讀者必須察覺到這件事，並據此解讀圖形。</p>

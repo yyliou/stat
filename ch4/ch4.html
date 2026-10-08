@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -393,14 +393,10 @@ Yu-You Liou
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 36</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>pairs <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">paste0</span>(<span class="st">"("</span>, dice<span class="sc">$</span>green, <span class="st">", "</span>, dice<span class="sc">$</span>orange, <span class="st">")"</span>), <span class="at">nrow =</span> <span class="dv">6</span>)</span>
-<span id="cb3-2"><a href=""></a><span class="fu">dimnames</span>(pairs) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">paste</span>(<span class="st">"Green ="</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), <span class="fu">paste</span>(<span class="st">"Orange ="</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
-<span id="cb3-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pairs, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">caption =</span> <span class="st">"Sample space for two dice"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</div>
 <table class="caption-top">
-<caption>Sample space for two dice</caption>
 <colgroup>
-<col style="width: 12%">
+<col style="width: 11%">
 <col style="width: 14%">
 <col style="width: 14%">
 <col style="width: 14%">
@@ -476,8 +472,6 @@ Yu-You Liou
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 <p>There are <span class="math inline">6 \times 6 = 36</span> outcomes in the sample space.</p>
 </div>
 </div>
@@ -513,17 +507,21 @@ Yu-You Liou
 <p><strong>Build the deck</strong></p>
 <p>There are 4 suits (hearts, diamonds, clubs, and spades) and 13 ranks in each suit (ace through king), so the sample space has 52 outcomes.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>suits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hearts"</span>, <span class="st">"Diamonds"</span>, <span class="st">"Clubs"</span>, <span class="st">"Spades"</span>)</span>
-<span id="cb4-2"><a href=""></a>ranks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>)</span>
-<span id="cb4-3"><a href=""></a>deck  <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">rank =</span> ranks, <span class="at">suit =</span> suits, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a><span class="fu">nrow</span>(deck)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>deck <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">rank =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>),</span>
+<span id="cb3-2"><a href=""></a>                    <span class="at">suit =</span> <span class="fu">c</span>(<span class="st">"Hearts"</span>, <span class="st">"Diamonds"</span>, <span class="st">"Clubs"</span>, <span class="st">"Spades"</span>))</span>
+<span id="cb3-3"><a href=""></a><span class="fu">nrow</span>(deck)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 52</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">head</span>(<span class="fu">paste</span>(deck<span class="sc">$</span>rank, deck<span class="sc">$</span>suit), <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">head</span>(deck)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "A Hearts" "2 Hearts" "3 Hearts" "4 Hearts" "5 Hearts"</code></pre>
+<pre><code>  rank   suit
+1    A Hearts
+2    2 Hearts
+3    3 Hearts
+4    4 Hearts
+5    5 Hearts
+6    6 Hearts</code></pre>
 </div>
 </div>
 </div>
@@ -560,13 +558,19 @@ Yu-You Liou
 <p><strong>Use H for a hit and M for a miss</strong></p>
 <p>Each roll can be classified in two ways, so there are <span class="math inline">2^3 = 8</span> possibilities.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>)</span>
-<span id="cb8-2"><a href=""></a>rolls  <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">third =</span> result, <span class="at">second =</span> result, <span class="at">first =</span> result)</span>
-<span id="cb8-3"><a href=""></a></span>
-<span id="cb8-4"><a href=""></a>outcomes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(rolls<span class="sc">$</span>first, rolls<span class="sc">$</span>second, rolls<span class="sc">$</span>third)</span>
-<span id="cb8-5"><a href=""></a>outcomes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>result <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"M"</span>)</span>
+<span id="cb7-2"><a href=""></a>rolls  <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">first =</span> result, <span class="at">second =</span> result, <span class="at">third =</span> result)</span>
+<span id="cb7-3"><a href=""></a>rolls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "HHH" "HHM" "HMH" "HMM" "MHH" "MHM" "MMH" "MMM"</code></pre>
+<pre><code>  first second third
+1     H      H     H
+2     M      H     H
+3     H      M     H
+4     M      M     H
+5     H      H     M
+6     M      H     M
+7     H      M     M
+8     M      M     M</code></pre>
 </div>
 </div>
 <p>The sample space is HHH, HHM, HMH, HMM, MHH, MHM, MMH, MMM.</p>
@@ -619,76 +623,11 @@ Yu-You Liou
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Prepare the nodes</strong></p>
-<p>Each level of the tree doubles the number of branches, and the nodes at level <span class="math inline">d</span> are spread evenly across the width of the diagram.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>drink <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"I"</span>)</span>
-<span id="cb10-2"><a href=""></a></span>
-<span id="cb10-3"><a href=""></a>tree_level <span class="ot">&lt;-</span> <span class="cf">function</span>(depth) {</span>
-<span id="cb10-4"><a href=""></a>  paths  <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="fu">rep</span>(<span class="fu">list</span>(drink), depth), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-5"><a href=""></a>  labels <span class="ot">&lt;-</span> <span class="fu">do.call</span>(paste0, <span class="fu">rev</span>(paths))</span>
-<span id="cb10-6"><a href=""></a>  <span class="fu">data.frame</span>(<span class="at">label =</span> labels,</span>
-<span id="cb10-7"><a href=""></a>             <span class="at">x =</span> (<span class="fu">seq_along</span>(labels) <span class="sc">-</span> (<span class="fu">length</span>(labels) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="dv">2</span><span class="sc">^</span>depth,</span>
-<span id="cb10-8"><a href=""></a>             <span class="at">y =</span> <span class="dv">3</span> <span class="sc">-</span> depth)</span>
-<span id="cb10-9"><a href=""></a>}</span>
-<span id="cb10-10"><a href=""></a></span>
-<span id="cb10-11"><a href=""></a>nodes <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">label =</span> <span class="st">"Start"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">3</span>),</span>
-<span id="cb10-12"><a href=""></a>               <span class="fu">tree_level</span>(<span class="dv">1</span>), <span class="fu">tree_level</span>(<span class="dv">2</span>), <span class="fu">tree_level</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="example-4-4-2" class="slide level2">
-<h2>Example 4-4</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Solution</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>Draw figure</strong></p>
-<p>Every node except the root hangs from the node whose label is its own label with the last letter removed.</p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>edges <span class="ot">&lt;-</span> nodes <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href=""></a>  <span class="fu">filter</span>(label <span class="sc">!=</span> <span class="st">"Start"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">parent =</span> <span class="fu">if_else</span>(<span class="fu">nchar</span>(label) <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Start"</span>,</span>
-<span id="cb11-4"><a href=""></a>                          <span class="fu">substr</span>(label, <span class="dv">1</span>, <span class="fu">nchar</span>(label) <span class="sc">-</span> <span class="dv">1</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb11-5"><a href=""></a>  <span class="fu">left_join</span>(nodes, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"parent"</span> <span class="ot">=</span> <span class="st">"label"</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"_from"</span>))</span>
-<span id="cb11-6"><a href=""></a></span>
-<span id="cb11-7"><a href=""></a>tree_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(nodes, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb11-8"><a href=""></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> edges, <span class="fu">aes</span>(<span class="at">xend =</span> x_from, <span class="at">yend =</span> y_from),</span>
-<span id="cb11-9"><a href=""></a>               <span class="at">colour =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb11-10"><a href=""></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> label), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="st">"lightyellow"</span>) <span class="sc">+</span></span>
-<span id="cb11-11"><a href=""></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
-<span id="cb11-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tree Diagram for Three Drink Orders"</span>) <span class="sc">+</span></span>
-<span id="cb11-13"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="example-4-4-3" class="slide level2">
-<h2>Example 4-4</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Solution</strong></p>
-</div>
-<div class="callout-content">
-<p><strong>Output figure</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>tree_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ch4_files/figure-revealjs/e4-4-3-1.png" class="quarto-figure quarto-figure-center" style="width:68.0%"></p>
+<p><img data-src="ch4_files/figure-revealjs/e4-4-1-1.png" class="quarto-figure quarto-figure-center" style="width:68.0%"></p>
 </figure>
 </div>
 </div>
@@ -797,14 +736,13 @@ Yu-You Liou
 <p><strong>Count the favourable outcomes</strong></p>
 <p>There are 36 outcomes when two dice are rolled. Four of them add up to 5, namely <span class="math inline">(1, 4)</span>, <span class="math inline">(2, 3)</span>, <span class="math inline">(3, 2)</span>, and <span class="math inline">(4, 1)</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>sums_to_five <span class="ot">&lt;-</span> dice<span class="sc">$</span>green <span class="sc">+</span> dice<span class="sc">$</span>orange <span class="sc">==</span> <span class="dv">5</span></span>
-<span id="cb13-2"><a href=""></a><span class="fu">sum</span>(sums_to_five)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">sum</span>(dice<span class="sc">$</span>green <span class="sc">+</span> dice<span class="sc">$</span>orange <span class="sc">==</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="fu">round</span>(<span class="fu">mean</span>(sums_to_five), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="dv">4</span> <span class="sc">/</span> <span class="dv">36</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.111</code></pre>
+<pre><code>[1] 0.1111111</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{sum of 5}) = \frac{4}{36} = \frac{1}{9} \approx 0.111</span></p>
@@ -842,14 +780,17 @@ Yu-You Liou
 <div class="callout-content">
 <p><strong>Count the outcomes with exactly two iced drinks</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>orders <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">third =</span> drink, <span class="at">second =</span> drink, <span class="at">first =</span> drink)</span>
-<span id="cb17-2"><a href=""></a></span>
-<span id="cb17-3"><a href=""></a>two_iced <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(orders <span class="sc">==</span> <span class="st">"I"</span>) <span class="sc">==</span> <span class="dv">2</span></span>
-<span id="cb17-4"><a href=""></a><span class="fu">paste0</span>(orders<span class="sc">$</span>first, orders<span class="sc">$</span>second, orders<span class="sc">$</span>third)[two_iced]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>drink  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"I"</span>)</span>
+<span id="cb13-2"><a href=""></a>orders <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">first =</span> drink, <span class="at">second =</span> drink, <span class="at">third =</span> drink)</span>
+<span id="cb13-3"><a href=""></a></span>
+<span id="cb13-4"><a href=""></a>orders[<span class="fu">rowSums</span>(orders <span class="sc">==</span> <span class="st">"I"</span>) <span class="sc">==</span> <span class="dv">2</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "HII" "IHI" "IIH"</code></pre>
+<pre><code>  first second third
+4     I      I     H
+6     I      H     I
+7     H      I     I</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a><span class="fu">mean</span>(two_iced)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a><span class="dv">3</span> <span class="sc">/</span> <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.375</code></pre>
 </div>
@@ -900,17 +841,25 @@ c. The ace of spades</code></pre>
 <div class="callout-content">
 <p><strong>Count each event in the 52-card deck</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>card_probs <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb22-2"><a href=""></a>  <span class="at">diamond       =</span> <span class="fu">mean</span>(deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Diamonds"</span>),</span>
-<span id="cb22-3"><a href=""></a>  <span class="at">black         =</span> <span class="fu">mean</span>(deck<span class="sc">$</span>suit <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clubs"</span>, <span class="st">"Spades"</span>)),</span>
-<span id="cb22-4"><a href=""></a>  <span class="at">ace_of_spades =</span> <span class="fu">mean</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">&amp;</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Spades"</span>),</span>
-<span id="cb22-5"><a href=""></a>  <span class="at">ten           =</span> <span class="fu">mean</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"10"</span>),</span>
-<span id="cb22-6"><a href=""></a>  <span class="at">low_card      =</span> <span class="fu">mean</span>(deck<span class="sc">$</span>rank <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>)))</span>
-<span id="cb22-7"><a href=""></a></span>
-<span id="cb22-8"><a href=""></a><span class="fu">round</span>(card_probs, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Diamonds"</span>) <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      diamond         black ace_of_spades           ten      low_card 
-        0.250         0.500         0.019         0.077         0.308 </code></pre>
+<pre><code>[1] 0.25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>suit <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clubs"</span>, <span class="st">"Spades"</span>)) <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">&amp;</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Spades"</span>) <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01923077</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"10"</span>) <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07692308</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>)) <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3076923</code></pre>
 </div>
 </div>
 <p><span class="math inline">P(\text{diamond}) = \tfrac{13}{52} = \tfrac{1}{4} = 0.25</span>; <span class="math inline">P(\text{black}) = \tfrac{26}{52} = \tfrac{1}{2} = 0.5</span>; <span class="math inline">P(\text{ace of spades}) = \tfrac{1}{52} \approx 0.019</span>; <span class="math inline">P(\text{ten}) = \tfrac{4}{52} = \tfrac{1}{13} \approx 0.077</span>; <span class="math inline">P(\text{rank 2 to 5}) = \tfrac{16}{52} = \tfrac{4}{13} \approx 0.308</span>.</p>
@@ -969,13 +918,13 @@ c. The ace of spades</code></pre>
 <div class="callout-content">
 <p><strong>Rule 3 — an impossible event</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>remaining <span class="ot">&lt;-</span> deck[deck<span class="sc">$</span>suit <span class="sc">!=</span> <span class="st">"Hearts"</span>, ]</span>
-<span id="cb24-2"><a href=""></a></span>
-<span id="cb24-3"><a href=""></a><span class="fu">nrow</span>(remaining)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>remaining <span class="ot">&lt;-</span> deck[deck<span class="sc">$</span>suit <span class="sc">!=</span> <span class="st">"Hearts"</span>, ]</span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a><span class="fu">nrow</span>(remaining)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 39</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">mean</span>(remaining<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Hearts"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">sum</span>(remaining<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Hearts"</span>) <span class="sc">/</span> <span class="dv">39</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
@@ -1014,7 +963,7 @@ c. The ace of spades</code></pre>
 <div class="callout-content">
 <p><strong>Rule 4 — a certain event</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">mean</span>(remaining<span class="sc">$</span>suit <span class="sc">!=</span> <span class="st">"Hearts"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">sum</span>(remaining<span class="sc">$</span>suit <span class="sc">!=</span> <span class="st">"Hearts"</span>) <span class="sc">/</span> <span class="dv">39</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
@@ -1087,20 +1036,20 @@ d. Selecting a digit from 0 through 9 that is odd</code></pre>
 <div class="callout-content">
 <p><strong>List the outcomes that are left over</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>month.name[<span class="sc">!</span><span class="fu">startsWith</span>(month.name, <span class="st">"J"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">setdiff</span>(month.name, <span class="fu">c</span>(<span class="st">"January"</span>, <span class="st">"June"</span>, <span class="st">"July"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "February"  "March"     "April"     "May"       "August"    "September"
 [7] "October"   "November"  "December" </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">setdiff</span>(<span class="fu">c</span>(<span class="st">"Mon"</span>, <span class="st">"Tue"</span>, <span class="st">"Wed"</span>, <span class="st">"Thu"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>), <span class="fu">c</span>(<span class="st">"Sat"</span>, <span class="st">"Sun"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">setdiff</span>(<span class="fu">c</span>(<span class="st">"Mon"</span>, <span class="st">"Tue"</span>, <span class="st">"Wed"</span>, <span class="st">"Thu"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>), <span class="fu">c</span>(<span class="st">"Sat"</span>, <span class="st">"Sun"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Mon" "Tue" "Wed" "Thu" "Fri"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">setdiff</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">setdiff</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 3 4 5 6 7 8 9</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">setdiff</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">setdiff</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0 2 4 6 8</code></pre>
 </div>
@@ -1145,8 +1094,7 @@ d. Selecting a digit from 0 through 9 that is odd</code></pre>
 <div class="callout-content">
 <p><strong>Use the complement</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>p_within_one_day <span class="ot">&lt;-</span> <span class="fl">0.58</span></span>
-<span id="cb39-2"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> p_within_one_day</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.58</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.42</code></pre>
 </div>
@@ -1212,50 +1160,15 @@ Bank transfer           4
 <div class="callout-content">
 <p><strong>Apply the empirical probability formula</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a>payment <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb42-2"><a href=""></a>  <span class="at">method    =</span> <span class="fu">c</span>(<span class="st">"Credit card"</span>, <span class="st">"Mobile wallet"</span>, <span class="st">"Store cash"</span>, <span class="st">"Bank transfer"</span>),</span>
-<span id="cb42-3"><a href=""></a>  <span class="at">frequency =</span> <span class="fu">c</span>(<span class="dv">32</span>, <span class="dv">28</span>, <span class="dv">16</span>, <span class="dv">4</span>))</span>
-<span id="cb42-4"><a href=""></a>payment<span class="sc">$</span>rel_freq <span class="ot">&lt;-</span> payment<span class="sc">$</span>frequency <span class="sc">/</span> <span class="fu">sum</span>(payment<span class="sc">$</span>frequency)</span>
-<span id="cb42-5"><a href=""></a></span>
-<span id="cb42-6"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(payment, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">3</span>,</span>
-<span id="cb42-7"><a href=""></a>             <span class="at">caption =</span> <span class="st">"Payment method used (n = 80)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Payment method used (n = 80)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;">method</th>
-<th style="text-align: center;">frequency</th>
-<th style="text-align: center;">rel_freq</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Credit card</td>
-<td style="text-align: center;">32</td>
-<td style="text-align: center;">0.40</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Mobile wallet</td>
-<td style="text-align: center;">28</td>
-<td style="text-align: center;">0.35</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Store cash</td>
-<td style="text-align: center;">16</td>
-<td style="text-align: center;">0.20</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Bank transfer</td>
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">0.05</td>
-</tr>
-</tbody>
-</table>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>payment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">credit_card =</span> <span class="dv">32</span>, <span class="at">mobile_wallet =</span> <span class="dv">28</span>, <span class="at">store_cash =</span> <span class="dv">16</span>, <span class="at">bank_transfer =</span> <span class="dv">4</span>)</span>
+<span id="cb46-2"><a href=""></a>payment <span class="sc">/</span> <span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  credit_card mobile_wallet    store_cash bank_transfer 
+         0.40          0.35          0.20          0.05 </code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{mobile wallet}) = \frac{28}{80} = \frac{7}{20} = 0.35</span></p>
-<p>The relative frequency column is the empirical probability of each category.</p>
+<p>The relative frequencies are the empirical probabilities of the categories.</p>
 </div>
 </div>
 </div>
@@ -1291,71 +1204,23 @@ d. A shopper did not use a bank transfer</code></pre>
 <p><strong>Solution</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>Read the frequency distribution</strong></p>
-<div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a>n_shoppers <span class="ot">&lt;-</span> <span class="fu">sum</span>(payment<span class="sc">$</span>frequency)</span>
-<span id="cb44-2"><a href=""></a>n_shoppers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 80</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(payment[, <span class="fu">c</span>(<span class="st">"method"</span>, <span class="st">"frequency"</span>)], <span class="at">align =</span> <span class="st">"c"</span>,</span>
-<span id="cb46-2"><a href=""></a>             <span class="at">caption =</span> <span class="st">"Payment method used (n = 80)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Payment method used (n = 80)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;">method</th>
-<th style="text-align: center;">frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Credit card</td>
-<td style="text-align: center;">32</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Mobile wallet</td>
-<td style="text-align: center;">28</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Store cash</td>
-<td style="text-align: center;">16</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Bank transfer</td>
-<td style="text-align: center;">4</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="example-4-13-2" class="slide level2">
-<h2>Example 4-13</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Solution</strong></p>
-</div>
-<div class="callout-content">
 <p><strong>Compute the four probabilities</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>n_by_method <span class="ot">&lt;-</span> <span class="fu">setNames</span>(payment<span class="sc">$</span>frequency, payment<span class="sc">$</span>method)</span>
-<span id="cb47-2"><a href=""></a></span>
-<span id="cb47-3"><a href=""></a><span class="fu">c</span>(<span class="at">credit_card       =</span> n_by_method[[<span class="st">"Credit card"</span>]],</span>
-<span id="cb47-4"><a href=""></a>  <span class="at">wallet_or_cash    =</span> n_by_method[[<span class="st">"Mobile wallet"</span>]] <span class="sc">+</span> n_by_method[[<span class="st">"Store cash"</span>]],</span>
-<span id="cb47-5"><a href=""></a>  <span class="at">neither_of_top_two =</span> n_by_method[[<span class="st">"Store cash"</span>]] <span class="sc">+</span> n_by_method[[<span class="st">"Bank transfer"</span>]],</span>
-<span id="cb47-6"><a href=""></a>  <span class="at">not_bank_transfer =</span> n_shoppers <span class="sc">-</span> n_by_method[[<span class="st">"Bank transfer"</span>]]) <span class="sc">/</span> n_shoppers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="dv">32</span> <span class="sc">/</span> <span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       credit_card     wallet_or_cash neither_of_top_two  not_bank_transfer 
-              0.40               0.55               0.25               0.95 </code></pre>
+<pre><code>[1] 0.4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>(<span class="dv">28</span> <span class="sc">+</span> <span class="dv">16</span>) <span class="sc">/</span> <span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.55</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a>(<span class="dv">16</span> <span class="sc">+</span> <span class="dv">4</span>) <span class="sc">/</span> <span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">/</span> <span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.95</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">P(\text{credit card}) = \tfrac{32}{80} = \tfrac{2}{5} = 0.4</span>. <strong>b.</strong> <span class="math inline">\tfrac{28}{80} + \tfrac{16}{80} = \tfrac{44}{80} = \tfrac{11}{20} = 0.55</span>. <strong>c.</strong> Neither means store cash or bank transfer: <span class="math inline">\tfrac{16}{80} + \tfrac{4}{80} = \tfrac{20}{80} = \tfrac{1}{4} = 0.25</span>. <strong>d.</strong> <span class="math inline">1 - \tfrac{4}{80} = \tfrac{76}{80} = \tfrac{19}{20} = 0.95</span>.</p>
@@ -1400,49 +1265,21 @@ d. A shopper did not use a bank transfer</code></pre>
 <div class="callout-content">
 <p><strong>Add the frequencies in each set of classes</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>party <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb50-2"><a href=""></a>  <span class="at">size      =</span> <span class="fu">c</span>(<span class="st">"1 guest"</span>, <span class="st">"2 guests"</span>, <span class="st">"3 guests"</span>, <span class="st">"4 guests"</span>, <span class="st">"5 or more"</span>),</span>
-<span id="cb50-3"><a href=""></a>  <span class="at">frequency =</span> <span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">78</span>, <span class="dv">34</span>, <span class="dv">30</span>, <span class="dv">12</span>))</span>
-<span id="cb50-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(party, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">caption =</span> <span class="st">"Party size at check-in (n = 200)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Party size at check-in (n = 200)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;">size</th>
-<th style="text-align: center;">frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1 guest</td>
-<td style="text-align: center;">46</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2 guests</td>
-<td style="text-align: center;">78</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3 guests</td>
-<td style="text-align: center;">34</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4 guests</td>
-<td style="text-align: center;">30</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5 or more</td>
-<td style="text-align: center;">12</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>counts <span class="ot">&lt;-</span> party<span class="sc">$</span>frequency</span>
-<span id="cb51-2"><a href=""></a><span class="fu">c</span>(<span class="at">two_guests =</span> counts[<span class="dv">2</span>], <span class="at">fewer_than_3 =</span> <span class="fu">sum</span>(counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]),</span>
-<span id="cb51-3"><a href=""></a>  <span class="at">at_most_3 =</span> <span class="fu">sum</span>(counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">at_least_4 =</span> <span class="fu">sum</span>(counts[<span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>])) <span class="sc">/</span> <span class="fu">sum</span>(counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="dv">78</span> <span class="sc">/</span> <span class="dv">200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  two_guests fewer_than_3    at_most_3   at_least_4 
-        0.39         0.62         0.79         0.21 </code></pre>
+<pre><code>[1] 0.39</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>(<span class="dv">46</span> <span class="sc">+</span> <span class="dv">78</span>) <span class="sc">/</span> <span class="dv">200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.62</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a>(<span class="dv">46</span> <span class="sc">+</span> <span class="dv">78</span> <span class="sc">+</span> <span class="dv">34</span>) <span class="sc">/</span> <span class="dv">200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.79</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>(<span class="dv">30</span> <span class="sc">+</span> <span class="dv">12</span>) <span class="sc">/</span> <span class="dv">200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.21</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">0.39</span>. <strong>b.</strong> <span class="math inline">\tfrac{124}{200} = 0.62</span>. <strong>c.</strong> <span class="math inline">\tfrac{158}{200} = 0.79</span>. <strong>d.</strong> <span class="math inline">\tfrac{42}{200} = 0.21</span>.</p>
@@ -1470,19 +1307,16 @@ d. A shopper did not use a bank transfer</code></pre>
 <section id="law-of-large-numbers-in-r" class="slide level2">
 <h2>Law of Large Numbers in R</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
-<span id="cb53-2"><a href=""></a>tosses  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="dv">5000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb53-3"><a href=""></a>running <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">n =</span> <span class="fu">seq_along</span>(tosses),</span>
-<span id="cb53-4"><a href=""></a>                  <span class="at">proportion =</span> <span class="fu">cumsum</span>(tosses) <span class="sc">/</span> <span class="fu">seq_along</span>(tosses))</span>
-<span id="cb53-5"><a href=""></a></span>
-<span id="cb53-6"><a href=""></a><span class="fu">ggplot</span>(running, <span class="fu">aes</span>(n, proportion)) <span class="sc">+</span></span>
-<span id="cb53-7"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb53-8"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb53-9"><a href=""></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb53-10"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of tosses (log scale)"</span>, <span class="at">y =</span> <span class="st">"Proportion of heads"</span>,</span>
-<span id="cb53-11"><a href=""></a>       <span class="at">title =</span> <span class="st">"The proportion of heads approaches 0.5"</span>) <span class="sc">+</span></span>
-<span id="cb53-12"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb53-13"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb66-2"><a href=""></a>tosses  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="dv">5000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-3"><a href=""></a>running <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>, <span class="at">proportion =</span> <span class="fu">cumsum</span>(tosses) <span class="sc">/</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5000</span>)</span>
+<span id="cb66-4"><a href=""></a></span>
+<span id="cb66-5"><a href=""></a><span class="fu">ggplot</span>(running, <span class="fu">aes</span>(n, proportion)) <span class="sc">+</span></span>
+<span id="cb66-6"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb66-7"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb66-8"><a href=""></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb66-9"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The proportion of heads approaches 0.5"</span>,</span>
+<span id="cb66-10"><a href=""></a>       <span class="at">x =</span> <span class="st">"Number of tosses (log scale)"</span>, <span class="at">y =</span> <span class="st">"Proportion of heads"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch4_files/figure-revealjs/s4-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
@@ -1584,9 +1418,7 @@ d. Randomly selecting an order worth less than NTD 500
 <div class="callout-content">
 <p><strong>Look for outcomes the two events share</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>even      <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>)</span>
-<span id="cb55-2"><a href=""></a>greater_4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</span>
-<span id="cb55-3"><a href=""></a><span class="fu">intersect</span>(even, greater_4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a><span class="fu">intersect</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6</code></pre>
 </div>
@@ -1629,22 +1461,21 @@ d. Getting a face card and getting an ace</code></pre>
 <div class="callout-content">
 <p><strong>Count the cards that belong to both events</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>is_king  <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"K"</span></span>
-<span id="cb58-2"><a href=""></a>is_ten   <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"10"</span></span>
-<span id="cb58-3"><a href=""></a>is_queen <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"Q"</span></span>
-<span id="cb58-4"><a href=""></a>is_heart <span class="ot">&lt;-</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Hearts"</span></span>
-<span id="cb58-5"><a href=""></a>is_spade <span class="ot">&lt;-</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Spades"</span></span>
-<span id="cb58-6"><a href=""></a>is_black <span class="ot">&lt;-</span> deck<span class="sc">$</span>suit <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clubs"</span>, <span class="st">"Spades"</span>)</span>
-<span id="cb58-7"><a href=""></a>is_face  <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>)</span>
-<span id="cb58-8"><a href=""></a>is_ace   <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"A"</span></span>
-<span id="cb58-9"><a href=""></a></span>
-<span id="cb58-10"><a href=""></a><span class="fu">c</span>(<span class="at">king_and_ten    =</span> <span class="fu">sum</span>(is_king <span class="sc">&amp;</span> is_ten),</span>
-<span id="cb58-11"><a href=""></a>  <span class="at">queen_and_heart =</span> <span class="fu">sum</span>(is_queen <span class="sc">&amp;</span> is_heart),</span>
-<span id="cb58-12"><a href=""></a>  <span class="at">spade_and_black =</span> <span class="fu">sum</span>(is_spade <span class="sc">&amp;</span> is_black),</span>
-<span id="cb58-13"><a href=""></a>  <span class="at">face_and_ace    =</span> <span class="fu">sum</span>(is_face <span class="sc">&amp;</span> is_ace))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"K"</span> <span class="sc">&amp;</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   king_and_ten queen_and_heart spade_and_black    face_and_ace 
-              0               1              13               0 </code></pre>
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"Q"</span> <span class="sc">&amp;</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Hearts"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Spades"</span> <span class="sc">&amp;</span> deck<span class="sc">$</span>suit <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Clubs"</span>, <span class="st">"Spades"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a><span class="fu">sum</span>(deck<span class="sc">$</span>rank <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>) <span class="sc">&amp;</span> deck<span class="sc">$</span>rank <span class="sc">==</span> <span class="st">"A"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> Mutually exclusive. <strong>b.</strong> Not mutually exclusive — the queen of hearts. <strong>c.</strong> Not mutually exclusive — every spade is a black card. <strong>d.</strong> Mutually exclusive — an ace is not a face card.</p>
@@ -1700,13 +1531,11 @@ d. Getting a face card and getting an ace</code></pre>
 <div class="callout-content">
 <p><strong>The events are mutually exclusive, so add</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>containers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">japan =</span> <span class="dv">48</span>, <span class="at">vietnam =</span> <span class="dv">35</span>, <span class="at">united_states =</span> <span class="dv">57</span>)</span>
-<span id="cb60-2"><a href=""></a></span>
-<span id="cb60-3"><a href=""></a><span class="fu">sum</span>(containers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href=""></a><span class="dv">48</span> <span class="sc">+</span> <span class="dv">35</span> <span class="sc">+</span> <span class="dv">57</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 140</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">sum</span>(containers[<span class="fu">c</span>(<span class="st">"japan"</span>, <span class="st">"united_states"</span>)]) <span class="sc">/</span> <span class="fu">sum</span>(containers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href=""></a><span class="dv">48</span> <span class="sc">/</span> <span class="dv">140</span> <span class="sc">+</span> <span class="dv">57</span> <span class="sc">/</span> <span class="dv">140</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.75</code></pre>
 </div>
@@ -1749,13 +1578,11 @@ Tainan        150</code></pre>
 <div class="callout-content">
 <p><strong>Add the two mutually exclusive probabilities</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href=""></a>staff <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">taoyuan =</span> <span class="dv">180</span>, <span class="at">taichung =</span> <span class="dv">420</span>, <span class="at">tainan =</span> <span class="dv">150</span>)</span>
-<span id="cb65-2"><a href=""></a></span>
-<span id="cb65-3"><a href=""></a><span class="fu">sum</span>(staff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a><span class="dv">180</span> <span class="sc">+</span> <span class="dv">420</span> <span class="sc">+</span> <span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 750</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href=""></a><span class="fu">sum</span>(staff[<span class="fu">c</span>(<span class="st">"taoyuan"</span>, <span class="st">"taichung"</span>)]) <span class="sc">/</span> <span class="fu">sum</span>(staff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a><span class="dv">180</span> <span class="sc">/</span> <span class="dv">750</span> <span class="sc">+</span> <span class="dv">420</span> <span class="sc">/</span> <span class="dv">750</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8</code></pre>
 </div>
@@ -1794,9 +1621,7 @@ Tainan        150</code></pre>
 <div class="callout-content">
 <p><strong>These categories are mutually exclusive</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href=""></a>arrival <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">mrt =</span> <span class="fl">0.46</span>, <span class="at">scooter =</span> <span class="fl">0.28</span>, <span class="at">on_foot =</span> <span class="fl">0.18</span>, <span class="at">car =</span> <span class="fl">0.08</span>)</span>
-<span id="cb69-2"><a href=""></a></span>
-<span id="cb69-3"><a href=""></a><span class="fu">sum</span>(arrival[<span class="fu">c</span>(<span class="st">"scooter"</span>, <span class="st">"on_foot"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a><span class="fl">0.28</span> <span class="sc">+</span> <span class="fl">0.18</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.46</code></pre>
 </div>
@@ -1871,17 +1696,24 @@ P(A \text{ or } B \text{ or } C) = {} &amp; P(A) + P(B) + P(C) \\
 <div class="callout-content">
 <p><strong>Subtract the overlap — the jack, queen, and king of diamonds</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href=""></a>is_diamond <span class="ot">&lt;-</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Diamonds"</span></span>
-<span id="cb71-2"><a href=""></a></span>
-<span id="cb71-3"><a href=""></a><span class="fu">c</span>(<span class="at">face =</span> <span class="fu">sum</span>(is_face), <span class="at">diamond =</span> <span class="fu">sum</span>(is_diamond),</span>
-<span id="cb71-4"><a href=""></a>  <span class="at">both =</span> <span class="fu">sum</span>(is_face <span class="sc">&amp;</span> is_diamond))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a>face    <span class="ot">&lt;-</span> deck<span class="sc">$</span>rank <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"J"</span>, <span class="st">"Q"</span>, <span class="st">"K"</span>)</span>
+<span id="cb90-2"><a href=""></a>diamond <span class="ot">&lt;-</span> deck<span class="sc">$</span>suit <span class="sc">==</span> <span class="st">"Diamonds"</span></span>
+<span id="cb90-3"><a href=""></a></span>
+<span id="cb90-4"><a href=""></a><span class="fu">sum</span>(face)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   face diamond    both 
-     12      13       3 </code></pre>
+<pre><code>[1] 12</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href=""></a><span class="fu">round</span>(<span class="fu">mean</span>(is_face <span class="sc">|</span> is_diamond), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a><span class="fu">sum</span>(diamond)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.423</code></pre>
+<pre><code>[1] 13</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a><span class="fu">sum</span>(face <span class="sc">&amp;</span> diamond)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a><span class="dv">12</span> <span class="sc">/</span> <span class="dv">52</span> <span class="sc">+</span> <span class="dv">13</span> <span class="sc">/</span> <span class="dv">52</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">/</span> <span class="dv">52</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4230769</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{face card or diamond}) = \frac{12}{52} + \frac{13}{52} - \frac{3}{52} = \frac{22}{52} = \frac{11}{26} \approx 0.423</span></p>
@@ -1918,49 +1750,19 @@ P(A \text{ or } B \text{ or } C) = {} &amp; P(A) + P(B) + P(C) \\
 <div class="callout-content">
 <p><strong>Build the contingency table</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href=""></a>visitors <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">9</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb75-2"><a href=""></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Retail buyer"</span>, <span class="st">"Distributor"</span>),</span>
-<span id="cb75-3"><a href=""></a>                                   <span class="fu">c</span>(<span class="st">"Overseas"</span>, <span class="st">"Domestic"</span>)))</span>
-<span id="cb75-4"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">addmargins</span>(visitors), <span class="at">align =</span> <span class="st">"c"</span>,</span>
-<span id="cb75-5"><a href=""></a>             <span class="at">caption =</span> <span class="st">"Trade fair visitors (n = 30)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Trade fair visitors (n = 30)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: center;">Overseas</th>
-<th style="text-align: center;">Domestic</th>
-<th style="text-align: center;">Sum</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Retail buyer</td>
-<td style="text-align: center;">7</td>
-<td style="text-align: center;">11</td>
-<td style="text-align: center;">18</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Distributor</td>
-<td style="text-align: center;">9</td>
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">12</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sum</td>
-<td style="text-align: center;">16</td>
-<td style="text-align: center;">14</td>
-<td style="text-align: center;">30</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>distributor <span class="ot">&lt;-</span> <span class="fu">sum</span>(visitors[<span class="st">"Distributor"</span>, ])</span>
-<span id="cb76-2"><a href=""></a>overseas    <span class="ot">&lt;-</span> <span class="fu">sum</span>(visitors[, <span class="st">"Overseas"</span>])</span>
-<span id="cb76-3"><a href=""></a><span class="fu">round</span>((distributor <span class="sc">+</span> overseas <span class="sc">-</span> visitors[<span class="st">"Distributor"</span>, <span class="st">"Overseas"</span>]) <span class="sc">/</span> <span class="fu">sum</span>(visitors), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a>visitors <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">9</span>, <span class="dv">3</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb98-2"><a href=""></a>                   <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Retail buyer"</span>, <span class="st">"Distributor"</span>),</span>
+<span id="cb98-3"><a href=""></a>                                   <span class="fu">c</span>(<span class="st">"Overseas"</span>, <span class="st">"Domestic"</span>)))</span>
+<span id="cb98-4"><a href=""></a><span class="fu">addmargins</span>(visitors)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.633</code></pre>
+<pre><code>             Overseas Domestic Sum
+Retail buyer        7       11  18
+Distributor         9        3  12
+Sum                16       14  30</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a><span class="dv">12</span> <span class="sc">/</span> <span class="dv">30</span> <span class="sc">+</span> <span class="dv">16</span> <span class="sc">/</span> <span class="dv">30</span> <span class="sc">-</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6333333</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{distributor or overseas}) = \frac{12}{30} + \frac{16}{30} - \frac{9}{30} = \frac{19}{30} \approx 0.633</span></p>
@@ -1997,11 +1799,7 @@ P(A \text{ or } B \text{ or } C) = {} &amp; P(A) + P(B) + P(C) \\
 <div class="callout-content">
 <p><strong>The events are not mutually exclusive</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a>p_inspected <span class="ot">&lt;-</span> <span class="fl">0.24</span></span>
-<span id="cb78-2"><a href=""></a>p_delayed   <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
-<span id="cb78-3"><a href=""></a>p_both      <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
-<span id="cb78-4"><a href=""></a></span>
-<span id="cb78-5"><a href=""></a>p_inspected <span class="sc">+</span> p_delayed <span class="sc">-</span> p_both</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href=""></a><span class="fl">0.24</span> <span class="sc">+</span> <span class="fl">0.15</span> <span class="sc">-</span> <span class="fl">0.09</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3</code></pre>
 </div>
@@ -2083,14 +1881,12 @@ P(A \text{ or } B \text{ or } C) = {} &amp; P(A) + P(B) + P(C) \\
 <div class="callout-content">
 <p><strong>Multiply the two independent probabilities</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a>p_head      <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb80-2"><a href=""></a>p_over_four <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">6</span></span>
-<span id="cb80-3"><a href=""></a><span class="fu">round</span>(p_head <span class="sc">*</span> p_over_four, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href=""></a>(<span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">/</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.167</code></pre>
+<pre><code>[1] 0.1666667</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a>toss_roll <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">coin =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"T"</span>), <span class="at">die =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
-<span id="cb82-2"><a href=""></a><span class="fu">mean</span>(toss_roll<span class="sc">$</span>coin <span class="sc">==</span> <span class="st">"H"</span> <span class="sc">&amp;</span> toss_roll<span class="sc">$</span>die <span class="sc">&gt;</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href=""></a>toss_roll <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">coin =</span> <span class="fu">c</span>(<span class="st">"H"</span>, <span class="st">"T"</span>), <span class="at">die =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb106-2"><a href=""></a><span class="fu">sum</span>(toss_roll<span class="sc">$</span>coin <span class="sc">==</span> <span class="st">"H"</span> <span class="sc">&amp;</span> toss_roll<span class="sc">$</span>die <span class="sc">&gt;</span> <span class="dv">4</span>) <span class="sc">/</span> <span class="dv">12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1666667</code></pre>
 </div>
@@ -2130,11 +1926,9 @@ P(A \text{ or } B \text{ or } C) = {} &amp; P(A) + P(B) + P(C) \\
 <div class="callout-content">
 <p><strong>With replacement the two draws are independent</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a>p_face  <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="sc">/</span> <span class="dv">52</span></span>
-<span id="cb84-2"><a href=""></a>p_spade <span class="ot">&lt;-</span> <span class="dv">13</span> <span class="sc">/</span> <span class="dv">52</span></span>
-<span id="cb84-3"><a href=""></a><span class="fu">round</span>(p_face <span class="sc">*</span> p_spade, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href=""></a>(<span class="dv">12</span> <span class="sc">/</span> <span class="dv">52</span>) <span class="sc">*</span> (<span class="dv">13</span> <span class="sc">/</span> <span class="dv">52</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.058</code></pre>
+<pre><code>[1] 0.05769231</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{face card and then a spade}) = \frac{3}{13} \cdot \frac{1}{4} = \frac{3}{52} \approx 0.058</span></p>
@@ -2174,16 +1968,17 @@ c. Selecting 2 red tokens and then a green token</code></pre>
 <div class="callout-content">
 <p><strong>Every draw has the same probabilities because the token is replaced</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href=""></a>p_red    <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb87-2"><a href=""></a>p_green  <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb87-3"><a href=""></a>p_yellow <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">/</span> <span class="dv">12</span></span>
-<span id="cb87-4"><a href=""></a></span>
-<span id="cb87-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">three_yellow      =</span> p_yellow<span class="sc">^</span><span class="dv">3</span>,</span>
-<span id="cb87-6"><a href=""></a>        <span class="at">green_then_red    =</span> p_green <span class="sc">*</span> p_red,</span>
-<span id="cb87-7"><a href=""></a>        <span class="at">two_red_one_green =</span> p_red<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p_green), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a>(<span class="dv">5</span> <span class="sc">/</span> <span class="dv">12</span>)<span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     three_yellow    green_then_red two_red_one_green 
-            0.072             0.083             0.028 </code></pre>
+<pre><code>[1] 0.07233796</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a>(<span class="dv">3</span> <span class="sc">/</span> <span class="dv">12</span>) <span class="sc">*</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08333333</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">12</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02777778</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">\left(\tfrac{5}{12}\right)^3 = \tfrac{125}{1728} \approx 0.072</span>. <strong>b.</strong> <span class="math inline">\tfrac{3}{12} \cdot \tfrac{4}{12} = \tfrac{1}{12} \approx 0.083</span>. <strong>c.</strong> <span class="math inline">\left(\tfrac{4}{12}\right)^2 \cdot \tfrac{3}{12} = \tfrac{1}{36} \approx 0.028</span>.</p>
@@ -2220,10 +2015,9 @@ c. Selecting 2 red tokens and then a green token</code></pre>
 <div class="callout-content">
 <p><strong>Treat the three selections as independent</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href=""></a>p_wallet <span class="ot">&lt;-</span> <span class="fl">0.45</span></span>
-<span id="cb89-2"><a href=""></a><span class="fu">round</span>(p_wallet<span class="sc">^</span><span class="dv">3</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a><span class="fl">0.45</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.091</code></pre>
+<pre><code>[1] 0.091125</code></pre>
 </div>
 </div>
 <p><span class="math display">P(W \text{ and } W \text{ and } W) = (0.45)(0.45)(0.45) \approx 0.091</span></p>
@@ -2261,8 +2055,7 @@ c. Selecting 2 red tokens and then a green token</code></pre>
 <div class="callout-content">
 <p><strong>Multiply the three probabilities</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href=""></a>p_retry <span class="ot">&lt;-</span> <span class="fl">0.06</span></span>
-<span id="cb91-2"><a href=""></a>p_retry<span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a><span class="fl">0.06</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.000216</code></pre>
 </div>
@@ -2335,10 +2128,7 @@ c. Selecting 2 red tokens and then a green token</code></pre>
 <div class="callout-content">
 <p><strong>Apply multiplication rule 2</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href=""></a>p_escalated <span class="ot">&lt;-</span> <span class="fl">0.045</span></span>
-<span id="cb93-2"><a href=""></a>p_refund_given_escalated <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
-<span id="cb93-3"><a href=""></a></span>
-<span id="cb93-4"><a href=""></a>p_escalated <span class="sc">*</span> p_refund_given_escalated</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a><span class="fl">0.045</span> <span class="sc">*</span> <span class="fl">0.40</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.018</code></pre>
 </div>
@@ -2377,10 +2167,7 @@ c. Selecting 2 red tokens and then a green token</code></pre>
 <div class="callout-content">
 <p><strong>Let <span class="math inline">K</span> = booking a room and <span class="math inline">B</span> = adding breakfast</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href=""></a>p_booking <span class="ot">&lt;-</span> <span class="fl">0.35</span></span>
-<span id="cb95-2"><a href=""></a>p_breakfast_given_booking <span class="ot">&lt;-</span> <span class="fl">0.60</span></span>
-<span id="cb95-3"><a href=""></a></span>
-<span id="cb95-4"><a href=""></a>p_booking <span class="sc">*</span> p_breakfast_given_booking</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a><span class="fl">0.35</span> <span class="sc">*</span> <span class="fl">0.60</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.21</code></pre>
 </div>
@@ -2424,13 +2211,21 @@ d. Getting a red card, a black card, and a red card in order</code></pre>
 <div class="callout-content">
 <p><strong>The denominators drop by one at each draw</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">three_kings    =</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">52</span> <span class="sc">*</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">51</span> <span class="sc">*</span> <span class="dv">2</span><span class="sc">/</span><span class="dv">50</span>,</span>
-<span id="cb98-2"><a href=""></a>        <span class="at">ten_jack_queen =</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">52</span> <span class="sc">*</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">51</span> <span class="sc">*</span> <span class="dv">4</span><span class="sc">/</span><span class="dv">50</span>,</span>
-<span id="cb98-3"><a href=""></a>        <span class="at">three_diamonds =</span> <span class="dv">13</span><span class="sc">/</span><span class="dv">52</span> <span class="sc">*</span> <span class="dv">12</span><span class="sc">/</span><span class="dv">51</span> <span class="sc">*</span> <span class="dv">11</span><span class="sc">/</span><span class="dv">50</span>,</span>
-<span id="cb98-4"><a href=""></a>        <span class="at">red_black_red  =</span> <span class="dv">26</span><span class="sc">/</span><span class="dv">52</span> <span class="sc">*</span> <span class="dv">26</span><span class="sc">/</span><span class="dv">51</span> <span class="sc">*</span> <span class="dv">25</span><span class="sc">/</span><span class="dv">50</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href=""></a>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">52</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">51</span>) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">/</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   three_kings ten_jack_queen three_diamonds  red_black_red 
-        0.0002         0.0005         0.0129         0.1275 </code></pre>
+<pre><code>[1] 0.0001809955</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href=""></a>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">52</span>) <span class="sc">*</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">51</span>) <span class="sc">*</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0004826546</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href=""></a>(<span class="dv">13</span> <span class="sc">/</span> <span class="dv">52</span>) <span class="sc">*</span> (<span class="dv">12</span> <span class="sc">/</span> <span class="dv">51</span>) <span class="sc">*</span> (<span class="dv">11</span> <span class="sc">/</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01294118</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href=""></a>(<span class="dv">26</span> <span class="sc">/</span> <span class="dv">52</span>) <span class="sc">*</span> (<span class="dv">26</span> <span class="sc">/</span> <span class="dv">51</span>) <span class="sc">*</span> (<span class="dv">25</span> <span class="sc">/</span> <span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.127451</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">\tfrac{24}{132{,}600} = \tfrac{1}{5525} \approx 0.0002</span>. <strong>b.</strong> <span class="math inline">\tfrac{64}{132{,}600} = \tfrac{8}{16{,}575} \approx 0.0005</span>. <strong>c.</strong> <span class="math inline">\tfrac{1716}{132{,}600} = \tfrac{11}{850} \approx 0.0129</span>. <strong>d.</strong> <span class="math inline">\tfrac{16{,}900}{132{,}600} = \tfrac{13}{102} \approx 0.1275</span>.</p>
@@ -2467,58 +2262,7 @@ d. Getting a red card, a black card, and a red card in order</code></pre>
 <div class="callout-content">
 <p><strong>Multiply along each branch of the tree diagram</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a>branches <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb100-2"><a href=""></a>  <span class="at">bin              =</span> <span class="fu">c</span>(<span class="st">"Bin 1"</span>, <span class="st">"Bin 1"</span>, <span class="st">"Bin 2"</span>, <span class="st">"Bin 2"</span>),</span>
-<span id="cb100-3"><a href=""></a>  <span class="at">part             =</span> <span class="fu">c</span>(<span class="st">"A grade"</span>, <span class="st">"B grade"</span>, <span class="st">"A grade"</span>, <span class="st">"B grade"</span>),</span>
-<span id="cb100-4"><a href=""></a>  <span class="at">p_bin            =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb100-5"><a href=""></a>  <span class="at">p_part_given_bin =</span> <span class="fu">c</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">2</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">4</span><span class="sc">/</span><span class="dv">5</span>))</span>
-<span id="cb100-6"><a href=""></a>branches<span class="sc">$</span>product <span class="ot">&lt;-</span> branches<span class="sc">$</span>p_bin <span class="sc">*</span> branches<span class="sc">$</span>p_part_given_bin</span>
-<span id="cb100-7"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(branches, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">caption =</span> <span class="st">"Tree branches"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Tree branches</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;">bin</th>
-<th style="text-align: center;">part</th>
-<th style="text-align: center;">p_bin</th>
-<th style="text-align: center;">p_part_given_bin</th>
-<th style="text-align: center;">product</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Bin 1</td>
-<td style="text-align: center;">A grade</td>
-<td style="text-align: center;">0.5</td>
-<td style="text-align: center;">0.6</td>
-<td style="text-align: center;">0.3</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Bin 1</td>
-<td style="text-align: center;">B grade</td>
-<td style="text-align: center;">0.5</td>
-<td style="text-align: center;">0.4</td>
-<td style="text-align: center;">0.2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Bin 2</td>
-<td style="text-align: center;">A grade</td>
-<td style="text-align: center;">0.5</td>
-<td style="text-align: center;">0.2</td>
-<td style="text-align: center;">0.1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Bin 2</td>
-<td style="text-align: center;">B grade</td>
-<td style="text-align: center;">0.5</td>
-<td style="text-align: center;">0.8</td>
-<td style="text-align: center;">0.4</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href=""></a><span class="fu">sum</span>(branches<span class="sc">$</span>product[branches<span class="sc">$</span>part <span class="sc">==</span> <span class="st">"A grade"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href=""></a>(<span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">5</span>) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4</code></pre>
 </div>
@@ -2576,12 +2320,9 @@ d. Getting a red card, a black card, and a red card in order</code></pre>
 <div class="callout-content">
 <p><strong>Let <span class="math inline">R</span> = selecting a red token, <span class="math inline">G</span> = selecting a green token</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href=""></a>p_red_then_green <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="sc">/</span> <span class="dv">33</span></span>
-<span id="cb103-2"><a href=""></a>p_red_first      <span class="ot">&lt;-</span> <span class="dv">4</span> <span class="sc">/</span> <span class="dv">11</span></span>
-<span id="cb103-3"><a href=""></a></span>
-<span id="cb103-4"><a href=""></a><span class="fu">round</span>(p_red_then_green <span class="sc">/</span> p_red_first, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a>(<span class="dv">8</span> <span class="sc">/</span> <span class="dv">33</span>) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">11</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.667</code></pre>
+<pre><code>[1] 0.6666667</code></pre>
 </div>
 </div>
 <p><span class="math display">P(G \mid R) = \frac{P(R \text{ and } G)}{P(R)} = \frac{8/33}{4/11} = \frac{8}{33} \cdot \frac{11}{4} = \frac{2}{3} \approx 0.667</span></p>
@@ -2618,10 +2359,7 @@ d. Getting a red card, a black card, and a red card in order</code></pre>
 <div class="callout-content">
 <p><strong>Let <span class="math inline">C</span> = clearing customs the same day, <span class="math inline">D</span> = on-time delivery</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a>p_cleared_and_on_time <span class="ot">&lt;-</span> <span class="fl">0.28</span></span>
-<span id="cb105-2"><a href=""></a>p_cleared             <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
-<span id="cb105-3"><a href=""></a></span>
-<span id="cb105-4"><a href=""></a>p_cleared_and_on_time <span class="sc">/</span> p_cleared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a><span class="fl">0.28</span> <span class="sc">/</span> <span class="fl">0.40</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7</code></pre>
 </div>
@@ -2666,48 +2404,13 @@ Total          54     66      120</code></pre>
 <div class="callout-content">
 <p><strong>Condition on the row or the column total</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href=""></a>plans <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">42</span>, <span class="dv">36</span>, <span class="dv">24</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb108-2"><a href=""></a>                <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Small"</span>, <span class="st">"Large"</span>), <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)))</span>
-<span id="cb108-3"><a href=""></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">addmargins</span>(plans), <span class="at">align =</span> <span class="st">"c"</span>,</span>
-<span id="cb108-4"><a href=""></a>             <span class="at">caption =</span> <span class="st">"Plan to open a Southeast Asia office (n = 120)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<table class="caption-top">
-<caption>Plan to open a Southeast Asia office (n = 120)</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: center;">Yes</th>
-<th style="text-align: center;">No</th>
-<th style="text-align: center;">Sum</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Small</td>
-<td style="text-align: center;">18</td>
-<td style="text-align: center;">42</td>
-<td style="text-align: center;">60</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Large</td>
-<td style="text-align: center;">36</td>
-<td style="text-align: center;">24</td>
-<td style="text-align: center;">60</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sum</td>
-<td style="text-align: center;">54</td>
-<td style="text-align: center;">66</td>
-<td style="text-align: center;">120</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">yes_given_large =</span> plans[<span class="st">"Large"</span>, <span class="st">"Yes"</span>] <span class="sc">/</span> <span class="fu">sum</span>(plans[<span class="st">"Large"</span>, ]),</span>
-<span id="cb109-2"><a href=""></a>        <span class="at">small_given_no  =</span> plans[<span class="st">"Small"</span>, <span class="st">"No"</span>] <span class="sc">/</span> <span class="fu">sum</span>(plans[, <span class="st">"No"</span>])), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href=""></a>(<span class="dv">36</span> <span class="sc">/</span> <span class="dv">120</span>) <span class="sc">/</span> (<span class="dv">60</span> <span class="sc">/</span> <span class="dv">120</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>yes_given_large  small_given_no 
-          0.600           0.636 </code></pre>
+<pre><code>[1] 0.6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href=""></a>(<span class="dv">42</span> <span class="sc">/</span> <span class="dv">120</span>) <span class="sc">/</span> (<span class="dv">66</span> <span class="sc">/</span> <span class="dv">120</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6363636</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">P(Y \mid L) = \dfrac{36/120}{60/120} = \dfrac{3}{5} = 0.6</span>. <strong>b.</strong> <span class="math inline">P(S \mid N) = \dfrac{42/120}{66/120} = \dfrac{7}{11} \approx 0.636</span>.</p>
@@ -2762,14 +2465,13 @@ Total          54     66      120</code></pre>
 <div class="callout-content">
 <p><strong>Let <span class="math inline">E</span> = at least 1 spade; <span class="math inline">\bar{E}</span> = no spades</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a>p_no_spade <span class="ot">&lt;-</span> (<span class="dv">39</span> <span class="sc">/</span> <span class="dv">52</span>)<span class="sc">^</span><span class="dv">4</span></span>
-<span id="cb111-2"><a href=""></a>p_no_spade</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href=""></a>(<span class="dv">39</span> <span class="sc">/</span> <span class="dv">52</span>)<span class="sc">^</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3164062</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> p_no_spade, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> (<span class="dv">39</span> <span class="sc">/</span> <span class="dv">52</span>)<span class="sc">^</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.684</code></pre>
+<pre><code>[1] 0.6835938</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\bar{E}) = \left(\frac{3}{4}\right)^4 = \frac{81}{256}, \qquad P(E) = 1 - \frac{81}{256} = \frac{175}{256} \approx 0.684 = 68.4\%</span></p>
@@ -2806,14 +2508,13 @@ Total          54     66      120</code></pre>
 <div class="callout-content">
 <p><strong>Find the probability of getting no sixes and subtract from 1</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a>p_no_six <span class="ot">&lt;-</span> (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span></span>
-<span id="cb115-2"><a href=""></a>p_no_six</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href=""></a>(<span class="dv">5</span> <span class="sc">/</span> <span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4822531</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> p_no_six, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">6</span>)<span class="sc">^</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.518</code></pre>
+<pre><code>[1] 0.5177469</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{at least one 6}) = 1 - \left(\frac{5}{6}\right)^4 = 1 - \frac{625}{1296} = \frac{671}{1296} \approx 0.518</span></p>
@@ -2851,14 +2552,13 @@ Total          54     66      120</code></pre>
 <div class="callout-content">
 <p><strong>Let <span class="math inline">E</span> = at least 1 defective unit is selected</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a>p_none_defective <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.04</span>)<span class="sc">^</span><span class="dv">5</span></span>
-<span id="cb119-2"><a href=""></a><span class="fu">round</span>(p_none_defective, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href=""></a><span class="fl">0.96</span><span class="sc">^</span><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.815</code></pre>
+<pre><code>[1] 0.8153727</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a><span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> p_none_defective, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.96</span><span class="sc">^</span><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.185</code></pre>
+<pre><code>[1] 0.1846273</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{no defectives}) = (0.96)^5 \approx 0.815, \qquad P(\text{at least one defective}) = 1 - 0.815 = 0.185</span></p>
@@ -2920,21 +2620,9 @@ Total          54     66      120</code></pre>
 <div class="callout-content">
 <p><strong>Multiply the number of possibilities at each stage</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a>bases    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Black"</span>, <span class="st">"Green"</span>, <span class="st">"Oolong"</span>)</span>
-<span id="cb123-2"><a href=""></a>toppings <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pearls"</span>, <span class="st">"Grass jelly"</span>, <span class="st">"Pudding"</span>, <span class="st">"Taro"</span>, <span class="st">"Aloe"</span>)</span>
-<span id="cb123-3"><a href=""></a></span>
-<span id="cb123-4"><a href=""></a>drinks <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">base =</span> bases, <span class="at">topping =</span> toppings)</span>
-<span id="cb123-5"><a href=""></a><span class="fu">nrow</span>(drinks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href=""></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href=""></a><span class="fu">paste</span>(drinks<span class="sc">$</span>base, drinks<span class="sc">$</span>topping, <span class="at">sep =</span> <span class="st">" + "</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "Black + Pearls"       "Green + Pearls"       "Oolong + Pearls"     
- [4] "Black + Grass jelly"  "Green + Grass jelly"  "Oolong + Grass jelly"
- [7] "Black + Pudding"      "Green + Pudding"      "Oolong + Pudding"    
-[10] "Black + Taro"         "Green + Taro"         "Oolong + Taro"       
-[13] "Black + Aloe"         "Green + Aloe"         "Oolong + Aloe"       </code></pre>
 </div>
 </div>
 <p>The base can be chosen in 3 ways and the topping in 5 ways, so there are <span class="math inline">3 \cdot 5 = 15</span> possible drinks.</p>
@@ -2976,8 +2664,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>One selection is made from each category</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href=""></a>choices_per_step <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">port =</span> <span class="dv">3</span>, <span class="at">term =</span> <span class="dv">4</span>, <span class="at">container =</span> <span class="dv">2</span>, <span class="at">insurance =</span> <span class="dv">2</span>)</span>
-<span id="cb128-2"><a href=""></a><span class="fu">prod</span>(choices_per_step)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href=""></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 48</code></pre>
 </div>
@@ -3017,17 +2704,9 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>Multiply the three classifications</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href=""></a>labels <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">size   =</span> <span class="fu">c</span>(<span class="st">"S"</span>, <span class="st">"M"</span>, <span class="st">"L"</span>, <span class="st">"XL"</span>),</span>
-<span id="cb130-2"><a href=""></a>                      <span class="at">colour =</span> <span class="fu">c</span>(<span class="st">"Black"</span>, <span class="st">"White"</span>, <span class="st">"Navy"</span>),</span>
-<span id="cb130-3"><a href=""></a>                      <span class="at">fit    =</span> <span class="fu">c</span>(<span class="st">"Regular"</span>, <span class="st">"Slim"</span>))</span>
-<span id="cb130-4"><a href=""></a><span class="fu">nrow</span>(labels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href=""></a><span class="dv">4</span> <span class="sc">*</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 24</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href=""></a><span class="fu">head</span>(<span class="fu">paste</span>(labels<span class="sc">$</span>size, labels<span class="sc">$</span>colour, labels<span class="sc">$</span>fit, <span class="at">sep =</span> <span class="st">", "</span>), <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "S, Black, Regular"  "M, Black, Regular"  "L, Black, Regular" 
-[4] "XL, Black, Regular" "S, White, Regular"  "M, White, Regular" </code></pre>
 </div>
 </div>
 <p><span class="math display">4 \cdot 3 \cdot 2 = 24 \text{ different labels}</span></p>
@@ -3064,11 +2743,11 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>Three spaces, 10 digits each</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href=""></a><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href=""></a><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1000</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href=""></a><span class="fu">prod</span>(<span class="dv">10</span><span class="sc">:</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href=""></a><span class="dv">10</span> <span class="sc">*</span> <span class="dv">9</span> <span class="sc">*</span> <span class="dv">8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 720</code></pre>
 </div>
@@ -3118,15 +2797,15 @@ Cargo insurance:    Basic, Full</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 120</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 362880</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb172"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
@@ -3177,7 +2856,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>All six objects are used up</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb174"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 720</code></pre>
 </div>
@@ -3216,7 +2895,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>Not all objects are used up</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href=""></a><span class="fu">prod</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb176"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href=""></a><span class="dv">7</span> <span class="sc">*</span> <span class="dv">6</span> <span class="sc">*</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 210</code></pre>
 </div>
@@ -3245,17 +2924,13 @@ Cargo insurance:    Basic, Full</code></pre>
 </div>
 <p>Examples 4-42 and 4-43 can now be solved with the rule: <span class="math inline">_6P_6 = \dfrac{6!}{0!} = 720</span> (recall <span class="math inline">0! = 1</span>) and <span class="math inline">_7P_3 = \dfrac{7!}{4!} = 210</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href=""></a>n_permutations <span class="ot">&lt;-</span> <span class="cf">function</span>(n, r) <span class="fu">factorial</span>(n) <span class="sc">/</span> <span class="fu">factorial</span>(n <span class="sc">-</span> r)</span>
-<span id="cb148-2"><a href=""></a></span>
-<span id="cb148-3"><a href=""></a><span class="fu">c</span>(<span class="at">P_6_6 =</span> <span class="fu">n_permutations</span>(<span class="dv">6</span>, <span class="dv">6</span>), <span class="at">P_7_3 =</span> <span class="fu">n_permutations</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb178"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">6</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">6</span> <span class="sc">-</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P_6_6 P_7_3 
-  720   210 </code></pre>
+<pre><code>[1] 720</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href=""></a><span class="fu">c</span>(<span class="at">P_6_6 =</span> <span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">6</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">6</span>), <span class="at">P_7_3 =</span> <span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb180"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">7</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">7</span> <span class="sc">-</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>P_6_6 P_7_3 
-  720   210 </code></pre>
+<pre><code>[1] 210</code></pre>
 </div>
 </div>
 </section>
@@ -3288,7 +2963,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>Order matters, so use <span class="math inline">{}_nP_r</span></strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">7</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">7</span> <span class="sc">-</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">7</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">7</span> <span class="sc">-</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 840</code></pre>
 </div>
@@ -3328,7 +3003,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <div class="callout-content">
 <p><strong>Order is important — spring versus autumn</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">8</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">8</span> <span class="sc">-</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb184"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">8</span>) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">8</span> <span class="sc">-</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 56</code></pre>
 </div>
@@ -3387,14 +3062,7 @@ Cargo insurance:    Basic, Full</code></pre>
 <p><strong>Count the repeated letters</strong></p>
 <p>In LOGISTICS there are 2 I’s, 2 S’s, and one each of L, O, G, T, and C.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href=""></a>letter_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">strsplit</span>(<span class="st">"LOGISTICS"</span>, <span class="st">""</span>)[[<span class="dv">1</span>]])</span>
-<span id="cb156-2"><a href=""></a>letter_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-C G I L O S T 
-1 1 2 1 1 2 1 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">9</span>) <span class="sc">/</span> <span class="fu">prod</span>(<span class="fu">factorial</span>(<span class="fu">as.integer</span>(letter_counts)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb186"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href=""></a><span class="fu">factorial</span>(<span class="dv">9</span>) <span class="sc">/</span> (<span class="fu">factorial</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">factorial</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 90720</code></pre>
 </div>
@@ -3471,23 +3139,16 @@ C G I L O S T
 <div class="callout-content">
 <p><strong>Apply the combination rule</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb188"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href=""></a><span class="fu">t</span>(<span class="fu">combn</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href=""></a><span class="fu">combn</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      [,1] [,2] [,3]
- [1,] "A"  "B"  "C" 
- [2,] "A"  "B"  "D" 
- [3,] "A"  "B"  "E" 
- [4,] "A"  "C"  "D" 
- [5,] "A"  "C"  "E" 
- [6,] "A"  "D"  "E" 
- [7,] "B"  "C"  "D" 
- [8,] "B"  "C"  "E" 
- [9,] "B"  "D"  "E" 
-[10,] "C"  "D"  "E" </code></pre>
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,] "A"  "A"  "A"  "A"  "A"  "A"  "B"  "B"  "B"  "C"  
+[2,] "B"  "B"  "B"  "C"  "C"  "D"  "C"  "C"  "D"  "D"  
+[3,] "C"  "D"  "E"  "D"  "E"  "E"  "D"  "E"  "E"  "E"  </code></pre>
 </div>
 </div>
 <p><span class="math display">_5C_3 = \frac{5!}{(5-3)!\,3!} = \frac{5!}{2!\,3!} = 10</span></p>
@@ -3525,7 +3186,7 @@ C G I L O S T
 <div class="callout-content">
 <p><strong>Order is not important</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">9</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">9</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 84</code></pre>
 </div>
@@ -3565,12 +3226,15 @@ C G I L O S T
 <div class="callout-content">
 <p><strong>Combine the two selections with the fundamental counting rule</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href=""></a><span class="fu">c</span>(<span class="at">analysts =</span> <span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">2</span>), <span class="at">engineers =</span> <span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> analysts engineers 
-       15        35 </code></pre>
+<pre><code>[1] 15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">2</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb198"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">6</span>, <span class="dv">2</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">7</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 525</code></pre>
 </div>
@@ -3676,15 +3340,15 @@ C G I L O S T
 <div class="callout-content">
 <p><strong>Count the 5-card hands and the favourable hands</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb170"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb200"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2598960</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb172"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">48</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb202"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">48</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4512</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb174"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">48</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb204"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">4</span>, <span class="dv">3</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">48</span>, <span class="dv">2</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">52</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.001736079</code></pre>
 </div>
@@ -3725,17 +3389,21 @@ b. None is scratched           d. At least 1 is scratched</code></pre>
 <div class="callout-content">
 <p><strong>The denominator is <span class="math inline">_{20}C_3</span> in every case</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href=""></a>n_shipments <span class="ot">&lt;-</span> <span class="fu">choose</span>(<span class="dv">20</span>, <span class="dv">3</span>)</span>
-<span id="cb177-2"><a href=""></a>n_shipments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb207"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">20</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1140</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href=""></a><span class="fu">c</span>(<span class="at">exactly_1 =</span> <span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>),</span>
-<span id="cb179-2"><a href=""></a>  <span class="at">none      =</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">3</span>),</span>
-<span id="cb179-3"><a href=""></a>  <span class="at">all       =</span> <span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb209"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>exactly_1      none       all 
-      525       455        10 </code></pre>
+<pre><code>[1] 525</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb211"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 455</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb213"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
 </div>
 </div>
 <p>There are <span class="math inline">_{20}C_3 = 1140</span> ways to ship 3 of the 20 phone cases.</p>
@@ -3756,13 +3424,21 @@ b. None is scratched           d. At least 1 is scratched</code></pre>
 <div class="callout-content">
 <p><strong>Divide each count by 1140</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">exactly_1  =</span> <span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>),</span>
-<span id="cb181-2"><a href=""></a>        <span class="at">none       =</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">3</span>),</span>
-<span id="cb181-3"><a href=""></a>        <span class="at">all        =</span> <span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">3</span>),</span>
-<span id="cb181-4"><a href=""></a>        <span class="at">at_least_1 =</span> n_shipments <span class="sc">-</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">3</span>)) <span class="sc">/</span> n_shipments, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb215"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href=""></a><span class="dv">525</span> <span class="sc">/</span> <span class="dv">1140</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> exactly_1       none        all at_least_1 
-    0.4605     0.3991     0.0088     0.6009 </code></pre>
+<pre><code>[1] 0.4605263</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb217"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href=""></a><span class="dv">455</span> <span class="sc">/</span> <span class="dv">1140</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3991228</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href=""></a><span class="dv">10</span> <span class="sc">/</span> <span class="dv">1140</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00877193</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="dv">455</span> <span class="sc">/</span> <span class="dv">1140</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6008772</code></pre>
 </div>
 </div>
 <p><strong>a.</strong> <span class="math inline">\dfrac{525}{1140} = \dfrac{35}{76} \approx 0.4605</span>. <strong>b.</strong> <span class="math inline">\dfrac{455}{1140} = \dfrac{91}{228} \approx 0.3991</span>. <strong>c.</strong> <span class="math inline">\dfrac{10}{1140} = \dfrac{1}{114} \approx 0.0088</span>. <strong>d.</strong> <span class="math inline">1 - \dfrac{91}{228} = \dfrac{137}{228} \approx 0.6009</span>.</p>
@@ -3799,17 +3475,17 @@ b. None is scratched           d. At least 1 is scratched</code></pre>
 <div class="callout-content">
 <p><strong>One from each group, out of all pairs of the 15 modules</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">10</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">10</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 50</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 105</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb187"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href=""></a><span class="fu">round</span>(<span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">10</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">5</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">choose</span>(<span class="dv">10</span>, <span class="dv">1</span>) <span class="sc">/</span> <span class="fu">choose</span>(<span class="dv">15</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.476</code></pre>
+<pre><code>[1] 0.4761905</code></pre>
 </div>
 </div>
 <p><span class="math display">P(\text{one finance and one marketing}) = \frac{{}_5C_1 \cdot {}_{10}C_1}{{}_{15}C_2} = \frac{50}{105} = \frac{10}{21} \approx 0.476 = 47.6\%</span></p>
@@ -3847,14 +3523,11 @@ b. None is scratched           d. At least 1 is scratched</code></pre>
 <p><strong>Count with the fundamental counting rule</strong></p>
 <p>There are ten codes with four identical digits, from 0000 to 9999.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href=""></a>n_codes  <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">4</span></span>
-<span id="cb189-2"><a href=""></a>all_same <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb189-3"><a href=""></a></span>
-<span id="cb189-4"><a href=""></a>n_codes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb229"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb229-1"><a href=""></a><span class="dv">10</span><span class="sc">^</span><span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10000</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href=""></a>all_same <span class="sc">/</span> n_codes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb231"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href=""></a><span class="dv">10</span> <span class="sc">/</span> <span class="dv">10000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.001</code></pre>
 </div>
@@ -3893,14 +3566,13 @@ b. None is scratched           d. At least 1 is scratched</code></pre>
 <div class="callout-content">
 <p><strong>Count the ways to select the pair</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href=""></a>n_pairs <span class="ot">&lt;-</span> <span class="fu">choose</span>(<span class="dv">20</span>, <span class="dv">2</span>)</span>
-<span id="cb193-2"><a href=""></a>n_pairs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb233"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb233-1"><a href=""></a><span class="fu">choose</span>(<span class="dv">20</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 190</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href=""></a><span class="fu">round</span>(<span class="dv">10</span> <span class="sc">/</span> n_pairs, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb235"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb235-1"><a href=""></a><span class="dv">10</span> <span class="sc">/</span> <span class="dv">190</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0526</code></pre>
+<pre><code>[1] 0.05263158</code></pre>
 </div>
 </div>
 <p>Two employees can be chosen from 20 in <span class="math inline">_{20}C_2 = 190</span> ways, and only 10 of those pairs share an office, so</p>

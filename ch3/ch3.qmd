@@ -42,6 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+theme_set(theme_minimal())
 ```
 
 ## Overview
@@ -137,7 +138,7 @@ The figures show last month's revenue (in NT\$ million) for the nine branches of
 coffee_revenue <- c(2.8, 3.5, 4.1, 2.6, 5.0, 3.9, 4.4, 3.2, 4.7)
 
 sum(coffee_revenue)
-round(mean(coffee_revenue), 2)
+mean(coffee_revenue)
 ```
 
 $$\bar{X} = \frac{\Sigma X}{n} = \frac{34.2}{9} = 3.8$$
@@ -228,15 +229,10 @@ Back to [Example 3-9](#example-3-9)
 **Prepare data**
 
 ```{r e3-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-lower <- c(9.5, 14.5, 19.5, 24.5, 29.5)
-upper <- lower + 5
+f  <- c(8, 7, 5, 3, 2)
+Xm <- c(12, 17, 22, 27, 32)
 
-stall_revenue <- tibble(Class = paste0(lower, "-", upper),
-                        f  = c(8, 7, 5, 3, 2),
-                        Xm = (lower + upper) / 2) |>
-  mutate(fXm = f * Xm)
-
-knitr::kable(stall_revenue, align = "c")
+f * Xm
 ```
 :::
 
@@ -250,9 +246,9 @@ knitr::kable(stall_revenue, align = "c")
 **Solve**
 
 ```{r e3-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sum(stall_revenue$f)
-sum(stall_revenue$fXm)
-sum(stall_revenue$fXm) / sum(stall_revenue$f)
+sum(f)
+sum(f * Xm)
+sum(f * Xm) / sum(f)
 ```
 
 $$\bar{X} = \frac{\Sigma f \cdot X_m}{n} = \frac{470}{25} = 18.8$$
@@ -438,9 +434,7 @@ pickers <- c(18, 18, 18, 18, 18,
              21, 23, 23, 23, 24,
              23, 25, 26, 25, 23)
 
-picker_counts <- table(pickers)
-picker_counts
-names(picker_counts)[picker_counts == max(picker_counts)]
+table(pickers)
 ```
 
 Since the values 18 and 23 both occur 5 times, the modes are **18 and 23**. The data set is said to be **bimodal**.
@@ -505,9 +499,8 @@ Find the modal class for the frequency distribution of night market stall revenu
 **Solve**
 
 ```{r e3-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-stall_revenue |> select(Class, f) |> knitr::kable(align = "c")
-
-stall_revenue$Class[which.max(stall_revenue$f)]
+f
+max(f)
 ```
 
 Since the class 9.5–14.5 has the largest frequency, 8, it is the **modal class**. Sometimes the midpoint of the class is used; in this case it is 12.
@@ -546,12 +539,9 @@ Bank transfer        11
 **Solve**
 
 ```{r e3-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-payment <- tibble(Method = c("Credit card", "Mobile payment", "Cash",
-                             "Store credit", "Bank transfer"),
-                  Number = c(214, 168, 95, 32, 11))
-
-knitr::kable(payment, align = "c")
-payment$Method[which.max(payment$Number)]
+data.frame(method = c("Credit card", "Mobile payment", "Cash",
+                      "Store credit", "Bank transfer"),
+           number = c(214, 168, 95, 32, 11))
 ```
 
 Since the credit card category has the largest frequency, 214, the most typical payment method was the **credit card**.
@@ -594,7 +584,7 @@ salary <- c(180000, 72000, 48000, 35000, 35000)
 
 mean(salary)
 median(salary)
-names(which.max(table(salary)))
+table(salary)
 ```
 
 $$\mu = \frac{\Sigma X}{N} = \frac{370{,}000}{5} = 74{,}000$$
@@ -730,14 +720,10 @@ An ETP student received an A in International Trade Practice (4 credits), a B in
 **Solve**
 
 ```{r e3-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-courses <- tibble(
-  Course  = c("International Trade Practice", "Business Statistics",
-              "Managerial Accounting", "Business English Presentation"),
-  Credits = c(4, 3, 3, 2),
-  Grade   = c(4, 3, 2, 3))
+credits      <- c(4, 3, 3, 2)
+grade_points <- c(4, 3, 2, 3)
 
-knitr::kable(courses, align = "c")
-round(sum(courses$Credits * courses$Grade) / sum(courses$Credits), 1)
+sum(credits * grade_points) / sum(credits)
 ```
 
 $$\bar{X} = \frac{\Sigma wX}{\Sigma w} = \frac{4 \cdot 4 + 3 \cdot 3 + 3 \cdot 2 + 2 \cdot 3}{4+3+3+2} = \frac{37}{12} \approx 3.1$$
@@ -825,21 +811,15 @@ When a distribution is **extremely skewed**, the value of the mean is pulled tow
 
 ## Distribution Shapes in R
 
-**Draw figure**
+**Prepare data**
 
 ```{r s3-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(2026)
-shapes <- tibble(
-  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2),
-            16 - rgamma(4000, 2, 0.5)),
-  shape = rep(c("(a) Positively skewed", "(b) Symmetric",
-                "(c) Negatively skewed"), each = 4000))
-
-p_shapes <- ggplot(shapes, aes(x = value)) +
-  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
-  facet_wrap(~ shape, scales = "free") +
-  labs(title = "Figure 3-1: Types of Distributions", x = "", y = "Frequency") +
-  theme_minimal()
+shapes <- data.frame(
+  shape = rep(c("(a) Positively skewed", "(b) Symmetric", "(c) Negatively skewed"),
+              each = 4000),
+  value = c(rgamma(4000, 2, 0.5), rnorm(4000, 8, 2), 16 - rgamma(4000, 2, 0.5))
+)
 ```
 
 ---
@@ -849,7 +829,10 @@ p_shapes <- ggplot(shapes, aes(x = value)) +
 **Output figure**
 
 ```{r s3-1-2, echo=T, warning=FALSE, out.width="90%", fig.align='center', fig.height=3.5}
-p_shapes
+ggplot(shapes, aes(value)) +
+  geom_histogram(bins = 30, color = "white") +
+  facet_wrap(~ shape, scales = "free") +
+  labs(title = "Figure 3-1: Types of Distributions", x = NULL, y = "Frequency")
 ```
 
 In the skewed panels the mean is pulled toward the long tail, while the median stays near the bulk of the data.
@@ -897,8 +880,10 @@ Back to [Example 3-16](#example-3-16), [Example 3-18](#example-3-18), [Example 3
 supplier_a <- c(9, 21, 3, 15, 6, 18)
 supplier_b <- c(14, 10, 13, 11, 14, 10)
 
-c(sum = sum(supplier_a), mean = mean(supplier_a))
-c(sum = sum(supplier_b), mean = mean(supplier_b))
+sum(supplier_a)
+mean(supplier_a)
+sum(supplier_b)
+mean(supplier_b)
 ```
 
 $$\mu_A = \frac{72}{6} = 12 \text{ days} \qquad \mu_B = \frac{72}{6} = 12 \text{ days}$$
@@ -916,14 +901,14 @@ Both means are **12 days**.
 **Output figure**
 
 ```{r e3-15-2, echo=T, warning=FALSE, out.width="70%", fig.align='center', fig.height=3}
-tibble(Supplier = rep(c("(a) Supplier A", "(b) Supplier B"), each = 6),
-       Days = c(supplier_a, supplier_b)) |>
-  ggplot(aes(x = Days, y = Supplier)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_vline(xintercept = 12, linetype = "dashed", color = "red") +
+lead_times <- data.frame(supplier = rep(c("(a) Supplier A", "(b) Supplier B"), each = 6),
+                         days     = c(supplier_a, supplier_b))
+
+ggplot(lead_times, aes(days, supplier)) +
+  geom_point() +
+  geom_vline(xintercept = 12) +
   labs(title = "Figure 3-2: Examining Data Sets Graphically",
-       x = "Lead time (in days)", y = "") +
-  theme_minimal()
+       x = "Lead time (in days)", y = NULL)
 ```
 
 Even though the means are the same, the **spread** is quite different: supplier B delivers far more consistently.
@@ -959,8 +944,8 @@ Find the ranges for the two suppliers in [Example 3-15](#example-3-15).
 **Solve**
 
 ```{r e3-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-diff(range(supplier_a))
-diff(range(supplier_b))
+max(supplier_a) - min(supplier_a)
+max(supplier_b) - min(supplier_b)
 ```
 
 For supplier A, $R = 21 - 3 = 18$ days. For supplier B, $R = 14 - 10 = 4$ days.
@@ -994,7 +979,7 @@ The monthly parcel volumes (in ten thousands) handled by a logistics hub for six
 ```{r e3-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 parcels <- c(37, 62, 19, 48, 55, 41)
 
-diff(range(parcels))
+max(parcels) - min(parcels)
 ```
 
 $$R = 62 - 19 = 43 \text{ (ten thousand parcels)}$$
@@ -1061,11 +1046,11 @@ Find the variance and standard deviation for the lead times of supplier A in [Ex
 **Prepare data**
 
 ```{r e3-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-deviations_a <- tibble(X = supplier_a, dev = X - mean(supplier_a), dev2 = dev^2)
+deviation_a <- supplier_a - mean(supplier_a)
 
-knitr::kable(deviations_a, col.names = c("Values X", "X - mu", "(X - mu)^2"),
-             align = "c")
-sum(deviations_a$dev2)
+deviation_a
+deviation_a^2
+sum(deviation_a^2)
 ```
 :::
 
@@ -1079,11 +1064,8 @@ sum(deviations_a$dev2)
 **Solve**
 
 ```{r e3-18-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-population_variance <- function(values) mean((values - mean(values))^2)
-
-variance_a <- population_variance(supplier_a)
-variance_a
-round(sqrt(variance_a), 1)
+sum(deviation_a^2) / 6
+sqrt(sum(deviation_a^2) / 6)
 ```
 
 $$\sigma^2 = \frac{252}{6} = 42 \qquad \sigma = \sqrt{42} \approx 6.5$$
@@ -1113,8 +1095,11 @@ Find the variance and standard deviation for the lead times of supplier B in [Ex
 **Solve**
 
 ```{r e3-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-deviations_b <- tibble(X = supplier_b, dev = X - mean(supplier_b), dev2 = dev^2)
-knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "c")
+deviation_b <- supplier_b - mean(supplier_b)
+
+deviation_b
+deviation_b^2
+sum(deviation_b^2)
 ```
 :::
 
@@ -1128,9 +1113,8 @@ knitr::kable(deviations_b, col.names = c("X", "X - mu", "(X - mu)^2"), align = "
 **Solve**
 
 ```{r e3-19-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-variance_b <- population_variance(supplier_b)
-variance_b
-round(sqrt(variance_b), 1)
+sum(deviation_b^2) / 6
+sqrt(sum(deviation_b^2) / 6)
 ```
 
 $$\sigma^2 = \frac{18}{6} = 3 \qquad \sigma \approx 1.7$$
@@ -1177,8 +1161,10 @@ Back to [Example 3-21](#example-3-21)
 
 ```{r e3-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 export_orders <- c(14, 50, 26, 38, 32)
-deviations <- tibble(X = export_orders, dev = X - mean(export_orders), dev2 = dev^2)
-knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align = "c")
+deviation <- export_orders - mean(export_orders)
+
+deviation
+deviation^2
 ```
 :::
 
@@ -1192,9 +1178,9 @@ knitr::kable(deviations, col.names = c("X", "X - Xbar", "(X - Xbar)^2"), align =
 **Solve**
 
 ```{r e3-20-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sum(deviations$dev2)
+sum(deviation^2)
 var(export_orders)
-round(sd(export_orders), 1)
+sd(export_orders)
 ```
 
 $$s^2 = \frac{720}{5 - 1} = 180 \qquad s = \sqrt{180} \approx 13.4$$
@@ -1236,14 +1222,9 @@ Back to [Example 3-20](#example-3-20)
 **Solve**
 
 ```{r e3-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_offices <- length(export_orders)
-
 sum(export_orders)
 sum(export_orders^2)
-
-shortcut_variance <- (n_offices * sum(export_orders^2) - sum(export_orders)^2) /
-  (n_offices * (n_offices - 1))
-shortcut_variance
+(5 * 5840 - 160^2) / (5 * 4)
 var(export_orders)
 ```
 
@@ -1295,14 +1276,11 @@ Find the sample variance and the sample standard deviation for the frequency dis
 **Prepare data**
 
 ```{r e3-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-picking_times <- tibble(
-  Class = c("4.5-9.5", "9.5-14.5", "14.5-19.5", "19.5-24.5",
-            "24.5-29.5", "29.5-34.5", "34.5-39.5"),
-  f  = c(2, 3, 5, 4, 3, 2, 1),
-  Xm = c(7, 12, 17, 22, 27, 32, 37)) |>
-  mutate(fXm = f * Xm, fXm2 = f * Xm^2)
+f  <- c(2, 3, 5, 4, 3, 2, 1)
+Xm <- c(7, 12, 17, 22, 27, 32, 37)
 
-knitr::kable(picking_times, align = "c")
+f * Xm
+f * Xm^2
 ```
 :::
 
@@ -1316,15 +1294,11 @@ knitr::kable(picking_times, align = "c")
 **Solve**
 
 ```{r e3-22-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_orders  <- sum(picking_times$f)
-sum_fxm   <- sum(picking_times$fXm)
-sum_fxm2  <- sum(picking_times$fXm2)
-
-c(n = n_orders, sum_fxm = sum_fxm, sum_fxm2 = sum_fxm2)
-
-grouped_variance <- (n_orders * sum_fxm2 - sum_fxm^2) / (n_orders * (n_orders - 1))
-round(grouped_variance, 1)
-round(sqrt(grouped_variance), 1)
+sum(f)
+sum(f * Xm)
+sum(f * Xm^2)
+(20 * 9515 - 405^2) / (20 * 19)
+sqrt((20 * 9515 - 405^2) / (20 * 19))
 ```
 
 $$s^2 = \frac{20(9515) - 405^2}{20(19)} = \frac{26{,}275}{380} \approx 69.1 \qquad s \approx 8.3$$
@@ -1381,12 +1355,8 @@ For the stores of a coffee chain in Taipei, the mean monthly revenue is NT\$2.68
 **Solve**
 
 ```{r e3-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-regional_sales <- tibble(City      = c("Taipei", "Kaohsiung"),
-                         mean_sales = c(268, 194),
-                         sd_sales   = c(52.3, 41.7)) |>
-  mutate(CVar = round(sd_sales / mean_sales * 100, 1))
-
-knitr::kable(regional_sales, align = "c")
+52.3 / 268 * 100
+41.7 / 194 * 100
 ```
 
 $$\text{Taipei: } \text{CVar} = \frac{52.3}{268} \cdot 100\% = 19.5\% \qquad
@@ -1415,12 +1385,8 @@ For a sample of international hotels in Taipei, the mean occupancy rate is 72.5%
 **Solve**
 
 ```{r e3-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-hotel_measures <- tibble(Variable = c("Occupancy rate", "Daily room rate"),
-                         mean_value = c(72.5, 4850),
-                         variance   = c(27.04, 336400)) |>
-  mutate(CVar = round(sqrt(variance) / mean_value * 100, 1))
-
-knitr::kable(hotel_measures, align = "c")
+sqrt(27.04) / 72.5 * 100
+sqrt(336400) / 4850 * 100
 ```
 
 $$\text{CVar}_{\text{occupancy}} = \frac{\sqrt{27.04}}{72.5} \cdot 100\% = 7.2\% \qquad
@@ -1455,9 +1421,10 @@ The range rule of thumb is **only an approximation** and should be used when the
 containers_per_hour <- c(16, 13, 22, 10, 18, 14, 19, 16)
 
 mean(containers_per_hour)
-round(sd(containers_per_hour), 1)
-diff(range(containers_per_hour)) / 4
-round(mean(containers_per_hour) + c(-2, 2) * sd(containers_per_hour), 1)
+sd(containers_per_hour)
+(max(containers_per_hour) - min(containers_per_hour)) / 4
+mean(containers_per_hour) - 2 * sd(containers_per_hour)
+mean(containers_per_hour) + 2 * sd(containers_per_hour)
 ```
 
 The actual standard deviation is 3.7 and the range is $22 - 10 = 12$, so the range rule of thumb gives $s \approx 3$. The mean is 16, so the estimated smallest and largest values are 8.5 and 23.5 — in the ballpark of the actual 10 and 22.
@@ -1495,12 +1462,9 @@ The mean monthly rent for a studio apartment near campus is NT\$12,000, and the 
 **Solve**
 
 ```{r e3-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_rent <- 12000
-sd_rent   <- 1500
-k <- 2
-
-(1 - 1 / k^2) * 100
-mean_rent + c(-k, k) * sd_rent
+(1 - 1 / 2^2) * 100
+12000 - 2 * 1500
+12000 + 2 * 1500
 ```
 
 $$12{,}000 + 2(1{,}500) = 15{,}000 \qquad 12{,}000 - 2(1{,}500) = 9{,}000$$
@@ -1558,29 +1522,13 @@ Because the empirical rule requires the distribution to be approximately bell-sh
 
 ## The Empirical Rule in R
 
-**Draw figure**
+**Prepare data**
 
 Suppose the monthly revenue of the stores in a convenience store chain is bell-shaped with a mean of NT\$1.8 million and a standard deviation of NT\$200,000 (figures below are in NT\$10,000).
 
 ```{r s3-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean_revenue <- 180
-sd_revenue   <- 20
-
-p_empirical <- tibble(
-  x = seq(mean_revenue - 4 * sd_revenue, mean_revenue + 4 * sd_revenue,
-          length.out = 500),
-  y = dnorm(x, mean_revenue, sd_revenue)) |>
-  ggplot(aes(x, y)) +
-  geom_line(color = "#2c4a6e") +
-  geom_vline(xintercept = mean_revenue + c(-1, 1) * sd_revenue,
-             color = "blue", linetype = 2) +
-  geom_vline(xintercept = mean_revenue + c(-2, 2) * sd_revenue,
-             color = "red", linetype = 2) +
-  geom_vline(xintercept = mean_revenue + c(-3, 3) * sd_revenue,
-             color = "darkgreen", linetype = 2) +
-  labs(title = "Figure 3-4: The Empirical Rule",
-       x = "Monthly revenue (NT$10,000)", y = "Density") +
-  theme_minimal()
+x <- seq(100, 260, by = 1)
+curve <- data.frame(x, density = dnorm(x, 180, 20))
 ```
 
 ---
@@ -1590,7 +1538,11 @@ p_empirical <- tibble(
 **Output figure**
 
 ```{r s3-2-3, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3.5}
-p_empirical
+ggplot(curve, aes(x, density)) +
+  geom_line() +
+  geom_vline(xintercept = c(120, 140, 160, 200, 220, 240)) +
+  labs(title = "Figure 3-4: The Empirical Rule",
+       x = "Monthly revenue (NT$10,000)", y = "Density")
 ```
 
 Approximately 68% of the stores take between 160 and 200, approximately 95% between 140 and 220, and approximately 99.7% between 120 and 240 (NT\$10,000 per month).
@@ -1621,8 +1573,10 @@ Suppose a logistics firm employs five part-time packers whose hourly wages are N
 hourly_wage <- c(200, 185, 215, 185, 215)
 raised_wage <- hourly_wage + 20
 
-c(mean = mean(hourly_wage), sd = sd(hourly_wage))
-c(mean = mean(raised_wage), sd = sd(raised_wage))
+mean(hourly_wage)
+sd(hourly_wage)
+mean(raised_wage)
+sd(raised_wage)
 ```
 
 The mean rises from NT\$200 to NT\$220 — exactly the amount added — while the standard deviation stays at **15**.
@@ -1635,8 +1589,10 @@ The same five packers worked 18, 14, 22, 14, and 22 hours last week. Suppose the
 weekly_hours   <- c(18, 14, 22, 14, 22)
 weekly_minutes <- weekly_hours * 60
 
-c(mean = mean(weekly_hours),   sd = sd(weekly_hours))
-c(mean = mean(weekly_minutes), sd = sd(weekly_minutes))
+mean(weekly_hours)
+sd(weekly_hours)
+mean(weekly_minutes)
+sd(weekly_minutes)
 ```
 
 The mean is multiplied by 60, from 18 hours to 1080 minutes, and the standard deviation is multiplied by 60 as well, from 4 to **240**.
@@ -1685,13 +1641,8 @@ At a call center's Taipei site the mean handling time is 4.8 minutes with a stan
 **Solve**
 
 ```{r e3-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-call_times <- tibble(Site      = c("Taipei", "Taichung"),
-                     time      = c(6.3, 6.8),
-                     mean_time = c(4.8, 5.4),
-                     sd_time   = c(0.6, 0.8)) |>
-  mutate(z = (time - mean_time) / sd_time)
-
-knitr::kable(call_times, align = "c")
+(6.3 - 4.8) / 0.6
+(6.8 - 5.4) / 0.8
 ```
 
 $$\text{Taipei: } z = \frac{6.3 - 4.8}{0.6} = 2.50 \qquad
@@ -1720,13 +1671,8 @@ For a convenience store chain, the 24-hour branches have a mean daily revenue of
 **Solve**
 
 ```{r e3-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-branch_revenue <- tibble(Branch       = c("24-hour", "Campus"),
-                         revenue      = c(45000, 33000),
-                         mean_revenue = c(52000, 38000),
-                         sd_revenue   = c(5000, 4000)) |>
-  mutate(z = (revenue - mean_revenue) / sd_revenue)
-
-knitr::kable(branch_revenue, align = "c")
+(45000 - 52000) / 5000
+(33000 - 38000) / 4000
 ```
 
 $$\text{24-hour: } z = \frac{45{,}000 - 52{,}000}{5{,}000} = -1.40 \qquad
@@ -1829,14 +1775,10 @@ Class boundaries      Frequency
 $$\text{Cumulative \%} = \frac{\text{cumulative frequency}}{n} \cdot 100$$
 
 ```{r e3-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-order_values <- tibble(
-  Class = c("199.5-399.5", "399.5-599.5", "599.5-799.5",
-            "799.5-999.5", "999.5-1199.5", "1199.5-1399.5"),
-  upper = c(399.5, 599.5, 799.5, 999.5, 1199.5, 1399.5),
-  f     = c(18, 52, 68, 38, 16, 8)) |>
-  mutate(cum_f = cumsum(f), cum_pct = cum_f / sum(f) * 100)
+f <- c(18, 52, 68, 38, 16, 8)
 
-knitr::kable(order_values, align = "c")
+cumsum(f)
+cumsum(f) / 200 * 100
 ```
 :::
 
@@ -1850,13 +1792,14 @@ knitr::kable(order_values, align = "c")
 **Output figure**
 
 ```{r e3-29-2, echo=T, warning=FALSE, out.width="60%", fig.align='center', fig.height=3.5}
-bind_rows(tibble(upper = 199.5, cum_pct = 0), order_values) |>
-  ggplot(aes(upper, cum_pct)) +
-  geom_line(color = "#2c4a6e", linewidth = 1) +
-  geom_point(size = 2, color = "#2c4a6e") +
+percentile_points <- data.frame(boundary    = seq(199.5, 1399.5, by = 200),
+                                cum_percent = cumsum(c(0, f)) / 200 * 100)
+
+ggplot(percentile_points, aes(boundary, cum_percent)) +
+  geom_line() +
+  geom_point() +
   labs(title = "Figure 3-6: Percentile Graph for Example 3-29",
-       x = "Class boundaries (NT dollars)", y = "Cumulative percentages") +
-  theme_minimal()
+       x = "Class boundaries (NT dollars)", y = "Cumulative percentages")
 ```
 
 Reading from the graph, an order value of NT\$799.50 sits at the 69th percentile, and the 50th percentile falls somewhere between NT\$599.50 and NT\$799.50.
@@ -1899,12 +1842,10 @@ Back to [Example 3-31](#example-3-31), [Example 3-32](#example-3-32), [Example 3
 
 ```{r e3-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 returns <- c(14, 23, 9, 31, 18, 27, 12, 21, 35, 25)
-sort(returns)
 
-percentile_rank <- function(value, values) {
-  (sum(values < value) + 0.5) / length(values) * 100
-}
-percentile_rank(18, returns)
+sort(returns)
+sum(returns < 18)
+(sum(returns < 18) + 0.5) / 10 * 100
 ```
 
 Since there are 3 numbers below the value of 18,
@@ -1933,7 +1874,7 @@ Using the data in [Example 3-30](#example-3-30), find the percentile rank of 31.
 
 ```{r e3-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 sum(returns < 31)
-percentile_rank(31, returns)
+(sum(returns < 31) + 0.5) / 10 * 100
 ```
 
 There are 8 values below 31; thus
@@ -1972,12 +1913,9 @@ Using the data in [Example 3-30](#example-3-30), find the value corresponding to
 **Solve**
 
 ```{r e3-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ordered_returns <- sort(returns)
-ordered_returns
-
-position <- length(returns) * 65 / 100
-position
-ordered_returns[ceiling(position)]
+sort(returns)
+10 * 65 / 100
+sort(returns)[7]
 ```
 
 $$c = \frac{10 \cdot 65}{100} = 6.5$$
@@ -2003,9 +1941,8 @@ Using the data in [Example 3-30](#example-3-30), find the data value correspondi
 **Solve**
 
 ```{r e3-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-position <- length(returns) * 30 / 100
-position
-mean(ordered_returns[c(position, position + 1)])
+10 * 30 / 100
+(sort(returns)[3] + sort(returns)[4]) / 2
 ```
 
 $$c = \frac{10 \cdot 30}{100} = 3$$
@@ -2058,35 +1995,16 @@ Back to [Example 3-35](#example-3-35)
 :::{.callout-tip}
 ## Solution
 
-**Prepare data**
-
-The procedure above splits the ordered data at the median, so write one short helper that follows it step by step.
-
-```{r e3-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-quartiles_by_halves <- function(values) {
-  ordered <- sort(values)
-  half    <- floor(length(ordered) / 2)
-  c(Q1 = median(head(ordered, half)),
-    Q2 = median(ordered),
-    Q3 = median(tail(ordered, half)))
-}
-```
-:::
-
----
-
-## Example 3-34
-
-:::{.callout-tip}
-## Solution
-
 **Solve**
 
 ```{r e3-34-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 deliveries <- c(22, 27, 19, 25, 31, 24, 27, 22, 26)
-sort(deliveries)
+sorted <- sort(deliveries)
 
-quartiles_by_halves(deliveries)
+sorted
+median(sorted)
+median(sorted[1:4])
+median(sorted[6:9])
 quantile(deliveries, c(0.25, 0.50, 0.75))
 ```
 
@@ -2200,13 +2118,14 @@ The numbers of complaint tickets received by a customer service team on 8 random
 
 ```{r e3-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 tickets <- c(8, 4, 18, 12, 57, 8, 14, 18)
+Q1 <- quantile(tickets, 0.25)
+Q3 <- quantile(tickets, 0.75)
 
-quantile(tickets, c(0.25, 0.75))
+Q1
+Q3
 IQR(tickets)
-
-fences <- quantile(tickets, c(0.25, 0.75)) + c(-1.5, 1.5) * IQR(tickets)
-fences
-tickets[tickets < fences[1] | tickets > fences[2]]
+Q1 - 1.5 * IQR(tickets)
+Q3 + 1.5 * IQR(tickets)
 ```
 
 Here $Q_1 = 8$, $Q_3 = 18$, $\text{IQR} = 10$ and $1.5(10) = 15$, so the fences are $-7$ and $33$. The data value **57** is greater than 33; hence, it can be considered an outlier.
@@ -2281,11 +2200,9 @@ The daily revenue, in NT\$1,000, of a beverage stand on 10 randomly selected day
 
 ```{r e3-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 daily_revenue <- c(14, 9, 26, 6, 16, 12, 8, 20, 16, 9)
-sort(daily_revenue)
 
-c(Min = min(daily_revenue),
-  quantile(daily_revenue, c(0.25, 0.50, 0.75)),
-  Max = max(daily_revenue))
+sort(daily_revenue)
+quantile(daily_revenue)
 ```
 
 The five-number summary is minimum 6, $Q_1 = 9$, median 13, $Q_3 = 16$, maximum 26.
@@ -2301,11 +2218,10 @@ The five-number summary is minimum 6, $Q_1 = 9$, median 13, $Q_3 = 16$, maximum 
 **Output figure**
 
 ```{r e3-37-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=2.6}
-ggplot(tibble(x = daily_revenue), aes(x = x, y = "")) +
-  geom_boxplot(fill = "#8db4d6", color = "#2c4a6e", width = 0.4) +
+ggplot(data.frame(daily_revenue), aes(daily_revenue)) +
+  geom_boxplot() +
   labs(title = "Figure 3-7: Boxplot for Example 3-37",
-       x = "Daily revenue (NT$1,000)", y = "") +
-  theme_minimal()
+       x = "Daily revenue (NT$1,000)")
 ```
 
 The right whisker is much longer than the left, so the distribution is **positively skewed**, with a high value of 26 and a low value of 6 thousand NT dollars.
@@ -2372,14 +2288,13 @@ For port A, $Q_1 = 20$, $MD = 23$, $Q_3 = 26$; for port B, $Q_1 = 24$, $MD = 40$
 **Output figure**
 
 ```{r e3-38-2, echo=T, warning=FALSE, out.width="65%", fig.align='center', fig.height=3}
-tibble(Hours = c(port_a, port_b),
-       Port  = rep(c("Port A", "Port B"), each = 8)) |>
-  ggplot(aes(x = Hours, y = Port, fill = Port)) +
-  geom_boxplot(width = 0.4, show.legend = FALSE) +
-  scale_fill_manual(values = c("#2c4a6e", "#8db4d6")) +
+clearance <- data.frame(port  = rep(c("Port A", "Port B"), each = 8),
+                        hours = c(port_a, port_b))
+
+ggplot(clearance, aes(hours, port)) +
+  geom_boxplot() +
   labs(title = "Figure 3-8: Boxplots for Example 3-38",
-       x = "Customs clearance time (hours)", y = "") +
-  theme_minimal()
+       x = "Customs clearance time (hours)", y = NULL)
 ```
 
 The **median** clearance time at port B is much higher, and both the **interquartile range** and the **range** at port B are much larger than those at port A.

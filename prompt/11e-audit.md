@@ -275,3 +275,55 @@ Palatino，Linux 容器沒有，於是退回 DejaVu Serif。DejaVu 比 Palatino�
 `slide-format.Rmd` 的「Layout」一節改寫，明確要求量測時必須同時滿足：
 Palatino metric 字型、KaTeX 真的有排版、footer 淨空；並註明要排除
 `.katex-mathml` 與 SVG 元素、要跟 `.slides` 容器而非 `section` 比較。
+
+---
+
+# 第五輪：R 程式碼極簡化（2026-10-08）
+
+使用者指出投影片上的 R code 太複雜（例如 ch2 的肩形圖與莖葉圖）：這是教學用投影片，code 務必要非常簡單，只要結果對就好。第二輪依 Clean Code 寫成的具名輔助函式、`kable` 表格、pipe 鏈與大量繪圖修飾，全部改寫。
+
+## 一、原則
+
+- 投影片在教公式時，就把題目數字直接代入公式寫一次，例如 `(122.5 - 118) / (12 / sqrt(35))`；變數只在數值會重複使用時才建立，名稱用 `z`、`t_stat`、`chi_sq`、`p_hat`、`x_bar`、`se` 這類短而直白的名字。
+- 計算一律用 base R（`table`、`cut`、`cumsum`、`mean`、`sd`、`quantile`、`pnorm`／`qnorm`、`dbinom`、`chisq.test`、`aov`、`lm` 等），每個結果各印一行。
+- 全面移除：自訂函式、apply／`do.call`、迴圈、pipe、`tibble`／`mutate` 鏈、`knitr::kable`、`paste`／`sprintf`／`cat`、把數值包成具名向量再輸出、`round()`（四捨五入後的答案寫在投影片文字裡）。
+- 右尾面積一律寫 `1 - pnorm(z)`、`1 - pt(...)`、`1 - pchisq(...)`、`1 - pf(...)`，不用 `lower.tail = FALSE`；正文提到 `lower.tail` 的 R 寫法也一併改掉。
+- 圖：最基本的 ggplot2（`ggplot() + geom_xxx() + labs()`），不設顏色、粗細、`scale_*`、`theme()`；只保留本身就是教學重點的元素（截斷縱軸、參考線、常態曲線下的陰影）。`theme_set(theme_minimal())` 只寫在隱藏的 setup chunk。base 繪圖只用在 `pie()`、`stem()`、`stripchart()`、`plot(TukeyHSD())`。
+- 只是列出參考表、沒有任何計算的 chunk 改成 Markdown 表格。
+- 數字、答案、例題編號、定義與正文意思都不變；新程式印出的每個數值都與舊輸出相同（差別只在不再四捨五入）。模擬題保留相同的 `set.seed()` 與亂數呼叫順序，模擬結果完全不變。
+
+## 二、使用者點名的兩處
+
+- **肩形圖（Example 2-6）**：原本是 `delivery_freq$Cumulative` 加兩條 `geom_segment()` 虛線與自訂顏色；改為 `cumsum(c(0, 3, 9, 16, 12, 6, 3, 1))` 建資料框，再 `geom_line() + geom_point() + labs()`。
+- **莖葉圖（Example 2-14～2-16）**：原本是自訂函式 `leaves_by_stem()`（`vapply` + `paste`）加 `kable`；改為直接 `stem(evening_customers, scale = 2)`、`stem(pallets)`、`stem(taipei)` 與 `stem(taichung)`。背對背莖葉圖由兩個 `stem()` 的結果手排成 Markdown 表格。
+
+## 三、結果
+
+| 項目 | 修改前 | 修改後 |
+|---|---|---|
+| 可見 R 程式碼（英文版，非空白行） | 2,461 行 | 1,734 行 |
+| 自訂函式／pipe／`kable`／`round()` | 散見各章 | 0 |
+| 投影片總數（中英合計） | 2,970 張 | 2,954 張 |
+
+各章投影片增減（中英同步）：ch1 75→74、ch2 109→106、ch3 156→155、ch4 160→157、ch6 109→111、ch7 89→88、ch9 94→96、ch10 117→114，其餘各章不變。減少的多是原本只負責「印出 `kable` 表格」或「把畫好的圖物件印出來」的投影片；增加的是 ch6 圖 6-1 的四個子圖改為一張一圖、兩張常態分位圖分開放，以及 ch9 例題 9-9 與 9-10 改成一值一行後拆頁。
+
+其他值得一提的改動：
+
+- **ch4 例題 4-4 樹狀圖**：畫樹狀圖不是本課要教的 R 技能，繪圖程式改為隱藏（`echo=FALSE`），解題頁只留圖與樣本空間，兩張解題頁併為一張。
+- **ch10 例題 10-8**：拿掉由 $t$ 臨界值反推 $r$ 臨界值的公式（投影片未教），只留 `cor.test()`；臨界值 0.754 由正文的 Table A-8 給出。
+- **ch13 連串檢定**：自訂的 `count_runs()` 改為 `length(rle(x)$lengths)`，三處正文提到 `count_runs()` 的地方同步改寫。
+- **ch6 Key R Functions**：右尾面積只列 `1 - pnorm(z)`。
+
+## 四、檢查（28 個 deck 全數通過）
+
+1. render 成功、無警告；中英版每章投影片張數相同，標題層級、anchor、chunk label 逐一對應，例題交互連結無失效。
+2. 中英版程式碼除了翻譯過的圖表文字與註解外完全相同。
+3. 每個改過的 chunk 都逐一比對新舊輸出，數值一致；正文數字與輸出相符。
+4. Callout 平衡、正文無 Unicode 數學符號。
+5. 版面以 Palatino metric 字型與離線 KaTeX 量測：2,954 張全部至少 7 px 餘裕，沒有程式碼區塊需要水平捲軸。
+
+## 五、交付
+
+- 28 個 `.qmd`、28 個 `.html` 與 158 張圖寫回各章資料夾；刪除 14 張已無人引用的舊圖；`libs/` 未更動。
+- 中文版的圖：本次 render 環境的 knitr（1.45）不會自動對圖檔啟用 showtext，圖內中文字會變得很小；只在 render 用的暫存複本加上 `knitr::opts_chunk$set(fig.showtext = TRUE)`，原始檔不變，輸出的中文字大小與先前版本相同。
+- `prompt/slide-format.Rmd` 的「R style」、「R Code Standards」、假設檢定範例與驗收清單改為上述原則，避免日後再寫出複雜的程式。

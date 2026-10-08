@@ -44,7 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -141,11 +140,16 @@ knitr::opts_chunk$set(fig.align = "center")
 ```{r e4-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 dice <- expand.grid(green = 1:6, orange = 1:6)
 nrow(dice)
-
-pairs <- matrix(paste0("(", dice$green, ", ", dice$orange, ")"), nrow = 6)
-dimnames(pairs) <- list(paste("Green =", 1:6), paste("Orange =", 1:6))
-knitr::kable(pairs, align = "c", caption = "Sample space for two dice")
 ```
+
+| | 橘色 = 1 | 橘色 = 2 | 橘色 = 3 | 橘色 = 4 | 橘色 = 5 | 橘色 = 6 |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 綠色 = 1 | (1, 1) | (1, 2) | (1, 3) | (1, 4) | (1, 5) | (1, 6) |
+| 綠色 = 2 | (2, 1) | (2, 2) | (2, 3) | (2, 4) | (2, 5) | (2, 6) |
+| 綠色 = 3 | (3, 1) | (3, 2) | (3, 3) | (3, 4) | (3, 5) | (3, 6) |
+| 綠色 = 4 | (4, 1) | (4, 2) | (4, 3) | (4, 4) | (4, 5) | (4, 6) |
+| 綠色 = 5 | (5, 1) | (5, 2) | (5, 3) | (5, 4) | (5, 5) | (5, 6) |
+| 綠色 = 6 | (6, 1) | (6, 2) | (6, 3) | (6, 4) | (6, 5) | (6, 6) |
 
 樣本空間中共有 $6 \times 6 = 36$ 個結果。
 :::
@@ -170,12 +174,10 @@ knitr::kable(pairs, align = "c", caption = "Sample space for two dice")
 一副牌有 4 種花色（紅心、方塊、梅花、黑桃），每種花色有 13 個點數（A 到 K），因此樣本空間共有 52 個結果。
 
 ```{r e4-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-suits <- c("Hearts", "Diamonds", "Clubs", "Spades")
-ranks <- c("A", 2:10, "J", "Q", "K")
-deck  <- expand.grid(rank = ranks, suit = suits, stringsAsFactors = FALSE)
-
+deck <- expand.grid(rank = c("A", 2:10, "J", "Q", "K"),
+                    suit = c("Hearts", "Diamonds", "Clubs", "Spades"))
 nrow(deck)
-head(paste(deck$rank, deck$suit), 5)
+head(deck)
 ```
 :::
 
@@ -200,10 +202,8 @@ head(paste(deck$rank, deck$suit), 5)
 
 ```{r e4-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 result <- c("H", "M")
-rolls  <- expand.grid(third = result, second = result, first = result)
-
-outcomes <- paste0(rolls$first, rolls$second, rolls$third)
-outcomes
+rolls  <- expand.grid(first = result, second = result, third = result)
+rolls
 ```
 
 樣本空間為 HHH、HHM、HMH、HMM、MHH、MHM、MMH、MMM。
@@ -236,65 +236,22 @@ outcomes
 :::{.callout-tip}
 ## 解題
 
-**準備節點資料**
+```{r e4-4-1, echo=FALSE, warning=FALSE, out.width="68%", fig.align='center', fig.height=4.2}
+tree <- data.frame(
+  label  = c("Start", "H", "I", "HH", "HI", "IH", "II",
+             "HHH", "HHI", "HIH", "HII", "IHH", "IHI", "IIH", "III"),
+  x      = c(0, -4, 4, -6, -2, 2, 6, -7, -5, -3, -1, 1, 3, 5, 7),
+  y      = c(3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+  from_x = c(0, 0, 0, -4, -4, 4, 4, -6, -6, -2, -2, 2, 2, 6, 6),
+  from_y = c(3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1)
+)
 
-樹狀圖每往下一層，分支數就加倍；第 $d$ 層的節點平均分布在圖的寬度上。
-
-```{r e4-4-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-drink <- c("H", "I")
-
-tree_level <- function(depth) {
-  paths  <- expand.grid(rep(list(drink), depth), stringsAsFactors = FALSE)
-  labels <- do.call(paste0, rev(paths))
-  data.frame(label = labels,
-             x = (seq_along(labels) - (length(labels) + 1) / 2) * 8 / 2^depth,
-             y = 3 - depth)
-}
-
-nodes <- rbind(data.frame(label = "Start", x = 0, y = 3),
-               tree_level(1), tree_level(2), tree_level(3))
-```
-:::
-
----
-
-## 範例 4-4
-
-:::{.callout-tip}
-## 解題
-
-**繪製圖形**
-
-除了根節點之外，每個節點都接在「把自己標籤的最後一個字母去掉」所得到的那個節點下面。
-
-```{r e4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-edges <- nodes |>
-  filter(label != "Start") |>
-  mutate(parent = if_else(nchar(label) == 1, "Start",
-                          substr(label, 1, nchar(label) - 1))) |>
-  left_join(nodes, by = c("parent" = "label"), suffix = c("", "_from"))
-
-tree_plot <- ggplot(nodes, aes(x, y)) +
-  geom_segment(data = edges, aes(xend = x_from, yend = y_from),
-               colour = "steelblue") +
+ggplot(tree, aes(x, y)) +
+  geom_segment(aes(xend = from_x, yend = from_y), colour = "steelblue") +
   geom_label(aes(label = label), size = 3, fill = "lightyellow") +
-  theme_void() +
-  labs(title = "三筆飲料訂單的樹狀圖") +
-  theme(plot.title = element_text(hjust = 0.5))
-```
-:::
-
----
-
-## 範例 4-4
-
-:::{.callout-tip}
-## 解題
-
-**輸出圖形**
-
-```{r e4-4-3, echo=T, warning=FALSE, out.width="68%", fig.align='center'}
-tree_plot
+  labs(title = "三筆飲料訂單的樹狀圖", x = NULL, y = NULL) +
+  theme(axis.text = element_blank(), panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 ```
 
 樣本空間為 HHH、HHI、HIH、HII、IHH、IHI、IIH、III。
@@ -366,9 +323,8 @@ $$P(E) = \frac{\text{事件 } E \text{ 中的結果數}}{\text{樣本空間中�
 擲兩顆骰子共有 36 個結果，其中點數和為 5 的有 4 個，分別是 $(1, 4)$、$(2, 3)$、$(3, 2)$ 與 $(4, 1)$。
 
 ```{r e4-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sums_to_five <- dice$green + dice$orange == 5
-sum(sums_to_five)
-round(mean(sums_to_five), 3)
+sum(dice$green + dice$orange == 5)
+4 / 36
 ```
 
 $$P(\text{sum of 5}) = \frac{4}{36} = \frac{1}{9} \approx 0.111$$
@@ -394,11 +350,11 @@ $$P(\text{sum of 5}) = \frac{4}{36} = \frac{1}{9} \approx 0.111$$
 **數出恰有兩杯冰飲的結果**
 
 ```{r e4-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-orders <- expand.grid(third = drink, second = drink, first = drink)
+drink  <- c("H", "I")
+orders <- expand.grid(first = drink, second = drink, third = drink)
 
-two_iced <- rowSums(orders == "I") == 2
-paste0(orders$first, orders$second, orders$third)[two_iced]
-mean(two_iced)
+orders[rowSums(orders == "I") == 2, ]
+3 / 8
 ```
 
 有利結果為 HII、IHI、IIH 三種，因此機率為 $\tfrac{3}{8} = 0.375$。
@@ -436,14 +392,11 @@ c. 抽到黑桃 A
 **在 52 張牌中分別計數**
 
 ```{r e4-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-card_probs <- c(
-  diamond       = mean(deck$suit == "Diamonds"),
-  black         = mean(deck$suit %in% c("Clubs", "Spades")),
-  ace_of_spades = mean(deck$rank == "A" & deck$suit == "Spades"),
-  ten           = mean(deck$rank == "10"),
-  low_card      = mean(deck$rank %in% c("2", "3", "4", "5")))
-
-round(card_probs, 3)
+sum(deck$suit == "Diamonds") / 52
+sum(deck$suit %in% c("Clubs", "Spades")) / 52
+sum(deck$rank == "A" & deck$suit == "Spades") / 52
+sum(deck$rank == "10") / 52
+sum(deck$rank %in% c("2", "3", "4", "5")) / 52
 ```
 
 $P(\text{方塊}) = \tfrac{13}{52} = \tfrac{1}{4} = 0.25$；$P(\text{黑色}) = \tfrac{26}{52} = \tfrac{1}{2} = 0.5$；$P(\text{黑桃 A}) = \tfrac{1}{52} \approx 0.019$；$P(10) = \tfrac{4}{52} = \tfrac{1}{13} \approx 0.077$；$P(\text{點數 2 至 5}) = \tfrac{16}{52} = \tfrac{4}{13} \approx 0.308$。
@@ -483,7 +436,7 @@ $P(\text{方塊}) = \tfrac{13}{52} = \tfrac{1}{4} = 0.25$；$P(\text{黑色}) = 
 remaining <- deck[deck$suit != "Hearts", ]
 
 nrow(remaining)
-mean(remaining$suit == "Hearts")
+sum(remaining$suit == "Hearts") / 39
 ```
 
 剩下的 39 張牌裡一張紅心都沒有，這個事件不可能發生，所以 $P(\text{紅心}) = \tfrac{0}{39} = 0$。
@@ -507,7 +460,7 @@ mean(remaining$suit == "Hearts")
 **法則 4——必然事件**
 
 ```{r e4-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mean(remaining$suit != "Hearts")
+sum(remaining$suit != "Hearts") / 39
 ```
 
 剩下的 39 張牌全都滿足這個事件，所以 $P(\text{不是紅心}) = \tfrac{39}{39} = 1$。
@@ -554,7 +507,7 @@ d. 從 0 到 9 中選到奇數
 **列出剩下的結果**
 
 ```{r e4-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-month.name[!startsWith(month.name, "J")]
+setdiff(month.name, c("January", "June", "July"))
 setdiff(c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), c("Sat", "Sun"))
 setdiff(2:12, 10:12)
 setdiff(0:9, c(1, 3, 5, 7, 9))
@@ -612,8 +565,7 @@ ggplot() +
 **利用餘事件**
 
 ```{r e4-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_within_one_day <- 0.58
-1 - p_within_one_day
+1 - 0.58
 ```
 
 $$P(\text{2 或以上天數}) = 1 - P(\text{1 天內}) = 1 - 0.58 = 0.42 = 42\%$$
@@ -664,18 +616,13 @@ $$P(E) = \frac{\text{該組的次數}}{\text{分配中的總次數}} = \frac{f}{
 **套用經驗機率公式**
 
 ```{r e4-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-payment <- data.frame(
-  method    = c("Credit card", "Mobile wallet", "Store cash", "Bank transfer"),
-  frequency = c(32, 28, 16, 4))
-payment$rel_freq <- payment$frequency / sum(payment$frequency)
-
-knitr::kable(payment, align = "c", digits = 3,
-             caption = "Payment method used (n = 80)")
+payment <- c(credit_card = 32, mobile_wallet = 28, store_cash = 16, bank_transfer = 4)
+payment / 80
 ```
 
 $$P(\text{行動支付}) = \frac{28}{80} = \frac{7}{20} = 0.35$$
 
-相對次數那一欄就是每個類別的經驗機率。
+相對次數就是每個類別的經驗機率。
 :::
 
 ## 範例 4-13 {#example-4-13}
@@ -700,33 +647,13 @@ d. 消費者沒有使用銀行轉帳
 :::{.callout-tip}
 ## 解題
 
-**讀取次數分配**
-
-```{r e4-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_shoppers <- sum(payment$frequency)
-n_shoppers
-
-knitr::kable(payment[, c("method", "frequency")], align = "c",
-             caption = "Payment method used (n = 80)")
-```
-:::
-
----
-
-## 範例 4-13
-
-:::{.callout-tip}
-## 解題
-
 **計算四個機率**
 
 ```{r e4-13-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_by_method <- setNames(payment$frequency, payment$method)
-
-c(credit_card       = n_by_method[["Credit card"]],
-  wallet_or_cash    = n_by_method[["Mobile wallet"]] + n_by_method[["Store cash"]],
-  neither_of_top_two = n_by_method[["Store cash"]] + n_by_method[["Bank transfer"]],
-  not_bank_transfer = n_shoppers - n_by_method[["Bank transfer"]]) / n_shoppers
+32 / 80
+(28 + 16) / 80
+(16 + 4) / 80
+1 - 4 / 80
 ```
 
 **a.** $P(\text{信用卡}) = \tfrac{32}{80} = \tfrac{2}{5} = 0.4$。**b.** $\tfrac{28}{80} + \tfrac{16}{80} = \tfrac{44}{80} = \tfrac{11}{20} = 0.55$。**c.** 兩者皆非即為超商付現或銀行轉帳：$\tfrac{16}{80} + \tfrac{4}{80} = \tfrac{20}{80} = \tfrac{1}{4} = 0.25$。**d.** $1 - \tfrac{4}{80} = \tfrac{76}{80} = \tfrac{19}{20} = 0.95$。
@@ -762,14 +689,10 @@ c(credit_card       = n_by_method[["Credit card"]],
 **把相關各組的次數相加**
 
 ```{r e4-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-party <- data.frame(
-  size      = c("1 guest", "2 guests", "3 guests", "4 guests", "5 or more"),
-  frequency = c(46, 78, 34, 30, 12))
-knitr::kable(party, align = "c", caption = "Party size at check-in (n = 200)")
-
-counts <- party$frequency
-c(two_guests = counts[2], fewer_than_3 = sum(counts[1:2]),
-  at_most_3 = sum(counts[1:3]), at_least_4 = sum(counts[4:5])) / sum(counts)
+78 / 200
+(46 + 78) / 200
+(46 + 78 + 34) / 200
+(30 + 12) / 200
 ```
 
 **a.** $0.39$。**b.** $\tfrac{124}{200} = 0.62$。**c.** $\tfrac{158}{200} = 0.79$。**d.** $\tfrac{42}{200} = 0.21$。
@@ -792,15 +715,14 @@ c(two_guests = counts[2], fewer_than_3 = sum(counts[1:2]),
 ```{r s4-1-2, echo=T, warning=FALSE, out.width="70%", fig.align='center'}
 set.seed(2023)
 tosses  <- sample(c(1, 0), 5000, replace = TRUE)
-running <- tibble(n = seq_along(tosses),
-                  proportion = cumsum(tosses) / seq_along(tosses))
+running <- data.frame(n = 1:5000, proportion = cumsum(tosses) / 1:5000)
 
 ggplot(running, aes(n, proportion)) +
-  geom_line(color = "steelblue") +
-  geom_hline(yintercept = 0.5, linetype = "dashed", color = "red") +
+  geom_line() +
+  geom_hline(yintercept = 0.5) +
   scale_x_log10() +
-  labs(x = "擲硬幣次數（對數刻度）", y = "正面所佔比例",
-       title = "正面比例逐漸趨近 0.5")
+  labs(title = "正面比例逐漸趨近 0.5",
+       x = "擲硬幣次數（對數刻度）", y = "正面所佔比例")
 ```
 
 ## 主觀機率
@@ -869,9 +791,7 @@ d. 隨機選到一筆金額低於 500 元的訂單
 **檢查兩事件是否有共同結果**
 
 ```{r e4-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-even      <- c(2, 4, 6)
-greater_4 <- c(5, 6)
-intersect(even, greater_4)
+intersect(c(2, 4, 6), c(5, 6))
 ```
 
 **a.** 不互斥——一筆訂單可以同時以信用卡付款並寄往海外。**b.** 互斥——一位員工只會隸屬於一個辦公室。**c.** 不互斥——6 既是偶數也大於 4。**d.** 互斥——同一筆訂單不可能同時低於 500 元又高於 2,000 元。
@@ -902,19 +822,10 @@ d. 抽到人頭牌與抽到 A
 **數出同時屬於兩個事件的牌**
 
 ```{r e4-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-is_king  <- deck$rank == "K"
-is_ten   <- deck$rank == "10"
-is_queen <- deck$rank == "Q"
-is_heart <- deck$suit == "Hearts"
-is_spade <- deck$suit == "Spades"
-is_black <- deck$suit %in% c("Clubs", "Spades")
-is_face  <- deck$rank %in% c("J", "Q", "K")
-is_ace   <- deck$rank == "A"
-
-c(king_and_ten    = sum(is_king & is_ten),
-  queen_and_heart = sum(is_queen & is_heart),
-  spade_and_black = sum(is_spade & is_black),
-  face_and_ace    = sum(is_face & is_ace))
+sum(deck$rank == "K" & deck$rank == "10")
+sum(deck$rank == "Q" & deck$suit == "Hearts")
+sum(deck$suit == "Spades" & deck$suit %in% c("Clubs", "Spades"))
+sum(deck$rank %in% c("J", "Q", "K") & deck$rank == "A")
 ```
 
 **a.** 互斥。**b.** 不互斥——紅心 Q。**c.** 不互斥——黑桃本來就是黑色的牌。**d.** 互斥——A 不算人頭牌。
@@ -953,10 +864,8 @@ $$P(A \text{ 或 } B \text{ 或 } C) = P(A) + P(B) + P(C)$$
 **兩事件互斥，直接相加**
 
 ```{r e4-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-containers <- c(japan = 48, vietnam = 35, united_states = 57)
-
-sum(containers)
-sum(containers[c("japan", "united_states")]) / sum(containers)
+48 + 35 + 57
+48 / 140 + 57 / 140
 ```
 
 $$P(\text{日本或美國}) = \frac{48}{140} + \frac{57}{140} = \frac{105}{140} = \frac{3}{4} = 0.75$$
@@ -988,10 +897,8 @@ $$P(\text{日本或美國}) = \frac{48}{140} + \frac{57}{140} = \frac{105}{140} 
 **把兩個互斥事件的機率相加**
 
 ```{r e4-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-staff <- c(taoyuan = 180, taichung = 420, tainan = 150)
-
-sum(staff)
-sum(staff[c("taoyuan", "taichung")]) / sum(staff)
+180 + 420 + 150
+180 / 750 + 420 / 750
 ```
 
 $$P(\text{桃園或台中}) = \frac{180}{750} + \frac{420}{750} = \frac{600}{750} = \frac{4}{5} = 0.8$$
@@ -1015,9 +922,7 @@ $$P(\text{桃園或台中}) = \frac{180}{750} + \frac{420}{750} = \frac{600}{750
 **這些類別彼此互斥**
 
 ```{r e4-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-arrival <- c(mrt = 0.46, scooter = 0.28, on_foot = 0.18, car = 0.08)
-
-sum(arrival[c("scooter", "on_foot")])
+0.28 + 0.18
 ```
 
 $$P(\text{機車或步行}) = 0.28 + 0.18 = 0.46 = 46\%$$
@@ -1065,11 +970,13 @@ P(A \text{ 或 } B \text{ 或 } C) = {} & P(A) + P(B) + P(C) \\
 **扣掉重複的部分——方塊 J、Q、K**
 
 ```{r e4-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-is_diamond <- deck$suit == "Diamonds"
+face    <- deck$rank %in% c("J", "Q", "K")
+diamond <- deck$suit == "Diamonds"
 
-c(face = sum(is_face), diamond = sum(is_diamond),
-  both = sum(is_face & is_diamond))
-round(mean(is_face | is_diamond), 3)
+sum(face)
+sum(diamond)
+sum(face & diamond)
+12 / 52 + 13 / 52 - 3 / 52
 ```
 
 $$P(\text{人頭牌或方塊}) = \frac{12}{52} + \frac{13}{52} - \frac{3}{52} = \frac{22}{52} = \frac{11}{26} \approx 0.423$$
@@ -1096,12 +1003,8 @@ $$P(\text{人頭牌或方塊}) = \frac{12}{52} + \frac{13}{52} - \frac{3}{52} = 
 visitors <- matrix(c(7, 11, 9, 3), nrow = 2, byrow = TRUE,
                    dimnames = list(c("Retail buyer", "Distributor"),
                                    c("Overseas", "Domestic")))
-knitr::kable(addmargins(visitors), align = "c",
-             caption = "Trade fair visitors (n = 30)")
-
-distributor <- sum(visitors["Distributor", ])
-overseas    <- sum(visitors[, "Overseas"])
-round((distributor + overseas - visitors["Distributor", "Overseas"]) / sum(visitors), 3)
+addmargins(visitors)
+12 / 30 + 16 / 30 - 9 / 30
 ```
 
 $$P(\text{經銷商或海外}) = \frac{12}{30} + \frac{16}{30} - \frac{9}{30} = \frac{19}{30} \approx 0.633$$
@@ -1125,11 +1028,7 @@ $$P(\text{經銷商或海外}) = \frac{12}{30} + \frac{16}{30} - \frac{9}{30} = 
 **兩事件並不互斥**
 
 ```{r e4-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_inspected <- 0.24
-p_delayed   <- 0.15
-p_both      <- 0.09
-
-p_inspected + p_delayed - p_both
+0.24 + 0.15 - 0.09
 ```
 
 $$P(\text{查驗或延誤}) = 0.24 + 0.15 - 0.09 = 0.30$$
@@ -1213,12 +1112,10 @@ $$P(A \text{ 且 } B \text{ 且 } C \text{ 且 } \cdots \text{ 且 } K) = P(A) \
 **把兩個獨立機率相乘**
 
 ```{r e4-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_head      <- 1 / 2
-p_over_four <- 2 / 6
-round(p_head * p_over_four, 3)
+(1 / 2) * (2 / 6)
 
 toss_roll <- expand.grid(coin = c("H", "T"), die = 1:6)
-mean(toss_roll$coin == "H" & toss_roll$die > 4)
+sum(toss_roll$coin == "H" & toss_roll$die > 4) / 12
 ```
 
 $$P(\text{正面且點數大於 4}) = \frac{1}{2} \cdot \frac{2}{6} = \frac{2}{12} = \frac{1}{6} \approx 0.167$$
@@ -1244,9 +1141,7 @@ $$P(\text{正面且點數大於 4}) = \frac{1}{2} \cdot \frac{2}{6} = \frac{2}{1
 **放回抽樣使兩次抽牌互相獨立**
 
 ```{r e4-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_face  <- 12 / 52
-p_spade <- 13 / 52
-round(p_face * p_spade, 3)
+(12 / 52) * (13 / 52)
 ```
 
 $$P(\text{人頭牌接著黑桃}) = \frac{3}{13} \cdot \frac{1}{4} = \frac{3}{52} \approx 0.058$$
@@ -1276,13 +1171,9 @@ c. 先抽到 2 個紅色籌碼，再抽到綠色籌碼
 **因為籌碼會放回，每次的機率都相同**
 
 ```{r e4-25-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_red    <- 4 / 12
-p_green  <- 3 / 12
-p_yellow <- 5 / 12
-
-round(c(three_yellow      = p_yellow^3,
-        green_then_red    = p_green * p_red,
-        two_red_one_green = p_red^2 * p_green), 3)
+(5 / 12)^3
+(3 / 12) * (4 / 12)
+(4 / 12)^2 * (3 / 12)
 ```
 
 **a.** $\left(\tfrac{5}{12}\right)^3 = \tfrac{125}{1728} \approx 0.072$。**b.** $\tfrac{3}{12} \cdot \tfrac{4}{12} = \tfrac{1}{12} \approx 0.083$。**c.** $\left(\tfrac{4}{12}\right)^2 \cdot \tfrac{3}{12} = \tfrac{1}{36} \approx 0.028$。
@@ -1306,8 +1197,7 @@ round(c(three_yellow      = p_yellow^3,
 **視三次選取為互相獨立**
 
 ```{r e4-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_wallet <- 0.45
-round(p_wallet^3, 3)
+0.45^3
 ```
 
 $$P(W \text{ and } W \text{ and } W) = (0.45)(0.45)(0.45) \approx 0.091$$
@@ -1333,8 +1223,7 @@ $$P(W \text{ and } W \text{ and } W) = (0.45)(0.45)(0.45) \approx 0.091$$
 **將三個機率相乘**
 
 ```{r e4-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_retry <- 0.06
-p_retry^3
+0.06^3
 ```
 
 $$P(R \text{ and } R \text{ and } R) = (0.06)(0.06)(0.06) = 0.000216$$
@@ -1382,10 +1271,7 @@ $$P(A \text{ 且 } B) = P(A) \cdot P(B \mid A)$$
 **套用乘法規則二**
 
 ```{r e4-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_escalated <- 0.045
-p_refund_given_escalated <- 0.40
-
-p_escalated * p_refund_given_escalated
+0.045 * 0.40
 ```
 
 $$P(E \text{ and } R) = P(E) \cdot P(R \mid E) = (0.045)(0.40) = 0.018$$
@@ -1409,10 +1295,7 @@ $$P(E \text{ and } R) = P(E) \cdot P(R \mid E) = (0.045)(0.40) = 0.018$$
 **令 $K$ 為完成訂房、$B$ 為加購早餐**
 
 ```{r e4-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_booking <- 0.35
-p_breakfast_given_booking <- 0.60
-
-p_booking * p_breakfast_given_booking
+0.35 * 0.60
 ```
 
 $$P(K \text{ and } B) = P(K) \cdot P(B \mid K) = (0.35)(0.60) = 0.21$$
@@ -1445,10 +1328,10 @@ d. 依序抽到紅色、黑色、紅色的牌
 **每抽一張，分母就少 1**
 
 ```{r e4-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(three_kings    = 4/52 * 3/51 * 2/50,
-        ten_jack_queen = 4/52 * 4/51 * 4/50,
-        three_diamonds = 13/52 * 12/51 * 11/50,
-        red_black_red  = 26/52 * 26/51 * 25/50), 4)
+(4 / 52) * (3 / 51) * (2 / 50)
+(4 / 52) * (4 / 51) * (4 / 50)
+(13 / 52) * (12 / 51) * (11 / 50)
+(26 / 52) * (26 / 51) * (25 / 50)
 ```
 
 **a.** $\tfrac{24}{132{,}600} = \tfrac{1}{5525} \approx 0.0002$。**b.** $\tfrac{64}{132{,}600} = \tfrac{8}{16{,}575} \approx 0.0005$。**c.** $\tfrac{1716}{132{,}600} = \tfrac{11}{850} \approx 0.0129$。**d.** $\tfrac{16{,}900}{132{,}600} = \tfrac{13}{102} \approx 0.1275$。
@@ -1472,14 +1355,7 @@ round(c(three_kings    = 4/52 * 3/51 * 2/50,
 **沿樹狀圖的每條路徑相乘**
 
 ```{r e4-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-branches <- data.frame(
-  bin              = c("Bin 1", "Bin 1", "Bin 2", "Bin 2"),
-  part             = c("A grade", "B grade", "A grade", "B grade"),
-  p_bin            = 1 / 2,
-  p_part_given_bin = c(3/5, 2/5, 1/5, 4/5))
-branches$product <- branches$p_bin * branches$p_part_given_bin
-knitr::kable(branches, align = "c", digits = 3, caption = "Tree branches")
-sum(branches$product[branches$part == "A grade"])
+(1 / 2) * (3 / 5) + (1 / 2) * (1 / 5)
 ```
 
 $$P(\text{A 級}) = \frac{1}{2} \cdot \frac{3}{5} + \frac{1}{2} \cdot \frac{1}{5} = \frac{3}{10} + \frac{1}{10} = \frac{2}{5} = 0.4$$
@@ -1517,10 +1393,7 @@ $$P(B \mid A) = \frac{P(A \text{ 且 } B)}{P(A)}$$
 **令 $R$ 為抽到紅色籌碼、$G$ 為抽到綠色籌碼**
 
 ```{r e4-32-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_red_then_green <- 8 / 33
-p_red_first      <- 4 / 11
-
-round(p_red_then_green / p_red_first, 3)
+(8 / 33) / (4 / 11)
 ```
 
 $$P(G \mid R) = \frac{P(R \text{ and } G)}{P(R)} = \frac{8/33}{4/11} = \frac{8}{33} \cdot \frac{11}{4} = \frac{2}{3} \approx 0.667$$
@@ -1544,10 +1417,7 @@ $$P(G \mid R) = \frac{P(R \text{ and } G)}{P(R)} = \frac{8/33}{4/11} = \frac{8}{
 **令 $C$ 為當天通關、$D$ 為準時送達**
 
 ```{r e4-33-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_cleared_and_on_time <- 0.28
-p_cleared             <- 0.40
-
-p_cleared_and_on_time / p_cleared
+0.28 / 0.40
 ```
 
 $$P(D \mid C) = \frac{P(C \text{ and } D)}{P(C)} = \frac{0.28}{0.40} = 0.70$$
@@ -1582,13 +1452,8 @@ $$P(D \mid C) = \frac{P(C \text{ and } D)}{P(C)} = \frac{0.28}{0.40} = 0.70$$
 **分別以列總和或行總和為條件**
 
 ```{r e4-34-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-plans <- matrix(c(18, 42, 36, 24), nrow = 2, byrow = TRUE,
-                dimnames = list(c("Small", "Large"), c("Yes", "No")))
-knitr::kable(addmargins(plans), align = "c",
-             caption = "Plan to open a Southeast Asia office (n = 120)")
-
-round(c(yes_given_large = plans["Large", "Yes"] / sum(plans["Large", ]),
-        small_given_no  = plans["Small", "No"] / sum(plans[, "No"])), 3)
+(36 / 120) / (60 / 120)
+(42 / 120) / (66 / 120)
 ```
 
 **a.** $P(Y \mid L) = \dfrac{36/120}{60/120} = \dfrac{3}{5} = 0.6$。**b.** $P(S \mid N) = \dfrac{42/120}{66/120} = \dfrac{7}{11} \approx 0.636$。
@@ -1624,9 +1489,8 @@ $$P(\text{至少一次}) = 1 - P(\text{完全沒有})$$
 **令 $E$ 為至少一張黑桃、$\bar{E}$ 為完全沒有黑桃**
 
 ```{r e4-35-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_no_spade <- (39 / 52)^4
-p_no_spade
-round(1 - p_no_spade, 3)
+(39 / 52)^4
+1 - (39 / 52)^4
 ```
 
 $$P(\bar{E}) = \left(\frac{3}{4}\right)^4 = \frac{81}{256}, \qquad P(E) = 1 - \frac{81}{256} = \frac{175}{256} \approx 0.684 = 68.4\%$$
@@ -1650,9 +1514,8 @@ $$P(\bar{E}) = \left(\frac{3}{4}\right)^4 = \frac{81}{256}, \qquad P(E) = 1 - \f
 **先求完全沒出現 6 點的機率，再用 1 減去**
 
 ```{r e4-36-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_no_six <- (5 / 6)^4
-p_no_six
-round(1 - p_no_six, 3)
+(5 / 6)^4
+1 - (5 / 6)^4
 ```
 
 $$P(\text{至少一次 6 點}) = 1 - \left(\frac{5}{6}\right)^4 = 1 - \frac{625}{1296} = \frac{671}{1296} \approx 0.518$$
@@ -1678,9 +1541,8 @@ $$P(\text{至少一次 6 點}) = 1 - \left(\frac{5}{6}\right)^4 = 1 - \frac{625}
 **令 $E$ 為至少抽到一件不良品**
 
 ```{r e4-37-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_none_defective <- (1 - 0.04)^5
-round(p_none_defective, 3)
-round(1 - p_none_defective, 3)
+0.96^5
+1 - 0.96^5
 ```
 
 $$P(\text{沒有不良品}) = (0.96)^5 \approx 0.815, \qquad P(\text{至少一件不良品}) = 1 - 0.815 = 0.185$$
@@ -1722,12 +1584,7 @@ $$k_1 \cdot k_2 \cdot k_3 \cdots k_n$$
 **把每個階段的可能數相乘**
 
 ```{r e4-38-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-bases    <- c("Black", "Green", "Oolong")
-toppings <- c("Pearls", "Grass jelly", "Pudding", "Taro", "Aloe")
-
-drinks <- expand.grid(base = bases, topping = toppings)
-nrow(drinks)
-paste(drinks$base, drinks$topping, sep = " + ")
+3 * 5
 ```
 
 茶底有 3 種選法、配料有 5 種選法，因此共有 $3 \cdot 5 = 15$ 種飲料。
@@ -1760,8 +1617,7 @@ paste(drinks$base, drinks$topping, sep = " + ")
 **每個類別各選一項**
 
 ```{r e4-39-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-choices_per_step <- c(port = 3, term = 4, container = 2, insurance = 2)
-prod(choices_per_step)
+3 * 4 * 2 * 2
 ```
 
 $$3 \cdot 4 \cdot 2 \cdot 2 = 48$$
@@ -1787,11 +1643,7 @@ $$3 \cdot 4 \cdot 2 \cdot 2 = 48$$
 **把三種分類相乘**
 
 ```{r e4-40-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-labels <- expand.grid(size   = c("S", "M", "L", "XL"),
-                      colour = c("Black", "White", "Navy"),
-                      fit    = c("Regular", "Slim"))
-nrow(labels)
-head(paste(labels$size, labels$colour, labels$fit, sep = ", "), 6)
+4 * 3 * 2
 ```
 
 $$4 \cdot 3 \cdot 2 = 24 \text{ 種不同的標籤}$$
@@ -1816,7 +1668,7 @@ $$4 \cdot 3 \cdot 2 = 24 \text{ 種不同的標籤}$$
 
 ```{r e4-41-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 10^3
-prod(10:8)
+10 * 9 * 8
 ```
 
 $$10 \cdot 10 \cdot 10 = 1000$$
@@ -1905,7 +1757,7 @@ factorial(6)
 **物件沒有全部用完**
 
 ```{r e4-43-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-prod(7:5)
+7 * 6 * 5
 ```
 
 $$7 \cdot 6 \cdot 5 = 210$$
@@ -1926,10 +1778,8 @@ $${}_nP_r = \frac{n!}{(n-r)!}$$
 範例 4-42 與 4-43 也可用此規則求解：$_6P_6 = \dfrac{6!}{0!} = 720$（注意 $0! = 1$），$_7P_3 = \dfrac{7!}{4!} = 210$。
 
 ```{r s4-4-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_permutations <- function(n, r) factorial(n) / factorial(n - r)
-
-c(P_6_6 = n_permutations(6, 6), P_7_3 = n_permutations(7, 3))
-c(P_6_6 = choose(6, 6) * factorial(6), P_7_3 = choose(7, 3) * factorial(3))
+factorial(6) / factorial(6 - 6)
+factorial(7) / factorial(7 - 3)
 ```
 
 ## 範例 4-44 {#example-4-44}
@@ -2016,9 +1866,7 @@ $$\frac{n!}{r_1!\, r_2! \cdots r_p!}$$
 LOGISTICS 中有 2 個 I、2 個 S，以及各 1 個的 L、O、G、T、C。
 
 ```{r e4-46-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-letter_counts <- table(strsplit("LOGISTICS", "")[[1]])
-letter_counts
-factorial(9) / prod(factorial(as.integer(letter_counts)))
+factorial(9) / (factorial(2) * factorial(2))
 ```
 
 $$\frac{9!}{2!\,2!\,1!\,1!\,1!\,1!\,1!} = 90{,}720$$
@@ -2071,7 +1919,7 @@ $${}_nC_r = \frac{{}_nP_r}{r!} \qquad \text{且} \qquad {}_nC_n = 1$$
 
 ```{r e4-47-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 choose(5, 3)
-t(combn(c("A", "B", "C", "D", "E"), 3))
+combn(c("A", "B", "C", "D", "E"), 3)
 ```
 
 $$_5C_3 = \frac{5!}{(5-3)!\,3!} = \frac{5!}{2!\,3!} = 10$$
@@ -2123,7 +1971,8 @@ $$_9C_3 = \frac{9!}{(9-3)!\,3!} = \frac{9!}{6!\,3!} = 84$$
 **用基本計數規則把兩次選取合併**
 
 ```{r e4-49-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-c(analysts = choose(6, 2), engineers = choose(7, 3))
+choose(6, 2)
+choose(7, 3)
 choose(6, 2) * choose(7, 3)
 ```
 
@@ -2214,12 +2063,10 @@ b. 沒有任何一個有刮傷     d. 至少有 1 個有刮傷
 **每一小題的分母都是 $_{20}C_3$**
 
 ```{r e4-51-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_shipments <- choose(20, 3)
-n_shipments
-
-c(exactly_1 = choose(5, 1) * choose(15, 2),
-  none      = choose(15, 3),
-  all       = choose(5, 3))
+choose(20, 3)
+choose(5, 1) * choose(15, 2)
+choose(15, 3)
+choose(5, 3)
 ```
 
 從 20 個手機殼中出貨 3 個共有 $_{20}C_3 = 1140$ 種方式。
@@ -2235,10 +2082,10 @@ c(exactly_1 = choose(5, 1) * choose(15, 2),
 **各自除以 1140**
 
 ```{r e4-51-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(c(exactly_1  = choose(5, 1) * choose(15, 2),
-        none       = choose(15, 3),
-        all        = choose(5, 3),
-        at_least_1 = n_shipments - choose(15, 3)) / n_shipments, 4)
+525 / 1140
+455 / 1140
+10 / 1140
+1 - 455 / 1140
 ```
 
 **a.** $\dfrac{525}{1140} = \dfrac{35}{76} \approx 0.4605$。**b.** $\dfrac{455}{1140} = \dfrac{91}{228} \approx 0.3991$。**c.** $\dfrac{10}{1140} = \dfrac{1}{114} \approx 0.0088$。**d.** $1 - \dfrac{91}{228} = \dfrac{137}{228} \approx 0.6009$。
@@ -2264,7 +2111,7 @@ round(c(exactly_1  = choose(5, 1) * choose(15, 2),
 ```{r e4-52-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 choose(5, 1) * choose(10, 1)
 choose(15, 2)
-round(choose(5, 1) * choose(10, 1) / choose(15, 2), 3)
+choose(5, 1) * choose(10, 1) / choose(15, 2)
 ```
 
 $$P(\text{一個財務與一個行銷}) = \frac{{}_5C_1 \cdot {}_{10}C_1}{{}_{15}C_2} = \frac{50}{105} = \frac{10}{21} \approx 0.476 = 47.6\%$$
@@ -2290,11 +2137,8 @@ $$P(\text{一個財務與一個行銷}) = \frac{{}_5C_1 \cdot {}_{10}C_1}{{}_{15
 四位數字全部相同的號碼共有十組，從 0000 到 9999。
 
 ```{r e4-53-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_codes  <- 10^4
-all_same <- 10
-
-n_codes
-all_same / n_codes
+10^4
+10 / 10000
 ```
 
 $$P(\text{四位數字相同}) = \frac{10}{10{,}000} = \frac{1}{1000} = 0.001$$
@@ -2318,9 +2162,8 @@ $$P(\text{四位數字相同}) = \frac{10}{10{,}000} = \frac{1}{1000} = 0.001$$
 **數出選出這一對的方法數**
 
 ```{r e4-54-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-n_pairs <- choose(20, 2)
-n_pairs
-round(10 / n_pairs, 4)
+choose(20, 2)
+10 / 190
 ```
 
 從 20 人中選出 2 人共有 $_{20}C_2 = 190$ 種方式，其中只有 10 對共用辦公室，因此

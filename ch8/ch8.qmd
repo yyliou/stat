@@ -42,7 +42,7 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
+theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
@@ -387,13 +387,10 @@ Find the critical value(s) for each situation and draw the appropriate figure, s
 **Step 2 — read the $z$ score.** In R, `qnorm()` plays the role of Table A-4.
 
 ```{r e8-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-alpha_right <- 0.02
-alpha_two   <- 0.05
-alpha_left  <- 0.10
-
-round(qnorm(1 - alpha_right), 2)
-round(qnorm(c(alpha_two / 2, 1 - alpha_two / 2)), 2)
-round(qnorm(alpha_left), 2)
+qnorm(0.98)
+qnorm(0.025)
+qnorm(0.975)
+qnorm(0.10)
 ```
 
 **Answers.** (a) $+2.05$; (b) $-1.96$ and $+1.96$; (c) $-1.28$.
@@ -403,24 +400,14 @@ round(qnorm(alpha_left), 2)
 
 ## Critical and Noncritical Regions in R
 
-**Draw figure** — the right-tailed case of Figure 8-5, with $\alpha = 0.01$.
+**Prepare data** — the right-tailed case of Figure 8-5, with $\alpha = 0.01$.
 
 ```{r s8-1-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-critical_value <- qnorm(0.99)
+cv <- qnorm(0.99)
+x <- seq(-4, 4, by = 0.01)
+curve <- data.frame(x, density = dnorm(x))
 
-normal_curve <- tibble(z = seq(-4, 4, length.out = 400)) |>
-  mutate(density = dnorm(z))
-
-region_plot <- ggplot(normal_curve, aes(z, density)) +
-  geom_area(data = filter(normal_curve, z >= critical_value),
-            fill = "firebrick", alpha = 0.6) +
-  geom_line(linewidth = 0.8) +
-  geom_vline(xintercept = critical_value, linetype = "dashed") +
-  annotate("text", x =  3.0, y = 0.03, label = "critical region 0.01") +
-  annotate("text", x = -0.4, y = 0.15, label = "noncritical region 0.99") +
-  labs(title = "Critical and Noncritical Regions, Right-Tailed Test",
-       x = "z", y = "Density") +
-  theme_minimal()
+cv
 ```
 
 ---
@@ -429,8 +416,13 @@ region_plot <- ggplot(normal_curve, aes(z, density)) +
 
 **Output figure**
 
-```{r s8-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-region_plot
+```{r s8-1-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=3.5}
+ggplot(curve, aes(x, density)) +
+  geom_area(data = filter(curve, x >= cv)) +
+  geom_line() +
+  geom_vline(xintercept = cv) +
+  labs(title = "Critical and Noncritical Regions, Right-Tailed Test",
+       x = "z", y = "Density")
 ```
 
 The shaded area to the right of the critical value $z = 2.326$ is the **critical (rejection) region**; everything to the left is the **noncritical (nonrejection) region**.
@@ -577,15 +569,8 @@ A category manager believes that the average basket size at her convenience-stor
 **Step 3 — compute the test statistic.**
 
 ```{r e8-3-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 122.5
-hypothesized_mean <- 118
-population_sd <- 12
-sample_size <- 35
-
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (population_sd / sqrt(sample_size))
-
-round(c(z = test_statistic, critical_value = qnorm(0.95)), 3)
+(122.5 - 118) / (12 / sqrt(35))
+qnorm(0.95)
 ```
 
 **Step 4.** Since $2.219$ is greater than the critical value $1.645$, the decision is to **reject $H_0$**.
@@ -632,15 +617,11 @@ delivery_hours <- c(46, 52, 44, 49, 41, 55,
                     72, 44, 47, 50, 46, 43,
                     26, 48, 52, 45, 49, 47,
                     80, 41, 44, 50, 30, 48)
+x_bar <- mean(delivery_hours)
 
-hypothesized_mean <- 48
-population_sd <- 9
-sample_mean <- mean(delivery_hours)
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (population_sd / sqrt(length(delivery_hours)))
-
-round(c(mean = sample_mean, z = test_statistic,
-        critical_value = qnorm(0.10)), 3)
+x_bar
+(x_bar - 48) / (9 / sqrt(36))
+qnorm(0.10)
 ```
 :::
 
@@ -682,16 +663,9 @@ An airline's operations report states that checked bags on its Taipei-Tokyo rout
 **Step 3 — compute the test statistic.**
 
 ```{r e8-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 19.1
-hypothesized_mean <- 18
-population_sd <- 3.0
-sample_size <- 40
-
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (population_sd / sqrt(sample_size))
-
-round(c(z = test_statistic, lower_cv = qnorm(0.005),
-        upper_cv = qnorm(0.995)), 3)
+(19.1 - 18) / (3.0 / sqrt(40))
+qnorm(0.005)
+qnorm(0.995)
 ```
 
 **Step 4.** The test statistic $2.319$ falls in the noncritical region, so **do not reject $H_0$**.
@@ -741,16 +715,10 @@ A franchise consultant wishes to test the claim that the average monthly revenue
 **Step 2 and Step 3 — compute the test statistic and the P-value.**
 
 ```{r e8-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 902
-hypothesized_mean <- 860
-population_sd <- 118
-sample_size <- 36
+z <- (902 - 860) / (118 / sqrt(36))
 
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (population_sd / sqrt(sample_size))
-p_value <- pnorm(test_statistic, lower.tail = FALSE)
-
-round(c(z = test_statistic, p_value = p_value), 4)
+z
+1 - pnorm(z)
 ```
 
 **Step 4.** Since the P-value $0.0164$ is less than 0.05, **reject $H_0$**.
@@ -780,16 +748,10 @@ A food-delivery platform claims that the average time a courier needs to pick up
 **Step 2 and Step 3 — compute the test statistic and the P-value.**
 
 ```{r e8-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 12.6
-hypothesized_mean <- 12
-population_sd <- 1.9
-sample_size <- 32
+z <- (12.6 - 12) / (1.9 / sqrt(32))
 
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (population_sd / sqrt(sample_size))
-p_value <- 2 * pnorm(test_statistic, lower.tail = FALSE)
-
-round(c(z = test_statistic, p_value = p_value), 4)
+z
+2 * (1 - pnorm(abs(z)))
 ```
 
 **Step 4.** The decision is to **not reject $H_0$**, since the P-value $0.0740$ is greater than 0.05.
@@ -873,7 +835,7 @@ Find the critical $t$ value for $\alpha = 0.05$ with $\text{d.f.} = 19$ for a ri
 Find the 0.05 column in the top row labelled *One tail* and 19 in the left-hand column. The critical value is $+1.729$.
 
 ```{r e8-8-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qt(1 - 0.05, df = 19), 3)
+qt(0.95, df = 19)
 ```
 :::
 
@@ -897,7 +859,7 @@ Find the critical $t$ value for $\alpha = 0.01$ with $\text{d.f.} = 17$ for a le
 Find the critical value in the 0.01 column in the row labelled *One tail*, and find 17 in the left column. The critical value is $-2.567$.
 
 ```{r e8-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qt(0.01, df = 17), 3)
+qt(0.01, df = 17)
 ```
 :::
 
@@ -921,7 +883,8 @@ Find the critical values for $\alpha = 0.05$ with $\text{d.f.} = 23$ for a two-t
 Find the 0.05 column in the row labelled *Two tails* and 23 in the column labelled d.f. The critical values are $-2.069$ and $+2.069$.
 
 ```{r e8-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qt(c(0.05 / 2, 1 - 0.05 / 2), df = 23), 3)
+qt(0.025, df = 23)
+qt(0.975, df = 23)
 ```
 :::
 
@@ -945,7 +908,7 @@ Find the critical value for $\alpha = 0.10$ with $\text{d.f.} = 12$ for a right-
 Find the critical value in the 0.10 column in the *One tail* row and 12 in the d.f. column. The critical value is $+1.356$.
 
 ```{r e8-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qt(1 - 0.10, df = 12), 3)
+qt(0.90, df = 12)
 ```
 :::
 
@@ -990,16 +953,8 @@ A customer-service centre claims that the average time an agent needs to handle 
 **Step 3 — compute the test statistic.**
 
 ```{r e8-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 5.3
-hypothesized_mean <- 4.5
-sample_sd <- 1.1
-sample_size <- 12
-
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (sample_sd / sqrt(sample_size))
-
-round(c(t = test_statistic,
-        critical_value = qt(1 - 0.05 / 2, df = sample_size - 1)), 3)
+(5.3 - 4.5) / (1.1 / sqrt(12))
+qt(0.975, df = 11)
 ```
 
 **Step 4.** **Reject $H_0$** since $2.519 > 2.201$.
@@ -1037,11 +992,10 @@ An industry report states that small exporters wait on average 27 days to be pai
 ```{r e8-13-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 days_to_payment <- c(24, 31, 19, 27, 22, 30, 18, 25, 21, 26)
 
-payment_test <- t.test(days_to_payment, mu = 27, alternative = "less")
-
-round(c(mean = mean(days_to_payment), sd = sd(days_to_payment)), 3)
-round(c(t = unname(payment_test$statistic),
-        critical_value = qt(0.10, df = length(days_to_payment) - 1)), 3)
+mean(days_to_payment)
+sd(days_to_payment)
+t.test(days_to_payment, mu = 27, alternative = "less")$statistic
+qt(0.10, df = 9)
 ```
 
 **Step 4.** **Reject $H_0$** since $-1.953$ falls in the critical region.
@@ -1083,7 +1037,7 @@ Across the row with $\text{d.f.} = 13$, the value 2.462 falls between 2.160 and 
 $$0.01 < P\text{-value} < 0.025$$
 
 ```{r e8-14-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pt(2.462, df = 13, lower.tail = FALSE), 4)
+1 - pt(2.462, df = 13)
 ```
 
 The exact P-value is $0.0143$, which lies inside the interval read from the table. If $\alpha$ were 0.05, $H_0$ would be rejected; if $\alpha$ were 0.01, it would not.
@@ -1111,7 +1065,7 @@ Across the row with $\text{d.f.} = 8$, the value 2.575 falls between 2.306 and 2
 $$0.02 < P\text{-value} < 0.05$$
 
 ```{r e8-15-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(2 * pt(2.575, df = 8, lower.tail = FALSE), 4)
+2 * (1 - pt(2.575, df = 8))
 ```
 
 The exact P-value is $0.0329$. At $\alpha = 0.05$ the null hypothesis can be rejected; at $\alpha = 0.01$ it cannot.
@@ -1139,16 +1093,10 @@ A trade association claims that firms which joined its export-promotion programm
 **Step 2 and Step 3 — compute the test statistic and the P-value.**
 
 ```{r e8-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 27.8
-hypothesized_mean <- 24
-sample_sd <- 6.2
-sample_size <- 15
+t_stat <- (27.8 - 24) / (6.2 / sqrt(15))
 
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (sample_sd / sqrt(sample_size))
-p_value <- pt(test_statistic, df = sample_size - 1, lower.tail = FALSE)
-
-round(c(t = test_statistic, p_value = p_value), 4)
+t_stat
+1 - pt(t_stat, df = 14)
 ```
 
 From Table A-5 with $\text{d.f.} = 14$, the value 2.3738 falls between 2.145 and 2.624, so $0.01 < P\text{-value} < 0.025$; the exact P-value is $0.0162$.
@@ -1232,16 +1180,11 @@ A market-research note claims that 30% of online shoppers in Taiwan pay with a m
 **Step 3 — compute the test statistic.**
 
 ```{r e8-17-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-successes <- 42
-sample_size <- 120
-hypothesized_p <- 0.30
+p_hat <- 42 / 120
 
-sample_proportion <- successes / sample_size
-standard_error <- sqrt(hypothesized_p * (1 - hypothesized_p) / sample_size)
-test_statistic <- (sample_proportion - hypothesized_p) / standard_error
-
-round(c(p_hat = sample_proportion, z = test_statistic,
-        critical_value = qnorm(0.975)), 3)
+p_hat
+(p_hat - 0.30) / sqrt(0.30 * 0.70 / 120)
+qnorm(0.975)
 ```
 
 **Step 4.** **Do not reject $H_0$**, since the test statistic $1.195$ falls in the noncritical region.
@@ -1273,16 +1216,11 @@ An industry survey reports that 40% of night-market stalls accept mobile payment
 **Step 3 — compute the test statistic.**
 
 ```{r e8-18-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-successes <- 20
-sample_size <- 60
-hypothesized_p <- 0.40
+p_hat <- 20 / 60
 
-sample_proportion <- successes / sample_size
-standard_error <- sqrt(hypothesized_p * (1 - hypothesized_p) / sample_size)
-test_statistic <- (sample_proportion - hypothesized_p) / standard_error
-
-round(c(p_hat = sample_proportion, z = test_statistic,
-        critical_value = qnorm(0.01)), 3)
+p_hat
+(p_hat - 0.40) / sqrt(0.40 * 0.60 / 60)
+qnorm(0.01)
 ```
 
 **Step 4.** **Do not reject $H_0$**, since the test statistic $-1.054$ does not fall in the critical region.
@@ -1314,16 +1252,11 @@ A tourism report states that at least 72% of inbound visitors to Taiwan book the
 **Step 3 — compute the test statistic.**
 
 ```{r e8-19-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-successes <- 60
-sample_size <- 90
-hypothesized_p <- 0.72
+p_hat <- 60 / 90
 
-sample_proportion <- successes / sample_size
-standard_error <- sqrt(hypothesized_p * (1 - hypothesized_p) / sample_size)
-test_statistic <- (sample_proportion - hypothesized_p) / standard_error
-
-round(c(p_hat = sample_proportion, z = test_statistic,
-        critical_value = qnorm(0.01)), 3)
+p_hat
+(p_hat - 0.72) / sqrt(0.72 * 0.28 / 90)
+qnorm(0.01)
 ```
 
 **Step 4.** **Do not reject $H_0$**, since the test statistic $-1.127$ does not fall in the critical region.
@@ -1353,16 +1286,12 @@ A payments company claims that more than 20% of the cross-border e-commerce orde
 **Step 2 and Step 3 — compute the test statistic and the P-value.**
 
 ```{r e8-20-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-successes <- 63
-sample_size <- 250
-hypothesized_p <- 0.20
+p_hat <- 63 / 250
+z     <- (p_hat - 0.20) / sqrt(0.20 * 0.80 / 250)
 
-sample_proportion <- successes / sample_size
-standard_error <- sqrt(hypothesized_p * (1 - hypothesized_p) / sample_size)
-test_statistic <- (sample_proportion - hypothesized_p) / standard_error
-p_value <- pnorm(test_statistic, lower.tail = FALSE)
-
-round(c(p_hat = sample_proportion, z = test_statistic, p_value = p_value), 4)
+p_hat
+z
+1 - pnorm(z)
 ```
 
 **Step 4.** **Reject $H_0$**, since the P-value $0.0199$ is less than 0.05.
@@ -1406,7 +1335,7 @@ Find the critical chi-square value for 18 degrees of freedom when $\alpha = 0.05
 Find the $\alpha$ value at the top of Table A-6 and the degrees of freedom in the left column. The critical value is located where the two columns meet: **28.869**.
 
 ```{r e8-21-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qchisq(1 - 0.05, df = 18), 3)
+qchisq(0.95, df = 18)
 ```
 :::
 
@@ -1430,7 +1359,7 @@ Find the critical chi-square value for 14 degrees of freedom when $\alpha = 0.05
 When the test is left-tailed, the $\alpha$ value must be subtracted from 1: $1 - 0.05 = 0.95$. The chi-square table gives the area to the right of the critical value, and chi-square values cannot be negative, so 95% of the area will be to the right of the value. For 0.95 and 14 degrees of freedom the critical value is **6.571**.
 
 ```{r e8-22-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qchisq(0.05, df = 14), 3)
+qchisq(0.05, df = 14)
 ```
 :::
 
@@ -1454,7 +1383,8 @@ Find the critical chi-square values for 19 degrees of freedom when $\alpha = 0.1
 The area must be split: the area to the right of the larger value is $\alpha/2 = 0.05$, and the area to the right of the smaller value is $1 - \alpha/2 = 0.95$. With 19 degrees of freedom the critical values are **10.117** and **30.144**.
 
 ```{r e8-23-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(qchisq(c(0.10 / 2, 1 - 0.10 / 2), df = 19), 3)
+qchisq(0.05, df = 19)
+qchisq(0.95, df = 19)
 ```
 :::
 
@@ -1534,15 +1464,8 @@ A quality engineer wishes to see whether the variance of the fill weight of a sn
 **Step 3 — compute the test statistic.**
 
 ```{r e8-24-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_variance <- 27
-hypothesized_variance <- 36
-sample_size <- 12
-degrees_freedom <- sample_size - 1
-
-test_statistic <- degrees_freedom * sample_variance / hypothesized_variance
-
-round(c(chi_square = test_statistic,
-        critical_value = qchisq(0.05, df = degrees_freedom)), 3)
+(12 - 1) * 27 / 36
+qchisq(0.05, df = 11)
 ```
 
 **Step 4.** Since $8.250$ falls in the noncritical region, **do not reject $H_0$**.
@@ -1584,12 +1507,9 @@ orders_per_hour <- c(38, 52, 45, 61, 40,
                      55, 33, 48, 57, 42,
                      36, 50, 65, 44, 39)
 
-hypothesized_sd <- 6
-degrees_freedom <- length(orders_per_hour) - 1
-test_statistic <- degrees_freedom * var(orders_per_hour) / hypothesized_sd^2
-
-round(c(sd = sd(orders_per_hour), chi_square = test_statistic,
-        critical_value = qchisq(1 - 0.10, df = degrees_freedom)), 3)
+sd(orders_per_hour)
+(15 - 1) * var(orders_per_hour) / 6^2
+qchisq(0.90, df = 14)
 ```
 
 **Step 4.** **Reject $H_0$**, since $35.222 > 21.064$.
@@ -1621,16 +1541,9 @@ A contract manufacturer wishes to test the claim that the variance of the net we
 **Step 3 — compute the test statistic.** Since the sample standard deviation is given, it must be squared for the formula.
 
 ```{r e8-26-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_sd <- 1.8
-hypothesized_variance <- 2.25
-sample_size <- 20
-degrees_freedom <- sample_size - 1
-
-test_statistic <- degrees_freedom * sample_sd^2 / hypothesized_variance
-
-round(c(chi_square = test_statistic,
-        lower_cv = qchisq(0.025, df = degrees_freedom),
-        upper_cv = qchisq(0.975, df = degrees_freedom)), 3)
+(20 - 1) * 1.8^2 / 2.25
+qchisq(0.025, df = 19)
+qchisq(0.975, df = 19)
 ```
 
 **Step 4.** **Do not reject $H_0$**, since $8.907 < 27.360 < 32.852$.
@@ -1674,7 +1587,7 @@ Across the row with $\text{d.f.} = 10$, the value 21.5 falls between 20.483 and 
 $$0.01 < P\text{-value} < 0.025$$
 
 ```{r e8-27-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pchisq(21.5, df = 10, lower.tail = FALSE), 4)
+1 - pchisq(21.5, df = 10)
 ```
 
 The exact P-value is $0.0179$, which lies inside that interval.
@@ -1702,7 +1615,7 @@ Across the row with $\text{d.f.} = 14$, the value 5.892 falls between 5.629 and 
 $$0.025 < P\text{-value} < 0.05$$
 
 ```{r e8-28-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-round(pchisq(5.892, df = 14), 4)
+pchisq(5.892, df = 14)
 ```
 
 The exact P-value is $0.0309$. Had the test been two-tailed, the interval would be doubled: $0.05 < P\text{-value} < 0.10$.
@@ -1730,15 +1643,10 @@ A customs broker knows from past records that the standard deviation of the time
 **Step 2 and Step 3 — compute the test statistic and the P-value.**
 
 ```{r e8-29-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_sd <- 7.0
-hypothesized_sd <- 9.5
-sample_size <- 25
-degrees_freedom <- sample_size - 1
+chi_sq <- (25 - 1) * 7.0^2 / 9.5^2
 
-test_statistic <- degrees_freedom * sample_sd^2 / hypothesized_sd^2
-p_value <- 2 * pchisq(test_statistic, df = degrees_freedom)
-
-round(c(chi_square = test_statistic, p_value = p_value), 4)
+chi_sq
+2 * pchisq(chi_sq, df = 24)
 ```
 
 With $\text{d.f.} = 24$, the value 13.0305 falls between 12.401 and 13.848, corresponding to 0.975 and 0.95. Subtracting from 1 gives 0.025 and 0.05, and doubling for the two tails gives $0.05 < P\text{-value} < 0.10$; the exact P-value is $0.0688$.
@@ -1772,16 +1680,8 @@ A trade magazine reports that the average declared value of an air-freight shipm
 **Step 3 — compute the test statistic.**
 
 ```{r e8-30-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 63.8
-hypothesized_mean <- 68
-sample_sd <- 9.6
-sample_size <- 50
-
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (sample_sd / sqrt(sample_size))
-critical_value <- qt(1 - 0.05 / 2, df = sample_size - 1)
-
-round(c(t = test_statistic, critical_value = critical_value), 3)
+(63.8 - 68) / (9.6 / sqrt(50))
+qt(0.975, df = 49)
 ```
 
 **Step 4.** Since $-3.094 < -2.010$, the decision is to **reject $H_0$**.
@@ -1801,10 +1701,10 @@ round(c(t = test_statistic, critical_value = critical_value), 3)
 $$\bar{X} - t_{\alpha/2}\frac{s}{\sqrt{n}} < \mu < \bar{X} + t_{\alpha/2}\frac{s}{\sqrt{n}}$$
 
 ```{r e8-30-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-margin_of_error <- critical_value * sample_sd / sqrt(sample_size)
+margin <- qt(0.975, df = 49) * 9.6 / sqrt(50)
 
-round(c(lower = sample_mean - margin_of_error,
-        upper = sample_mean + margin_of_error), 2)
+63.8 - margin
+63.8 + margin
 ```
 
 The interval $61.07 < \mu < 66.53$ does **not** contain the hypothesized value $\mu = 68$. There is agreement between the hypothesis test and the confidence interval.
@@ -1834,19 +1734,12 @@ A supplier claims that its cartons of tea bags have an average net weight of 120
 **Step 3 — compute the test statistic and the interval.**
 
 ```{r e8-31-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-sample_mean <- 118.6
-hypothesized_mean <- 120
-sample_sd <- 2.8
-sample_size <- 10
+margin <- qt(0.975, df = 9) * 2.8 / sqrt(10)
 
-test_statistic <- (sample_mean - hypothesized_mean) /
-  (sample_sd / sqrt(sample_size))
-critical_value <- qt(1 - 0.05 / 2, df = sample_size - 1)
-margin_of_error <- critical_value * sample_sd / sqrt(sample_size)
-
-round(c(t = test_statistic, critical_value = critical_value), 3)
-round(c(lower = sample_mean - margin_of_error,
-        upper = sample_mean + margin_of_error), 2)
+(118.6 - 120) / (2.8 / sqrt(10))
+qt(0.975, df = 9)
+118.6 - margin
+118.6 + margin
 ```
 
 **Step 4 and Step 5.** **Do not reject $H_0$**. There is not enough evidence to reject the claim that the mean net weight is 120 grams. The 95% interval $116.6 < \mu < 120.6$ **does** contain $\mu = 120$; again there is agreement.
@@ -1900,26 +1793,19 @@ When a choice of statistical tests exists, use the test with the highest power f
 
 ## Power in R
 
-**Draw figure** — the distribution of $\bar{X}$ under $H_0: \mu = 50$ and under the true value $\mu = 54$, with $\sigma = 10$, $n = 25$ and a right-tailed test at $\alpha = 0.05$.
+**Prepare data** — the distribution of $\bar{X}$ under $H_0: \mu = 50$ and under the true value $\mu = 54$, with $\sigma = 10$, $n = 25$ and a right-tailed test at $\alpha = 0.05$.
 
 ```{r s8-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-mu_null <- 50
-mu_alternative <- 54
-standard_error <- 10 / sqrt(25)
-critical_mean <- mu_null + qnorm(1 - 0.05) * standard_error
+se   <- 10 / sqrt(25)
+cv   <- 50 + qnorm(0.95) * se
+beta <- pnorm(cv, 54, se)
 
-sampling_curves <- tibble(x = seq(40, 68, length.out = 400)) |>
-  mutate(under_h0 = dnorm(x, mu_null, standard_error),
-         under_h1 = dnorm(x, mu_alternative, standard_error))
+cv
+beta
+1 - beta
 
-power_plot <- ggplot(sampling_curves, aes(x)) +
-  geom_area(data = filter(sampling_curves, x >= critical_mean),
-            aes(y = under_h1), fill = "steelblue", alpha = 0.5) +
-  geom_line(aes(y = under_h0)) +
-  geom_line(aes(y = under_h1), linetype = "dashed") +
-  geom_vline(xintercept = critical_mean, linetype = "dotted") +
-  labs(title = "Power of a Right-Tailed Test", x = "Sample mean", y = "Density") +
-  theme_minimal()
+x <- seq(40, 68, by = 0.1)
+curves <- data.frame(x, h0 = dnorm(x, 50, se), h1 = dnorm(x, 54, se))
 ```
 
 ---
@@ -1928,15 +1814,15 @@ power_plot <- ggplot(sampling_curves, aes(x)) +
 
 **Output figure**
 
-```{r s8-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-power_plot
-
-power <- pnorm(critical_mean, mu_alternative, standard_error,
-               lower.tail = FALSE)
-round(c(critical_mean = critical_mean, beta = 1 - power, power = power), 3)
+```{r s8-6-2, echo=T, warning=FALSE, out.width="80%", fig.align='center', fig.height=4}
+ggplot(curves, aes(x)) +
+  geom_area(data = filter(curves, x >= cv), aes(y = h1)) +
+  geom_line(aes(y = h0)) +
+  geom_line(aes(y = h1), linetype = "dashed") +
+  labs(title = "Power of a Right-Tailed Test", x = "Sample mean", y = "Density")
 ```
 
-The shaded area is the power $1 - \beta = 0.639$; the unshaded part of the dashed curve is $\beta = 0.361$. Increasing $n$ narrows both curves and increases the power.
+The solid curve is for $H_0: \mu = 50$ and the dashed curve for the true value $\mu = 54$. The shaded area is the power $1 - \beta = 0.639$; the unshaded part of the dashed curve is $\beta = 0.361$. Increasing $n$ narrows both curves and increases the power.
 
 ---
 

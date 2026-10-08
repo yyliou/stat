@@ -44,8 +44,6 @@ include-after-body:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
-library(gridExtra)
 library(showtext)
 
 # 中文字型（從 Google Fonts 載入）
@@ -188,14 +186,8 @@ payments <- c("C","E","M","C","D","E","G","C","E","M",
               "E","C","M","D","C","E","M","C","D","E",
               "M","C","G","D","E","C","M","C","C","D")
 
-payment_freq <- data.frame(payments) |>
-  count(payments) |>
-  mutate(payments = factor(payments, levels = c("C","E","M","D","G"))) |>
-  arrange(payments) |>
-  rename(Class = payments, Frequency = n) |>
-  mutate(Percent = round(Frequency / sum(Frequency) * 100, 1))
-
-knitr::kable(payment_freq, align = "c")
+table(payments)
+table(payments) / 40 * 100
 ```
 :::
 
@@ -211,9 +203,8 @@ knitr::kable(payment_freq, align = "c")
 在這個樣本中，**付現金的人最多**（13人，32.5%），**使用禮券的人最少**（3人，7.5%）。儲值卡9人（22.5%）、行動支付8人（20%）、信用卡7人（17.5%）。加上百分比欄位有助於檢查總和是否為100%——不過因為四捨五入，總和不一定剛好等於100%。
 
 ```{r e2-1-2, echo=T, warning=FALSE, out.width="48%", fig.align='center', fig.height=4}
-ggplot(payment_freq, aes(x = Class, y = Frequency, fill = Class)) +
-  geom_col(show.legend = FALSE) +
-  geom_text(aes(label = Frequency), vjust = -0.3) +
+ggplot(data.frame(payments), aes(payments)) +
+  geom_bar() +
   labs(title = "40位顧客的付款方式",
        x = "付款方式", y = "次數")
 ```
@@ -368,13 +359,9 @@ delivery_times <- c(31,27,35,29,22,40,30,26,33,28,
                     18,34,41,32,27,52,30,36,25,39,
                     23,37,21,33,42,32,47,40,35,37)
 
-highest     <- max(delivery_times)
-lowest      <- min(delivery_times)
-data_range  <- highest - lowest
-class_width <- ceiling(data_range / 7)
-
-c(Highest = highest, Lowest = lowest,
-  Range = data_range, Width = class_width)
+max(delivery_times)
+min(delivery_times)
+(max(delivery_times) - min(delivery_times)) / 7
 ```
 :::
 
@@ -388,36 +375,9 @@ c(Highest = highest, Lowest = lowest,
 **步驟2與3——劃記資料並求出次數**
 
 ```{r e2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-class_breaks <- seq(17.5, 52.5, by = class_width)
-class_limits <- c("18-22","23-27","28-32","33-37",
-                  "38-42","43-47","48-52")
-
-delivery_freq <- data.frame(delivery_times) |>
-  mutate(Class = cut(delivery_times, breaks = class_breaks,
-                     labels = class_limits)) |>
-  count(Class, .drop = FALSE) |>
-  rename(Frequency = n) |>
-  mutate(
-    Boundaries = paste0(head(class_breaks, -1), "-", tail(class_breaks, -1)),
-    Midpoint   = head(class_breaks, -1) + class_width / 2,
-    Cumulative = cumsum(Frequency)
-  )
-```
-:::
-
----
-
-## 例題 2-2
-
-:::{.callout-tip}
-## 解題
-
-**輸出表格**
-
-```{r e2-2-3, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(delivery_freq[, c("Class","Boundaries","Midpoint","Frequency")],
-             col.names = c("組限","組界","組中點","次數"),
-             align = "c")
+class_breaks  <- seq(17.5, 52.5, by = 5)
+delivery_freq <- table(cut(delivery_times, class_breaks))
+delivery_freq
 ```
 :::
 
@@ -455,12 +415,7 @@ knitr::kable(delivery_freq[, c("Class","Boundaries","Midpoint","Frequency")],
 **累積次數分配**
 
 ```{r e2-2-4, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-cumulative_table <- data.frame(
-  Class      = paste("Less than", class_breaks),
-  Cumulative = c(0, delivery_freq$Cumulative)
-)
-
-knitr::kable(cumulative_table, col.names = c("", "累積次數"), align = "c")
+cumsum(delivery_freq)
 ```
 
 在50筆送達時間中，**28筆小於或等於32分鐘**，**46筆小於或等於42分鐘**。
@@ -512,27 +467,8 @@ basket_items <- c(4, 9, 3, 5, 6, 4,
                   6, 4, 2, 5, 7, 4,
                   3, 6, 5, 4, 8, 7)
 
-basket_freq <- data.frame(basket_items) |>
-  count(basket_items) |>
-  rename(Class = basket_items, Frequency = n) |>
-  mutate(Boundaries = paste0(Class - 0.5, "-", Class + 0.5),
-         Cumulative = cumsum(Frequency))
-```
-:::
-
----
-
-## 例題 2-3
-
-:::{.callout-tip}
-## 解題
-
-**步驟4——列出次數分配表**
-
-```{r e2-3-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-knitr::kable(basket_freq[, c("Class","Boundaries","Frequency","Cumulative")],
-             col.names = c("組限","組界","次數","累積次數"),
-             align = "c")
+table(basket_items)
+cumsum(table(basket_items))
 ```
 :::
 
@@ -545,7 +481,7 @@ knitr::kable(basket_freq[, c("Class","Boundaries","Frequency","Cumulative")],
 
 **解讀**
 
-在這筆資料中，**有7個購物籃裝了4件商品，是次數最多的一組**。從累積次數欄可以讀出：14個購物籃的件數少於4.5件，27個少於7.5件，全部30個都少於9.5件。
+在這筆資料中，**有7個購物籃裝了4件商品，是次數最多的一組**。從累積次數可以讀出：14個購物籃的件數少於4.5件，27個少於7.5件，全部30個都少於9.5件。
 
 要注意，同一筆資料可以用不同的組距、不同的組數或不同的起點，建立出好幾個都正確的次數分配。不論使用哪一種方法，各組都必須**互斥、連續、周延且組距相等**。
 :::
@@ -630,9 +566,8 @@ knitr::kable(basket_freq[, c("Class","Boundaries","Frequency","Cumulative")],
 $y$ 軸代表次數，$x$ 軸標示組界；以次數作為高度，為每一組畫出垂直長條。
 
 ```{r e2-4-1, echo=T, warning=FALSE, out.width="44%", fig.align='center', fig.height=4}
-ggplot(data.frame(delivery_times), aes(x = delivery_times)) +
-  geom_histogram(breaks = class_breaks, fill = "#4a90d9", color = "white") +
-  scale_x_continuous(breaks = class_breaks) +
+ggplot(data.frame(delivery_times), aes(delivery_times)) +
+  geom_histogram(breaks = class_breaks, color = "white") +
   labs(title = "50筆訂單的送達時間",
        x = "送達時間（分鐘）", y = "次數")
 ```
@@ -670,14 +605,9 @@ ggplot(data.frame(delivery_times), aes(x = delivery_times)) +
 組中點由上、下組界相加再除以2求得：$\frac{17.5 + 22.5}{2} = 20$、$\frac{22.5 + 27.5}{2} = 25$，依此類推。
 
 ```{r e2-5-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-polygon_points <- data.frame(
-  x = c(15, delivery_freq$Midpoint, 55),
-  y = c(0,  delivery_freq$Frequency, 0)
-)
-
-knitr::kable(delivery_freq[, c("Boundaries","Midpoint","Frequency")],
-             col.names = c("組界","組中點","次數"),
-             align = "c")
+polygon_points <- data.frame(midpoint  = seq(15, 55, by = 5),
+                             frequency = c(0, 3, 9, 16, 12, 6, 3, 1, 0))
+polygon_points
 ```
 :::
 
@@ -693,10 +623,9 @@ knitr::kable(delivery_freq[, c("Boundaries","Midpoint","Frequency")],
 把相鄰的點連成線段，再從圖形的頭尾各拉一條線回到 $x$ 軸，距離等於前一個與後一個組中點應在的位置。
 
 ```{r e2-5-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=4}
-ggplot(polygon_points, aes(x, y)) +
-  geom_line(color = "#d9534f", linewidth = 1.2) +
-  geom_point(color = "#d9534f", size = 2.5) +
-  scale_x_continuous(breaks = polygon_points$x) +
+ggplot(polygon_points, aes(midpoint, frequency)) +
+  geom_line() +
+  geom_point() +
   labs(title = "50筆訂單的送達時間",
        x = "送達時間（分鐘）", y = "次數")
 ```
@@ -730,11 +659,8 @@ ggplot(polygon_points, aes(x, y)) +
 **步驟1——求各組的累積次數**
 
 ```{r e2-6-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-ogive_points <- data.frame(
-  x = class_breaks,
-  y = c(0, delivery_freq$Cumulative)
-)
-
+ogive_points <- data.frame(boundary   = class_breaks,
+                           cumulative = cumsum(c(0, 3, 9, 16, 12, 6, 3, 1)))
 ogive_points
 ```
 
@@ -751,14 +677,9 @@ ogive_points
 **輸出圖形**
 
 ```{r e2-6-2, echo=T, warning=FALSE, out.width="40%", fig.align='center', fig.height=4}
-ggplot(ogive_points, aes(x, y)) +
-  geom_line(color = "#5cb85c", linewidth = 1.2) +
-  geom_point(color = "#5cb85c", size = 2.5) +
-  geom_segment(x = 32.5, xend = 32.5, y = 0, yend = 28,
-               linetype = "dashed", color = "grey40") +
-  geom_segment(x = 17.5, xend = 32.5, y = 28, yend = 28,
-               linetype = "dashed", color = "grey40") +
-  scale_x_continuous(breaks = class_breaks) +
+ggplot(ogive_points, aes(boundary, cumulative)) +
+  geom_line() +
+  geom_point() +
   labs(title = "50筆訂單的送達時間",
        x = "送達時間（分鐘）", y = "累積次數")
 ```
@@ -807,19 +728,10 @@ ggplot(ogive_points, aes(x, y)) +
 24.5–31.5這一組的相對次數是 $\frac{6}{50} = 0.12$；31.5–38.5是 $\frac{13}{50} = 0.26$，依此類推。累積相對次數依序為 $0.12$、$0.38$、$0.76$、$0.92$、$1.00$。
 
 ```{r e2-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-retail_units <- data.frame(
-  lower = c(24.5, 31.5, 38.5, 45.5, 52.5),
-  upper = c(31.5, 38.5, 45.5, 52.5, 59.5),
-  freq  = c(6, 13, 19, 8, 4)
-) |>
-  mutate(mid    = (lower + upper) / 2,
-         rel_f  = freq / sum(freq),
-         cum_rf = cumsum(rel_f))
+frequency <- c(6, 13, 19, 8, 4)
 
-knitr::kable(retail_units[, c("lower","upper","mid","rel_f","cum_rf")],
-             col.names = c("下組界","上組界","組中點",
-                           "相對次數","累積相對次數"),
-             align = "c")
+frequency / 50
+cumsum(frequency / 50)
 ```
 :::
 
@@ -830,30 +742,18 @@ knitr::kable(retail_units[, c("lower","upper","mid","rel_f","cum_rf")],
 :::{.callout-tip}
 ## 解題
 
-**繪圖**
+**相對次數直方圖**
 
 直方圖與肩形圖的 $x$ 軸使用**組界**，次數多邊形的 $x$ 軸使用**組中點**；$y$ 軸的尺度一律使用比例。
 
-```{r e2-7-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-rel_hist <- ggplot(retail_units, aes(x = mid, y = rel_f)) +
-  geom_col(width = 7, fill = "#5bc0de", color = "white") +
-  scale_x_continuous(breaks = c(retail_units$lower, 59.5)) +
+```{r e2-7-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_histogram <- data.frame(midpoint = c(28, 35, 42, 49, 56),
+                            rel_freq = frequency / 50)
+
+ggplot(rel_histogram, aes(midpoint, rel_freq)) +
+  geom_col(width = 7, color = "white") +
   labs(title = "相對次數直方圖",
        x = "樓地板面積（平方公尺）", y = "相對次數")
-
-rel_polygon <- ggplot(data.frame(x = c(21, retail_units$mid, 63),
-                                 y = c(0, retail_units$rel_f, 0)), aes(x, y)) +
-  geom_line(color = "#d9534f", linewidth = 1) +
-  geom_point(color = "#d9534f", size = 2) +
-  labs(title = "相對次數多邊形",
-       x = "樓地板面積（平方公尺）", y = "相對次數")
-
-rel_ogive <- ggplot(data.frame(x = c(24.5, retail_units$upper),
-                               y = c(0, retail_units$cum_rf)), aes(x, y)) +
-  geom_line(color = "#5cb85c", linewidth = 1) +
-  geom_point(color = "#5cb85c", size = 2) +
-  labs(title = "相對累積次數肩形圖",
-       x = "樓地板面積（平方公尺）", y = "累積相對次數")
 ```
 :::
 
@@ -864,10 +764,38 @@ rel_ogive <- ggplot(data.frame(x = c(24.5, retail_units$upper),
 :::{.callout-tip}
 ## 解題
 
-**輸出圖形**
+**相對次數多邊形**
 
-```{r e2-7-3, echo=T, warning=FALSE, out.width="95%", fig.align='center', fig.height=3.2}
-gridExtra::grid.arrange(rel_hist, rel_polygon, rel_ogive, ncol = 3)
+```{r e2-7-3, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_polygon <- data.frame(midpoint = c(21, 28, 35, 42, 49, 56, 63),
+                          rel_freq = c(0, frequency, 0) / 50)
+
+ggplot(rel_polygon, aes(midpoint, rel_freq)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "相對次數多邊形",
+       x = "樓地板面積（平方公尺）", y = "相對次數")
+```
+:::
+
+---
+
+## 例題 2-7
+
+:::{.callout-tip}
+## 解題
+
+**相對累積次數肩形圖**
+
+```{r e2-7-4, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
+rel_ogive <- data.frame(boundary = c(24.5, 31.5, 38.5, 45.5, 52.5, 59.5),
+                        cum_rel  = cumsum(c(0, frequency)) / 50)
+
+ggplot(rel_ogive, aes(boundary, cum_rel)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "相對累積次數肩形圖",
+       x = "樓地板面積（平方公尺）", y = "累積相對次數")
 ```
 
 這三張圖的形狀與對應的次數圖完全相同，只有 $y$ 軸從個數換成了比例。
@@ -911,30 +839,14 @@ gridExtra::grid.arrange(rel_hist, rel_polygon, rel_ogive, ncol = 3)
 
 ```{r s2-2-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 set.seed(42)
-
-make_hist <- function(data, title, fill_col) {
-  ggplot(data.frame(x = data), aes(x)) +
-    geom_histogram(bins = 20, fill = fill_col, color = "white", linewidth = 0.3) +
-    labs(title = title, x = NULL, y = NULL) +
-    theme(axis.text = element_blank())
-}
-```
-
----
-
-## 用 R 看分配的形狀
-
-**繪圖**
-
-```{r s2-2-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-p_bell  <- make_hist(rnorm(500, 50, 10),     "鐘形",     "#4a90d9")
-p_uni   <- make_hist(runif(500, 20, 80),     "均勻形",   "#f0ad4e")
-p_j     <- make_hist(100 - rexp(500, 0.05),  "J形",      "#34495e")
-p_rj    <- make_hist(rexp(500, 0.05),        "反J形",    "#e67e22")
-p_right <- make_hist(rgamma(500, 2, 0.1),    "右偏",     "#d9534f")
-p_left  <- make_hist(80 - rgamma(500, 2, 0.1), "左偏",   "#5cb85c")
-p_bimod <- make_hist(c(rnorm(250,30,5), rnorm(250,70,5)), "雙峰形", "#9b59b6")
-p_u     <- make_hist(c(rbeta(500, 0.4, 0.4) * 100),       "U形",    "#1abc9c")
+shapes <- data.frame(
+  shape = rep(c("鐘形", "均勻形", "J形", "反J形",
+                "右偏", "左偏", "雙峰形", "U形"),
+              each = 500),
+  value = c(rnorm(500, 50, 10), runif(500, 20, 80), 100 - rexp(500, 0.05),
+            rexp(500, 0.05), rgamma(500, 2, 0.1), 80 - rgamma(500, 2, 0.1),
+            rnorm(250, 30, 5), rnorm(250, 70, 5), rbeta(500, 0.4, 0.4) * 100)
+)
 ```
 
 ---
@@ -943,10 +855,12 @@ p_u     <- make_hist(c(rbeta(500, 0.4, 0.4) * 100),       "U形",    "#1abc9c")
 
 **輸出圖形**
 
-```{r s2-2-3, echo=T, warning=FALSE, out.width="88%", fig.align='center', fig.height=4}
-gridExtra::grid.arrange(p_bell, p_uni, p_j, p_rj,
-                        p_right, p_left, p_bimod, p_u, ncol = 4)
+```{r s2-2-2, echo=T, warning=FALSE, out.width="88%", fig.align='center', fig.height=4}
+ggplot(shapes, aes(value)) +
+  geom_histogram(bins = 20, color = "white") +
+  facet_wrap(~ shape, scales = "free", ncol = 4)
 ```
+
 
 # 第2-3節：其他類型的圖形 {background-color="#2c4a6e"}
 
@@ -1002,10 +916,7 @@ monthly_spending <- data.frame(
   category = c("Meals off campus", "Commuting",
                "Mobile data plan", "Study materials"),
   amount   = c(3200, 1500, 750, 480)
-) |>
-  mutate(category = factor(category,
-                           levels = c("Study materials", "Mobile data plan",
-                                      "Commuting", "Meals off campus")))
+)
 ```
 :::
 
@@ -1019,11 +930,8 @@ monthly_spending <- data.frame(
 **繪圖——水平長條圖**
 
 ```{r e2-8-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(monthly_spending, aes(x = amount, y = category, fill = category)) +
-  geom_col(show.legend = FALSE, width = 0.6) +
-  geom_text(aes(label = amount), hjust = -0.2, size = 3.5) +
-  scale_x_continuous(limits = c(0, 3800)) +
-  scale_fill_brewer(palette = "Blues") +
+ggplot(monthly_spending, aes(amount, category)) +
+  geom_col() +
   labs(title = "學生的每月平均花費",
        x = "平均金額（新臺幣）", y = NULL)
 ```
@@ -1039,10 +947,8 @@ ggplot(monthly_spending, aes(x = amount, y = category, fill = category)) +
 **輸出圖形——垂直長條圖**
 
 ```{r e2-8-3, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(monthly_spending, aes(x = category, y = amount, fill = category)) +
-  geom_col(show.legend = FALSE, width = 0.6) +
-  geom_text(aes(label = amount), vjust = -0.4, size = 3.5) +
-  scale_fill_brewer(palette = "Blues") +
+ggplot(monthly_spending, aes(category, amount)) +
+  geom_col() +
   labs(title = "平均花費金額",
        x = NULL, y = "平均金額（新臺幣）")
 ```
@@ -1069,19 +975,16 @@ ggplot(monthly_spending, aes(x = category, y = amount, fill = category)) +
 **繪圖**
 
 ```{r s2-3-1, echo=T, warning=FALSE, out.width="48%", fig.align='center', fig.height=3.6}
-store_formats <- c("Convenience", "Supermarket", "Hypermarket")
-
 store_visits <- data.frame(
-  # a factor keeps the formats in size order instead of alphabetical order
-  format   = factor(rep(store_formats, each = 2), levels = store_formats),
+  format   = rep(c("Convenience", "Supermarket", "Hypermarket"), each = 2),
   day_type = rep(c("Weekday", "Weekend"), times = 3),
   visits   = c(820, 960, 540, 910, 310, 720)
 )
 
-ggplot(store_visits, aes(x = format, y = visits, fill = day_type)) +
-  geom_col(position = "dodge", width = 0.7) +
+ggplot(store_visits, aes(format, visits, fill = day_type)) +
+  geom_col(position = "dodge") +
   labs(title = "各店型的平均每日來客數",
-       x = "店型", y = "每日來客數", fill = NULL)
+       x = "店型", y = "每日來客數")
 ```
 
 此圖顯示**每一種店型的週末來客數都高於平日**，而且週末的增幅以**量販店最大**（來客數增加一倍以上），超商最小。
@@ -1123,14 +1026,12 @@ Vilfredo Pareto（1848–1923）是義大利學者，他對所得分配的研究
 
 ```{r e2-9-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 cart_reasons <- data.frame(
-  reason  = c("Shipping cost","Slow delivery","Checkout steps",
-              "Payment options","Out of stock"),
+  reason  = c("Shipping cost", "Slow delivery", "Checkout steps",
+              "Payment options", "Out of stock"),
   percent = c(41, 26, 33, 18, 29)
-) |>
-  arrange(desc(percent)) |>
-  mutate(reason = factor(reason, levels = reason))
+)
 
-cart_reasons
+arrange(cart_reasons, desc(percent))
 ```
 :::
 
@@ -1144,11 +1045,8 @@ cart_reasons
 **步驟2與3——畫出並標示座標軸，再以垂直長條表示百分比**
 
 ```{r e2-9-2, echo=T, warning=FALSE, out.width="50%", fig.align='center', fig.height=3.6}
-ggplot(cart_reasons, aes(x = reason, y = percent, fill = reason)) +
-  geom_col(show.legend = FALSE, width = 0.7) +
-  geom_text(aes(label = paste0(percent, "%")), vjust = -0.4, size = 3.5) +
-  scale_y_continuous(limits = c(0, 50)) +
-  scale_fill_brewer(palette = "Reds", direction = -1) +
+ggplot(cart_reasons, aes(reorder(reason, -percent), percent)) +
+  geom_col() +
   labs(title = "顧客放棄購物車的原因",
        x = NULL, y = "提及的顧客百分比")
 ```
@@ -1206,7 +1104,7 @@ $x$ 軸標示月份，$y$ 軸標示千人，再把各點畫上去。
 
 ```{r e2-10-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 hotel_visitors <- data.frame(
-  month    = factor(month.abb, levels = month.abb),
+  month    = 1:12,
   visitors = c(9.8, 9.1, 7.4, 6.2, 5.5, 4.8,
                5.1, 5.4, 6.0, 7.2, 8.6, 10.4)
 )
@@ -1225,10 +1123,10 @@ hotel_visitors <- data.frame(
 用線段連接相鄰的點；**不要**畫成平滑曲線。
 
 ```{r e2-10-2, echo=T, warning=FALSE, out.width="52%", fig.align='center', fig.height=3.6}
-ggplot(hotel_visitors, aes(x = month, y = visitors, group = 1)) +
-  geom_line(color = "#d9534f", linewidth = 1.2) +
-  geom_point(color = "#d9534f", size = 2.5) +
-  scale_y_continuous(limits = c(0, 12)) +
+ggplot(hotel_visitors, aes(month, visitors)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:12) +
   labs(title = "溫泉旅館的住客人數",
        x = "月份", y = "住客人數（千人）")
 ```
@@ -1285,16 +1183,10 @@ $$\text{角度} = \frac{f}{n} \cdot 360^\circ$$
 **步驟1與2——把各組次數換算成角度與百分比**
 
 ```{r e2-11-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-hot_drinks <- data.frame(
-  drink = c("Latte","Americano","Milk tea","Black tea","Hot cocoa"),
-  cups  = c(12.7, 9.4, 6.1, 4.8, 3.0)
-) |>
-  mutate(drink   = factor(drink, levels = drink),
-         Degrees = round(cups / sum(cups) * 360),
-         Percent = round(cups / sum(cups) * 100, 1))
+cups <- c(12.7, 9.4, 6.1, 4.8, 3.0)
 
-knitr::kable(hot_drinks, col.names = c("熱飲","杯數（千杯）","角度","百分比"),
-             align = "c")
+cups / 36 * 360
+cups / 36 * 100
 ```
 
 角度分別是 $127^\circ$、$94^\circ$、$61^\circ$、$48^\circ$、$30^\circ$；百分比分別是35.3%、26.1%、16.9%、13.3%、8.3%。
@@ -1307,17 +1199,11 @@ knitr::kable(hot_drinks, col.names = c("熱飲","杯數（千杯）","角度","�
 :::{.callout-tip}
 ## 解題
 
-**步驟3——畫出圖形，並在每個扇形標上名稱與百分比**
+**步驟3——畫出圖形，並標上每個扇形的名稱**
 
-```{r e2-11-2, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.8}
-ggplot(hot_drinks, aes(x = "", y = cups, fill = drink)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y", direction = -1) +
-  geom_text(aes(label = paste0(Percent, "%")),
-            position = position_stack(vjust = 0.5), size = 3.2) +
-  scale_fill_brewer(palette = "Set2") +
-  labs(title = "一週熱飲販售量", fill = NULL) +
-  theme_void()
+```{r e2-11-2, echo=T, warning=FALSE, out.width="42%", fig.align='center', fig.height=3.8, fig.width=6}
+pie(cups, labels = c("拿鐵", "美式咖啡", "奶茶", "紅茶", "熱可可"),
+    main = "一週熱飲販售量")
 ```
 :::
 
@@ -1346,16 +1232,10 @@ ggplot(hot_drinks, aes(x = "", y = cups, fill = drink)) +
 **步驟1與2——求各班別的角度與百分比**
 
 ```{r e2-12-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-shift_volume <- data.frame(
-  shift    = c("Morning","Afternoon","Night"),
-  packages = c(3060, 3240, 2700)
-) |>
-  mutate(shift   = factor(shift, levels = shift),
-         Degrees = round(packages / sum(packages) * 360),
-         Percent = round(packages / sum(packages) * 100))
+packages <- c(3060, 3240, 2700)
 
-knitr::kable(shift_volume, col.names = c("班別","次數","角度","百分比"),
-             align = "c")
+packages / 9000 * 360
+packages / 9000 * 100
 ```
 
 早班：$\frac{3060}{9000}\cdot 360^\circ \approx 122^\circ$、34%；中班：$130^\circ$、36%；夜班：$108^\circ$、30%。
@@ -1368,17 +1248,11 @@ knitr::kable(shift_volume, col.names = c("班別","次數","角度","百分比")
 :::{.callout-tip}
 ## 解題
 
-**步驟3——畫出各扇形並標上名稱與百分比**
+**步驟3——畫出各扇形並標上名稱**
 
-```{r e2-12-2, echo=T, warning=FALSE, out.width="44%", fig.align='center', fig.height=3.8}
-ggplot(shift_volume, aes(x = "", y = packages, fill = shift)) +
-  geom_col(width = 1, color = "white") +
-  coord_polar(theta = "y", direction = -1) +
-  geom_text(aes(label = paste0(shift, "\n", Percent, "%")),
-            position = position_stack(vjust = 0.5), size = 3.2) +
-  scale_fill_manual(values = c("#4a90d9","#d9534f","#5cb85c")) +
-  labs(title = "各班別分揀的包裹數", fill = NULL) +
-  theme_void()
+```{r e2-12-2, echo=T, warning=FALSE, out.width="42%", fig.align='center', fig.height=3.8, fig.width=6}
+pie(packages, labels = c("早班", "中班", "夜班"),
+    main = "各班別分揀的包裹數")
 ```
 
 三個班別分揀的包裹件數**大致相當**，只是**中班**略多一些。
@@ -1444,12 +1318,8 @@ table(complaints)
 畫一條水平線並標上刻度，再把每一筆資料畫在線的上方；若某數值出現多次，就把後續的點疊在前一個點上面。
 
 ```{r e2-13-2, echo=T, warning=FALSE, out.width="66%", fig.align='center', fig.height=3}
-ggplot(data.frame(complaints), aes(x = complaints)) +
-  geom_dotplot(binwidth = 1, method = "histodot", dotsize = 0.55,
-               fill = "#2c4a6e", color = "white") +
-  scale_x_continuous(breaks = 0:12) +
-  scale_y_continuous(NULL, breaks = NULL) +
-  labs(title = "各產品線的客訴件數", x = "客訴件數")
+stripchart(complaints, method = "stack", pch = 19, at = 0,
+           main = "各產品線的客訴件數", xlab = "客訴件數")
 ```
 
 大多數產品線的客訴在**0到3件之間**，其中**有12條產品線各有1件客訴**，是次數最多的一組。
@@ -1495,35 +1365,12 @@ evening_customers <- c(33,22,41,13,54,
                        45,32,17,38,24,
                        51,33,47,36,42)
 
-leaves_by_stem <- function(values, lower_limits, width, decreasing = FALSE) {
-  vapply(lower_limits, function(lo) {
-    in_row <- values[values >= lo & values < lo + width]
-    paste(sort(in_row %% 10, decreasing = decreasing), collapse = " ")
-  }, character(1))
-}
-
-stem_rows <- seq(0, 50, by = 10)
-data.frame(Stem   = stem_rows %/% 10,
-           Leaves = leaves_by_stem(evening_customers, stem_rows, width = 10)) |>
-  knitr::kable(align = "c")
-```
-:::
-
----
-
-## 例題 2-14
-
-:::{.callout-tip}
-## 解題
-
-若某一組沒有資料，仍要寫出莖的數字，並讓葉的那一列**留白**——不要填0。
-
-**步驟4——用內建函式 `stem()` 驗證**
-
-```{r e2-14-2, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
 stem(evening_customers, scale = 2)
 ```
+
+`scale = 2` 讓每個莖各佔一列。若某一組沒有資料，仍要寫出莖的數字，並讓葉的那一列**留白**——不要填0。
 :::
+
 
 ---
 
@@ -1534,7 +1381,7 @@ stem(evening_customers, scale = 2)
 
 **解讀**
 
-此圖顯示分配**在中間出現峰值**，而且資料中**沒有間隙**。20個晚上中有**7個晚上**的來客數落在 **31 到 38** 之間。圖中也顯示該攤位單晚最少 **8** 位、最多 **58** 位來客。內建函式 `stem()` 印出的結果，莖與葉完全相同，可以用來快速驗證手工做出來的莖葉圖。
+此圖顯示分配**在中間出現峰值**，而且資料中**沒有間隙**。20個晚上中有**7個晚上**的來客數落在 **31 到 38** 之間。圖中也顯示該攤位單晚最少 **8** 位、最多 **58** 位來客。
 
 分析莖葉圖時，要找出**峰值與間隙**，判斷分配是**對稱還是偏斜**，並由資料的分散範圍檢視其**變異程度**。
 :::
@@ -1575,10 +1422,7 @@ pallets <- c(57,63,50,66,55,
              53,62,57,78,55,
              59,73,66,63,69)
 
-class_rows <- seq(50, 75, by = 5)
-data.frame(Stem   = class_rows %/% 10,
-           Leaves = leaves_by_stem(pallets, class_rows, width = 5)) |>
-  knitr::kable(align = "c")
+stem(pallets)
 ```
 
 此分配沒有間隙；最大的一組55–59在30天中佔了8天。
@@ -1618,20 +1462,16 @@ data.frame(Stem   = class_rows %/% 10,
 :::{.callout-tip}
 ## 解題
 
-**步驟1與2——將兩筆資料各自排序，並以共用的莖繪圖**
+**步驟1與2——用 `stem()` 將兩筆資料各自排序**
 
 ```{r e2-16-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-taipei    <- c(64,57,52,45,60, 55,38,68,50,62, 63,44,58,70,41,
-               69,53,61,66,56, 73,58,49,45,64)
-taichung  <- c(45,53,44,36,47, 61,55,40,35,32, 54,34,51,43,36,
-               48,41,39,50,72, 58,42,66,45,55)
+taipei   <- c(64,57,52,45,60, 55,38,68,50,62, 63,44,58,70,41,
+              69,53,61,66,56, 73,58,49,45,64)
+taichung <- c(45,53,44,36,47, 61,55,40,35,32, 54,34,51,43,36,
+              48,41,39,50,72, 58,42,66,45,55)
 
-stem_rows <- seq(30, 70, by = 10)
-data.frame(
-  Taipei   = leaves_by_stem(taipei, stem_rows, width = 10, decreasing = TRUE),
-  Stem     = stem_rows %/% 10,
-  Taichung = leaves_by_stem(taichung, stem_rows, width = 10)
-) |> knitr::kable(align = "c")
+stem(taipei)
+stem(taichung)
 ```
 :::
 
@@ -1642,7 +1482,15 @@ data.frame(
 :::{.callout-tip}
 ## 解題
 
-**步驟3——比較兩個分配**
+**步驟3——把兩張圖背對背排好並比較**
+
+| 台北 | 莖 | 台中 |
+|---:|:---:|:---|
+| 8 | 3 | 2 4 5 6 6 9 |
+| 9 5 5 4 1 | 4 | 0 1 2 3 4 5 5 7 8 |
+| 8 8 7 6 5 3 2 0 | 5 | 0 1 3 4 5 5 8 |
+| 9 8 6 4 4 3 2 1 0 | 6 | 1 6 |
+| 3 0 | 7 | 2 |
 
 - **台北咖啡店的營收整體高於**台中的咖啡店。
 - 台北的分配**在60到69出現峰值**，而台中則**在40到49出現峰值**。
@@ -1675,8 +1523,8 @@ vehicles_on_road <- data.frame(
 **繪圖——截斷的尺度（95% 到 100%）**
 
 ```{r s2-3-3, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.4}
-ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(vehicles_on_road, aes(maker, percent)) +
+  geom_col() +
   coord_cartesian(ylim = c(95, 100)) +
   labs(title = "仍在路上行駛的車輛（尺度95至100）",
        x = NULL, y = "仍在行駛的百分比")
@@ -1689,8 +1537,8 @@ ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
 **輸出圖形——完整的尺度（0% 到 100%）**
 
 ```{r s2-3-4, echo=T, warning=FALSE, out.width="46%", fig.align='center', fig.height=3.4}
-ggplot(vehicles_on_road, aes(maker, percent, fill = maker)) +
-  geom_col(show.legend = FALSE, width = 0.5) +
+ggplot(vehicles_on_road, aes(maker, percent)) +
+  geom_col() +
   coord_cartesian(ylim = c(0, 100)) +
   labs(title = "仍在路上行駛的車輛（尺度0至100）",
        x = NULL, y = "仍在行駛的百分比")

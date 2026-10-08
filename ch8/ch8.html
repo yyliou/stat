@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Yu-You Liou">
-  <meta name="dcterms.date" content="2026-09-20">
+  <meta name="dcterms.date" content="2026-10-08">
   <title>Statistics</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,7 +227,7 @@ Yu-You Liou
     </div>
 </div>
 
-  <p class="date">2026-09-20</p>
+  <p class="date">2026-10-08</p>
 </section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
@@ -857,21 +857,21 @@ Yu-You Liou
 <p><strong>Step 1 — draw the figure and locate the area.</strong> In (a) the area 0.02 sits in the right tail; in (b) two areas of <span class="math inline">\alpha/2 = 0.025</span> sit in the two tails; in (c) the area 0.10 sits in the left tail.</p>
 <p><strong>Step 2 — read the <span class="math inline">z</span> score.</strong> In R, <code>qnorm()</code> plays the role of Table A-4.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>alpha_right <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
-<span id="cb1-2"><a href=""></a>alpha_two   <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb1-3"><a href=""></a>alpha_left  <span class="ot">&lt;-</span> <span class="fl">0.10</span></span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha_right), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.98</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.05</code></pre>
+<pre><code>[1] 2.053749</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(<span class="fu">c</span>(alpha_two <span class="sc">/</span> <span class="dv">2</span>, <span class="dv">1</span> <span class="sc">-</span> alpha_two <span class="sc">/</span> <span class="dv">2</span>)), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.025</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.96  1.96</code></pre>
+<pre><code>[1] -1.959964</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qnorm</span>(alpha_left), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.28</code></pre>
+<pre><code>[1] 1.959964</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.281552</code></pre>
 </div>
 </div>
 <p><strong>Answers.</strong> (a) <span class="math inline">+2.05</span>; (b) <span class="math inline">-1.96</span> and <span class="math inline">+1.96</span>; (c) <span class="math inline">-1.28</span>.</p>
@@ -881,30 +881,28 @@ Yu-You Liou
 </section>
 <section id="critical-and-noncritical-regions-in-r" class="slide level2">
 <h2>Critical and Noncritical Regions in R</h2>
-<p><strong>Draw figure</strong> — the right-tailed case of Figure 8-5, with <span class="math inline">\alpha = 0.01</span>.</p>
+<p><strong>Prepare data</strong> — the right-tailed case of Figure 8-5, with <span class="math inline">\alpha = 0.01</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>critical_value <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>)</span>
-<span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a>normal_curve <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">z =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">400</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">density =</span> <span class="fu">dnorm</span>(z))</span>
-<span id="cb7-5"><a href=""></a></span>
-<span id="cb7-6"><a href=""></a>region_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(normal_curve, <span class="fu">aes</span>(z, density)) <span class="sc">+</span></span>
-<span id="cb7-7"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(normal_curve, z <span class="sc">&gt;=</span> critical_value),</span>
-<span id="cb7-8"><a href=""></a>            <span class="at">fill =</span> <span class="st">"firebrick"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href=""></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb7-10"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> critical_value, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb7-11"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span>  <span class="fl">3.0</span>, <span class="at">y =</span> <span class="fl">0.03</span>, <span class="at">label =</span> <span class="st">"critical region 0.01"</span>) <span class="sc">+</span></span>
-<span id="cb7-12"><a href=""></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">0.15</span>, <span class="at">label =</span> <span class="st">"noncritical region 0.99"</span>) <span class="sc">+</span></span>
-<span id="cb7-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Critical and Noncritical Regions, Right-Tailed Test"</span>,</span>
-<span id="cb7-14"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb7-15"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>cv <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>)</span>
+<span id="cb9-2"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb9-3"><a href=""></a>curve <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">density =</span> <span class="fu">dnorm</span>(x))</span>
+<span id="cb9-4"><a href=""></a></span>
+<span id="cb9-5"><a href=""></a>cv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.326348</code></pre>
+</div>
 </div>
 </section>
 <section id="critical-and-noncritical-regions-in-r-1" class="slide level2">
 <h2>Critical and Noncritical Regions in R</h2>
 <p><strong>Output figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>region_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">ggplot</span>(curve, <span class="fu">aes</span>(x, density)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curve, x <span class="sc">&gt;=</span> cv)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> cv) <span class="sc">+</span></span>
+<span id="cb11-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Critical and Noncritical Regions, Right-Tailed Test"</span>,</span>
+<span id="cb11-6"><a href=""></a>       <span class="at">x =</span> <span class="st">"z"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="ch8_files/figure-revealjs/s8-1-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>The shaded area to the right of the critical value <span class="math inline">z = 2.326</span> is the <strong>critical (rejection) region</strong>; everything to the left is the <strong>noncritical (nonrejection) region</strong>.</p>
@@ -1128,18 +1126,13 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.05</span> and the test is right-tailed, the critical value is <span class="math inline">z = +1.645</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">122.5</span></span>
-<span id="cb9-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">118</span></span>
-<span id="cb9-3"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb9-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">35</span></span>
-<span id="cb9-5"><a href=""></a></span>
-<span id="cb9-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb9-7"><a href=""></a>  (population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb9-8"><a href=""></a></span>
-<span id="cb9-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">z =</span> test_statistic, <span class="at">critical_value =</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>(<span class="fl">122.5</span> <span class="sc">-</span> <span class="dv">118</span>) <span class="sc">/</span> (<span class="dv">12</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">35</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             z critical_value 
-         2.219          1.645 </code></pre>
+<pre><code>[1] 2.21853</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.644854</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Since <span class="math inline">2.219</span> is greater than the critical value <span class="math inline">1.645</span>, the decision is to <strong>reject <span class="math inline">H_0</span></strong>.</p>
@@ -1185,24 +1178,25 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.10</span> and the test is left-tailed, the critical value is <span class="math inline">-1.282</span>.</p>
 <p><strong>Step 3 — prepare data and compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>delivery_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">52</span>, <span class="dv">44</span>, <span class="dv">49</span>, <span class="dv">41</span>, <span class="dv">55</span>,</span>
-<span id="cb12-2"><a href=""></a>                    <span class="dv">50</span>, <span class="dv">43</span>, <span class="dv">48</span>, <span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">53</span>,</span>
-<span id="cb12-3"><a href=""></a>                    <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">42</span>, <span class="dv">56</span>, <span class="dv">38</span>, <span class="dv">49</span>,</span>
-<span id="cb12-4"><a href=""></a>                    <span class="dv">72</span>, <span class="dv">44</span>, <span class="dv">47</span>, <span class="dv">50</span>, <span class="dv">46</span>, <span class="dv">43</span>,</span>
-<span id="cb12-5"><a href=""></a>                    <span class="dv">26</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">49</span>, <span class="dv">47</span>,</span>
-<span id="cb12-6"><a href=""></a>                    <span class="dv">80</span>, <span class="dv">41</span>, <span class="dv">44</span>, <span class="dv">50</span>, <span class="dv">30</span>, <span class="dv">48</span>)</span>
-<span id="cb12-7"><a href=""></a></span>
-<span id="cb12-8"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">48</span></span>
-<span id="cb12-9"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb12-10"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(delivery_hours)</span>
-<span id="cb12-11"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb12-12"><a href=""></a>  (population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(delivery_hours)))</span>
-<span id="cb12-13"><a href=""></a></span>
-<span id="cb12-14"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> sample_mean, <span class="at">z =</span> test_statistic,</span>
-<span id="cb12-15"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qnorm</span>(<span class="fl">0.10</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>delivery_hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">46</span>, <span class="dv">52</span>, <span class="dv">44</span>, <span class="dv">49</span>, <span class="dv">41</span>, <span class="dv">55</span>,</span>
+<span id="cb17-2"><a href=""></a>                    <span class="dv">50</span>, <span class="dv">43</span>, <span class="dv">48</span>, <span class="dv">47</span>, <span class="dv">39</span>, <span class="dv">53</span>,</span>
+<span id="cb17-3"><a href=""></a>                    <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">42</span>, <span class="dv">56</span>, <span class="dv">38</span>, <span class="dv">49</span>,</span>
+<span id="cb17-4"><a href=""></a>                    <span class="dv">72</span>, <span class="dv">44</span>, <span class="dv">47</span>, <span class="dv">50</span>, <span class="dv">46</span>, <span class="dv">43</span>,</span>
+<span id="cb17-5"><a href=""></a>                    <span class="dv">26</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">49</span>, <span class="dv">47</span>,</span>
+<span id="cb17-6"><a href=""></a>                    <span class="dv">80</span>, <span class="dv">41</span>, <span class="dv">44</span>, <span class="dv">50</span>, <span class="dv">30</span>, <span class="dv">48</span>)</span>
+<span id="cb17-7"><a href=""></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(delivery_hours)</span>
+<span id="cb17-8"><a href=""></a></span>
+<span id="cb17-9"><a href=""></a>x_bar</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          mean              z critical_value 
-        47.500         -0.333         -1.282 </code></pre>
+<pre><code>[1] 47.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>(x_bar <span class="sc">-</span> <span class="dv">48</span>) <span class="sc">/</span> (<span class="dv">9</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.3333333</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.281552</code></pre>
 </div>
 </div>
 </div>
@@ -1258,19 +1252,17 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.01</span> and the test is two-tailed, the critical values are <span class="math inline">+2.576</span> and <span class="math inline">-2.576</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">19.1</span></span>
-<span id="cb14-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">18</span></span>
-<span id="cb14-3"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="fl">3.0</span></span>
-<span id="cb14-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb14-5"><a href=""></a></span>
-<span id="cb14-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb14-7"><a href=""></a>  (population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb14-8"><a href=""></a></span>
-<span id="cb14-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">z =</span> test_statistic, <span class="at">lower_cv =</span> <span class="fu">qnorm</span>(<span class="fl">0.005</span>),</span>
-<span id="cb14-10"><a href=""></a>        <span class="at">upper_cv =</span> <span class="fu">qnorm</span>(<span class="fl">0.995</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a>(<span class="fl">19.1</span> <span class="sc">-</span> <span class="dv">18</span>) <span class="sc">/</span> (<span class="fl">3.0</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">40</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       z lower_cv upper_cv 
-   2.319   -2.576    2.576 </code></pre>
+<pre><code>[1] 2.319004</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.005</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.575829</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.995</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.575829</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> The test statistic <span class="math inline">2.319</span> falls in the noncritical region, so <strong>do not reject <span class="math inline">H_0</span></strong>.</p>
@@ -1330,19 +1322,15 @@ Yu-You Liou
 <p><strong>Step 1.</strong> <span class="math inline">H_0: \mu = 860</span> and <span class="math inline">H_1: \mu &gt; 860</span> <em>(claim; right-tailed)</em>.</p>
 <p><strong>Step 2 and Step 3 — compute the test statistic and the P-value.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="dv">902</span></span>
-<span id="cb16-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">860</span></span>
-<span id="cb16-3"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="dv">118</span></span>
-<span id="cb16-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb16-5"><a href=""></a></span>
-<span id="cb16-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb16-7"><a href=""></a>  (population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb16-8"><a href=""></a>p_value <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(test_statistic, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb16-9"><a href=""></a></span>
-<span id="cb16-10"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">z =</span> test_statistic, <span class="at">p_value =</span> p_value), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="dv">902</span> <span class="sc">-</span> <span class="dv">860</span>) <span class="sc">/</span> (<span class="dv">118</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span>
+<span id="cb29-2"><a href=""></a></span>
+<span id="cb29-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      z p_value 
- 2.1356  0.0164 </code></pre>
+<pre><code>[1] 2.135593</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01635629</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Since the P-value <span class="math inline">0.0164</span> is less than 0.05, <strong>reject <span class="math inline">H_0</span></strong>.</p>
@@ -1381,19 +1369,15 @@ Yu-You Liou
 <p><strong>Step 1.</strong> <span class="math inline">H_0: \mu = 12</span> <em>(claim)</em> and <span class="math inline">H_1: \mu \neq 12</span> <em>(two-tailed)</em>.</p>
 <p><strong>Step 2 and Step 3 — compute the test statistic and the P-value.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">12.6</span></span>
-<span id="cb18-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb18-3"><a href=""></a>population_sd <span class="ot">&lt;-</span> <span class="fl">1.9</span></span>
-<span id="cb18-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">32</span></span>
-<span id="cb18-5"><a href=""></a></span>
-<span id="cb18-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb18-7"><a href=""></a>  (population_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb18-8"><a href=""></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(test_statistic, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb18-9"><a href=""></a></span>
-<span id="cb18-10"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">z =</span> test_statistic, <span class="at">p_value =</span> p_value), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>z <span class="ot">&lt;-</span> (<span class="fl">12.6</span> <span class="sc">-</span> <span class="dv">12</span>) <span class="sc">/</span> (<span class="fl">1.9</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">32</span>))</span>
+<span id="cb33-2"><a href=""></a></span>
+<span id="cb33-3"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      z p_value 
- 1.7864  0.0740 </code></pre>
+<pre><code>[1] 1.786375</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07403856</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> The decision is to <strong>not reject <span class="math inline">H_0</span></strong>, since the P-value <span class="math inline">0.0740</span> is greater than 0.05.</p>
@@ -1511,9 +1495,9 @@ Yu-You Liou
 <div class="callout-content">
 <p>Find the 0.05 column in the top row labelled <em>One tail</em> and 19 in the left-hand column. The critical value is <span class="math inline">+1.729</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">19</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.729</code></pre>
+<pre><code>[1] 1.729133</code></pre>
 </div>
 </div>
 </div>
@@ -1549,9 +1533,9 @@ Yu-You Liou
 <div class="callout-content">
 <p>Find the critical value in the 0.01 column in the row labelled <em>One tail</em>, and find 17 in the left column. The critical value is <span class="math inline">-2.567</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fl">0.01</span>, <span class="at">df =</span> <span class="dv">17</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.01</span>, <span class="at">df =</span> <span class="dv">17</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.567</code></pre>
+<pre><code>[1] -2.566934</code></pre>
 </div>
 </div>
 </div>
@@ -1587,9 +1571,13 @@ Yu-You Liou
 <div class="callout-content">
 <p>Find the 0.05 column in the row labelled <em>Two tails</em> and 23 in the column labelled d.f. The critical values are <span class="math inline">-2.069</span> and <span class="math inline">+2.069</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>), <span class="at">df =</span> <span class="dv">23</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.025</span>, <span class="at">df =</span> <span class="dv">23</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.069  2.069</code></pre>
+<pre><code>[1] -2.068658</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">23</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.068658</code></pre>
 </div>
 </div>
 </div>
@@ -1625,9 +1613,9 @@ Yu-You Liou
 <div class="callout-content">
 <p>Find the critical value in the 0.10 column in the <em>One tail</em> row and 12 in the d.f. column. The critical value is <span class="math inline">+1.356</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.10</span>, <span class="at">df =</span> <span class="dv">12</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.356</code></pre>
+<pre><code>[1] 1.356217</code></pre>
 </div>
 </div>
 </div>
@@ -1697,19 +1685,13 @@ Yu-You Liou
 <p><strong>Step 2.</strong> The critical values are <span class="math inline">+2.201</span> and <span class="math inline">-2.201</span> for <span class="math inline">\alpha = 0.05</span> and <span class="math inline">\text{d.f.} = 11</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">5.3</span></span>
-<span id="cb28-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="fl">4.5</span></span>
-<span id="cb28-3"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">1.1</span></span>
-<span id="cb28-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb28-5"><a href=""></a></span>
-<span id="cb28-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb28-7"><a href=""></a>  (sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb28-8"><a href=""></a></span>
-<span id="cb28-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">t =</span> test_statistic,</span>
-<span id="cb28-10"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>(<span class="fl">5.3</span> <span class="sc">-</span> <span class="fl">4.5</span>) <span class="sc">/</span> (<span class="fl">1.1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">12</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             t critical_value 
-         2.519          2.201 </code></pre>
+<pre><code>[1] 2.519347</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">11</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.200985</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Reject <span class="math inline">H_0</span></strong> since <span class="math inline">2.519 &gt; 2.201</span>.</p>
@@ -1750,20 +1732,24 @@ Yu-You Liou
 <p><strong>Step 2.</strong> At <span class="math inline">\alpha = 0.10</span> and <span class="math inline">\text{d.f.} = 9</span>, the critical value is <span class="math inline">-1.383</span>.</p>
 <p><strong>Step 3 — prepare data and compute the test statistic.</strong> With the raw data in hand, <code>t.test()</code> does the arithmetic.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>days_to_payment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">31</span>, <span class="dv">19</span>, <span class="dv">27</span>, <span class="dv">22</span>, <span class="dv">30</span>, <span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">26</span>)</span>
-<span id="cb31-2"><a href=""></a></span>
-<span id="cb31-3"><a href=""></a>payment_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(days_to_payment, <span class="at">mu =</span> <span class="dv">27</span>, <span class="at">alternative =</span> <span class="st">"less"</span>)</span>
-<span id="cb31-4"><a href=""></a></span>
-<span id="cb31-5"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(days_to_payment), <span class="at">sd =</span> <span class="fu">sd</span>(days_to_payment)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href=""></a>days_to_payment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">24</span>, <span class="dv">31</span>, <span class="dv">19</span>, <span class="dv">27</span>, <span class="dv">22</span>, <span class="dv">30</span>, <span class="dv">18</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">26</span>)</span>
+<span id="cb52-2"><a href=""></a></span>
+<span id="cb52-3"><a href=""></a><span class="fu">mean</span>(days_to_payment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  mean     sd 
-24.300  4.373 </code></pre>
+<pre><code>[1] 24.3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">t =</span> <span class="fu">unname</span>(payment_test<span class="sc">$</span>statistic),</span>
-<span id="cb33-2"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qt</span>(<span class="fl">0.10</span>, <span class="at">df =</span> <span class="fu">length</span>(days_to_payment) <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href=""></a><span class="fu">sd</span>(days_to_payment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             t critical_value 
-        -1.953         -1.383 </code></pre>
+<pre><code>[1] 4.372896</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href=""></a><span class="fu">t.test</span>(days_to_payment, <span class="at">mu =</span> <span class="dv">27</span>, <span class="at">alternative =</span> <span class="st">"less"</span>)<span class="sc">$</span>statistic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        t 
+-1.952516 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.10</span>, <span class="at">df =</span> <span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.383029</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Reject <span class="math inline">H_0</span></strong> since <span class="math inline">-1.953</span> falls in the critical region.</p>
@@ -1819,9 +1805,9 @@ Yu-You Liou
 <p>Across the row with <span class="math inline">\text{d.f.} = 13</span>, the value 2.462 falls between 2.160 and 2.650, which correspond to <span class="math inline">\alpha = 0.025</span> and <span class="math inline">\alpha = 0.01</span> in the <em>One tail</em> row. Hence</p>
 <p><span class="math display">0.01 &lt; P\text{-value} &lt; 0.025</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pt</span>(<span class="fl">2.462</span>, <span class="at">df =</span> <span class="dv">13</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fl">2.462</span>, <span class="at">df =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0143</code></pre>
+<pre><code>[1] 0.01428067</code></pre>
 </div>
 </div>
 <p>The exact P-value is <span class="math inline">0.0143</span>, which lies inside the interval read from the table. If <span class="math inline">\alpha</span> were 0.05, <span class="math inline">H_0</span> would be rejected; if <span class="math inline">\alpha</span> were 0.01, it would not.</p>
@@ -1859,9 +1845,9 @@ Yu-You Liou
 <p>Across the row with <span class="math inline">\text{d.f.} = 8</span>, the value 2.575 falls between 2.306 and 2.896, which correspond to <span class="math inline">\alpha = 0.05</span> and <span class="math inline">\alpha = 0.02</span> in the <em>Two tails</em> row. Hence</p>
 <p><span class="math display">0.02 &lt; P\text{-value} &lt; 0.05</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">round</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="fl">2.575</span>, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fl">2.575</span>, <span class="at">df =</span> <span class="dv">8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0329</code></pre>
+<pre><code>[1] 0.03287093</code></pre>
 </div>
 </div>
 <p>The exact P-value is <span class="math inline">0.0329</span>. At <span class="math inline">\alpha = 0.05</span> the null hypothesis can be rejected; at <span class="math inline">\alpha = 0.01</span> it cannot.</p>
@@ -1899,19 +1885,15 @@ Yu-You Liou
 <p><strong>Step 1.</strong> <span class="math inline">H_0: \mu = 24</span> and <span class="math inline">H_1: \mu &gt; 24</span> <em>(claim; right-tailed)</em>.</p>
 <p><strong>Step 2 and Step 3 — compute the test statistic and the P-value.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">27.8</span></span>
-<span id="cb39-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">24</span></span>
-<span id="cb39-3"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">6.2</span></span>
-<span id="cb39-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb39-5"><a href=""></a></span>
-<span id="cb39-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb39-7"><a href=""></a>  (sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb39-8"><a href=""></a>p_value <span class="ot">&lt;-</span> <span class="fu">pt</span>(test_statistic, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb39-9"><a href=""></a></span>
-<span id="cb39-10"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">t =</span> test_statistic, <span class="at">p_value =</span> p_value), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a>t_stat <span class="ot">&lt;-</span> (<span class="fl">27.8</span> <span class="sc">-</span> <span class="dv">24</span>) <span class="sc">/</span> (<span class="fl">6.2</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">15</span>))</span>
+<span id="cb64-2"><a href=""></a></span>
+<span id="cb64-3"><a href=""></a>t_stat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      t p_value 
- 2.3738  0.0162 </code></pre>
+<pre><code>[1] 2.373764</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t_stat, <span class="at">df =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01622883</code></pre>
 </div>
 </div>
 <p>From Table A-5 with <span class="math inline">\text{d.f.} = 14</span>, the value 2.3738 falls between 2.145 and 2.624, so <span class="math inline">0.01 &lt; P\text{-value} &lt; 0.025</span>; the exact P-value is <span class="math inline">0.0162</span>.</p>
@@ -2022,19 +2004,19 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.05</span> and the test is two-tailed, the critical values are <span class="math inline">\pm 1.960</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>successes <span class="ot">&lt;-</span> <span class="dv">42</span></span>
-<span id="cb41-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb41-3"><a href=""></a>hypothesized_p <span class="ot">&lt;-</span> <span class="fl">0.30</span></span>
-<span id="cb41-4"><a href=""></a></span>
-<span id="cb41-5"><a href=""></a>sample_proportion <span class="ot">&lt;-</span> successes <span class="sc">/</span> sample_size</span>
-<span id="cb41-6"><a href=""></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hypothesized_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> sample_size)</span>
-<span id="cb41-7"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_proportion <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> standard_error</span>
-<span id="cb41-8"><a href=""></a></span>
-<span id="cb41-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> sample_proportion, <span class="at">z =</span> test_statistic,</span>
-<span id="cb41-10"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="dv">42</span> <span class="sc">/</span> <span class="dv">120</span></span>
+<span id="cb68-2"><a href=""></a></span>
+<span id="cb68-3"><a href=""></a>p_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         p_hat              z critical_value 
-         0.350          1.195          1.960 </code></pre>
+<pre><code>[1] 0.35</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>(p_hat <span class="sc">-</span> <span class="fl">0.30</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.30</span> <span class="sc">*</span> <span class="fl">0.70</span> <span class="sc">/</span> <span class="dv">120</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.195229</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.959964</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Do not reject <span class="math inline">H_0</span></strong>, since the test statistic <span class="math inline">1.195</span> falls in the noncritical region.</p>
@@ -2074,19 +2056,19 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.01</span> and the test is one-tailed, the critical value is <span class="math inline">-2.326</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href=""></a>successes <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb43-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">60</span></span>
-<span id="cb43-3"><a href=""></a>hypothesized_p <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
-<span id="cb43-4"><a href=""></a></span>
-<span id="cb43-5"><a href=""></a>sample_proportion <span class="ot">&lt;-</span> successes <span class="sc">/</span> sample_size</span>
-<span id="cb43-6"><a href=""></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hypothesized_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> sample_size)</span>
-<span id="cb43-7"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_proportion <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> standard_error</span>
-<span id="cb43-8"><a href=""></a></span>
-<span id="cb43-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> sample_proportion, <span class="at">z =</span> test_statistic,</span>
-<span id="cb43-10"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qnorm</span>(<span class="fl">0.01</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="sc">/</span> <span class="dv">60</span></span>
+<span id="cb74-2"><a href=""></a></span>
+<span id="cb74-3"><a href=""></a>p_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         p_hat              z critical_value 
-         0.333         -1.054         -2.326 </code></pre>
+<pre><code>[1] 0.3333333</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>(p_hat <span class="sc">-</span> <span class="fl">0.40</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.40</span> <span class="sc">*</span> <span class="fl">0.60</span> <span class="sc">/</span> <span class="dv">60</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.054093</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.326348</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Do not reject <span class="math inline">H_0</span></strong>, since the test statistic <span class="math inline">-1.054</span> does not fall in the critical region.</p>
@@ -2126,19 +2108,19 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since <span class="math inline">\alpha = 0.01</span> and the test is left-tailed, the critical value is <span class="math inline">-2.326</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href=""></a>successes <span class="ot">&lt;-</span> <span class="dv">60</span></span>
-<span id="cb45-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">90</span></span>
-<span id="cb45-3"><a href=""></a>hypothesized_p <span class="ot">&lt;-</span> <span class="fl">0.72</span></span>
-<span id="cb45-4"><a href=""></a></span>
-<span id="cb45-5"><a href=""></a>sample_proportion <span class="ot">&lt;-</span> successes <span class="sc">/</span> sample_size</span>
-<span id="cb45-6"><a href=""></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hypothesized_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> sample_size)</span>
-<span id="cb45-7"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_proportion <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> standard_error</span>
-<span id="cb45-8"><a href=""></a></span>
-<span id="cb45-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> sample_proportion, <span class="at">z =</span> test_statistic,</span>
-<span id="cb45-10"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qnorm</span>(<span class="fl">0.01</span>)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="dv">60</span> <span class="sc">/</span> <span class="dv">90</span></span>
+<span id="cb80-2"><a href=""></a></span>
+<span id="cb80-3"><a href=""></a>p_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         p_hat              z critical_value 
-         0.667         -1.127         -2.326 </code></pre>
+<pre><code>[1] 0.6666667</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href=""></a>(p_hat <span class="sc">-</span> <span class="fl">0.72</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.72</span> <span class="sc">*</span> <span class="fl">0.28</span> <span class="sc">/</span> <span class="dv">90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.126872</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href=""></a><span class="fu">qnorm</span>(<span class="fl">0.01</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.326348</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Do not reject <span class="math inline">H_0</span></strong>, since the test statistic <span class="math inline">-1.127</span> does not fall in the critical region.</p>
@@ -2177,19 +2159,20 @@ Yu-You Liou
 <p><strong>Step 1.</strong> <span class="math inline">H_0: p = 0.20</span> and <span class="math inline">H_1: p &gt; 0.20</span> <em>(claim; right-tailed)</em>.</p>
 <p><strong>Step 2 and Step 3 — compute the test statistic and the P-value.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href=""></a>successes <span class="ot">&lt;-</span> <span class="dv">63</span></span>
-<span id="cb47-2"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="cb47-3"><a href=""></a>hypothesized_p <span class="ot">&lt;-</span> <span class="fl">0.20</span></span>
-<span id="cb47-4"><a href=""></a></span>
-<span id="cb47-5"><a href=""></a>sample_proportion <span class="ot">&lt;-</span> successes <span class="sc">/</span> sample_size</span>
-<span id="cb47-6"><a href=""></a>standard_error <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hypothesized_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> sample_size)</span>
-<span id="cb47-7"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_proportion <span class="sc">-</span> hypothesized_p) <span class="sc">/</span> standard_error</span>
-<span id="cb47-8"><a href=""></a>p_value <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(test_statistic, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb47-9"><a href=""></a></span>
-<span id="cb47-10"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> sample_proportion, <span class="at">z =</span> test_statistic, <span class="at">p_value =</span> p_value), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href=""></a>p_hat <span class="ot">&lt;-</span> <span class="dv">63</span> <span class="sc">/</span> <span class="dv">250</span></span>
+<span id="cb86-2"><a href=""></a>z     <span class="ot">&lt;-</span> (p_hat <span class="sc">-</span> <span class="fl">0.20</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.20</span> <span class="sc">*</span> <span class="fl">0.80</span> <span class="sc">/</span> <span class="dv">250</span>)</span>
+<span id="cb86-3"><a href=""></a></span>
+<span id="cb86-4"><a href=""></a>p_hat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  p_hat       z p_value 
- 0.2520  2.0555  0.0199 </code></pre>
+<pre><code>[1] 0.252</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href=""></a>z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.05548</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(z)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01991631</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Reject <span class="math inline">H_0</span></strong>, since the P-value <span class="math inline">0.0199</span> is less than 0.05.</p>
@@ -2249,9 +2232,9 @@ Yu-You Liou
 <div class="callout-content">
 <p>Find the <span class="math inline">\alpha</span> value at the top of Table A-6 and the degrees of freedom in the left column. The critical value is located where the two columns meet: <strong>28.869</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">18</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 28.869</code></pre>
+<pre><code>[1] 28.8693</code></pre>
 </div>
 </div>
 </div>
@@ -2287,9 +2270,9 @@ Yu-You Liou
 <div class="callout-content">
 <p>When the test is left-tailed, the <span class="math inline">\alpha</span> value must be subtracted from 1: <span class="math inline">1 - 0.05 = 0.95</span>. The chi-square table gives the area to the right of the critical value, and chi-square values cannot be negative, so 95% of the area will be to the right of the value. For 0.95 and 14 degrees of freedom the critical value is <strong>6.571</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">14</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.571</code></pre>
+<pre><code>[1] 6.570631</code></pre>
 </div>
 </div>
 </div>
@@ -2325,9 +2308,13 @@ Yu-You Liou
 <div class="callout-content">
 <p>The area must be split: the area to the right of the larger value is <span class="math inline">\alpha/2 = 0.05</span>, and the area to the right of the smaller value is <span class="math inline">1 - \alpha/2 = 0.95</span>. With 19 degrees of freedom the critical values are <strong>10.117</strong> and <strong>30.144</strong>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href=""></a><span class="fu">round</span>(<span class="fu">qchisq</span>(<span class="fu">c</span>(<span class="fl">0.10</span> <span class="sc">/</span> <span class="dv">2</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.10</span> <span class="sc">/</span> <span class="dv">2</span>), <span class="at">df =</span> <span class="dv">19</span>), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10.117 30.144</code></pre>
+<pre><code>[1] 10.11701</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="at">df =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 30.14353</code></pre>
 </div>
 </div>
 </div>
@@ -2447,18 +2434,13 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Since this is a left-tailed test and <span class="math inline">\alpha = 0.05</span>, the value <span class="math inline">1 - 0.05 = 0.95</span> is used with <span class="math inline">\text{d.f.} = 11</span>. The critical value is <span class="math inline">4.575</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href=""></a>sample_variance <span class="ot">&lt;-</span> <span class="dv">27</span></span>
-<span id="cb55-2"><a href=""></a>hypothesized_variance <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb55-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">12</span></span>
-<span id="cb55-4"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> sample_size <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb55-5"><a href=""></a></span>
-<span id="cb55-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> sample_variance <span class="sc">/</span> hypothesized_variance</span>
-<span id="cb55-7"><a href=""></a></span>
-<span id="cb55-8"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">chi_square =</span> test_statistic,</span>
-<span id="cb55-9"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> degrees_freedom)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href=""></a>(<span class="dv">12</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">27</span> <span class="sc">/</span> <span class="dv">36</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    chi_square critical_value 
-         8.250          4.575 </code></pre>
+<pre><code>[1] 8.25</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.05</span>, <span class="at">df =</span> <span class="dv">11</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.574813</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Since <span class="math inline">8.250</span> falls in the noncritical region, <strong>do not reject <span class="math inline">H_0</span></strong>.</p>
@@ -2501,19 +2483,21 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Right-tailed with <span class="math inline">\text{d.f.} = 14</span> and <span class="math inline">\alpha = 0.10</span>: the critical value is <span class="math inline">21.064</span>.</p>
 <p><strong>Step 3 — prepare data and compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href=""></a>orders_per_hour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">38</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">61</span>, <span class="dv">40</span>,</span>
-<span id="cb58-2"><a href=""></a>                     <span class="dv">55</span>, <span class="dv">33</span>, <span class="dv">48</span>, <span class="dv">57</span>, <span class="dv">42</span>,</span>
-<span id="cb58-3"><a href=""></a>                     <span class="dv">36</span>, <span class="dv">50</span>, <span class="dv">65</span>, <span class="dv">44</span>, <span class="dv">39</span>)</span>
-<span id="cb58-4"><a href=""></a></span>
-<span id="cb58-5"><a href=""></a>hypothesized_sd <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb58-6"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> <span class="fu">length</span>(orders_per_hour) <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb58-7"><a href=""></a>test_statistic <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> <span class="fu">var</span>(orders_per_hour) <span class="sc">/</span> hypothesized_sd<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb58-8"><a href=""></a></span>
-<span id="cb58-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd =</span> <span class="fu">sd</span>(orders_per_hour), <span class="at">chi_square =</span> test_statistic,</span>
-<span id="cb58-10"><a href=""></a>        <span class="at">critical_value =</span> <span class="fu">qchisq</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.10</span>, <span class="at">df =</span> degrees_freedom)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href=""></a>orders_per_hour <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">38</span>, <span class="dv">52</span>, <span class="dv">45</span>, <span class="dv">61</span>, <span class="dv">40</span>,</span>
+<span id="cb105-2"><a href=""></a>                     <span class="dv">55</span>, <span class="dv">33</span>, <span class="dv">48</span>, <span class="dv">57</span>, <span class="dv">42</span>,</span>
+<span id="cb105-3"><a href=""></a>                     <span class="dv">36</span>, <span class="dv">50</span>, <span class="dv">65</span>, <span class="dv">44</span>, <span class="dv">39</span>)</span>
+<span id="cb105-4"><a href=""></a></span>
+<span id="cb105-5"><a href=""></a><span class="fu">sd</span>(orders_per_hour)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            sd     chi_square critical_value 
-         9.517         35.222         21.064 </code></pre>
+<pre><code>[1] 9.516902</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href=""></a>(<span class="dv">15</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">var</span>(orders_per_hour) <span class="sc">/</span> <span class="dv">6</span><span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35.22222</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.90</span>, <span class="at">df =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21.06414</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Reject <span class="math inline">H_0</span></strong>, since <span class="math inline">35.222 &gt; 21.064</span>.</p>
@@ -2553,19 +2537,17 @@ Yu-You Liou
 <p><strong>Step 2.</strong> Two-tailed at <span class="math inline">\alpha = 0.05</span>, so the critical values for 0.025 and 0.975 are needed. With <span class="math inline">\text{d.f.} = 19</span> they are <span class="math inline">8.907</span> and <span class="math inline">32.852</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong> Since the sample standard deviation is given, it must be squared for the formula.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">1.8</span></span>
-<span id="cb60-2"><a href=""></a>hypothesized_variance <span class="ot">&lt;-</span> <span class="fl">2.25</span></span>
-<span id="cb60-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb60-4"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> sample_size <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb60-5"><a href=""></a></span>
-<span id="cb60-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> sample_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> hypothesized_variance</span>
-<span id="cb60-7"><a href=""></a></span>
-<span id="cb60-8"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">chi_square =</span> test_statistic,</span>
-<span id="cb60-9"><a href=""></a>        <span class="at">lower_cv =</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> degrees_freedom),</span>
-<span id="cb60-10"><a href=""></a>        <span class="at">upper_cv =</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> degrees_freedom)), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href=""></a>(<span class="dv">20</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.8</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fl">2.25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi_square   lower_cv   upper_cv 
-    27.360      8.907     32.852 </code></pre>
+<pre><code>[1] 27.36</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="at">df =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.906516</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href=""></a><span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32.85233</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> <strong>Do not reject <span class="math inline">H_0</span></strong>, since <span class="math inline">8.907 &lt; 27.360 &lt; 32.852</span>.</p>
@@ -2625,9 +2607,9 @@ Yu-You Liou
 <p>Across the row with <span class="math inline">\text{d.f.} = 10</span>, the value 21.5 falls between 20.483 and 23.209, corresponding to 0.025 and 0.01 respectively. Hence</p>
 <p><span class="math display">0.01 &lt; P\text{-value} &lt; 0.025</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pchisq</span>(<span class="fl">21.5</span>, <span class="at">df =</span> <span class="dv">10</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="fl">21.5</span>, <span class="at">df =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0179</code></pre>
+<pre><code>[1] 0.01786459</code></pre>
 </div>
 </div>
 <p>The exact P-value is <span class="math inline">0.0179</span>, which lies inside that interval.</p>
@@ -2665,9 +2647,9 @@ Yu-You Liou
 <p>Across the row with <span class="math inline">\text{d.f.} = 14</span>, the value 5.892 falls between 5.629 and 6.571, corresponding to 0.975 and 0.95. Because the test statistic falls on the left side, each value must be subtracted from 1: <span class="math inline">1 - 0.975 = 0.025</span> and <span class="math inline">1 - 0.95 = 0.05</span>. Hence</p>
 <p><span class="math display">0.025 &lt; P\text{-value} &lt; 0.05</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href=""></a><span class="fu">round</span>(<span class="fu">pchisq</span>(<span class="fl">5.892</span>, <span class="at">df =</span> <span class="dv">14</span>), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href=""></a><span class="fu">pchisq</span>(<span class="fl">5.892</span>, <span class="at">df =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0309</code></pre>
+<pre><code>[1] 0.03085947</code></pre>
 </div>
 </div>
 <p>The exact P-value is <span class="math inline">0.0309</span>. Had the test been two-tailed, the interval would be doubled: <span class="math inline">0.05 &lt; P\text{-value} &lt; 0.10</span>.</p>
@@ -2705,18 +2687,15 @@ Yu-You Liou
 <p><strong>Step 1.</strong> <span class="math inline">H_0: \sigma = 9.5</span> and <span class="math inline">H_1: \sigma \neq 9.5</span> <em>(claim; two-tailed)</em>.</p>
 <p><strong>Step 2 and Step 3 — compute the test statistic and the P-value.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">7.0</span></span>
-<span id="cb66-2"><a href=""></a>hypothesized_sd <span class="ot">&lt;-</span> <span class="fl">9.5</span></span>
-<span id="cb66-3"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb66-4"><a href=""></a>degrees_freedom <span class="ot">&lt;-</span> sample_size <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb66-5"><a href=""></a></span>
-<span id="cb66-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> degrees_freedom <span class="sc">*</span> sample_sd<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> hypothesized_sd<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb66-7"><a href=""></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pchisq</span>(test_statistic, <span class="at">df =</span> degrees_freedom)</span>
-<span id="cb66-8"><a href=""></a></span>
-<span id="cb66-9"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">chi_square =</span> test_statistic, <span class="at">p_value =</span> p_value), <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href=""></a>chi_sq <span class="ot">&lt;-</span> (<span class="dv">25</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">7.0</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fl">9.5</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb121-2"><a href=""></a></span>
+<span id="cb121-3"><a href=""></a>chi_sq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>chi_square    p_value 
-   13.0305     0.0688 </code></pre>
+<pre><code>[1] 13.03047</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href=""></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pchisq</span>(chi_sq, <span class="at">df =</span> <span class="dv">24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06876872</code></pre>
 </div>
 </div>
 <p>With <span class="math inline">\text{d.f.} = 24</span>, the value 13.0305 falls between 12.401 and 13.848, corresponding to 0.975 and 0.95. Subtracting from 1 gives 0.025 and 0.05, and doubling for the two tails gives <span class="math inline">0.05 &lt; P\text{-value} &lt; 0.10</span>; the exact P-value is <span class="math inline">0.0688</span>.</p>
@@ -2757,19 +2736,13 @@ Yu-You Liou
 <p><strong>Step 2.</strong> At <span class="math inline">\alpha = 0.05</span> with <span class="math inline">\text{d.f.} = 49</span>, <code>qt()</code> gives the critical values <span class="math inline">+2.010</span> and <span class="math inline">-2.010</span>.</p>
 <p><strong>Step 3 — compute the test statistic.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">63.8</span></span>
-<span id="cb68-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">68</span></span>
-<span id="cb68-3"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">9.6</span></span>
-<span id="cb68-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb68-5"><a href=""></a></span>
-<span id="cb68-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb68-7"><a href=""></a>  (sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb68-8"><a href=""></a>critical_value <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb68-9"><a href=""></a></span>
-<span id="cb68-10"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">t =</span> test_statistic, <span class="at">critical_value =</span> critical_value), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href=""></a>(<span class="fl">63.8</span> <span class="sc">-</span> <span class="dv">68</span>) <span class="sc">/</span> (<span class="fl">9.6</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             t critical_value 
-        -3.094          2.010 </code></pre>
+<pre><code>[1] -3.093592</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">49</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.009575</code></pre>
 </div>
 </div>
 <p><strong>Step 4.</strong> Since <span class="math inline">-3.094 &lt; -2.010</span>, the decision is to <strong>reject <span class="math inline">H_0</span></strong>.</p>
@@ -2792,13 +2765,15 @@ Yu-You Liou
 <p><strong>The 95% confidence interval.</strong></p>
 <p><span class="math display">\bar{X} - t_{\alpha/2}\frac{s}{\sqrt{n}} &lt; \mu &lt; \bar{X} + t_{\alpha/2}\frac{s}{\sqrt{n}}</span></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> critical_value <span class="sc">*</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
-<span id="cb70-2"><a href=""></a></span>
-<span id="cb70-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> sample_mean <span class="sc">-</span> margin_of_error,</span>
-<span id="cb70-4"><a href=""></a>        <span class="at">upper =</span> sample_mean <span class="sc">+</span> margin_of_error), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">49</span>) <span class="sc">*</span> <span class="fl">9.6</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
+<span id="cb129-2"><a href=""></a></span>
+<span id="cb129-3"><a href=""></a><span class="fl">63.8</span> <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lower upper 
-61.07 66.53 </code></pre>
+<pre><code>[1] 61.07171</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href=""></a><span class="fl">63.8</span> <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 66.52829</code></pre>
 </div>
 </div>
 <p>The interval <span class="math inline">61.07 &lt; \mu &lt; 66.53</span> does <strong>not</strong> contain the hypothesized value <span class="math inline">\mu = 68</span>. There is agreement between the hypothesis test and the confidence interval.</p>
@@ -2837,26 +2812,23 @@ Yu-You Liou
 <p><strong>Step 2.</strong> At <span class="math inline">\alpha = 0.05</span> and <span class="math inline">\text{d.f.} = 9</span>, the critical values are <span class="math inline">+2.262</span> and <span class="math inline">-2.262</span>.</p>
 <p><strong>Step 3 — compute the test statistic and the interval.</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href=""></a>sample_mean <span class="ot">&lt;-</span> <span class="fl">118.6</span></span>
-<span id="cb72-2"><a href=""></a>hypothesized_mean <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb72-3"><a href=""></a>sample_sd <span class="ot">&lt;-</span> <span class="fl">2.8</span></span>
-<span id="cb72-4"><a href=""></a>sample_size <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb72-5"><a href=""></a></span>
-<span id="cb72-6"><a href=""></a>test_statistic <span class="ot">&lt;-</span> (sample_mean <span class="sc">-</span> hypothesized_mean) <span class="sc">/</span></span>
-<span id="cb72-7"><a href=""></a>  (sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size))</span>
-<span id="cb72-8"><a href=""></a>critical_value <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> sample_size <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb72-9"><a href=""></a>margin_of_error <span class="ot">&lt;-</span> critical_value <span class="sc">*</span> sample_sd <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
-<span id="cb72-10"><a href=""></a></span>
-<span id="cb72-11"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">t =</span> test_statistic, <span class="at">critical_value =</span> critical_value), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href=""></a>margin <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">9</span>) <span class="sc">*</span> <span class="fl">2.8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)</span>
+<span id="cb133-2"><a href=""></a></span>
+<span id="cb133-3"><a href=""></a>(<span class="fl">118.6</span> <span class="sc">-</span> <span class="dv">120</span>) <span class="sc">/</span> (<span class="fl">2.8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             t critical_value 
-        -1.581          2.262 </code></pre>
+<pre><code>[1] -1.581139</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">lower =</span> sample_mean <span class="sc">-</span> margin_of_error,</span>
-<span id="cb74-2"><a href=""></a>        <span class="at">upper =</span> sample_mean <span class="sc">+</span> margin_of_error), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href=""></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>lower upper 
-116.6 120.6 </code></pre>
+<pre><code>[1] 2.262157</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href=""></a><span class="fl">118.6</span> <span class="sc">-</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 116.597</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb139"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href=""></a><span class="fl">118.6</span> <span class="sc">+</span> margin</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 120.603</code></pre>
 </div>
 </div>
 <p><strong>Step 4 and Step 5.</strong> <strong>Do not reject <span class="math inline">H_0</span></strong>. There is not enough evidence to reject the claim that the mean net weight is 120 grams. The 95% interval <span class="math inline">116.6 &lt; \mu &lt; 120.6</span> <strong>does</strong> contain <span class="math inline">\mu = 120</span>; again there is agreement.</p>
@@ -2947,42 +2919,40 @@ Yu-You Liou
 </section>
 <section id="power-in-r" class="slide level2">
 <h2>Power in R</h2>
-<p><strong>Draw figure</strong> — the distribution of <span class="math inline">\bar{X}</span> under <span class="math inline">H_0: \mu = 50</span> and under the true value <span class="math inline">\mu = 54</span>, with <span class="math inline">\sigma = 10</span>, <span class="math inline">n = 25</span> and a right-tailed test at <span class="math inline">\alpha = 0.05</span>.</p>
+<p><strong>Prepare data</strong> — the distribution of <span class="math inline">\bar{X}</span> under <span class="math inline">H_0: \mu = 50</span> and under the true value <span class="math inline">\mu = 54</span>, with <span class="math inline">\sigma = 10</span>, <span class="math inline">n = 25</span> and a right-tailed test at <span class="math inline">\alpha = 0.05</span>.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href=""></a>mu_null <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb76-2"><a href=""></a>mu_alternative <span class="ot">&lt;-</span> <span class="dv">54</span></span>
-<span id="cb76-3"><a href=""></a>standard_error <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">25</span>)</span>
-<span id="cb76-4"><a href=""></a>critical_mean <span class="ot">&lt;-</span> mu_null <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span>) <span class="sc">*</span> standard_error</span>
-<span id="cb76-5"><a href=""></a></span>
-<span id="cb76-6"><a href=""></a>sampling_curves <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">40</span>, <span class="dv">68</span>, <span class="at">length.out =</span> <span class="dv">400</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb76-7"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">under_h0 =</span> <span class="fu">dnorm</span>(x, mu_null, standard_error),</span>
-<span id="cb76-8"><a href=""></a>         <span class="at">under_h1 =</span> <span class="fu">dnorm</span>(x, mu_alternative, standard_error))</span>
-<span id="cb76-9"><a href=""></a></span>
-<span id="cb76-10"><a href=""></a>power_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sampling_curves, <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
-<span id="cb76-11"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(sampling_curves, x <span class="sc">&gt;=</span> critical_mean),</span>
-<span id="cb76-12"><a href=""></a>            <span class="fu">aes</span>(<span class="at">y =</span> under_h1), <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb76-13"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> under_h0)) <span class="sc">+</span></span>
-<span id="cb76-14"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> under_h1), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb76-15"><a href=""></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> critical_mean, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb76-16"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Power of a Right-Tailed Test"</span>, <span class="at">x =</span> <span class="st">"Sample mean"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb76-17"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb141"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href=""></a>se   <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">25</span>)</span>
+<span id="cb141-2"><a href=""></a>cv   <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="sc">*</span> se</span>
+<span id="cb141-3"><a href=""></a>beta <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(cv, <span class="dv">54</span>, se)</span>
+<span id="cb141-4"><a href=""></a></span>
+<span id="cb141-5"><a href=""></a>cv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 53.28971</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href=""></a>beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.36124</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href=""></a><span class="dv">1</span> <span class="sc">-</span> beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.63876</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">40</span>, <span class="dv">68</span>, <span class="at">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb147-2"><a href=""></a>curves <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, <span class="at">h0 =</span> <span class="fu">dnorm</span>(x, <span class="dv">50</span>, se), <span class="at">h1 =</span> <span class="fu">dnorm</span>(x, <span class="dv">54</span>, se))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="power-in-r-1" class="slide level2">
 <h2>Power in R</h2>
 <p><strong>Output figure</strong></p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href=""></a>power_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href=""></a><span class="fu">ggplot</span>(curves, <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb148-2"><a href=""></a>  <span class="fu">geom_area</span>(<span class="at">data =</span> <span class="fu">filter</span>(curves, x <span class="sc">&gt;=</span> cv), <span class="fu">aes</span>(<span class="at">y =</span> h1)) <span class="sc">+</span></span>
+<span id="cb148-3"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> h0)) <span class="sc">+</span></span>
+<span id="cb148-4"><a href=""></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> h1), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb148-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Power of a Right-Tailed Test"</span>, <span class="at">x =</span> <span class="st">"Sample mean"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href=""></a>power <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(critical_mean, mu_alternative, standard_error,</span>
-<span id="cb78-2"><a href=""></a>               <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb78-3"><a href=""></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">critical_mean =</span> critical_mean, <span class="at">beta =</span> <span class="dv">1</span> <span class="sc">-</span> power, <span class="at">power =</span> power), <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>critical_mean          beta         power 
-       53.290         0.361         0.639 </code></pre>
 </div>
-</div>
-<img data-src="ch8_files/figure-revealjs/s8-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>The shaded area is the power <span class="math inline">1 - \beta = 0.639</span>; the unshaded part of the dashed curve is <span class="math inline">\beta = 0.361</span>. Increasing <span class="math inline">n</span> narrows both curves and increases the power.</p>
+<img data-src="ch8_files/figure-revealjs/s8-6-2-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:80.0%"><p>The solid curve is for <span class="math inline">H_0: \mu = 50</span> and the dashed curve for the true value <span class="math inline">\mu = 54</span>. The shaded area is the power <span class="math inline">1 - \beta = 0.639</span>; the unshaded part of the dashed curve is <span class="math inline">\beta = 0.361</span>. Increasing <span class="math inline">n</span> narrows both curves and increases the power.</p>
 </section>
 <section id="a-final-comment" class="slide level2">
 <h2>A Final Comment</h2>

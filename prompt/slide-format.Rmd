@@ -24,7 +24,7 @@ These slides accompany a university-level introductory statistics course based o
 
 **Originality rule.** The deck follows the textbook's organization, definitions and terminology, but **every worked example, data set and R script is written for this course**. Never reproduce a textbook example's title, scenario, numbers or answer, and never attach a real organisation to invented data — mark it `*(hypothetical data)*` (`*（模擬資料）*` in the Chinese file). Example numbering still tracks the textbook so students can follow along, and each example keeps the teaching point, the tail direction and the reject / do-not-reject outcome of the textbook example that sits in that position. Because the data are our own, there is never a gap between "the printed answer" and what R computes: every number a slide states must equal what its chunk prints.
 
-**R style.** Solutions follow Clean Code: meaningful snake_case names (`sample_mean`, not `m`), one job per chunk and no more than about fifteen lines, built-ins (`sd`, `quantile`, `pnorm`, `qt`, `lm`, `aov`, `chisq.test`) instead of hand-coded formulas unless the slide's teaching point *is* the formula — and then one short named helper verified against the built-in on the same slide. No loops where a vectorised call or a `dplyr` verb will do, no `cat()` string assembly (print the value, put the conclusion in the slide prose), no comments that restate the code, no dead objects, and no data retyped that an earlier chunk already defined. Pipes are native `|>`; tables go through `knitr::kable(df, align = "c")`; figures through ggplot2.
+**R style.** These are teaching slides for first-year students, so the R code must be as simple as possible; the only requirement is that it prints the right answer. When a slide teaches a formula, write the formula once with the problem's numbers plugged in, e.g. `(122.5 - 118) / (12 / sqrt(35))`. Create a variable only when its value is used again, with short obvious names (`z`, `t_stat`, `chi_sq`, `p_hat`, `x_bar`, `se`). Compute with base R (`table`, `cut`, `cumsum`, `mean`, `sd`, `quantile`, `pnorm`/`qnorm`, `dbinom`, `chisq.test`, `aov`, `lm`, ...) and print each result on its own line. Do not use `round()` (the slide prose gives the rounded answer), and write right-tail areas as `1 - pnorm(z)`, not `lower.tail = FALSE`. No user-defined functions, loops, apply-family calls, pipes, `mutate` chains, `knitr::kable`, `paste`/`sprintf`/`cat`, or named vectors bundled for display. Figures are minimal ggplot2 (`ggplot() + geom_xxx() + labs()`) with no colour, size, scale or theme arguments unless that element is the teaching point (a truncated axis, a reference line, a shaded area); base graphics only for `pie()`, `stem()`, `stripchart()` and `plot(TukeyHSD())`. A table that involves no computation is a Markdown table, not R code.
 
 Design goals, in priority order:
 
@@ -87,8 +87,7 @@ Immediately after the YAML header, include the global setup chunk. Add only the 
 ````````{r,eval= F}
 ```{r setup, include=FALSE}
 library(tidyverse)
-# add only what the chapter needs, e.g.:
-# library(ggplot2)
+theme_set(theme_minimal())
 ```
 ````````
 
@@ -342,14 +341,13 @@ gives $\bar{X} = 8.2$ mph, $\sigma = 0.6$. Use $\alpha = 0.05$.
 **Step 2 — compute the test value**
 
 ```{r e8-7-1, echo=T, warning=FALSE, out.width="80%", fig.align='center'}
-xbar <- 8.2; mu <- 8; sigma <- 0.6; n <- 32
-z <- (xbar - mu) / (sigma / sqrt(n))
-round(z, 2)
-p_val <- 2 * (1 - pnorm(abs(z)))   # two-tailed P-value
-round(p_val, 4)
+z <- (8.2 - 8) / (0.6 / sqrt(32))
+
+z
+2 * (1 - pnorm(abs(z)))
 ```
 
-**Step 3.** Since $P = 0.0588 > \alpha = 0.05$, **do not reject $H_0$**.
+**Step 3.** Since $P = 0.0593 > \alpha = 0.05$, **do not reject $H_0$**.
 
 **Step 4.** There is not enough evidence to reject the claim that the average wind speed is 8 mph.
 :::
@@ -415,10 +413,10 @@ echo = T, warning = FALSE, out.width = "80%", fig.align = 'center'
 
 Conventions:
 
-- Render tables with `knitr::kable(df, align = "c")`.
-- Build figures with `ggplot2`; prefer `theme_void()` / clean themes for charts like pie graphs.
+- Print R objects directly (a `table`, a vector, a small data frame); never format them with `knitr::kable`, `paste` or `cat`. A table with no computation in it is a Markdown table on the slide.
+- Build figures with minimal `ggplot2` (`ggplot() + geom_xxx() + labs()`); `theme_set(theme_minimal())` is set once in the setup chunk and never repeated.
 - Keep data vectors aligned in readable rows inside the chunk (mirrors the raw-data block on the question slide).
-- When a figure is heavy, split "build the object" and "print the object" across two slides using the `**Draw figure**` / `**Output figure**` step descriptors.
+- When code and figure do not fit on one slide, put the data on a `**Prepare data**` slide and the plot on an `**Output figure**` slide.
 - Every chunk label is unique (Section 7).
 
 ---
@@ -514,6 +512,7 @@ Before delivering any `.qmd`, verify ALL of the following. The callout checks ar
 
 - [ ] Every example question slide has an anchor `{#example-X-Y}`; solution slides repeat the title without re-declaring the anchor.
 - [ ] All R chunk labels follow `e<ch>-<ex>-<seq>` and are globally unique.
+- [ ] R code is minimal (see **R style** in Section 1): no user-defined functions, loops, pipes, `kable`, `paste`/`cat` or `round()`; each value is printed on its own line and equals the number the prose states.
 - [ ] Cited examples have reciprocal back-links.
 
 **Math**
